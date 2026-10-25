@@ -72,6 +72,7 @@ def render(result) -> str:
         ]
         for p in result.parameters
     ]
+    termination = result.termination.replace("`", "")
     parts = [
         _chart(result),
         table(
@@ -84,7 +85,7 @@ def render(result) -> str:
         f"{result.observations_excluded} excluded · "
         f"{esc(result.model.replace('_', '-'))} model · "
         f"{esc(result.uncertainty_method.replace('_', ' '))} uncertainty · "
-        f"solver termination: {esc(result.termination)}</p>",
+        f"solver termination: {esc(termination)}</p>",
     ]
     if result.predictions:
         parts.append(

@@ -152,7 +152,8 @@ def inspect(request: InspectRequest, ctx: StepContext) -> InspectResult:
 
     if censored:
         ctx.note(
-            f"{censored} of {len(rows)} readings are censored at a stated limit."
+            f"{censored} of {len(rows)} readings "
+            f"{'is' if censored == 1 else 'are'} censored at a stated limit."
         )
     if failed or missing:
         failed_text = f"{failed} reading failed" if failed == 1 else f"{failed} readings failed"
@@ -169,7 +170,8 @@ def inspect(request: InspectRequest, ctx: StepContext) -> InspectResult:
     if zeros:
         shown = ", ".join(zeros[:5]) + (", ..." if len(zeros) > 5 else "")
         ctx.note(
-            f"{len(zeros)} readings are exactly zero and marked measured ({shown}). "
+            f"{len(zeros)} reading{' is' if len(zeros) == 1 else 's are'} exactly zero "
+            f"and marked measured ({shown}). "
             "Zero is a value and is fitted as one. Mark a reading that failed or was "
             "not taken as failed or missing, with an empty value."
         )
