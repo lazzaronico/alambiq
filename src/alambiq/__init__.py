@@ -25,7 +25,8 @@ def _prefect_home() -> None:
     with different Prefect versions, would otherwise break one installation with the other.
     Unless `PREFECT_HOME` is set, the state is stored in `ALAMBIQ_PREFECT_HOME`, or in a
     directory under `~/.alambiq` named for the installed Prefect version. This function
-    runs before Prefect is imported, because only then does it take effect.
+    runs before Prefect is imported, because only then does it take effect. The directory
+    is created with its parents, because Prefect does not create missing parents.
     """
     if "PREFECT_HOME" not in os.environ:
         from importlib import metadata
@@ -38,10 +39,10 @@ def _prefect_home() -> None:
             "ALAMBIQ_PREFECT_HOME",
             str(Path.home() / ".alambiq" / f"prefect-{version}"),
         )
-        try:
-            Path(os.environ["PREFECT_HOME"]).mkdir(parents=True, exist_ok=True)
-        except OSError:
-            pass
+    try:
+        Path(os.environ["PREFECT_HOME"]).expanduser().mkdir(parents=True, exist_ok=True)
+    except OSError:
+        pass
 
 
 _prefect_home()

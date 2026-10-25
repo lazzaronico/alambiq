@@ -85,3 +85,17 @@ def test_the_workflow_runtime_keeps_its_state_apart_from_other_prefect_installat
     assert home().endswith(f"/.alambiq/prefect-{metadata.version('prefect')}")
     assert home(ALAMBIQ_PREFECT_HOME="/somewhere/else") == "/somewhere/else"
     assert home(PREFECT_HOME="/explicit", ALAMBIQ_PREFECT_HOME="/x") == "/explicit"
+
+
+def test_the_prefect_home_is_created_with_its_parents(tmp_path):
+    home = tmp_path / "a" / "b" / "prefect"
+    program = f"import sys; sys.path.insert(0, {str(SRC)!r}); import alambiq"
+    import os
+
+    env = {k: v for k, v in os.environ.items() if not k.endswith("PREFECT_HOME")}
+    env["PREFECT_HOME"] = str(home)
+    done = subprocess.run(
+        [sys.executable, "-c", program], capture_output=True, text=True, env=env
+    )
+    assert done.returncode == 0, done.stderr
+    assert home.is_dir()
