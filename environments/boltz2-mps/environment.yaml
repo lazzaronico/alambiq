@@ -1,4 +1,4 @@
-name: alambiq-boltz2-2.2.1-mps-pr527-v1
+name: alambiq-boltz2-2.2.1-mps-pr527-v2
 channels:
   - conda-forge
 dependencies:
