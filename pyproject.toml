@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "alambiq"
 version = "0.1.0"
-description = "Open, capability-oriented and agent-native biotechnology R&D"
+description = "Capabilities for biotechnology R&D, run from YAML or Python"
 readme = "README.md"
 license = "Apache-2.0"
 license-files = ["LICENSE"]
