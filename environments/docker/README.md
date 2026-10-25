@@ -31,7 +31,7 @@ verification file with the image sizes, the test counts and the skipped tests is
 | OpenMM (CUDA 13) | `Dockerfile.openmm` | `ALAMBIQ_ENV_OPENMM` | 165 passed; the GB3 ensemble example (protein GB3, PDB 1P7E) with 3 replicas of 20 ps on the GPU |
 | OpenFF complex preparation | `Dockerfile.complex` | `ALAMBIQ_ENV_OPENFF` | 72 passed, 2 skipped |
 | ESM C and ESM3 | `Dockerfile.models` | `ALAMBIQ_ENV_ESM` | 93 passed |
-| Boltz-2 | `Dockerfile.boltz` | `ALAMBIQ_ENV_BOLTZ` | 56 passed, 1 skipped (the Apple GPU case) on the GPU, with the `boltz2-2.2.1` resource mounted read-only |
+| Boltz-2 | `Dockerfile.boltz` | `ALAMBIQ_ENV_BOLTZ` | 55 passed, 1 skipped (the Apple GPU case) on the GPU, with the `boltz2-2.2.1` resource mounted read-only |
 | OpenFE | `Dockerfile.openfe` | `ALAMBIQ_ENV_OPENFE`, `ALAMBIQ_ENV_PYMBAR`, `ALAMBIQ_ENV_OPENMM` | 141 passed on the GPU |
 
 Tested platform: Linux ARM64. Boltz on `mps` runs outside Docker.

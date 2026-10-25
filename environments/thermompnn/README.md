@@ -44,11 +44,13 @@ fields `threads` and `seed` set the number of CPU threads and the random seed.
 
 The [Apple Silicon verification file](verification.osx-arm64.json) records Python 3.11.14,
 Torch 2.8.0 and NumPy 1.26.4. The [package list](requirements.osx-arm64.txt) contains
-10 installed Python distributions. The inference path imports Torch, NumPy and their
+10 installed Python distributions and pins Torch 2.13.0. With Torch 2.13.0, the 47 capability
+tests passed on 2026-10-25, and the predictions for 64 substitutions on GB3 differed from the
+Torch 2.8.0 predictions by at most 2e-6 kcal/mol. The inference path imports Torch, NumPy and their
 dependencies only. Gemmi is installed in the Alambiq core environment through the `dossier`
 extra. The file covers Apple Silicon CPU. The engine runs on the CPU. The Docker image ran
-the capability tests on Linux ARM64 (47 passed; see the
-[Docker notes](../docker/README.md)).
+the capability tests on Linux ARM64 with Torch 2.13.0+cpu, installed from the PyTorch CPU wheel
+index (47 passed; see the [Docker notes](../docker/README.md)).
 
 On Apple Silicon CPU, a campaign on GB3 with 2 substitutions (T55A and the unchanged control
 T55T) completed. The prediction for T55T was 0 kcal/mol. The engine took 0.935 s, including

@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import json
 import os
+import subprocess
 import sys
 from pathlib import Path
 
@@ -388,7 +389,19 @@ class TestOnGB3:
         assert record["sign_convention"].endswith("positive destabilizing")
         assert record["model"] == "ThermoMPNN-default"
         assert record["source_revision"] == "370f76ec62bd929f7425e311d8df04a0d094990f"
-        assert record["runtime"]["versions"] == {"torch": "2.8.0", "numpy": "1.26.4"}
+        installed_versions = subprocess.run(
+            [
+                ENV,
+                "-c",
+                "import importlib.metadata as m, json;"
+                "print(json.dumps({n: m.version(n) for n in ('torch', 'numpy')}))",
+            ],
+            capture_output=True,
+            text=True,
+            check=True,
+        ).stdout
+        assert record["runtime"]["versions"] == json.loads(installed_versions)
+        assert record["runtime"]["versions"]["numpy"] == "1.26.4"
         assert (
             record["source"]["chain_id"] == "A"
             and len(record["source"]["sha256"]) == 64

@@ -72,11 +72,12 @@
    "image": "thermompnn",
    "dockerfile": "Dockerfile.thermompnn",
    "environment": "thermompnn",
-   "size": "1.92GB",
-   "id": "a0841488632c",
-   "build_seconds": 26,
-   "env_check": "ready (torch 2.8.0, numpy 1.26.4)",
-   "tests": "test_protein_predict_stability_change with the thermompnn resource mounted read-only: 47 passed (36 s)"
+   "size": "2.09GB",
+   "id": "5e86660f9e99",
+   "build_seconds": 25,
+   "env_check": "ready (torch 2.13.0+cpu, numpy 1.26.4)",
+   "tests": "test_protein_predict_stability_change with the thermompnn resource mounted read-only: 47 passed (32 s)",
+   "note": "rebuilt on 2026-10-26 with torch 2.13.0 from the PyTorch CPU wheel index (the PyPI Linux wheel requires the CUDA packages), as alambiq:20261026-thermompnn on the core image alambiq:20261025-core; no nvidia packages are installed. The test file at that date reads the installed torch and numpy versions instead of fixing them."
   },
   {
    "image": "pymbar",
@@ -136,12 +137,13 @@
    "image": "boltz",
    "dockerfile": "Dockerfile.boltz",
    "environment": "boltz",
-   "size": "6.11GB",
-   "id": "609d9568c848",
-   "build_seconds": 21,
-   "env_check": "ready (boltz 2.2.1, torch 2.11.0+cu130)",
-   "tests": "test_structure_predict_biomolecular_complex with the GPU visible and the boltz2-2.2.1 resource mounted read-only: 56 passed, 1 skipped (the Apple GPU case) in 262 s",
-   "gpu": "examples/pockets-and-complex/complex.yaml with accelerator gpu and 20 diffusion steps: 65 s"
+   "size": "6.24GB",
+   "id": "e87ed6503d3e",
+   "build_seconds": 490,
+   "env_check": "ready (boltz 2.2.1, torch 2.13.0+cu130)",
+   "tests": "test_structure_predict_biomolecular_complex with the GPU visible and the boltz2-2.2.1 resource mounted read-only: 55 passed, 1 skipped (the Apple GPU case) in 289 s",
+   "gpu": "examples/pockets-and-complex/complex.yaml with accelerator gpu and 20 diffusion steps: 75 s (88 s for the container run), while another job kept the GPU at 96% utilization",
+   "note": "rebuilt on 2026-10-26 with torch 2.13.0 (environments/boltz2/requirements.torch-cu130.txt) from the repository HEAD of that date, on a core312 image rebuilt the same day, as alambiq:20261026-boltz. The test file at that HEAD has one test fewer than at the commit above."
   },
   {
    "image": "openfe",
