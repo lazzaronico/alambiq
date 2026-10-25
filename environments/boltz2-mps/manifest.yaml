@@ -1,5 +1,5 @@
 schema_version: "0.1"
-id: boltz2-2.2.1-mps-pr527-v2
+id: boltz2-2.2.1-mps-pr527-v3
 status: apple-silicon-experimental-mps-normal-step-assessable-pose-rejected
 purpose: >-
   Experimental Apple Silicon Boltz-2 MPS runtime. It is isolated
@@ -32,19 +32,19 @@ targets:
     package_count:
       conda: 18
       pip: 67
-    measured_environment_storage_bytes: 1568624640
+    measured_environment_storage_bytes: 1568772096
     conda_exact_lock: ../boltz2/locks/osx-arm64.conda-explicit.txt
     conda_exact_lock_sha256: 9b1aa972aa1c829dfb13d6a8c79013a2a0e679d3f9a0784c0f7377b525c7c45a
     conda_package_manifest: ../boltz2/locks/osx-arm64.conda-packages.json
     conda_package_manifest_sha256: 084d78a4f6bb00ebe9631154b8d74efc8f6e80547e4f38c78ea03b2a05ea58f1
     conda_package_set_sha256: 3d1854f3178619cbdaaf47e29294493c0f342c66190767fbd556ebcfec58b37d
     pip_freeze_lock: locks/osx-arm64.pip-freeze.txt
-    pip_freeze_lock_sha256: 8de157a5c28613c8f661d63da995d84a8e26db0b3754a1caa08e0bd1ac5f9265
+    pip_freeze_lock_sha256: f55c791d323bc3dd8f10c6e9e119966498b434fcfcba123c8bb6423bf8f9087a
     pip_materialization_lock: locks/osx-arm64.pip-requirements.txt
-    pip_materialization_lock_sha256: d51da15eac71d2152b039fce8ad3e27351acf76d233c839f48a53b951615ea08
+    pip_materialization_lock_sha256: ac28bd215bb4152e89f40b89b18572e0ed58eef7ee54f0c64c862f8e7e18f2ce
     pip_package_manifest: locks/osx-arm64.pip-packages.json
-    pip_package_manifest_sha256: 5f910db052e52fd8e8dd9f37d93334bac97196985012892a17aa892168c43660
-    pip_package_set_sha256: 4f33676d517ae5b2986a6de20e02cba73ffe09cb69492d048eb97327d45d4e26
+    pip_package_manifest_sha256: 0559d0099bbadddfcaca8f4bb6f2e61cb0812dc293d897703470bfd5f3cbad7f
+    pip_package_set_sha256: caa3afb1b9523383e3ea73f013e3433d59f9326e0281bab59155586580010a8f
     runtime_policy:
       accelerator: mps
       kernels: disabled
@@ -183,6 +183,7 @@ scientific_boundary:
       this supports schedule sensitivity.
     - The profile installs source from the open upstream pull request 527 on the Boltz 2.2.1
       release.
-    - The environment installs filelock 4.2.4 and hydra-core 1.3.6, and hydra-core 1.3.6 replaces the
-      `==1.3.2` requirement of Boltz 2.2.1; the Apple GPU case of
-      `tests/core/test_structure_predict_biomolecular_complex.py` passed in this environment on 2026-10-25.
+    - The environment installs filelock 4.2.4, hydra-core 1.3.8 and requests 2.34.2. hydra-core 1.3.8
+      replaces the `==1.3.2` requirement and requests 2.34.2 replaces the `==2.32.3` requirement of
+      Boltz 2.2.1; `tests/core/test_structure_predict_biomolecular_complex.py` passed in full
+      (56 tests) in this environment on 2026-10-25.

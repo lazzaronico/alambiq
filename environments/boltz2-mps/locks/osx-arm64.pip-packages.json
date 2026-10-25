@@ -2,8 +2,8 @@
   "schema_version": "0.1",
   "platform": "osx-arm64",
   "package_count": 67,
-  "installed_bytes": 1035022157,
-  "package_set_sha256": "4f33676d517ae5b2986a6de20e02cba73ffe09cb69492d048eb97327d45d4e26",
+  "installed_bytes": 1035082815,
+  "package_set_sha256": "caa3afb1b9523383e3ea73f013e3433d59f9326e0281bab59155586580010a8f",
   "packages": [
     {
       "name": "aiohappyeyeballs",
@@ -191,11 +191,11 @@
     },
     {
       "name": "hydra-core",
-      "version": "1.3.6",
+      "version": "1.3.8",
       "file_count": 153,
       "missing_file_count": 0,
-      "installed_bytes": 521260,
-      "content_sha256": "e3dcaad6e5c2d77a819c8afe13ae84e28b5044dc26a1b678990317d4c46b2ea2"
+      "installed_bytes": 552863,
+      "content_sha256": "e18409337c6f6cad1c0874722f215c0c42602ce0b5fab5ea11635e0b4b60fc7f"
     },
     {
       "name": "idna",
@@ -407,11 +407,11 @@
     },
     {
       "name": "requests",
-      "version": "2.32.3",
-      "file_count": 23,
+      "version": "2.34.2",
+      "file_count": 27,
       "missing_file_count": 0,
-      "installed_bytes": 203319,
-      "content_sha256": "c0aa43da0a6d52a4c42a4fc49cc21cd9fc46af0231d377a15af5d92dedab72f7"
+      "installed_bytes": 232374,
+      "content_sha256": "8df7fbaa17bad84fa77a72deafb28b20109e8c1a472474e9e0d3cd9408071140"
     },
     {
       "name": "scikit-learn",
