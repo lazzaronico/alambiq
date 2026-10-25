@@ -1,0 +1,51 @@
+id: transformation-and-routes
+steps:
+  - id: account
+    capability: reaction.inspect
+    params:
+      id: methyl-acetate-hydrolysis
+      title: Methyl acetate + water -> acetic acid + methanol
+      source:
+        kind: researcher-specified
+        citation: Illustrative neutral-species equation with a supplied atom correspondence.
+      conditions:
+        description: Explicit neutral species for chemical bookkeeping; protonation is specified by the structures.
+      participants:
+        - {id: methyl-acetate, side: reactant, role: substrate, smiles: "[CH3:1][C:2](=[O:3])[O:4][CH3:5]", coefficient: 1}
+        - {id: water, side: reactant, role: water, smiles: "[OH2:6]", coefficient: 1}
+        - {id: acetic-acid, side: product, role: product, smiles: "[CH3:1][C:2](=[O:3])[OH:6]", coefficient: 1}
+        - {id: methanol, side: product, role: byproduct, smiles: "[OH:4][CH3:5]", coefficient: 1}
+
+  - id: routes
+    capability: reaction.explore_routes
+    params:
+      id: methyl-acetate-route
+      title: Which products can ester hydrolysis give from methyl acetate and water?
+      feedstocks:
+        - {id: methyl-acetate, smiles: "COC(C)=O", amount: 1, role: substrate}
+        - {id: water, smiles: O, amount: 1, role: water}
+      target: {smiles: "CC(=O)O", amount: 1}
+      operators:
+        - id: ester-hydrolysis
+          name: Ester hydrolysis
+          smarts: "[C:1](=[O:2])[O:3][C:4].[OH2:5]>>[C:1](=[O:2])[OH:5].[OH:3][C:4]"
+          source: {kind: researcher-specified, citation: Explicit ester-plus-water hydrolysis operator.}
+          catalyst_requirements: ["Select a carboxylesterase that accepts the ester."]
+          enzyme_evidence: []
+
+  - id: energy
+    capability: reaction.estimate_thermodynamics
+    params:
+      id: methyl-acetate-aqueous-reference
+      conditions: {pH: 7.5, pMg: 3.0, ionic_strength_M: 0.1, temperature_K: 298.15}
+      assumption_note: Ideal dilute aqueous activities, each solute 1 mM relative to the 1 M standard state, with unit water activity.
+      compounds:
+        - {id: methyl-acetate, accession: "kegg:C17530", activity: 0.001}
+        - {id: water, accession: "kegg:C00001", activity: 1}
+        - {id: acetate, accession: "kegg:C00033", activity: 0.001}
+        - {id: methanol, accession: "kegg:C00132", activity: 0.001}
+      reactions:
+        - id: hydrolysis
+          stoichiometry: {methyl-acetate: -1, water: -1, acetate: 1, methanol: 1}
+          source: {kind: curated-reference, citation: eQuilibrator Component Contribution}
+      route_weights: {hydrolysis: 1}

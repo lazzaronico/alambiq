@@ -1,0 +1,257 @@
+{
+  "schema_version": "0.1",
+  "recorded_date": "2026-10-08",
+  "platform": "macOS ARM64 / CPU",
+  "provider": "openff.openmm-complex-preparation",
+  "provider_version": "0.2.0",
+  "method_profile": "protein-ligand.ff14sb-sage-2.3.0-ashgc-tip3p-explicit-v1",
+  "installed_bioforge_wheel_sha256": "dce4bd64da898c4a525713cefe2dfd8830c6f858f9569d2ffd92d106fcbdf478",
+  "source_sha256": {
+    "src/bioforge/plugins/predicted_complex_preparation.py": "efbb553f27e6c7451514e5bfc9ba7ababcb73e63f2b76f94f19d48f05edff941",
+    "src/bioforge/plugins/runners/openff_complex_prepare.py": "8bb4366ec439310dfec6c95d596a570ec4431a93dbd866f9b6f37943b91f1b73",
+    "src/bioforge/plugins/runners/openff_preparation.py": "429bc02e255f2ea8f75ac937392e172e685a9f090fd5664965da122188c9371a",
+    "src/bioforge/plugins/runners/solvent_conditions.py": "4ab1dabdedd442f8b10c09a95a93e677c6d0a90fff16c91dfdd833b1fb38ecb9",
+    "src/bioforge/plugins/openmm_dynamics.py": "e03b60d3f9c971888a32b49958a35e49945479064d15f01241de3108e82f3e34",
+    "src/bioforge/plugins/trajectory_inspection.py": "c846b1a07d1abbc984f7cfb0f5cba11e88874a637feb35d77df81b608d67ec71",
+    "src/bioforge/plugins/_periodic_images.py": "5e1d3b1b1d4f5d938da2f816f0cf1c87df04d65f29782e83cf1f5c94520c6767"
+  },
+  "input": {
+    "source_run_id": "run-67ee511a6d344e3c",
+    "source_structure": {
+      "digest": "sha256:9b7bafc1c9c23b18ebf3f2d4a7543d122744b106c9a7c4fa0ccfc2d7376dd71e",
+      "id": "artifact-9b7bafc1c9c23b18",
+      "media_type": "chemical/x-mmcif",
+      "uri": "bioforge+artifact://sha256/9b7bafc1c9c23b18ebf3f2d4a7543d122744b106c9a7c4fa0ccfc2d7376dd71e"
+    },
+    "protein_sequence_sha256": "9862a0f3ca21c3f945f28143635bac31d2b406d2ecc6101aa4c4ae942f22af9b",
+    "protein_residue_count": 162,
+    "ligand_smiles": "c1ccccc1",
+    "ligand_formal_charge": 0,
+    "source_prediction_method": "protein.boltz2-prediction-cuda-v1",
+    "prediction_repeated": false
+  },
+  "parameters": {
+    "environment_lock": "openff-complex-preparation-v1",
+    "protein_force_field": "amber-ff14SB",
+    "ligand_force_field": "openff-2.3.0",
+    "ligand_partial_charge_method": "AshGC-1.0.0",
+    "water_model": "tip3p",
+    "protonation_policy": "openmm-hie-and-terminal-defaults-v1",
+    "disulfide_policy": "cysteine-sg-distance-2.5-angstrom-v1",
+    "heavy_atom_policy": "reject-missing-or-extra-v1",
+    "solvent_padding_angstrom": 20.0,
+    "ionic_strength_molar": 0.15,
+    "neutralization_policy": "add-counterions-deterministic-v1",
+    "nonbonded_method": "PME",
+    "nonbonded_cutoff_nanometer": 0.9,
+    "constraints": "HBonds",
+    "rigid_water": true,
+    "minimization_max_iterations": 5000,
+    "validation_platform": "CPU",
+    "validation_platform_properties": {
+      "Threads": "8",
+      "DeterministicForces": "true"
+    },
+    "net_charge_tolerance_e": 0.01
+  },
+  "execution": {
+    "run_id": "run-14b8d50925c15ccb",
+    "steps": {
+      "prepare-predicted-complex": "completed",
+      "dynamics": "completed",
+      "inspect-dynamics": "completed"
+    },
+    "output_artifacts": {
+      "inspection": {
+        "parameterization": {
+          "id": "artifact-b7941ce21383bf28",
+          "media_type": "application/json",
+          "digest": "sha256:b7941ce21383bf286e7145681e9cb6289bf56f4da49a4823bfdc006ef7d948ed",
+          "uri": "bioforge+artifact://sha256/b7941ce21383bf286e7145681e9cb6289bf56f4da49a4823bfdc006ef7d948ed"
+        },
+        "preparation-manifest-json": {
+          "id": "artifact-8b5f22f46635bb00",
+          "media_type": "application/json",
+          "digest": "sha256:8b5f22f46635bb0048d660685d85f882e4b1b539a493f680b552b53ff984025e",
+          "uri": "bioforge+artifact://sha256/8b5f22f46635bb0048d660685d85f882e4b1b539a493f680b552b53ff984025e"
+        },
+        "preparation-summary-json": {
+          "id": "artifact-06464a4fded2991e",
+          "media_type": "application/json",
+          "digest": "sha256:06464a4fded2991e50137ba7f3a30cdfea7f4b263ada34fe2abea54f41eab6ca",
+          "uri": "bioforge+artifact://sha256/06464a4fded2991e50137ba7f3a30cdfea7f4b263ada34fe2abea54f41eab6ca"
+        },
+        "prepared-ligand-parameters": {
+          "id": "artifact-b7391fbf2c20a807",
+          "media_type": "application/json",
+          "digest": "sha256:b7391fbf2c20a8074b2828dabb9a03dc6423ec343d56731240650a0eeeb5cd41",
+          "uri": "bioforge+artifact://sha256/b7391fbf2c20a8074b2828dabb9a03dc6423ec343d56731240650a0eeeb5cd41"
+        }
+      },
+      "dynamics": {
+        "prepared-state-xml": {
+          "id": "artifact-3467754e3ed7ef0a",
+          "media_type": "application/xml",
+          "digest": "sha256:3467754e3ed7ef0a5e6e6bb527baec52e199d54435eb643a742199aa5c294566",
+          "uri": "bioforge+artifact://sha256/3467754e3ed7ef0a5e6e6bb527baec52e199d54435eb643a742199aa5c294566"
+        },
+        "prepared-system-xml": {
+          "id": "artifact-7544d7f89f47e223",
+          "media_type": "application/xml",
+          "digest": "sha256:7544d7f89f47e223dc45dd6f123289f6e7e0b752eff133ed1fd6cf537412a998",
+          "uri": "bioforge+artifact://sha256/7544d7f89f47e223dc45dd6f123289f6e7e0b752eff133ed1fd6cf537412a998"
+        },
+        "prepared-topology-pdb": {
+          "id": "artifact-f1fdb6c4a6bd94a2",
+          "media_type": "chemical/x-pdb",
+          "digest": "sha256:f1fdb6c4a6bd94a281cce54c3c65f6a7c8a862428b948fa2bf4786165bb0663b",
+          "uri": "bioforge+artifact://sha256/f1fdb6c4a6bd94a281cce54c3c65f6a7c8a862428b948fa2bf4786165bb0663b"
+        }
+      }
+    },
+    "preparation": {
+      "system_id": "retained-boltz-lysozyme-benzene",
+      "method_profile": "protein-ligand.ff14sb-sage-2.3.0-ashgc-tip3p-explicit-v1",
+      "decision": "prepared",
+      "reason_codes": [],
+      "protein_chain_count": 1,
+      "protein_residue_count": 162,
+      "ligand_heavy_atom_count": 6,
+      "disulfide_bond_count": 0,
+      "total_atom_count": 34706,
+      "water_molecule_count": 10675,
+      "sodium_ion_count": 29,
+      "chloride_ion_count": 37,
+      "ligand_formal_charge_e": 0,
+      "prepared_system_net_charge_e": -7.024359873917998e-08,
+      "initial_potential_energy_kj_per_mol": 58122290627012.48,
+      "minimized_potential_energy_kj_per_mol": -591576.5434617465,
+      "finite_energies": true,
+      "system_xml_artifact": "prepared-system-xml",
+      "state_xml_artifact": "prepared-state-xml",
+      "topology_pdb_artifact": "prepared-topology-pdb",
+      "preparation_manifest_artifact": "preparation-manifest-json"
+    },
+    "environment_versions": {
+      "gemmi": "0.7.5",
+      "openmm": "8.6.0",
+      "rdkit": "2026.3.1",
+      "pdbfixer": "1.12.0",
+      "openff-toolkit": "0.19.0",
+      "openff-interchange": "0.5.5",
+      "openff-nagl": "0.5.5",
+      "openff-nagl-models": "2025.9.0",
+      "openff-forcefields": "2026.09.0",
+      "openmmforcefields": "0.15.1",
+      "ParmEd": "4.3.1"
+    },
+    "preparation_network_used": false,
+    "short_dynamics": {
+      "parameters": {
+        "timestep_fs": 2.0,
+        "temperature_kelvin": 300.0,
+        "friction_per_ps": 1.0,
+        "seed": 42,
+        "steps": 1000,
+        "report_interval": 100,
+        "platform": "CPU",
+        "platform_properties": {
+          "Threads": "8",
+          "DeterministicForces": "true"
+        }
+      },
+      "replica": {
+        "replica_index": 0,
+        "seed": 42,
+        "status": "completed",
+        "platform": "CPU",
+        "platform_properties": {
+          "DeterministicForces": "true",
+          "Threads": "8"
+        },
+        "steps_completed": 1000,
+        "initial_potential_energy_kj_per_mol": -591576.5106129682,
+        "final_potential_energy_kj_per_mol": -485822.6489004502,
+        "initial_total_energy_kj_per_mol": -490779.876466742,
+        "final_total_energy_kj_per_mol": -393366.67402505985,
+        "relative_total_energy_drift": 0.19848654582780847,
+        "finite_energies": true,
+        "checkpoint_artifact": "replica-00-checkpoint",
+        "final_state_artifact": "replica-00-final-state",
+        "trajectory_artifact": "replica-00-trajectory",
+        "state_data_artifact": "replica-00-state-data"
+      }
+    }
+  },
+  "checks": {
+    "serialized_native_state": {
+      "passed": true,
+      "particle_count": 34706,
+      "water_count": 10675,
+      "sodium_count": 29,
+      "chloride_count": 37,
+      "added_salt_pairs": 29,
+      "neutralizing_chloride_count": 8,
+      "available_water_after_neutralization": 10733,
+      "salt_pair_expected_from_declared_convention": 29,
+      "ion_element_and_charge_identities_verified": true,
+      "net_charge_e": -7.024359873917998e-08,
+      "periodic_vectors_nm": [
+        [
+          8.01725415,
+          0.0,
+          0.0
+        ],
+        [
+          -4.008627074999999,
+          6.943145762496216,
+          0.0
+        ],
+        [
+          -4.008627074999999,
+          2.314381920832072,
+          6.546060601903621
+        ]
+      ],
+      "box_volume_nm3": 364.386228914782,
+      "serialized_state_energy_kj_mol": -591576.5106129682,
+      "energy_difference_from_summary_kj_mol": 0.03284877829719335,
+      "energy_comparison_tolerance": {
+        "rtol": 1e-06,
+        "atol_kj_mol": 0.1
+      },
+      "maximum_force_kj_mol_nm": 1726.5759213014805,
+      "finite_positions_energies_forces": true,
+      "state_system_box_vectors_match": true
+    },
+    "source_heavy_atom_and_ligand_mapping_complete": true,
+    "canonical_reuse_native_execution_forbidden": true,
+    "reused_native_outputs_exact": true,
+    "strict_result_reload": true,
+    "restored_dossier_byte_identical": true,
+    "reuse_run_id": "run-2c9a6cbdb07ce993",
+    "dossier_sha256": "5866f9da961f18d59dc961bc436cf43ecc3143d766de750092fe23dce38f36a6",
+    "protein_image_check": {
+      "cutoff_nm": 0.9,
+      "checked_frame_count": 10,
+      "total_frame_count": 10,
+      "all_saved_frames_checked": true,
+      "within_cutoff_frame_count": 0,
+      "minimum_distance_nm": 2.2245695675021873,
+      "passed": true,
+      "scope": "Exact closest protein atom to translated protein copy in selected saved frames, before fitting, after whole-molecule reconstruction. Includes hydrogens. Requires one connected protein. Unsaved/intervening frames, separate ligands and electrostatic finite-size convergence need separate assessment."
+    },
+    "ligand_contact_analysis_frame_count": 10
+  },
+  "evidence_sha256": {
+    "protocol.json": "00ceadbc54faa8247d5200f0100ebb423a93e58a0ec1fe082048cdf5b3e99889",
+    "campaign.json": "c00f2cda49c46c2003626052d80e937c85ca35d1f8a767e2fdcbef4af73a4a6f",
+    "resolved-plan.json": "e0efe962df371f722c4063799cc78d55be91e1e353693a82780fbfee66842b0d",
+    "result.json": "1eaa4a2bcd7907ce85b6c738a9a7d77aa78f78d3f171f75e5dfd836b5354ff8b",
+    "execution.json": "3c623a6354d7bfa8216420887859dd9300ab791fe032aa376ffff5a40097e84b",
+    "native-state-audit.json": "cce30b320bdc78c4b66623899fce3c9a056dbe91bb772d728834293d32a088b8",
+    "reuse-campaign.json": "bd34a16c871e6f122380ac4f6dc0c4f243ea61022c490d87d0e53fd088bf36a4",
+    "reuse-verification.json": "31630b78874e222a619becaa95b8ecc40a478b3df9795160b2fde1b2ed6413c3"
+  },
+  "scope": "Installed native preparation, exact serialized-state and NaCl identity checks, 1000-step (2 ps) NVT dynamics, all-ten-frame protein periodic-image inspection, canonical reuse and portable dossier restoration. The initial predicted coordinates have a large clash energy, resolved by bounded minimization. This short integration check does not establish equilibration, binding thermodynamics, catalytic energetics or production convergence. Salt concentration follows the finite-water-count convention; protein-image separation is checked only at saved frames."
+}

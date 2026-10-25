@@ -1,0 +1,24 @@
+id: relatives-and-context
+steps:
+  - id: relatives
+    capability: protein.search
+    params:
+      query: hemoglobin-alpha.fasta
+      panel: representation-panel.fasta
+      min_coverage: 0.8
+
+  - id: conservation
+    capability: sequence.inspect_msa
+    params:
+      alignment: globin-search.a3m
+      format: a3m
+
+  - id: neighbourhood
+    capability: genome.inspect_context
+    params:
+      gff: context.gff3
+      proteins: proteins.fasta
+      genome_id: MGYG000000699
+      protein_id_attribute: ID
+      anchor_ids: [MGYG000000699_00080, MGYG000000699_00104]
+      flank_bp: 5000

@@ -1,0 +1,1402 @@
+{
+  "dependency_changes": [],
+  "dynamics_controls": [
+    {
+      "artifact_digests": {
+        "configuration": "sha256:f773313fd2c69d124741d1ca7de213d7c9a644605d19936511a56cafc3f98ff0",
+        "equilibration-readiness": "sha256:970143fe6bf37bf1459b7dfdcc3cf0f3b821e0420723a5e6fe10ccf0e414da47",
+        "equilibration-state-data": "sha256:ce84c543ba5cc03fceec961a9c24e09a6db3b8e9612c49370a52e575197eec89",
+        "execution-log": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "production-start-state": "sha256:cc1ac80d18a87e1e7e485378441aa4b98cd93ad11c55ee799c244fa1208fb111",
+        "production-system": "sha256:13c63664885a5c049dd43bdbbad1cf7462c179caf4cc923b6479ce6a47057ea3",
+        "readiness-window-1": "sha256:b9aad441d29d4fe3376ad0507991a274c942ebb738de0a658fd69b52913623db",
+        "replica-00-checkpoint": "sha256:c747c2bc768d9691f2d6d23e47b4f8d6d58773550b044784642e34d4105a5b9a",
+        "replica-00-final-state": "sha256:85637b223ddee74f61434c35384207acdcbde31865cf1fabf56fd30c2d38edfa",
+        "replica-00-state-data": "sha256:7dddd5e70d6699973917e525176705298d64bd4983bc39567101aff4f021dbbf",
+        "replica-00-summary-json": "sha256:9f43d8e2e877d1e7ae24bab05994dbf60047ba5d3fcc295972ea2ea50f28154f",
+        "replica-00-trajectory": "sha256:6105eab3b8ed862b28547e7685cf95813c8eacd36365b203049dcbe37ffc2d3a",
+        "source-state_xml": "sha256:55cd2038a08278086f5fecb0a715ed88ff22c8073a10204dd8a711544c1dae68",
+        "source-system_xml": "sha256:6d1b68d0d3a2c5d16f67b78464df41292008e559ea2140c4f515e5670f16f035",
+        "source-topology_pdb": "sha256:67ac35e6f55ae368f6e7b9d48a99b708dfeecba0b344dea20cb84f3c0400222e"
+      },
+      "case": "WT-unbiased",
+      "frame_count": 20,
+      "input_sha256": {
+        "state_xml": "55cd2038a08278086f5fecb0a715ed88ff22c8073a10204dd8a711544c1dae68",
+        "system_xml": "6d1b68d0d3a2c5d16f67b78464df41292008e559ea2140c4f515e5670f16f035",
+        "topology_pdb": "67ac35e6f55ae368f6e7b9d48a99b708dfeecba0b344dea20cb84f3c0400222e"
+      },
+      "inspection_artifacts_verified": 8,
+      "inspection_record_sha256": "e61090b09edd2e2db176b10a7309e49c7459e9abbd81301e01e30fbb71407d23",
+      "inspection_result_sha256": "7e8ee146aefdab7028b91dd2266f9ef1d4a7c5fcd466007bfef3f281a27612f7",
+      "inspection_seconds": 13.087044290965423,
+      "minimum_protein_image_distance_nm": 3.124065426641467,
+      "native_independent_torsion_max_difference_radians": null,
+      "performance": {
+        "minimization_seconds": 1.6494579161517322,
+        "npt_equilibration_seconds": 307.4004742919933,
+        "nvt_equilibration_seconds": 31.58767145802267,
+        "production_ns_per_day": 75.63664412227564,
+        "production_seconds": 22.846069124992937,
+        "production_steps_timed": 10000,
+        "provider_scope": "Runtime probing, input staging, native setup/equilibration/production and output parsing; excludes Prefect orchestration and final artifact publication",
+        "provider_seconds": 368.7446092921309,
+        "runner_seconds_before_summary_write": 368.24532454204746,
+        "scope": "Measured propagation including scheduled output and final checkpoint; excludes setup, final XML serialization and hashing. Short runs include warm-up effects; recovered timing covers only newly executed steps"
+      },
+      "readiness": {
+        "npt_steps_completed": 150000,
+        "nvt_steps_completed": 25000,
+        "policy": "staged-solvent-v1",
+        "restrained_heavy_atom_count": 3620,
+        "restraint_removal": "Physical positions, velocities, box and clock restored into a context with the temporary force and parameter removed; unrestrained integrator/barostat use the recorded derived seeds",
+        "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+        "settings": {
+          "density_block_relative_tolerance": 0.02,
+          "energy_block_kj_mol_per_atom_tolerance": 0.1,
+          "max_windows": 3,
+          "nvt_ps": 50.0,
+          "release_ps": 100.0,
+          "restraint_kj_mol_nm2": 1000.0,
+          "temperature_block_relative_tolerance": 0.03,
+          "temperature_relative_tolerance": 0.05,
+          "window_ps": 200.0
+        },
+        "status": "passed",
+        "unrestrained_random_seeds": {
+          "barostat": 851464,
+          "integrator": 825830
+        },
+        "windows": [
+          {
+            "block_means": {
+              "density_g_ml": [
+                1.035558620027695,
+                1.0347140956452423,
+                1.035564537390125,
+                1.0353733058411474
+              ],
+              "potential_energy_kj_mol_per_atom": [
+                -13.369930986700336,
+                -13.368186301084384,
+                -13.373665548726967,
+                -13.370536088346105
+              ],
+              "temperature_kelvin": [
+                298.2497156219837,
+                298.4508788586139,
+                298.38049129119804,
+                298.7371683040861
+              ]
+            },
+            "checks": {
+              "density_block_relative_range": {
+                "maximum": 0.02,
+                "observed": 0.0008214426509215924,
+                "passed": true
+              },
+              "energy_block_range_kj_mol_per_atom": {
+                "maximum": 0.1,
+                "observed": 0.005479247642583118,
+                "passed": true
+              },
+              "temperature_block_relative_range": {
+                "maximum": 0.03,
+                "observed": 0.0016349243069005554,
+                "passed": true
+              },
+              "temperature_relative_error": {
+                "maximum": 0.05,
+                "observed": 0.0010215110480309908,
+                "passed": true
+              }
+            },
+            "end_step": 175000,
+            "passed": true,
+            "sample_count": 200,
+            "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+            "start_step": 75000
+          }
+        ]
+      },
+      "run_id": "run-4be93a0e00701daa",
+      "source_artifacts_verified": 15,
+      "source_result_sha256": "1f3f91daa77726a930414b70572269018b2f28f6fb9e6dff04e403e2909bcee3",
+      "timing": {
+        "case": "WT-unbiased",
+        "elapsed_seconds": 374.84556470811367,
+        "run_id": "run-4be93a0e00701daa",
+        "status": "completed"
+      },
+      "water_occupancy_range": [
+        5,
+        5
+      ]
+    },
+    {
+      "artifact_digests": {
+        "adaptation-state.csv": "sha256:7d0f0d1ed90e060ef331d795fa130c0b3780e4634ab1f9367ecc768b9b9f2f68",
+        "bias-checkpoint.zip": "sha256:fa0b0b607399665b7eadeb879d36719e0505aaaccf9f8f0c6c097b7a71e8afff",
+        "bias-grid.npz": "sha256:72680292e87672ef28b732afeb208ca64eb300b11b5ba0ac56de964c22d0ca10",
+        "collective-variables.csv": "sha256:a0f4b92e754a149822abcd683ee44a47e800b694c9b8c4a4da7c23853fa24b8c",
+        "configuration": "sha256:7956d68f58040b479a1c2af2e2117278a3d6bea6411776788c75afb702475c62",
+        "equilibration-readiness": "sha256:7bf79daa63ef22f6fbdc2f1e5af5fe3ae41554b4875fd16971fc1e525711c26c",
+        "equilibration-state-data": "sha256:cc96b9a8783653b618f47381c90e687f3224a0c396cc40e2a3c5c9ddeba2f32d",
+        "execution-log": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "frozen-equilibration-state.csv": "sha256:71a4b69f21f38778a0c4354341a8f4fac2dce1829b7c89ce405885e613d4ca6a",
+        "gaussians.csv": "sha256:dbe7eee92029c9cd5591c5add168d6e0b34b4924c5c5c349cd97e6df0a3ae0b4",
+        "metadynamics.json": "sha256:a817aab91d3f6a220822d6a5452642b81b3dc8b645783b9d07f5ea19ce824e92",
+        "production-start-state": "sha256:fc988688e6839b26792620bb2bb343e25946863fca0b615c656bbf252eba2d01",
+        "production-system": "sha256:6e67dfe95e926a8c6f82889db630f3fb49870915799c28a3ea08b055b6a93255",
+        "readiness-window-1": "sha256:9af4d3b07081c9a38531f46581eebe4ed5504bbf0f738593150a3652c4d2da8f",
+        "replica-00-checkpoint": "sha256:cdbb2943adb7e5fe37b7b66f5ed602b928946b59a8ebfdd3cc9d8b58acc8cce6",
+        "replica-00-final-state": "sha256:1c0fa1ff7482ce7021fcb0974c9714d4059d6260434a1f7dc4cd11deedd859d8",
+        "replica-00-state-data": "sha256:dca4c204c78b2fcfa33f8b6b5f1870c0fdf31684c7f0fc8300c74ae4c6cea533",
+        "replica-00-summary-json": "sha256:51732ab2c980a234e4a2d8da783a9cd4417620c1ecdaa2e7eb3dd7599b83f05d",
+        "replica-00-trajectory": "sha256:112851cfea85c6ba1a9416037e2baba4014c7e35f0dd53e3d02116d6114b16b7",
+        "reweighting.csv": "sha256:59663c2ebc89e6664abca52b3b9f31a97ae2c31399565e21be2a5c1b91fc60ab",
+        "source-state_xml": "sha256:55cd2038a08278086f5fecb0a715ed88ff22c8073a10204dd8a711544c1dae68",
+        "source-system_xml": "sha256:6d1b68d0d3a2c5d16f67b78464df41292008e559ea2140c4f515e5670f16f035",
+        "source-topology_pdb": "sha256:67ac35e6f55ae368f6e7b9d48a99b708dfeecba0b344dea20cb84f3c0400222e"
+      },
+      "case": "WT-bias",
+      "frame_count": 20,
+      "input_sha256": {
+        "state_xml": "55cd2038a08278086f5fecb0a715ed88ff22c8073a10204dd8a711544c1dae68",
+        "system_xml": "6d1b68d0d3a2c5d16f67b78464df41292008e559ea2140c4f515e5670f16f035",
+        "topology_pdb": "67ac35e6f55ae368f6e7b9d48a99b708dfeecba0b344dea20cb84f3c0400222e"
+      },
+      "inspection_artifacts_verified": 8,
+      "inspection_record_sha256": "55c28d0efc30bf767a276fe170eec76fdd41826c08e42726332e88adfc33305e",
+      "inspection_result_sha256": "e8847b7555eb93af7f8d699ee2a32b33b7f19fbab44b4a861bffbf57c5a76e27",
+      "inspection_seconds": 14.594500791979954,
+      "minimum_protein_image_distance_nm": 3.0123775476128136,
+      "native_independent_torsion_max_difference_radians": 1.0013580322265625e-05,
+      "performance": {
+        "minimization_seconds": 1.3655070418026298,
+        "npt_equilibration_seconds": 572.7985979160294,
+        "nvt_equilibration_seconds": 81.83432324999012,
+        "production_ns_per_day": 43.2025956659121,
+        "production_seconds": 39.99759675003588,
+        "production_steps_timed": 10000,
+        "provider_scope": "Runtime probing, input staging, native setup/equilibration/production and output parsing; excludes Prefect orchestration and final artifact publication",
+        "provider_seconds": 742.007568083005,
+        "runner_seconds_before_summary_write": 741.4272720420267,
+        "scope": "Measured propagation including scheduled output and final checkpoint; excludes setup, final XML serialization and hashing. Short runs include warm-up effects; recovered timing covers only newly executed steps"
+      },
+      "readiness": {
+        "npt_steps_completed": 150000,
+        "nvt_steps_completed": 25000,
+        "policy": "staged-solvent-v1",
+        "restrained_heavy_atom_count": 3620,
+        "restraint_removal": "Physical positions, velocities, box and clock restored into a context with the temporary force and parameter removed; unrestrained integrator/barostat use the recorded derived seeds",
+        "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+        "settings": {
+          "density_block_relative_tolerance": 0.02,
+          "energy_block_kj_mol_per_atom_tolerance": 0.1,
+          "max_windows": 3,
+          "nvt_ps": 50.0,
+          "release_ps": 100.0,
+          "restraint_kj_mol_nm2": 1000.0,
+          "temperature_block_relative_tolerance": 0.03,
+          "temperature_relative_tolerance": 0.05,
+          "window_ps": 200.0
+        },
+        "status": "passed",
+        "unrestrained_random_seeds": {
+          "barostat": 851474,
+          "integrator": 825840
+        },
+        "windows": [
+          {
+            "block_means": {
+              "density_g_ml": [
+                1.035268282100942,
+                1.0354587266267203,
+                1.035402118197377,
+                1.0360699757653031
+              ],
+              "potential_energy_kj_mol_per_atom": [
+                -13.368681129599477,
+                -13.369458994082517,
+                -13.373709436455583,
+                -13.37508801217618
+              ],
+              "temperature_kelvin": [
+                298.4332618027358,
+                298.4215912436143,
+                298.42454653340855,
+                298.323411349617
+              ]
+            },
+            "checks": {
+              "density_block_relative_range": {
+                "maximum": 0.02,
+                "observed": 0.0007741720226248101,
+                "passed": true
+              },
+              "energy_block_range_kj_mol_per_atom": {
+                "maximum": 0.1,
+                "observed": 0.00640688257670341,
+                "passed": true
+              },
+              "temperature_block_relative_range": {
+                "maximum": 0.03,
+                "observed": 0.00036844022511749587,
+                "passed": true
+              },
+              "temperature_relative_error": {
+                "maximum": 0.05,
+                "observed": 0.0008408610845008848,
+                "passed": true
+              }
+            },
+            "end_step": 175000,
+            "passed": true,
+            "sample_count": 200,
+            "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+            "start_step": 75000
+          }
+        ]
+      },
+      "run_id": "run-e5c52e3d6ffd941d",
+      "source_artifacts_verified": 23,
+      "source_result_sha256": "25cd7f247ce6085bb56edb41ee678182e1be1f2ceea270d28d8cf2641f3ce52b",
+      "timing": {
+        "case": "WT-bias",
+        "elapsed_seconds": 745.943678666139,
+        "run_id": "run-e5c52e3d6ffd941d",
+        "status": "completed"
+      },
+      "water_occupancy_range": [
+        5,
+        7
+      ]
+    },
+    {
+      "artifact_digests": {
+        "adaptation-state.csv": "sha256:b38b5d88c36f4aec7c57bbc9529f3cff2135e06f68fff5141d2687046127f2d0",
+        "bias-checkpoint.zip": "sha256:2f060affbb92ff5c130363c546d07f33546752c0ac6ec5e48be95fa4abe46cdf",
+        "bias-grid.npz": "sha256:70ee1aa716e58755441a9cbdc128ebfa5f0ce63c29468f9b809080c8d0eeb042",
+        "collective-variables.csv": "sha256:8270a939f5a3abe3069c1cff28640cdbb327d1900929d6dab060d343e5fceffd",
+        "configuration": "sha256:7075042a86c4195f33b1b16641fd38f9524264a47fc0b16076bda3faf782c0eb",
+        "equilibration-readiness": "sha256:108454999bb97a2be71fce13ef5f2784f4d9540e8793ec2f867477af6748a89f",
+        "equilibration-state-data": "sha256:d61dfc8c84bc5338287decd1679feb7e6016ac9ab4a38393dce8195af1c9c5ab",
+        "execution-log": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "frozen-equilibration-state.csv": "sha256:75acf78443b1e4a2ab5767e6d9fdff76a50b53b3bf9849b39a431f4a6b572fd4",
+        "gaussians.csv": "sha256:47a23b8b53ec9a8b87ad909ae0097294a1c76334d4990b9134a306be478c1a84",
+        "metadynamics.json": "sha256:a3d79f976895cd0befadba4119b00a1da0584693af8b5070b2f53fcdba4da318",
+        "production-start-state": "sha256:5ba9c4691027da0ca7bb86013f01cfd0718492c9a8d58f6e4af9db1a22709bbb",
+        "production-system": "sha256:a1720d30fed66b709e249e4bb505fc06578caf3e816f1f63a9a9a8fb1b1cb534",
+        "readiness-window-1": "sha256:31c2a3ff6154712e9c4d0b2f71b5db2e988fc274aab2ad541b0f3833d21a6ebc",
+        "replica-00-checkpoint": "sha256:f2e5cd0c3163232261f5a0ad87216f090c83e71783260bc1e89264bc0781b97d",
+        "replica-00-final-state": "sha256:1325adde42da54b5b14077980be325dda339a8573cbcff4e171f9c2a9e2cb982",
+        "replica-00-state-data": "sha256:0d88b9571fc10fe588684a2b8cbdffa2cc0571a29b199ecadec8912e533ca89e",
+        "replica-00-summary-json": "sha256:2b1c9054c16a7db6485fbe01f2dc16ad503bf48e34e9fb0ad8544eac87cf1b89",
+        "replica-00-trajectory": "sha256:8d02fddc380c2eb520f5cbdc8be26237a3d084ae704dd229d7a9c5cef4116b9f",
+        "reweighting.csv": "sha256:24874fbe9455f0ed01bbb44dc212c49735b361912d32ab42966efcd97489455b",
+        "source-state_xml": "sha256:a368c5ae019b2186c62a1ef3ebd2784255a0e4c1083c6bc206fbe7f62a8d4280",
+        "source-system_xml": "sha256:b0bd9e1853298625a82f3dff4e6cb1424dbc965173d2fc4e80415e20dc2eeeb9",
+        "source-topology_pdb": "sha256:10bfa5f16803232efdbba6193d27749a947bedb152b413b88f4e21803583431a"
+      },
+      "case": "N220Y-bias",
+      "frame_count": 20,
+      "input_sha256": {
+        "state_xml": "a368c5ae019b2186c62a1ef3ebd2784255a0e4c1083c6bc206fbe7f62a8d4280",
+        "system_xml": "b0bd9e1853298625a82f3dff4e6cb1424dbc965173d2fc4e80415e20dc2eeeb9",
+        "topology_pdb": "10bfa5f16803232efdbba6193d27749a947bedb152b413b88f4e21803583431a"
+      },
+      "inspection_artifacts_verified": 8,
+      "inspection_record_sha256": "37ad567bff84c6b1ee7b34fb68fe923d8f982a9f92177ebd9a92157d08cca013",
+      "inspection_result_sha256": "120596d7afb89a4adc99e0fc76a177605c747a004ee545fefa8f0cb94b687596",
+      "inspection_seconds": 14.979010083014145,
+      "minimum_protein_image_distance_nm": 3.1375865424425906,
+      "native_independent_torsion_max_difference_radians": 7.152557373046875e-06,
+      "performance": {
+        "minimization_seconds": 1.8386992919258773,
+        "npt_equilibration_seconds": 556.9728797089774,
+        "nvt_equilibration_seconds": 85.22779599996284,
+        "production_ns_per_day": 43.22140103136942,
+        "production_seconds": 39.98019404197112,
+        "production_steps_timed": 10000,
+        "provider_scope": "Runtime probing, input staging, native setup/equilibration/production and output parsing; excludes Prefect orchestration and final artifact publication",
+        "provider_seconds": 731.0747552500106,
+        "runner_seconds_before_summary_write": 730.4408994999249,
+        "scope": "Measured propagation including scheduled output and final checkpoint; excludes setup, final XML serialization and hashing. Short runs include warm-up effects; recovered timing covers only newly executed steps"
+      },
+      "readiness": {
+        "npt_steps_completed": 150000,
+        "nvt_steps_completed": 25000,
+        "policy": "staged-solvent-v1",
+        "restrained_heavy_atom_count": 3624,
+        "restraint_removal": "Physical positions, velocities, box and clock restored into a context with the temporary force and parameter removed; unrestrained integrator/barostat use the recorded derived seeds",
+        "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+        "settings": {
+          "density_block_relative_tolerance": 0.02,
+          "energy_block_kj_mol_per_atom_tolerance": 0.1,
+          "max_windows": 3,
+          "nvt_ps": 50.0,
+          "release_ps": 100.0,
+          "restraint_kj_mol_nm2": 1000.0,
+          "temperature_block_relative_tolerance": 0.03,
+          "temperature_relative_tolerance": 0.05,
+          "window_ps": 200.0
+        },
+        "status": "passed",
+        "unrestrained_random_seeds": {
+          "barostat": 851574,
+          "integrator": 825940
+        },
+        "windows": [
+          {
+            "block_means": {
+              "density_g_ml": [
+                1.0355787161826484,
+                1.0340030707393422,
+                1.033618491948153,
+                1.0348912979515115
+              ],
+              "potential_energy_kj_mol_per_atom": [
+                -13.360397193574165,
+                -13.353121765868389,
+                -13.356264841705315,
+                -13.36318082086691
+              ],
+              "temperature_kelvin": [
+                298.56512821963327,
+                298.7608396082251,
+                298.716695518283,
+                298.37971182563825
+              ]
+            },
+            "checks": {
+              "density_block_relative_range": {
+                "maximum": 0.02,
+                "observed": 0.0018948099123518847,
+                "passed": true
+              },
+              "energy_block_range_kj_mol_per_atom": {
+                "maximum": 0.1,
+                "observed": 0.010059054998521333,
+                "passed": true
+              },
+              "temperature_block_relative_range": {
+                "maximum": 0.03,
+                "observed": 0.0012783088465097194,
+                "passed": true
+              },
+              "temperature_relative_error": {
+                "maximum": 0.05,
+                "observed": 0.0015280690690758576,
+                "passed": true
+              }
+            },
+            "end_step": 175000,
+            "passed": true,
+            "sample_count": 200,
+            "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+            "start_step": 75000
+          }
+        ]
+      },
+      "run_id": "run-871a92cb54c0e4ac",
+      "source_artifacts_verified": 23,
+      "source_result_sha256": "0d88f6090307510b0b904c01fd6a7508bfd0b19be6d69cb4e1231f7956f530bc",
+      "timing": {
+        "case": "N220Y-bias",
+        "elapsed_seconds": 735.11581083294,
+        "run_id": "run-871a92cb54c0e4ac",
+        "status": "completed"
+      },
+      "water_occupancy_range": [
+        6,
+        8
+      ]
+    },
+    {
+      "artifact_digests": {
+        "configuration": "sha256:0769f0b38cfaff219308793565b7ce63f4fb109ba5810f8f38cd9f0059f71ca1",
+        "equilibration-readiness": "sha256:967170569c34f018beee033311f2454eddafb6d8dc1f20ec916f08018b4367a3",
+        "equilibration-state-data": "sha256:ccfc26b472ccf47dc9b2d463f60b8206b939e879c125b5f081724661c7ea94f6",
+        "execution-log": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "production-start-state": "sha256:cdd6696ee6c7261e55fac9d0396d7ebae9fb973ff4e94e1a89260c42623517e2",
+        "production-system": "sha256:1c35c75b149efa5daba924f67797f98f4eb0b1321af638622b361369e6046c59",
+        "readiness-window-1": "sha256:b63cee50d76998c440f8aa2183568c4427892c36929e674eb21b51de8501af72",
+        "replica-00-checkpoint": "sha256:d25dbf0fa2e1fe05bf5021349a38f81df227438ad3498d221d06621d6b627e0e",
+        "replica-00-final-state": "sha256:3309c85354b17038dea4b21e7ae963f2240cfbfb07ae93190aceb0581b1798d6",
+        "replica-00-state-data": "sha256:414a3d73af788e4bb2d01448285dd139f9048caaa949087abab53f53b12d0f5f",
+        "replica-00-summary-json": "sha256:00c61e80a23be9038afccdb71f7fa350ebc968673f3bf3432e40490e55d3c9ff",
+        "replica-00-trajectory": "sha256:f06324c7932fd67e8f8792c574d2608f76f7a82f21386d60eef7f276eb73e78f",
+        "source-state_xml": "sha256:9c19a57fe122bcf07a5508d769c96be4bfb7d28875709371f4f239be40043e04",
+        "source-system_xml": "sha256:8220f26caffd0dae95c73f35c93ee1a52f8c433b027859aa97dd353bc4ebe48c",
+        "source-topology_pdb": "sha256:5700c2c7877290956aa84a06c00e4cdc5e23c38e8ad8ef365ab6c1fa3c64fb81"
+      },
+      "case": "N404A-unbiased",
+      "frame_count": 20,
+      "input_sha256": {
+        "state_xml": "9c19a57fe122bcf07a5508d769c96be4bfb7d28875709371f4f239be40043e04",
+        "system_xml": "8220f26caffd0dae95c73f35c93ee1a52f8c433b027859aa97dd353bc4ebe48c",
+        "topology_pdb": "5700c2c7877290956aa84a06c00e4cdc5e23c38e8ad8ef365ab6c1fa3c64fb81"
+      },
+      "inspection_artifacts_verified": 8,
+      "inspection_record_sha256": "344bf0e2cf752c423a94a4bb7b6494bedc25b2810810ead2e03846cc521b2732",
+      "inspection_result_sha256": "642e049041dc3419714a7e452abcb12703593c5057b291a495012bf8bc065299",
+      "inspection_seconds": 13.762606082949787,
+      "minimum_protein_image_distance_nm": 3.045691629558039,
+      "native_independent_torsion_max_difference_radians": null,
+      "performance": {
+        "minimization_seconds": 1.7393255000934005,
+        "npt_equilibration_seconds": 292.4325035419315,
+        "nvt_equilibration_seconds": 31.701425625011325,
+        "production_ns_per_day": 67.73640556700467,
+        "production_seconds": 25.51065391697921,
+        "production_steps_timed": 10000,
+        "provider_scope": "Runtime probing, input staging, native setup/equilibration/production and output parsing; excludes Prefect orchestration and final artifact publication",
+        "provider_seconds": 358.96987054217607,
+        "runner_seconds_before_summary_write": 357.1330896669533,
+        "scope": "Measured propagation including scheduled output and final checkpoint; excludes setup, final XML serialization and hashing. Short runs include warm-up effects; recovered timing covers only newly executed steps"
+      },
+      "readiness": {
+        "npt_steps_completed": 150000,
+        "nvt_steps_completed": 25000,
+        "policy": "staged-solvent-v1",
+        "restrained_heavy_atom_count": 3617,
+        "restraint_removal": "Physical positions, velocities, box and clock restored into a context with the temporary force and parameter removed; unrestrained integrator/barostat use the recorded derived seeds",
+        "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+        "settings": {
+          "density_block_relative_tolerance": 0.02,
+          "energy_block_kj_mol_per_atom_tolerance": 0.1,
+          "max_windows": 3,
+          "nvt_ps": 50.0,
+          "release_ps": 100.0,
+          "restraint_kj_mol_nm2": 1000.0,
+          "temperature_block_relative_tolerance": 0.03,
+          "temperature_relative_tolerance": 0.05,
+          "window_ps": 200.0
+        },
+        "status": "passed",
+        "unrestrained_random_seeds": {
+          "barostat": 851664,
+          "integrator": 826030
+        },
+        "windows": [
+          {
+            "block_means": {
+              "density_g_ml": [
+                1.0348303770233662,
+                1.0346646170145823,
+                1.0354328945538294,
+                1.035649406823924
+              ],
+              "potential_energy_kj_mol_per_atom": [
+                -13.36175822049723,
+                -13.367234170804076,
+                -13.369214113031303,
+                -13.37247265456254
+              ],
+              "temperature_kelvin": [
+                298.74704193322833,
+                298.3361063484027,
+                298.6781728974532,
+                298.2738130931719
+              ]
+            },
+            "checks": {
+              "density_block_relative_range": {
+                "maximum": 0.02,
+                "observed": 0.0009513550783673606,
+                "passed": true
+              },
+              "energy_block_range_kj_mol_per_atom": {
+                "maximum": 0.1,
+                "observed": 0.01071443406531003,
+                "passed": true
+              },
+              "temperature_block_relative_range": {
+                "maximum": 0.03,
+                "observed": 0.0015872173069140893,
+                "passed": true
+              },
+              "temperature_relative_error": {
+                "maximum": 0.05,
+                "observed": 0.001203365983780114,
+                "passed": true
+              }
+            },
+            "end_step": 175000,
+            "passed": true,
+            "sample_count": 200,
+            "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+            "start_step": 75000
+          }
+        ]
+      },
+      "run_id": "run-1df789697d22e572",
+      "source_artifacts_verified": 15,
+      "source_result_sha256": "87791c5abad9b7b86c4f908266154c01b6e4868e8a699d1f921b2040ee32c503",
+      "timing": {
+        "case": "N404A-unbiased",
+        "elapsed_seconds": 362.96242283284664,
+        "run_id": "run-1df789697d22e572",
+        "status": "completed"
+      },
+      "water_occupancy_range": [
+        4,
+        6
+      ]
+    },
+    {
+      "artifact_digests": {
+        "configuration": "sha256:d78781243ef0332765a095ce3dc77c0568bdd61d85ff3f1af9d0356a2b17c934",
+        "equilibration-readiness": "sha256:c364cdf06f0627897ad57c1f30ac1a83afe51cd1760332ca08a612c98633efce",
+        "equilibration-state-data": "sha256:b208875ccad3cb20b255de4b3f395d77c03201a1e7216f99992a706121192d55",
+        "execution-log": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "production-start-state": "sha256:1e4f7c95b327dd16f421d8e2b6664da0ab85d0568f4ac3f14f3a9618b18ed5c3",
+        "production-system": "sha256:e4e53ca0c2c0fbc3deeb19ea349f613f4cecea3ad0acf2549aaaed1fbbe8c078",
+        "readiness-window-1": "sha256:83a691dbe63dfc01c9a60fe217fbc0d472c2f83e9200d1a5a846b86eea311fb0",
+        "replica-00-checkpoint": "sha256:336b5ff66f5a99169d20e5e0f442ef2dfa5098d7ba585cdebf6ee1006877ef0b",
+        "replica-00-final-state": "sha256:d99a4d59efe11865536c7fe9143e5bc58ab5fe672ed77f98ad7f6af5007eb4a0",
+        "replica-00-state-data": "sha256:42045baf3fbe591a7347ba4d6a74257f00c3d0fe13d992a5e1e5d67239cf8fac",
+        "replica-00-summary-json": "sha256:c5b014eea05c2d75a5b67130bedd446c2813f6f615a1bd969062ff748fc0ae79",
+        "replica-00-trajectory": "sha256:3154f37619069f003ede91988eb383d79ea3e81f91e2504718e3c776171c08be",
+        "source-state_xml": "sha256:85de75f983056798b98fda93a6e16087bcff2ff565a5778f25d89db52a52aca5",
+        "source-system_xml": "sha256:bbd960c70d1f764e0633dfa17c9db1ac5da05210d81f0e2fb56c5a4995e9700f",
+        "source-topology_pdb": "sha256:1fa620ee0f1c377ffdde07b08607055d499d7c11d9c95825140e8889cfdef68c"
+      },
+      "case": "WT-E164H-OE2-unbiased",
+      "frame_count": 20,
+      "input_sha256": {
+        "state_xml": "85de75f983056798b98fda93a6e16087bcff2ff565a5778f25d89db52a52aca5",
+        "system_xml": "bbd960c70d1f764e0633dfa17c9db1ac5da05210d81f0e2fb56c5a4995e9700f",
+        "topology_pdb": "1fa620ee0f1c377ffdde07b08607055d499d7c11d9c95825140e8889cfdef68c"
+      },
+      "inspection_artifacts_verified": 8,
+      "inspection_record_sha256": "6f8ca96259a8598cd501a4a9b2bb7a47751715e0d554122d11207540b6bb8d34",
+      "inspection_result_sha256": "10ab4bd2c9767a87d602201ededee0164950905f9c9a9cd6232f91d308825f85",
+      "inspection_seconds": 13.65937116718851,
+      "minimum_protein_image_distance_nm": 2.7057509787393537,
+      "native_independent_torsion_max_difference_radians": null,
+      "performance": {
+        "minimization_seconds": 1.598479124950245,
+        "npt_equilibration_seconds": 280.59998816694133,
+        "nvt_equilibration_seconds": 44.74178908299655,
+        "production_ns_per_day": 93.8673981193155,
+        "production_seconds": 18.408947458025068,
+        "production_steps_timed": 10000,
+        "provider_scope": "Runtime probing, input staging, native setup/equilibration/production and output parsing; excludes Prefect orchestration and final artifact publication",
+        "provider_seconds": 350.5791859580204,
+        "runner_seconds_before_summary_write": 349.9505711249076,
+        "scope": "Measured propagation including scheduled output and final checkpoint; excludes setup, final XML serialization and hashing. Short runs include warm-up effects; recovered timing covers only newly executed steps"
+      },
+      "readiness": {
+        "npt_steps_completed": 150000,
+        "nvt_steps_completed": 25000,
+        "policy": "staged-solvent-v1",
+        "restrained_heavy_atom_count": 3620,
+        "restraint_removal": "Physical positions, velocities, box and clock restored into a context with the temporary force and parameter removed; unrestrained integrator/barostat use the recorded derived seeds",
+        "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+        "settings": {
+          "density_block_relative_tolerance": 0.02,
+          "energy_block_kj_mol_per_atom_tolerance": 0.1,
+          "max_windows": 3,
+          "nvt_ps": 50.0,
+          "release_ps": 100.0,
+          "restraint_kj_mol_nm2": 1000.0,
+          "temperature_block_relative_tolerance": 0.03,
+          "temperature_relative_tolerance": 0.05,
+          "window_ps": 200.0
+        },
+        "status": "passed",
+        "unrestrained_random_seeds": {
+          "barostat": 851864,
+          "integrator": 826230
+        },
+        "windows": [
+          {
+            "block_means": {
+              "density_g_ml": [
+                1.0341026978414947,
+                1.0361122411716892,
+                1.0346716889554282,
+                1.0344945299831823
+              ],
+              "potential_energy_kj_mol_per_atom": [
+                -13.350657493847873,
+                -13.361255568739377,
+                -13.358139052298025,
+                -13.364449757418281
+              ],
+              "temperature_kelvin": [
+                298.53396357595966,
+                298.6332954974714,
+                298.5238742134235,
+                298.01596089235323
+              ]
+            },
+            "checks": {
+              "density_block_relative_range": {
+                "maximum": 0.02,
+                "observed": 0.0019418780281532542,
+                "passed": true
+              },
+              "energy_block_range_kj_mol_per_atom": {
+                "maximum": 0.1,
+                "observed": 0.013792263570408636,
+                "passed": true
+              },
+              "temperature_block_relative_range": {
+                "maximum": 0.03,
+                "observed": 0.0020705504112633706,
+                "passed": true
+              },
+              "temperature_relative_error": {
+                "maximum": 0.05,
+                "observed": 0.0009283030179506405,
+                "passed": true
+              }
+            },
+            "end_step": 175000,
+            "passed": true,
+            "sample_count": 200,
+            "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+            "start_step": 75000
+          }
+        ]
+      },
+      "run_id": "run-0754591e59c6cc43",
+      "source_artifacts_verified": 15,
+      "source_result_sha256": "fefa638270bf0fa4e4ca0f7b41216fdf39265fc13fbdc235fc0d199a715f6d10",
+      "timing": {
+        "case": "WT-E164H-OE2-unbiased",
+        "elapsed_seconds": 354.4246770828031,
+        "run_id": "run-0754591e59c6cc43",
+        "status": "completed"
+      },
+      "water_occupancy_range": [
+        2,
+        4
+      ]
+    }
+  ],
+  "five_case_dynamics_artifacts_verified": 91,
+  "five_case_saved_production_frames": 100,
+  "force_controls": {
+    "cases": [
+      {
+        "biased": false,
+        "checks": {
+          "maximum_energy_difference_kj_mol_per_atom": {
+            "maximum": 0.001,
+            "observed": 1.559844697229396e-05,
+            "passed": true
+          },
+          "maximum_relative_force_rms_difference": {
+            "maximum": 0.001,
+            "observed": 3.0131921804288845e-05,
+            "passed": true
+          },
+          "maximum_repeated_or_component_force_difference_kj_mol_nm": {
+            "maximum": 0.05,
+            "observed": 0.0,
+            "passed": true
+          }
+        },
+        "cpu_record_sha256": "ae02afc3d324a699d3c888b891b5a37e7dc399e50cb66d285a8f29d989c2003d",
+        "force_arrays_sha256": {
+          "CPU": "ab9128ea5c101700637d208735c1733cee123ff957bff362f6c9c82fb99d26f2",
+          "OpenCL": "41654193e5e6326ef15f632a8ee6920dfbaa380c7207c977b49058d615d9ac57"
+        },
+        "input_sha256": {
+          "state": "55cd2038a08278086f5fecb0a715ed88ff22c8073a10204dd8a711544c1dae68",
+          "system": "6d1b68d0d3a2c5d16f67b78464df41292008e559ea2140c4f515e5670f16f035",
+          "topology": "67ac35e6f55ae368f6e7b9d48a99b708dfeecba0b344dea20cb84f3c0400222e"
+        },
+        "model": "WT",
+        "opencl_record_sha256": "7a1b53dacb92ec697e7c50acc8bc98e4437e71b0cd17d35bace026f4465a7624",
+        "passed": true
+      },
+      {
+        "biased": true,
+        "checks": {
+          "maximum_bias_energy_difference_kj_mol": {
+            "maximum": 0.0001,
+            "observed": 2.051550008985714e-06,
+            "passed": true
+          },
+          "maximum_bias_relative_force_rms_difference": {
+            "maximum": 0.001,
+            "observed": 3.1937609981602684e-06,
+            "passed": true
+          },
+          "maximum_energy_difference_kj_mol_per_atom": {
+            "maximum": 0.001,
+            "observed": 1.4787201566586555e-05,
+            "passed": true
+          },
+          "maximum_relative_force_rms_difference": {
+            "maximum": 0.001,
+            "observed": 3.0132009842905945e-05,
+            "passed": true
+          },
+          "maximum_repeated_or_component_force_difference_kj_mol_nm": {
+            "maximum": 0.05,
+            "observed": 3.814697265625e-06,
+            "passed": true
+          }
+        },
+        "cpu_record_sha256": "27a04954fbd04a9ee2e6543fbd65168668bb365184ba7fc8cdd1c959c5ec2695",
+        "force_arrays_sha256": {
+          "CPU": "d8858e68c13fb15ad49880d571406ab1b9330c18d84e280de0d6b0832474a24e",
+          "OpenCL": "3d370a0fc1acd4ba44d35ca68adc18f18504aada26c1b05d533b9c4affeea5c6"
+        },
+        "input_sha256": {
+          "state": "55cd2038a08278086f5fecb0a715ed88ff22c8073a10204dd8a711544c1dae68",
+          "system": "6d1b68d0d3a2c5d16f67b78464df41292008e559ea2140c4f515e5670f16f035",
+          "topology": "67ac35e6f55ae368f6e7b9d48a99b708dfeecba0b344dea20cb84f3c0400222e"
+        },
+        "model": "WT",
+        "opencl_record_sha256": "1dacfea456c8d5c972ff4b1d8a4be407dfb2f2ac908c9c1cc5b9813992492f7e",
+        "passed": true
+      },
+      {
+        "biased": false,
+        "checks": {
+          "maximum_energy_difference_kj_mol_per_atom": {
+            "maximum": 0.001,
+            "observed": 1.797274599666435e-05,
+            "passed": true
+          },
+          "maximum_relative_force_rms_difference": {
+            "maximum": 0.001,
+            "observed": 2.968648439371558e-05,
+            "passed": true
+          },
+          "maximum_repeated_or_component_force_difference_kj_mol_nm": {
+            "maximum": 0.05,
+            "observed": 0.0,
+            "passed": true
+          }
+        },
+        "cpu_record_sha256": "8dac44e9cb083aae360b5a6d8e8f68d5357d8701e9aa974c53272e1f6f2b1e27",
+        "force_arrays_sha256": {
+          "CPU": "f6afe8f5d52e8ebcd9bc4a1c8016c72dd93b131dff70b8663ecc8d893f2f69e1",
+          "OpenCL": "532795ae603e76092bf86defab9c61f2e1d4c7719bb24ee7a9bc42c582d6a143"
+        },
+        "input_sha256": {
+          "state": "a368c5ae019b2186c62a1ef3ebd2784255a0e4c1083c6bc206fbe7f62a8d4280",
+          "system": "b0bd9e1853298625a82f3dff4e6cb1424dbc965173d2fc4e80415e20dc2eeeb9",
+          "topology": "10bfa5f16803232efdbba6193d27749a947bedb152b413b88f4e21803583431a"
+        },
+        "model": "N220Y",
+        "opencl_record_sha256": "1d356cb2defc6f7abd23ed37d6ea7aa22e48be1ed2a51db64723c1070e744ed9",
+        "passed": true
+      },
+      {
+        "biased": true,
+        "checks": {
+          "maximum_bias_energy_difference_kj_mol": {
+            "maximum": 0.0001,
+            "observed": 6.563777255053083e-07,
+            "passed": true
+          },
+          "maximum_bias_relative_force_rms_difference": {
+            "maximum": 0.001,
+            "observed": 2.8885500884651074e-06,
+            "passed": true
+          },
+          "maximum_energy_difference_kj_mol_per_atom": {
+            "maximum": 0.001,
+            "observed": 1.8107952807042982e-05,
+            "passed": true
+          },
+          "maximum_relative_force_rms_difference": {
+            "maximum": 0.001,
+            "observed": 2.9686220697008605e-05,
+            "passed": true
+          },
+          "maximum_repeated_or_component_force_difference_kj_mol_nm": {
+            "maximum": 0.05,
+            "observed": 1.1682510375976562e-05,
+            "passed": true
+          }
+        },
+        "cpu_record_sha256": "eef5e3e7cf14f64704b29fe1142b2f96f7cd8c9da8c5a2578d449bc5d710e1cc",
+        "force_arrays_sha256": {
+          "CPU": "3552ccd6efb30ba5e089500645cf38948b53fa88bee610d3c441cfc84a29fa5e",
+          "OpenCL": "b64a1a153e191f0b9c031a0a11861a53d564a50277c5efd6aeb349f05b54fb63"
+        },
+        "input_sha256": {
+          "state": "a368c5ae019b2186c62a1ef3ebd2784255a0e4c1083c6bc206fbe7f62a8d4280",
+          "system": "b0bd9e1853298625a82f3dff4e6cb1424dbc965173d2fc4e80415e20dc2eeeb9",
+          "topology": "10bfa5f16803232efdbba6193d27749a947bedb152b413b88f4e21803583431a"
+        },
+        "model": "N220Y",
+        "opencl_record_sha256": "750f4d880f7df64ad765830f58770117757d4bd00ce5426f01aeb5bc10724193",
+        "passed": true
+      },
+      {
+        "biased": false,
+        "checks": {
+          "maximum_energy_difference_kj_mol_per_atom": {
+            "maximum": 0.001,
+            "observed": 1.5894296776311104e-05,
+            "passed": true
+          },
+          "maximum_relative_force_rms_difference": {
+            "maximum": 0.001,
+            "observed": 3.038144912873381e-05,
+            "passed": true
+          },
+          "maximum_repeated_or_component_force_difference_kj_mol_nm": {
+            "maximum": 0.05,
+            "observed": 0.0,
+            "passed": true
+          }
+        },
+        "cpu_record_sha256": "5195f38baf7b25f2af7f6a77534bfdeef620412610479273ac49b4e7ee556cef",
+        "force_arrays_sha256": {
+          "CPU": "56813c2f346bc362abadeb75344a694980971e00953edafaa09953510f6fca23",
+          "OpenCL": "c8f4ed36983f833b89c6caee9cc8d6be65592e1743d672cded4f0c11bfb574c6"
+        },
+        "input_sha256": {
+          "state": "9c19a57fe122bcf07a5508d769c96be4bfb7d28875709371f4f239be40043e04",
+          "system": "8220f26caffd0dae95c73f35c93ee1a52f8c433b027859aa97dd353bc4ebe48c",
+          "topology": "5700c2c7877290956aa84a06c00e4cdc5e23c38e8ad8ef365ab6c1fa3c64fb81"
+        },
+        "model": "N404A",
+        "opencl_record_sha256": "844a09f94fda32e4bc91fb719f9d19c36c7348edd351ff591495056439f7166c",
+        "passed": true
+      },
+      {
+        "biased": true,
+        "checks": {
+          "maximum_bias_energy_difference_kj_mol": {
+            "maximum": 0.0001,
+            "observed": 2.548901560039951e-06,
+            "passed": true
+          },
+          "maximum_bias_relative_force_rms_difference": {
+            "maximum": 0.001,
+            "observed": 4.560375178919279e-06,
+            "passed": true
+          },
+          "maximum_energy_difference_kj_mol_per_atom": {
+            "maximum": 0.001,
+            "observed": 1.6569945903096752e-05,
+            "passed": true
+          },
+          "maximum_relative_force_rms_difference": {
+            "maximum": 0.001,
+            "observed": 3.038138097111656e-05,
+            "passed": true
+          },
+          "maximum_repeated_or_component_force_difference_kj_mol_nm": {
+            "maximum": 0.05,
+            "observed": 4.887580871582031e-06,
+            "passed": true
+          }
+        },
+        "cpu_record_sha256": "49a9fa455899b4d68959e0eca7bb0341a702ca00140693d9b68925f1643b218f",
+        "force_arrays_sha256": {
+          "CPU": "22f5354e264785b1c1dc01d4bf12c5f7cad7a9f4dbfb1557a564797c5ed4f8f5",
+          "OpenCL": "804fbfe76963ae40414bb3340d302f5ab7e1232900bea826ffe3ab0148e8dbb1"
+        },
+        "input_sha256": {
+          "state": "9c19a57fe122bcf07a5508d769c96be4bfb7d28875709371f4f239be40043e04",
+          "system": "8220f26caffd0dae95c73f35c93ee1a52f8c433b027859aa97dd353bc4ebe48c",
+          "topology": "5700c2c7877290956aa84a06c00e4cdc5e23c38e8ad8ef365ab6c1fa3c64fb81"
+        },
+        "model": "N404A",
+        "opencl_record_sha256": "29936f6b69b932a1145a73cb65efddf206f002389f5c2653ee69af782fcb0d99",
+        "passed": true
+      },
+      {
+        "biased": false,
+        "checks": {
+          "maximum_energy_difference_kj_mol_per_atom": {
+            "maximum": 0.001,
+            "observed": 1.9746114091984467e-05,
+            "passed": true
+          },
+          "maximum_relative_force_rms_difference": {
+            "maximum": 0.001,
+            "observed": 3.0007359794316982e-05,
+            "passed": true
+          },
+          "maximum_repeated_or_component_force_difference_kj_mol_nm": {
+            "maximum": 0.05,
+            "observed": 0.0,
+            "passed": true
+          }
+        },
+        "cpu_record_sha256": "2c5f64da873dc1210b9b8f2e90f428069c1c84d7f11a7187c9179e48b194c893",
+        "force_arrays_sha256": {
+          "CPU": "a5318374221eb642e91fc9d977fc1fb1a8a3cd483f735cd6a8d32313331d5c3f",
+          "OpenCL": "56fa5b3559773524663a4ec9554ed817a0ee04e45acd8996249a4225e2232f41"
+        },
+        "input_sha256": {
+          "state": "85de75f983056798b98fda93a6e16087bcff2ff565a5778f25d89db52a52aca5",
+          "system": "bbd960c70d1f764e0633dfa17c9db1ac5da05210d81f0e2fb56c5a4995e9700f",
+          "topology": "1fa620ee0f1c377ffdde07b08607055d499d7c11d9c95825140e8889cfdef68c"
+        },
+        "model": "WT-E164H-OE2",
+        "opencl_record_sha256": "40c0898e9cb58dd38f322e8010dd283347ab966b990e99840e137a080e6a877f",
+        "passed": true
+      },
+      {
+        "biased": true,
+        "checks": {
+          "maximum_bias_energy_difference_kj_mol": {
+            "maximum": 0.0001,
+            "observed": 7.339008782025758e-06,
+            "passed": true
+          },
+          "maximum_bias_relative_force_rms_difference": {
+            "maximum": 0.001,
+            "observed": 2.4526413053554928e-06,
+            "passed": true
+          },
+          "maximum_energy_difference_kj_mol_per_atom": {
+            "maximum": 0.001,
+            "observed": 2.001623171876646e-05,
+            "passed": true
+          },
+          "maximum_relative_force_rms_difference": {
+            "maximum": 0.001,
+            "observed": 3.00074056207094e-05,
+            "passed": true
+          },
+          "maximum_repeated_or_component_force_difference_kj_mol_nm": {
+            "maximum": 0.05,
+            "observed": 2.6226043701171875e-06,
+            "passed": true
+          }
+        },
+        "cpu_record_sha256": "40b3db0ee690a3313232b4c032db9173a3df00425fd7c9b6c78a81e986465a5d",
+        "force_arrays_sha256": {
+          "CPU": "d24c5ccafbe1c8255dceb8aec0894bcfc479cfa26faa2b6d01411c4c50901da1",
+          "OpenCL": "74e364888ccd1b00b0fba0f7df3e09460ff3849ca29f5c9d4c308cb0d396db6b"
+        },
+        "input_sha256": {
+          "state": "85de75f983056798b98fda93a6e16087bcff2ff565a5778f25d89db52a52aca5",
+          "system": "bbd960c70d1f764e0633dfa17c9db1ac5da05210d81f0e2fb56c5a4995e9700f",
+          "topology": "1fa620ee0f1c377ffdde07b08607055d499d7c11d9c95825140e8889cfdef68c"
+        },
+        "model": "WT-E164H-OE2",
+        "opencl_record_sha256": "859971280d989324e0979140297ad7570ca5cb55bb1f1ab510d343e3deb66067",
+        "passed": true
+      }
+    ],
+    "elapsed_seconds": 63.03863024991006,
+    "protocol": {
+      "biased_options": [
+        false,
+        true
+      ],
+      "maximum_bias_energy_difference_kj_mol": 0.0001,
+      "maximum_bias_relative_force_rms_difference": 0.001,
+      "maximum_energy_difference_kj_mol_per_atom": 0.001,
+      "maximum_relative_force_rms_difference": 0.001,
+      "maximum_repeated_or_component_force_difference_kj_mol_nm": 0.05,
+      "models": [
+        "WT",
+        "N220Y",
+        "N404A",
+        "WT-E164H-OE2"
+      ],
+      "openmm_full_version": "8.6.0.dev-c6173db",
+      "platforms": [
+        "CPU",
+        "OpenCL"
+      ],
+      "preserved_fixture_failure": "Initial analytic sin/cos endpoint rounding violated exact native periodic spline closure; endpoint rows/columns are now explicitly identical. Earlier ordinary force comparison and native failure remain in apple-force-first-attempt.",
+      "scope": "Fixed coordinates, exact prepared System/State, physical and nonzero periodic torsion-bias forces; precision and force-summation controls precede short dynamics. No sampling or force-field accuracy conclusion.",
+      "script_sha256": "ab75af92028b715aab81616d8fd6e1059ad7a844038fab7a1d07df37ccf0109e"
+    },
+    "status": "passed"
+  },
+  "preserved_cpu_stop": {
+    "artifact_digests": {
+      "configuration": "sha256:205a5a223cce39d3022132496e5195b6e89bab431aba81b729f9fdbd9bbb9066",
+      "execution-log": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "partial-equilibration-readiness.json": "sha256:4f4247a1eae45ffa3d7ff8f3eba1e2a7a5fee447c1ecbed296a18e03bb6d4128",
+      "partial-equilibration.csv": "sha256:1561d61404f8ab710b22788c30e8c4fcd39b0be55952c19e2fbe873a9af03929",
+      "source-state_xml": "sha256:55cd2038a08278086f5fecb0a715ed88ff22c8073a10204dd8a711544c1dae68",
+      "source-system_xml": "sha256:6d1b68d0d3a2c5d16f67b78464df41292008e559ea2140c4f515e5670f16f035",
+      "source-topology_pdb": "sha256:67ac35e6f55ae368f6e7b9d48a99b708dfeecba0b344dea20cb84f3c0400222e"
+    },
+    "artifact_hashes_verified": 7,
+    "last_saved_step": 9500,
+    "last_saved_time_ps": 19.000000000000348,
+    "last_temperature_kelvin": 298.453680106345,
+    "production_frames": 0,
+    "readiness_status": "running",
+    "reason": "Early CPU cost exceeded the bounded allocation; seven canonical source/partial artifacts retained. Native initial-NVT coordinates were not checkpointed. Fresh GPU control is required.",
+    "run_id": "run-7b9a48978b8fa543",
+    "status": "operator-stopped-before-production",
+    "timing": {
+      "case": "WT-unbiased",
+      "elapsed_seconds": 757.9726882081013,
+      "run_id": "run-7b9a48978b8fa543",
+      "status": "failed"
+    }
+  },
+  "protonation_preparation": {
+    "artifact_digests": {
+      "configuration": "sha256:51abadf23de233905ff00f0548cab74f54d1cf23d95bbf8d229af9d95f57c2a0",
+      "execution-log": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "preparation": "sha256:a5e84d644af932440b2d6cb1341f6acb697869f67a899e5791ed4ebf60201d5d",
+      "protein": "sha256:1d6f9201778583d2d0b53d950af6cea090f5d99be53187c4b52a47ad13a7a121",
+      "source-structure": "sha256:01c878a91c2d68d70f19a07933958ee841bbf33349bd9f541c52dacb61faf860",
+      "state": "sha256:85de75f983056798b98fda93a6e16087bcff2ff565a5778f25d89db52a52aca5",
+      "structure": "sha256:810f03b4d02168c8d92d5aa0f7367f84bb7283a8b7b353c3d77592c66d855255",
+      "system": "sha256:bbd960c70d1f764e0633dfa17c9db1ac5da05210d81f0e2fb56c5a4995e9700f",
+      "topology": "sha256:1fa620ee0f1c377ffdde07b08607055d499d7c11d9c95825140e8889cfdef68c"
+    },
+    "artifact_hashes_verified": 9,
+    "atom_count": 57818,
+    "case": "WT-E164H-OE2",
+    "extra_proton": "GLU164 HE2 constrained to OE2 in native System",
+    "he2_oe2_distance_nm": 0.09600000001074362,
+    "microstate_differences": [
+      {
+        "alternative": "GLH",
+        "baseline": "GLU",
+        "residue_number": 164
+      }
+    ],
+    "minimum_solute_image_distance_nm": 3.2701478438066953,
+    "protein_atom_count": 7036,
+    "protein_charge_e": -25.999999999999957,
+    "protein_sequence_identical_to_WT": true,
+    "residue_count": 445,
+    "residue_counts": {
+      "ALA": 26,
+      "ARG": 19,
+      "ASN": 18,
+      "ASP": 23,
+      "CL": 46,
+      "CYS": 6,
+      "GLN": 17,
+      "GLU": 40,
+      "GLY": 43,
+      "HIS": 20,
+      "HOH": 16888,
+      "ILE": 35,
+      "LEU": 33,
+      "LYS": 17,
+      "MET": 14,
+      "NA": 72,
+      "PHE": 26,
+      "PRO": 18,
+      "SER": 17,
+      "THR": 25,
+      "TRP": 16,
+      "TYR": 17,
+      "VAL": 15
+    },
+    "run_id": "run-e828ac31cffe500f",
+    "scope": "Static explicitly selected protonation sensitivity model. The pH 7.5 preparation label does not establish site pKa, equilibrium protonation or a catalytic state. Same WT histidine tautomers; source/runtime and every artifact verified.",
+    "source_runtime": {
+      "commit": "005bb50",
+      "source_package_file_count": 229,
+      "wheel_sha256": "a78ef43ca884597de53901f6c020d6ec36fd54454e06146554d5e8486a697f03"
+    },
+    "timing": {
+      "case": "WT-E164H-OE2",
+      "elapsed_seconds": 363.0513139171526,
+      "run_id": "run-e828ac31cffe500f",
+      "status": "completed"
+    },
+    "total_charge_e": 4.618527782440651e-14
+  },
+  "public_extractor_controls": [
+    {
+      "artifact_hashes_verified": 8,
+      "case": "WT-bias",
+      "inspection_run_id": "run-704e7b2d6d5a8b60",
+      "previous_measurements_bitwise_equal": true,
+      "readiness_status": "passed",
+      "record": {
+        "analysis_source_sha256": {
+          "benchmark_pocket.py": "84035cc2ba767d2715f724486ba7b4dca11cb8d2de04a7faaa57b78164aa4274",
+          "pocket_observables.py": "84cd7e7ea504f22ff4545da5ee2db7ddb2bcc06127a3d94af08f64f19b00377b"
+        },
+        "coordinate_lineage": {
+          "coordinates": "original prepared State",
+          "state_sha256": "55cd2038a08278086f5fecb0a715ed88ff22c8073a10204dd8a711544c1dae68"
+        },
+        "definition_file_sha256": "729470d5da88056816f663e48384a4a12181d2520e04973287d472a1faa7f62d",
+        "extraction_seconds": 13.496651459019631,
+        "frame_count": 20,
+        "image_separation_passes": true,
+        "minimum_protein_image_distance_nm": 3.0123775476128136,
+        "model": "WT",
+        "native_independent_torsion_max_difference_radians": 1.0013580322265625e-05,
+        "observable_names": [
+          "site220_chi1_gminus",
+          "site220_chi1_gplus",
+          "site220_chi1_trans",
+          "site220_chi1_symmetry_sin",
+          "site220_chi1_symmetry_cos",
+          "site220_chi2_symmetry_sin",
+          "site220_chi2_symmetry_cos",
+          "site164_chi1_symmetry_sin",
+          "site164_chi1_symmetry_cos",
+          "site164_chi2_symmetry_sin",
+          "site164_chi2_symmetry_cos",
+          "site164_chi3_symmetry_sin",
+          "site164_chi3_symmetry_cos",
+          "site353_chi1_symmetry_sin",
+          "site353_chi1_symmetry_cos",
+          "site353_chi2_symmetry_sin",
+          "site353_chi2_symmetry_cos",
+          "site353_chi3_symmetry_sin",
+          "site353_chi3_symmetry_cos",
+          "catalytic_oxygen_pair_0_nm",
+          "catalytic_oxygen_pair_1_nm",
+          "catalytic_oxygen_pair_2_nm",
+          "catalytic_oxygen_pair_3_nm",
+          "catalytic_oxygen_min_nm",
+          "site220_polar_E164_min_nm",
+          "catalytic_water_occupancy"
+        ],
+        "primary_observable_count": 7,
+        "run_id": "run-e5c52e3d6ffd941d",
+        "schema_version": "0.1",
+        "scope": "Source identity, chemical assumptions, clocks, all saved images and descriptive pocket series. Sampling accuracy, equilibrium, mutation effects, activity and stability require separate evidence.",
+        "series_sha256": "bc83615fd5fefbd33f1a980e8112fb92717e689cb06f19aab543fbecb80c6ae9",
+        "source_artifacts_verified": 23,
+        "source_result_sha256": "25cd7f247ce6085bb56edb41ee678182e1be1f2ceea270d28d8cf2641f3ce52b"
+      },
+      "record_sha256": "4db7e989ab2a481e9d818cfe92e063a7cfdeac4c947246903054a1b7dfd6d369"
+    },
+    {
+      "artifact_hashes_verified": 8,
+      "case": "WT-E164H-OE2-unbiased",
+      "inspection_run_id": "run-17eaf7061a493876",
+      "previous_measurements_bitwise_equal": true,
+      "readiness_status": "passed",
+      "record": {
+        "analysis_source_sha256": {
+          "benchmark_pocket.py": "84035cc2ba767d2715f724486ba7b4dca11cb8d2de04a7faaa57b78164aa4274",
+          "pocket_observables.py": "84cd7e7ea504f22ff4545da5ee2db7ddb2bcc06127a3d94af08f64f19b00377b"
+        },
+        "coordinate_lineage": {
+          "coordinates": "original prepared State",
+          "state_sha256": "85de75f983056798b98fda93a6e16087bcff2ff565a5778f25d89db52a52aca5"
+        },
+        "definition_file_sha256": "729470d5da88056816f663e48384a4a12181d2520e04973287d472a1faa7f62d",
+        "extraction_seconds": 16.380389750003815,
+        "frame_count": 20,
+        "image_separation_passes": true,
+        "minimum_protein_image_distance_nm": 2.7057509787393537,
+        "model": "WT-E164H-OE2",
+        "native_independent_torsion_max_difference_radians": null,
+        "observable_names": [
+          "site220_chi1_gminus",
+          "site220_chi1_gplus",
+          "site220_chi1_trans",
+          "site220_chi1_symmetry_sin",
+          "site220_chi1_symmetry_cos",
+          "site220_chi2_symmetry_sin",
+          "site220_chi2_symmetry_cos",
+          "site164_chi1_symmetry_sin",
+          "site164_chi1_symmetry_cos",
+          "site164_chi2_symmetry_sin",
+          "site164_chi2_symmetry_cos",
+          "site164_chi3_symmetry_sin",
+          "site164_chi3_symmetry_cos",
+          "site353_chi1_symmetry_sin",
+          "site353_chi1_symmetry_cos",
+          "site353_chi2_symmetry_sin",
+          "site353_chi2_symmetry_cos",
+          "site353_chi3_symmetry_sin",
+          "site353_chi3_symmetry_cos",
+          "catalytic_oxygen_pair_0_nm",
+          "catalytic_oxygen_pair_1_nm",
+          "catalytic_oxygen_pair_2_nm",
+          "catalytic_oxygen_pair_3_nm",
+          "catalytic_oxygen_min_nm",
+          "site220_polar_E164_min_nm",
+          "catalytic_water_occupancy"
+        ],
+        "primary_observable_count": 7,
+        "run_id": "run-0754591e59c6cc43",
+        "schema_version": "0.1",
+        "scope": "Source identity, chemical assumptions, clocks, all saved images and descriptive pocket series. Sampling accuracy, equilibrium, mutation effects, activity and stability require separate evidence.",
+        "series_sha256": "3679c3c9b8985dd4abb6f285d28d85e3fd909cc3a699ae657f6786bce1e9d94d",
+        "source_artifacts_verified": 15,
+        "source_result_sha256": "fefa638270bf0fa4e4ca0f7b41216fdf39265fc13fbdc235fc0d199a715f6d10"
+      },
+      "record_sha256": "01b333185862e962d2e7df473b2b7fb49f1ad5d6cba1657f80451c21f6d37f08"
+    },
+    {
+      "artifact_hashes_verified": 8,
+      "case": "WT-gminus-lineage",
+      "inspection_run_id": "run-3d2a792267c0dd96",
+      "previous_measurements_bitwise_equal": true,
+      "readiness_status": "passed",
+      "record": {
+        "analysis_source_sha256": {
+          "benchmark_pocket.py": "84035cc2ba767d2715f724486ba7b4dca11cb8d2de04a7faaa57b78164aa4274",
+          "pocket_observables.py": "84cd7e7ea504f22ff4545da5ee2db7ddb2bcc06127a3d94af08f64f19b00377b"
+        },
+        "coordinate_lineage": {
+          "coordinates": "separately transformed State",
+          "lineage": {
+            "measured_input_chi1_degrees": -93.37849410572244,
+            "measured_input_rotamer": 0,
+            "minimization_audit_sha256": "518fc5d1aa991e039384d079779758b9d83ee47b5632c468d8c4812ff1196841",
+            "minimization_result_sha256": "c1461a90b4378e9123ff8d7ad391a8a390d6a2e4032aaebad875d97eeddd1547",
+            "minimization_run_id": "run-561316c8253e8768",
+            "post_minimized_state_sha256": "9533f0542b95c1e309e579fac13c45f7253712ade626dd83c722ad26ed8b055c",
+            "rotation_manifest_sha256": "d081c664b86fcb7518247d1f800e6d107c9a8251036c8556d8b2f5747cd86caa",
+            "source_preparation": "run-b8417ffd52de3fd6",
+            "state_authority": "Native State positions supply the transformed coordinates. Original System/topology and preparation manifest retain their original identities. Fresh dynamics resets pressure/temperature, clock and velocities according to the requested seed.",
+            "state_transform": "WT residue 220 CA-CB graph-cut rigid rotation, followed by canonical bounded minimization"
+          },
+          "lineage_sha256": "7a1da3bbca3a6be830cd5626d78cfa5c61af8cae6d7da5a7864c879e67812fb1"
+        },
+        "definition_file_sha256": "729470d5da88056816f663e48384a4a12181d2520e04973287d472a1faa7f62d",
+        "extraction_seconds": 15.603261915966868,
+        "frame_count": 20,
+        "image_separation_passes": true,
+        "minimum_protein_image_distance_nm": 2.9331352524539183,
+        "model": "WT",
+        "native_independent_torsion_max_difference_radians": null,
+        "observable_names": [
+          "site220_chi1_gminus",
+          "site220_chi1_gplus",
+          "site220_chi1_trans",
+          "site220_chi1_symmetry_sin",
+          "site220_chi1_symmetry_cos",
+          "site220_chi2_symmetry_sin",
+          "site220_chi2_symmetry_cos",
+          "site164_chi1_symmetry_sin",
+          "site164_chi1_symmetry_cos",
+          "site164_chi2_symmetry_sin",
+          "site164_chi2_symmetry_cos",
+          "site164_chi3_symmetry_sin",
+          "site164_chi3_symmetry_cos",
+          "site353_chi1_symmetry_sin",
+          "site353_chi1_symmetry_cos",
+          "site353_chi2_symmetry_sin",
+          "site353_chi2_symmetry_cos",
+          "site353_chi3_symmetry_sin",
+          "site353_chi3_symmetry_cos",
+          "catalytic_oxygen_pair_0_nm",
+          "catalytic_oxygen_pair_1_nm",
+          "catalytic_oxygen_pair_2_nm",
+          "catalytic_oxygen_pair_3_nm",
+          "catalytic_oxygen_min_nm",
+          "site220_polar_E164_min_nm",
+          "catalytic_water_occupancy"
+        ],
+        "primary_observable_count": 7,
+        "run_id": "run-1d0100c5bbebabcc",
+        "schema_version": "0.1",
+        "scope": "Source identity, chemical assumptions, clocks, all saved images and descriptive pocket series. Sampling accuracy, equilibrium, mutation effects, activity and stability require separate evidence.",
+        "series_sha256": "9b4c7c92434a28f35a0c537b92cd2e6fc5fbd82853e0081062ab08f1590587a7",
+        "source_artifacts_verified": 15,
+        "source_result_sha256": "99a69f14cf824a5e3ca03a3819d08e14b8b25a0f7f9b4be81506ca6386477451"
+      },
+      "record_sha256": "cab963f54f36ca7c165ac3ed70e240cce7de4c33b8bb3c5fa1408c1f295fd805"
+    }
+  ],
+  "recorded_date": "2026-10-04",
+  "regression": {
+    "focused_pocket_tests": 4,
+    "focused_torsion_tests": 9,
+    "log_sha256": "cc43f130d332c6bb2de759afc6fbe1fd2da793490a3bae95e3c5bdba38217978",
+    "navigation_checks": 12,
+    "navigation_log_sha256": "8c5f25623bf84b91c2ea6aed9bfc89c0c8f9abae7f014d322a91b6005605bc7a",
+    "required_commands": 11,
+    "required_results_sha256": "cb59b0823551c8cc90b00dffd7d4cf627685822105eb872309ce04fa6e399a05",
+    "ruff": "passed",
+    "ruff_log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "skipped": 87,
+    "status": "passed",
+    "tests_discovered": 1422
+  },
+  "runtime": {
+    "device": "Apple M2 Max",
+    "matches_lock_names_versions_builds": true,
+    "openmm_full_version": "8.6.0.dev-c6173db",
+    "package_count": 35,
+    "package_lock_sha256": "0e5c33d97d316928ba17fbebc19bfb8ba91cb6fbf3105d283aa89cb0c81053d9",
+    "package_set_sha256": "57f0b6ea1a38bf9ec72981fd10352fefa570d9ebe4fd5ec68dea7182b97757eb",
+    "platform": "OpenCL",
+    "platform_properties": {
+      "DeviceIndex": "0",
+      "DisablePmeStream": "true",
+      "Precision": "single",
+      "UseCpuPme": "false"
+    },
+    "python": "3.11.16",
+    "source_commit": "005bb50",
+    "source_package_file_count": 229,
+    "wheel_sha256": "a78ef43ca884597de53901f6c020d6ec36fd54454e06146554d5e8486a697f03"
+  },
+  "schema_version": "0.1",
+  "scope": "Apo BglB force agreement, staged thermal readiness and descriptive pocket measurement integration. Twenty production frames per case leave equilibrium, mutation effects, natural transition kinetics, catalytic rates, folding stability and sampling acceleration unqualified. Timings include short-run effects and some concurrent local verification.",
+  "shared_analysis_parity": {
+    "completed_controls": [
+      {
+        "case": "WT-unbiased",
+        "finite": true,
+        "frame_count": 20,
+        "raw_measurements_bitwise_equal": true,
+        "scalar_observable_count": 26
+      },
+      {
+        "case": "WT-bias",
+        "finite": true,
+        "frame_count": 20,
+        "raw_measurements_bitwise_equal": true,
+        "scalar_observable_count": 26
+      },
+      {
+        "case": "N220Y-bias",
+        "finite": true,
+        "frame_count": 20,
+        "raw_measurements_bitwise_equal": true,
+        "scalar_observable_count": 26
+      },
+      {
+        "case": "N404A-unbiased",
+        "finite": true,
+        "frame_count": 20,
+        "raw_measurements_bitwise_equal": true,
+        "scalar_observable_count": 26
+      },
+      {
+        "case": "WT-E164H-OE2-unbiased",
+        "finite": true,
+        "frame_count": 20,
+        "raw_measurements_bitwise_equal": true,
+        "scalar_observable_count": 26
+      }
+    ],
+    "scope": "Consolidated public functions exactly preserve retained measurement arrays and all scalar statistics in these controls; trajectory sampling qualification remains separate.",
+    "statistics": {
+      "group_exact": true,
+      "reference_diagnostics_exact": true,
+      "three_weighted_replicas_exact": true
+    }
+  },
+  "source": {
+    "doi": "10.1371/journal.pone.0176255",
+    "input": "Author-supplied 445-residue apo model",
+    "license": "CC-BY-4.0",
+    "sha256": "01c878a91c2d68d70f19a07933958ee841bbf33349bd9f541c52dacb61faf860",
+    "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0176255"
+  },
+  "source_sha256": {
+    "benchmark_pocket.py": "84035cc2ba767d2715f724486ba7b4dca11cb8d2de04a7faaa57b78164aa4274",
+    "bglb-pocket-definitions.json": "729470d5da88056816f663e48384a4a12181d2520e04973287d472a1faa7f62d",
+    "pocket_observables.py": "84cd7e7ea504f22ff4545da5ee2db7ddb2bcc06127a3d94af08f64f19b00377b",
+    "torsion_statistics.py": "8caf96de19e0f129b87a376d2bafcf1d332dc8246cd02bb7447d2e910c116c47"
+  },
+  "status": "bounded numerical and workflow controls passed"
+}

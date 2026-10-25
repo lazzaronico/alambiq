@@ -1,0 +1,18 @@
+# Add the test runner to any image, to run the repository's tests against the engines that
+# image provides:
+#
+#   docker build -f environments/docker/Dockerfile.tests \
+#     --build-arg BASE_IMAGE=alambiq:openmm -t alambiq:openmm-tests .
+#   docker run --rm --gpus all -v "$PWD:/work:ro" alambiq:openmm-tests \
+#     tests/core/test_simulation_run_molecular_dynamics.py
+#
+# The tests import the installed package, so they exercise the image.
+ARG BASE_IMAGE=alambiq:core
+FROM ${BASE_IMAGE}
+USER root
+COPY --from=ghcr.io/astral-sh/uv:0.9.10 /uv /usr/local/bin/uv
+RUN uv pip install --python /opt/alambiq/bin/python pytest
+USER 1000:1000
+ENV PYTEST_ADDOPTS="-p no:cacheprovider"
+ENTRYPOINT ["python", "-m", "pytest"]
+CMD ["--help"]

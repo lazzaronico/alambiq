@@ -1,0 +1,20 @@
+# Build the core image with Python 3.11. The model and its source are a pinned resource
+# provisioned outside the image; this layer holds the inference runtime.
+ARG BASE_IMAGE=alambiq:core
+# The engine is built in a separate stage that starts from the same Python as the core image,
+# so rebuilding the core image reuses the cached engine stage.
+ARG ENGINE_BASE=python:3.11-slim-bookworm
+FROM ${ENGINE_BASE} AS engine
+USER root
+COPY --from=ghcr.io/astral-sh/uv:0.9.10 /uv /usr/local/bin/uv
+COPY environments/thermompnn/environment.yaml /tmp/thermompnn.yaml
+RUN python -c 'import sys; assert sys.version_info[:2] == (3, 11)' \
+    && pip install --no-cache-dir pyyaml \
+    && python -c 'import yaml; from pathlib import Path; data=yaml.safe_load(Path("/tmp/thermompnn.yaml").read_text()); requirements=next(d["pip"] for d in data["dependencies"] if isinstance(d, dict)); Path("/tmp/thermompnn.txt").write_text("\n".join(requirements)+"\n")' \
+    && uv venv --python /usr/local/bin/python /opt/thermompnn \
+    && uv pip install --python /opt/thermompnn/bin/python -r /tmp/thermompnn.txt
+
+FROM ${BASE_IMAGE} AS runtime
+COPY --from=engine /opt/thermompnn /opt/thermompnn
+ENV ALAMBIQ_ENV_THERMOMPNN=/opt/thermompnn/bin/python
+USER 1000:1000

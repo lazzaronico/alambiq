@@ -1,0 +1,68 @@
+id: lanmodulin-comparison
+steps:
+  - id: mex-lanm
+    capability: protein.inspect
+    params:
+      fasta: query.fasta
+      uniprot: C5B164.json
+      structure: 8FNS.cif
+      source_notes:
+        fasta:
+          source_url: https://www.ebi.ac.uk/ena/browser/api/embl/CP001510.1
+          license: INSDC sequence data, no use restriction
+        uniprot:
+          source_url: https://rest.uniprot.org/uniprotkb/C5B164.json
+          license: CC-BY-4.0
+        structure:
+          source_url: https://files.rcsb.org/download/8FNS.cif
+          license: CC0-1.0
+
+  - id: hans-lanm
+    capability: protein.inspect
+    params:
+      fasta: hans.fasta
+      uniprot: A0A4V2JDD3.json
+      structure: 8DQ2.cif
+      source_notes:
+        fasta:
+          source_url: https://rest.uniprot.org/uniprotkb/A0A4V2JDD3.json
+          license: CC-BY-4.0
+        uniprot:
+          source_url: https://rest.uniprot.org/uniprotkb/A0A4V2JDD3.json
+          license: CC-BY-4.0
+        structure:
+          source_url: https://files.rcsb.org/download/8DQ2.cif
+          license: CC0-1.0
+
+  - id: comparison
+    capability: protein.search
+    params:
+      query: query.fasta
+      panel: panel.fasta
+      sensitivity: 7.5
+      max_evalue: 0.001
+      min_identity: 0.2
+      min_coverage: 0.6
+
+  - id: alignment
+    capability: sequence.inspect_msa
+    params:
+      alignment: comparison.a3m
+      format: a3m
+      full_sequences:
+        ACS39628.1:
+          sequence: MAFRLSSAVLLAALVAAPAYAAPTTTTKVDIAAFDPDKDGTIDLKEALAAGSAAFDKLDPDKDGTLDAKELKGRVSEADLKKLDPDNDGTLDKKEYLAAVEAQFKAANPDNDGTIDARELASPAGSALVNLIR
+          start: 1
+        A0A4V2JDD3:
+          sequence: MKLSLKAGAAITAFVFAASPVLAASGADALKALNKDNDDSLEIAEVIHAGATTFTAINPDGDTTLESGETKGRLTEKDWARANKDGDQTLEMDEWLKILRTRFKRADANKDGKLTAAELDSKAGQGVLVMIMK
+          start: 32
+
+  - id: cluster
+    capability: genome.inspect_context
+    params:
+      gff: context.gff3
+      proteins: context-proteins.fasta
+      candidates: lanm-pair.fasta
+      genome_id: CP001510.1
+      protein_id_attribute: protein_id
+      flank_bp: 10000

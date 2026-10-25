@@ -1,0 +1,60 @@
+{
+  "description": "Six canonical human protein sequences retrieved explicitly from UniProt for an illustrative representation panel.",
+  "attribution": "UniProt Consortium, CC-BY-4.0",
+  "records": [
+    {
+      "id": "P69905",
+      "name": "Hemoglobin subunit alpha",
+      "source_url": "https://rest.uniprot.org/uniprotkb/P69905.json",
+      "source_sha256": "7bd75c3a8e28a4a7c61c20a9efda889ca37c113ed2829b34c732d3ac1f98bcc8",
+      "license": "CC-BY-4.0",
+      "retrieved_at": "2026-09-06T13:44:34.236481+00:00",
+      "length": 142
+    },
+    {
+      "id": "P68871",
+      "name": "Hemoglobin subunit beta",
+      "source_url": "https://rest.uniprot.org/uniprotkb/P68871.json",
+      "source_sha256": "937a46d0da699853316d18ae8becb21e949eed48ec8e1c8d2fdbd9bc2798fd12",
+      "license": "CC-BY-4.0",
+      "retrieved_at": "2026-09-06T13:44:34.270887+00:00",
+      "length": 147
+    },
+    {
+      "id": "P69891",
+      "name": "Hemoglobin subunit gamma-1",
+      "source_url": "https://rest.uniprot.org/uniprotkb/P69891.json",
+      "source_sha256": "0d89406549463359ebd62b6bcbdd0d16613b06220c0fa166b9d6e234a1887091",
+      "license": "CC-BY-4.0",
+      "retrieved_at": "2026-09-06T13:44:35.104655+00:00",
+      "length": 147
+    },
+    {
+      "id": "P02144",
+      "name": "Myoglobin",
+      "source_url": "https://rest.uniprot.org/uniprotkb/P02144.json",
+      "source_sha256": "c2e1600f29bf15e39d504ae321a80755bde4c05c821891d86e07793b129e7d3c",
+      "license": "CC-BY-4.0",
+      "retrieved_at": "2026-09-06T13:44:36.109823+00:00",
+      "length": 154
+    },
+    {
+      "id": "P99999",
+      "name": "Cytochrome c",
+      "source_url": "https://rest.uniprot.org/uniprotkb/P99999.json",
+      "source_sha256": "a5f7c0064714723134e0649d0772f379870ac0b0786b7d5bd78b5532dc5294ff",
+      "license": "CC-BY-4.0",
+      "retrieved_at": "2026-09-06T13:44:35.066341+00:00",
+      "length": 105
+    },
+    {
+      "id": "P60709",
+      "name": "Actin, cytoplasmic 1",
+      "source_url": "https://rest.uniprot.org/uniprotkb/P60709.json",
+      "source_sha256": "71167090276f16e991885351da5ed89935a4d53fa547f667f404b2750e81e6c1",
+      "license": "CC-BY-4.0",
+      "retrieved_at": "2026-09-06T13:44:36.143318+00:00",
+      "length": 375
+    }
+  ]
+}

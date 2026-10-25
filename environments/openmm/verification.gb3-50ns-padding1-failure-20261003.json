@@ -1,0 +1,1973 @@
+{
+  "schema_version": "0.1",
+  "date": "2026-10-03",
+  "scope": "Completed GB3 three-replica 50 ns run with 1 nm OpenMM padding. Failed periodic-image geometry baseline; retained for diagnosis, excluded as a trusted reference for acceleration comparisons.",
+  "status": "failed-periodic-image-separation",
+  "identities": {
+    "gb3-50ns-result.json": {
+      "sha256": "454e0f4ee9a2f8a08a343af237874092acdf22a483854ca00982daf9b21b4277",
+      "run_id": "run-60a67783f025186a",
+      "plan_id": "plan-b1d92b889f8cd6bd",
+      "providers": {
+        "openmm.protein-preparation": "0.6.0",
+        "bioforge.protein-dossier": "0.6.1",
+        "openmm.prepared-dynamics": "0.6.0",
+        "builtin.scalar-coupling-ensemble": "0.3.0"
+      }
+    },
+    "gb3-50ns-iupac-result.json": {
+      "sha256": "21ca87acf94757d62ccae73205b0ff6594f10ed6da8df9b7200aa1b815b699ff",
+      "run_id": "run-2da75396fc592be7",
+      "plan_id": "plan-21d7034c1f5a72ef",
+      "providers": {
+        "builtin.scalar-coupling-ensemble": "0.4.0"
+      }
+    },
+    "gb3-50ns-structure-result.json": {
+      "sha256": "6d0384d2ab6253dfb7110152eb4f0126ac7e136c393123b28682169eba10f793",
+      "run_id": "run-51836e53000756c8",
+      "plan_id": "plan-bd0491b72e49a074",
+      "providers": {
+        "mdtraj.trajectory-inspection": "0.4.0"
+      }
+    },
+    "periodic-image-audit-long.json": {
+      "sha256": "1a3a02bc4cf784049054d3df2a64954d6391005eb437740f8fb701e9866e36b3"
+    },
+    "long-image-independent-check.json": {
+      "sha256": "fac609eb3012394852f94a40c3218af1f87d2c158a9e79de1587303672e964fe"
+    }
+  },
+  "preparation_parameters": {
+    "box_shape": "dodecahedron",
+    "chain_id": "A",
+    "heavy_atom_completion": "pdbfixer-standard",
+    "ionic_strength_molar": 0.05,
+    "minimization_max_iterations": 5000,
+    "minimization_tolerance_kj_mol_nm": 10.0,
+    "model_index": 0,
+    "padding_nm": 1.0,
+    "ph": 7.0,
+    "platform": "CUDA",
+    "platform_properties": {
+      "Precision": "mixed"
+    },
+    "residue_variants": [],
+    "seed": 17003,
+    "source_component_policy": "selected-chain-only",
+    "structure_format": "mmcif"
+  },
+  "replicas": [
+    {
+      "replica": "t298-r1",
+      "atom_count": 6847,
+      "frame_count": 5000,
+      "production_steps_completed": 25000000,
+      "seed": 37309,
+      "input_sha256": {
+        "state_xml": "e40cd15e801f7ab2dc9ae8e96ff1e1327fd687d46e8bbd9049c69ed8c8b8062b",
+        "system_xml": "b3d9df24f7a4873e8b97d436afcd3b4f9f384fd6a9b9ff9667df93c04f326823",
+        "topology_pdb": "6ee0367fcf21fc57e5ce942d4c8001383f517e348d5426d7faf008364e6a42af"
+      },
+      "output_sha256": {
+        "final-state.xml": "a2d0e10d6be212234858c2e6b17732e4002440dd45a91447239f52c7e53d475e",
+        "state.csv": "c52eaa79316d8c57bc1d60a8482664a2888f20080c4bb40be338d506d8232c80",
+        "system.xml": "a82fb828fa5e86c5a6c3d097f6c6fad7b860189aa1e572dcc45d1c597763f87b",
+        "trajectory.dcd": "6167dd43efd885f7e256bbdf667cec3593a1118ec1aad02da3ec3b5a629000f3"
+      },
+      "performance": {
+        "minimization_seconds": 0.02501059090718627,
+        "npt_equilibration_seconds": 40.7054325430654,
+        "nvt_equilibration_seconds": 5.709489525761455,
+        "production_ns_per_day": 601.3705513567398,
+        "production_seconds": 7183.590866319835,
+        "production_steps_timed": 25000000,
+        "runner_seconds_before_summary_write": 7231.2673705876805,
+        "scope": "Measured propagation including scheduled output and final checkpoint; excludes setup, final XML serialization and hashing. Short runs include warm-up effects; recovered timing covers only newly executed steps",
+        "provider_seconds": 7232.383655710146,
+        "provider_scope": "Runtime probing, input staging, native setup/equilibration/production and output parsing; excludes Prefect orchestration and final artifact publication"
+      },
+      "equilibration_status": "passed",
+      "production_thermodynamics": {
+        "assessment": "Descriptive sampled statistics; equilibration and effective sample size are not established",
+        "density_g_ml": {
+          "first_half_mean": 1.0367981503123338,
+          "mean": 1.036805646658445,
+          "second_half_mean": 1.0368131430045568,
+          "standard_deviation": 0.0056825170657197974
+        },
+        "potential_energy_kj_mol": {
+          "first_half_mean": -89367.68063934743,
+          "mean": -89371.22108752847,
+          "second_half_mean": -89374.76153570952,
+          "standard_deviation": 299.0656438795546
+        },
+        "sample_count": 5000,
+        "temperature_kelvin": {
+          "first_half_mean": 298.245580008105,
+          "mean": 298.2903397476057,
+          "second_half_mean": 298.33509948710633,
+          "standard_deviation": 3.5227121758071513
+        },
+        "volume_nm3": {
+          "first_half_mean": 67.7070844956978,
+          "mean": 67.7065757369518,
+          "second_half_mean": 67.70606697820581,
+          "standard_deviation": 0.37120381793293994
+        }
+      },
+      "mean_ca_rmsd_angstrom": 0.9761519831902206,
+      "mean_ca_radius_gyration_angstrom": 10.415120344227885
+    },
+    {
+      "replica": "t298-r2",
+      "atom_count": 6847,
+      "frame_count": 5000,
+      "production_steps_completed": 25000000,
+      "seed": 37329,
+      "input_sha256": {
+        "state_xml": "e40cd15e801f7ab2dc9ae8e96ff1e1327fd687d46e8bbd9049c69ed8c8b8062b",
+        "system_xml": "b3d9df24f7a4873e8b97d436afcd3b4f9f384fd6a9b9ff9667df93c04f326823",
+        "topology_pdb": "6ee0367fcf21fc57e5ce942d4c8001383f517e348d5426d7faf008364e6a42af"
+      },
+      "output_sha256": {
+        "final-state.xml": "5c58a6308c484c60f58e2a8ff859df3c0613dce20cfaf5ca7ebd388709f548fd",
+        "state.csv": "00db0af3db3bd9c3d5aea7f506a5ecda8a47b307eb781f17289b02916b50d7f6",
+        "system.xml": "c485234bf20680a39ec5dbf91132b860d4daf7c3d886bc065fb5569834a627ad",
+        "trajectory.dcd": "0a81b967061c7bc141fcd4a37c6885651ce5bfd323638ca1bddde20a6d6488d3"
+      },
+      "performance": {
+        "minimization_seconds": 0.028037501964718103,
+        "npt_equilibration_seconds": 41.03170673502609,
+        "nvt_equilibration_seconds": 5.6613507573492825,
+        "production_ns_per_day": 612.4596121252353,
+        "production_seconds": 7053.526329694781,
+        "production_steps_timed": 25000000,
+        "runner_seconds_before_summary_write": 7101.522992604878,
+        "scope": "Measured propagation including scheduled output and final checkpoint; excludes setup, final XML serialization and hashing. Short runs include warm-up effects; recovered timing covers only newly executed steps",
+        "provider_seconds": 7102.583947344217,
+        "provider_scope": "Runtime probing, input staging, native setup/equilibration/production and output parsing; excludes Prefect orchestration and final artifact publication"
+      },
+      "equilibration_status": "passed",
+      "production_thermodynamics": {
+        "assessment": "Descriptive sampled statistics; equilibration and effective sample size are not established",
+        "density_g_ml": {
+          "first_half_mean": 1.0363467562297468,
+          "mean": 1.0365333043900216,
+          "second_half_mean": 1.0367198525502965,
+          "standard_deviation": 0.005734481601926348
+        },
+        "potential_energy_kj_mol": {
+          "first_half_mean": -89365.36159429095,
+          "mean": -89368.53310613763,
+          "second_half_mean": -89371.70461798432,
+          "standard_deviation": 301.391153416043
+        },
+        "sample_count": 5000,
+        "temperature_kelvin": {
+          "first_half_mean": 298.24933854497357,
+          "mean": 298.23014649647257,
+          "second_half_mean": 298.2109544479716,
+          "standard_deviation": 3.512306301565866
+        },
+        "volume_nm3": {
+          "first_half_mean": 67.73667116582006,
+          "mean": 67.72440381597362,
+          "second_half_mean": 67.71213646612718,
+          "standard_deviation": 0.37482137169274116
+        }
+      },
+      "mean_ca_rmsd_angstrom": 1.0955623069029068,
+      "mean_ca_radius_gyration_angstrom": 10.426790000495975
+    },
+    {
+      "replica": "t298-r3",
+      "atom_count": 6847,
+      "frame_count": 5000,
+      "production_steps_completed": 25000000,
+      "seed": 37349,
+      "input_sha256": {
+        "state_xml": "e40cd15e801f7ab2dc9ae8e96ff1e1327fd687d46e8bbd9049c69ed8c8b8062b",
+        "system_xml": "b3d9df24f7a4873e8b97d436afcd3b4f9f384fd6a9b9ff9667df93c04f326823",
+        "topology_pdb": "6ee0367fcf21fc57e5ce942d4c8001383f517e348d5426d7faf008364e6a42af"
+      },
+      "output_sha256": {
+        "final-state.xml": "a6b27ad85b2e278818f6da87e477e1b69f5df969851270b3a414f453ce7d1598",
+        "state.csv": "4fbdd4cf4e1dea48f3f956611130acd5255c89f19b2a2636eb2d687a8155ece3",
+        "system.xml": "626b207031772c341b3b9a4f698984aa6dcf0d2a220d1ea38302694235e1b306",
+        "trajectory.dcd": "e296a6079dd07822e9c2fb867226cfb703bf00dd607c05f262aa807f0d45b1d2"
+      },
+      "performance": {
+        "minimization_seconds": 0.027650210075080395,
+        "npt_equilibration_seconds": 40.87826244207099,
+        "nvt_equilibration_seconds": 5.719246785156429,
+        "production_ns_per_day": 609.6901675281877,
+        "production_seconds": 7085.566128635779,
+        "production_steps_timed": 25000000,
+        "runner_seconds_before_summary_write": 7133.474309340119,
+        "scope": "Measured propagation including scheduled output and final checkpoint; excludes setup, final XML serialization and hashing. Short runs include warm-up effects; recovered timing covers only newly executed steps",
+        "provider_seconds": 7134.647114067804,
+        "provider_scope": "Runtime probing, input staging, native setup/equilibration/production and output parsing; excludes Prefect orchestration and final artifact publication"
+      },
+      "equilibration_status": "passed",
+      "production_thermodynamics": {
+        "assessment": "Descriptive sampled statistics; equilibration and effective sample size are not established",
+        "density_g_ml": {
+          "first_half_mean": 1.0369981163494373,
+          "mean": 1.036880833074767,
+          "second_half_mean": 1.0367635498000969,
+          "standard_deviation": 0.005734377691909529
+        },
+        "potential_energy_kj_mol": {
+          "first_half_mean": -89386.60144770933,
+          "mean": -89395.93063102546,
+          "second_half_mean": -89405.25981434161,
+          "standard_deviation": 301.6710437769246
+        },
+        "sample_count": 5000,
+        "temperature_kelvin": {
+          "first_half_mean": 298.28754806150283,
+          "mean": 298.27665691368367,
+          "second_half_mean": 298.2657657658645,
+          "standard_deviation": 3.6146785530259278
+        },
+        "volume_nm3": {
+          "first_half_mean": 67.69411455460582,
+          "mean": 67.70170349994287,
+          "second_half_mean": 67.70929244527993,
+          "standard_deviation": 0.3745926121100973
+        }
+      },
+      "mean_ca_rmsd_angstrom": 1.2933261025426621,
+      "mean_ca_radius_gyration_angstrom": 10.427218774466642
+    }
+  ],
+  "coupling_analysis": {
+    "atom_naming": "iupac-beta-methylene",
+    "source": {
+      "archive_sha256": "47dbdc55551842d864d72ef66b58f59326637a83ef1c3eecf6f4dd2698536375",
+      "citation": "V\u00f6geli et al. (2015), DOI 10.1016/j.dib.2015.08.020",
+      "license": "CC-BY-4.0",
+      "member": "CollectedRestraints/GB3.cco",
+      "member_sha256": "736c0e922de8caf94eda131e30e7dd16ab71a9408d6d94a0ccb7fedf57abfe6c",
+      "url": "https://ars.els-cdn.com/content/image/1-s2.0-S2352340915001766-mmc1.zip"
+    },
+    "reference_comparison": {
+      "rmse_hz": 0.6451228667527688,
+      "mae_hz": 0.4582541967448742
+    },
+    "sampling_criteria": {
+      "split_rhat_max": 1.05,
+      "combined_ess_min": 400,
+      "required_jointly_passing_observations": 225
+    },
+    "assessment": {
+      "id": "t298",
+      "temperature_kelvin": 298.0,
+      "jointly_passing": 176,
+      "unassessed": 0,
+      "total_observations": 225,
+      "required_jointly_passing": 225,
+      "status": "fail"
+    },
+    "unresolved_observation_ids": [
+      "gb3-cco-017",
+      "gb3-cco-018",
+      "gb3-cco-019",
+      "gb3-cco-021",
+      "gb3-cco-022",
+      "gb3-cco-023",
+      "gb3-cco-024",
+      "gb3-cco-025",
+      "gb3-cco-026",
+      "gb3-cco-027",
+      "gb3-cco-028",
+      "gb3-cco-029",
+      "gb3-cco-030",
+      "gb3-cco-102",
+      "gb3-cco-109",
+      "gb3-cco-110",
+      "gb3-cco-111",
+      "gb3-cco-142",
+      "gb3-cco-143",
+      "gb3-cco-144",
+      "gb3-cco-145",
+      "gb3-cco-146",
+      "gb3-cco-147",
+      "gb3-cco-149",
+      "gb3-cco-152",
+      "gb3-cco-153",
+      "gb3-cco-155",
+      "gb3-cco-161",
+      "gb3-cco-164",
+      "gb3-cco-165",
+      "gb3-cco-167",
+      "gb3-cco-186",
+      "gb3-cco-187",
+      "gb3-cco-188",
+      "gb3-cco-190",
+      "gb3-cco-191",
+      "gb3-cco-193",
+      "gb3-cco-195",
+      "gb3-cco-197",
+      "gb3-cco-204",
+      "gb3-cco-206",
+      "gb3-cco-207",
+      "gb3-cco-208",
+      "gb3-cco-210",
+      "gb3-cco-211",
+      "gb3-cco-212",
+      "gb3-cco-216",
+      "gb3-cco-218",
+      "gb3-cco-221"
+    ],
+    "interpretation": "Residuals are descriptive for the compromised box. Backbone Karplus calibration partly uses GB3; this is not an independent holdout."
+  },
+  "periodic_image_audit": {
+    "scope": "Every 1 ns production snapshot (50 per replica), exact translated-protein atom distances for lattice coefficients -2 through 2. Bonds checked intact in stored coordinates. Full 10 ps frame coverage and electrostatic finite-size convergence are not assessed.",
+    "cutoff_nm": 0.9,
+    "passed": false,
+    "replicas": [
+      {
+        "replica": "t298-r1",
+        "snapshots": [
+          {
+            "production_ns": 1.0,
+            "minimum_image_distance_nm": 0.9530247410899602,
+            "translation": [
+              0,
+              -1,
+              0
+            ]
+          },
+          {
+            "production_ns": 2.0,
+            "minimum_image_distance_nm": 0.9818469154954995,
+            "translation": [
+              0,
+              -1,
+              0
+            ]
+          },
+          {
+            "production_ns": 3.0,
+            "minimum_image_distance_nm": 0.7864118143277298,
+            "translation": [
+              0,
+              -1,
+              0
+            ]
+          },
+          {
+            "production_ns": 4.0,
+            "minimum_image_distance_nm": 1.174990093992417,
+            "translation": [
+              0,
+              -1,
+              0
+            ]
+          },
+          {
+            "production_ns": 5.0,
+            "minimum_image_distance_nm": 1.2048586243691564,
+            "translation": [
+              0,
+              -1,
+              0
+            ]
+          },
+          {
+            "production_ns": 6.0,
+            "minimum_image_distance_nm": 1.2887772732710814,
+            "translation": [
+              -1,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 7.0,
+            "minimum_image_distance_nm": 1.4459512331565358,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 8.0,
+            "minimum_image_distance_nm": 1.3951210442244995,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 9.0,
+            "minimum_image_distance_nm": 1.3392503629996206,
+            "translation": [
+              -1,
+              0,
+              1
+            ]
+          },
+          {
+            "production_ns": 10.0,
+            "minimum_image_distance_nm": 1.3110180169660859,
+            "translation": [
+              -1,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 11.0,
+            "minimum_image_distance_nm": 1.168127756810239,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 12.0,
+            "minimum_image_distance_nm": 1.282116957663427,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 13.0,
+            "minimum_image_distance_nm": 1.1241452130113012,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 14.0,
+            "minimum_image_distance_nm": 0.9154890569652165,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 15.0,
+            "minimum_image_distance_nm": 1.1724382984304555,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 16.0,
+            "minimum_image_distance_nm": 1.3017082756182985,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 17.0,
+            "minimum_image_distance_nm": 1.1445534158433288,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 18.0,
+            "minimum_image_distance_nm": 1.2619704502012712,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 19.0,
+            "minimum_image_distance_nm": 1.4227727641586216,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 20.0,
+            "minimum_image_distance_nm": 1.0911684830465054,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 21.0,
+            "minimum_image_distance_nm": 1.1852259595077088,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 22.0,
+            "minimum_image_distance_nm": 1.381330350291799,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 23.0,
+            "minimum_image_distance_nm": 1.3146148863190692,
+            "translation": [
+              -1,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 24.0,
+            "minimum_image_distance_nm": 1.3077703691533376,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 25.0,
+            "minimum_image_distance_nm": 1.16724699581292,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 26.0,
+            "minimum_image_distance_nm": 1.131586361330734,
+            "translation": [
+              -1,
+              0,
+              1
+            ]
+          },
+          {
+            "production_ns": 27.0,
+            "minimum_image_distance_nm": 1.3416765791562058,
+            "translation": [
+              -1,
+              0,
+              1
+            ]
+          },
+          {
+            "production_ns": 28.0,
+            "minimum_image_distance_nm": 1.1995324419675655,
+            "translation": [
+              -1,
+              0,
+              1
+            ]
+          },
+          {
+            "production_ns": 29.0,
+            "minimum_image_distance_nm": 1.3930134646151668,
+            "translation": [
+              -1,
+              0,
+              1
+            ]
+          },
+          {
+            "production_ns": 30.0,
+            "minimum_image_distance_nm": 1.237853067182192,
+            "translation": [
+              0,
+              -1,
+              0
+            ]
+          },
+          {
+            "production_ns": 31.0,
+            "minimum_image_distance_nm": 1.0467086239022003,
+            "translation": [
+              0,
+              -1,
+              0
+            ]
+          },
+          {
+            "production_ns": 32.0,
+            "minimum_image_distance_nm": 1.3572118167784308,
+            "translation": [
+              0,
+              -1,
+              0
+            ]
+          },
+          {
+            "production_ns": 33.0,
+            "minimum_image_distance_nm": 1.1147405516598967,
+            "translation": [
+              0,
+              -1,
+              0
+            ]
+          },
+          {
+            "production_ns": 34.0,
+            "minimum_image_distance_nm": 1.0882013668901935,
+            "translation": [
+              -1,
+              0,
+              1
+            ]
+          },
+          {
+            "production_ns": 35.0,
+            "minimum_image_distance_nm": 1.2850456753062964,
+            "translation": [
+              -1,
+              0,
+              1
+            ]
+          },
+          {
+            "production_ns": 36.0,
+            "minimum_image_distance_nm": 1.3715537625380723,
+            "translation": [
+              -1,
+              0,
+              1
+            ]
+          },
+          {
+            "production_ns": 37.0,
+            "minimum_image_distance_nm": 1.496789305863607,
+            "translation": [
+              -1,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 38.0,
+            "minimum_image_distance_nm": 1.2056264502547331,
+            "translation": [
+              -1,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 39.0,
+            "minimum_image_distance_nm": 0.9610148091768165,
+            "translation": [
+              -1,
+              0,
+              1
+            ]
+          },
+          {
+            "production_ns": 40.0,
+            "minimum_image_distance_nm": 1.2542441729619296,
+            "translation": [
+              -1,
+              0,
+              1
+            ]
+          },
+          {
+            "production_ns": 41.0,
+            "minimum_image_distance_nm": 1.518358702949522,
+            "translation": [
+              -1,
+              0,
+              1
+            ]
+          },
+          {
+            "production_ns": 42.0,
+            "minimum_image_distance_nm": 1.0488430555137078,
+            "translation": [
+              -1,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 43.0,
+            "minimum_image_distance_nm": 1.6509390055761006,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 44.0,
+            "minimum_image_distance_nm": 1.3769097803572048,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 45.0,
+            "minimum_image_distance_nm": 1.2224014446607274,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 46.0,
+            "minimum_image_distance_nm": 1.314178862844244,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 47.0,
+            "minimum_image_distance_nm": 1.1624062918843256,
+            "translation": [
+              -1,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 48.0,
+            "minimum_image_distance_nm": 1.3985484732135776,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 49.0,
+            "minimum_image_distance_nm": 1.4103735015876862,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 50.0,
+            "minimum_image_distance_nm": 1.2410981220252302,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          }
+        ],
+        "minimum_distance_nm": 0.7864118143277298
+      },
+      {
+        "replica": "t298-r2",
+        "snapshots": [
+          {
+            "production_ns": 1.0,
+            "minimum_image_distance_nm": 1.2713003113896222,
+            "translation": [
+              -1,
+              0,
+              1
+            ]
+          },
+          {
+            "production_ns": 2.0,
+            "minimum_image_distance_nm": 1.1524861860979196,
+            "translation": [
+              -1,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 3.0,
+            "minimum_image_distance_nm": 1.4509172331106839,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 4.0,
+            "minimum_image_distance_nm": 1.3255577551166347,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 5.0,
+            "minimum_image_distance_nm": 0.9764715636436458,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 6.0,
+            "minimum_image_distance_nm": 1.451138211585185,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 7.0,
+            "minimum_image_distance_nm": 1.2542909609553206,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 8.0,
+            "minimum_image_distance_nm": 0.8835848753903716,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 9.0,
+            "minimum_image_distance_nm": 1.3632985217023477,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 10.0,
+            "minimum_image_distance_nm": 1.0608310193448391,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 11.0,
+            "minimum_image_distance_nm": 1.2583154740990665,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 12.0,
+            "minimum_image_distance_nm": 1.1758875090717142,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 13.0,
+            "minimum_image_distance_nm": 1.3759290859813276,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 14.0,
+            "minimum_image_distance_nm": 1.2082684808395396,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 15.0,
+            "minimum_image_distance_nm": 1.4801747454259773,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 16.0,
+            "minimum_image_distance_nm": 0.6605257839760603,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 17.0,
+            "minimum_image_distance_nm": 1.2447665327580408,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 18.0,
+            "minimum_image_distance_nm": 1.1536218519387935,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 19.0,
+            "minimum_image_distance_nm": 1.3321142814786169,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 20.0,
+            "minimum_image_distance_nm": 1.3697897677915596,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 21.0,
+            "minimum_image_distance_nm": 1.2060672436528896,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 22.0,
+            "minimum_image_distance_nm": 1.1081124871458259,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 23.0,
+            "minimum_image_distance_nm": 1.2291592321991418,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 24.0,
+            "minimum_image_distance_nm": 1.023552517668045,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 25.0,
+            "minimum_image_distance_nm": 1.5688326623571767,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 26.0,
+            "minimum_image_distance_nm": 1.5805886737938493,
+            "translation": [
+              -1,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 27.0,
+            "minimum_image_distance_nm": 1.0223799901879698,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 28.0,
+            "minimum_image_distance_nm": 1.1296221246121154,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 29.0,
+            "minimum_image_distance_nm": 1.1490801545217213,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 30.0,
+            "minimum_image_distance_nm": 1.3962174561021592,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 31.0,
+            "minimum_image_distance_nm": 1.3182503595254447,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 32.0,
+            "minimum_image_distance_nm": 1.063341968821628,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 33.0,
+            "minimum_image_distance_nm": 1.2162056077948222,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 34.0,
+            "minimum_image_distance_nm": 1.2342893723691741,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 35.0,
+            "minimum_image_distance_nm": 1.3643165717454304,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 36.0,
+            "minimum_image_distance_nm": 1.095377775765591,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 37.0,
+            "minimum_image_distance_nm": 1.463508467721506,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 38.0,
+            "minimum_image_distance_nm": 1.4751182526557687,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 39.0,
+            "minimum_image_distance_nm": 1.173885177120328,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 40.0,
+            "minimum_image_distance_nm": 1.1637400085238023,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 41.0,
+            "minimum_image_distance_nm": 1.1283525784858104,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 42.0,
+            "minimum_image_distance_nm": 1.2306699180016512,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 43.0,
+            "minimum_image_distance_nm": 1.0305610621222034,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 44.0,
+            "minimum_image_distance_nm": 1.3804176454779684,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 45.0,
+            "minimum_image_distance_nm": 1.4213732405111925,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 46.0,
+            "minimum_image_distance_nm": 1.5870318710012865,
+            "translation": [
+              0,
+              -1,
+              0
+            ]
+          },
+          {
+            "production_ns": 47.0,
+            "minimum_image_distance_nm": 1.132770342142786,
+            "translation": [
+              0,
+              -1,
+              0
+            ]
+          },
+          {
+            "production_ns": 48.0,
+            "minimum_image_distance_nm": 1.395130188825098,
+            "translation": [
+              0,
+              -1,
+              0
+            ]
+          },
+          {
+            "production_ns": 49.0,
+            "minimum_image_distance_nm": 0.9803896843493826,
+            "translation": [
+              0,
+              -1,
+              0
+            ]
+          },
+          {
+            "production_ns": 50.0,
+            "minimum_image_distance_nm": 1.1478444093406375,
+            "translation": [
+              0,
+              -1,
+              0
+            ]
+          }
+        ],
+        "minimum_distance_nm": 0.6605257839760603
+      },
+      {
+        "replica": "t298-r3",
+        "snapshots": [
+          {
+            "production_ns": 1.0,
+            "minimum_image_distance_nm": 1.3407047310889435,
+            "translation": [
+              0,
+              -1,
+              0
+            ]
+          },
+          {
+            "production_ns": 2.0,
+            "minimum_image_distance_nm": 1.1870601189928238,
+            "translation": [
+              0,
+              -1,
+              0
+            ]
+          },
+          {
+            "production_ns": 3.0,
+            "minimum_image_distance_nm": 1.6361216609553146,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 4.0,
+            "minimum_image_distance_nm": 1.2913897987796108,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 5.0,
+            "minimum_image_distance_nm": 1.2905583730591295,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 6.0,
+            "minimum_image_distance_nm": 1.2276114943718057,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 7.0,
+            "minimum_image_distance_nm": 0.8700129140695787,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 8.0,
+            "minimum_image_distance_nm": 1.009884295353091,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 9.0,
+            "minimum_image_distance_nm": 0.9241712196500115,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 10.0,
+            "minimum_image_distance_nm": 1.6017099717552579,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 11.0,
+            "minimum_image_distance_nm": 1.1743178449366172,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 12.0,
+            "minimum_image_distance_nm": 0.993693024256934,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 13.0,
+            "minimum_image_distance_nm": 1.3825425344663786,
+            "translation": [
+              -1,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 14.0,
+            "minimum_image_distance_nm": 1.3531335088397887,
+            "translation": [
+              -1,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 15.0,
+            "minimum_image_distance_nm": 1.22739648394657,
+            "translation": [
+              -1,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 16.0,
+            "minimum_image_distance_nm": 0.9318577469257057,
+            "translation": [
+              -1,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 17.0,
+            "minimum_image_distance_nm": 1.0024724114445704,
+            "translation": [
+              -1,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 18.0,
+            "minimum_image_distance_nm": 1.1309580819503269,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 19.0,
+            "minimum_image_distance_nm": 1.4720702944090962,
+            "translation": [
+              -1,
+              0,
+              1
+            ]
+          },
+          {
+            "production_ns": 20.0,
+            "minimum_image_distance_nm": 1.446077265564217,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 21.0,
+            "minimum_image_distance_nm": 1.4706104927014143,
+            "translation": [
+              -1,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 22.0,
+            "minimum_image_distance_nm": 1.2715946083348295,
+            "translation": [
+              0,
+              0,
+              -1
+            ]
+          },
+          {
+            "production_ns": 23.0,
+            "minimum_image_distance_nm": 1.357197772664134,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 24.0,
+            "minimum_image_distance_nm": 0.3171571733497983,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 25.0,
+            "minimum_image_distance_nm": 0.9735048462317872,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 26.0,
+            "minimum_image_distance_nm": 0.8657825944635088,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 27.0,
+            "minimum_image_distance_nm": 1.530101015887173,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 28.0,
+            "minimum_image_distance_nm": 1.4689442181796653,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 29.0,
+            "minimum_image_distance_nm": 0.9621643303706022,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 30.0,
+            "minimum_image_distance_nm": 0.832295109619597,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 31.0,
+            "minimum_image_distance_nm": 1.2788794384720106,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 32.0,
+            "minimum_image_distance_nm": 1.5780661722320046,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 33.0,
+            "minimum_image_distance_nm": 0.8704339690300297,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 34.0,
+            "minimum_image_distance_nm": 1.5113901774411032,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 35.0,
+            "minimum_image_distance_nm": 1.4600281792508751,
+            "translation": [
+              -1,
+              0,
+              1
+            ]
+          },
+          {
+            "production_ns": 36.0,
+            "minimum_image_distance_nm": 1.412419732087002,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 37.0,
+            "minimum_image_distance_nm": 1.1795863718697428,
+            "translation": [
+              -1,
+              0,
+              1
+            ]
+          },
+          {
+            "production_ns": 38.0,
+            "minimum_image_distance_nm": 1.185923291820131,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 39.0,
+            "minimum_image_distance_nm": 0.9760781226399837,
+            "translation": [
+              -1,
+              0,
+              0
+            ]
+          },
+          {
+            "production_ns": 40.0,
+            "minimum_image_distance_nm": 0.9513993220545435,
+            "translation": [
+              -1,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 41.0,
+            "minimum_image_distance_nm": 1.0818970473415066,
+            "translation": [
+              -1,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 42.0,
+            "minimum_image_distance_nm": 1.4757174413510694,
+            "translation": [
+              -1,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 43.0,
+            "minimum_image_distance_nm": 0.9822053763979176,
+            "translation": [
+              -1,
+              0,
+              1
+            ]
+          },
+          {
+            "production_ns": 44.0,
+            "minimum_image_distance_nm": 1.4315565494817764,
+            "translation": [
+              0,
+              -1,
+              0
+            ]
+          },
+          {
+            "production_ns": 45.0,
+            "minimum_image_distance_nm": 1.567123777146944,
+            "translation": [
+              0,
+              -1,
+              0
+            ]
+          },
+          {
+            "production_ns": 46.0,
+            "minimum_image_distance_nm": 1.214682345432471,
+            "translation": [
+              -1,
+              0,
+              1
+            ]
+          },
+          {
+            "production_ns": 47.0,
+            "minimum_image_distance_nm": 1.4652692436914847,
+            "translation": [
+              0,
+              -1,
+              0
+            ]
+          },
+          {
+            "production_ns": 48.0,
+            "minimum_image_distance_nm": 0.9807917177753689,
+            "translation": [
+              0,
+              -1,
+              0
+            ]
+          },
+          {
+            "production_ns": 49.0,
+            "minimum_image_distance_nm": 1.206114031613358,
+            "translation": [
+              0,
+              -1,
+              1
+            ]
+          },
+          {
+            "production_ns": 50.0,
+            "minimum_image_distance_nm": 1.3470145777551665,
+            "translation": [
+              0,
+              -1,
+              0
+            ]
+          }
+        ],
+        "minimum_distance_nm": 0.3171571733497983
+      }
+    ]
+  },
+  "independent_all_pair_confirmation": [
+    {
+      "replica": "t298-r1",
+      "production_ns": 3.0,
+      "distance_nm": 0.7864118143277298,
+      "translation": [
+        0,
+        -1,
+        0
+      ],
+      "atoms": [
+        "VAL21-HG21",
+        "LYS10-HZ3"
+      ],
+      "atom_indices": [
+        340,
+        175
+      ],
+      "box_nm": [
+        [
+          4.58634614944458,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          4.58634614944458,
+          0.0
+        ],
+        [
+          2.293172836303711,
+          2.29317307472229,
+          3.2430365085601807
+        ]
+      ]
+    },
+    {
+      "replica": "t298-r2",
+      "production_ns": 16.0,
+      "distance_nm": 0.6605257839760603,
+      "translation": [
+        0,
+        0,
+        -1
+      ],
+      "atoms": [
+        "LYS19-HE2",
+        "LYS10-HZ3"
+      ],
+      "atom_indices": [
+        311,
+        175
+      ],
+      "box_nm": [
+        [
+          4.549229621887207,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          4.549229621887207,
+          0.0
+        ],
+        [
+          2.2746145725250244,
+          2.2746148109436035,
+          3.2167911529541016
+        ]
+      ]
+    },
+    {
+      "replica": "t298-r3",
+      "production_ns": 24.0,
+      "distance_nm": 0.3171571733497983,
+      "translation": [
+        0,
+        -1,
+        1
+      ],
+      "atoms": [
+        "VAL21-HG12",
+        "LYS10-HZ3"
+      ],
+      "atom_indices": [
+        337,
+        175
+      ],
+      "box_nm": [
+        [
+          4.585212230682373,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          4.585212230682373,
+          0.0
+        ],
+        [
+          2.2926058769226074,
+          2.2926061153411865,
+          3.242234945297241
+        ]
+      ]
+    }
+  ],
+  "correction": "Current ordinary OpenMM/OpenFF preparation defaults use 2 nm OpenMM padding. The benchmark includes explicit protein-image inspection of all saved frames. Larger conformational changes may require larger cells; electrostatic finite-size convergence is a separate question.",
+  "full_saved_frame_verification": {
+    "result_sha256": "78c95e8b84cfa874b8d309b2a47971cde43227f5ad733d7abbe68fb5eba2874c",
+    "run_id": "run-4f7dc2de576842ef",
+    "plan_id": "plan-9e1701eb137fb781",
+    "providers": {
+      "mdtraj.trajectory-inspection": "0.5.0"
+    },
+    "replicas": [
+      {
+        "replica": "t298-r1",
+        "cutoff_nm": 0.9,
+        "checked_frame_count": 5000,
+        "total_frame_count": 5000,
+        "all_saved_frames_checked": true,
+        "within_cutoff_frame_count": 231,
+        "minimum_distance_nm": 0.5720933295686794,
+        "passed": false,
+        "scope": "Exact closest protein atom to translated protein copy in selected saved frames, before fitting, after whole-molecule reconstruction. Includes hydrogens. Requires one connected protein. Unsaved/intervening frames, separate ligands and electrostatic finite-size convergence need separate assessment.",
+        "closest_frame": {
+          "minimum_distance_nm": 0.5720933295686794,
+          "atom_indices": [
+            337,
+            173
+          ],
+          "lattice_translation": [
+            0,
+            0,
+            1
+          ],
+          "frame_index": 1350,
+          "step": 6930000,
+          "time_ps": 13860.000001906154,
+          "within_cutoff": true
+        },
+        "source_identities": {
+          "topology": {
+            "sha256": "6ee0367fcf21fc57e5ce942d4c8001383f517e348d5426d7faf008364e6a42af"
+          },
+          "reference_structure": {
+            "sha256": "6ee0367fcf21fc57e5ce942d4c8001383f517e348d5426d7faf008364e6a42af"
+          },
+          "preparation_manifest": {
+            "sha256": "08b7ca8caae91fb6e5b6c06edf258d037ed89555fe2040c11dfbb012179f4276"
+          },
+          "dynamics_config": {
+            "sha256": "8524034ec64d20795b09197bc797bc64a0670bee6da0ecca35d3a750b26e1c3e"
+          },
+          "trajectory": {
+            "sha256": "6167dd43efd885f7e256bbdf667cec3593a1118ec1aad02da3ec3b5a629000f3"
+          },
+          "state_data": {
+            "sha256": "c52eaa79316d8c57bc1d60a8482664a2888f20080c4bb40be338d506d8232c80"
+          },
+          "dynamics_summary": {
+            "sha256": "4e1f16769530d5d7832582cf570e0cb2f98e586763b8d5b419e71407794430ab"
+          }
+        },
+        "analysis_seconds": 21.143910442013294
+      },
+      {
+        "replica": "t298-r2",
+        "cutoff_nm": 0.9,
+        "checked_frame_count": 5000,
+        "total_frame_count": 5000,
+        "all_saved_frames_checked": true,
+        "within_cutoff_frame_count": 392,
+        "minimum_distance_nm": 0.5481424388480465,
+        "passed": false,
+        "scope": "Exact closest protein atom to translated protein copy in selected saved frames, before fitting, after whole-molecule reconstruction. Includes hydrogens. Requires one connected protein. Unsaved/intervening frames, separate ligands and electrostatic finite-size convergence need separate assessment.",
+        "closest_frame": {
+          "minimum_distance_nm": 0.5481424388480465,
+          "atom_indices": [
+            340,
+            175
+          ],
+          "lattice_translation": [
+            0,
+            1,
+            0
+          ],
+          "frame_index": 4686,
+          "step": 23610000,
+          "time_ps": 47220.000008702475,
+          "within_cutoff": true
+        },
+        "source_identities": {
+          "topology": {
+            "sha256": "6ee0367fcf21fc57e5ce942d4c8001383f517e348d5426d7faf008364e6a42af"
+          },
+          "reference_structure": {
+            "sha256": "6ee0367fcf21fc57e5ce942d4c8001383f517e348d5426d7faf008364e6a42af"
+          },
+          "preparation_manifest": {
+            "sha256": "08b7ca8caae91fb6e5b6c06edf258d037ed89555fe2040c11dfbb012179f4276"
+          },
+          "dynamics_config": {
+            "sha256": "69039aef5821b2a868326c6ca14edabda15dd796ad2be7ae4c6f4e8bb3db6b31"
+          },
+          "trajectory": {
+            "sha256": "0a81b967061c7bc141fcd4a37c6885651ce5bfd323638ca1bddde20a6d6488d3"
+          },
+          "state_data": {
+            "sha256": "00db0af3db3bd9c3d5aea7f506a5ecda8a47b307eb781f17289b02916b50d7f6"
+          },
+          "dynamics_summary": {
+            "sha256": "55d8487ae1a53696c2cb8712c24f4853822bddba636cf8f7c3d11c4c8795bb6d"
+          }
+        },
+        "analysis_seconds": 21.266275310888886
+      },
+      {
+        "replica": "t298-r3",
+        "cutoff_nm": 0.9,
+        "checked_frame_count": 5000,
+        "total_frame_count": 5000,
+        "all_saved_frames_checked": true,
+        "within_cutoff_frame_count": 555,
+        "minimum_distance_nm": 0.3171571733497983,
+        "passed": false,
+        "scope": "Exact closest protein atom to translated protein copy in selected saved frames, before fitting, after whole-molecule reconstruction. Includes hydrogens. Requires one connected protein. Unsaved/intervening frames, separate ligands and electrostatic finite-size convergence need separate assessment.",
+        "closest_frame": {
+          "minimum_distance_nm": 0.3171571733497983,
+          "atom_indices": [
+            175,
+            337
+          ],
+          "lattice_translation": [
+            0,
+            1,
+            -1
+          ],
+          "frame_index": 2399,
+          "step": 12175000,
+          "time_ps": 24350.000004043246,
+          "within_cutoff": true
+        },
+        "source_identities": {
+          "topology": {
+            "sha256": "6ee0367fcf21fc57e5ce942d4c8001383f517e348d5426d7faf008364e6a42af"
+          },
+          "reference_structure": {
+            "sha256": "6ee0367fcf21fc57e5ce942d4c8001383f517e348d5426d7faf008364e6a42af"
+          },
+          "preparation_manifest": {
+            "sha256": "08b7ca8caae91fb6e5b6c06edf258d037ed89555fe2040c11dfbb012179f4276"
+          },
+          "dynamics_config": {
+            "sha256": "a8b10f5957a4c12a4909bd1c75db88bba285eede1026624fdc272b2410489fc0"
+          },
+          "trajectory": {
+            "sha256": "e296a6079dd07822e9c2fb867226cfb703bf00dd607c05f262aa807f0d45b1d2"
+          },
+          "state_data": {
+            "sha256": "4fbdd4cf4e1dea48f3f956611130acd5255c89f19b2a2636eb2d687a8155ece3"
+          },
+          "dynamics_summary": {
+            "sha256": "c4e6a15cbfa4ee07bf669ee065bdab61627a40048f9dcf1620231d69e02b4426"
+          }
+        },
+        "analysis_seconds": 22.11441641440615
+      }
+    ],
+    "earlier_independent_distances_agree_within_nm": 1e-08
+  }
+}

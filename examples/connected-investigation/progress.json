@@ -1,0 +1,112 @@
+{
+ "id": "progress-curve",
+ "operation_id": "hydrolysis",
+ "conditions": "Assay conditions of the kinetics measurement",
+ "observations": [
+  {
+   "id": "s-0",
+   "time_s": 0.0,
+   "state": "after",
+   "quantity": "concentration",
+   "target": "S",
+   "unit": "M",
+   "value": 0.01,
+   "partition": "evaluation",
+   "source": "Generated from the stated truth with 1.5 % noise",
+   "reported_error": {
+    "kind": "SD",
+    "value": 0.00015
+   }
+  },
+  {
+   "id": "s-300",
+   "time_s": 300.0,
+   "state": "after",
+   "quantity": "concentration",
+   "target": "S",
+   "unit": "M",
+   "value": 0.009242796223819426,
+   "partition": "evaluation",
+   "source": "Generated from the stated truth with 1.5 % noise",
+   "reported_error": {
+    "kind": "SD",
+    "value": 0.0001376869695727668
+   }
+  },
+  {
+   "id": "s-600",
+   "time_s": 600.0,
+   "state": "after",
+   "quantity": "concentration",
+   "target": "S",
+   "unit": "M",
+   "value": 0.008292056875433731,
+   "partition": "evaluation",
+   "source": "Generated from the stated truth with 1.5 % noise",
+   "reported_error": {
+    "kind": "SD",
+    "value": 0.00012560576715915262
+   }
+  },
+  {
+   "id": "s-1200",
+   "time_s": 1200.0,
+   "state": "after",
+   "quantity": "concentration",
+   "target": "S",
+   "unit": "M",
+   "value": 0.006944783510099041,
+   "partition": "evaluation",
+   "source": "Generated from the stated truth with 1.5 % noise",
+   "reported_error": {
+    "kind": "SD",
+    "value": 0.00010226503138959405
+   }
+  },
+  {
+   "id": "s-1800",
+   "time_s": 1800.0,
+   "state": "after",
+   "quantity": "concentration",
+   "target": "S",
+   "unit": "M",
+   "value": 0.005241100672486876,
+   "partition": "evaluation",
+   "source": "Generated from the stated truth with 1.5 % noise",
+   "reported_error": {
+    "kind": "SD",
+    "value": 8.02880457693099e-05
+   }
+  },
+  {
+   "id": "s-2700",
+   "time_s": 2700.0,
+   "state": "after",
+   "quantity": "concentration",
+   "target": "S",
+   "unit": "M",
+   "value": 0.003391524659751185,
+   "partition": "evaluation",
+   "source": "Generated from the stated truth with 1.5 % noise",
+   "reported_error": {
+    "kind": "SD",
+    "value": 5.0844715938247295e-05
+   }
+  },
+  {
+   "id": "s-3600",
+   "time_s": 3600.0,
+   "state": "after",
+   "quantity": "concentration",
+   "target": "S",
+   "unit": "M",
+   "value": 0.001812401853364216,
+   "partition": "evaluation",
+   "source": "Generated from the stated truth with 1.5 % noise",
+   "reported_error": {
+    "kind": "SD",
+    "value": 2.742257576266927e-05
+   }
+  }
+ ]
+}

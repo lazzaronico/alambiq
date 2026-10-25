@@ -1,0 +1,18 @@
+[
+  {
+    "name": "openmmforcefields",
+    "version": "0.15.1",
+    "url": "https://codeload.github.com/openmm/openmmforcefields/tar.gz/refs/tags/0.15.1",
+    "sha256": "c13e3c88e84cca182ee24bdfe2e4b805ed7b9e1e4f34a960af03ac03eb08ae88",
+    "commit": "2df3b57acd58e2c0795f6a350ef2b411ead82c98",
+    "license": "MIT"
+  },
+  {
+    "name": "openfe",
+    "version": "1.12.0",
+    "url": "https://codeload.github.com/OpenFreeEnergy/openfe/tar.gz/refs/tags/v1.12.0",
+    "sha256": "72732e34ca26ae78bd46e00ddc6d2c5cc88ba6a8db296593f7a85a232d110c88",
+    "commit": "97bef39d3ccfabb259636728b7782490640f42ed",
+    "license": "MIT"
+  }
+]

@@ -1,0 +1,28 @@
+h1: measured-variant-rounds
+section measurements
+h2: measurements
+table: Reading | Count
+section model
+h2: model
+note: 268 candidates share identical input features. The number of sets of identical features is 104.
+note: The evaluation RMSE of the model is not lower than the evaluation RMSE of the training-mean baseline.
+note: The 95 % predictive intervals contain less than 95 % of the evaluation observations.
+table: Predictor | Candidates | Mean absolute error (degC) | RMSE (degC) | R²
+section highest-predicted
+h2: highest-predicted
+note: 268 candidates share identical input features. The number of sets of identical features is 104.
+note: The evaluation RMSE of the model is not lower than the evaluation RMSE of the training-mean baseline.
+note: The 95 % predictive intervals contain less than 95 % of the evaluation observations.
+table: Candidate | Group
+table: Reason not chosen | Candidates
+section most-uncertain
+h2: most-uncertain
+note: 268 candidates share identical input features. The number of sets of identical features is 104.
+note: The evaluation RMSE of the model is not lower than the evaluation RMSE of the training-mean baseline.
+note: The 95 % predictive intervals contain less than 95 % of the evaluation observations.
+table: Candidate | Group
+table: Reason not chosen | Candidates
+section random
+h2: random
+table: Candidate | Group
+table: Reason not chosen | Candidates

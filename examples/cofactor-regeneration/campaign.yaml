@@ -1,0 +1,25 @@
+id: cofactor-regeneration
+steps:
+  - id: without
+    capability: operation.simulate
+    params:
+      definition: without-regeneration.json
+
+  - id: with
+    capability: operation.simulate
+    params:
+      definition: with-regeneration.json
+
+  - id: without-output
+    capability: operation.summarize
+    bind:
+      operation: without.record
+    params:
+      assessment: assess-without.json
+
+  - id: with-output
+    capability: operation.summarize
+    bind:
+      operation: with.record
+    params:
+      assessment: assess-with.json

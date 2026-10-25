@@ -1,0 +1,15 @@
+h1: cofactor-regeneration
+section without
+h2: without
+table: Species | Final concentration (M)
+section with
+h2: with
+table: Species | Final concentration (M)
+section without-output
+h2: without-output
+note: The process-time productivity requires additional_time, which is not supplied.
+table: Product | Net formed (mol) | Selected output (mol) | Useful output (mol) | Reaction-time productivity (mol/s) | Process-time productivity (mol/s)
+section with-output
+h2: with-output
+note: The process-time productivity requires additional_time, which is not supplied.
+table: Product | Net formed (mol) | Selected output (mol) | Useful output (mol) | Reaction-time productivity (mol/s) | Process-time productivity (mol/s)

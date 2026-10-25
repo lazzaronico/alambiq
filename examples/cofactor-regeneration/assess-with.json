@@ -1,0 +1,18 @@
+{
+ "id": "performance-with-regeneration",
+ "operation_id": "with-regeneration",
+ "conditions": "A 1 mL batch at fixed temperature and pH; every rate is stated for this example, not measured",
+ "product": {
+  "species": "butanediol",
+  "recovery_fraction": 1.0,
+  "accepted_fraction": 1.0,
+  "source": "All product counted: no recovery loss is assumed"
+ },
+ "output": {
+  "final_reactor": true,
+  "exchanges_s": [],
+  "collections": []
+ },
+ "catalysts": [],
+ "lifetime": []
+}

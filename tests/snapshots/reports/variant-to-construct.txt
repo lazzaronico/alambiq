@@ -1,0 +1,11 @@
+h1: variant-to-construct
+section insert
+h2: insert
+table: Part | Role | Bases | Residues | Stop codon removed
+section recode
+h2: recode
+table: Sequence | Constraints met | GC fraction | Lowest window GC (fraction) | Highest window GC (fraction) | Motif matches | GC violations
+section build
+h2: build
+note: Vector features outside the retained backbone are not annotated on the product: 3.
+table: Primer | Sequence | Annealing footprint | Footprint Tm (°C)

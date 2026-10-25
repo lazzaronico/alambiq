@@ -1,0 +1,34 @@
+# Share the native recipe; an explicit package lock can reproduce a measured build.
+ARG BASE_IMAGE=alambiq:core
+ARG OPENMM_IMAGE=alambiq:openmm
+# The engine is built in a separate stage that starts from the same Python as the core image,
+# so rebuilding the core image reuses the cached engine stage.
+ARG ENGINE_BASE=python:3.11-slim-bookworm
+FROM ${ENGINE_BASE} AS engine
+USER root
+COPY --from=mambaorg/micromamba:2.5.0 /bin/micromamba /usr/local/bin/micromamba
+ARG OPENFE_SPEC=environments/binding-free-energy/environment.yaml
+COPY ${OPENFE_SPEC} /tmp/openfe-spec/
+COPY environments/install_openff_sources.py environments/openff-sources.json /tmp/openff-sources/
+ARG CUDA_VERSION=13.0
+RUN set -eu; set --; \
+    case "${OPENFE_SPEC}" in *.yaml|*.yml) set -- "cuda-version=${CUDA_VERSION}" ;; esac; \
+    micromamba create --yes --root-prefix /tmp/mamba --prefix /opt/openfe \
+        --file "/tmp/openfe-spec/$(basename "${OPENFE_SPEC}")" "$@"
+
+RUN /opt/openfe/bin/python /tmp/openff-sources/install_openff_sources.py --binding
+
+# A relative-binding campaign prepares the protein with the OpenMM engine (8.6) before the
+# OpenFE engine (whose own OpenMM is older) runs the transformations, so the OpenMM image's
+# engine is copied in as well. Build alambiq:openmm first.
+FROM ${OPENMM_IMAGE} AS openmm
+
+FROM ${BASE_IMAGE} AS runtime
+COPY --from=engine /opt/openfe /opt/openfe
+COPY --from=openmm /opt/openmm /opt/openmm
+ENV ALAMBIQ_ENV_OPENFE=/opt/openfe/bin/python \
+    ALAMBIQ_ENV_PYMBAR=/opt/openfe/bin/python \
+    ALAMBIQ_ENV_OPENMM=/opt/openmm/bin/python \
+    LD_LIBRARY_PATH=/opt/openmm/lib/python3.11/site-packages/nvidia/cu13/lib \
+    TORCHINDUCTOR_CACHE_DIR=/tmp/torchinductor
+USER 1000:1000

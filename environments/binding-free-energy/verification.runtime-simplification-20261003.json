@@ -1,0 +1,324 @@
+{
+  "schema_version": "0.1",
+  "date": "2026-10-03",
+  "scope": "Runtime simplification and native integration. The GPU check uses two repeats per leg, five lambda windows, 0.2 ps equilibration and 1 ps production. It does not establish affinity convergence or a speed comparison. The prior receipt remains unchanged.",
+  "profile": "openfe.sage-2.3.0-ashgc-neutral-relative-binding-v1",
+  "source_manifest_sha256": "975cc63276ae770006e38209b527bb2e2cb0357be9de7df55078459d9643f211",
+  "installed_spark_wheel_sha256": "01a6dc3a30b7dbaab8559aaa980410da4a9cafa1fb9f6b422cdfefb079258a38",
+  "gpu_flow_wall_seconds_from_log": 600.19,
+  "environment_changes": [
+    {
+      "platform": "osx-arm64",
+      "previous_git_revision": "b577894",
+      "previous_package_count": 329,
+      "package_count": 307,
+      "previous_package_download_bytes": 550685067,
+      "package_download_bytes": 537622011,
+      "previous_package_set_sha256": "13263de8b5c990eff0b273f35e5916098674bb1455857c91b985f5ea596b4e07",
+      "package_set_sha256": "f93caf8913611f38c8d97d5e29b5009fa7038970d5f13bc2fd4e9c1f27430ffc",
+      "removed": [
+        "adwaita-icon-theme",
+        "atk-1.0",
+        "colorama",
+        "epoxy",
+        "exceptiongroup",
+        "gdk-pixbuf",
+        "glib-tools",
+        "graphviz",
+        "gtk3",
+        "gts",
+        "harfbuzz",
+        "hicolor-icon-theme",
+        "iniconfig",
+        "libgd",
+        "libharfbuzz-devel",
+        "librsvg",
+        "pango",
+        "pluggy",
+        "pygraphviz",
+        "pytest",
+        "pytest-datadir",
+        "pytest-regressions",
+        "pytest-rerunfailures"
+      ],
+      "added": [
+        "onednn"
+      ],
+      "changed": [
+        {
+          "name": "libtorch",
+          "before": {
+            "name": "libtorch",
+            "version": "2.10.0",
+            "build": "cpu_generic_h34f749e_5",
+            "build_number": 5,
+            "subdir": "osx-arm64",
+            "url": "https://conda.anaconda.org/conda-forge/osx-arm64/libtorch-2.10.0-cpu_generic_h34f749e_5.conda",
+            "md5": "fdf53e08c58ad1b79432bf8a20f344c8",
+            "sha256": "bd60af7db059bb8c117c04e7c16e76aa4aa33236b5872084cb76507961e22783",
+            "size": 31896035,
+            "license": "BSD-3-Clause"
+          },
+          "after": {
+            "name": "libtorch",
+            "version": "2.12.0",
+            "build": "cpu_generic_h5d695db_0",
+            "build_number": 0,
+            "subdir": "osx-arm64",
+            "url": "https://conda.anaconda.org/conda-forge/osx-arm64/libtorch-2.12.0-cpu_generic_h5d695db_0.conda",
+            "md5": "24a9f36e4520d28fa2db397555394709",
+            "sha256": "116bd357ac03d3b77b9e60883fddfcdc4f2ca7fe65dfb007f2e0856d1297eee0",
+            "size": 32098564,
+            "license": "BSD-3-Clause"
+          }
+        },
+        {
+          "name": "mpmath",
+          "before": {
+            "name": "mpmath",
+            "version": "1.3.0",
+            "build": "pyhd8ed1ab_1",
+            "build_number": 1,
+            "subdir": "noarch",
+            "url": "https://conda.anaconda.org/conda-forge/noarch/mpmath-1.3.0-pyhd8ed1ab_1.conda",
+            "md5": "3585aa87c43ab15b167b574cd73b057b",
+            "sha256": "7d7aa3fcd6f42b76bd711182f3776a02bef09a68c5f117d66b712a6d81368692",
+            "size": 439705,
+            "license": "BSD-3-Clause"
+          },
+          "after": {
+            "name": "mpmath",
+            "version": "1.4.1",
+            "build": "pyhd8ed1ab_0",
+            "build_number": 0,
+            "subdir": "noarch",
+            "url": "https://conda.anaconda.org/conda-forge/noarch/mpmath-1.4.1-pyhd8ed1ab_0.conda",
+            "md5": "2e81b32b805f406d23ba61938a184081",
+            "sha256": "5bbf2f8179ec43d34d67ca8e4989d216c1bdb4b749fe6cb40e86ebf88c1b5300",
+            "size": 464918,
+            "license": "BSD-3-Clause"
+          }
+        },
+        {
+          "name": "pybind11",
+          "before": {
+            "name": "pybind11",
+            "version": "3.0.1",
+            "build": "pyh7a1b43c_0",
+            "build_number": 0,
+            "subdir": "noarch",
+            "url": "https://conda.anaconda.org/conda-forge/noarch/pybind11-3.0.1-pyh7a1b43c_0.conda",
+            "md5": "70ece62498c769280f791e836ac53fff",
+            "sha256": "2558727093f13d4c30e124724566d16badd7de532fd8ee7483628977117d02be",
+            "size": 232875,
+            "license": "BSD-3-Clause"
+          },
+          "after": {
+            "name": "pybind11",
+            "version": "3.0.4",
+            "build": "pyh293190f_0",
+            "build_number": 0,
+            "subdir": "noarch",
+            "url": "https://conda.anaconda.org/conda-forge/noarch/pybind11-3.0.4-pyh293190f_0.conda",
+            "md5": "2e57132f130bffcb5a8b17092b2871bc",
+            "sha256": "f213f735f0c2b9bfcc1358c8bdeb0dfcf3614bf2c47aad68227dabea99b0e0d7",
+            "size": 251088,
+            "license": "BSD-3-Clause"
+          }
+        },
+        {
+          "name": "pybind11-global",
+          "before": {
+            "name": "pybind11-global",
+            "version": "3.0.1",
+            "build": "pyhc7ab6ef_0",
+            "build_number": 0,
+            "subdir": "noarch",
+            "url": "https://conda.anaconda.org/conda-forge/noarch/pybind11-global-3.0.1-pyhc7ab6ef_0.conda",
+            "md5": "fe10b422ce8b5af5dab3740e4084c3f9",
+            "sha256": "f11a5903879fe3a24e0d28329cb2b1945127e85a4cdb444b45545cf079f99e2d",
+            "size": 228871,
+            "license": "BSD-3-Clause"
+          },
+          "after": {
+            "name": "pybind11-global",
+            "version": "3.0.4",
+            "build": "pyh648e204_0",
+            "build_number": 0,
+            "subdir": "noarch",
+            "url": "https://conda.anaconda.org/conda-forge/noarch/pybind11-global-3.0.4-pyh648e204_0.conda",
+            "md5": "e594cb485091100204e0b77cb5709896",
+            "sha256": "25e887672e68188a5fa899efdc116acb01d689989493342aac05781ec1f09b81",
+            "size": 244363,
+            "license": "BSD-3-Clause"
+          }
+        },
+        {
+          "name": "pytorch",
+          "before": {
+            "name": "pytorch",
+            "version": "2.10.0",
+            "build": "cpu_generic_py312_h4176810_5",
+            "build_number": 5,
+            "subdir": "osx-arm64",
+            "url": "https://conda.anaconda.org/conda-forge/osx-arm64/pytorch-2.10.0-cpu_generic_py312_h4176810_5.conda",
+            "md5": "9b75d6cfd035764921c73129bfe2966d",
+            "sha256": "5483c5ccf7cd1c817b7914b90f08acfcd106e663b85aa972bb03ac74a1d57a93",
+            "size": 22818023,
+            "license": "BSD-3-Clause"
+          },
+          "after": {
+            "name": "pytorch",
+            "version": "2.12.0",
+            "build": "cpu_generic_py312_ha6aee4d_0",
+            "build_number": 0,
+            "subdir": "osx-arm64",
+            "url": "https://conda.anaconda.org/conda-forge/osx-arm64/pytorch-2.12.0-cpu_generic_py312_ha6aee4d_0.conda",
+            "md5": "8e1feaf951e5124abc311ade1806ff4c",
+            "sha256": "996a2dfed356e925574c2f3942b17399973738a3db58dc2f54722272a96d0aff",
+            "size": 24295412,
+            "license": "BSD-3-Clause"
+          }
+        },
+        {
+          "name": "setuptools",
+          "before": {
+            "name": "setuptools",
+            "version": "84.0.0",
+            "build": "pyh332efcf_0",
+            "build_number": 0,
+            "subdir": "noarch",
+            "url": "https://conda.anaconda.org/conda-forge/noarch/setuptools-84.0.0-pyh332efcf_0.conda",
+            "md5": "62ac906f1cd582c6c264c95625cb9d6f",
+            "sha256": "9e200ee5f9ff19a4d94e4b51c4856d53dec849f91032f345cf0c6bc3d51a7183",
+            "size": 524488,
+            "license": "MIT"
+          },
+          "after": {
+            "name": "setuptools",
+            "version": "81.0.0",
+            "build": "pyh332efcf_0",
+            "build_number": 0,
+            "subdir": "noarch",
+            "url": "https://conda.anaconda.org/conda-forge/noarch/setuptools-81.0.0-pyh332efcf_0.conda",
+            "md5": "d629a398d7bf872f9ed7b27ab959de15",
+            "sha256": "6ecf738d5590bf228f09c4ecd1ea91d811f8e0bd9acdef341bc4d6c36beb13a3",
+            "size": 676888,
+            "license": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "platform": "linux-aarch64",
+      "previous_git_revision": "b577894",
+      "previous_package_count": 397,
+      "package_count": 348,
+      "previous_package_download_bytes": 2879984313,
+      "package_download_bytes": 2850890123,
+      "previous_package_set_sha256": "b69659e382054ef8ddd28a3f0377f6f92c51890e8621de3a41e6be9308fdddef",
+      "package_set_sha256": "b733d445940ee98d24960ca14f0745518db66c9b4d286672c0875e6e23ab7a27",
+      "removed": [
+        "adwaita-icon-theme",
+        "at-spi2-atk",
+        "at-spi2-core",
+        "atk-1.0",
+        "colorama",
+        "dbus",
+        "epoxy",
+        "exceptiongroup",
+        "gdk-pixbuf",
+        "glib-tools",
+        "graphviz",
+        "gtk3",
+        "gts",
+        "harfbuzz",
+        "hicolor-icon-theme",
+        "iniconfig",
+        "libcups",
+        "libdrm",
+        "libegl",
+        "libegl-devel",
+        "libgd",
+        "libgl",
+        "libgl-devel",
+        "libglvnd",
+        "libglx",
+        "libglx-devel",
+        "libharfbuzz-devel",
+        "libpciaccess",
+        "librsvg",
+        "libxkbcommon",
+        "pango",
+        "pluggy",
+        "pygraphviz",
+        "pytest",
+        "pytest-datadir",
+        "pytest-regressions",
+        "pytest-rerunfailures",
+        "wayland",
+        "xkeyboard-config",
+        "xorg-libxcomposite",
+        "xorg-libxcursor",
+        "xorg-libxdamage",
+        "xorg-libxfixes",
+        "xorg-libxi",
+        "xorg-libxinerama",
+        "xorg-libxrandr",
+        "xorg-libxtst",
+        "xorg-libxxf86vm",
+        "xorg-xorgproto"
+      ],
+      "added": [],
+      "changed": []
+    }
+  ],
+  "verification": [
+    {
+      "platform": "macOS ARM64 / CPU input preparation",
+      "run_id": "run-f0317460bb2392b6",
+      "result_sha256": "ad147d2eab4ef1da4764890302fd54711d69c1b79f04cdaf88ea7a06cdb588c1",
+      "steps": [
+        {
+          "id": "prepare",
+          "status": "completed",
+          "output_digest": "sha256:0d5773c27b9bf1cd688c5f0c7ab55c53d8763d79c252aed8c499642e36126956"
+        },
+        {
+          "id": "inspect",
+          "status": "completed",
+          "output_digest": "sha256:acb0dafb3380523fc53822efd417002481fe24b73002ac835fa1ade9224dbc21"
+        }
+      ]
+    },
+    {
+      "platform": "Linux ARM64 / NVIDIA GB10 / CUDA double",
+      "run_id": "run-731f101be38268f0",
+      "result_sha256": "20d219cf37f28a45fa643ef0e0a8aef499402f9546b29ef76afd7819ca871532",
+      "steps": [
+        {
+          "id": "solvent",
+          "status": "completed",
+          "output_digest": "sha256:59e6384cfc8bf80562bc336ffb14fc427630a810bafdc5ffbca7a0766cee64f9"
+        },
+        {
+          "id": "bound",
+          "status": "completed",
+          "output_digest": "sha256:60aa1a569363375ebc8c94d2867a77c81c721cca157d0b25ac550b1eba36d862"
+        },
+        {
+          "id": "compare",
+          "status": "completed",
+          "output_digest": "sha256:dd4ad35330779419bde50200ef8040428016173d3b44290a66586a8488264381"
+        }
+      ]
+    }
+  ],
+  "omitted_optional_paths": [
+    "Upstream test suites and their pytest dependencies",
+    "PyGraphviz network drawing and LoMap optional graph export"
+  ],
+  "retained_scope": "Explicit atom mappings, ligand parameterization, hybrid topology setup, solvent and bound Hamiltonian replica exchange, MBAR analysis and Bioforge comparison.",
+  "licenses": "Scientific AmberTools, FFTW and CP2K remain absent. Removing optional graph rendering also removes GPL hicolor-icon-theme. GPL readline, LGPL numerical/MD libraries and runtime-specific licenses remain in the exact inventories.",
+  "docker": "Current recipe inherits the trimmed dependencies; current OpenFF container execution remains unmeasured."
+}

@@ -1,0 +1,18 @@
+h1: lanmodulin-comparison
+section mex-lanm
+h2: mex-lanm
+table: Chain | Mapping | Reason | Offset (residues)
+section hans-lanm
+h2: hans-lanm
+table: Chain | Mapping | Reason | Offset (residues)
+section comparison
+h2: comparison
+table: Target | E-value | Identity | Coverage | Bits | Alignment length (residues)
+section alignment
+h2: alignment
+table: Query position | Entropy (bits) | Consensus residue | Consensus share | Gaps
+section cluster
+h2: cluster
+note: 1 anchor(s) match no CDS feature by the chosen attribute: A0A4V2JDD3.
+table: Anchor | Status | Loci
+table: Anchor | Contig | Window | Features | Clipped at

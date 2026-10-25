@@ -1,0 +1,12 @@
+h1: relatives-and-context
+section relatives
+h2: relatives
+table: Target | E-value | Identity | Coverage | Bits | Alignment length (residues)
+section conservation
+h2: conservation
+table: Query position | Entropy (bits) | Consensus residue | Consensus share | Gaps
+section neighbourhood
+h2: neighbourhood
+note: 2 window(s) reach the edge of the contig bounds declared in the file.
+table: Anchor | Status | Loci
+table: Anchor | Contig | Window | Features | Clipped at

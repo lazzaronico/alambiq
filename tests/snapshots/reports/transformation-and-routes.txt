@@ -1,0 +1,12 @@
+h1: transformation-and-routes
+section account
+h2: account
+table: Species | Side | Role | Coefficient | Formula | Charge (e) | Canonical SMILES
+table: Atoms (map numbers) | Bond order before | Bond order after
+section routes
+h2: routes
+table: Route | Steps | Operators in order | Target amount (feedstock units)
+table: Operator | Reactants | Products | Requires | Enzyme references
+section energy
+h2: energy
+table: Reaction | Status | ΔG′° (kJ/mol) | ΔG′ (kJ/mol) | Model sd (kJ/mol) | ln Q | ln K′

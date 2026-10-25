@@ -1,0 +1,90 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "alambiq"
+version = "0.1.0"
+description = "Open, capability-oriented and agent-native biotechnology R&D"
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+authors = [{name = "Alambiq contributors"}]
+keywords = ["biotechnology", "bioinformatics", "enzymes", "reproducibility", "workflows"]
+dependencies = [
+    "prefect>=3.8.4,<4",
+    "PyYAML>=6.0,<7",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+
+[project.urls]
+Repository = "https://github.com/lazzaronico/alambiq"
+Documentation = "https://github.com/lazzaronico/alambiq/tree/main/docs"
+Issues = "https://github.com/lazzaronico/alambiq/issues"
+Changelog = "https://github.com/lazzaronico/alambiq/blob/main/CHANGELOG.md"
+
+[project.scripts]
+alambiq = "alambiq.__main__:main"
+
+[project.optional-dependencies]
+chemistry = ["rdkit==2026.3.1"]
+routes = ["doranet==0.5.7a1", "rdkit==2026.3.1"]
+thermodynamics = ["equilibrator-api==0.8.0", "equilibrator-cache==0.8.1", "component-contribution==0.8.0", "equilibrator-cache-data==0.1.0", "rdkit==2026.3.1"]
+quantitative = ["numpy>=1.26,<3", "scipy>=1.14,<2", "scikit-learn>=1.6,<2"]
+dossier = ["gemmi==0.7.5"]
+construct = ["pydna==5.5.16", "biopython==1.88"]
+coding-design = ["dnachisel==3.2.16", "biopython==1.88"]
+trajectory = ["mdtraj==1.11.1.post2"]
+openmm = ["openmm==8.6.0"]
+protein-repair = ["openmm==8.6.0", "pdbfixer==1.12.0"]
+embedding-analysis = ["scikit-learn>=1.6,<2", "umap-learn==0.5.12"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+# Local noneditable builds must track shipped code/data, not only metadata.
+[tool.uv]
+cache-keys = [
+  {file = "pyproject.toml"},
+  {file = "README.md"},
+  {file = "LICENSE"},
+  {file = "src/alambiq/**/*.py"},
+  {file = "src/alambiq/**/*.json"},
+  {file = "src/alambiq/**/*.java"},
+  {file = "src/alambiq/resources/THIRD_PARTY_NOTICES.md"},
+  {file = "src/alambiq/report/assets/*"},
+]
+
+[tool.setuptools.package-data]
+"alambiq.engines" = ["*.java"]
+"alambiq.report" = ["assets/*"]
+"alambiq.resources" = [
+  "THIRD_PARTY_NOTICES.md",
+  "*.json",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+src = ["src", "."]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["alambiq"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "engine: needs a scientific engine environment",
+]
+filterwarnings = ["ignore::DeprecationWarning"]

@@ -1,0 +1,689 @@
+{
+  "schema_version": "0.1",
+  "platform": "osx-arm64",
+  "package_count": 85,
+  "installed_bytes": 980199745,
+  "package_set_sha256": "2d18cd730b3c7e75edee2e84a3d3107b2a5cdfcf1df5344be561bd4258ac81d1",
+  "packages": [
+    {
+      "name": "accelerate",
+      "version": "1.14.0",
+      "file_count": 95,
+      "missing_file_count": 0,
+      "installed_bytes": 1524069,
+      "content_sha256": "798d2decdd4ad822c284caf7eda7614bf257d5a1eec126e51d99c7b45f4f0983"
+    },
+    {
+      "name": "anyio",
+      "version": "4.15.1",
+      "file_count": 53,
+      "missing_file_count": 0,
+      "installed_bytes": 534971,
+      "content_sha256": "4eec3ec8bde79ca9881609ea8e6e99ecfb3ee5263a9240ac2233303a13ca6cdf"
+    },
+    {
+      "name": "asttokens",
+      "version": "3.0.2",
+      "file_count": 15,
+      "missing_file_count": 0,
+      "installed_bytes": 79677,
+      "content_sha256": "37774def9847ac1db18344224b5394091d247b3910f8d388576602ab2658d678"
+    },
+    {
+      "name": "attrs",
+      "version": "26.1.0",
+      "file_count": 35,
+      "missing_file_count": 0,
+      "installed_bytes": 231125,
+      "content_sha256": "ca64fe07dd770efe37974ccc447bb8fcb3d3b2c3e0122d334b38a43ef0274035"
+    },
+    {
+      "name": "biopython",
+      "version": "1.88",
+      "file_count": 659,
+      "missing_file_count": 0,
+      "installed_bytes": 11802532,
+      "content_sha256": "a8a207adbd830c2b004d6d0d549de9e04c0085b05bfa542ba574bd1407dbbd64"
+    },
+    {
+      "name": "biotite",
+      "version": "1.7.1",
+      "file_count": 401,
+      "missing_file_count": 0,
+      "installed_bytes": 103671439,
+      "content_sha256": "9ab588d4603c47082739408052192b52f540b5ff9828beaff162ccd9ea52537f"
+    },
+    {
+      "name": "biotraj",
+      "version": "1.2.2",
+      "file_count": 41,
+      "missing_file_count": 0,
+      "installed_bytes": 4416013,
+      "content_sha256": "002859347c1df0595e5c6d0d318be7c6588e7434ef8b3ced3737d19f8570b300"
+    },
+    {
+      "name": "boto3",
+      "version": "1.43.89",
+      "file_count": 62,
+      "missing_file_count": 0,
+      "installed_bytes": 985556,
+      "content_sha256": "91c722234640f0d78efe2dba4e38733c8e86521aa5b6674a7d27c5c65e56213d"
+    },
+    {
+      "name": "botocore",
+      "version": "1.43.89",
+      "file_count": 2002,
+      "missing_file_count": 0,
+      "installed_bytes": 20051958,
+      "content_sha256": "d5d82e249eccc5822d643599447ad64abac268a5c726709558feaae654667b7e"
+    },
+    {
+      "name": "brotli",
+      "version": "1.2.0",
+      "file_count": 7,
+      "missing_file_count": 0,
+      "installed_bytes": 1929459,
+      "content_sha256": "4a17282a88d24bc2f59d91cc08878346caaed8c555928636dc5be3f1457dee1c"
+    },
+    {
+      "name": "certifi",
+      "version": "2026.7.22",
+      "file_count": 12,
+      "missing_file_count": 0,
+      "installed_bytes": 247980,
+      "content_sha256": "2f66556d1c426f4becb6ff1d27df6b61b55264a5a82abd15038508f957f86149"
+    },
+    {
+      "name": "charset-normalizer",
+      "version": "3.5.1",
+      "file_count": 22,
+      "missing_file_count": 0,
+      "installed_bytes": 1083118,
+      "content_sha256": "d536613aabc5046f574dde3491f8c3c4e59cb5d3f57e9d06c1f66b8190e140c1"
+    },
+    {
+      "name": "cloudpathlib",
+      "version": "0.25.0",
+      "file_count": 34,
+      "missing_file_count": 0,
+      "installed_bytes": 221720,
+      "content_sha256": "02f1a9ba32cfec2d84aa7cb18b5cec8d4975cbb56d299704293de33815741805"
+    },
+    {
+      "name": "cloudpickle",
+      "version": "3.1.2",
+      "file_count": 7,
+      "missing_file_count": 0,
+      "installed_bytes": 68424,
+      "content_sha256": "d4d15955afc65196cf01c3a8097b1ada52b2c9e8a1f36dae65cbf336f4567197"
+    },
+    {
+      "name": "comm",
+      "version": "0.2.3",
+      "file_count": 7,
+      "missing_file_count": 0,
+      "installed_bytes": 17234,
+      "content_sha256": "e59a92ec106868947216924b8f11777128de90af57104d0f71f00a726652808a"
+    },
+    {
+      "name": "contourpy",
+      "version": "1.3.3",
+      "file_count": 24,
+      "missing_file_count": 0,
+      "installed_bytes": 999432,
+      "content_sha256": "b3d4b6eb5c3737b0c4c9e8e88831d0405112e96a216f34391b4d90911764b28d"
+    },
+    {
+      "name": "cycler",
+      "version": "0.12.1",
+      "file_count": 7,
+      "missing_file_count": 0,
+      "installed_bytes": 22088,
+      "content_sha256": "4973327ac495cf9924cdcc1684835c2912a166faaa04d4f5afc6b9203aeffde5"
+    },
+    {
+      "name": "dna-features-viewer",
+      "version": "3.1.5",
+      "file_count": 23,
+      "missing_file_count": 0,
+      "installed_bytes": 83886,
+      "content_sha256": "6561db583d57204c08464a542fba862d8cddde8fefcb4ebf01da88e8d936369d"
+    },
+    {
+      "name": "einops",
+      "version": "0.8.2",
+      "file_count": 31,
+      "missing_file_count": 0,
+      "installed_bytes": 230101,
+      "content_sha256": "9871b6514ce0ced44c2966472e2892470a88e8f6dafa03edc2d2c8d24f3f6ebe"
+    },
+    {
+      "name": "esm",
+      "version": "3.4.0",
+      "file_count": 141,
+      "missing_file_count": 0,
+      "installed_bytes": 15018973,
+      "content_sha256": "6eb834bd3950fc8869f3735fc5591a1c826576b8f7f02d6bc123eca6ccc1b30c"
+    },
+    {
+      "name": "executing",
+      "version": "2.2.1",
+      "file_count": 13,
+      "missing_file_count": 0,
+      "installed_bytes": 94418,
+      "content_sha256": "ed13b62b1a8ea1ea371e32cf3c299826563290b5fb0fb35a1c021dc24d0b25ee"
+    },
+    {
+      "name": "filelock",
+      "version": "3.32.5",
+      "file_count": 26,
+      "missing_file_count": 0,
+      "installed_bytes": 352787,
+      "content_sha256": "41bf288633c065837c51e20dbc13ca31b81459619e4418f90ca4f6b18efced78"
+    },
+    {
+      "name": "fonttools",
+      "version": "4.64.0",
+      "file_count": 367,
+      "missing_file_count": 0,
+      "installed_bytes": 13681968,
+      "content_sha256": "fd73b284668ba7c6198cc0be8cb14b15e01effe35f2114d061b7f3f297cca7ff"
+    },
+    {
+      "name": "fsspec",
+      "version": "2026.7.0",
+      "file_count": 61,
+      "missing_file_count": 0,
+      "installed_bytes": 747383,
+      "content_sha256": "b33c534a39b9c369c4de3de46caf58c8b7da676d7142a143c6ef2787ebbe3403"
+    },
+    {
+      "name": "h11",
+      "version": "0.16.0",
+      "file_count": 17,
+      "missing_file_count": 0,
+      "installed_bytes": 102695,
+      "content_sha256": "f92fa68dce41982c901e5c04031d6b1d6d5d860d3c3953a60e75457eacc0e8df"
+    },
+    {
+      "name": "hf-xet",
+      "version": "1.6.0",
+      "file_count": 7,
+      "missing_file_count": 0,
+      "installed_bytes": 8151698,
+      "content_sha256": "fd51ff73e12dbf9df5f858c685e1006269a0be1612b9199239e64b047b594f18"
+    },
+    {
+      "name": "httpcore",
+      "version": "1.0.9",
+      "file_count": 36,
+      "missing_file_count": 0,
+      "installed_bytes": 285073,
+      "content_sha256": "a600863811d8632cfa470abd7e739b0baa4ba234c38d199a5fed6cc3f5ceddc5"
+    },
+    {
+      "name": "httpx",
+      "version": "0.28.1",
+      "file_count": 30,
+      "missing_file_count": 0,
+      "installed_bytes": 293276,
+      "content_sha256": "2bdcd41f91fc9e4bcef0426ad00c825aef07e55edd95948f298f00315576adb3"
+    },
+    {
+      "name": "huggingface-hub",
+      "version": "0.36.2",
+      "file_count": 173,
+      "missing_file_count": 0,
+      "installed_bytes": 2239596,
+      "content_sha256": "b7cdbddfa430f2cb353e19e90be6d50a09f024f97c4b3a8f755a0015b931620f"
+    },
+    {
+      "name": "idna",
+      "version": "3.19",
+      "file_count": 17,
+      "missing_file_count": 0,
+      "installed_bytes": 336242,
+      "content_sha256": "f5a02a03a0a398e499ce98dd9d61af788296e6ffb7cd59fc23594977ac2400bb"
+    },
+    {
+      "name": "ipython",
+      "version": "9.17.1",
+      "file_count": 188,
+      "missing_file_count": 0,
+      "installed_bytes": 2041405,
+      "content_sha256": "1dfe5bff83470c4a509c21afc8462cd54487d9784885069bfc057b954d6d2c62"
+    },
+    {
+      "name": "ipython-pygments-lexers",
+      "version": "1.1.1",
+      "file_count": 6,
+      "missing_file_count": 0,
+      "installed_bytes": 22568,
+      "content_sha256": "fe2b67f925696ebfbadb9d85e1415e982a936670470291309349f3f4cb1e70fe"
+    },
+    {
+      "name": "ipywidgets",
+      "version": "8.1.9",
+      "file_count": 69,
+      "missing_file_count": 0,
+      "installed_bytes": 403530,
+      "content_sha256": "9906ae9920c76c33ad0f217813012c71e5c72d8666b6ca37636a4602092f4e37"
+    },
+    {
+      "name": "jedi",
+      "version": "0.20.0",
+      "file_count": 5626,
+      "missing_file_count": 0,
+      "installed_bytes": 13884946,
+      "content_sha256": "28ef983166b73fd9b441bb8b67cca3358002ddfbd0f2331f9f394c8d9e7add32"
+    },
+    {
+      "name": "jinja2",
+      "version": "3.1.6",
+      "file_count": 31,
+      "missing_file_count": 0,
+      "installed_bytes": 494556,
+      "content_sha256": "973804cf1ec6a9cab2567f6322ef4a3ce9251b2836bed1e4c5f6392af748dbae"
+    },
+    {
+      "name": "jmespath",
+      "version": "1.1.0",
+      "file_count": 14,
+      "missing_file_count": 0,
+      "installed_bytes": 69190,
+      "content_sha256": "b5f43770da84811cf3ec03f03d6091305fad24e8eb178b74be21ca6ab5a7221f"
+    },
+    {
+      "name": "joblib",
+      "version": "1.6.0",
+      "file_count": 141,
+      "missing_file_count": 0,
+      "installed_bytes": 907860,
+      "content_sha256": "d6c6b889e135188a27139200657b7586335fb62e2605ca76b9afd361a487952a"
+    },
+    {
+      "name": "jupyterlab-widgets",
+      "version": "3.0.17",
+      "file_count": 25,
+      "missing_file_count": 0,
+      "installed_bytes": 727988,
+      "content_sha256": "5753383082dcb33fdbb431ff444842686f1449e1db6a957412668c16e9c73a79"
+    },
+    {
+      "name": "kiwisolver",
+      "version": "1.5.1",
+      "file_count": 10,
+      "missing_file_count": 0,
+      "installed_bytes": 241896,
+      "content_sha256": "d653a4a0b4cec1ccc03efc6b64b062b73e31ad916f0196b0f541aab25f0246f9"
+    },
+    {
+      "name": "markupsafe",
+      "version": "3.0.3",
+      "file_count": 11,
+      "missing_file_count": 0,
+      "installed_bytes": 72798,
+      "content_sha256": "ea3f025e107926b1d85471de9dc369261aa9b3d3ba4297025b386342563dd9bd"
+    },
+    {
+      "name": "matplotlib",
+      "version": "3.11.1",
+      "file_count": 602,
+      "missing_file_count": 0,
+      "installed_bytes": 23705533,
+      "content_sha256": "610958b9304d3c6de104819a9840f24785bb278c847681d7790f356b374e38c5"
+    },
+    {
+      "name": "matplotlib-inline",
+      "version": "0.2.2",
+      "file_count": 9,
+      "missing_file_count": 0,
+      "installed_bytes": 20581,
+      "content_sha256": "de5e1e7b342ff3191b5983152e7c0de6e6a0a8eb7e93cd13efd7311f9f0a59f7"
+    },
+    {
+      "name": "mpmath",
+      "version": "1.3.0",
+      "file_count": 92,
+      "missing_file_count": 0,
+      "installed_bytes": 1942524,
+      "content_sha256": "25e660d8ccd3eb17a8f58a4456f060ae9a57fc7e40649b7cae1774181c486b1c"
+    },
+    {
+      "name": "msgpack",
+      "version": "1.2.2",
+      "file_count": 10,
+      "missing_file_count": 0,
+      "installed_bytes": 270911,
+      "content_sha256": "fb99679450a65ffa8b53587c2234a85a97b5807fbe002747fab574263edcbbde"
+    },
+    {
+      "name": "msgpack-numpy",
+      "version": "0.4.8",
+      "file_count": 7,
+      "missing_file_count": 0,
+      "installed_bytes": 19211,
+      "content_sha256": "7d737053cc1eca1bc3aea09c829ffaed651d72820b6222267eeec481c1b533f2"
+    },
+    {
+      "name": "narwhals",
+      "version": "2.25.0",
+      "file_count": 167,
+      "missing_file_count": 0,
+      "installed_bytes": 1988383,
+      "content_sha256": "4432f0f175950b0ad952214f7b817cb77ea8e46615bc3f283d86f0158a5e5dc8"
+    },
+    {
+      "name": "networkx",
+      "version": "3.6.1",
+      "file_count": 601,
+      "missing_file_count": 0,
+      "installed_bytes": 6978488,
+      "content_sha256": "79e2e6a3914f24a5b015847f19fe6d5d6a927bf2ce435e725dae60823237ebfe"
+    },
+    {
+      "name": "numpy",
+      "version": "2.5.2",
+      "file_count": 925,
+      "missing_file_count": 0,
+      "installed_bytes": 20334676,
+      "content_sha256": "ab212f788906d0bf1bed7fdba85f4ca2fe98cb614e164596298bea3e2f168896"
+    },
+    {
+      "name": "pandas",
+      "version": "3.0.5",
+      "file_count": 1521,
+      "missing_file_count": 0,
+      "installed_bytes": 38798330,
+      "content_sha256": "7019fb61e5aec8c072b15837068cc00cccd7c737748889cff1325785d9871c1e"
+    },
+    {
+      "name": "parso",
+      "version": "0.8.7",
+      "file_count": 37,
+      "missing_file_count": 0,
+      "installed_bytes": 352167,
+      "content_sha256": "510221560ecac09d573ee032cbed2f88f25f8740e5887c8e90fa2c1eba72da07"
+    },
+    {
+      "name": "pexpect",
+      "version": "4.9.0",
+      "file_count": 24,
+      "missing_file_count": 0,
+      "installed_bytes": 189524,
+      "content_sha256": "793274a6c067b9f8d3e813e833dd1e78395ef3233a6368f9bffb6f1bb65e2e99"
+    },
+    {
+      "name": "pillow",
+      "version": "12.3.0",
+      "file_count": 139,
+      "missing_file_count": 0,
+      "installed_bytes": 13255114,
+      "content_sha256": "dba47d0f37b90411cda436ab43086d261143e59774720c1c7c69ea68cf333469"
+    },
+    {
+      "name": "prompt-toolkit",
+      "version": "3.0.53",
+      "file_count": 152,
+      "missing_file_count": 0,
+      "installed_bytes": 1383556,
+      "content_sha256": "464ec6a50acab28c50eb22cc39e447a69f0c615e8ead289ca79a3c4cbd4dcabd"
+    },
+    {
+      "name": "psutil",
+      "version": "7.2.2",
+      "file_count": 16,
+      "missing_file_count": 0,
+      "installed_bytes": 474333,
+      "content_sha256": "3c0865eec20e9959a8ebb0f4560c0c7bb247f5f8978aec4a6893d3762ed1811c"
+    },
+    {
+      "name": "ptyprocess",
+      "version": "0.7.0",
+      "file_count": 8,
+      "missing_file_count": 0,
+      "installed_bytes": 39291,
+      "content_sha256": "393fde825163e51cfdf1a2d3598f367a78ec05f06d3fe49cab643ad4d5c6b61a"
+    },
+    {
+      "name": "pure-eval",
+      "version": "0.2.3",
+      "file_count": 11,
+      "missing_file_count": 0,
+      "installed_bytes": 32054,
+      "content_sha256": "2206602095a7506ffa1bda401a86143fb0342248912e688157aa3e3449c1c5f2"
+    },
+    {
+      "name": "py3dmol",
+      "version": "2.5.5",
+      "file_count": 6,
+      "missing_file_count": 0,
+      "installed_bytes": 18569,
+      "content_sha256": "69df2987f7f4d6986198a5aa8cdd2e0ee84281752eb87b71ea091511bbda884e"
+    },
+    {
+      "name": "pydssp",
+      "version": "0.9.1",
+      "file_count": 11,
+      "missing_file_count": 0,
+      "installed_bytes": 22718,
+      "content_sha256": "2cba07a1cf6ad761938c2fdb2ac666ad17bca5e501b6dc222df6d84d6bca3d85"
+    },
+    {
+      "name": "pygments",
+      "version": "2.21.0",
+      "file_count": 350,
+      "missing_file_count": 0,
+      "installed_bytes": 4592462,
+      "content_sha256": "79f390140b8a331f1e31422a508f6b0251183d901d7e771a256a630c7c5278a9"
+    },
+    {
+      "name": "pygtrie",
+      "version": "2.6.1",
+      "file_count": 6,
+      "missing_file_count": 0,
+      "installed_bytes": 115839,
+      "content_sha256": "41ba0f55f9a69517608fd13c2176065c356202b42026c87b11c19481d44d5cc0"
+    },
+    {
+      "name": "pyparsing",
+      "version": "3.3.2",
+      "file_count": 23,
+      "missing_file_count": 0,
+      "installed_bytes": 462144,
+      "content_sha256": "b74c19764c4b4e703840dc34c0a010197a337808d068664ddb5c6737af4c2db6"
+    },
+    {
+      "name": "python-dateutil",
+      "version": "2.9.0.post0",
+      "file_count": 25,
+      "missing_file_count": 0,
+      "installed_bytes": 439503,
+      "content_sha256": "26367241b25f6b98ff61fa0393c5e6e6e2e2e17926f1a5091e5c939ae9ee7c63"
+    },
+    {
+      "name": "pyyaml",
+      "version": "6.0.3",
+      "file_count": 24,
+      "missing_file_count": 0,
+      "installed_bytes": 604279,
+      "content_sha256": "2f64489d3f3951619628ea4986b2d4f738360d9e9d70738a8d35b05b6ffd0f04"
+    },
+    {
+      "name": "rdkit",
+      "version": "2026.3.6",
+      "file_count": 974,
+      "missing_file_count": 0,
+      "installed_bytes": 108027752,
+      "content_sha256": "55bcb80c2dcccaef98f6802f4c5469b524318499f28da4813fc5a648e9de6683"
+    },
+    {
+      "name": "regex",
+      "version": "2026.9.3",
+      "file_count": 10,
+      "missing_file_count": 0,
+      "installed_bytes": 1249945,
+      "content_sha256": "d26483fadaed7f215e03198b7289007d270fc6c5c00e1c71e7a5c1526e0b8edf"
+    },
+    {
+      "name": "requests",
+      "version": "2.34.2",
+      "file_count": 26,
+      "missing_file_count": 0,
+      "installed_bytes": 232374,
+      "content_sha256": "7fec6c1afe0004a2c70aa4606260b3919658138d86d77ae24e01a87405a799f1"
+    },
+    {
+      "name": "s3transfer",
+      "version": "0.19.2",
+      "file_count": 22,
+      "missing_file_count": 0,
+      "installed_bytes": 339612,
+      "content_sha256": "edc3fd4f98fd2642326bb5cec6d12080668426c034563bd74b8a1d83f2d96b1e"
+    },
+    {
+      "name": "safetensors",
+      "version": "0.8.0",
+      "file_count": 15,
+      "missing_file_count": 0,
+      "installed_bytes": 1211818,
+      "content_sha256": "b50ac6c6fe8203250d3cbf174fd531b9300c92669aa92c4c7e2db848bc9f76e3"
+    },
+    {
+      "name": "scikit-learn",
+      "version": "1.9.0",
+      "file_count": 989,
+      "missing_file_count": 0,
+      "installed_bytes": 30339301,
+      "content_sha256": "a8e0d31dafb8a181802142b7385d3b18ad3db2da8185a0cc81e46ef761c1212a"
+    },
+    {
+      "name": "scipy",
+      "version": "1.18.1",
+      "file_count": 1429,
+      "missing_file_count": 0,
+      "installed_bytes": 70339497,
+      "content_sha256": "5ef3ab9a04837c9fc45e56d889aff74e34eee691e06b9632b607badd3704b9e9"
+    },
+    {
+      "name": "six",
+      "version": "1.17.0",
+      "file_count": 6,
+      "missing_file_count": 0,
+      "installed_bytes": 37544,
+      "content_sha256": "0caeea2824344c3598301308f9f8f3d4b2c7542b0a7a09d408ff6714954a3489"
+    },
+    {
+      "name": "stack-data",
+      "version": "0.6.3",
+      "file_count": 12,
+      "missing_file_count": 0,
+      "installed_bytes": 74356,
+      "content_sha256": "b7f62e7ed63b03e9401656bd03f323e34f2f1caa2d3f365b7a41e33e99469e85"
+    },
+    {
+      "name": "sympy",
+      "version": "1.14.0",
+      "file_count": 1571,
+      "missing_file_count": 0,
+      "installed_bytes": 26696679,
+      "content_sha256": "feaf7d73befb58d6df6f8cd27a200b64d1b062c503d246cb7679767479005d95"
+    },
+    {
+      "name": "tenacity",
+      "version": "9.1.4",
+      "file_count": 18,
+      "missing_file_count": 0,
+      "installed_bytes": 84966,
+      "content_sha256": "b493e7ba265a43ceea175937b424a413fb1f12ddf076e5465d644e27a5adb4b8"
+    },
+    {
+      "name": "threadpoolctl",
+      "version": "3.6.0",
+      "file_count": 5,
+      "missing_file_count": 0,
+      "installed_bytes": 66158,
+      "content_sha256": "0896fb3ece880976affb9e79f5f7ed4ca41978d6215bb8ca0bcd75fa3f837bda"
+    },
+    {
+      "name": "tokenizers",
+      "version": "0.22.2",
+      "file_count": 29,
+      "missing_file_count": 0,
+      "installed_bytes": 8506298,
+      "content_sha256": "fb7ed0b97acd7114cd8052ca940b153b482fe908d631de887ff9565ced71d7fd"
+    },
+    {
+      "name": "torch",
+      "version": "2.11.0",
+      "file_count": 12413,
+      "missing_file_count": 0,
+      "installed_bytes": 343513603,
+      "content_sha256": "2c50691dc5be8edc2c402b2d01201a9eaa0ecd2960c01e73e827317c39fb80b9"
+    },
+    {
+      "name": "tqdm",
+      "version": "4.70.0",
+      "file_count": 40,
+      "missing_file_count": 0,
+      "installed_bytes": 230747,
+      "content_sha256": "a0e1b64293a21a05790deeb4f99a1bd4205a59c0bc36f0eb3c7c35aa343ee56d"
+    },
+    {
+      "name": "traitlets",
+      "version": "5.16.1",
+      "file_count": 29,
+      "missing_file_count": 0,
+      "installed_bytes": 317260,
+      "content_sha256": "ea83b551098ef721931d111f4e1347ebcd9fa727a6f5a925683cdf9b0aafa614"
+    },
+    {
+      "name": "transformers",
+      "version": "4.57.6",
+      "file_count": 2249,
+      "missing_file_count": 0,
+      "installed_bytes": 52180344,
+      "content_sha256": "96b4b7295aabbf14fb221aba409db080ad6af65754e5539fc17eaadb31e0fe3c"
+    },
+    {
+      "name": "typing-extensions",
+      "version": "4.16.0",
+      "file_count": 5,
+      "missing_file_count": 0,
+      "installed_bytes": 182344,
+      "content_sha256": "ceb9b6b01c9b70abd53d7c5b23675f3f0d553ab8f5957ec877435d5df8759ed1"
+    },
+    {
+      "name": "urllib3",
+      "version": "2.7.0",
+      "file_count": 42,
+      "missing_file_count": 0,
+      "installed_bytes": 428938,
+      "content_sha256": "6000471b2cda64fe690da88202285a1818c0345836259daac012f5e3504d6711"
+    },
+    {
+      "name": "wcwidth",
+      "version": "0.8.3",
+      "file_count": 53,
+      "missing_file_count": 0,
+      "installed_bytes": 1836841,
+      "content_sha256": "28ca0a37ce2e8bd7c94bc3b61542286775df14f67a48f021e635b93879fb8558"
+    },
+    {
+      "name": "widgetsnbextension",
+      "version": "4.0.16",
+      "file_count": 14,
+      "missing_file_count": 0,
+      "installed_bytes": 9240065,
+      "content_sha256": "a4d5334d1af510147b5d5ddb015a48db563ec23b5fd60348634818529f1b2729"
+    },
+    {
+      "name": "zstd",
+      "version": "1.5.7.2",
+      "file_count": 6,
+      "missing_file_count": 0,
+      "installed_bytes": 651485,
+      "content_sha256": "db265076d10e66b762275965604311e9eb93f8a756ce12d212c5943f13042b9d"
+    }
+  ]
+}

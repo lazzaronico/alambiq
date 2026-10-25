@@ -1,0 +1,228 @@
+{
+  "schema_version": "0.1",
+  "recorded_date": "2026-10-09",
+  "scope": "Fresh locked Linux ARM64 CPU Docker two-leg short binding integration, independent native MBAR equations, exact saved-output reuse and restored dossier. The 1 ps example retains its measured uncertainty and sample limits.",
+  "provider": "openfe.relative-binding",
+  "method_profile": "openfe.sage-2.3.0-ashgc-neutral-relative-binding-v1",
+  "platform": "Linux ARM64 / NVIDIA GB10 host; OpenMM CPU with eight threads",
+  "source_commit_at_execution": "0f2adc7302c91d5101f73e9bea68b58d11cce5ca",
+  "installed_bioforge_wheel_sha256": "96639dc581278727ccc3c7f0798a9005f763df796473b84d87d8c8a1d24f1b59",
+  "matching_installed_package_files": 231,
+  "source_sha256": {
+    "src/bioforge/plugins/openfe_binding.py": "1700ceaf99f6f514a4d0f40d976c56930c3962f59e0fe1c7af56dd0f4ed0f7f3",
+    "src/bioforge/plugins/runners/openfe_runner.py": "bb429c9f7e88d999f303cd6d45cb51c61e89cf0b93ded623c30eef4c80c603ad",
+    "src/bioforge/plugins/binding_free_energy.py": "ba3feeca97b353ccc82b2f8c3a0985d946c9dc3762e894644f5591f751d20e94",
+    "src/bioforge/inspection/binding.py": "329cb698718e10a1b65fc74279bfe40e9785762e11677d291d9831f93d1f6ce0"
+  },
+  "runtime": {
+    "conda_package_set_sha256": "7a59e7bf98763aa125c2b5f61d42a79bdadeb493e79ccca505339e00cef7f5ad",
+    "versions": {
+      "gufe": "1.12.0",
+      "openfe": "1.12.0",
+      "openff-toolkit": "0.18.0",
+      "openmm": "8.4.0",
+      "openmmtools": "0.26.0",
+      "pymbar": "4.2.0",
+      "rdkit": "2025.9.6"
+    },
+    "locked_package_identities_and_recorded_archive_digests_verified": 348,
+    "explicit_lock_sha256": "6dae3a8f530c74d3c383f247e44541064dd09454f6ad6c684966163a77974f5a",
+    "native_prefix_installation": "Fresh install by unchanged Docker/native recipes; no host prefix copied. Recorded metadata digests are distinct from independently rereading every conda archive."
+  },
+  "container": {
+    "image_sha256": "sha256:0075c82728f37fb001959b323af4cc6a6a2cc5c7d775522551ecb5c8179993ef",
+    "workbench_image_sha256": "sha256:aaeb52482ba6cc47b389b575fe0bcd7e9579214b6a3bc79fc5396b43a104faa7",
+    "network": "none",
+    "read_only_root": true,
+    "user": "1000:1000",
+    "cpu_limit": 8,
+    "memory_limit_bytes": 34359738368,
+    "tmpfs": {
+      "/tmp": "rw,size=2g,mode=1777"
+    },
+    "outer_limit_seconds": 8000,
+    "native_limit_seconds_per_phase": 3600,
+    "recipes_sha256": {
+      "environments/docker/Dockerfile": "49adf89a85f69ba1d7b410a85b9ad11107794cabecdca0e3e747e2c9e862bfc2",
+      "environments/docker/Dockerfile.openfe": "2206035297e4dfe6153d9c44f80a7689831ef895c9ce3f002a342001f1c29c6d",
+      "environments/binding-free-energy/locks/linux-aarch64.cuda13.explicit.txt": "6dae3a8f530c74d3c383f247e44541064dd09454f6ad6c684966163a77974f5a"
+    },
+    "terminal": {
+      "Status": "exited",
+      "Running": false,
+      "OOMKilled": false,
+      "ExitCode": 0,
+      "StartedAt": "2026-10-09T07:10:15.57439571Z",
+      "FinishedAt": "2026-10-09T08:10:27.516163895Z"
+    }
+  },
+  "execution": {
+    "run_id": "run-dbf0ff3ad44fb8ad",
+    "reuse_run_id": "run-25f16d50aa4487e6",
+    "canonical_steps_completed": 3,
+    "threads": 8,
+    "only_parameter_change_from_shipped_cpu_example": "threads 2 to 8 in both legs",
+    "started_at": "2026-10-09T07:10:16.990536+00:00",
+    "finished_at": "2026-10-09T08:10:26.886132+00:00",
+    "returncode": 0,
+    "shared_native_process_lifetime_completed": true,
+    "owned_container_exited": true
+  },
+  "physical_settings": {
+    "edge": {
+      "id": "benzene-toluene",
+      "a": "benzene",
+      "b": "toluene"
+    },
+    "phase": "solvent",
+    "atom_mapping": [
+      [
+        0,
+        4
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        4,
+        6
+      ],
+      [
+        5,
+        5
+      ],
+      [
+        6,
+        12
+      ],
+      [
+        7,
+        11
+      ],
+      [
+        8,
+        10
+      ],
+      [
+        10,
+        14
+      ],
+      [
+        11,
+        13
+      ]
+    ],
+    "temperature_kelvin": 302.0,
+    "pressure_bar": 1.0,
+    "solvent_padding_nm": 1.5,
+    "ionic_strength_molar": 0.05,
+    "replicas": 2,
+    "equilibration_ps": 0.2,
+    "production_ps": 1.0,
+    "time_per_iteration_ps": 0.02,
+    "checkpoint_interval_ps": 0.2,
+    "positions_interval_ps": 0.2,
+    "lambda_windows": 5,
+    "platform": "CPU",
+    "threads": 8,
+    "timeout_seconds": 3600
+  },
+  "sources": {
+    "ligand_a": {
+      "sha256": "887e4f0d02a6c67cd137d45cfdc30572d78c5817da0295aa0ac655fe8717785c"
+    },
+    "ligand_b": {
+      "sha256": "c04e1f0d56e23258eda7efc2f780002391a23f81328a6bf56e50a97067d353a6"
+    },
+    "protein": {
+      "sha256": "2efb422b55ee5d4ea1d2f15a87d8a006b60cfab2634297438ff100948f6d05ca"
+    }
+  },
+  "method_sha256": "2f6d35f04c2769245ed7a209e9bedbf3f181468a0c91ec5ef8e4eb510a239251",
+  "native_archives": [
+    {
+      "phase": "solvent",
+      "sha256": "15b83a3b68e91d4e8eb84455bc43e55d5d7b72a79652f73f43891923e094b1aa",
+      "bytes": 2910410,
+      "files": 33
+    },
+    {
+      "phase": "bound",
+      "sha256": "9490f960f1a54538175f3b3cf91261dfa2fdaeb611e5c8173e9dba4335691aa9",
+      "bytes": 45782425,
+      "files": 37
+    }
+  ],
+  "native_completeness": {
+    "repeats": 4,
+    "production_iterations_each": 50,
+    "states_each": 5,
+    "raw_energy_values": 5100,
+    "physical_atoms": {
+      "solvent": 1815,
+      "bound": 31867
+    },
+    "coordinate_box_volume_iterations": [
+      0,
+      10,
+      20,
+      30,
+      40,
+      50
+    ],
+    "latest_checkpoint_iteration": 50,
+    "checkpoint_file_creation_marker": 0,
+    "complete_finite_checkpoint_coordinates": true
+  },
+  "independent_numerical_checks": {
+    "solver": "SciPy BFGS initialization; 50-digit Newton refinement of the gauge-fixed MBAR equations with analytic Jacobian.",
+    "sample_selection": "Upstream-selected decorrelated samples retained; equations, solver and normalized weights independently reconstructed.",
+    "maximum_endpoint_difference_kcal_mol": 3.320455022048918e-10,
+    "maximum_overlap_difference": 9.463874128812222e-12,
+    "maximum_effective_sample_difference": 2.5006485770973086e-10,
+    "maximum_weight_normalization_error": 5.551115123125783e-16,
+    "tolerances": {
+      "endpoint_kcal_mol": 1e-05,
+      "overlap": 1e-07,
+      "effective_samples": 0.0001,
+      "weight_normalization": 1e-08
+    },
+    "two_leg_difference_and_replica_sem_reconstructed": true,
+    "native_bootstrap_uncertainties_retained_not_independently_resampled": true
+  },
+  "short_sampling_diagnostics": {
+    "delta_delta_g_kcal_mol": 4.793939439385779,
+    "replica_sem_kcal_mol": 4.15641420549577,
+    "minimum_effective_samples": 4.7722193951607,
+    "cycles_evaluated": 0,
+    "production_convergence_established": false
+  },
+  "reuse_and_restoration": {
+    "native_execution_forbidden_on_exact_resume": true,
+    "both_leg_method_identities_equal": true,
+    "original_reuse_outputs_exact": true,
+    "strict_reload_exact": true,
+    "restored_progressive_dossier_byte_identical": true,
+    "report_sha256": "572b0f70566395c01d009a797883146cc4a7a831a7ef9bf3d65821bd491724a9"
+  },
+  "evidence_sha256": {
+    "qualification": "0b64634d87debbd6669f47e8f8ffed67e86fe68899fdf8efd5f22d635ed5b3b5",
+    "returned_manifest": "d1056e8242743c549f814266373d0b714cb4c8ae0b8edbe7c436f466516abfa1",
+    "independent_verification": "eb0a853159aaea9afc07e98acafe60d1718b72cd6970caf33d2c06a9b16d3796",
+    "native_equation_verification": "7c66b1f86bc2d5141bdf0c6257d43ec82db5d06ef39d3093c8d2b395f96a6a93"
+  },
+  "limits": [
+    "The current CPU short example measures software integration; affinity convergence requires adequate independent repeats, overlap and effective samples.",
+    "Historical OpenFF2.2.1/Sage AM1-BCC legs retain their recorded method identities.",
+    "No complete historical three-edge production cycle or general CPU/GPU speed ratio is established."
+  ]
+}

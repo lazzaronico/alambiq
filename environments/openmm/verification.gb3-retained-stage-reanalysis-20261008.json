@@ -1,0 +1,212 @@
+{
+  "schema_version": "0.1",
+  "date": "2026-10-08",
+  "status": "recorded-analysis-and-independent-mathematics-passed-sampling-and-image-checks-failed",
+  "scope": "Reanalysis of nine closed historical GB3 50 ns segments: three replicas at 298 K and three at 310 K, plus the three 298 K continuations to 100 ns. The original topology-named arrays remain unchanged; separately identified IUPAC interpretation and saved-frame protein-image diagnostics are recorded.",
+  "platform": "macOS ARM64",
+  "source_commit": "91c98cc3622543a0e84945e6f9fd60beb6b5519a",
+  "installed_wheel_sha256": "dce4bd64da898c4a525713cefe2dfd8830c6f858f9569d2ffd92d106fcbdf478",
+  "matching_installed_package_files": 231,
+  "run_id": "run-83464704b96fa26f",
+  "source_run_id": "run-0527262a3f3b6be2",
+  "providers": [
+    "builtin.scalar-coupling-ensemble",
+    "mdtraj.trajectory-inspection"
+  ],
+  "method_profiles": [
+    "trajectory.scalar-coupling-ensemble-v1",
+    "openmm.dcd-state-ca-inspection-v1"
+  ],
+  "canonical_steps_completed": 12,
+  "segment_count": 9,
+  "saved_frames": 45000,
+  "unique_recorded_replica_ns": 450,
+  "observations": 225,
+  "reference_source": {
+    "archive_sha256": "47dbdc55551842d864d72ef66b58f59326637a83ef1c3eecf6f4dd2698536375",
+    "citation": "V\u00f6geli et al. (2015), DOI 10.1016/j.dib.2015.08.020",
+    "license": "CC-BY-4.0",
+    "member": "CollectedRestraints/GB3.cco",
+    "member_sha256": "736c0e922de8caf94eda131e30e7dd16ab71a9408d6d94a0ccb7fedf57abfe6c",
+    "url": "https://ars.els-cdn.com/content/image/1-s2.0-S2352340915001766-mmc1.zip"
+  },
+  "original_topology_control": {
+    "replica_arrays": 6,
+    "coupling_values": 6750000,
+    "all_arrays_bitwise_equal_to_frozen_original": true,
+    "time_axes_and_observation_ids_exact": true
+  },
+  "iupac_naming": {
+    "policy": "iupac-beta-methylene",
+    "requested_residues": 12,
+    "swapped_residues": 9,
+    "changed_observation_paths": 18,
+    "geometry_only_assignment": true,
+    "all_45000_frames_handedness_verified": true,
+    "first50_arrays_exact_under_atom_path_and_coefficient_permutation": true,
+    "continued_298k_prefixes_exact": true,
+    "first50_298k_reference": {
+      "topology_rmse_hz": 1.85277222954501,
+      "iupac_rmse_hz": 0.6734027447396181,
+      "topology_mae_hz": 0.8268861402210294,
+      "iupac_mae_hz": 0.474771745674842
+    }
+  },
+  "sampling_checks": {
+    "criteria": {
+      "split_rhat_max": 1.05,
+      "combined_ess_min": 200,
+      "required_jointly_passing_observations": 214
+    },
+    "stages": [
+      {
+        "stage": "first50",
+        "condition": "t298",
+        "frames_per_replica": 5000,
+        "jointly_passing": 186,
+        "required": 214,
+        "criterion_status": "fail",
+        "maximum_independent_rhat_difference": 2.220446049250313e-16,
+        "maximum_independent_ess_difference": 1.4551915228366852e-11,
+        "rmse_hz": 0.6734027447396181
+      },
+      {
+        "stage": "first50",
+        "condition": "t310",
+        "frames_per_replica": 5000,
+        "jointly_passing": 184,
+        "required": 214,
+        "criterion_status": "fail",
+        "maximum_independent_rhat_difference": 2.220446049250313e-16,
+        "maximum_independent_ess_difference": 1.0913936421275139e-11,
+        "rmse_hz": null
+      },
+      {
+        "stage": "closed298k100ns",
+        "condition": "t298",
+        "frames_per_replica": 10000,
+        "jointly_passing": 198,
+        "required": 214,
+        "criterion_status": "fail",
+        "maximum_independent_rhat_difference": 2.220446049250313e-16,
+        "maximum_independent_ess_difference": 2.546585164964199e-11,
+        "rmse_hz": 0.6499527568007897
+      }
+    ],
+    "interpretation": "Sampling criteria and experimental residuals are distinct; stereospecific relabeling preserves the ensemble passing count."
+  },
+  "protein_image_check": {
+    "cutoff_nm": 0.9,
+    "all_saved_frames_checked": true,
+    "failing_segments": 9,
+    "within_cutoff_frames": 945,
+    "minimum_distance_nm": 0.5627822581044397,
+    "segments": [
+      {
+        "id": "t298-r1-50ns",
+        "frames": 5000,
+        "within_cutoff_frames": 100,
+        "minimum_distance_nm": 0.6289592676427925,
+        "passed": false
+      },
+      {
+        "id": "t298-r2-50ns",
+        "frames": 5000,
+        "within_cutoff_frames": 232,
+        "minimum_distance_nm": 0.6491459393760383,
+        "passed": false
+      },
+      {
+        "id": "t298-r3-50ns",
+        "frames": 5000,
+        "within_cutoff_frames": 77,
+        "minimum_distance_nm": 0.6419804471079951,
+        "passed": false
+      },
+      {
+        "id": "t310-r1-50ns",
+        "frames": 5000,
+        "within_cutoff_frames": 121,
+        "minimum_distance_nm": 0.5886048453576741,
+        "passed": false
+      },
+      {
+        "id": "t310-r2-50ns",
+        "frames": 5000,
+        "within_cutoff_frames": 32,
+        "minimum_distance_nm": 0.7437964380407668,
+        "passed": false
+      },
+      {
+        "id": "t310-r3-50ns",
+        "frames": 5000,
+        "within_cutoff_frames": 152,
+        "minimum_distance_nm": 0.5627822581044397,
+        "passed": false
+      },
+      {
+        "id": "t298-r1-100ns",
+        "frames": 5000,
+        "within_cutoff_frames": 88,
+        "minimum_distance_nm": 0.6768782321692848,
+        "passed": false
+      },
+      {
+        "id": "t298-r2-100ns",
+        "frames": 5000,
+        "within_cutoff_frames": 47,
+        "minimum_distance_nm": 0.750442080220779,
+        "passed": false
+      },
+      {
+        "id": "t298-r3-100ns",
+        "frames": 5000,
+        "within_cutoff_frames": 96,
+        "minimum_distance_nm": 0.6397788089077481,
+        "passed": false
+      }
+    ],
+    "scope": "Closest atom-to-translated-protein-copy distance, including hydrogens, after whole-protein reconstruction and before fitting. Saved frames are measured; intervening frames and electrostatic finite-size convergence are separate."
+  },
+  "independent_checks": {
+    "frames": 45000,
+    "coupling_values": 10125000,
+    "maximum_coupling_difference_hz": 2.7160380184909627e-06,
+    "coupling_tolerance_hz": 5e-05,
+    "binary64_handedness_all_frames": true,
+    "rhat_and_ess_reconstructed": true,
+    "maximum_rhat_difference": 2.220446049250313e-16,
+    "maximum_ess_difference": 2.546585164964199e-11,
+    "exhaustive_image_comparison_frames": 36,
+    "predeclared_sentinel_frames_per_segment": [
+      0,
+      2500,
+      4999
+    ],
+    "additional_posthoc_selection": "Each segment recorded global-minimum frame, separately disclosed.",
+    "maximum_image_distance_difference_nm": 0.0,
+    "image_comparison_tolerance_nm": 1e-08,
+    "scope": "All 45000 primary packaged records reaggregated; independent brute-force coordinate distances on 27 predeclared sentinels plus each segment global-minimum frame. Full 45000-frame image distances are not independently recomputed."
+  },
+  "reuse_and_restoration": {
+    "all_analysis_provider_execution_forbidden_on_exact_resume": true,
+    "outputs_exact": true,
+    "restored_progressive_dossier_byte_identical": true,
+    "report_sha256": "ac858a216b53e8a87e56bb6926a6beeec39bd0291ac3c25f6b743ee82bb7d3e2"
+  },
+  "provenance": {
+    "frozen_request_sha256": "4275332db8a19c9d24d724a9480b755c3a295f797c73c56d6dabd41c9ed00489",
+    "frozen_plan_sha256": "ffaf3305b20f49648daa66a3c386627caf4f6d811a77829463f0b5e8986be7bf",
+    "result_sha256": "f4f7cc6aee81b4e019e1dff5abfb025a30ddb889cf4d4a03a33b094e8539e701",
+    "packaged_verification_sha256": "c18de50cefc7144276e445e1d0d3c6e22a649d9f76b4b11cc5d3b5e7173c3597",
+    "independent_verification_sha256": "87b160d84d05ca451212760e7c8d308dcab29e3f7e2ed9e1153fde18167ad045",
+    "all_original_source_files_unchanged": true
+  },
+  "new_simulation_performed": false,
+  "limits": [
+    "These recorded 50/100 ns stages establish no complete 200 ns two-temperature endpoint.",
+    "Every inspected historical segment has protein-image distances within the selected cutoff; isolated-protein interpretation needs adequate geometry and finite-size assessment.",
+    "Original sampling failures remain; current reanalysis establishes no converged full ensemble, activity, thermodynamic stability or chemical rate.",
+    "The separately recorded 2 nm benchmark has its own preparation, data and criteria."
+  ]
+}

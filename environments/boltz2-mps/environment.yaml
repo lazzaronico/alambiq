@@ -1,0 +1,8 @@
+name: alambiq-boltz2-2.2.1-mps-pr527-v1
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - boltz @ git+https://github.com/jwohlwend/boltz.git@1a56ef48739835d8863ec4666644bf7a7d85bc14

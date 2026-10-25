@@ -1,0 +1,81 @@
+{
+  "logical_id": "uniref50-2026_02-v1",
+  "version": "2026_02",
+  "provider": "UniProt Consortium",
+  "license": "CC-BY-4.0",
+  "description": "UniRef50 release 2026_02 as an MMseqs2 sequence database with a precomputed index.",
+  "build": "Built locally from https://ftp.uniprot.org/pub/databases/uniprot/current_release/uniref/uniref50/uniref50.fasta.gz (release 2026_02) with MMseqs2 18-8cc5c: createdb, createindex.",
+  "files": [
+    {
+      "path": "uniref50-db",
+      "bytes": 12248605138,
+      "sha256": "47e1a901c1cd3977c4f60bbe85a88c6a6999016667e93bec7488cd8380d6fd8d"
+    },
+    {
+      "path": "uniref50-db.dbtype",
+      "bytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    {
+      "path": "uniref50-db.idx.0",
+      "bytes": 388251648,
+      "sha256": "df2ef9f1bc079319966488123a26f75f994c8837d6d87039bb8e43879eff0590"
+    },
+    {
+      "path": "uniref50-db.idx.1",
+      "bytes": 18657165312,
+      "sha256": "61b792e19db9244171fb378847ae70bcc11b9df786369a8a83c80dcaf9a7f277"
+    },
+    {
+      "path": "uniref50-db.idx.2",
+      "bytes": 49675255808,
+      "sha256": "0a580d7438ae4b6cb4cf20d8f5ebbf19e89fb30e3f0cf7cc50d558f0c7893043"
+    },
+    {
+      "path": "uniref50-db.idx.3",
+      "bytes": 49675173888,
+      "sha256": "bc351394d214cbf929fcf01090931736c834dd277e674e0fa9d1e4cad6dd523c"
+    },
+    {
+      "path": "uniref50-db.idx.dbtype",
+      "bytes": 4,
+      "sha256": "9f076b7eb7fdc0311cd3208cdbbebbf8014dd3a05e35191c96947b358a362b40"
+    },
+    {
+      "path": "uniref50-db.idx.index",
+      "bytes": 609,
+      "sha256": "fa518d5c2e5d4a43ed60362ab4737e391d8d3d01a910aae557bedad0931fb928"
+    },
+    {
+      "path": "uniref50-db.index",
+      "bytes": 918832746,
+      "sha256": "69015819b41ca7dc053f99dbc802706c10e947bf2afa898206e6c99da99d12dd"
+    },
+    {
+      "path": "uniref50-db.lookup",
+      "bytes": 1188891188,
+      "sha256": "a78e6b428246cef7674b4262f0032dc0cb459dc622d0dbdf5766dacb2debf83f"
+    },
+    {
+      "path": "uniref50-db.source",
+      "bytes": 20,
+      "sha256": "3eb54cda0e2ada50e1ea5755f11ae96f89d50cb03dde78726e511159d9360506"
+    },
+    {
+      "path": "uniref50-db_h",
+      "bytes": 4546404786,
+      "sha256": "d38937622ea6d44704a67b282fbc3803d53fe03762ec888ecc1bf48301657050"
+    },
+    {
+      "path": "uniref50-db_h.dbtype",
+      "bytes": 4,
+      "sha256": "42f4aeb81c1ef81f771f3de8abca9dcf66901c575530e7672e4b1146474ae650"
+    },
+    {
+      "path": "uniref50-db_h.index",
+      "bytes": 907067415,
+      "sha256": "8bafcb02dee3ca76053da855e095facbbfc8063da6739c17d90248e6566fa973"
+    }
+  ],
+  "source_archive_md5": "3228886e9d749f050f60e9a0ce1f727d"
+}

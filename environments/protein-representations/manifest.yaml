@@ -1,0 +1,31 @@
+schema_version: "0.1"
+id: protein-representations-esmc-3.4.0
+status: macos-and-spark-native-workflows-tested-with-recorded-vendor-diagnostic
+installation: optional-mamba-environment
+profiles:
+  osx-arm64:
+    python: "3.12"
+    esm: "3.4.0"
+    torch: "2.11.0"
+    transformers: "4.57.6"
+    conda_package_set_sha256: 78eeb62acfbc5ec46e4035bbaf132c19fad54bdb38e8c1008da80b2546b35c6e
+    pip_package_set_sha256: 2d18cd730b3c7e75edee2e84a3d3107b2a5cdfcf1df5344be561bd4258ac81d1
+    devices_tested: [cpu, mps]
+    scope: CPU/MPS on one 142-residue sequence; canonical MPS panel of six 105–375-residue proteins, single-protein batches, float32 representations.
+  linux-aarch64:
+    python: "3.12.14"
+    esm: "3.4.0"
+    torch: "2.11.0"
+    transformers: "4.57.6"
+    devices_tested: [cpu, cuda]
+    accelerator: NVIDIA GB10
+    driver: "580.159.03"
+    scope: Six-protein ESMC/ESM3 CPU/CUDA panels; 142-residue CUDA annotation and bounded completion. ESM3 CUDA uses upstream bfloat16 autocast with float32 exports.
+    pip_check: one-retained-nvidia-cusparselt-cu13-0.8.0-platform-tag-error
+    verification: verification.accelerators.linux-aarch64.json
+uncommissioned: [linux-x86_64, maximum-size-panels, peak-memory-envelope]
+notes:
+  - The core environment is unchanged; no model is downloaded on import.
+  - Upstream pure-PyTorch attention and layer normalization are used on Mac.
+  - No fused CUDA extension was added to satisfy an optional optimization warning.
+  - Full package records accompany this recipe; fresh Mac prefix installation is tested in verification.portable.osx-arm64.json.

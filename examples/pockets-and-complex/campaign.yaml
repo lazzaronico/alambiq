@@ -1,0 +1,15 @@
+id: pockets-and-complex
+steps:
+  - id: dossier
+    capability: protein.inspect
+    params:
+      fasta: hemoglobin-alpha.fasta
+      uniprot: P69905.json
+      structure: 1A3N.cif
+
+  - id: pockets
+    capability: structure.detect_binding_pockets
+    bind:
+      protein: dossier.record
+    params:
+      structure_kind: experimental

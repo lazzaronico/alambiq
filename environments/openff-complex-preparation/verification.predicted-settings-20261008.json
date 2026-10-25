@@ -1,0 +1,40 @@
+{
+  "configured_profile": {
+    "box_shape": "dodecahedron",
+    "ionic_strength_molar": 0.15,
+    "minimization_max_iterations": 5000,
+    "solvent_padding_angstrom": 20.0
+  },
+  "declared_salt_join_controls_molar": [
+    0.0,
+    0.15,
+    0.3
+  ],
+  "dependencies_added": [],
+  "provider": "openff.openmm-complex-preparation",
+  "provider_version": "0.2.0",
+  "recorded_date": "2026-10-08",
+  "schema_version": "0.1",
+  "scope": "Canonical declared-profile checks and complete preparation configuration-to-solvation/manifest join with native chemistry mocked. This software control does not assert new native physical preparation, salt concentration accuracy, protein-image separation, sampling or biological validation. Earlier measured native records retain their original settings and source identities.",
+  "skill_version": "0.2.0",
+  "source_sha256": {
+    "campaigns/diagnostics/openff-openmm-complex-preparation-contract.yaml": "9fa383c648c13fa6a58d8b19552e726ea147a5adc446afbf1fd6a39decb3aa18",
+    "campaigns/integrations/r1/sequence-to-physical-smoke.yaml": "ed5c2f7ed7efe137190907f6ce214f2078ff011ff139d51be0a04c23f1d0b35a",
+    "skills/structure-prepare-predicted-complex-for-dynamics/SKILL.md": "3b5ad612ed38d189e6f7d4f1cb3bb7f2bfab484cd0961dca0772fdb23a7c756e",
+    "src/bioforge/plugins/predicted_complex_preparation.py": "efbb553f27e6c7451514e5bfc9ba7ababcb73e63f2b76f94f19d48f05edff941",
+    "src/bioforge/plugins/runners/openff_complex_prepare.py": "8bb4366ec439310dfec6c95d596a570ec4431a93dbd866f9b6f37943b91f1b73",
+    "src/bioforge/plugins/runners/solvent_conditions.py": "4ab1dabdedd442f8b10c09a95a93e677c6d0a90fff16c91dfdd833b1fb38ecb9",
+    "tests/test_predicted_complex_preparation.py": "6e327365ed74606dfb7678940ec62b41f27e32d5ac16620e64e33dbfe1a84033"
+  },
+  "status": "software configuration and preparation join regression passed",
+  "test_cases": 7,
+  "test_command": [
+    "python",
+    "-m",
+    "unittest",
+    "tests.test_predicted_complex_preparation",
+    "-v"
+  ],
+  "test_log_sha256": "bf7712e25482d02d898508c8b7c37c6b68948205cbd04ae58639ad3c8efe3081",
+  "test_seconds": 1.029216333758086
+}

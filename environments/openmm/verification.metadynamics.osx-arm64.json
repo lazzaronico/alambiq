@@ -1,0 +1,466 @@
+{
+  "canonical_gb3": {
+    "campaign_sha256": "9fd2b61b3a1749d1c44fbf4d8af3bfbbd7510615aba3721f5f77166706b6a916",
+    "cost_scope": "Local two-thread CPU preparation, planning, execution and collection with existing environments; concurrent tests may affect timings. Excludes report rendering and environment installation.",
+    "end_to_end_seconds": 95.7342482500244,
+    "plan_id": "plan-367b199c9e83e857",
+    "preparation": {
+      "atom_count": 12596,
+      "box_shape": "dodecahedron",
+      "environment": {
+        "added_salt_molar": 0.05,
+        "preparation_ph": 7.0,
+        "protonation": "Fixed OpenMM residue variants with explicit source-indexed overrides; pH-dependent defaults are not site-specific pKa estimates",
+        "residue_counts": {
+          "CL": 4,
+          "NA": 6
+        },
+        "salt": "NaCl",
+        "salt_convention": "Added bulk salt excludes neutralizing counterions; integer ion counts approximate the requested concentration"
+      }
+    },
+    "result_sha256": "eb5151bd598e5dfa035bbf7c2c25e8f6241e293bdcd2a38b520072e3e0afc0ce",
+    "run_id": "run-5c1e8854c00c4e81",
+    "scope": "0.8 ps integration control including 0.2 ps ordinary explicit equilibration, 0.2 ps bias adaptation, 0.2 ps frozen equilibration and 0.2 ps production. No thermal-entry or sampling qualification.",
+    "summary": {
+      "atom_count": 12596,
+      "checkpoint_interval": 200,
+      "continuation": "Independent seeded velocity initialization; independent zero-bias adaptation followed by fixed-bias equilibration and production",
+      "energy_diagnostic": "Thermostat and barostat exchange energy; total-energy change is descriptive",
+      "ensemble": "NPT-fixed-torsion-bias",
+      "equilibration_readiness": {
+        "npt_steps_completed": 100,
+        "nvt_steps_completed": 100,
+        "policy": "explicit-v1",
+        "scope": "Researcher-supplied step schedule or continuation; no production-entry assessment requested",
+        "status": "not-assessed"
+      },
+      "final_cell": {
+        "cutoff_nm": null,
+        "minimum_reduced_cell_width_nm": 4.029352206267131,
+        "scope": "Cell geometry and cutoff compatibility; does not establish solute-image separation or finite-size convergence",
+        "twice_cutoff_margin_nm": null,
+        "vectors_nm": [
+          [
+            5.69836453768093,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            5.69836453768093,
+            0.0
+          ],
+          [
+            2.849182268840465,
+            2.849182268840465,
+            4.029352206267131
+          ]
+        ],
+        "volume_nm3": 130.83853962685535
+      },
+      "final_potential_energy_kj_per_mol": -179982.82994044767,
+      "final_total_energy_kj_per_mol": -155761.48646832147,
+      "finite_energies": true,
+      "frame_count": 10,
+      "initial_cell": {
+        "cutoff_nm": null,
+        "minimum_reduced_cell_width_nm": 4.029530126336814,
+        "scope": "Cell geometry and cutoff compatibility; does not establish solute-image separation or finite-size convergence",
+        "twice_cutoff_margin_nm": null,
+        "vectors_nm": [
+          [
+            5.698616154656494,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            5.698616154656494,
+            0.0
+          ],
+          [
+            2.849308077328247,
+            2.849308077328247,
+            4.029530126336814
+          ]
+        ],
+        "volume_nm3": 130.8558723112248
+      },
+      "initial_minimization": null,
+      "initial_potential_energy_kj_per_mol": -182094.68069791945,
+      "initial_total_energy_kj_per_mol": -159369.52671642185,
+      "input_sha256": {
+        "state_xml": "715554671d23c6e55febff8a673b3444a58d018439730f444735fcf62836357f",
+        "system_xml": "2bcc915fffa8d7bc9fb8c7b65f4ed2817cc516e3e468ba4624b8f3d0f34aebb3",
+        "topology_pdb": "429fd0e44c2b021466c7e2961e3f9c993b018453f34c387030443cbe37472284"
+      },
+      "metadynamics": {
+        "bias_force_group": 31,
+        "dynamics_parameters": {
+          "barostat_interval": 25,
+          "checkpoint_interval": 200,
+          "friction_per_ps": 1.0,
+          "platform": "CPU",
+          "platform_properties": {
+            "DeterministicForces": "true",
+            "Threads": "2"
+          },
+          "pressure_bar": 1.0,
+          "report_interval": 20,
+          "seed": 710303,
+          "state_report_interval": 20,
+          "steps": 200,
+          "temperature_kelvin": 298.0,
+          "timestep_fs": 1
+        },
+        "energy_scope": "State and summary potential energies include the bias; collective-variables.csv separates physical and bias energies",
+        "free_energy_grid_scope": "Native asymptotic well-tempered bias estimate -gamma/(gamma-1)*V; convergence and grid sensitivity are unassessed",
+        "gaussian_count": 2,
+        "grid_axis_order": [
+          "thr55_chi1"
+        ],
+        "grid_coordinates": "Inclusive linspace(-pi, pi, grid_width); final periodic endpoint duplicates the first",
+        "input_sha256": {
+          "state_xml": "715554671d23c6e55febff8a673b3444a58d018439730f444735fcf62836357f",
+          "system_xml": "2bcc915fffa8d7bc9fb8c7b65f4ed2817cc516e3e468ba4624b8f3d0f34aebb3",
+          "topology_pdb": "429fd0e44c2b021466c7e2961e3f9c993b018453f34c387030443cbe37472284"
+        },
+        "method": "OpenMM well-tempered torsion metadynamics with fixed-bias production",
+        "parameters": {
+          "adaptation_steps": 200,
+          "bias_factor": 8,
+          "deposition_interval": 100,
+          "frozen_equilibration_steps": 200,
+          "height_kj_mol": 0.2,
+          "torsions": [
+            {
+              "atoms": [
+                {
+                  "atom_name": "N",
+                  "chain_id": "A",
+                  "insertion_code": "",
+                  "residue_id": "55"
+                },
+                {
+                  "atom_name": "CA",
+                  "chain_id": "A",
+                  "insertion_code": "",
+                  "residue_id": "55"
+                },
+                {
+                  "atom_name": "CB",
+                  "chain_id": "A",
+                  "insertion_code": "",
+                  "residue_id": "55"
+                },
+                {
+                  "atom_name": "CG2",
+                  "chain_id": "A",
+                  "insertion_code": "",
+                  "residue_id": "55"
+                }
+              ],
+              "grid_width": 128,
+              "name": "thr55_chi1",
+              "width_radians": 0.35
+            }
+          ]
+        },
+        "phases": [
+          {
+            "end_step": 400,
+            "phase": "adaptation",
+            "seconds": 3.600583750056103,
+            "start_step": 200,
+            "steps": 200
+          },
+          {
+            "end_step": 600,
+            "phase": "frozen-equilibration",
+            "seconds": 3.607787000015378,
+            "start_step": 400,
+            "steps": 200
+          },
+          {
+            "end_step": 800,
+            "phase": "frozen-production",
+            "seconds": 3.655910125002265,
+            "start_step": 600,
+            "steps": 200
+          }
+        ],
+        "recovery_scope": "Paired state/system/native-checkpoint/bias snapshots are retained; automated metadynamics recovery is unqualified",
+        "reweighting_scope": "Fixed-bias equilibrium importance weights exp(V/(R*T)); adequate equilibration, overlap and temporal independence require separate assessment",
+        "time_scope": "Biased simulation clock; physical transition kinetics are unqualified",
+        "torsions": [
+          {
+            "atom_indices_zero_based": [
+              832,
+              834,
+              838,
+              842
+            ],
+            "atoms": [
+              {
+                "atom_name": "N",
+                "chain_id": "A",
+                "insertion_code": "",
+                "residue_id": "55"
+              },
+              {
+                "atom_name": "CA",
+                "chain_id": "A",
+                "insertion_code": "",
+                "residue_id": "55"
+              },
+              {
+                "atom_name": "CB",
+                "chain_id": "A",
+                "insertion_code": "",
+                "residue_id": "55"
+              },
+              {
+                "atom_name": "CG2",
+                "chain_id": "A",
+                "insertion_code": "",
+                "residue_id": "55"
+              }
+            ],
+            "grid_width": 128,
+            "name": "thr55_chi1",
+            "units": "radians",
+            "width_radians": 0.35
+          }
+        ],
+        "weights": {
+          "concentration_ess": 9.999643441515614,
+          "maximum_normalized_weight": 0.10067276562540833,
+          "sample_count": 10,
+          "scope": "Kish weight-concentration ESS; temporal correlation and unvisited states are unassessed"
+        }
+      },
+      "npt_equilibration_steps_completed": 100,
+      "nvt_equilibration_steps_completed": 100,
+      "output_sha256": {
+        "final-state.xml": "1319a34d755bbec873f5b324e585401a8a263bc426c5088eecb030ee2c999519",
+        "state.csv": "00b657d42246bfea4534434158cf90eb176e46062367a59266cb838f9bbcea2a",
+        "system.xml": "7b442787559fed00891bf90e7fe2bf79258ac2a2e8e560f9f480f10544ec2f09",
+        "trajectory.dcd": "81a5915c267e1f9b5cc16d5c96718d0cfec7a662007bf4e199b6c3758e7c1245"
+      },
+      "performance": {
+        "minimization_seconds": 6.249174475669861e-07,
+        "npt_equilibration_seconds": 1.6974248751066625,
+        "nvt_equilibration_seconds": 1.5696985840331763,
+        "production_ns_per_day": 4.726630011078524,
+        "production_seconds": 3.655881666112691,
+        "production_steps_timed": 200,
+        "provider_scope": "Runtime probing, input staging, native setup/equilibration/production and output parsing; excludes Prefect orchestration and final artifact publication",
+        "provider_seconds": 15.549543750006706,
+        "runner_seconds_before_summary_write": 15.199472582899034,
+        "scope": "Measured propagation including scheduled output and final checkpoint; excludes setup, final XML serialization and hashing. Short runs include warm-up effects; recovered timing covers only newly executed steps"
+      },
+      "platform": "CPU",
+      "platform_properties": {
+        "DeterministicForces": "true",
+        "Threads": "2"
+      },
+      "pressure_bar": 1.0,
+      "production_end_step": 800,
+      "production_end_time_ps": 0.8000000000000006,
+      "production_start_step": 600,
+      "production_start_time_ps": 0.6000000000000004,
+      "production_steps_completed": 200,
+      "relative_total_energy_drift": 0.0226394613979148,
+      "report_interval": 20,
+      "schema_version": "0.1",
+      "seed": 710303,
+      "state_report_interval": 20,
+      "state_row_count": 10,
+      "steps_completed": 200,
+      "temperature_kelvin": 298.0,
+      "thermodynamic_diagnostics": {
+        "equilibration": {
+          "assessment": "Descriptive sampled statistics; equilibration and effective sample size are not established",
+          "density_g_ml": {
+            "first_half_mean": 0.94729313049403,
+            "mean": 0.9476939891972543,
+            "second_half_mean": 0.9480948479004784,
+            "standard_deviation": 0.0008880060269669106
+          },
+          "potential_energy_kj_mol": {
+            "first_half_mean": -188989.83471061144,
+            "mean": -187605.5394035573,
+            "second_half_mean": -186221.24409650321,
+            "standard_deviation": 1662.5601648216448
+          },
+          "sample_count": 10,
+          "temperature_kelvin": {
+            "first_half_mean": 155.22421940293208,
+            "mean": 156.60183708326292,
+            "second_half_mean": 157.97945476359376,
+            "standard_deviation": 4.593063101472435
+          },
+          "volume_nm3": {
+            "first_half_mean": 134.78198177390237,
+            "mean": 134.72508930647766,
+            "second_half_mean": 134.66819683905288,
+            "standard_deviation": 0.12599131614401807
+          }
+        },
+        "production": {
+          "assessment": "Descriptive sampled statistics; equilibration and effective sample size are not established",
+          "density_g_ml": {
+            "first_half_mean": 0.9757150611103074,
+            "mean": 0.9757538381279286,
+            "second_half_mean": 0.9757926151455496,
+            "standard_deviation": 5.923287282448475e-05
+          },
+          "potential_energy_kj_mol": {
+            "first_half_mean": -181244.4826957284,
+            "mean": -180817.10143342408,
+            "second_half_mean": -180389.72017111973,
+            "standard_deviation": 528.5221457464962
+          },
+          "sample_count": 10,
+          "temperature_kelvin": {
+            "first_half_mean": 216.01628271040266,
+            "mean": 219.9382150708263,
+            "second_half_mean": 223.8601474312499,
+            "standard_deviation": 4.4760247372241615
+          },
+          "volume_nm3": {
+            "first_half_mean": 130.85587231122477,
+            "mean": 130.8506725059139,
+            "second_half_mean": 130.8454727006031,
+            "standard_deviation": 0.007942833811991134
+          }
+        }
+      },
+      "timestep_fs": 1,
+      "velocity_initialization": "thermalize"
+    }
+  },
+  "date": "2026-10-04",
+  "development_failures": [
+    {
+      "finding": "Blank PDB insertion codes use a space in OpenMM",
+      "resolution": "Normalize blank codes to the documented empty-string selector"
+    },
+    {
+      "finding": "Continuous2DFunction returns grid sizes before values",
+      "resolution": "Read its public array field and verify by analytic two-dimensional reconstruction"
+    },
+    {
+      "finding": "Bias guard initially preceded validation of the second XML input",
+      "resolution": "Validate both serialized data inputs before force inspection; shared XML-boundary tests pass"
+    }
+  ],
+  "environment": {
+    "native_metadynamics_source_sha256": "7784d815f7bb8202d2a0fd417c937c837befab3befe4ba9628e52daacc3c16bb",
+    "openmm": "8.6.0.dev-c6173db",
+    "platform": "macOS-26.6.2-arm64-arm-64bit"
+  },
+  "inspection": {
+    "all_saved_frame_image_checks_passed": true,
+    "bias_metadata_and_descriptive_weight_scope_retained": true,
+    "frame_count": 10,
+    "minimum_protein_image_distance_nm": 2.3742365358632083,
+    "provider_version": "0.5.1",
+    "result_sha256": "7972a8ae902656dd3dc4dd2a9d5ad935346b6623e1538dddc11a06baeb79fedd",
+    "run_id": "run-45c591f507faa69c",
+    "static_report_bias_note_verified": true
+  },
+  "limitations": [
+    "Physical benchmark and independent free-energy reference remain unmeasured",
+    "GPU behavior and public metadynamics recovery remain unqualified",
+    "No enzyme pocket, stability or catalytic-activity validation from this control",
+    "No speedup measurement; weight-concentration ESS excludes autocorrelation and unvisited states",
+    "Browser visual QA unverified; portable report generated and static contents inspected"
+  ],
+  "method_profile": "openmm.prepared-npt-torsion-metadynamics-v1",
+  "native_controls": {
+    "checks": [
+      "One- and two-dimensional analytic Gaussian reconstruction",
+      "Well-tempered hill-height attenuation",
+      "Periodic endpoints and one-atom box-image invariance",
+      "Cartesian negative energy gradient",
+      "Exact phase/frame/state clocks",
+      "Fixed-bias frame importance weights and physical/bias energy decomposition",
+      "Paired component hashes, bias grid and native checkpoint round-trip",
+      "Existing-bias, missing-atom and disconnected-path rejection"
+    ],
+    "force_max_abs_error_kj_mol_nm": 1.4681242888059387e-09,
+    "grid_max_abs_error_kj_mol": 3.552713678800501e-15,
+    "platform": "Reference",
+    "scope": "Eight-particle numerical system; one- and two-dimensional bonded periodic torsions. No physical free-energy convergence or protein sampling claim.",
+    "snapshot_future_trajectory_identity": "unqualified; NPT barostat adaptation resets on native recovery"
+  },
+  "provider": {
+    "id": "openmm.prepared-dynamics",
+    "version": "0.7.0"
+  },
+  "required_checks": {
+    "passed": 11,
+    "receipt_sha256": "6e72afc1ae80319fd758cc263a2627ecaf1ff40fd45d581bd77fb038512d7315"
+  },
+  "schema_version": "0.1",
+  "source_sha256": {
+    "src/bioforge/inspection/assets/trajectory-panel.js": "b5134c617e729b46633bc1ea45f36d9c92eb28f9917c7217998c9d24724dd01d",
+    "src/bioforge/inspection/ensembles.py": "25e671d8238382c8ed4080618db4c463fc9909d13140cd9c716a39865b579f0c",
+    "src/bioforge/inspection/trajectories.py": "d004895398eb5795cb336ed056e0e98b4c750cfcf498ab003eab26903bbefdc2",
+    "src/bioforge/plugins/openmm_workbench.py": "c73ff0faa2310336da2c0ff7884436521dfd7b942241dc3459009832c0fae1b0",
+    "src/bioforge/plugins/runners/openmm_metadynamics.py": "d77783179700c462094c5a8aebcbe68589767272a98c4e80b06ccd3812fe341e",
+    "src/bioforge/plugins/runners/openmm_runner.py": "3ecc8eee366cc6849c172ac14169d4768ae682cadb1adbe6077e99fe143f3364",
+    "src/bioforge/plugins/trajectory_inspection.py": "c63bd2cb3c3df97d8a286233ad65ded910242c12f7b10ce26626286760617a48",
+    "tests/test_openmm_metadynamics.py": "af18275b12fc6a774d2da6862897b5e07e80b5a4ba3478418d43963524c3ed43"
+  },
+  "status": "native-numerical-and-canonical-integration-controls-passed",
+  "tests": {
+    "contracts-final.log": {
+      "sha256": "39c61056182bf2644a13480799455b1f61734ec5e1d8199a793e32ead4c28502",
+      "status": "passed"
+    },
+    "metadynamics-tests-final.log": {
+      "discovered": 5,
+      "sha256": "c64c1f8e88c963474cee772b43e9166bd1d41ab48faa526195d4f4baa269837a",
+      "skipped": 0,
+      "status": "passed"
+    },
+    "native-xml-tests.log": {
+      "discovered": 8,
+      "sha256": "dd3155e184bdad709e6d79cef390c0ae7bbc35870509ac22343d839a8b3a0ca6",
+      "skipped": 0,
+      "status": "passed"
+    },
+    "navigation-final.log": {
+      "discovered": 12,
+      "sha256": "b265821f20a1d9553a5b49db7600407def7f9a13e107e45f1c1c9de03d0a0970",
+      "status": "passed"
+    },
+    "openmm-tests-qualified.log": {
+      "discovered": 53,
+      "sha256": "462058c7e89c078bf3da9bee4deb6c3e5de091e699125e45cf78d86c4500db90",
+      "skipped": 4,
+      "status": "passed"
+    },
+    "source-tests-qualified.log": {
+      "discovered": 1398,
+      "scope": "Complete source regression, followed by focused plugin-contract/trajectory checks for the final inspection provider version.",
+      "sha256": "945ba1fcaff6adfacaa1ea7a5a079b7c364d03367ea7faafc0eb000c62ee6552",
+      "skipped": 80,
+      "status": "passed"
+    },
+    "trajectory-tests-final.log": {
+      "discovered": 17,
+      "sha256": "8734bcadb8b2a5adec5aa8c29e08a535610d5b558da65a59a6b6b28bb7661037",
+      "status": "passed"
+    }
+  },
+  "wheel": {
+    "matching_package_files": 228,
+    "stale_or_missing_package_files": 0,
+    "wheel": "bioforge-0.5.0.dev1-py3-none-any.whl",
+    "wheel_sha256": "80f4f3dc8444927502076d189ba51404d559c75fab27912f87f0fda47ec53a73"
+  }
+}

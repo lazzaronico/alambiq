@@ -1,0 +1,126 @@
+{
+  "schema_version": "0.1",
+  "date": "2026-10-03",
+  "base_commit": "b5e5080",
+  "installed_wheel_sha256": "d76b287c9841d6c6484449561f40914627914c0a3b53fd746913d8f0cd3b4b1f",
+  "source_suite": {
+    "tests": 1370,
+    "skipped": 78,
+    "passed": true
+  },
+  "installed_suite": {
+    "tests": 1370,
+    "skipped": 78,
+    "passed": true,
+    "verified_module_origins": 179
+  },
+  "required_checks": [
+    {
+      "arguments": [
+        "validate",
+        "campaigns/examples/walking-skeleton-success.yaml"
+      ],
+      "exit_code": 0
+    },
+    {
+      "arguments": [
+        "run",
+        "campaigns/examples/walking-skeleton-success.yaml"
+      ],
+      "exit_code": 0
+    },
+    {
+      "arguments": [
+        "run",
+        "campaigns/publications/r1/bslipa-t50-design-reproduction.yaml"
+      ],
+      "exit_code": 0
+    },
+    {
+      "arguments": [
+        "run",
+        "campaigns/publications/r1/bslipa-t50-validation-handoff.yaml"
+      ],
+      "exit_code": 0
+    },
+    {
+      "arguments": [
+        "run",
+        "campaigns/examples/variant-validation-fixture-success.yaml"
+      ],
+      "exit_code": 0
+    },
+    {
+      "arguments": [
+        "run",
+        "campaigns/examples/variant-validation-fixture-control-failure.yaml"
+      ],
+      "exit_code": 0
+    },
+    {
+      "arguments": [
+        "suite",
+        "validate",
+        "campaigns/suites/r1/release-beta.yaml"
+      ],
+      "exit_code": 0
+    },
+    {
+      "arguments": [
+        "suite",
+        "plan",
+        "campaigns/suites/r1/release-beta.yaml"
+      ],
+      "exit_code": 0
+    },
+    {
+      "arguments": [
+        "suite",
+        "validate",
+        "campaigns/suites/r1/workbench-core.yaml"
+      ],
+      "exit_code": 0
+    },
+    {
+      "arguments": [
+        "agent-eval",
+        "agent_evals/cases/stability-handoff.yaml"
+      ],
+      "exit_code": 0
+    },
+    {
+      "arguments": [
+        "run",
+        "campaigns/publications/r1/had-s2-dehalogenase-reproduction.yaml"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "native_chemistry_contract_checks": {
+    "tests": 9,
+    "passed": true
+  },
+  "installed_numerical_checks": {
+    "tests": 12,
+    "passed": true,
+    "openmm": "8.6.0",
+    "coverage": [
+      "finite boundary independent energies/forces and translation",
+      "whole-molecule parameter projection and rejection controls",
+      "reordered parameter forces and retained solvent identity"
+    ]
+  },
+  "historical_results": "Preserved original tutorial JSON/HTML records and byte-identical archived environment files.",
+  "scope": "Software integration and bounded native calculations; no new scientific accuracy, convergence or throughput claim.",
+  "final_wheel_post_cleanup": {
+    "wheel_sha256": "01a6dc3a30b7dbaab8559aaa980410da4a9cafa1fb9f6b422cdfefb079258a38",
+    "change_after_full_suites": "Removed unused AmberTools subprocess helper and import; active preparation and sampling code unchanged.",
+    "affected_tests": 59,
+    "optional_skips": 2,
+    "passed": true,
+    "optional_native_checks_separately_passed": 2,
+    "all_installed_wheel_bytes_verified": true,
+    "all_source_python_matches_wheel": true,
+    "verified_imported_modules": 135
+  }
+}

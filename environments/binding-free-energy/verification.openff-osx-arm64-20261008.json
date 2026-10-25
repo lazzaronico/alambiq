@@ -1,0 +1,169 @@
+{
+  "schema_version": "0.1",
+  "recorded_date": "2026-10-08",
+  "scope": "Current Sage/AshGC short two-leg workflow on Mac CPU, independently read native records and MBAR equations, exact solvent reuse and restored progressive dossier. This one-edge 1 ps example establishes no converged binding affinity or complete historical three-edge production cycle.",
+  "provider": "openfe.relative-binding",
+  "method_profile": "openfe.sage-2.3.0-ashgc-neutral-relative-binding-v1",
+  "platform": "macOS ARM64; OpenMM CPU native precision",
+  "source_commit_at_execution": "0d36ebd31fa78e040ced166a1f93901194a953f7",
+  "installed_bioforge_wheel_sha256": "96639dc581278727ccc3c7f0798a9005f763df796473b84d87d8c8a1d24f1b59",
+  "source_sha256": {
+    "src/bioforge/plugins/openfe_binding.py": "1700ceaf99f6f514a4d0f40d976c56930c3962f59e0fe1c7af56dd0f4ed0f7f3",
+    "src/bioforge/plugins/runners/openfe_runner.py": "bb429c9f7e88d999f303cd6d45cb51c61e89cf0b93ded623c30eef4c80c603ad",
+    "src/bioforge/plugins/binding_free_energy.py": "ba3feeca97b353ccc82b2f8c3a0985d946c9dc3762e894644f5591f751d20e94",
+    "src/bioforge/inspection/binding.py": "329cb698718e10a1b65fc74279bfe40e9785762e11677d291d9831f93d1f6ce0"
+  },
+  "runtime": {
+    "conda_package_set_sha256": "13263de8b5c990eff0b273f35e5916098674bb1455857c91b985f5ea596b4e07",
+    "versions": {
+      "gufe": "1.12.0",
+      "openfe": "1.12.0",
+      "openff-toolkit": "0.18.0",
+      "openmm": "8.4.0",
+      "openmmtools": "0.26.0",
+      "pymbar": "4.2.0",
+      "rdkit": "2025.9.6"
+    }
+  },
+  "execution": {
+    "run_id": "run-5e6355c43b052563",
+    "source_run_id": "run-95dcdc2b4d3382bf",
+    "original_run_id": "run-5345223af2d4dcc1",
+    "canonical_steps_completed": 3,
+    "bound_cpu_threads": 8,
+    "reused_solvent_cpu_threads": 2,
+    "native_limit_seconds": 3600,
+    "outer_limit_seconds": 4800,
+    "started_at": "2026-10-08T19:55:39.624015+00:00",
+    "finished_at": "2026-10-08T20:34:37.442404+00:00",
+    "owned_worker_server_and_native_groups_exited": true
+  },
+  "physical_settings": {
+    "edge": {
+      "id": "benzene-toluene",
+      "a": "benzene",
+      "b": "toluene"
+    },
+    "temperature_kelvin": 302.0,
+    "pressure_bar": 1.0,
+    "solvent_padding_nm": 1.5,
+    "ionic_strength_molar": 0.05,
+    "replicas": 2,
+    "equilibration_ps": 0.2,
+    "production_ps": 1.0,
+    "time_per_iteration_ps": 0.02,
+    "checkpoint_interval_ps": 0.2,
+    "positions_interval_ps": 0.2,
+    "lambda_windows": 5,
+    "platform": "CPU"
+  },
+  "sources": {
+    "ligand_a": {
+      "sha256": "887e4f0d02a6c67cd137d45cfdc30572d78c5817da0295aa0ac655fe8717785c"
+    },
+    "ligand_b": {
+      "sha256": "c04e1f0d56e23258eda7efc2f780002391a23f81328a6bf56e50a97067d353a6"
+    },
+    "protein": {
+      "sha256": "2efb422b55ee5d4ea1d2f15a87d8a006b60cfab2634297438ff100948f6d05ca"
+    }
+  },
+  "method_sha256": "47c0f018b2903283d20fa6e47260537f0f07fd831394e1b22cab246bf38d90d0",
+  "native_archives": [
+    {
+      "phase": "solvent",
+      "sha256": "08ec94dd320af090106c493450f920a6baf24d98500f8bd550840ccd525b762e",
+      "bytes": 2896585,
+      "files": 33
+    },
+    {
+      "phase": "bound",
+      "sha256": "2ccedac7b892b1b554058bbc1f4ed808872788d775d57f9569ffc08daef478a0",
+      "bytes": 42832086,
+      "files": 37
+    }
+  ],
+  "native_completeness": {
+    "repeats": 4,
+    "production_iterations_each": 50,
+    "states_each": 5,
+    "raw_energy_values": 5100,
+    "physical_atoms": {
+      "solvent": 1815,
+      "bound": 31867
+    },
+    "state_assignments_complete": true,
+    "coordinate_box_volume_iterations": [
+      0,
+      10,
+      20,
+      30,
+      40,
+      50
+    ],
+    "checkpoint_iterations": [
+      0,
+      10,
+      20,
+      30,
+      40,
+      50
+    ],
+    "checkpoint_file_last_iteration_creation_marker": 0,
+    "complete_finite_checkpoint_coordinates": true
+  },
+  "independent_numerical_checks": {
+    "solver": "SciPy BFGS of gauge-fixed MBAR negative log likelihood",
+    "sample_selection": "Same upstream-selected decorrelated samples; equations, solver and normalized importance weights independently reconstructed.",
+    "maximum_endpoint_difference_kcal_mol": 1.029422680431935e-08,
+    "maximum_overlap_difference": 2.895619299891905e-09,
+    "maximum_effective_sample_difference": 3.092941582849562e-07,
+    "maximum_weight_normalization_error": 6.2457762295409225e-09,
+    "tolerances": {
+      "endpoint_kcal_mol": 1e-05,
+      "overlap": 1e-07,
+      "effective_samples": 0.0001,
+      "weight_normalization": 1e-08
+    },
+    "two_leg_difference_and_replica_sem_reconstructed": true,
+    "native_bootstrap_uncertainties_retained_not_independently_resampled": true
+  },
+  "short_sampling_diagnostics": {
+    "delta_delta_g_kcal_mol": 2.780678964992479,
+    "replica_sem_kcal_mol": 1.9262013220650522,
+    "mbar_propagated_error_kcal_mol": 1.9151156695813263,
+    "minimum_effective_samples": 4.651897260350248,
+    "bound_replica_sd_kcal_mol": 2.5737929750744826,
+    "production_convergence_established": false,
+    "cycles_evaluated": 0
+  },
+  "reuse_and_lineage": {
+    "source_files_rehashed": 42,
+    "solvent_outputs_exact_to_original_and_timeout_runs": true,
+    "solvent_native_execution_forbidden": true,
+    "both_leg_numerical_method_identities_equal": true,
+    "exact_resume_native_execution_forbidden": true,
+    "strict_reload_exact": true,
+    "original_stopped_and_timed_out_attempts_retained": true,
+    "full_history_dossier_byte_identical": true,
+    "report_sha256": "d935e7665d9be1cda15c83867d3a4e0c4a96ecb4736a2b527f2f1bb12d260e34"
+  },
+  "preserved_prior_cpu_attempt": {
+    "native_limit_seconds": 3600,
+    "outcome": "First repeat completed 50 production iterations; second began before native timeout. Bound failed and comparison was blocked.",
+    "timeout_assessment_sha256": "7ffcaecdb2099de0358b7b4cf8c314dd382e34cc80427644ee6f30e5d70df32a"
+  },
+  "evidence_sha256": {
+    "workflow_verification": "7ae0f1550911a720043743c57a3f041a2f8f34e72b3e1ab288d4f0bdfc33f766",
+    "independent_verification": "583b55bd994427d59b722f976e7a9b864c5eafe9d300b15d6faf1c9f346dba91",
+    "native_equation_verification": "7e7e96ef9c0b762c2318741fc9ad88fd71392f772ff0a1477fffa40544a3eb07",
+    "owned_process_closure": "13f8818aca112a8be29142f0647b1276e2056213c14bd7ae88a0d0008a15a194",
+    "supervisor_terminal": "9d93e434a7a67bbdf378d6276e2d7d2cc632c17454ba207e7e75d5354c451118",
+    "preserved_initial_audit_failure": "d5117ac23e0f432c58eb9938a8575b3878a1dab4d311f17fd85905ddb421c154"
+  },
+  "limits": [
+    "Short sampling has low effective sample counts and repeat disagreement; it does not establish binding convergence.",
+    "Historical GAFF2/AM1-BCC production legs retain separate scientific identities and criteria.",
+    "This measured CPU resource choice establishes no general CPU/GPU speed ratio."
+  ]
+}

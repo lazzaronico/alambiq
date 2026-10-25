@@ -1,0 +1,274 @@
+{
+  "schema_version": "0.1",
+  "date": "2026-09-29",
+  "source_commit": "768a953",
+  "capabilities": [
+    "simulation.evaluate_qmmm_state",
+    "simulation.run_qmmm_dynamics"
+  ],
+  "profiles": [
+    "pyscf.molecular-pbe-gaussian.v1",
+    "pyscf.molecular-pbe-gaussian-langevin.v1"
+  ],
+  "scope": "Original five-atom water/ion CPU example: state evaluation, density-bound thermal sampling, individual Python capabilities, exported reuse and public CLI.",
+  "wheel_sha256": "182409626f24a2b9643a380de3796aa29a8195a9d42bc766d2798185064dc3c5",
+  "installed_package_files": 196,
+  "intent_sha256": "602e7d438ebf1ba238aff99d03a9bfebfa0ace329e106fce1b6d7ffb879c691d",
+  "input_archive_sha256": "ff42e3a5322c424334f645a578a3a23ab1a05e4130446e8921c4fb834d98a62a",
+  "source_hashes": {
+    "system_xml": "84ff9292161596d21139d1e2b4221ef7c44df980f74e1a97f2db1b198a0ee264",
+    "state_xml": "477b4c4484d7185e9d17ed53c8fe87df69e189613338573607def6631e4fd675",
+    "topology_pdb": "407fe7f5ab2845dcf463dcdab6194a684131ccaf53b07bdfb540597539c5545f"
+  },
+  "method": {
+    "backend": "cpu",
+    "functional": "PBE",
+    "basis": "6-31G**",
+    "grid": 3,
+    "gaussian_radius_angstrom": 0.8,
+    "quantum_atoms": 3,
+    "physical_atoms": 5,
+    "seed": 741,
+    "timestep_fs": 0.0625,
+    "temperature_kelvin": 300,
+    "equilibration_steps": 2,
+    "production_steps": 8,
+    "production_frames": 4,
+    "electronic_calls": 11
+  },
+  "docker": {
+    "recipe": "environments/docker/Dockerfile.qmmm",
+    "workbench_extras": [],
+    "image_id": "sha256:ee055efcbe4d2d82040f54485987c1136dc6bb49f9a986374fbe447fc3afda1f",
+    "platform": "Linux ARM64",
+    "network": "none",
+    "root_filesystem": "read-only",
+    "input_mount": "read-only",
+    "user": "1000:1000",
+    "native_build_log_sha256": "2e93b7ce93baadc5b0d4497c66892fcddacaae6edf1d829f1da6b4e24c07ec3b"
+  },
+  "environment": {
+    "packages": 74,
+    "package_set_sha256": "b4ad7bac6cba647140ce44d49756d5b250546518437a3bd8d97e7a2a732d26fd",
+    "explicit_lock_sha256": "374056cc36d34c417fb6257822edc95ae4658eb1a1a86bc6ca113ff65c5e6823",
+    "package_records_sha256": "3630cd38325c9a0106325be5589d2d87afed4c8bfdff59a0cfeb212981b5c8b1",
+    "native_recreation": {
+      "explicit_lock_sha256": "374056cc36d34c417fb6257822edc95ae4658eb1a1a86bc6ca113ff65c5e6823",
+      "log_sha256": "725e97f3cf1e12b3b7e8b8e931612b606dade6a2abfa5e03ef422f3531859c6e",
+      "package_set_sha256": "b4ad7bac6cba647140ce44d49756d5b250546518437a3bd8d97e7a2a732d26fd",
+      "packages": 74,
+      "passed": true,
+      "verification_sha256": "a577c36d422a8c1abd19096dff8160f61450eabf794c81b9c78d84f45b573e12"
+    }
+  },
+  "runs": [
+    {
+      "platform": "Linux ARM64 Docker",
+      "all_four_runs_restored": true,
+      "artifact_objects": 119,
+      "artifact_set_sha256": "9dd12c75205f4c35ba89a6928097fb9b17aa4d158f315138a7b69c3bb43cc896",
+      "canonical_sha256": {
+        "evidence.json": "c7380a1b6088f632c584f9c9de0ca951442f6f864c3e1c46334a0e50be3d2a3f",
+        "manifest.json": "2cf27baed8e9d75dee8310a26e360313e30f346a132b5f3608e982ab5feaee5e",
+        "plan.json": "331a4c1b5c9a70d225180296eda28226edd32eb91fd5f1f7b804ffa40987afda",
+        "run.json": "d55eadbc6baa4c809ce7fb632943e440e9c9217ea9d92838cf9c738ef74cd8c1"
+      },
+      "native_reconstruction": {
+        "python-sample": {
+          "dcd_positions_maximum_roundoff_angstrom": 1.1581366399227022e-7,
+          "electronic_states": 11,
+          "production_frames": 4,
+          "receipt_sha256": "365a19d149a60b2cd98bd8885911d42c5d0446ec9cc216be63623d49841aac9d",
+          "state_rows": 6
+        },
+        "workflow": {
+          "dcd_positions_maximum_roundoff_angstrom": 1.1581366399227022e-7,
+          "electronic_states": 11,
+          "production_frames": 4,
+          "receipt_sha256": "58aaa3cb0cf8003cbf967174ba23b9e4ae80d22664f4a6f6000f3b5f783a1938",
+          "state_rows": 6
+        }
+      },
+      "python_comparison": {
+        "electronic_calls": 11,
+        "maximum_initial_density_difference": 6.483702463810914e-14,
+        "maximum_position_difference_angstrom": 5.551115123125783e-16,
+        "maximum_potential_difference_kj_mol": 4.0745362639427185e-10,
+        "passed": true,
+        "production_frames": 4
+      },
+      "python_runs": [
+        {
+          "kind": "state",
+          "run_id": "run-c169323693f3c67f"
+        },
+        {
+          "kind": "sample",
+          "run_id": "run-291b03ceab15900b"
+        }
+      ],
+      "receipt_sha256": "60cc623162bbe3fd72bbbc28b7bee4a63904cd4e1d8bb30db5fe38767c5e4f77",
+      "report_sha256": "529ddeb6af031dba242331a4f4264f8b588848136bf9bf677293ca3e1dbb4955",
+      "reused_run_id": "run-daa219719441db6c",
+      "run_id": "run-5b19cc8c9953c027",
+      "runtime": {
+        "conda_package_set_sha256": "b4ad7bac6cba647140ce44d49756d5b250546518437a3bd8d97e7a2a732d26fd",
+        "python_package_set_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "versions": {
+          "openmm": "8.6",
+          "pyscf": "2.14.0"
+        }
+      },
+      "tests": {
+        "core-dynamics_provider": {
+          "cases": 7,
+          "log_sha256": "72b51fbab529f80d9904d10abeacfd691f44f43225f997fc1fa870662468c229",
+          "optional_skips": 0
+        },
+        "core-provider": {
+          "cases": 8,
+          "log_sha256": "15f85ad8d6a71dfbff83c044fb6a7755e699c5e0b99abf4bd53b2502d0785159",
+          "optional_skips": 1
+        },
+        "core-umbrella": {
+          "cases": 6,
+          "log_sha256": "64a6fee9c7856a9cc2c8ab064ae7f5506b017693993d94e056e753cb29fa26a3",
+          "optional_skips": 0
+        },
+        "native-tests": {
+          "cases": 35,
+          "log_sha256": "a5361a2eabe75fd1c3cb19af25fa52454ced2acd02cf5554070ccd14fbfef6c5",
+          "optional_skips": 2
+        }
+      }
+    },
+    {
+      "platform": "Linux ARM64 native",
+      "all_four_runs_restored": true,
+      "artifact_objects": 119,
+      "artifact_set_sha256": "8c7f8a1efdd96606f45ee0abfd5acc5de71654c237593e2b0863b044137faba0",
+      "canonical_sha256": {
+        "evidence.json": "9c3c3e85d38d9590c2cbe683879a9cab32d0e8c58f1327d8d3b6908a4e792575",
+        "manifest.json": "2280c3dfe3aa94b13066132097b35e7adba6e779d82192ac1d94ba59ea878343",
+        "plan.json": "331a4c1b5c9a70d225180296eda28226edd32eb91fd5f1f7b804ffa40987afda",
+        "run.json": "87c0558aac249df23a86119c017fc7e658612c91063b7b9d4042adbb0913051f"
+      },
+      "native_reconstruction": {
+        "python-sample": {
+          "dcd_positions_maximum_roundoff_angstrom": 1.1581366399227022e-7,
+          "electronic_states": 11,
+          "production_frames": 4,
+          "receipt_sha256": "4451fa42ed66af97e7357baf4512a641c68a0db9fb7d644b4343bce3af4ec751",
+          "state_rows": 6
+        },
+        "workflow": {
+          "dcd_positions_maximum_roundoff_angstrom": 1.1581366399227022e-7,
+          "electronic_states": 11,
+          "production_frames": 4,
+          "receipt_sha256": "771884bbd4f2a1ad6558aec57555805fe57b952a099670be52c00ab5b0338d8b",
+          "state_rows": 6
+        }
+      },
+      "python_comparison": {
+        "electronic_calls": 11,
+        "maximum_initial_density_difference": 1.4599432773820809e-13,
+        "maximum_position_difference_angstrom": 2.220446049250313e-16,
+        "maximum_potential_difference_kj_mol": 3.2014213502407074e-10,
+        "passed": true,
+        "production_frames": 4
+      },
+      "python_runs": [
+        {
+          "kind": "state",
+          "run_id": "run-b209afb8ff3cac5c"
+        },
+        {
+          "kind": "sample",
+          "run_id": "run-eea1de5528b6991c"
+        }
+      ],
+      "receipt_sha256": "8c5ba7134602b4a81041b05f150d5399057ffc6cad2a14de1c16b1d31dbc3b9d",
+      "report_sha256": "d157e12a5aff0699cefb43bd21d1338c5b52f2124a6a89f790640401e556b85b",
+      "reused_run_id": "run-e15ebc461db12e65",
+      "run_id": "run-d22102b911b5a422",
+      "runtime": {
+        "conda_package_set_sha256": "b4ad7bac6cba647140ce44d49756d5b250546518437a3bd8d97e7a2a732d26fd",
+        "python_package_set_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "versions": {
+          "openmm": "8.6",
+          "pyscf": "2.14.0"
+        }
+      },
+      "tests": {
+        "core-dynamics_provider": {
+          "cases": 7,
+          "log_sha256": "6acdee25935503d7399001599efc461cd8ddb9e49816aff2e2c1e1734708efe0",
+          "optional_skips": 0
+        },
+        "core-provider": {
+          "cases": 8,
+          "log_sha256": "1ef19c037c0769db25ce91b39f8324ffee67ab8dc7f79c8acaf481d299b80ef1",
+          "optional_skips": 0
+        },
+        "core-umbrella": {
+          "cases": 6,
+          "log_sha256": "98e75673163adbef9185dedf97eb157849eb2b1efc01b4a383bc04545a3df942",
+          "optional_skips": 0
+        },
+        "native-tests": {
+          "cases": 35,
+          "log_sha256": "7e93c42fe241fa4c93390fbc1183dc7c0fa713e102efd5355449dcab9eb15a23",
+          "optional_skips": 2
+        }
+      }
+    }
+  ],
+  "cross_platform_comparison": {
+    "maximum_position_difference_angstrom": 4.440892098500626e-16,
+    "maximum_potential_difference_kj_mol": 4.0745362639427185e-10,
+    "position_absolute_limit_angstrom": 1e-8,
+    "potential_absolute_limit_kj_mol": 0.00001
+  },
+  "independent_reconstruction": {
+    "verification_sha256": "00c0782b8db40e19191c3117ad582ec34fa617d48dad8cc370801aa78c30c8f0",
+    "reader_sha256": "d96ba3ec82ad8766f376d50fd2969cc0c44cb2772babdd5bd66c97e4229cd406",
+    "transfer_sha256": "dbb26396e9818d4d836206d4b449f7626c953cfbfe86ae7235586d2f608a8967",
+    "restored_runs": 9,
+    "native_sampled_records_reconstructed": 5,
+    "saved_reports_reproduced": true,
+    "all_artifacts_rehashed": true
+  },
+  "public_cli": {
+    "artifact_objects": 119,
+    "canonical_sha256": {
+      "evidence.json": "7ab93f72229a39af49744a4e17340dd59cf452498c2b9a49a490f66f4d230b5a",
+      "manifest.json": "b99b5a2fef3b57a3403a295319f03f1eb723db327525a9c2f1abb0a5084da688",
+      "plan.json": "331a4c1b5c9a70d225180296eda28226edd32eb91fd5f1f7b804ffa40987afda",
+      "run.json": "31bd7534ecd3cc8f578a7fe86bced48d6dbc9b81215e285e4d646d4f43de5e0d"
+    },
+    "command_log_sha256": "e14ebd24c30b6136a97d82eb92fe8af46d7d119d0163337233f8e1b7b318ab17",
+    "native_reader_sha256": "cdd78930bc89aa534d3fe3f6213c00f7f5f67caf8424e33dcfc4cdfe027bdf8a",
+    "passed": true,
+    "plan_id": "plan-2b785e4b4c19cc38",
+    "reader_sha256": "2752a0156d697a2c36073036b4601b0481a8140fcf470c2e152543162cece09a",
+    "report_sha256": "10ea22296979f545b3302d7c60610b064a62463044397c81a8aa8e92231470bc",
+    "run_id": "run-e015b0810e367f3c",
+    "verification_sha256": "122f77fcc48a4da4d800481ea42d072e5cd36552222fa69d465a39e66de0eff0"
+  },
+  "repository_verification": {
+    "cases": 1163,
+    "passed": 1098,
+    "optional_skips": 65,
+    "elapsed_seconds": 235.047,
+    "log_sha256": "87389bad915fdfe1aa417b766209bf068ad182dbc085d998eb35db7dfd3d665e",
+    "required_commands_passed": 11,
+    "required_command_receipt_sha256": "719154496bdcfcd1a7cd6d8e267ef13f33d8b47a7ff84baeb5d5d8568fcc24a8",
+    "final_repository_contract_checks_passed": 6,
+    "final_docker_delivery_checks_passed": 15
+  },
+  "retained_initial_native_check": {
+    "failure": "Preparation test fixture prepare.py absent from the first verification packet; checks stopped before workflow execution.",
+    "log_sha256": "f341e23625c8a4d06e7973b2ff65e9cc7c3f18afa432e9060e0a3545f01fd886",
+    "recovery": "Complete verification packet in a separate directory; original scientific inputs, package selection and container image retained."
+  }
+}

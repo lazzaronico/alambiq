@@ -1,0 +1,259 @@
+{
+  "schema": 1,
+  "tool": "tools/benchmark_variant_proposal.py",
+  "metrics": {
+    "spearman": "rank correlation between score and measurement, higher is better",
+    "top_tenth": "best-quarter measured variants among the best tenth by score, relative to the 25 % expected by chance"
+  },
+  "datasets": [
+    {
+      "id": "bslipa-t50",
+      "title": "Bacillus subtilis Lipase A, T50 (Nutschel et al. 2020)",
+      "property": "thermostability (T50)",
+      "higher_is_better": true,
+      "source": {
+        "file": "src/alambiq/resources/enzyme_design/bslipa_t50/observations.csv",
+        "sha256": "15c895d371676e981538246b1313f999a840fb6942d728705a5f2f85763359fd"
+      },
+      "scoring": "single substitution",
+      "variants": 2172,
+      "positions_scored": 168,
+      "sequence_sha256": "90914bba8255e2e85de3277fe0d5ffdfdeb8e5b741ff593dde001f73c413a065",
+      "methods": [
+        {
+          "method": "ESM C 300M log-likelihood ratio",
+          "spearman": 0.36767230766487585,
+          "spearman_95_interval": [
+            0.3294475905876338,
+            0.40493433044297
+          ],
+          "top_tenth": {
+            "top": 217,
+            "hits": 98,
+            "fraction": 0.45161290322580644,
+            "enrichment": 1.8064516129032258
+          }
+        },
+        {
+          "method": "BLOSUM62 score of the substitution",
+          "spearman": 0.11132454576560721,
+          "spearman_95_interval": [
+            0.07151066159877956,
+            0.1545603623131405
+          ],
+          "top_tenth": {
+            "top": 217,
+            "hits": 81,
+            "fraction": 0.37327188940092165,
+            "enrichment": 1.4930875576036866
+          }
+        },
+        {
+          "method": "random ranking",
+          "spearman": -0.00048626646018295165,
+          "spearman_sd": 0.020574625901620087,
+          "top_tenth": {
+            "enrichment": 1.0044239631336265
+          }
+        }
+      ],
+      "model": {
+        "name": "biohub/ESMC-300M",
+        "revision": "a59b831785f907e96e6a246b1d142bfb76df31ee",
+        "versions": {
+          "esm": "3.4.0",
+          "torch": "2.11.0",
+          "transformers": "4.57.6",
+          "numpy": "2.5.2"
+        }
+      }
+    },
+    {
+      "id": "glucokinase-activity",
+      "title": "Human glucokinase, activity (Gersing et al. 2023, 2024)",
+      "property": "activity score",
+      "higher_is_better": true,
+      "source": {
+        "file": "examples/applications/24-glucokinase-variants/quantitative/observations.csv",
+        "sha256": "82f26d75eab5c3d80509e37eeb573c25c92d3d7567473e41bd1d9fc5898c692b"
+      },
+      "scoring": "single substitution",
+      "variants": 190,
+      "positions_scored": 156,
+      "sequence_sha256": "48ae6d5533dd7faf386b768e3da89f009ee6678a330e57c47be85385d5aca664",
+      "methods": [
+        {
+          "method": "ESM C 300M log-likelihood ratio",
+          "spearman": 0.5792482952582153,
+          "spearman_95_interval": [
+            0.47928752842283556,
+            0.6643047556388839
+          ],
+          "top_tenth": {
+            "top": 19,
+            "hits": 11,
+            "fraction": 0.5789473684210527,
+            "enrichment": 2.3157894736842106
+          }
+        },
+        {
+          "method": "BLOSUM62 score of the substitution",
+          "spearman": 0.21367946340994612,
+          "spearman_95_interval": [
+            0.0819461504396332,
+            0.33761482859922376
+          ],
+          "top_tenth": {
+            "top": 19,
+            "hits": 6,
+            "fraction": 0.3157894736842105,
+            "enrichment": 1.263157894736842
+          }
+        },
+        {
+          "method": "random ranking",
+          "spearman": 0.001909760439493144,
+          "spearman_sd": 0.07097236625617477,
+          "top_tenth": {
+            "enrichment": 1.0096842105263286
+          }
+        }
+      ],
+      "model": {
+        "name": "biohub/ESMC-300M",
+        "revision": "a59b831785f907e96e6a246b1d142bfb76df31ee",
+        "versions": {
+          "esm": "3.4.0",
+          "torch": "2.11.0",
+          "transformers": "4.57.6",
+          "numpy": "2.5.2"
+        }
+      }
+    },
+    {
+      "id": "glucokinase-abundance",
+      "title": "Human glucokinase, abundance (Gersing et al. 2023, 2024)",
+      "property": "abundance score",
+      "higher_is_better": true,
+      "source": {
+        "file": "examples/applications/24-glucokinase-variants/quantitative/observations.csv",
+        "sha256": "82f26d75eab5c3d80509e37eeb573c25c92d3d7567473e41bd1d9fc5898c692b"
+      },
+      "scoring": "single substitution",
+      "variants": 186,
+      "positions_scored": 155,
+      "sequence_sha256": "48ae6d5533dd7faf386b768e3da89f009ee6678a330e57c47be85385d5aca664",
+      "methods": [
+        {
+          "method": "ESM C 300M log-likelihood ratio",
+          "spearman": 0.37359025404566204,
+          "spearman_95_interval": [
+            0.23751633170163974,
+            0.49710209125032057
+          ],
+          "top_tenth": {
+            "top": 19,
+            "hits": 8,
+            "fraction": 0.42105263157894735,
+            "enrichment": 1.6842105263157894
+          }
+        },
+        {
+          "method": "BLOSUM62 score of the substitution",
+          "spearman": 0.1819774155909897,
+          "spearman_95_interval": [
+            0.042875373927951696,
+            0.30793340051263024
+          ],
+          "top_tenth": {
+            "top": 19,
+            "hits": 4,
+            "fraction": 0.21052631578947367,
+            "enrichment": 0.8421052631578947
+          }
+        },
+        {
+          "method": "random ranking",
+          "spearman": -0.002481885784352578,
+          "spearman_sd": 0.06975345115620932,
+          "top_tenth": {
+            "enrichment": 1.0004210526315924
+          }
+        }
+      ],
+      "model": {
+        "name": "biohub/ESMC-300M",
+        "revision": "a59b831785f907e96e6a246b1d142bfb76df31ee",
+        "versions": {
+          "esm": "3.4.0",
+          "torch": "2.11.0",
+          "transformers": "4.57.6",
+          "numpy": "2.5.2"
+        }
+      }
+    },
+    {
+      "id": "atta-transaminase",
+      "title": "Amine transaminase lineage, specific activity (Wu et al. 2022)",
+      "property": "specific activity",
+      "higher_is_better": true,
+      "source": {
+        "git_commit": "39f0515",
+        "path": "campaigns/examples/applications/27-transaminase-engineering/recombination/measurements.csv",
+        "sha256": "13c94a20c40727ea5a0d162fe446fa0b6d67fab56730970fcd06571e830b025d"
+      },
+      "scoring": "sum of single-substitution scores",
+      "variants": 27,
+      "positions_scored": 9,
+      "sequence_sha256": "ebb3cda7a0d54c50e5e7dbf8a6c237155971be8dbe509c5885b4000a79a8a5e9",
+      "methods": [
+        {
+          "method": "ESM C 300M log-likelihood ratio",
+          "spearman": -0.4249084249084249,
+          "spearman_95_interval": [
+            -0.725622885266072,
+            -0.00863664404688464
+          ],
+          "top_tenth": {
+            "top": 5,
+            "hits": 0,
+            "fraction": 0.0,
+            "enrichment": 0.0
+          }
+        },
+        {
+          "method": "BLOSUM62 score of the substitution",
+          "spearman": -0.6365370464148031,
+          "spearman_95_interval": [
+            -0.8400945720903645,
+            -0.29278803933783426
+          ],
+          "top_tenth": {
+            "top": 5,
+            "hits": 0,
+            "fraction": 0.0,
+            "enrichment": 0.0
+          }
+        },
+        {
+          "method": "random ranking",
+          "spearman": 0.00272771672771673,
+          "spearman_sd": 0.19326881002356422,
+          "top_tenth": {
+            "enrichment": 1.0255999999999952
+          }
+        }
+      ],
+      "model": {
+        "name": "biohub/ESMC-300M",
+        "revision": "a59b831785f907e96e6a246b1d142bfb76df31ee",
+        "versions": {
+          "esm": "3.4.0",
+          "torch": "2.11.0",
+          "transformers": "4.57.6",
+          "numpy": "2.5.2"
+        }
+      }
+    }
+  ]
+}

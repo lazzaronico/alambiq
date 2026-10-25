@@ -1,0 +1,39 @@
+# This file may be used to create an environment using:
+# $ conda create --name <env> --file <this file>
+# platform: osx-arm64
+@EXPLICIT
+https://conda.anaconda.org/conda-forge/osx-arm64/bzip2-1.0.8-h4e30115_10.conda#b50612e7d190b8061ab4e7dc119cf4d5
+https://conda.anaconda.org/conda-forge/noarch/ca-certificates-2026.7.22-hbd8a1cb_0.conda#0f51e2391ade309db462a55611263e9c
+https://conda.anaconda.org/conda-forge/osx-arm64/icu-78.3-py310h579977c_2.conda#a5efc0b42bb8b42e97d0a29ae3e3c187
+https://conda.anaconda.org/conda-forge/osx-arm64/libcxx-23.1.1-h55c6f16_0.conda#b61106a0b5ac7cfe874f8b2e4f067dfa
+https://conda.anaconda.org/conda-forge/osx-arm64/libexpat-2.8.1-hf6b4638_1.conda#a915151d5d3c5bf039f5ccc8402a436f
+https://conda.anaconda.org/conda-forge/osx-arm64/libffi-3.7.0-h47dc5ef_1.conda#216bbcc23c11e9695b3db4a8771d76eb
+https://conda.anaconda.org/conda-forge/osx-arm64/liblzma-5.8.3-h8088a28_1.conda#8ab10323068b107661a4b9a4af84f3b5
+https://conda.anaconda.org/conda-forge/osx-arm64/libzlib-1.3.2-h8088a28_3.conda#f39288f0ea63ae962e1a2e4f355a0d75
+https://conda.anaconda.org/conda-forge/osx-arm64/llvm-openmp-23.1.1-hdb3d66b_0.conda#22ecd4403fcaf2fbbafa2cd53a0e0f0c
+https://conda.anaconda.org/conda-forge/osx-arm64/ncurses-6.6-he64c551_1.conda#3dfa0d0316dc246cd44937a557de4501
+https://conda.anaconda.org/conda-forge/noarch/python_abi-3.11-9_cp311.conda#18e91a03be08122180f208723e42a52e
+https://conda.anaconda.org/conda-forge/noarch/tzdata-2026c-h151e31d_0.conda#fcb489df604d100968b737f2cb6076c6
+https://conda.anaconda.org/conda-forge/osx-arm64/_openmp_mutex-4.5-8_kmp_llvm.conda#a2d706b4a7d603524133037c34f7fb76
+https://conda.anaconda.org/conda-forge/osx-arm64/libpython-3.11.16-h4e5ec87_2_cpython.conda#671bf1db2eb4a12fa79867f82544a29b
+https://conda.anaconda.org/conda-forge/osx-arm64/libsqlite-3.53.4-hca69786_1.conda#fde96d40ebe9a9cb34e4122380189ddb
+https://conda.anaconda.org/conda-forge/osx-arm64/openssl-3.6.4-h55eecbc_0.conda#ae71ab40048c19a389a7dcccb86c2481
+https://conda.anaconda.org/conda-forge/osx-arm64/readline-8.3-h8b90a29_1.conda#9347fd56a002e6b58946831d48fe62f6
+https://conda.anaconda.org/conda-forge/osx-arm64/tk-8.6.13-hbeba79b_4.conda#90a01bf394d1c594e0eb9258f967d828
+https://conda.anaconda.org/conda-forge/osx-arm64/libgcc-16.2.0-h3cf6597_5.conda#90408ee3891a10f54795b45927b41666
+https://conda.anaconda.org/conda-forge/osx-arm64/python-3.11.16-hd05a0c4_2_cpython.conda#5a51f688fc616b12e21e038cfd04de27
+https://conda.anaconda.org/conda-forge/noarch/legacy-cgi-2.6.4-pyhcf101f3_0.conda#b22fe9a3d53bc833659823e48f879db9
+https://conda.anaconda.org/conda-forge/osx-arm64/libgfortran5-16.2.0-hdb7a957_5.conda#e4e2987faf21e97c1a8d91f57c79818d
+https://conda.anaconda.org/conda-forge/noarch/packaging-26.3-pyhc364b38_0.conda#936687ed80f295a1f5dbcf8bd34c252c
+https://conda.anaconda.org/conda-forge/noarch/setuptools-84.0.0-pyh332efcf_0.conda#62ac906f1cd582c6c264c95625cb9d6f
+https://conda.anaconda.org/conda-forge/osx-arm64/libgfortran-16.2.0-h07b0088_5.conda#592ca0c6b8c4e1952fc28dbec011a86b
+https://conda.anaconda.org/conda-forge/noarch/wheel-0.48.0-pyhd8ed1ab_0.conda#9a2124517bfd5d792e0f7b86eefdfeb8
+https://conda.anaconda.org/conda-forge/osx-arm64/libopenblas-0.3.34-openmp_h5e6e99c_1.conda#9c874eb9d4441a658ef3acf6ac56dc3e
+https://conda.anaconda.org/conda-forge/noarch/pip-26.2.1-pyh8b19718_0.conda#77b6cf3b0689d9fc68561df0db9b856d
+https://conda.anaconda.org/conda-forge/osx-arm64/libblas-3.11.0-11_h51639a9_openblas.conda#364639b771dbb4ede335d965f55a23ac
+https://conda.anaconda.org/conda-forge/osx-arm64/libcblas-3.11.0-11_hb0561ab_openblas.conda#73bde7d713e790b3168707e02102e87b
+https://conda.anaconda.org/conda-forge/osx-arm64/liblapack-3.11.0-11_hd9741b5_openblas.conda#d67ef1462e77d20cd3e0d27c876c3c9a
+https://conda.anaconda.org/conda-forge/osx-arm64/numpy-2.4.6-py311hbd1492f_0.conda#7738446d4be7ac8b56e6d6e3bdb7e52b
+https://conda.anaconda.org/conda-forge/osx-arm64/scipy-1.17.1-py311h9a58382_1.conda#15f96f91b13cbefddbf998368d06adef
+https://conda.anaconda.org/conda-forge/osx-arm64/openmm-8.6.0-py311h0e1cade_0_apple.conda#c9d90c7307e6a8b250ec807d94dde85b
+https://conda.anaconda.org/conda-forge/noarch/pdbfixer-1.12-pyhd8ed1ab_1.conda#ae0b5e880fd6f5815fe7d2075200c33b

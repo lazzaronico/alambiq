@@ -1,0 +1,29 @@
+# Exact official CPU archives; databases stay external. Docker selects the target.
+ARG BASE_IMAGE=alambiq:profiles
+# The engine is built in a separate stage that starts from the same Python as the core image,
+# so rebuilding the core image reuses the cached engine stage.
+ARG ENGINE_BASE=python:3.11-slim-bookworm
+ARG TARGETARCH
+
+FROM ${ENGINE_BASE} AS archive-arm64
+USER root
+ADD --checksum=sha256:06c9a031331562e37eed3da79ef859d30a1a3ac5c5e334411dfaee5da5e9c0d0 https://github.com/soedinglab/MMseqs2/releases/download/18-8cc5c/mmseqs-linux-arm64.tar.gz /tmp/mmseqs.tar.gz
+ARG EXECUTABLE_SHA256=d5f6d96578e3dbcd1d8772bb575b112e9dd1dbf077d150914962a2356ae0d75d
+
+FROM ${ENGINE_BASE} AS archive-amd64
+USER root
+ADD --checksum=sha256:7f660ed8257adec1ddce885bb8a6acbe6acd703692146825e9fa9e9be06902af https://github.com/soedinglab/MMseqs2/releases/download/18-8cc5c/mmseqs-linux-sse2.tar.gz /tmp/mmseqs.tar.gz
+ARG EXECUTABLE_SHA256=741949afa253eb86131f9e73ea41793ac19ed3bdb5d8e3626f8f79a6ba8945a4
+
+FROM archive-${TARGETARCH} AS engine
+RUN mkdir -p /opt/mmseqs \
+    && tar -xzf /tmp/mmseqs.tar.gz -C /opt/mmseqs --strip-components=1 \
+    && echo "${EXECUTABLE_SHA256}  /opt/mmseqs/bin/mmseqs" | sha256sum -c -
+
+FROM ${BASE_IMAGE} AS runtime
+COPY --from=engine /opt/mmseqs /opt/mmseqs
+# The engine is stdlib-only Python that starts mmseqs, so the core Python is the
+# environment, with the executable on PATH.
+ENV PATH=/opt/mmseqs/bin:$PATH \
+    ALAMBIQ_ENV_MMSEQS=/opt/alambiq/bin/python
+USER 1000:1000

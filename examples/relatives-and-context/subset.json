@@ -1,0 +1,19 @@
+{
+  "schema_version": "0.1",
+  "contigs": [
+    "MGYG000000699_5"
+  ],
+  "protein_id_attribute": "ID",
+  "source_sha256": {
+    "gff": "ee6141e9d7ccdb9a2e675a4b4638c98a9d8ea42050e04897decbba3b19308040",
+    "proteins": "2ee6692aa89538fbaaabc37ea16ee5c6dfdc7674888cecf97d267f25163a78e5"
+  },
+  "output_sha256": {
+    "context.gff3": "2d700cd74a5204553a6b84ff4b3963eb3079dfd087ba346fb109e145c3fe8ad6",
+    "proteins.fasta": "dd5bc073afd56c6aa343e5b451a5572c3265f70ed83cef15d802e03d33d91b3c"
+  },
+  "feature_count": 29,
+  "protein_count": 29,
+  "missing_protein_ids": [],
+  "transformation": "Retain selected-contig GFF3 feature rows and sequence-region directives; omit embedded DNA; preserve genomic coordinates. Select matching full protein FASTA records, uppercase and unwrap sequences."
+}

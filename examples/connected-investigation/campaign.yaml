@@ -1,0 +1,107 @@
+id: lysozyme-to-operation
+steps:
+  - id: first-look
+    capability: protein.inspect
+    params:
+      fasta: lysozyme.fasta
+
+  - id: propose
+    capability: variant.propose
+    params:
+      scores: scores.json
+      count: 24
+      exclude_positions: [35, 52]
+      max_per_position: 1
+
+  - id: round
+    capability: assay.inspect
+    params:
+      table: returned.csv
+      conditions:
+        standard: Standard assay, returned round
+
+  - id: model
+    capability: candidate.fit
+    bind:
+      assay: round.record
+    params:
+      panel: panel.json
+      metric: relative-activity
+      condition_id: standard
+      unit: relative
+
+  - id: next-batch
+    capability: candidate.select
+    bind:
+      model: model.record
+    params:
+      panel: panel.json
+      strategy: highest-predicted
+      count: 1
+      seed: 1
+
+  - id: kinetics-intake
+    capability: assay.inspect
+    params:
+      table: rates.csv
+      conditions:
+        c0: Substrate 0.05 mM
+        c1: Substrate 0.1 mM
+        c2: Substrate 0.25 mM
+        c3: Substrate 0.5 mM
+        c4: Substrate 1 mM
+        c5: Substrate 2.5 mM
+        c6: Substrate 5 mM
+        c7: Substrate 8 mM
+        c8: Substrate 20 mM
+        c9: Substrate 30 mM
+      condition_values:
+        c0: {substrate: {value: 0.05, unit: mM}}
+        c1: {substrate: {value: 0.1, unit: mM}}
+        c2: {substrate: {value: 0.25, unit: mM}}
+        c3: {substrate: {value: 0.5, unit: mM}}
+        c4: {substrate: {value: 1, unit: mM}}
+        c5: {substrate: {value: 2.5, unit: mM}}
+        c6: {substrate: {value: 5, unit: mM}}
+        c7: {substrate: {value: 8, unit: mM}}
+        c8: {substrate: {value: 20, unit: mM}}
+        c9: {substrate: {value: 30, unit: mM}}
+
+  - id: kinetics
+    capability: assay.fit
+    bind:
+      measurements: kinetics-intake.record
+    params:
+      sample_id: S100R
+      metric: initial-rate
+      x_quantity: substrate
+      x_unit: mM
+      y_unit: uM/min
+      rate_basis:
+        kind: product-formation
+        measured_species: P
+        substrate: S
+        measured_per_substrate: 1
+
+  - id: define
+    capability: operation.define
+    bind:
+      kinetics.0.fit: kinetics.record
+    params:
+      template: template.json
+      kinetics:
+        - channel: hydrolysis
+          species: S
+          assay_enzyme: {value: 20, unit: mg/L}
+
+  - id: simulate
+    capability: operation.simulate
+    bind:
+      definition: define.definition
+
+  - id: compare
+    capability: operation.compare
+    bind:
+      operation: simulate.record
+    params:
+      comparison: progress.json

@@ -1,0 +1,153 @@
+schema_version: "0.1"
+id: boltz2-2.2.1-v1
+status: apple-silicon-official-cpu-normal-step-diagnostic-complete
+purpose: >-
+  Isolated Boltz-2 protein-small-molecule complex and affinity runtime. Official
+  CPU, experimental MPS and official CUDA execution are separate method and
+  environment profiles that share one content-addressed model resource.
+solver:
+  manager: mamba
+  version: 1.5.4
+  conda_version: 23.11.0
+  channel: conda-forge
+  input: environment.yaml
+  solved_on: "2026-08-29"
+targets:
+  osx-arm64:
+    role: official-upstream-cpu-compatibility-reference
+    python_version: "3.11"
+    boltz_version: 2.2.1
+    pytorch_version: 2.13.0
+    package_count:
+      conda: 18
+      pip: 67
+    package_download_bytes: 40501159
+    measured_environment_storage_bytes: 1568030720
+    conda_exact_lock: locks/osx-arm64.conda-explicit.txt
+    conda_exact_lock_sha256: 9b1aa972aa1c829dfb13d6a8c79013a2a0e679d3f9a0784c0f7377b525c7c45a
+    conda_package_manifest: locks/osx-arm64.conda-packages.json
+    conda_package_manifest_sha256: 084d78a4f6bb00ebe9631154b8d74efc8f6e80547e4f38c78ea03b2a05ea58f1
+    conda_package_set_sha256: 3d1854f3178619cbdaaf47e29294493c0f342c66190767fbd556ebcfec58b37d
+    pip_freeze_lock: locks/osx-arm64.pip-freeze.txt
+    pip_freeze_lock_sha256: 5775b9cec36693b4a05350bfd8f3e7a939d2b047ae9097812f25464e78d2c3bc
+    pip_package_manifest: locks/osx-arm64.pip-packages.json
+    pip_package_manifest_sha256: 82807c125beb5035593475c90a2981c27f3decf9b27bac8cff63177a7656f1c9
+    pip_package_set_sha256: 1d80994b6c70d594d5267bda103e0cfedd75457cefa52079f5ac8c0e5cdea6ca
+    exact_lock_status: materialized-health-and-full-cli-import-passed
+    cpu_profile:
+      threads: 8
+      kernels: disabled
+      accelerator: cpu
+      timeout_seconds: 900
+    native_provider_smoke:
+      campaign: campaigns/diagnostics/boltz2-single-sequence-cpu-smoke.yaml
+      run_id: run-e1d0bfb0f22cf556
+      fixture_protein_residues: 10
+      structure_sampling_steps: 1
+      structure_samples: 1
+      affinity_sampling_steps: 1
+      affinity_samples: 1
+      observed_wall_seconds: 919.18
+      provider_timeout_seconds: 900
+      structures_emitted: 0
+      verdict: withheld
+      reason: prediction-error:TimeoutExpired
+      retrospective_configuration_finding: >-
+        One sampling step is below Boltz's valid diffusion-schedule minimum;
+        the frozen commissioning profile now uses two steps and this historical
+        timeout is retained as execution evidence.
+    normal_step_structure_diagnostic:
+      campaign: campaigns/diagnostics/plinder-v2-boltz-cpu-normal-step-assessment.yaml
+      plan_id: plan-feba5a2b28094ab4
+      comparison_run_id: run-f8beb8a0bdf6b0d3
+      status: complete-scientific-validation-withheld
+      run_id: run-c198ae2d2d7f3277
+      system_id: 5hoh__1__1.A__1.E
+      seed: 20260830
+      structure_sampling_steps: 200
+      recycling_steps: 3
+      structure_samples: 1
+      affinity_requested: false
+      cpu_threads: 8
+      provider_timeout_seconds: 14400
+      estimated_prediction_seconds: 14400
+      estimated_external_read_bytes: 34778
+      comparison_dimension: provider-runtime-only
+      result:
+        confidence_score: 0.6871083974838257
+        complex_plddt: 0.741054892539978
+        complex_iplddt: 0.6024284362792969
+        receptor_post_alignment_ca_rmsd_angstrom: 2.948251
+        ligand_symmetry_corrected_rmsd_angstrom: 1.861788
+        score_only_top1_success: true
+        physically_valid: false
+        failed_checks:
+          - minimum_distance_to_protein
+          - volume_overlap_with_protein
+        smallest_distance_protein_angstrom: 1.4147607182841937
+        protein_ligand_clash_count: 7
+        volume_overlap_protein: 0.12167886022333461
+        scientific_validation_supported: false
+      records:
+        plan_sha256: 9f27e1c32d5f7132cb3ee2be89755ea083c3d749863c8bba9b3c5560559087d2
+        run_sha256: 1ca1192bf898802fb75e6252d4b0ffab98b67d8ed301769e30ad8de95ea33c6e
+        evidence_sha256: c33b259c6ad2c550a2cf970896a89d93019c0cf30a302174e338271e4794ad30
+        manifest_sha256: 6d3080e1cad978d4fa3c34bf6f59c9ae2feffcd08a82a6e9c8a210eb025bffaf
+        report_sha256: 9fa000fa535b3651603a669c818837559c1a3f1aec418bc5adccf5cf8a1b2d63
+      operational_attempt:
+        run_id: run-2e50056e2a728469
+        outcome: failed-before-inference
+        reason: wrong-active-protein-ligand-conda-prefix
+    apple_gpu_probe:
+      torch_mps_built: true
+      torch_mps_available: true
+      device_count: 1
+      disposition: separate-experimental-environment-and-method-profile-required
+  linux-64:
+    role: official-cuda-execution-and-independent-reproduction
+    exact_lock_status: pending-independent-x86-64-materialization
+  linux-aarch64:
+    role: spark-cuda-core-integration
+    exact_lock_status: measured-isolated-prefix-native-cuda-integration-passed
+    python_version: 3.12.14
+    boltz_version: 2.2.1
+    pytorch_version: 2.11.0+cu130
+    cuda_runtime: "13.0"
+    driver_version: 580.159.03
+    device: NVIDIA GB10
+    conda_package_manifest: locks/linux-aarch64.conda-packages.json
+    conda_package_set_sha256: 79105eb723794692e724821486465425410b1db84f4a8346abf5acb3dcae14fd
+    pip_package_manifest: locks/linux-aarch64.pip-packages.json
+    pip_package_set_sha256: 989a412ca2080eba945422c2c35b4fe4441d811d040d2f7dfb1bc7854f2cdcbd
+    package_count: {conda: 28, pip: 87}
+    measured_environment_storage_bytes: 5694612290
+    method_profile: protein.boltz2-prediction-cuda-v1
+    custom_kernels: false
+    data_loader_workers: 0
+    native_run_id: run-6012433e6e6b39c0
+    unavailable_gpu_run_id: run-2bcfe7b80998b4a5
+    interrupted_loader_run_id: run-704f1cd76f99a055
+    installation_limitation: independent-prefix-fingerprint-portability-not-established
+    dependency_diagnostic: nvidia-cusparselt-cu13-0.8.0-internal-sbsa-wheel-tag
+    checkpoint: verification.linux-aarch64.json
+resources:
+  logical_id: boltz2-model-2.2.1-v1
+  acquisition: approved-provisioning-complete
+  store_layout: sha256/content_sha256
+  lock_file: resource-lock.osx-arm64.json
+  lock_sha256: a39cd6c51b818e8e16265bdb59dbd701983c3cd2b2f4eafcdb1df27fab6d0ed9
+  content_sha256: 27b7a5c169d62d9b06d7b1db549f7a45795a47ec0f0062fcebf082a1c26299be
+  source_revision: huggingface:boltz-community/boltz-2@6fdef46d763fee7fbb83ca5501ccceff43b85607
+  license: MIT
+  redistribution: fetch-from-upstream-not-redistributed
+  initial_download_bytes: 6204362719
+  storage_bytes: 8025061538
+  extracted_component_file_count: 45227
+execution_readiness:
+  simulated_contract_smoke: passed
+  native_environment_health: passed
+  native_official_cpu_import: passed
+  native_official_cpu_inference_smoke: historical-invalid-one-step-timeout-corrected-profile-pending
+  native_official_cpu_normal_step_diagnostic: complete-scientific-validation-withheld
+  native_experimental_mps_smoke: passed-in-separate-experimental-environment
+  msa_backed_scientific_validation: blocked-on-frozen-msa-resource-and-cohort

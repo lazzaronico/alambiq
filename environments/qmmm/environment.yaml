@@ -1,0 +1,7 @@
+name: alambiq-qmmm
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - openmm=8.6.0
+  - pyscf=2.14.0

@@ -1,0 +1,185 @@
+schema_version: "0.1"
+id: boltz2-2.2.1-mps-pr527-v1
+status: apple-silicon-experimental-mps-normal-step-assessable-pose-rejected
+purpose: >-
+  Experimental Apple Silicon Boltz-2 MPS runtime. It is isolated
+  from the upstream CPU environment, enables PyTorch CPU fallback
+  for unsupported MPS operations and shares the official content-addressed model
+  resource.
+upstream:
+  release_version: 2.2.1
+  patch_pull_request: https://github.com/jwohlwend/boltz/pull/527
+  patch_commit: 1a56ef48739835d8863ec4666644bf7a7d85bc14
+  patch_merge_base: cb04aeccdd480fd4db707f0bbafde538397fa2ac
+  executable_code_delta: >-
+    One CLI declaration change adds mps to the accepted accelerator values;
+    inference remains Boltz 2.2.1 and PyTorch Lightning behavior.
+  source_lock: >-
+    git+https://github.com/jwohlwend/boltz.git@1a56ef48739835d8863ec4666644bf7a7d85bc14
+solver:
+  manager: mamba
+  version: 1.5.4
+  conda_version: 23.11.0
+  channel: conda-forge
+  input: environment.yaml
+  materialized_on: "2026-08-29"
+targets:
+  osx-arm64:
+    role: experimental-apple-mps-with-explicit-cpu-fallback
+    python_version: "3.11"
+    boltz_distribution_version: 2.2.1
+    pytorch_version: 2.13.0
+    package_count:
+      conda: 18
+      pip: 67
+    measured_environment_storage_bytes: 1568043008
+    conda_exact_lock: ../boltz2/locks/osx-arm64.conda-explicit.txt
+    conda_exact_lock_sha256: 9b1aa972aa1c829dfb13d6a8c79013a2a0e679d3f9a0784c0f7377b525c7c45a
+    conda_package_manifest: ../boltz2/locks/osx-arm64.conda-packages.json
+    conda_package_manifest_sha256: 084d78a4f6bb00ebe9631154b8d74efc8f6e80547e4f38c78ea03b2a05ea58f1
+    conda_package_set_sha256: 3d1854f3178619cbdaaf47e29294493c0f342c66190767fbd556ebcfec58b37d
+    pip_freeze_lock: locks/osx-arm64.pip-freeze.txt
+    pip_freeze_lock_sha256: 59525730ba50586fc42de6c97cce1501e9184838b0e1a63bc038fa59bb41c21f
+    pip_materialization_lock: locks/osx-arm64.pip-requirements.txt
+    pip_materialization_lock_sha256: b427c11160c33d728035333fadd9e63c5e398c5b246f9b1f0d30d3ac476e9897
+    pip_package_manifest: locks/osx-arm64.pip-packages.json
+    pip_package_manifest_sha256: 30d88e35768f380ae05a298956c287a9430e4dbed412b541a7f7b7bb9c7fb193
+    pip_package_set_sha256: 1508264b08c0f626a434d25935564588563c8f0539afbf51414852b7855bfd8c
+    runtime_policy:
+      accelerator: mps
+      kernels: disabled
+      cpu_fallback: enabled
+      minimum_structure_sampling_steps: 2
+      minimum_affinity_sampling_steps: 2
+      timeout_seconds: 900
+    native_backend_probe:
+      torch_mps_built: true
+      torch_mps_available: true
+      device_count: 1
+      tensor_device: mps:0
+      patched_cli_accepts_mps: true
+    invalid_one_step_regression:
+      root_cause: >-
+        Boltz diffusion schedules divide by sampling_steps minus one, so the
+        original one-step commissioning fixture generated non-finite values
+        before weighted rigid alignment.
+      runs:
+        - run_id: run-109bb08e05a2fe8d
+          seed: 20260829
+          verdict: withheld
+          failure: torch._C._LinAlgError-at-weighted-rigid-align-svd
+        - run_id: run-367b19e675a46cc8
+          seed: 20260830
+          verdict: withheld
+          failure: torch._C._LinAlgError-at-weighted-rigid-align-svd
+      disposition: frozen-commissioning-minimum-raised-to-two-steps
+    native_provider_smoke:
+      campaign: campaigns/diagnostics/boltz2-single-sequence-mps-smoke.yaml
+      plan_id: plan-4d2d3c05662bca49
+      run_id: run-b7b3b35975000cc3
+      seed: 20260829
+      structure_sampling_steps: 2
+      structure_samples: 1
+      affinity_sampling_steps: 2
+      affinity_samples: 1
+      provider_timeout_seconds: 900
+      observed_wall_seconds_approx: 104
+      structures_emitted: 1
+      confidence_records_emitted: 1
+      affinity_records_emitted: 1
+      structure_artifact_sha256: 59199f8e24e2f3dd9c1e29ed762b5bf3070d1191023e23d2228c3fba334d9bf7
+      verdict: supported
+    learned_complex_assessment_smoke:
+      campaign: campaigns/diagnostics/plinder-v2-boltz-mps-assessment-smoke.yaml
+      plan_id: plan-70217cc51ce22a33
+      run_id: run-29c3124fe4cd6208
+      executed_on: "2026-08-30"
+      system_id: 5hoh__1__1.A__1.E
+      seed: 20260830
+      structure_sampling_steps: 2
+      structure_samples: 1
+      prepared_systems: 1
+      predicted_systems: 1
+      assessed_samples: 1
+      assessable_samples: 0
+      matched_receptor_ca: 104
+      post_alignment_ca_rmsd_angstrom: 2242.996983
+      rejection: receptor-alignment-rmsd-exceeded
+      assessment_boundary_verdict: supported
+      scientific_validation_verdict: withheld
+      alambiq_wheel_sha256: 240cfe61071223b54e2a5d020340f87296948fad7e88839c9bf36c9eb6fde441
+      records:
+        plan_sha256: d89e5ed2bd9dcbc385fe1e2756c36822cbf08c2e9662ddea5cb09379a6332f47
+        run_sha256: d6f78e3d3ff076868e6e2a2de0e977313c2c545606e4bf334fc7f78a9dda8f09
+        evidence_sha256: 10d14c504b2cd156c34ae87fa3b9fbe48f24f4dfdab1b5a2c17abb0ec4ed8c94
+        manifest_sha256: 92d362e446245f8a742dd016b49d26f769b938aabe18c34dde0896d863b0c525
+        report_sha256: 50d223be3e227ad8a73624bdc7e1a675316d1f59b9a14f839c8de0dee09b7cd5
+    normal_step_structure_diagnostic:
+      campaign: campaigns/diagnostics/plinder-v2-boltz-mps-normal-step-assessment.yaml
+      plan_id: plan-407ed9d844bc4c3e
+      run_id: run-f8beb8a0bdf6b0d3
+      executed_on: "2026-08-30"
+      system_id: 5hoh__1__1.A__1.E
+      seed: 20260830
+      structure_sampling_steps: 200
+      recycling_steps: 3
+      structure_samples: 1
+      affinity_requested: false
+      prepared_systems: 1
+      predicted_systems: 1
+      assessed_samples: 1
+      assessable_samples: 1
+      matched_receptor_ca: 104
+      pre_alignment_ca_rmsd_angstrom: 59.575719
+      post_alignment_ca_rmsd_angstrom: 3.090641
+      symmetry_corrected_ligand_rmsd_angstrom: 1.848497
+      score_only_top1_success: true
+      score_only_top5_success: true
+      physical_validity: false
+      failed_physical_checks:
+        - minimum_distance_to_protein
+      protein_ligand_clash_count: 8
+      minimum_distance_to_protein_angstrom: 2.122931
+      valid_top1_success: false
+      valid_top5_success: false
+      assessment_boundary_verdict: supported
+      assessable_geometry_verdict: supported
+      scientific_validation_verdict: withheld
+      alambiq_wheel_sha256: b69ff9e8d7b541d9335a63747f1ce68415a86cb410fa9529aeeaf16c13f1bc7c
+      prior_operational_attempt:
+        run_id: run-6286b5056f320240
+        disposition: implementation-failure-fixed-before-canonical-rerun
+        failure: unstable-system-id-derived-artifact-name
+      records:
+        plan_sha256: 7ff6b9a8c85f7cd7abcb254e637e7ebc18beeafa7bcb6fe69a305b9fc3688107
+        run_sha256: 8f9756c4a6056b7c056bd43ee75a6cbb25598fc64c96735f4536a69cc7c36f83
+        evidence_sha256: 6e91728631683076f2540544fdaea918f0c52452439f492c070bc8551050ee66
+        manifest_sha256: 9369116d78f3d3ee723dca343d71a17ea2290d89b5699b714abfea5cf1cc14da
+        report_sha256: 3efd16f8a44a5a6ab35370d416605894fd027d25d088f38e4e5b3c8e85b9acb6
+resources:
+  logical_id: boltz2-model-2.2.1-v1
+  shared_manifest: ../boltz2/manifest.yaml
+  content_sha256: 27b7a5c169d62d9b06d7b1db549f7a45795a47ec0f0062fcebf082a1c26299be
+  duplicated_for_mps: false
+execution_readiness:
+  exact_environment_lock: passed
+  native_cli_import: passed
+  native_mps_tensor_probe: passed
+  native_provider_health: passed
+  native_mps_inference_smoke: passed
+  native_mps_learned_complex_assessment: completed-output-rejected
+  native_mps_normal_step_structure_diagnostic: assessable-output-pose-rejected
+scientific_boundary:
+  maturity: experimental
+  comparison_required: official-cuda-reference
+  observations:
+    - With CPU fallback enabled, operations unsupported on MPS run on CPU, so the profile
+      executes on a mix of MPS and CPU.
+    - A technical smoke verifies that the runtime executes. Structure, pose and affinity
+      accuracy require comparison with the official CUDA reference (`comparison_required`).
+    - The two-step profile emitted impossible geometry on one opened PLINDER
+      validation system. The matched normal-step profile removed that
+      catastrophic pathology but retained a protein-distance physical failure;
+      this supports schedule sensitivity.
+    - The profile installs source from the open upstream pull request 527 on the Boltz 2.2.1
+      release.

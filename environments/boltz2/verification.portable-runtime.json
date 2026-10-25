@@ -1,0 +1,971 @@
+{
+  "base_commit": "d899c3a",
+  "browser": {
+    "checks": [
+      "source identity",
+      "model-local residue mapping",
+      "keyboard selection",
+      "chain selection",
+      "confidence color toggle",
+      "atom representation",
+      "WebGL",
+      "confidence export",
+      "reset",
+      "offline"
+    ],
+    "errors": [],
+    "local_values": 163,
+    "network": [],
+    "passed": true,
+    "pocket_overlay": false,
+    "selected": {
+      "label_asym_id": "A",
+      "label_seq_id": 1,
+      "observed": true,
+      "polymer": true,
+      "query_position": 1,
+      "residue_name": "MET",
+      "status": "present",
+      "value": 97.388
+    }
+  },
+  "core_only_saved_results_verified": 4,
+  "core_verification_wheel_sha256": "334d04d9c3be0083b39a0e07b18ece1341036c1c3b293a09124add55941f2f5e",
+  "limitations": [
+    "MPS venv inherits the separately patched packages; it is not a fresh MPS dependency installation.",
+    "Linux x86_64, Docker, actual cluster allocation and independent operator coverage remain open.",
+    "The retained NVIDIA cuSPARSELt vendor wheel-tag warning was not changed."
+  ],
+  "logs_sha256": {
+    "browser.log": "c3c79b629ca560a1c8275fd0b6f4ef48f928cf553d442b1fed6e943e988c3b13",
+    "cli-summary.jsonl": "075b56880ee76d428b3f7f05133371dcc7eee60dea509276689a0b1815058c22",
+    "core-verification-final.log": "2f581bcf845bcbca564c709e207b54414cd979e966b6ff4b9670f086dce78917",
+    "cpu-run.log": "f9bc5c8d89f637014e08f40027b979adb215f23fc924edc854eacd87ad6599cd",
+    "mps-run.log": "340a6087a9a800ec239464cd3cd28a011c066d297abae4bc6d5dfcb00deda1d2",
+    "remote/journey-final.log": "04b1955c54a981ec96627a8ef05d5ccd08c1467a08c7c0f7487304f8795fb5b3",
+    "remote/old-gate-comparison.json": "dffccd6236a45aa00d88c26eda8ed8bfc4e931c02bd243952ce8257bc94566d0",
+    "tests-final.log": "417f12504d68fdca92636f597f4e645989b2d4a485de00d8b4212ec47eada679",
+    "tests.log": "2a19b9a52c8efd0e6be6b2b068720bfb558bd957dcccccd6b5f5bcbe07d1aada"
+  },
+  "native_date": "2026-09-08",
+  "native_runs": [
+    {
+      "canonical_sha256": {
+        "evidence.json": "b241cbe264844add37a2d980fd1fe192086094f9269fc71a04fb33f794b5dcc5",
+        "manifest.json": "3acfadde38dee60ae0af902489b13965493db4ded9aa2d54ba140899f8802f56",
+        "plan.json": "660bbf1f7f2741ffc25d4f558ba1aa71658806ec989d1222953e2cb8b1030f1e",
+        "report.html": "d127a5eed245768d57f65a2592acaa1610756513190868a6f045d875d93e0b76",
+        "run.json": "df817614403151b473d97723b4777592bf445b8b3bbc8d2bb0b55f2ded429df7"
+      },
+      "model_resource_digest": "a39cd6c51b818e8e16265bdb59dbd701983c3cd2b2f4eafcdb1df27fab6d0ed9",
+      "prediction_artifacts": {
+        "inspection": {
+          "boltz-chemistry-log": {
+            "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "id": "artifact-e3b0c44298fc1c14",
+            "media_type": "text/plain",
+            "uri": "bioforge+artifact://sha256/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "boltz-confidence-00-json": {
+            "digest": "sha256:ef6e8767c361a7a7c39666053d9a490ce5c80beb7e57b16e1585183aeff0dc41",
+            "id": "artifact-ef6e8767c361a7a7",
+            "media_type": "application/json",
+            "uri": "bioforge+artifact://sha256/ef6e8767c361a7a7c39666053d9a490ce5c80beb7e57b16e1585183aeff0dc41"
+          },
+          "boltz-input-yaml": {
+            "digest": "sha256:b195a767c09288aab54f7a665fbc005d70bf8fcfd6b7ee5829958f3312e99479",
+            "id": "artifact-b195a767c09288aa",
+            "media_type": "application/yaml",
+            "uri": "bioforge+artifact://sha256/b195a767c09288aab54f7a665fbc005d70bf8fcfd6b7ee5829958f3312e99479"
+          },
+          "boltz-ligand-chemistry-json": {
+            "digest": "sha256:8b0f992015bb447a432d7ba98bb44e72097efb3c462360359c7cd7b75dccc209",
+            "id": "artifact-8b0f992015bb447a",
+            "media_type": "application/json",
+            "uri": "bioforge+artifact://sha256/8b0f992015bb447a432d7ba98bb44e72097efb3c462360359c7cd7b75dccc209"
+          },
+          "boltz-model-00-ligand-sdf": {
+            "digest": "sha256:a7d7e3aa95d9e8194ab02e8aa528c08bb7a2e21bfb9a3977856b168615b533f2",
+            "id": "artifact-a7d7e3aa95d9e819",
+            "media_type": "chemical/x-mdl-sdfile",
+            "uri": "bioforge+artifact://sha256/a7d7e3aa95d9e8194ab02e8aa528c08bb7a2e21bfb9a3977856b168615b533f2"
+          },
+          "boltz-stdout-log": {
+            "digest": "sha256:3e7d2af2587d4cde8f28cf738e9485c4cdd1bfb677fd926d0079a30343cac229",
+            "id": "artifact-3e7d2af2587d4cde",
+            "media_type": "text/plain",
+            "uri": "bioforge+artifact://sha256/3e7d2af2587d4cde8f28cf738e9485c4cdd1bfb677fd926d0079a30343cac229"
+          }
+        },
+        "prediction": {
+          "boltz-model-00-cif": {
+            "digest": "sha256:9b7bafc1c9c23b18ebf3f2d4a7543d122744b106c9a7c4fa0ccfc2d7376dd71e",
+            "id": "artifact-9b7bafc1c9c23b18",
+            "media_type": "chemical/x-mmcif",
+            "uri": "bioforge+artifact://sha256/9b7bafc1c9c23b18ebf3f2d4a7543d122744b106c9a7c4fa0ccfc2d7376dd71e"
+          }
+        }
+      },
+      "report": "/Users/user/projects/bioforge/bioforge/.bioforge/boltz-portability/views/run-477ed6fd8be13e88.html",
+      "report_sha256": "d127a5eed245768d57f65a2592acaa1610756513190868a6f045d875d93e0b76",
+      "run_id": "run-477ed6fd8be13e88",
+      "runtime": {
+        "cuda_available": true,
+        "cuda_runtime_version": "13.0",
+        "device": "cuda",
+        "mps_available": false,
+        "platform": "Linux-6.17.0-1021-nvidia-aarch64-with-glibc2.39",
+        "prefix": "/home/user/.bioforge/commissioning/d899c3a-boltz-portability-20260908/independent-runtime",
+        "python": "/home/user/.bioforge/commissioning/d899c3a-boltz-portability-20260908/independent-runtime/bin/python",
+        "python_version": "3.12.14",
+        "source_sha256": "4764b634646917bb198f92ee14b87c0cd09019beebd75353f0bc51afd0a7e8d1",
+        "torch_runtime_version": "2.11.0+cu130",
+        "versions": {
+          "GitPython": "3.1.62",
+          "Jinja2": "3.1.6",
+          "MarkupSafe": "3.0.3",
+          "PyYAML": "6.0.2",
+          "aiohappyeyeballs": "2.7.1",
+          "aiohttp": "3.14.3",
+          "aiosignal": "1.4.0",
+          "antlr4-python3-runtime": "4.9.3",
+          "attrs": "26.1.0",
+          "biopython": "1.84",
+          "boltz": "2.2.1",
+          "certifi": "2026.7.22",
+          "charset-normalizer": "3.5.1",
+          "chembl-structure-pipeline": "1.2.2",
+          "click": "8.1.7",
+          "cloudpickle": "3.1.2",
+          "cuda-bindings": "13.3.1",
+          "cuda-pathfinder": "1.6.0",
+          "cuda-toolkit": "13.0.2",
+          "dm-tree": "0.1.8",
+          "docker-pycreds": "0.4.0",
+          "einops": "0.8.0",
+          "einx": "0.3.0",
+          "fairscale": "0.4.13",
+          "filelock": "3.32.3",
+          "frozendict": "2.4.7",
+          "frozenlist": "1.8.0",
+          "fsspec": "2026.7.0",
+          "gemmi": "0.6.5",
+          "gitdb": "4.0.12",
+          "hydra-core": "1.3.2",
+          "idna": "3.19",
+          "ihm": "2.11",
+          "joblib": "1.6.0",
+          "lightning-utilities": "0.15.3",
+          "llvmlite": "0.44.0",
+          "mashumaro": "3.14",
+          "modelcif": "1.2",
+          "mpmath": "1.3.0",
+          "msgpack": "1.2.2",
+          "multidict": "6.7.1",
+          "networkx": "3.6.1",
+          "numba": "0.61.0",
+          "numpy": "1.26.4",
+          "nvidia-cublas": "13.1.0.3",
+          "nvidia-cuda-cupti": "13.0.85",
+          "nvidia-cuda-nvrtc": "13.0.88",
+          "nvidia-cuda-runtime": "13.0.96",
+          "nvidia-cudnn-cu13": "9.19.0.56",
+          "nvidia-cufft": "12.0.0.61",
+          "nvidia-cufile": "1.15.1.6",
+          "nvidia-curand": "10.4.0.35",
+          "nvidia-cusolver": "12.0.4.66",
+          "nvidia-cusparse": "12.6.3.3",
+          "nvidia-cusparselt-cu13": "0.8.0",
+          "nvidia-nccl-cu13": "2.28.9",
+          "nvidia-nvjitlink": "13.0.88",
+          "nvidia-nvshmem-cu13": "3.4.5",
+          "nvidia-nvtx": "13.0.85",
+          "omegaconf": "2.3.1",
+          "packaging": "26.3",
+          "pandas": "3.0.5",
+          "pillow": "12.3.0",
+          "pip": "26.2.1",
+          "platformdirs": "4.11.7",
+          "propcache": "0.5.2",
+          "protobuf": "5.29.6",
+          "psutil": "7.2.2",
+          "python-dateutil": "2.9.0.post0",
+          "pytorch-lightning": "2.5.0",
+          "rdkit": "2026.3.6",
+          "requests": "2.32.3",
+          "scikit-learn": "1.6.1",
+          "scipy": "1.13.1",
+          "sentry-sdk": "2.69.0",
+          "setproctitle": "1.3.7",
+          "setuptools": "78.1.0",
+          "six": "1.17.0",
+          "smmap": "5.0.3",
+          "sympy": "1.14.0",
+          "threadpoolctl": "3.6.0",
+          "torch": "2.11.0+cu130",
+          "torchmetrics": "1.9.0",
+          "tqdm": "4.70.0",
+          "triton": "3.6.0",
+          "types-requests": "2.33.0.20260906",
+          "typing_extensions": "4.16.0",
+          "urllib3": "2.7.0",
+          "wandb": "0.18.7",
+          "wheel": "0.48.0",
+          "yarl": "1.24.5"
+        }
+      },
+      "seconds": 131.30847522593103,
+      "settings": {
+        "accelerator": "gpu",
+        "devices": 1,
+        "diffusion_samples": 1,
+        "enable_affinity": false,
+        "max_msa_seqs": 8192,
+        "model": "boltz2",
+        "num_subsampled_msa": 1024,
+        "num_workers": 0,
+        "output_format": "mmcif",
+        "recycling_steps": 3,
+        "sampling_steps": 200,
+        "seed": 20260908,
+        "subsample_msa": true,
+        "use_kernels": false
+      },
+      "source_directory": "/Users/user/projects/bioforge/bioforge/.bioforge/boltz-portability/remote/journey/run-477ed6fd8be13e88",
+      "steps": {
+        "inspect-predicted": "completed",
+        "inspect-prepared": "completed",
+        "predict": "completed",
+        "prepare": "completed"
+      }
+    },
+    {
+      "canonical_sha256": {
+        "evidence.json": "0ac94e46fcec93d23e923bb7ad01de1afa0670b7988939c05a9080f75a7f0e70",
+        "manifest.json": "69cbb32f62105010296efe7b00903b73d2fd311af73870cfcc18e2b01fda3e9b",
+        "plan.json": "660bbf1f7f2741ffc25d4f558ba1aa71658806ec989d1222953e2cb8b1030f1e",
+        "report.html": "f35f1a758b8646bb053ece45a2839b70f932e2a3582cca13a1da529b1a46cfde",
+        "run.json": "e178fefaf30f0056369c77c631f071271d2727c82f21de61fb06a3046c7bf30c"
+      },
+      "model_resource_digest": "a39cd6c51b818e8e16265bdb59dbd701983c3cd2b2f4eafcdb1df27fab6d0ed9",
+      "prediction_artifacts": {
+        "inspection": {
+          "boltz-chemistry-log": {
+            "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "id": "artifact-e3b0c44298fc1c14",
+            "media_type": "text/plain",
+            "uri": "bioforge+artifact://sha256/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "boltz-confidence-00-json": {
+            "digest": "sha256:ef6e8767c361a7a7c39666053d9a490ce5c80beb7e57b16e1585183aeff0dc41",
+            "id": "artifact-ef6e8767c361a7a7",
+            "media_type": "application/json",
+            "uri": "bioforge+artifact://sha256/ef6e8767c361a7a7c39666053d9a490ce5c80beb7e57b16e1585183aeff0dc41"
+          },
+          "boltz-input-yaml": {
+            "digest": "sha256:b195a767c09288aab54f7a665fbc005d70bf8fcfd6b7ee5829958f3312e99479",
+            "id": "artifact-b195a767c09288aa",
+            "media_type": "application/yaml",
+            "uri": "bioforge+artifact://sha256/b195a767c09288aab54f7a665fbc005d70bf8fcfd6b7ee5829958f3312e99479"
+          },
+          "boltz-ligand-chemistry-json": {
+            "digest": "sha256:8b0f992015bb447a432d7ba98bb44e72097efb3c462360359c7cd7b75dccc209",
+            "id": "artifact-8b0f992015bb447a",
+            "media_type": "application/json",
+            "uri": "bioforge+artifact://sha256/8b0f992015bb447a432d7ba98bb44e72097efb3c462360359c7cd7b75dccc209"
+          },
+          "boltz-model-00-ligand-sdf": {
+            "digest": "sha256:a7d7e3aa95d9e8194ab02e8aa528c08bb7a2e21bfb9a3977856b168615b533f2",
+            "id": "artifact-a7d7e3aa95d9e819",
+            "media_type": "chemical/x-mdl-sdfile",
+            "uri": "bioforge+artifact://sha256/a7d7e3aa95d9e8194ab02e8aa528c08bb7a2e21bfb9a3977856b168615b533f2"
+          },
+          "boltz-stdout-log": {
+            "digest": "sha256:ec644ae7ad061b4d1ded538c8e411d1f2f7eebed83283eb88ba04a6cc46ecb44",
+            "id": "artifact-ec644ae7ad061b4d",
+            "media_type": "text/plain",
+            "uri": "bioforge+artifact://sha256/ec644ae7ad061b4d1ded538c8e411d1f2f7eebed83283eb88ba04a6cc46ecb44"
+          }
+        },
+        "prediction": {
+          "boltz-model-00-cif": {
+            "digest": "sha256:9b7bafc1c9c23b18ebf3f2d4a7543d122744b106c9a7c4fa0ccfc2d7376dd71e",
+            "id": "artifact-9b7bafc1c9c23b18",
+            "media_type": "chemical/x-mmcif",
+            "uri": "bioforge+artifact://sha256/9b7bafc1c9c23b18ebf3f2d4a7543d122744b106c9a7c4fa0ccfc2d7376dd71e"
+          }
+        }
+      },
+      "report": "/Users/user/projects/bioforge/bioforge/.bioforge/boltz-portability/views/run-e52b309e6c071db1.html",
+      "report_sha256": "f35f1a758b8646bb053ece45a2839b70f932e2a3582cca13a1da529b1a46cfde",
+      "run_id": "run-e52b309e6c071db1",
+      "runtime": {
+        "cuda_available": true,
+        "cuda_runtime_version": "13.0",
+        "device": "cuda",
+        "mps_available": false,
+        "platform": "Linux-6.17.0-1021-nvidia-aarch64-with-glibc2.39",
+        "prefix": "/home/user/.bioforge/commissioning/d899c3a-boltz-portability-20260908/independent-runtime",
+        "python": "/home/user/.bioforge/commissioning/d899c3a-boltz-portability-20260908/independent-runtime/bin/python",
+        "python_version": "3.12.14",
+        "source_sha256": "4764b634646917bb198f92ee14b87c0cd09019beebd75353f0bc51afd0a7e8d1",
+        "torch_runtime_version": "2.11.0+cu130",
+        "versions": {
+          "GitPython": "3.1.62",
+          "Jinja2": "3.1.6",
+          "MarkupSafe": "3.0.3",
+          "PyYAML": "6.0.2",
+          "aiohappyeyeballs": "2.7.1",
+          "aiohttp": "3.14.3",
+          "aiosignal": "1.4.0",
+          "antlr4-python3-runtime": "4.9.3",
+          "attrs": "26.1.0",
+          "biopython": "1.84",
+          "boltz": "2.2.1",
+          "certifi": "2026.7.22",
+          "charset-normalizer": "3.5.1",
+          "chembl-structure-pipeline": "1.2.2",
+          "click": "8.1.7",
+          "cloudpickle": "3.1.2",
+          "cuda-bindings": "13.3.1",
+          "cuda-pathfinder": "1.6.0",
+          "cuda-toolkit": "13.0.2",
+          "dm-tree": "0.1.8",
+          "docker-pycreds": "0.4.0",
+          "einops": "0.8.0",
+          "einx": "0.3.0",
+          "fairscale": "0.4.13",
+          "filelock": "3.32.3",
+          "frozendict": "2.4.7",
+          "frozenlist": "1.8.0",
+          "fsspec": "2026.7.0",
+          "gemmi": "0.6.5",
+          "gitdb": "4.0.12",
+          "hydra-core": "1.3.2",
+          "idna": "3.19",
+          "ihm": "2.11",
+          "joblib": "1.6.0",
+          "lightning-utilities": "0.15.3",
+          "llvmlite": "0.44.0",
+          "mashumaro": "3.14",
+          "modelcif": "1.2",
+          "mpmath": "1.3.0",
+          "msgpack": "1.2.2",
+          "multidict": "6.7.1",
+          "networkx": "3.6.1",
+          "numba": "0.61.0",
+          "numpy": "1.26.4",
+          "nvidia-cublas": "13.1.0.3",
+          "nvidia-cuda-cupti": "13.0.85",
+          "nvidia-cuda-nvrtc": "13.0.88",
+          "nvidia-cuda-runtime": "13.0.96",
+          "nvidia-cudnn-cu13": "9.19.0.56",
+          "nvidia-cufft": "12.0.0.61",
+          "nvidia-cufile": "1.15.1.6",
+          "nvidia-curand": "10.4.0.35",
+          "nvidia-cusolver": "12.0.4.66",
+          "nvidia-cusparse": "12.6.3.3",
+          "nvidia-cusparselt-cu13": "0.8.0",
+          "nvidia-nccl-cu13": "2.28.9",
+          "nvidia-nvjitlink": "13.0.88",
+          "nvidia-nvshmem-cu13": "3.4.5",
+          "nvidia-nvtx": "13.0.85",
+          "omegaconf": "2.3.1",
+          "packaging": "26.3",
+          "pandas": "3.0.5",
+          "pillow": "12.3.0",
+          "pip": "26.2.1",
+          "platformdirs": "4.11.7",
+          "propcache": "0.5.2",
+          "protobuf": "5.29.6",
+          "psutil": "7.2.2",
+          "python-dateutil": "2.9.0.post0",
+          "pytorch-lightning": "2.5.0",
+          "rdkit": "2026.3.6",
+          "requests": "2.32.3",
+          "scikit-learn": "1.6.1",
+          "scipy": "1.13.1",
+          "sentry-sdk": "2.69.0",
+          "setproctitle": "1.3.7",
+          "setuptools": "78.1.0",
+          "six": "1.17.0",
+          "smmap": "5.0.3",
+          "sympy": "1.14.0",
+          "threadpoolctl": "3.6.0",
+          "torch": "2.11.0+cu130",
+          "torchmetrics": "1.9.0",
+          "tqdm": "4.70.0",
+          "triton": "3.6.0",
+          "types-requests": "2.33.0.20260906",
+          "typing_extensions": "4.16.0",
+          "urllib3": "2.7.0",
+          "wandb": "0.18.7",
+          "wheel": "0.48.0",
+          "yarl": "1.24.5"
+        }
+      },
+      "seconds": 132.35190977505408,
+      "settings": {
+        "accelerator": "gpu",
+        "devices": 1,
+        "diffusion_samples": 1,
+        "enable_affinity": false,
+        "max_msa_seqs": 8192,
+        "model": "boltz2",
+        "num_subsampled_msa": 1024,
+        "num_workers": 0,
+        "output_format": "mmcif",
+        "recycling_steps": 3,
+        "sampling_steps": 200,
+        "seed": 20260908,
+        "subsample_msa": true,
+        "use_kernels": false
+      },
+      "source_directory": "/Users/user/projects/bioforge/bioforge/.bioforge/boltz-portability/remote/journey/run-e52b309e6c071db1",
+      "steps": {
+        "inspect-predicted": "completed",
+        "inspect-prepared": "completed",
+        "predict": "completed",
+        "prepare": "completed"
+      }
+    },
+    {
+      "canonical_sha256": {
+        "evidence.json": "051ca7bf37abe7334522a5410b3ea429da78054f43b8782284ce964483b487d5",
+        "manifest.json": "412a30fbef4d698a4b283ecc7d8ecda74d49f2904fd6b641609911253ca01c84",
+        "plan.json": "cc4000e53349c9ce1770cc192f8595d7be56cf108a871f06b4043c170e8df477",
+        "run.json": "e374f313134ba13a373bc96a2cd1fb7acbcda134e7727837f3d0d177ce463e3d"
+      },
+      "model_resource_digest": "a39cd6c51b818e8e16265bdb59dbd701983c3cd2b2f4eafcdb1df27fab6d0ed9",
+      "prediction_artifacts": {
+        "inspection": {
+          "boltz-chemistry-log": {
+            "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "id": "artifact-e3b0c44298fc1c14",
+            "media_type": "text/plain",
+            "uri": "bioforge+artifact://sha256/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "boltz-confidence-00-json": {
+            "digest": "sha256:8cf31e8ef377054bb867c5598fce6546e04e6e228f06f582cdca92c9d04941d5",
+            "id": "artifact-8cf31e8ef377054b",
+            "media_type": "application/json",
+            "uri": "bioforge+artifact://sha256/8cf31e8ef377054bb867c5598fce6546e04e6e228f06f582cdca92c9d04941d5"
+          },
+          "boltz-input-yaml": {
+            "digest": "sha256:b5acab691dc2332cf81694ed9d7f4c6085d6c63198b3cdec39b66df0726c081b",
+            "id": "artifact-b5acab691dc2332c",
+            "media_type": "application/yaml",
+            "uri": "bioforge+artifact://sha256/b5acab691dc2332cf81694ed9d7f4c6085d6c63198b3cdec39b66df0726c081b"
+          },
+          "boltz-ligand-chemistry-json": {
+            "digest": "sha256:f496e7a50ea31875968ff3b5883991100ef23a59c795e036b99f380657d44af6",
+            "id": "artifact-f496e7a50ea31875",
+            "media_type": "application/json",
+            "uri": "bioforge+artifact://sha256/f496e7a50ea31875968ff3b5883991100ef23a59c795e036b99f380657d44af6"
+          },
+          "boltz-model-00-ligand-sdf": {
+            "digest": "sha256:97d057fae83456908e772ea443b0d37c8d68447a01229f58b3e74a6656e34414",
+            "id": "artifact-97d057fae8345690",
+            "media_type": "chemical/x-mdl-sdfile",
+            "uri": "bioforge+artifact://sha256/97d057fae83456908e772ea443b0d37c8d68447a01229f58b3e74a6656e34414"
+          },
+          "boltz-stdout-log": {
+            "digest": "sha256:78abf4069348f732374ad94ce0672986fb022dc6435911e84a660cd46e8f7858",
+            "id": "artifact-78abf4069348f732",
+            "media_type": "text/plain",
+            "uri": "bioforge+artifact://sha256/78abf4069348f732374ad94ce0672986fb022dc6435911e84a660cd46e8f7858"
+          }
+        },
+        "prediction": {
+          "boltz-model-00-cif": {
+            "digest": "sha256:d4d911afec0b060b9562688295a4d86694c4b185d8a4bad6e4294b5cdbd9edf7",
+            "id": "artifact-d4d911afec0b060b",
+            "media_type": "chemical/x-mmcif",
+            "uri": "bioforge+artifact://sha256/d4d911afec0b060b9562688295a4d86694c4b185d8a4bad6e4294b5cdbd9edf7"
+          }
+        }
+      },
+      "report": "/Users/user/projects/bioforge/bioforge/.bioforge/boltz-portability/views/run-c8c008a66d270675.html",
+      "report_sha256": "12835c0768d5625bc06342266735ec4b39d2a32eb4fd7702af1df5606cc0a01b",
+      "run_id": "run-c8c008a66d270675",
+      "runtime": {
+        "cuda_available": false,
+        "cuda_runtime_version": null,
+        "device": "cpu",
+        "mps_available": true,
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "prefix": "/Users/user/.bioforge/environments/boltz2-2.2.1-v1/osx-arm64",
+        "python": "/Users/user/.bioforge/environments/boltz2-2.2.1-v1/osx-arm64/bin/python",
+        "python_version": "3.11.16",
+        "source_sha256": "4764b634646917bb198f92ee14b87c0cd09019beebd75353f0bc51afd0a7e8d1",
+        "torch_runtime_version": "2.13.0",
+        "versions": {
+          "GitPython": "3.1.61",
+          "Jinja2": "3.1.6",
+          "MarkupSafe": "3.0.3",
+          "PyYAML": "6.0.2",
+          "aiohappyeyeballs": "2.7.1",
+          "aiohttp": "3.14.3",
+          "aiosignal": "1.4.0",
+          "antlr4-python3-runtime": "4.9.3",
+          "attrs": "26.1.0",
+          "biopython": "1.84",
+          "boltz": "2.2.1",
+          "certifi": "2026.7.22",
+          "charset-normalizer": "3.5.1",
+          "chembl-structure-pipeline": "1.2.2",
+          "click": "8.1.7",
+          "dm-tree": "0.1.8",
+          "docker-pycreds": "0.4.0",
+          "einops": "0.8.0",
+          "einx": "0.3.0",
+          "fairscale": "0.4.13",
+          "filelock": "3.32.4",
+          "frozendict": "2.4.7",
+          "frozenlist": "1.8.0",
+          "fsspec": "2026.7.0",
+          "gemmi": "0.6.5",
+          "gitdb": "4.0.12",
+          "hydra-core": "1.3.2",
+          "idna": "3.19",
+          "ihm": "2.11",
+          "joblib": "1.5.3",
+          "lightning-utilities": "0.15.3",
+          "llvmlite": "0.44.0",
+          "mashumaro": "3.14",
+          "modelcif": "1.2",
+          "mpmath": "1.3.0",
+          "msgpack": "1.2.2",
+          "multidict": "6.7.1",
+          "networkx": "3.6.1",
+          "numba": "0.61.0",
+          "numpy": "1.26.4",
+          "omegaconf": "2.3.1",
+          "packaging": "26.3",
+          "pandas": "3.0.5",
+          "pillow": "12.3.0",
+          "pip": "26.2.1",
+          "platformdirs": "4.11.5",
+          "propcache": "0.5.2",
+          "protobuf": "5.29.6",
+          "psutil": "7.2.2",
+          "python-dateutil": "2.9.0.post0",
+          "pytorch-lightning": "2.5.0",
+          "rdkit": "2026.3.5",
+          "requests": "2.32.3",
+          "scikit-learn": "1.6.1",
+          "scipy": "1.13.1",
+          "sentry-sdk": "2.68.1",
+          "setproctitle": "1.3.7",
+          "setuptools": "84.0.0",
+          "six": "1.17.0",
+          "smmap": "5.0.3",
+          "sympy": "1.14.0",
+          "threadpoolctl": "3.6.0",
+          "torch": "2.13.0",
+          "torchmetrics": "1.9.0",
+          "tqdm": "4.70.0",
+          "types-requests": "2.33.0.20260712",
+          "typing_extensions": "4.16.0",
+          "urllib3": "2.7.0",
+          "wandb": "0.18.7",
+          "wheel": "0.48.0",
+          "yarl": "1.24.5"
+        }
+      },
+      "seconds": 144.78194399998756,
+      "settings": {
+        "accelerator": "cpu",
+        "devices": 1,
+        "diffusion_samples": 1,
+        "enable_affinity": false,
+        "max_msa_seqs": 8192,
+        "model": "boltz2",
+        "num_subsampled_msa": 1024,
+        "output_format": "mmcif",
+        "recycling_steps": 3,
+        "sampling_steps": 200,
+        "seed": 20260908,
+        "subsample_msa": true,
+        "use_kernels": false
+      },
+      "source_directory": "/Users/user/projects/bioforge/bioforge/.bioforge/boltz-portability/cpu/run-c8c008a66d270675",
+      "steps": {
+        "predict": "completed"
+      }
+    },
+    {
+      "canonical_sha256": {
+        "evidence.json": "1e7d6765405179ef1f9f909895325f5736e3d76e640b1421d6f99472fbebd664",
+        "manifest.json": "ebaabf1b03005c84ff209af144d7e9afcbba1d3d4d8fde0c452b838b71582fd3",
+        "plan.json": "ec847eea9ee1d2b22b1fc8f000401de676156aa69d87883fa6e638c296998ee1",
+        "run.json": "e25037a1fc5f09bd954fb6df4cba34ebcdb9093fef251f37528f11808747509c"
+      },
+      "model_resource_digest": "a39cd6c51b818e8e16265bdb59dbd701983c3cd2b2f4eafcdb1df27fab6d0ed9",
+      "prediction_artifacts": {
+        "inspection": {
+          "boltz-chemistry-log": {
+            "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "id": "artifact-e3b0c44298fc1c14",
+            "media_type": "text/plain",
+            "uri": "bioforge+artifact://sha256/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "boltz-confidence-00-json": {
+            "digest": "sha256:808543b72125397c7dbaf5cbe8f3e9633890deb39a938685e7ca9cc33bcc64ee",
+            "id": "artifact-808543b72125397c",
+            "media_type": "application/json",
+            "uri": "bioforge+artifact://sha256/808543b72125397c7dbaf5cbe8f3e9633890deb39a938685e7ca9cc33bcc64ee"
+          },
+          "boltz-input-yaml": {
+            "digest": "sha256:b5acab691dc2332cf81694ed9d7f4c6085d6c63198b3cdec39b66df0726c081b",
+            "id": "artifact-b5acab691dc2332c",
+            "media_type": "application/yaml",
+            "uri": "bioforge+artifact://sha256/b5acab691dc2332cf81694ed9d7f4c6085d6c63198b3cdec39b66df0726c081b"
+          },
+          "boltz-ligand-chemistry-json": {
+            "digest": "sha256:4243233aada7f73b2fdff658358918dcb555839cf085374055edc095a9321323",
+            "id": "artifact-4243233aada7f73b",
+            "media_type": "application/json",
+            "uri": "bioforge+artifact://sha256/4243233aada7f73b2fdff658358918dcb555839cf085374055edc095a9321323"
+          },
+          "boltz-model-00-ligand-sdf": {
+            "digest": "sha256:4dbec941ad076f2704c226f89bf5c896341293cb5a3e3ec3bebfa245e9668792",
+            "id": "artifact-4dbec941ad076f27",
+            "media_type": "chemical/x-mdl-sdfile",
+            "uri": "bioforge+artifact://sha256/4dbec941ad076f2704c226f89bf5c896341293cb5a3e3ec3bebfa245e9668792"
+          },
+          "boltz-stdout-log": {
+            "digest": "sha256:be8e4d91e64dc5b5b024b1973d6321d89aa9f6d0f92b815a8986f6d41723ba50",
+            "id": "artifact-be8e4d91e64dc5b5",
+            "media_type": "text/plain",
+            "uri": "bioforge+artifact://sha256/be8e4d91e64dc5b5b024b1973d6321d89aa9f6d0f92b815a8986f6d41723ba50"
+          }
+        },
+        "prediction": {
+          "boltz-model-00-cif": {
+            "digest": "sha256:57b1cd81dea393e369f75ced74bbf5a8c5bbfa961d99ae82a46921db363c38ff",
+            "id": "artifact-57b1cd81dea393e3",
+            "media_type": "chemical/x-mmcif",
+            "uri": "bioforge+artifact://sha256/57b1cd81dea393e369f75ced74bbf5a8c5bbfa961d99ae82a46921db363c38ff"
+          }
+        }
+      },
+      "report": "/Users/user/projects/bioforge/bioforge/.bioforge/boltz-portability/views/run-a6d2b288a5c4ab7e.html",
+      "report_sha256": "3dc5d8d8f97c5bff420e4438a3cac2eefdbdde79a534809bb71a3454fb1cd180",
+      "run_id": "run-a6d2b288a5c4ab7e",
+      "runtime": {
+        "cuda_available": false,
+        "cuda_runtime_version": null,
+        "device": "mps",
+        "mps_available": true,
+        "platform": "macOS-26.6.2-arm64-arm-64bit",
+        "prefix": "/private/tmp/bioforge-boltz-portable-mps-fhcs9e",
+        "python": "/private/tmp/bioforge-boltz-portable-mps-fhcs9e/bin/python",
+        "python_version": "3.11.16",
+        "source_sha256": "470640fa6dea6a4c921f2ea179dbd9dcba078e92d6738a1948b70272e9c34e58",
+        "torch_runtime_version": "2.13.0",
+        "versions": {
+          "GitPython": "3.1.61",
+          "Jinja2": "3.1.6",
+          "MarkupSafe": "3.0.3",
+          "PyYAML": "6.0.2",
+          "aiohappyeyeballs": "2.7.1",
+          "aiohttp": "3.14.3",
+          "aiosignal": "1.4.0",
+          "antlr4-python3-runtime": "4.9.3",
+          "attrs": "26.1.0",
+          "biopython": "1.84",
+          "boltz": "2.2.1",
+          "certifi": "2026.7.22",
+          "charset-normalizer": "3.5.1",
+          "chembl-structure-pipeline": "1.2.2",
+          "click": "8.1.7",
+          "dm-tree": "0.1.8",
+          "docker-pycreds": "0.4.0",
+          "einops": "0.8.0",
+          "einx": "0.3.0",
+          "fairscale": "0.4.13",
+          "filelock": "3.32.4",
+          "frozendict": "2.4.7",
+          "frozenlist": "1.8.0",
+          "fsspec": "2026.7.0",
+          "gemmi": "0.6.5",
+          "gitdb": "4.0.12",
+          "hydra-core": "1.3.2",
+          "idna": "3.19",
+          "ihm": "2.11",
+          "joblib": "1.5.3",
+          "lightning-utilities": "0.15.3",
+          "llvmlite": "0.44.0",
+          "mashumaro": "3.14",
+          "modelcif": "1.2",
+          "mpmath": "1.3.0",
+          "msgpack": "1.2.2",
+          "multidict": "6.7.1",
+          "networkx": "3.6.1",
+          "numba": "0.61.0",
+          "numpy": "1.26.4",
+          "omegaconf": "2.3.1",
+          "packaging": "26.3",
+          "pandas": "3.0.5",
+          "pillow": "12.3.0",
+          "pip": "24.0",
+          "platformdirs": "4.11.5",
+          "propcache": "0.5.2",
+          "protobuf": "5.29.6",
+          "psutil": "7.2.2",
+          "python-dateutil": "2.9.0.post0",
+          "pytorch-lightning": "2.5.0",
+          "rdkit": "2026.3.5",
+          "requests": "2.32.3",
+          "scikit-learn": "1.6.1",
+          "scipy": "1.13.1",
+          "sentry-sdk": "2.68.1",
+          "setproctitle": "1.3.7",
+          "setuptools": "79.0.1",
+          "six": "1.17.0",
+          "smmap": "5.0.3",
+          "sympy": "1.14.0",
+          "threadpoolctl": "3.6.0",
+          "torch": "2.13.0",
+          "torchmetrics": "1.9.0",
+          "tqdm": "4.70.0",
+          "types-requests": "2.33.0.20260712",
+          "typing_extensions": "4.16.0",
+          "urllib3": "2.7.0",
+          "wandb": "0.18.7",
+          "wheel": "0.48.0",
+          "yarl": "1.24.5"
+        }
+      },
+      "seconds": 58.634761375025846,
+      "settings": {
+        "accelerator": "mps",
+        "devices": 1,
+        "diffusion_samples": 1,
+        "enable_affinity": false,
+        "max_msa_seqs": 8192,
+        "model": "boltz2",
+        "num_subsampled_msa": 1024,
+        "output_format": "mmcif",
+        "recycling_steps": 3,
+        "sampling_steps": 200,
+        "seed": 20260908,
+        "subsample_msa": true,
+        "use_kernels": false
+      },
+      "source_directory": "/Users/user/projects/bioforge/bioforge/.bioforge/boltz-portability/mps/run-a6d2b288a5c4ab7e",
+      "steps": {
+        "predict": "completed"
+      }
+    }
+  ],
+  "native_source_note": "The final native wheel precedes only the skill-reference version synchronization and a module docstring correction; execution code matches the committed wheel.",
+  "native_wheel_sha256": "a25f48f1e976f7670d43f07af3918788f3231e1cf7485b95d19461f212043a70",
+  "old_gate_reproduction": {
+    "conda_package_set_sha256": "79105eb723794692e724821486465425410b1db84f4a8346abf5acb3dcae14fd",
+    "differences": {},
+    "new_versions": {
+      "GitPython": "3.1.62",
+      "Jinja2": "3.1.6",
+      "MarkupSafe": "3.0.3",
+      "PyYAML": "6.0.2",
+      "aiohappyeyeballs": "2.7.1",
+      "aiohttp": "3.14.3",
+      "aiosignal": "1.4.0",
+      "antlr4-python3-runtime": "4.9.3",
+      "attrs": "26.1.0",
+      "biopython": "1.84",
+      "boltz": "2.2.1",
+      "certifi": "2026.7.22",
+      "charset-normalizer": "3.5.1",
+      "chembl-structure-pipeline": "1.2.2",
+      "click": "8.1.7",
+      "cloudpickle": "3.1.2",
+      "cuda-bindings": "13.3.1",
+      "cuda-pathfinder": "1.6.0",
+      "cuda-toolkit": "13.0.2",
+      "dm-tree": "0.1.8",
+      "docker-pycreds": "0.4.0",
+      "einops": "0.8.0",
+      "einx": "0.3.0",
+      "fairscale": "0.4.13",
+      "filelock": "3.32.3",
+      "frozendict": "2.4.7",
+      "frozenlist": "1.8.0",
+      "fsspec": "2026.7.0",
+      "gemmi": "0.6.5",
+      "gitdb": "4.0.12",
+      "hydra-core": "1.3.2",
+      "idna": "3.19",
+      "ihm": "2.11",
+      "joblib": "1.6.0",
+      "lightning-utilities": "0.15.3",
+      "llvmlite": "0.44.0",
+      "mashumaro": "3.14",
+      "modelcif": "1.2",
+      "mpmath": "1.3.0",
+      "msgpack": "1.2.2",
+      "multidict": "6.7.1",
+      "networkx": "3.6.1",
+      "numba": "0.61.0",
+      "numpy": "1.26.4",
+      "nvidia-cublas": "13.1.0.3",
+      "nvidia-cuda-cupti": "13.0.85",
+      "nvidia-cuda-nvrtc": "13.0.88",
+      "nvidia-cuda-runtime": "13.0.96",
+      "nvidia-cudnn-cu13": "9.19.0.56",
+      "nvidia-cufft": "12.0.0.61",
+      "nvidia-cufile": "1.15.1.6",
+      "nvidia-curand": "10.4.0.35",
+      "nvidia-cusolver": "12.0.4.66",
+      "nvidia-cusparse": "12.6.3.3",
+      "nvidia-cusparselt-cu13": "0.8.0",
+      "nvidia-nccl-cu13": "2.28.9",
+      "nvidia-nvjitlink": "13.0.88",
+      "nvidia-nvshmem-cu13": "3.4.5",
+      "nvidia-nvtx": "13.0.85",
+      "omegaconf": "2.3.1",
+      "packaging": "26.3",
+      "pandas": "3.0.5",
+      "pillow": "12.3.0",
+      "pip": "26.2.1",
+      "platformdirs": "4.11.7",
+      "propcache": "0.5.2",
+      "protobuf": "5.29.6",
+      "psutil": "7.2.2",
+      "python-dateutil": "2.9.0.post0",
+      "pytorch-lightning": "2.5.0",
+      "rdkit": "2026.3.6",
+      "requests": "2.32.3",
+      "scikit-learn": "1.6.1",
+      "scipy": "1.13.1",
+      "sentry-sdk": "2.69.0",
+      "setproctitle": "1.3.7",
+      "setuptools": "78.1.0",
+      "six": "1.17.0",
+      "smmap": "5.0.3",
+      "sympy": "1.14.0",
+      "threadpoolctl": "3.6.0",
+      "torch": "2.11.0+cu130",
+      "torchmetrics": "1.9.0",
+      "tqdm": "4.70.0",
+      "triton": "3.6.0",
+      "types-requests": "2.33.0.20260906",
+      "typing_extensions": "4.16.0",
+      "urllib3": "2.7.0",
+      "wandb": "0.18.7",
+      "wheel": "0.48.0",
+      "yarl": "1.24.5"
+    },
+    "old_runtime_error": "Boltz conda or pip package set does not match its lock",
+    "pip_package_set_sha256": "c17a38b6b0b36658de83afc34bb30ca21e4accca946ebc2ec5070d3c831ab643",
+    "same_installed_versions": true
+  },
+  "ordinary_provider_versions": {
+    "mps": "0.5.0",
+    "official": "0.6.0"
+  },
+  "prepared_ligand_selection_passed": true,
+  "record_review_date": "2026-09-12",
+  "required_cli": [
+    {
+      "command": [
+        "validate",
+        "campaigns/examples/walking-skeleton-success.yaml"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "run",
+        "campaigns/examples/walking-skeleton-success.yaml",
+        "--run-root",
+        ".bioforge/boltz-portability/cli/run-0"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "run",
+        "campaigns/publications/r1/bslipa-t50-design-reproduction.yaml",
+        "--run-root",
+        ".bioforge/boltz-portability/cli/run-1"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "run",
+        "campaigns/publications/r1/bslipa-t50-validation-handoff.yaml",
+        "--run-root",
+        ".bioforge/boltz-portability/cli/run-2"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "run",
+        "campaigns/examples/variant-validation-fixture-success.yaml",
+        "--run-root",
+        ".bioforge/boltz-portability/cli/run-3"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "run",
+        "campaigns/examples/variant-validation-fixture-control-failure.yaml",
+        "--run-root",
+        ".bioforge/boltz-portability/cli/run-4"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "suite",
+        "validate",
+        "campaigns/suites/r1/release-beta.yaml"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "suite",
+        "plan",
+        "campaigns/suites/r1/release-beta.yaml"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "suite",
+        "validate",
+        "campaigns/suites/validation/r1-four-class-retrospective.yaml"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "agent-eval",
+        "agent_evals/cases/stability-handoff.yaml"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "run",
+        "campaigns/publications/r1/had-s2-dehalogenase-reproduction.yaml",
+        "--run-root",
+        ".bioforge/boltz-portability/cli/had"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "unit_tests": {
+    "passed": 649,
+    "run": 666,
+    "seconds": 141.837,
+    "skipped": 17
+  }
+}

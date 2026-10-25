@@ -1,0 +1,20 @@
+# Build the core image with the dossier and trajectory extras first. Keep the engine
+# isolated exactly as in the native Mamba/Python installation.
+ARG BASE_IMAGE=alambiq:trajectory
+# The engine is built in a separate stage that starts from the same Python as the core image,
+# so rebuilding the core image reuses the cached engine stage.
+ARG ENGINE_BASE=python:3.11-slim-bookworm
+FROM ${ENGINE_BASE} AS engine
+USER root
+COPY --from=ghcr.io/astral-sh/uv:0.9.10 /uv /usr/local/bin/uv
+COPY environments/openmm/requirements.cuda13.txt /tmp/requirements.cuda13.txt
+RUN python -c 'import sys; assert sys.version_info[:2] == (3, 11), "OpenMM CUDA image requires a Python 3.11 core image base"' \
+    && uv venv --python /usr/local/bin/python /opt/openmm \
+    && uv pip install --python /opt/openmm/bin/python -r /tmp/requirements.cuda13.txt \
+    && uv pip check --python /opt/openmm/bin/python
+
+FROM ${BASE_IMAGE} AS runtime
+COPY --from=engine /opt/openmm /opt/openmm
+ENV ALAMBIQ_ENV_OPENMM=/opt/openmm/bin/python \
+    LD_LIBRARY_PATH=/opt/openmm/lib/python3.11/site-packages/nvidia/cu13/lib
+USER 1000:1000

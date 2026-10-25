@@ -1,0 +1,26 @@
+id: transformation-to-enzymes
+steps:
+  - id: retrieve
+    capability: enzyme.retrieve_candidates
+    params:
+      references: references.fasta
+      candidates: candidates.fasta
+      positive_controls: [Q53464, P60527, Q60099]
+      negative_controls: [P32662, O06995, A0A140N5J7, Q8KLS9, P22643]
+
+  - id: characterize
+    capability: enzyme.characterize_candidates
+    bind:
+      retrieval: retrieve.record
+    params:
+      reference_id: Q53464
+      features:
+        - {position: 10, residue: D, role: experimentally identified catalytic nucleophile, citation: "doi:10.1074/jbc.271.34.20322"}
+        - {position: 14, residue: T, role: mutagenesis-defined active-site functional residue, citation: "doi:10.1074/jbc.271.34.20322"}
+        - {position: 41, residue: R, role: mutagenesis-defined active-site functional residue, citation: "doi:10.1074/jbc.271.34.20322"}
+        - {position: 118, residue: S, role: mutagenesis-defined active-site functional residue, citation: "doi:10.1074/jbc.271.34.20322"}
+        - {position: 151, residue: K, role: mutagenesis-defined active-site functional residue, citation: "doi:10.1074/jbc.271.34.20322"}
+        - {position: 157, residue: Y, role: mutagenesis-defined active-site functional residue, citation: "doi:10.1074/jbc.271.34.20322"}
+        - {position: 175, residue: S, role: mutagenesis-defined active-site functional residue, citation: "doi:10.1074/jbc.271.34.20322"}
+        - {position: 177, residue: N, role: mutagenesis-defined active-site functional residue, citation: "doi:10.1074/jbc.271.34.20322"}
+        - {position: 180, residue: D, role: mutagenesis-defined active-site functional residue, citation: "doi:10.1074/jbc.271.34.20322"}

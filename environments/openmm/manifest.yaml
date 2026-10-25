@@ -1,0 +1,97 @@
+schema_version: '0.1'
+id: openmm-8.6.0-v1
+status: macos-reference-cpu-and-spark-cuda-core-tested
+purpose: Isolated standard-protein preparation and dynamics engine. Ligand construction
+  and free-energy methods use separate compatible profiles.
+solver:
+  manager: conda
+  version: 23.11.0
+  channel: conda-forge
+  input: environment.yaml
+  solved_on: '2026-08-29'
+  scope: Historical 2026-08-29 Mac base recipe before PDBFixer was included; its exact
+    lock remains unchanged.
+  input_git_revision: b577894
+targets:
+  osx-arm64:
+    role: reference-correctness-and-native-cpu-execution
+    package_count: 35
+    package_download_bytes: 79734236
+    measured_storage_bytes: 403214336
+    exact_lock: locks/osx-arm64.explicit.txt
+    exact_lock_sha256: 54f29da32825e209d470ea57bceed621769f3473fbe2be5e5b2e75ded3fe9b76
+    package_manifest: locks/osx-arm64.packages.json
+    package_manifest_sha256: 57d1e60c031f9b41201b5c4d0874198c5518dee3d1930a9727db13cedb3b1002
+    package_set_sha256: a93fbe2bbbb82c39d7edcabb81943f206c5ddb801a0dcf9e8a674a13f1d164a4
+    exact_lock_status: materialized-native-reference-and-cpu-smokes-passed
+    required_platforms:
+    - Reference
+    - CPU
+    cpu_properties:
+      Threads: '8'
+      DeterministicForces: 'true'
+    rejected_platforms:
+      OpenCL:
+        observed_on: macOS-26.6.2-Apple-M2-Max
+        reason: Apple OpenCL platform reports zero devices to a direct system probe.
+        disposition: unsupported-do-not-fall-back-silently
+    provider_smokes:
+      reference:
+        campaign: campaigns/diagnostics/openmm-harmonic-nve-smoke.yaml
+        run_id: run-f24c145dc810b6cb
+        relative_total_energy_drift: 2.725791804866654e-06
+        verdict: supported
+      cpu:
+        campaign: campaigns/diagnostics/openmm-harmonic-cpu-nve-smoke.yaml
+        run_id: run-fa96cd26038ee8a8
+        relative_total_energy_drift: 2.725791804866654e-06
+        verdict: supported
+  linux-aarch64:
+    role: spark-cuda-protein-preparation-and-dynamics
+    installation: fresh-mamba-environment
+    recipe: environment.yaml
+    additional_dependency: cuda-version=13.0
+    openmm: 8.6.0
+    pdbfixer: 1.12.0
+    tested_driver: 580.159.03
+    tested_device: NVIDIA GB10
+    package_count: 47
+    package_download_bytes: 326241373
+    package_set_sha256: d11441d568a18413a0acb1da118efd5271fd17950cc0e430950fee392e9134fb
+    exact_lock: locks/linux-aarch64.cuda13.explicit.txt
+    exact_lock_sha256: 0fac7f09a2f8a555b647fd90b5b1290a74ef126c66ebca60aeb570d1d1849cf9
+    package_manifest: locks/linux-aarch64.cuda13.packages.json
+    package_manifest_sha256: f6acba80d17f2341048c9d730d4c6d74110d4cf262c26060e5003c1b5f82adf8
+    verification: verification.gb3-padding2-50ns-20261004.json
+    scope: Three 50 ns GB3 replicas with 2 nm padding; all 15,000 saved-frame
+      periodic-image checks pass. Coupling RMSE is 0.624 Hz; 172 of 225 observations
+      meet the unchanged sampling criteria. The full-ensemble sampling criterion
+      fails. Retained pilot controls cover charge, CPU/CUDA numerical agreement
+      and zero-step checkpoint restoration. Applies to GB3 with 2 nm padding.
+    corrected_pilot: verification.gb3-padding2-pilot-20261003.json
+    earlier_pilot: verification.gb3-pilot-20261003.json
+    earlier_box_failure: verification.gb3-50ns-padding1-failure-20261003.json
+    earlier_pip_profile:
+      role: spark-cuda-core
+      installation: separate-mamba-python-with-pip-cuda-profile
+      recipe: requirements.cuda13.txt
+      openmm: 8.6.0
+      cuda_components: 13.0.2
+      tested_driver: 580.159.03
+      tested_device: NVIDIA GB10
+      verification: ../protein-representations/verification.accelerators.linux-aarch64.json
+      scope: Native platform probes and the bounded four-step Trp-cage CUDA preparation/dynamics/inspection
+        tutorial.
+  linux-64:
+    role: cuda-execution-and-independent-reproduction
+    exact_lock_status: pending-approved-solve-and-materialization
+execution_readiness:
+  simulated_contract_smoke: implemented
+  native_reference_harmonic_smoke: passed
+  native_cpu_harmonic_smoke: passed
+  native_opencl_harmonic_smoke: withheld-no-compatible-device-on-macos-26.6.2
+  serialized_protein_ligand_nvt: native-bounded-integration-smoke-passed
+  integrated_sequence_to_physical_campaign: run-a1d0a76a4109a451
+  scientific_scope: Bounded numerical and thermal readiness are measured.
+    Folding stability, pocket activity and equilibrium convergence require
+    observable-specific evidence.

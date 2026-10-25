@@ -1,0 +1,176 @@
+{
+ "id": "docker-linux-arm64-spark-20261025",
+ "what": "Build of every Docker image from the commit below, with each image's environment check, the repository tests run against it, and the examples run in it.",
+ "commit": "da934c4",
+ "host": {
+  "name": "Spark",
+  "architecture": "linux/arm64",
+  "gpu": "NVIDIA GB10",
+  "driver": "580.159.03",
+  "docker": "29.2.1",
+  "cdi_device": "nvidia.com/gpu=all"
+ },
+ "build": {
+  "context": "git archive of the commit, with tests and examples",
+  "note": "The core layers, the copy of the repository and the engine stages of all images except mmseqs, openmm and boltz were built from the commit and the recipes. The engine stages of mmseqs, openmm and boltz, which start from a plain Python image and do not depend on the core, were taken from the layer cache of the previous run, because their recipes are unchanged."
+ },
+ "images": [
+  {
+   "image": "core",
+   "dockerfile": "Dockerfile",
+   "python": "3.11",
+   "extras": "quantitative dossier trajectory chemistry routes thermodynamics construct coding-design embedding-analysis",
+   "size": "1.42GB",
+   "id": "e2e5a39ddc0f",
+   "build_seconds": 54
+  },
+  {
+   "image": "core312",
+   "dockerfile": "Dockerfile",
+   "python": "3.12",
+   "extras": "quantitative dossier chemistry embedding-analysis",
+   "size": "945MB",
+   "id": "58b70ef6c657",
+   "build_seconds": 30,
+   "used_by": [
+    "models",
+    "boltz"
+   ],
+   "note": "the chemistry extra provides the RDKit that 8 Boltz tests import in the test process"
+  },
+  {
+   "image": "mmseqs",
+   "dockerfile": "Dockerfile.mmseqs",
+   "environment": "mmseqs",
+   "size": "1.45GB",
+   "id": "f1b597aa36d0",
+   "build_seconds": 2,
+   "env_check": "ready",
+   "tests": "test_enzyme_capabilities, test_protein_match_profiles, test_sequence_generate_msa, test_engine_launcher: 166 passed, 4 skipped (281 s)",
+   "examples": [
+    "relatives-and-context",
+    "transformation-to-enzymes",
+    "lanmodulin-comparison"
+   ],
+   "note": "needs an executable /tmp (tmpfs exec): MMseqs2 runs helper scripts there; the 4 skipped tests need the pfam-38.2-profiles resource (3 tests) or the uniref50-2026_02 resource (1 test), which are not mounted"
+  },
+  {
+   "image": "p2rank",
+   "dockerfile": "Dockerfile.p2rank",
+   "environment": "p2rank",
+   "size": "1.94GB",
+   "id": "916352f89edd",
+   "build_seconds": 35,
+   "env_check": "ready",
+   "tests": "test_structure_detect_binding_pockets: 21 passed (62 s)",
+   "examples": [
+    "pockets-and-complex"
+   ],
+   "note": "needs an executable /tmp (Java maps a library it unpacks there); resource p2rank-2.5.1 mounted read-only"
+  },
+  {
+   "image": "thermompnn",
+   "dockerfile": "Dockerfile.thermompnn",
+   "environment": "thermompnn",
+   "size": "1.92GB",
+   "id": "a0841488632c",
+   "build_seconds": 26,
+   "env_check": "ready (torch 2.8.0, numpy 1.26.4)",
+   "tests": "test_protein_predict_stability_change with the thermompnn resource mounted read-only: 47 passed (36 s)"
+  },
+  {
+   "image": "pymbar",
+   "dockerfile": "Dockerfile.reaction-free-energy",
+   "environment": "pymbar",
+   "size": "1.77GB",
+   "id": "67eb85440d6a",
+   "build_seconds": 24,
+   "env_check": "ready (pymbar 4.2.0)",
+   "tests": "test_simulation_analyze_reaction_free_energy, test_engine_suites: 32 passed, 2 skipped (40 s)",
+   "note": "the 2 skipped tests belong to the OpenFF and QM/MM environments, which this image does not set"
+  },
+  {
+   "image": "qmmm",
+   "dockerfile": "Dockerfile.qmmm",
+   "environment": "qmmm",
+   "size": "2.52GB",
+   "id": "4cabc15d72c6",
+   "build_seconds": 50,
+   "env_check": "ready (pyscf 2.14.0, openmm 8.6.0)",
+   "tests": "QM/MM capability and engine tests: 65 passed, 20 skipped, 45 subtests (246 s)",
+   "note": "the 20 skipped tests import OpenMM and PySCF in the test process itself, which is the core Python in a layered image"
+  },
+  {
+   "image": "openmm",
+   "dockerfile": "Dockerfile.openmm",
+   "environment": "openmm",
+   "size": "2.33GB",
+   "id": "aa4c75b87b6d",
+   "build_seconds": 3,
+   "env_check": "ready (openmm 8.6.0, pdbfixer 1.12.0)",
+   "tests": "test_structure_prepare_protein_system, test_simulation_run_molecular_dynamics, test_simulation_run_metadynamics, test_simulation_inspect_trajectory: 165 passed (2145 s)",
+   "gpu": "examples/ensemble-vs-nmr with platform CUDA, mixed precision: 3 replicas of 20 ps in 12 s each; preparation 156 s; total 181 s."
+  },
+  {
+   "image": "complex",
+   "dockerfile": "Dockerfile.complex",
+   "environment": "openff",
+   "size": "3.8GB",
+   "id": "1e3b3c6c7f0f",
+   "build_seconds": 94,
+   "env_check": "ready (openff-toolkit 0.19.0, openmmforcefields 0.15.1, ParmEd 4.3.1)",
+   "tests": "test_structure_prepare_protein_ligand_system, test_structure_prepare_predicted_complex_for_dynamics, test_structure_prepare_finite_environment, GPU visible: 72 passed, 2 skipped (155 s)",
+   "note": "the 2 skipped tests need the OpenMM and QM/MM environments, which this image does not set"
+  },
+  {
+   "image": "models",
+   "dockerfile": "Dockerfile.models",
+   "environment": "esm",
+   "size": "6.22GB",
+   "id": "0f92c2b661a9",
+   "build_seconds": 376,
+   "env_check": "ready (esm 3.4.0, torch 2.11.0)",
+   "tests": "test_protein_embed, test_esm3_capabilities, test_protein_score_substitutions with esmc-300m and esm3-small mounted read-only: 93 passed (411 s)"
+  },
+  {
+   "image": "boltz",
+   "dockerfile": "Dockerfile.boltz",
+   "environment": "boltz",
+   "size": "6.11GB",
+   "id": "609d9568c848",
+   "build_seconds": 21,
+   "env_check": "ready (boltz 2.2.1, torch 2.11.0+cu130)",
+   "tests": "test_structure_predict_biomolecular_complex with the GPU visible and the boltz2-2.2.1 resource mounted read-only: 56 passed, 1 skipped (the Apple GPU case) in 262 s",
+   "gpu": "examples/pockets-and-complex/complex.yaml with accelerator gpu and 20 diffusion steps: 65 s"
+  },
+  {
+   "image": "openfe",
+   "dockerfile": "Dockerfile.openfe",
+   "environment": "openfe (and pymbar, and the OpenMM engine of the openmm image)",
+   "size": "6GB",
+   "id": "a00b1bff02f2",
+   "build_seconds": 134,
+   "env_check": "ready (openfe 1.12.0, openmm 8.4.0 inside the OpenFE environment)",
+   "tests": "test_structure_prepare_relative_binding_inputs, test_simulation_run_relative_free_energy, test_simulation_analyze_binding_free_energy, GPU visible: 141 passed, 0 skipped (969 s)",
+   "note": "built with --build-arg OPENMM_IMAGE=alambiq:20261025-openmm; the OpenFE environment's own OpenMM is 8.4, protein preparation needs 8.6, so the layer carries the openmm image's engine as well"
+  }
+ ],
+ "examples_in_core_image": {
+  "command": "docker run --network none --read-only, repository mounted read-only",
+  "results": {
+   "kinetics-from-measurements": "ok, 13 s",
+   "representative-panel": "ok, 16 s",
+   "measured-variant-rounds": "ok, 14 s",
+   "operation-from-progress-curves": "ok, 40 s",
+   "cofactor-regeneration": "ok, 13 s",
+   "connected-investigation": "ok, 13 s",
+   "variant-to-construct": "ok, 13 s",
+   "transformation-and-routes": "ok, 24 s",
+   "protein-first-look": "ok, 13 s"
+  }
+ },
+ "not_verified": [
+  "linux/amd64 builds",
+  "the 20 QM/MM engine tests that import the engine packages in the test process"
+ ]
+}

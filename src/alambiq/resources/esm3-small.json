@@ -1,0 +1,80 @@
+{
+  "logical_id": "model.esm3-small",
+  "version": "47f0545b2b6daf26a93439a3cd610f4f7f3d5478",
+  "provider": "Biohub",
+  "license": "MIT-with-third-party-notices",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1202,
+      "sha256": "4aedacc49eff2fb6b90b926b5252076818a888884ac34d8a6701cd74421903d5",
+      "url": "https://huggingface.co/biohub/esm3-sm-open-v1/resolve/47f0545b2b6daf26a93439a3cd610f4f7f3d5478/README.md"
+    },
+    {
+      "path": "data/ParentChildTreeFile.txt",
+      "bytes": 594786,
+      "sha256": "f2290e27c1fcd2b684d06ab7a71143072f922f5901a70d09dcff7124e40d90cb",
+      "url": "https://huggingface.co/biohub/esm3-sm-open-v1/resolve/47f0545b2b6daf26a93439a3cd610f4f7f3d5478/data/ParentChildTreeFile.txt"
+    },
+    {
+      "path": "data/entry_list_safety_29026.list",
+      "bytes": 1595245,
+      "sha256": "58eda77a7c0c89f8c04b62d0a584bdd758a23a7632ee834fcdfdbedc697ed897",
+      "url": "https://huggingface.co/biohub/esm3-sm-open-v1/resolve/47f0545b2b6daf26a93439a3cd610f4f7f3d5478/data/entry_list_safety_29026.list"
+    },
+    {
+      "path": "data/hyperplanes_8bit_58641.npz",
+      "bytes": 30026086,
+      "sha256": "25e680def9abb366a31bdea8fe26720828c778dce80689294744afdbe341e13e",
+      "url": "https://huggingface.co/biohub/esm3-sm-open-v1/resolve/47f0545b2b6daf26a93439a3cd610f4f7f3d5478/data/hyperplanes_8bit_58641.npz"
+    },
+    {
+      "path": "data/interpro_29026_to_keywords_58641.csv",
+      "bytes": 10061298,
+      "sha256": "e560a84c9953b4d8cf30e3c11e6673151d20de5ea9b0aaf11adf7bf7a6bb70fd",
+      "url": "https://huggingface.co/biohub/esm3-sm-open-v1/resolve/47f0545b2b6daf26a93439a3cd610f4f7f3d5478/data/interpro_29026_to_keywords_58641.csv"
+    },
+    {
+      "path": "data/keyword_idf_safety_filtered_58641.npy",
+      "bytes": 469256,
+      "sha256": "d83bfb4cda19dcd3bac939c82d369310dbd09b07d30affe7dffc2e4af82200f6",
+      "url": "https://huggingface.co/biohub/esm3-sm-open-v1/resolve/47f0545b2b6daf26a93439a3cd610f4f7f3d5478/data/keyword_idf_safety_filtered_58641.npy"
+    },
+    {
+      "path": "data/keyword_vocabulary_safety_filtered_58641.txt",
+      "bytes": 787696,
+      "sha256": "503309e9b62a5155bc34a7338af39fb8fc13a0c1d78bad50603f2f81f47a4123",
+      "url": "https://huggingface.co/biohub/esm3-sm-open-v1/resolve/47f0545b2b6daf26a93439a3cd610f4f7f3d5478/data/keyword_vocabulary_safety_filtered_58641.txt"
+    },
+    {
+      "path": "data/uniref90_and_mgnify90_residue_annotations_gt_1k_proteins.csv",
+      "bytes": 109468,
+      "sha256": "557a053405eddbdf64f13532eabb4a38aa7a652014185a12406940b7fa61d86d",
+      "url": "https://huggingface.co/biohub/esm3-sm-open-v1/resolve/47f0545b2b6daf26a93439a3cd610f4f7f3d5478/data/uniref90_and_mgnify90_residue_annotations_gt_1k_proteins.csv"
+    },
+    {
+      "path": "data/weights/esm3_function_decoder_v0.pth",
+      "bytes": 1299947178,
+      "sha256": "f76d074efcaccfe21365a4fa96f212dadd66798e1e49d809ab7ffbe025d227c9",
+      "url": "https://huggingface.co/biohub/esm3-sm-open-v1/resolve/47f0545b2b6daf26a93439a3cd610f4f7f3d5478/data/weights/esm3_function_decoder_v0.pth"
+    },
+    {
+      "path": "data/weights/esm3_sm_open_v1.pth",
+      "bytes": 2803646068,
+      "sha256": "5ead5a135c658068db6a4f1b933e72d6110992c4668822e1c0e2dcc53e38acd9",
+      "url": "https://huggingface.co/biohub/esm3-sm-open-v1/resolve/47f0545b2b6daf26a93439a3cd610f4f7f3d5478/data/weights/esm3_sm_open_v1.pth"
+    },
+    {
+      "path": "notices/LICENSE.md",
+      "bytes": 1095,
+      "sha256": "b63df9ca1dd96b3b21eec226b51b236d0bd152ac20eafc43aad46bf832b48d8a",
+      "url": "https://raw.githubusercontent.com/Biohub/esm/bf343ba264b650dff7a073643725f9aaa1fdbe8d/LICENSE.md"
+    },
+    {
+      "path": "notices/THIRD_PARTY_NOTICE.md",
+      "bytes": 948,
+      "sha256": "5bff8515ba4e0f53abdc43714c180b79c5b606160497d98de741a369cb9b6a23",
+      "url": "https://raw.githubusercontent.com/Biohub/esm/bf343ba264b650dff7a073643725f9aaa1fdbe8d/THIRD_PARTY_NOTICE.md"
+    }
+  ]
+}

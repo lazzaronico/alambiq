@@ -1,0 +1,26 @@
+id: operation-from-progress-curves
+steps:
+  - id: free-first-order
+    capability: operation.fit
+    params:
+      definition: free-TbSADH-first-order.json
+
+  - id: free-saturation
+    capability: operation.fit
+    params:
+      definition: free-TbSADH-saturation.json
+
+  - id: hydrogel-first-order
+    capability: operation.fit
+    params:
+      definition: EAG-TbSADH-first-order.json
+
+  - id: hydrogel-saturation
+    capability: operation.fit
+    params:
+      definition: EAG-TbSADH-saturation.json
+
+  - id: reuse-fitted-operation
+    capability: operation.simulate
+    bind:
+      definition: hydrogel-saturation.operations.EAG-TbSADH

@@ -1,0 +1,121 @@
+{
+  "schema_version": "0.1",
+  "date": "2026-10-03",
+  "platform": "macOS ARM64 / CPU",
+  "methods": {
+    "positioned": {
+      "result_sha256": "127250e1f1480cb02c0ab60ef30a629dbae73abcbedb010d5d4b65628a3c7529",
+      "run_id": "run-d121b0080f25318f",
+      "steps": [
+        {
+          "id": "prepare",
+          "status": "completed",
+          "output_digest": "sha256:b5fd3f001b6a099fb3b23a682eed32015432987e7a2680028004f9d34701dc6f"
+        },
+        {
+          "id": "inspect-prepared",
+          "status": "completed",
+          "output_digest": "sha256:39f9d8ae7e5289e23849ff92546d87b42c4080a0b2494ea02626065c027ace01"
+        },
+        {
+          "id": "dynamics",
+          "status": "completed",
+          "output_digest": "sha256:63dd9785cad585513f7470c8e2a949825dd960f2dd81ba91e155555b33c8acb7"
+        },
+        {
+          "id": "inspect-dynamics",
+          "status": "completed",
+          "output_digest": "sha256:4ab25b5f3af3ded7f862edc1734b78fa0efeb1358f7b600eeaafcc88f4823e8f"
+        }
+      ],
+      "preparation": {
+        "schema_version": "0.2",
+        "method_profile": "protein-ligand.ff14sb-sage-2.3.0-ashgc-tip3p-v1",
+        "atom_count": 26197,
+        "protein_residues": 162,
+        "ligand_force_field": "OpenFF Sage 2.3.0 / AshGC 1.0.0",
+        "environment_versions": {
+          "gemmi": "0.7.5",
+          "openmm": "8.6.0",
+          "rdkit": "2026.3.1",
+          "pdbfixer": "1.12.0",
+          "openff-toolkit": "0.19.0",
+          "openff-interchange": "0.5.5",
+          "openff-nagl": "0.5.5",
+          "openff-nagl-models": "2025.9.0",
+          "openff-forcefields": "2026.09.0",
+          "openmmforcefields": "0.15.1",
+          "ParmEd": "4.3.1"
+        },
+        "environment": {
+          "added_salt_molar": 0.15,
+          "added_salt_pairs": 21,
+          "salt": "NaCl",
+          "salt_convention": "Added NaCl pairs exclude neutralizing counterions; rounded from replaceable water count using 55.4 M bulk water. Finite-cell concentration is approximate"
+        }
+      }
+    },
+    "assembly-final": {
+      "result_sha256": "5e0b44439cc11d08c2fec6a9a1a041aff0021a2bcde4fea25b299c9c2a9e4047",
+      "run_id": "run-4138c41704eb403e",
+      "steps": [
+        {
+          "id": "prepare",
+          "status": "completed",
+          "output_digest": "sha256:00a0e2d740db3bf8548fb20046f7b916f273c9bddca3f9405e965dbd70c68a4b"
+        },
+        {
+          "id": "assemble",
+          "status": "completed",
+          "output_digest": "sha256:de3b9af7bbcdf51a6268a98d7f9c08d568c72c62c80f47325a9e4c602430eac3"
+        },
+        {
+          "id": "solvate",
+          "status": "completed",
+          "output_digest": "sha256:703b572f55799fde4b3a45130536eca839d40c322cc645c0e253c8a3b6a0cb4d"
+        },
+        {
+          "id": "prepare-finite",
+          "status": "completed",
+          "output_digest": "sha256:f8c16b5e1b1cf0a49a467c7bcce07711d4641b87c5d99e8c95d3e9e8c59726ff"
+        }
+      ],
+      "assemble": {
+        "method_profile": "protein-ligand.ff14sb-sage-2.3.0-ashgc-terminal-relaxation-v1",
+        "atom_count": 6645
+      },
+      "solvate": {
+        "method_profile": "protein-ligand.ff14sb-sage-2.3.0-ashgc-tip3p-solvation-v1",
+        "atom_count": 92541,
+        "source_parameters_equal": true
+      },
+      "prepare-finite": {
+        "method_profile": "protein-ligand.openff-complete-molecule-finite-environment-v1",
+        "atom_count": 8635
+      }
+    },
+    "binding-preparation-final": {
+      "result_sha256": "a6e9cb01c679366b66146b3db958530831ef51cb391c8df3d4dd26d34d066603",
+      "run_id": "run-c51da1c9557e345c",
+      "steps": [
+        {
+          "id": "prepare",
+          "status": "completed",
+          "output_digest": "sha256:3463b0d42db660e3adfa739fb772dbd26d2ead619df9d53eede62d17f1865bf0"
+        },
+        {
+          "id": "inspect",
+          "status": "completed",
+          "output_digest": "sha256:c53a2af803aa56d67de68cbecc32fcd9e656ddd740b11bf76314f3d9828e5614"
+        }
+      ]
+    }
+  },
+  "native_controls": {
+    "chemistry_controls": 4,
+    "charge_and_coordinates_preserved": true,
+    "energy_difference_kj_mol": 5.009448891257762e-07,
+    "maximum_force_difference_kj_mol_nm": 0.00010010364587742515
+  },
+  "scope": "Integration, source identities, parameter export and short dynamics. These checks do not establish enzyme activity, thermodynamic stability or convergence of binding estimates."
+}

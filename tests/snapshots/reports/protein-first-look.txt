@@ -1,0 +1,6 @@
+h1: protein-first-look
+section dossier
+h2: dossier
+note: 2 of 4 polymer chains were withheld because their sequence does not match the query exactly.
+table: Chain | Mapping | Reason | Offset (residues)
+table: Secondary structure | Residues

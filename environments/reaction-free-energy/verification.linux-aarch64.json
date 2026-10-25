@@ -1,0 +1,1046 @@
+{
+  "schema_version": "0.1",
+  "provider": "pymbar.reaction-free-energy",
+  "provider_version": "0.4.0",
+  "profiles": [
+    "pymbar.umbrella-distance-difference.v1",
+    "pymbar.umbrella-target-reweighting.v1"
+  ],
+  "qualification_date": "2026-09-29",
+  "repository_checks": {
+    "unittest": {
+      "cases": 1158,
+      "passed": 1093,
+      "skipped": 65,
+      "elapsed_seconds": 236.711,
+      "exit_code": 0,
+      "log_sha256": "fa5914820a122d370422922ed790f6f8981b194205cd07fa1b5085935347481b"
+    },
+    "required_commands": {
+      "cases": 11,
+      "passed": 11,
+      "receipt_sha256": "6710a33e11deba00caba3ddf68c7cabacc1d8134d2c0d68fb61ed26438e7f74a"
+    }
+  },
+  "explicit_lock_reproduction": {
+    "passed": true,
+    "packages": 39,
+    "package_set_sha256": "acdb8ca2c52980cbc9c864218ce092b3a7f988f73a405da33152fcea5b2527ea",
+    "explicit_lock_sha256": "b41ed583b6dcc4c19a964f4377c2a32c8f44e602bf75411af88b6f3a85a9cc16",
+    "installation_log_sha256": "e97927954e9a49207d421f244afb54d1537eb0384a4738120eacbf19388e918c"
+  },
+  "scope": "CPU analysis of the existing double-well, paired-energy, classical-flux and saved molecular-window examples, including complete summary/state-table assembly.",
+  "source_commit": "42984ad",
+  "wheel_sha256": "f2d3c7afe77710c4a36ba71cebc9aaa849c1eb1cea8b1691d72ff0036311d115",
+  "intent_sha256": "72edd561c56f5fee20d1e1ce9cce44f2d7ee79255939dd43099cfaaa32093f59",
+  "qualification_driver_sha256": "09a0570019f1c22e39b4eae3d5eb5449f5ad4de81f34015633eb914f238443c7",
+  "source_examples": [
+    "campaigns/examples/tutorials/28-reaction-free-energy/campaign.yaml",
+    "campaigns/examples/tutorials/28-reaction-free-energy/flux-campaign.yaml",
+    "campaigns/examples/tutorials/28-reaction-free-energy/prepare_reweighting.py",
+    "campaigns/examples/tutorials/29-qmmm-state/umbrella-analysis.yaml",
+    "campaigns/examples/tutorials/29-qmmm-state/umbrella.yaml"
+  ],
+  "criteria": {
+    "maximum_populated_bin_pmf_error_kj_mol": 0.8,
+    "maximum_integrated_basin_error_kj_mol": 0.4,
+    "maximum_classical_flux_activation_error_kj_mol": 0.8,
+    "complete_record_comparison": {
+      "absolute_tolerance": 1e-7,
+      "relative_tolerance": 1e-7
+    }
+  },
+  "apple": {
+    "platform": {
+      "machine": "arm64",
+      "python": "3.11.14",
+      "system": "Darwin"
+    },
+    "runtime_package_set_sha256": "cab44aacce8ebb2224d7a7e51a49c166d4936e50462e1345ec862305da239be5",
+    "numerical_tests": {
+      "cases": 37,
+      "passed": 32,
+      "skipped": 5
+    },
+    "assembly_tests": {
+      "cases": 6,
+      "passed": 6
+    },
+    "command_receipts": [
+      {
+        "exit_code": 0,
+        "log_sha256": "a3ca6052637602b8339fd0b3141bb3ddabb277f27fe2af13c90396b88da10cbb",
+        "step": "native"
+      },
+      {
+        "exit_code": 0,
+        "log_sha256": "52b02cc32f2bd95432d143fb3309439d5810d889ab49b0c93846b5100476f830",
+        "step": "core"
+      },
+      {
+        "exit_code": 0,
+        "log_sha256": "fb52a7bb17805ba93dc6ee52a0f3161d8d74b085e900503db2523813463bb288",
+        "step": "workflow"
+      }
+    ],
+    "runs": [
+      {
+        "artifacts": {
+          "artifact-3ee385e129e858bc": "sha256:3ee385e129e858bc2fff372bc58f6667c2b8dcea0b204847c5f0373dbc615384",
+          "artifact-44e712ba88aa3f8b": "sha256:44e712ba88aa3f8b3fdc04405fe27ef2001e49709f01e4a0cd36dadcc25da1e1",
+          "artifact-919b1778eceacdc8": "sha256:919b1778eceacdc8a6239ab99832b49c77d3ff1d7692f15b2543adb8cd02d4d6",
+          "artifact-a6df322e9e864508": "sha256:a6df322e9e8645088923d31a40c86562689031e3a3abc3bb0001e8e4200d552f",
+          "artifact-ca16a864f04a1614": "sha256:ca16a864f04a161479ad52702a1a1087123f931ecd9f77dd60db55e4f1c5579d"
+        },
+        "canonical_records_sha256": {
+          "evidence.json": "c0e1afeceffdd9c6ca2cc54f7678c919dc8f208ab4f873e71d9e870b3d967fe6",
+          "manifest.json": "6c3bd08754340d4b09f09ddf05e1805ec777ab65e727e1315e3d0e82c0881485",
+          "plan.json": "8dacccf423ab9a75cd44ca84ee49dfa885258c439f93bc5260cac04549542eea",
+          "run.json": "9b96a2463215bea4299bfd0f072706bb00c5b4aa808a483795b16efe13b330cb"
+        },
+        "case": "campaigns/examples/tutorials/28-reaction-free-energy/campaign.yaml",
+        "plan_id": "plan-7cd926a27d0b384e",
+        "provider_versions": {
+          "pymbar.reaction-free-energy": "0.4.0"
+        },
+        "python_run_id": "run-ffeb9ad2237029b8",
+        "python_scientific_output_identical": true,
+        "reference_checks": {
+          "basin_error_kj_mol": 0.06317120579063815,
+          "maximum_pmf_error_kj_mol": 0.3327160392568622
+        },
+        "report_sha256": "3a5a190f424197a4627e3e1e251e06d5e6088ec5198faec4907374c741008f2e",
+        "reused_run_id": "run-e7b0a7579f8df489",
+        "reused_steps": [
+          "reconstruct"
+        ],
+        "run_id": "run-e08fb0503b4eef34",
+        "saved_report_identical": true
+      },
+      {
+        "artifacts": {
+          "artifact-44e712ba88aa3f8b": "sha256:44e712ba88aa3f8b3fdc04405fe27ef2001e49709f01e4a0cd36dadcc25da1e1",
+          "artifact-76e21b96ef95278f": "sha256:76e21b96ef95278fe6dca75e61b9da3e33dda888c7a293f11816e7a363e2e313",
+          "artifact-8f5a8139f2e24d4f": "sha256:8f5a8139f2e24d4fabd6cb66b2ce65a10e427579da253a285e390c2302ef68ee",
+          "artifact-95f883769c29a527": "sha256:95f883769c29a527afe5748a64e4fd653809e6a6384812d1efe66e9c18398019",
+          "artifact-ca16a864f04a1614": "sha256:ca16a864f04a161479ad52702a1a1087123f931ecd9f77dd60db55e4f1c5579d"
+        },
+        "canonical_records_sha256": {
+          "evidence.json": "a42d6164cf418ddd266ff3dfe6390eff8fbb427c07822d82d1eb610a52dfeb27",
+          "manifest.json": "7bfac954a15dec0d312ddb6f58da2c4d578f16d7e0786e081618e20cc8953a77",
+          "plan.json": "b16599e051ce83e076e86075025ae09752cc6153a444b3d2fe8c3167433d758a",
+          "run.json": "a45126685f13b8310be3b1acdb76d0ccd5ad6b82c84b2313c2a052e78f81f855"
+        },
+        "case": "campaigns/examples/tutorials/28-reaction-free-energy/flux-campaign.yaml",
+        "plan_id": "plan-12b112e4126426d8",
+        "provider_versions": {
+          "pymbar.reaction-free-energy": "0.4.0"
+        },
+        "python_run_id": "run-c6323bd0f5aa6adf",
+        "python_scientific_output_identical": true,
+        "reference_checks": {
+          "maximum_replica_error_kj_mol": 0.38149804243089225,
+          "quadrature_activation_free_energy_kj_mol": 7.499660491007051
+        },
+        "report_sha256": "549eaa44d3f5b7ebc8f6d52a594eb5c4cb133881d00dba70d36b8eca39b8669b",
+        "reused_run_id": "run-16a6fced93c6f778",
+        "reused_steps": [
+          "reconstruct"
+        ],
+        "run_id": "run-83f4157ae07a89f2",
+        "saved_report_identical": true
+      },
+      {
+        "artifacts": {
+          "artifact-44e712ba88aa3f8b": "sha256:44e712ba88aa3f8b3fdc04405fe27ef2001e49709f01e4a0cd36dadcc25da1e1",
+          "artifact-5ba3bd6eaf19fb05": "sha256:5ba3bd6eaf19fb0565c102904244cf7c513190f20bf3e6a04cae047cbb0b0dff",
+          "artifact-8bd7e6040ef6533e": "sha256:8bd7e6040ef6533e65424dbfa711aff3a27baa6b63101c9c4bc1e7d3c98f723a",
+          "artifact-a5eda131a7bb0818": "sha256:a5eda131a7bb0818b7ccad3549229ffdcaf205395c246c85fee6438f852d9ea2",
+          "artifact-b36c8f650d348e0e": "sha256:b36c8f650d348e0e2305adae9d495f296b95f0e375095e2332bf69ea3334bdd5"
+        },
+        "canonical_records_sha256": {
+          "evidence.json": "60db185d8c5244d3624b62f5b96006b998c96a2da05704c0f5a8dcab7fc9ace6",
+          "manifest.json": "d6fd7f2685d5e50dcf31f893ef8af46e4147defd9967f7ca22a5db78e3c1dc79",
+          "plan.json": "a734ed8c11e43989549b1b8cfa75fd2d7ab73b5d0d0359701f1d86a079dae146",
+          "run.json": "74dbbb7b5cdc56400f1dc8d025e6db06796e76a2595b489929c9373e2debf3c8"
+        },
+        "case": "paired-request.yaml",
+        "plan_id": "plan-58b9788a17e0d556",
+        "provider_versions": {
+          "pymbar.reaction-free-energy": "0.4.0"
+        },
+        "python_run_id": "run-8e34516cc4986a32",
+        "python_scientific_output_identical": true,
+        "reference_checks": {
+          "basin_error_kj_mol": 0.06395265645750836,
+          "maximum_pmf_error_kj_mol": 0.4887283175241386
+        },
+        "report_sha256": "a9b265b9708ad5794a89ed985bff6009dbb614cd6678430bf944c5eb4005e34f",
+        "reused_run_id": "run-c41a588205ef4a80",
+        "reused_steps": [
+          "reweight"
+        ],
+        "run_id": "run-ffc3fb400091210d",
+        "saved_report_identical": true
+      },
+      {
+        "artifacts": {
+          "artifact-19ed7a2c7d3c5818": "sha256:19ed7a2c7d3c5818cd7f27ac8d31daf3601a37d4e7836dba08a9c1b30865f1b1",
+          "artifact-44e712ba88aa3f8b": "sha256:44e712ba88aa3f8b3fdc04405fe27ef2001e49709f01e4a0cd36dadcc25da1e1",
+          "artifact-87d55e73d095faa3": "sha256:87d55e73d095faa3f2938802b665b6ef51f1d1a012ba7f2ae0a7203a211597d2",
+          "artifact-98b071d21ecf8a99": "sha256:98b071d21ecf8a99e9259e83c615185b4ab92e4746593bde20839e28d0f8d531",
+          "artifact-e9e5599f606cbe42": "sha256:e9e5599f606cbe4254290937f99e4f6e3350342a56cfdf326c09d1af7a28021b"
+        },
+        "canonical_records_sha256": {
+          "evidence.json": "50c3653795297ee82e627f47e2037d832fd16e69e89034ebf7af6490e7166fb1",
+          "manifest.json": "c64dafccca70b60c561a4db90d4db741750df7beead93c76b53e4ae2eac86301",
+          "plan.json": "9f71d4172dcd8c76ddff683f6e4103087986484167da4ea82d2befe13982fdb8",
+          "run.json": "04eef20c36cc6c1f65e8fc9ee3061244e60c5479f669c7e97c436dd8a404f411"
+        },
+        "case": "campaigns/examples/tutorials/29-qmmm-state/umbrella-analysis.yaml",
+        "plan_id": "plan-a59f1a6a02920abf",
+        "provider_versions": {
+          "pymbar.reaction-free-energy": "0.4.0"
+        },
+        "python_run_id": "run-3295af996874a2b8",
+        "python_scientific_output_identical": true,
+        "reference_checks": {
+          "original_molecular_analysis_reconstructed": true,
+          "source_sha256": "87d55e73d095faa3f2938802b665b6ef51f1d1a012ba7f2ae0a7203a211597d2"
+        },
+        "report_sha256": "0f73f3d9b93ca0ff5cd2f928a0194a8ca15abff749af7594535b918599c68b18",
+        "reused_run_id": "run-1107de0954ddfbea",
+        "reused_steps": [
+          "density"
+        ],
+        "run_id": "run-fe99a31300a692d1",
+        "saved_report_identical": true
+      },
+      {
+        "artifacts": {
+          "artifact-112b5595e37d1744": "sha256:112b5595e37d17442afcb18499cea517546705b845d1c8d87c83889575dcef7b",
+          "artifact-1935175045a66173": "sha256:1935175045a66173723c5ca6f403e075c58ed808f87545c941899bf5ff3fcde9",
+          "artifact-30e338886134c160": "sha256:30e338886134c160fdb9a4115ab27a055b91a1bd2cb3787b0c2a7d25ed4551c7",
+          "artifact-373eb2c43094867d": "sha256:373eb2c43094867d97fdef996ff15db2590ca6f78d1a5f3b210f04ac5e9da514",
+          "artifact-44e712ba88aa3f8b": "sha256:44e712ba88aa3f8b3fdc04405fe27ef2001e49709f01e4a0cd36dadcc25da1e1",
+          "artifact-87d55e73d095faa3": "sha256:87d55e73d095faa3f2938802b665b6ef51f1d1a012ba7f2ae0a7203a211597d2",
+          "artifact-a56b0dabc4c272ef": "sha256:a56b0dabc4c272eff8076a984ee0c9f828ff26d96d7c385996a3ddc953a7f2dd",
+          "artifact-a577fd375bd57eca": "sha256:a577fd375bd57eca270a7dae49454b1ead15f8922c4445eef58ff984dfd29f06",
+          "artifact-d5ff62a0b095d020": "sha256:d5ff62a0b095d020ca2b58ac9e1cafa667c297608e953960775ffeced83d8e4a",
+          "artifact-e0c39a771cfb581d": "sha256:e0c39a771cfb581d63111a43b738d43406bb0645027a3f94352987ae38fbb3e9",
+          "artifact-e9e5599f606cbe42": "sha256:e9e5599f606cbe4254290937f99e4f6e3350342a56cfdf326c09d1af7a28021b",
+          "artifact-fd315f33906bc670": "sha256:fd315f33906bc670719ce8cb7d01118b78b0107d933444a0f50ba42694c2c6a2",
+          "artifact-fdc9af16195c5bf9": "sha256:fdc9af16195c5bf95cad45a88bc8a03414eb60e107ecbd2eb9ede0e12b6836e0"
+        },
+        "canonical_records_sha256": {
+          "evidence.json": "771e69899f52e0244a0f87af07892e1ba2f0fd83ef41d4e6c209c62355d42ce8",
+          "manifest.json": "a4b492c1f7b9d422d05b82fa31f7591523b91f28c81af088a3e1a9ad7c773d0a",
+          "plan.json": "8aedfd38cbf0f61e2216b89823d2c90ee46384aa995fb8a58da5ab879cdd0ebf",
+          "run.json": "e940e615b1eb6ed57006a213eee44714aa7326732508e321333e5e8e1314d388"
+        },
+        "case": "recorded/campaign.yaml",
+        "plan_id": "plan-4f267d86f6439c47",
+        "provider_versions": {
+          "pymbar.reaction-free-energy": "0.4.0"
+        },
+        "python_run_id": "run-752e0d2995ca8693",
+        "python_scientific_output_identical": true,
+        "reference_checks": {
+          "original_molecular_analysis_reconstructed": true,
+          "source_sha256": "87d55e73d095faa3f2938802b665b6ef51f1d1a012ba7f2ae0a7203a211597d2"
+        },
+        "report_sha256": "5426411f82313d864168b0917fcd01c1242dea8e51d7e4c65040805411511231",
+        "reused_run_id": "run-d2557a667f87c0da",
+        "reused_steps": [
+          "analysis"
+        ],
+        "run_id": "run-752e0d2995ca8693",
+        "saved_report_identical": true
+      }
+    ]
+  },
+  "linux_native": {
+    "platform": {
+      "machine": "aarch64",
+      "python": "3.11.16",
+      "system": "Linux"
+    },
+    "runtime_package_set_sha256": "acdb8ca2c52980cbc9c864218ce092b3a7f988f73a405da33152fcea5b2527ea",
+    "package_count": 39,
+    "installed_wheel_files": 196,
+    "numerical_tests": {
+      "cases": 37,
+      "passed": 31,
+      "skipped": 6
+    },
+    "assembly_tests": {
+      "cases": 6,
+      "passed": 6
+    },
+    "command_receipts": [
+      {
+        "exit_code": 0,
+        "log_sha256": "c15e5a07d3ef433403cdc48f09ae5f9812c5a047070dbe3ea25a8854a0eb39f6",
+        "step": "native"
+      },
+      {
+        "exit_code": 0,
+        "log_sha256": "e5f6921557f4ebce3e7802ff8ddf156164980db830751c5ff4719c5c66db3e42",
+        "step": "core"
+      },
+      {
+        "exit_code": 0,
+        "log_sha256": "69acab4a94cf5d91c09679e6e218ac1642a20517a178bac13b330fdc20c1a349",
+        "step": "workflow"
+      }
+    ],
+    "runs": [
+      {
+        "artifacts": {
+          "artifact-0ddaa3c204832588": "sha256:0ddaa3c2048325884a3d7b548093cba9124e7eef5189d5686d720a15f1f57912",
+          "artifact-3ee385e129e858bc": "sha256:3ee385e129e858bc2fff372bc58f6667c2b8dcea0b204847c5f0373dbc615384",
+          "artifact-44e712ba88aa3f8b": "sha256:44e712ba88aa3f8b3fdc04405fe27ef2001e49709f01e4a0cd36dadcc25da1e1",
+          "artifact-b69596b00aded8d1": "sha256:b69596b00aded8d16f6adf9f84a32b7bd66926c3f4a5be85a27e192c6d139059",
+          "artifact-ca16a864f04a1614": "sha256:ca16a864f04a161479ad52702a1a1087123f931ecd9f77dd60db55e4f1c5579d"
+        },
+        "canonical_records_sha256": {
+          "evidence.json": "d712ac56c08cceb5725ca4297b93492184ffee5a3136f550bc094a90add00143",
+          "manifest.json": "6df803919b94840b1382b38feeff987962fd24ed9c164dee6af31a49840e9799",
+          "plan.json": "8dacccf423ab9a75cd44ca84ee49dfa885258c439f93bc5260cac04549542eea",
+          "run.json": "ad776eb75ba545a7824b287c5a8a38f274fd65c9f3708faf0730cacadc8bf78d"
+        },
+        "case": "campaigns/examples/tutorials/28-reaction-free-energy/campaign.yaml",
+        "plan_id": "plan-7cd926a27d0b384e",
+        "provider_versions": {
+          "pymbar.reaction-free-energy": "0.4.0"
+        },
+        "python_run_id": "run-ef3134bac8f81425",
+        "python_scientific_output_identical": true,
+        "reference_checks": {
+          "basin_error_kj_mol": 0.06317120579065658,
+          "maximum_pmf_error_kj_mol": 0.33271603925688176
+        },
+        "report_sha256": "7ccf5f161fad94722cf15978178e8bc375210d5c6d8aee1ffc8dc134e882d55a",
+        "reused_run_id": "run-283bd3d39eb62dbd",
+        "reused_steps": [
+          "reconstruct"
+        ],
+        "run_id": "run-65ee60761de1ea2b",
+        "saved_report_identical": true
+      },
+      {
+        "artifacts": {
+          "artifact-2d31a61d2a826529": "sha256:2d31a61d2a826529458a59975821af35e5dd1be3eab0879c41e628f8a84432b8",
+          "artifact-44e712ba88aa3f8b": "sha256:44e712ba88aa3f8b3fdc04405fe27ef2001e49709f01e4a0cd36dadcc25da1e1",
+          "artifact-95f883769c29a527": "sha256:95f883769c29a527afe5748a64e4fd653809e6a6384812d1efe66e9c18398019",
+          "artifact-ca16a864f04a1614": "sha256:ca16a864f04a161479ad52702a1a1087123f931ecd9f77dd60db55e4f1c5579d",
+          "artifact-fabe197d65a8723d": "sha256:fabe197d65a8723d5a15526faa7d4a0431423fd1bcf0b6d2af35b292bbcde0eb"
+        },
+        "canonical_records_sha256": {
+          "evidence.json": "f7c74dd4ba572581b324e09faa312bb7f1b8c5e59eb971d5d94f87f22366f8c1",
+          "manifest.json": "9ffdd3fa8127518b37fdb1a69087aed3b40d0dd266f8732e2d9b3bd5c6fd415b",
+          "plan.json": "b16599e051ce83e076e86075025ae09752cc6153a444b3d2fe8c3167433d758a",
+          "run.json": "03e78aa97d58a279501988d8a0f122a5ead8b9f3669738061cfcd1400b30b52c"
+        },
+        "case": "campaigns/examples/tutorials/28-reaction-free-energy/flux-campaign.yaml",
+        "plan_id": "plan-12b112e4126426d8",
+        "provider_versions": {
+          "pymbar.reaction-free-energy": "0.4.0"
+        },
+        "python_run_id": "run-7c1f774b03e1cff1",
+        "python_scientific_output_identical": true,
+        "reference_checks": {
+          "maximum_replica_error_kj_mol": 0.38149804243088337,
+          "quadrature_activation_free_energy_kj_mol": 7.499660491007051
+        },
+        "report_sha256": "2606dece8b97fac0def66b9f83ae5aadb1a1ef952f38659c33977a76e05ab375",
+        "reused_run_id": "run-1d4360fae65a29df",
+        "reused_steps": [
+          "reconstruct"
+        ],
+        "run_id": "run-83c0384e61c970d1",
+        "saved_report_identical": true
+      },
+      {
+        "artifacts": {
+          "artifact-44e712ba88aa3f8b": "sha256:44e712ba88aa3f8b3fdc04405fe27ef2001e49709f01e4a0cd36dadcc25da1e1",
+          "artifact-87e25cf1bc42ba40": "sha256:87e25cf1bc42ba406693fa4ff0c45bbb31fed871aa1cb4a4fcac0d79c27793ee",
+          "artifact-8bd7e6040ef6533e": "sha256:8bd7e6040ef6533e65424dbfa711aff3a27baa6b63101c9c4bc1e7d3c98f723a",
+          "artifact-904c92cf8ad21802": "sha256:904c92cf8ad2180279917a87d2c8b9dac1a8bc3ca28712ab85c9c2681625c45c",
+          "artifact-b36c8f650d348e0e": "sha256:b36c8f650d348e0e2305adae9d495f296b95f0e375095e2332bf69ea3334bdd5"
+        },
+        "canonical_records_sha256": {
+          "evidence.json": "4bf1c4582277beb69451702106291fdd8957cd9fc90a77ee3cadd963bfd0ec49",
+          "manifest.json": "0ebd88cec4f67abd7e5d28b65b0e3d2f2471e0a60754f12845275d061bc0550a",
+          "plan.json": "a734ed8c11e43989549b1b8cfa75fd2d7ab73b5d0d0359701f1d86a079dae146",
+          "run.json": "28fe7cfea439b3263e4b5e1c7f1415b46d1526806a26280c488663716ebbab75"
+        },
+        "case": "paired-request.yaml",
+        "plan_id": "plan-58b9788a17e0d556",
+        "provider_versions": {
+          "pymbar.reaction-free-energy": "0.4.0"
+        },
+        "python_run_id": "run-1c785fddb3807bc1",
+        "python_scientific_output_identical": true,
+        "reference_checks": {
+          "basin_error_kj_mol": 0.06395265645751413,
+          "maximum_pmf_error_kj_mol": 0.48872831752412793
+        },
+        "report_sha256": "304d8c9dee12ec00f892c155d254fabca017460b6978cf4b4dda0574c2548e1b",
+        "reused_run_id": "run-69061159fe122adf",
+        "reused_steps": [
+          "reweight"
+        ],
+        "run_id": "run-3ce1c2f0b85047e3",
+        "saved_report_identical": true
+      },
+      {
+        "artifacts": {
+          "artifact-44e712ba88aa3f8b": "sha256:44e712ba88aa3f8b3fdc04405fe27ef2001e49709f01e4a0cd36dadcc25da1e1",
+          "artifact-7bd312e14ef3e7c0": "sha256:7bd312e14ef3e7c07047db6b9e70ed97fa33f953a02c526df5ab3ae67b60b8e5",
+          "artifact-87d55e73d095faa3": "sha256:87d55e73d095faa3f2938802b665b6ef51f1d1a012ba7f2ae0a7203a211597d2",
+          "artifact-bba9904ceb7fd212": "sha256:bba9904ceb7fd21299b005a998d35b510d6e90baea205e915f4103e51cc330fb",
+          "artifact-e9e5599f606cbe42": "sha256:e9e5599f606cbe4254290937f99e4f6e3350342a56cfdf326c09d1af7a28021b"
+        },
+        "canonical_records_sha256": {
+          "evidence.json": "7daccd7b8223c83195f091eb0009a48561b89587d4567e65fb1100f02ee4bf1f",
+          "manifest.json": "f050a81b899293a715097d24083151d2ea73c7215b97bfe64ae0450bd2f910e6",
+          "plan.json": "9f71d4172dcd8c76ddff683f6e4103087986484167da4ea82d2befe13982fdb8",
+          "run.json": "9288810f6446de13ca5225a851f4df82f900c92eb65c906afa2f6f7ecd2c3b5a"
+        },
+        "case": "campaigns/examples/tutorials/29-qmmm-state/umbrella-analysis.yaml",
+        "plan_id": "plan-a59f1a6a02920abf",
+        "provider_versions": {
+          "pymbar.reaction-free-energy": "0.4.0"
+        },
+        "python_run_id": "run-0821717ddcd3c477",
+        "python_scientific_output_identical": true,
+        "reference_checks": {
+          "original_molecular_analysis_reconstructed": true,
+          "source_sha256": "87d55e73d095faa3f2938802b665b6ef51f1d1a012ba7f2ae0a7203a211597d2"
+        },
+        "report_sha256": "a93647475b5d48a9726050bf9c29a5019d1767351043165700936a38b1feba80",
+        "reused_run_id": "run-171c8dc0967f41a9",
+        "reused_steps": [
+          "density"
+        ],
+        "run_id": "run-6322824ac8e1ea48",
+        "saved_report_identical": true
+      },
+      {
+        "artifacts": {
+          "artifact-0c7f6326d2a562f4": "sha256:0c7f6326d2a562f45f2b28e2d1454a3dba97535d1e285908503e403693fe77b8",
+          "artifact-1935175045a66173": "sha256:1935175045a66173723c5ca6f403e075c58ed808f87545c941899bf5ff3fcde9",
+          "artifact-30e338886134c160": "sha256:30e338886134c160fdb9a4115ab27a055b91a1bd2cb3787b0c2a7d25ed4551c7",
+          "artifact-373eb2c43094867d": "sha256:373eb2c43094867d97fdef996ff15db2590ca6f78d1a5f3b210f04ac5e9da514",
+          "artifact-44e712ba88aa3f8b": "sha256:44e712ba88aa3f8b3fdc04405fe27ef2001e49709f01e4a0cd36dadcc25da1e1",
+          "artifact-491bc1731123b146": "sha256:491bc1731123b146d6b3d4ff6fbf1c87e5c241f329e3219502d5c0cf52a1acb5",
+          "artifact-87d55e73d095faa3": "sha256:87d55e73d095faa3f2938802b665b6ef51f1d1a012ba7f2ae0a7203a211597d2",
+          "artifact-a56b0dabc4c272ef": "sha256:a56b0dabc4c272eff8076a984ee0c9f828ff26d96d7c385996a3ddc953a7f2dd",
+          "artifact-a577fd375bd57eca": "sha256:a577fd375bd57eca270a7dae49454b1ead15f8922c4445eef58ff984dfd29f06",
+          "artifact-d5ff62a0b095d020": "sha256:d5ff62a0b095d020ca2b58ac9e1cafa667c297608e953960775ffeced83d8e4a",
+          "artifact-e9e5599f606cbe42": "sha256:e9e5599f606cbe4254290937f99e4f6e3350342a56cfdf326c09d1af7a28021b",
+          "artifact-fd315f33906bc670": "sha256:fd315f33906bc670719ce8cb7d01118b78b0107d933444a0f50ba42694c2c6a2",
+          "artifact-fdc9af16195c5bf9": "sha256:fdc9af16195c5bf95cad45a88bc8a03414eb60e107ecbd2eb9ede0e12b6836e0"
+        },
+        "canonical_records_sha256": {
+          "evidence.json": "e4c335bfc4c40ecb4956ed9c3dc7106a863e277f826fa7533a50aff489331979",
+          "manifest.json": "78ecc99f3b6bf9f1d4aa9651f6a9faa77d87654accbb95f6c662ff5fc4df465e",
+          "plan.json": "8aedfd38cbf0f61e2216b89823d2c90ee46384aa995fb8a58da5ab879cdd0ebf",
+          "run.json": "781e88351a2d4bf752a0b96e381e2c705df68c397d5a24dcd80242a2486d5725"
+        },
+        "case": "recorded/campaign.yaml",
+        "plan_id": "plan-4f267d86f6439c47",
+        "provider_versions": {
+          "pymbar.reaction-free-energy": "0.4.0"
+        },
+        "python_run_id": "run-d8fa1a67fdabf2fa",
+        "python_scientific_output_identical": true,
+        "reference_checks": {
+          "original_molecular_analysis_reconstructed": true,
+          "source_sha256": "87d55e73d095faa3f2938802b665b6ef51f1d1a012ba7f2ae0a7203a211597d2"
+        },
+        "report_sha256": "969519edeefcf3dd612d643a344ab90e395e9502dc42b01987857e8d7896f27e",
+        "reused_run_id": "run-b4f4f613ebf0b45b",
+        "reused_steps": [
+          "analysis"
+        ],
+        "run_id": "run-d8fa1a67fdabf2fa",
+        "saved_report_identical": true
+      }
+    ],
+    "independent_reconstruction": {
+      "cases": [
+        {
+          "artifacts": 5,
+          "canonical_records_verified": true,
+          "case": "campaigns/examples/tutorials/28-reaction-free-energy/campaign.yaml",
+          "complete_scientific_comparison": true,
+          "report_sha256": "7ccf5f161fad94722cf15978178e8bc375210d5c6d8aee1ffc8dc134e882d55a",
+          "run_id": "run-65ee60761de1ea2b",
+          "source_sha256": "ca16a864f04a161479ad52702a1a1087123f931ecd9f77dd60db55e4f1c5579d"
+        },
+        {
+          "artifacts": 5,
+          "canonical_records_verified": true,
+          "case": "campaigns/examples/tutorials/28-reaction-free-energy/flux-campaign.yaml",
+          "complete_scientific_comparison": true,
+          "report_sha256": "2606dece8b97fac0def66b9f83ae5aadb1a1ef952f38659c33977a76e05ab375",
+          "run_id": "run-83c0384e61c970d1",
+          "source_sha256": "ca16a864f04a161479ad52702a1a1087123f931ecd9f77dd60db55e4f1c5579d"
+        },
+        {
+          "artifacts": 5,
+          "canonical_records_verified": true,
+          "case": "paired-request.yaml",
+          "complete_scientific_comparison": true,
+          "report_sha256": "304d8c9dee12ec00f892c155d254fabca017460b6978cf4b4dda0574c2548e1b",
+          "run_id": "run-3ce1c2f0b85047e3",
+          "source_sha256": "b36c8f650d348e0e2305adae9d495f296b95f0e375095e2332bf69ea3334bdd5"
+        },
+        {
+          "artifacts": 5,
+          "canonical_records_verified": true,
+          "case": "campaigns/examples/tutorials/29-qmmm-state/umbrella-analysis.yaml",
+          "complete_scientific_comparison": true,
+          "report_sha256": "a93647475b5d48a9726050bf9c29a5019d1767351043165700936a38b1feba80",
+          "run_id": "run-6322824ac8e1ea48",
+          "source_sha256": "87d55e73d095faa3f2938802b665b6ef51f1d1a012ba7f2ae0a7203a211597d2"
+        },
+        {
+          "artifacts": 13,
+          "canonical_records_verified": true,
+          "case": "recorded/campaign.yaml",
+          "complete_scientific_comparison": true,
+          "report_sha256": "969519edeefcf3dd612d643a344ab90e395e9502dc42b01987857e8d7896f27e",
+          "run_id": "run-d8fa1a67fdabf2fa",
+          "source_sha256": "87d55e73d095faa3f2938802b665b6ef51f1d1a012ba7f2ae0a7203a211597d2"
+        }
+      ],
+      "passed": true,
+      "reader_sha256": "8a7f5c7e90fa9c25abbecbc0a912061037e0040d31d1748d12d39bb571f07943",
+      "source_verification_sha256": "5adce7488725b6dbc96aeb1c6e41c15f74d3f452f68e544252ed42d178f2c588"
+    }
+  },
+  "linux_docker": {
+    "platform": {
+      "machine": "aarch64",
+      "python": "3.11.16",
+      "system": "Linux"
+    },
+    "image_id": "sha256:4f3c587949faf6a1caa7f7464e6377dd5ae82ba7ca79ccf7e15d11f053272e8e",
+    "base_image_id": "sha256:cb18abb4d22883eca4caa15dc2ba1defd539bf84fed9080a7fe3a7c0f07476ec",
+    "runtime_package_set_sha256": "acdb8ca2c52980cbc9c864218ce092b3a7f988f73a405da33152fcea5b2527ea",
+    "installed_wheel_files": 196,
+    "execution": {
+      "network": "none",
+      "root_filesystem": "read-only",
+      "user": "1000:1000",
+      "analysis_environment": "/opt/pymbar",
+      "workbench_python": "/opt/bioforge/bin/python",
+      "mounted_host_environments": []
+    },
+    "numerical_tests": {
+      "cases": 37,
+      "passed": 31,
+      "skipped": 6
+    },
+    "assembly_tests": {
+      "cases": 6,
+      "passed": 6
+    },
+    "command_receipts": [
+      {
+        "exit_code": 0,
+        "log_sha256": "3129bdb739a1cb1e8a398b867a1cfaf70f05cad81ff678d3798f12bdd3aea52a",
+        "step": "native"
+      },
+      {
+        "exit_code": 0,
+        "log_sha256": "672648867e4af99923261d6ff3ed6bd5b737746b8faf0bcd650b00b5b23772b1",
+        "step": "core"
+      },
+      {
+        "exit_code": 0,
+        "log_sha256": "abaac4cbf5d71a7c92c39d76884a18f0ebe14968dda69c0d8105219654b94d16",
+        "step": "workflow"
+      }
+    ],
+    "runs": [
+      {
+        "artifacts": {
+          "artifact-0ddaa3c204832588": "sha256:0ddaa3c2048325884a3d7b548093cba9124e7eef5189d5686d720a15f1f57912",
+          "artifact-3ee385e129e858bc": "sha256:3ee385e129e858bc2fff372bc58f6667c2b8dcea0b204847c5f0373dbc615384",
+          "artifact-44e712ba88aa3f8b": "sha256:44e712ba88aa3f8b3fdc04405fe27ef2001e49709f01e4a0cd36dadcc25da1e1",
+          "artifact-b69596b00aded8d1": "sha256:b69596b00aded8d16f6adf9f84a32b7bd66926c3f4a5be85a27e192c6d139059",
+          "artifact-ca16a864f04a1614": "sha256:ca16a864f04a161479ad52702a1a1087123f931ecd9f77dd60db55e4f1c5579d"
+        },
+        "canonical_records_sha256": {
+          "evidence.json": "d712ac56c08cceb5725ca4297b93492184ffee5a3136f550bc094a90add00143",
+          "manifest.json": "6df803919b94840b1382b38feeff987962fd24ed9c164dee6af31a49840e9799",
+          "plan.json": "8dacccf423ab9a75cd44ca84ee49dfa885258c439f93bc5260cac04549542eea",
+          "run.json": "ad776eb75ba545a7824b287c5a8a38f274fd65c9f3708faf0730cacadc8bf78d"
+        },
+        "case": "campaigns/examples/tutorials/28-reaction-free-energy/campaign.yaml",
+        "plan_id": "plan-7cd926a27d0b384e",
+        "provider_versions": {
+          "pymbar.reaction-free-energy": "0.4.0"
+        },
+        "python_run_id": "run-ef3134bac8f81425",
+        "python_scientific_output_identical": true,
+        "reference_checks": {
+          "basin_error_kj_mol": 0.06317120579065658,
+          "maximum_pmf_error_kj_mol": 0.33271603925688176
+        },
+        "report_sha256": "7ccf5f161fad94722cf15978178e8bc375210d5c6d8aee1ffc8dc134e882d55a",
+        "reused_run_id": "run-283bd3d39eb62dbd",
+        "reused_steps": [
+          "reconstruct"
+        ],
+        "run_id": "run-65ee60761de1ea2b",
+        "saved_report_identical": true
+      },
+      {
+        "artifacts": {
+          "artifact-2d31a61d2a826529": "sha256:2d31a61d2a826529458a59975821af35e5dd1be3eab0879c41e628f8a84432b8",
+          "artifact-44e712ba88aa3f8b": "sha256:44e712ba88aa3f8b3fdc04405fe27ef2001e49709f01e4a0cd36dadcc25da1e1",
+          "artifact-95f883769c29a527": "sha256:95f883769c29a527afe5748a64e4fd653809e6a6384812d1efe66e9c18398019",
+          "artifact-ca16a864f04a1614": "sha256:ca16a864f04a161479ad52702a1a1087123f931ecd9f77dd60db55e4f1c5579d",
+          "artifact-fabe197d65a8723d": "sha256:fabe197d65a8723d5a15526faa7d4a0431423fd1bcf0b6d2af35b292bbcde0eb"
+        },
+        "canonical_records_sha256": {
+          "evidence.json": "f7c74dd4ba572581b324e09faa312bb7f1b8c5e59eb971d5d94f87f22366f8c1",
+          "manifest.json": "9ffdd3fa8127518b37fdb1a69087aed3b40d0dd266f8732e2d9b3bd5c6fd415b",
+          "plan.json": "b16599e051ce83e076e86075025ae09752cc6153a444b3d2fe8c3167433d758a",
+          "run.json": "03e78aa97d58a279501988d8a0f122a5ead8b9f3669738061cfcd1400b30b52c"
+        },
+        "case": "campaigns/examples/tutorials/28-reaction-free-energy/flux-campaign.yaml",
+        "plan_id": "plan-12b112e4126426d8",
+        "provider_versions": {
+          "pymbar.reaction-free-energy": "0.4.0"
+        },
+        "python_run_id": "run-7c1f774b03e1cff1",
+        "python_scientific_output_identical": true,
+        "reference_checks": {
+          "maximum_replica_error_kj_mol": 0.38149804243088337,
+          "quadrature_activation_free_energy_kj_mol": 7.499660491007051
+        },
+        "report_sha256": "2606dece8b97fac0def66b9f83ae5aadb1a1ef952f38659c33977a76e05ab375",
+        "reused_run_id": "run-1d4360fae65a29df",
+        "reused_steps": [
+          "reconstruct"
+        ],
+        "run_id": "run-83c0384e61c970d1",
+        "saved_report_identical": true
+      },
+      {
+        "artifacts": {
+          "artifact-44e712ba88aa3f8b": "sha256:44e712ba88aa3f8b3fdc04405fe27ef2001e49709f01e4a0cd36dadcc25da1e1",
+          "artifact-87e25cf1bc42ba40": "sha256:87e25cf1bc42ba406693fa4ff0c45bbb31fed871aa1cb4a4fcac0d79c27793ee",
+          "artifact-8bd7e6040ef6533e": "sha256:8bd7e6040ef6533e65424dbfa711aff3a27baa6b63101c9c4bc1e7d3c98f723a",
+          "artifact-904c92cf8ad21802": "sha256:904c92cf8ad2180279917a87d2c8b9dac1a8bc3ca28712ab85c9c2681625c45c",
+          "artifact-b36c8f650d348e0e": "sha256:b36c8f650d348e0e2305adae9d495f296b95f0e375095e2332bf69ea3334bdd5"
+        },
+        "canonical_records_sha256": {
+          "evidence.json": "4bf1c4582277beb69451702106291fdd8957cd9fc90a77ee3cadd963bfd0ec49",
+          "manifest.json": "0ebd88cec4f67abd7e5d28b65b0e3d2f2471e0a60754f12845275d061bc0550a",
+          "plan.json": "a734ed8c11e43989549b1b8cfa75fd2d7ab73b5d0d0359701f1d86a079dae146",
+          "run.json": "28fe7cfea439b3263e4b5e1c7f1415b46d1526806a26280c488663716ebbab75"
+        },
+        "case": "paired-request.yaml",
+        "plan_id": "plan-58b9788a17e0d556",
+        "provider_versions": {
+          "pymbar.reaction-free-energy": "0.4.0"
+        },
+        "python_run_id": "run-1c785fddb3807bc1",
+        "python_scientific_output_identical": true,
+        "reference_checks": {
+          "basin_error_kj_mol": 0.06395265645751413,
+          "maximum_pmf_error_kj_mol": 0.48872831752412793
+        },
+        "report_sha256": "304d8c9dee12ec00f892c155d254fabca017460b6978cf4b4dda0574c2548e1b",
+        "reused_run_id": "run-69061159fe122adf",
+        "reused_steps": [
+          "reweight"
+        ],
+        "run_id": "run-3ce1c2f0b85047e3",
+        "saved_report_identical": true
+      },
+      {
+        "artifacts": {
+          "artifact-44e712ba88aa3f8b": "sha256:44e712ba88aa3f8b3fdc04405fe27ef2001e49709f01e4a0cd36dadcc25da1e1",
+          "artifact-7bd312e14ef3e7c0": "sha256:7bd312e14ef3e7c07047db6b9e70ed97fa33f953a02c526df5ab3ae67b60b8e5",
+          "artifact-87d55e73d095faa3": "sha256:87d55e73d095faa3f2938802b665b6ef51f1d1a012ba7f2ae0a7203a211597d2",
+          "artifact-bba9904ceb7fd212": "sha256:bba9904ceb7fd21299b005a998d35b510d6e90baea205e915f4103e51cc330fb",
+          "artifact-e9e5599f606cbe42": "sha256:e9e5599f606cbe4254290937f99e4f6e3350342a56cfdf326c09d1af7a28021b"
+        },
+        "canonical_records_sha256": {
+          "evidence.json": "7daccd7b8223c83195f091eb0009a48561b89587d4567e65fb1100f02ee4bf1f",
+          "manifest.json": "f050a81b899293a715097d24083151d2ea73c7215b97bfe64ae0450bd2f910e6",
+          "plan.json": "9f71d4172dcd8c76ddff683f6e4103087986484167da4ea82d2befe13982fdb8",
+          "run.json": "9288810f6446de13ca5225a851f4df82f900c92eb65c906afa2f6f7ecd2c3b5a"
+        },
+        "case": "campaigns/examples/tutorials/29-qmmm-state/umbrella-analysis.yaml",
+        "plan_id": "plan-a59f1a6a02920abf",
+        "provider_versions": {
+          "pymbar.reaction-free-energy": "0.4.0"
+        },
+        "python_run_id": "run-0821717ddcd3c477",
+        "python_scientific_output_identical": true,
+        "reference_checks": {
+          "original_molecular_analysis_reconstructed": true,
+          "source_sha256": "87d55e73d095faa3f2938802b665b6ef51f1d1a012ba7f2ae0a7203a211597d2"
+        },
+        "report_sha256": "a93647475b5d48a9726050bf9c29a5019d1767351043165700936a38b1feba80",
+        "reused_run_id": "run-171c8dc0967f41a9",
+        "reused_steps": [
+          "density"
+        ],
+        "run_id": "run-6322824ac8e1ea48",
+        "saved_report_identical": true
+      },
+      {
+        "artifacts": {
+          "artifact-0c7f6326d2a562f4": "sha256:0c7f6326d2a562f45f2b28e2d1454a3dba97535d1e285908503e403693fe77b8",
+          "artifact-1935175045a66173": "sha256:1935175045a66173723c5ca6f403e075c58ed808f87545c941899bf5ff3fcde9",
+          "artifact-30e338886134c160": "sha256:30e338886134c160fdb9a4115ab27a055b91a1bd2cb3787b0c2a7d25ed4551c7",
+          "artifact-373eb2c43094867d": "sha256:373eb2c43094867d97fdef996ff15db2590ca6f78d1a5f3b210f04ac5e9da514",
+          "artifact-44e712ba88aa3f8b": "sha256:44e712ba88aa3f8b3fdc04405fe27ef2001e49709f01e4a0cd36dadcc25da1e1",
+          "artifact-491bc1731123b146": "sha256:491bc1731123b146d6b3d4ff6fbf1c87e5c241f329e3219502d5c0cf52a1acb5",
+          "artifact-87d55e73d095faa3": "sha256:87d55e73d095faa3f2938802b665b6ef51f1d1a012ba7f2ae0a7203a211597d2",
+          "artifact-a56b0dabc4c272ef": "sha256:a56b0dabc4c272eff8076a984ee0c9f828ff26d96d7c385996a3ddc953a7f2dd",
+          "artifact-a577fd375bd57eca": "sha256:a577fd375bd57eca270a7dae49454b1ead15f8922c4445eef58ff984dfd29f06",
+          "artifact-d5ff62a0b095d020": "sha256:d5ff62a0b095d020ca2b58ac9e1cafa667c297608e953960775ffeced83d8e4a",
+          "artifact-e9e5599f606cbe42": "sha256:e9e5599f606cbe4254290937f99e4f6e3350342a56cfdf326c09d1af7a28021b",
+          "artifact-fd315f33906bc670": "sha256:fd315f33906bc670719ce8cb7d01118b78b0107d933444a0f50ba42694c2c6a2",
+          "artifact-fdc9af16195c5bf9": "sha256:fdc9af16195c5bf95cad45a88bc8a03414eb60e107ecbd2eb9ede0e12b6836e0"
+        },
+        "canonical_records_sha256": {
+          "evidence.json": "e4c335bfc4c40ecb4956ed9c3dc7106a863e277f826fa7533a50aff489331979",
+          "manifest.json": "78ecc99f3b6bf9f1d4aa9651f6a9faa77d87654accbb95f6c662ff5fc4df465e",
+          "plan.json": "8aedfd38cbf0f61e2216b89823d2c90ee46384aa995fb8a58da5ab879cdd0ebf",
+          "run.json": "781e88351a2d4bf752a0b96e381e2c705df68c397d5a24dcd80242a2486d5725"
+        },
+        "case": "recorded/campaign.yaml",
+        "plan_id": "plan-4f267d86f6439c47",
+        "provider_versions": {
+          "pymbar.reaction-free-energy": "0.4.0"
+        },
+        "python_run_id": "run-d8fa1a67fdabf2fa",
+        "python_scientific_output_identical": true,
+        "reference_checks": {
+          "original_molecular_analysis_reconstructed": true,
+          "source_sha256": "87d55e73d095faa3f2938802b665b6ef51f1d1a012ba7f2ae0a7203a211597d2"
+        },
+        "report_sha256": "969519edeefcf3dd612d643a344ab90e395e9502dc42b01987857e8d7896f27e",
+        "reused_run_id": "run-b4f4f613ebf0b45b",
+        "reused_steps": [
+          "analysis"
+        ],
+        "run_id": "run-d8fa1a67fdabf2fa",
+        "saved_report_identical": true
+      }
+    ],
+    "independent_reconstruction": {
+      "cases": [
+        {
+          "artifacts": 5,
+          "canonical_records_verified": true,
+          "case": "campaigns/examples/tutorials/28-reaction-free-energy/campaign.yaml",
+          "complete_scientific_comparison": true,
+          "report_sha256": "7ccf5f161fad94722cf15978178e8bc375210d5c6d8aee1ffc8dc134e882d55a",
+          "run_id": "run-65ee60761de1ea2b",
+          "source_sha256": "ca16a864f04a161479ad52702a1a1087123f931ecd9f77dd60db55e4f1c5579d"
+        },
+        {
+          "artifacts": 5,
+          "canonical_records_verified": true,
+          "case": "campaigns/examples/tutorials/28-reaction-free-energy/flux-campaign.yaml",
+          "complete_scientific_comparison": true,
+          "report_sha256": "2606dece8b97fac0def66b9f83ae5aadb1a1ef952f38659c33977a76e05ab375",
+          "run_id": "run-83c0384e61c970d1",
+          "source_sha256": "ca16a864f04a161479ad52702a1a1087123f931ecd9f77dd60db55e4f1c5579d"
+        },
+        {
+          "artifacts": 5,
+          "canonical_records_verified": true,
+          "case": "paired-request.yaml",
+          "complete_scientific_comparison": true,
+          "report_sha256": "304d8c9dee12ec00f892c155d254fabca017460b6978cf4b4dda0574c2548e1b",
+          "run_id": "run-3ce1c2f0b85047e3",
+          "source_sha256": "b36c8f650d348e0e2305adae9d495f296b95f0e375095e2332bf69ea3334bdd5"
+        },
+        {
+          "artifacts": 5,
+          "canonical_records_verified": true,
+          "case": "campaigns/examples/tutorials/29-qmmm-state/umbrella-analysis.yaml",
+          "complete_scientific_comparison": true,
+          "report_sha256": "a93647475b5d48a9726050bf9c29a5019d1767351043165700936a38b1feba80",
+          "run_id": "run-6322824ac8e1ea48",
+          "source_sha256": "87d55e73d095faa3f2938802b665b6ef51f1d1a012ba7f2ae0a7203a211597d2"
+        },
+        {
+          "artifacts": 13,
+          "canonical_records_verified": true,
+          "case": "recorded/campaign.yaml",
+          "complete_scientific_comparison": true,
+          "report_sha256": "969519edeefcf3dd612d643a344ab90e395e9502dc42b01987857e8d7896f27e",
+          "run_id": "run-d8fa1a67fdabf2fa",
+          "source_sha256": "87d55e73d095faa3f2938802b665b6ef51f1d1a012ba7f2ae0a7203a211597d2"
+        }
+      ],
+      "passed": true,
+      "reader_sha256": "8a7f5c7e90fa9c25abbecbc0a912061037e0040d31d1748d12d39bb571f07943",
+      "source_verification_sha256": "5adce7488725b6dbc96aeb1c6e41c15f74d3f452f68e544252ed42d178f2c588"
+    },
+    "cli": {
+      "run_id": "run-83c0384e61c970d1",
+      "plan_id": "plan-12b112e4126426d8",
+      "canonical_records_sha256": {
+        "plan.json": "b16599e051ce83e076e86075025ae09752cc6153a444b3d2fe8c3167433d758a",
+        "run.json": "03e78aa97d58a279501988d8a0f122a5ead8b9f3669738061cfcd1400b30b52c",
+        "manifest.json": "9ffdd3fa8127518b37fdb1a69087aed3b40d0dd266f8732e2d9b3bd5c6fd415b",
+        "evidence.json": "f7c74dd4ba572581b324e09faa312bb7f1b8c5e59eb971d5d94f87f22366f8c1"
+      },
+      "artifact_digests": {
+        "artifact-2d31a61d2a826529": "sha256:2d31a61d2a826529458a59975821af35e5dd1be3eab0879c41e628f8a84432b8",
+        "artifact-44e712ba88aa3f8b": "sha256:44e712ba88aa3f8b3fdc04405fe27ef2001e49709f01e4a0cd36dadcc25da1e1",
+        "artifact-95f883769c29a527": "sha256:95f883769c29a527afe5748a64e4fd653809e6a6384812d1efe66e9c18398019",
+        "artifact-ca16a864f04a1614": "sha256:ca16a864f04a161479ad52702a1a1087123f931ecd9f77dd60db55e4f1c5579d",
+        "artifact-fabe197d65a8723d": "sha256:fabe197d65a8723d5a15526faa7d4a0431423fd1bcf0b6d2af35b292bbcde0eb"
+      },
+      "replicas": 2,
+      "flux_replicas": 2,
+      "verified": true
+    },
+    "cli_health_exit_code": 0,
+    "approved_cli_exit_code": 0,
+    "approved_cli_log_sha256": "815349424b16b28ad3a556455c99bd85c13fd02dc001d9eece53d8406eaa3925",
+    "initial_cli": {
+      "exit_code": 2,
+      "diagnostic": "Explicit compute approval required",
+      "log_sha256": "504c2ec7cc220d908db93e1ed4049f3e180785f24da35aa5fc78e75339a40ae7"
+    }
+  },
+  "minimal_core_docker": {
+    "source_commit": "30a02be",
+    "base_image_id": "sha256:ff618829f6031d5d8527aecc9bb21b16f736579f910c10728cf7d34323e1ed21",
+    "image_id": "sha256:c18495679bcf0c4133acefd65b4a973fc14ff311b1eec5bf257d44bb0bacaae2",
+    "workbench_extras": [],
+    "absent_workbench_modules": [
+      "gemmi",
+      "mdtraj",
+      "numpy",
+      "rdkit",
+      "scipy",
+      "sklearn"
+    ],
+    "runtime_package_set_sha256": "acdb8ca2c52980cbc9c864218ce092b3a7f988f73a405da33152fcea5b2527ea",
+    "installed_wheel_files": 196,
+    "execution": {
+      "network": "none",
+      "root_filesystem": "read-only",
+      "user": "1000:1000",
+      "analysis_environment": "/opt/pymbar"
+    },
+    "driver_sha256": "d8bfafda1c56440e8ac822dbfb2f527e4811ad308e92afcf96b311720b4b647f",
+    "workflow_log_sha256": "dc998eabc508e37c5ba24eac0be9057d9476de9bae2b384eebb1fd5f26ee9bdc",
+    "command_checks": {
+      "core-build": {
+        "exit_code": 0,
+        "log_sha256": "0dd1bb7b0851bfec4ed939f30d072818c8b48ebbf485872d233886aa77e39643"
+      },
+      "analysis-build": {
+        "exit_code": 0,
+        "log_sha256": "dadce3d1e6a521f3dc06fda06dde8f19c89ccb21fae778bfaa8b16bfee38dd6b"
+      },
+      "minimal-imports": {
+        "exit_code": 0,
+        "log_sha256": "2d812d9587519f16ab9472aa6988fbb1e3289621eb3491e8b249e61e1a02aa50"
+      },
+      "provider-health": {
+        "exit_code": 0,
+        "log_sha256": "2d1014d85eeadda15852171f825a55212286915e2d696007baa338cb945759b0"
+      }
+    },
+    "native_numerical_tests": {
+      "cases": 37,
+      "passed": 31,
+      "skipped": 6
+    },
+    "core_assembly_tests": {
+      "cases": 6,
+      "passed": 6
+    },
+    "qualified_reference_verification_sha256": "5adce7488725b6dbc96aeb1c6e41c15f74d3f452f68e544252ed42d178f2c588",
+    "initial_verifier": {
+      "exit_code": 1,
+      "stage": "Before workflow execution",
+      "diagnostic": "Numerical reference verifier required NumPy in its own interpreter",
+      "log_sha256": "0502cb71e56fda9d0860d1b68ddd09560f155776a0a96c3b6f905fbcf3d5fe74"
+    },
+    "runs": [
+      {
+        "case": "campaigns/examples/tutorials/28-reaction-free-energy/campaign.yaml",
+        "run_id": "run-65ee60761de1ea2b",
+        "reference_checks": {
+          "maximum_pmf_error_kj_mol": 0.33271603925688176,
+          "basin_error_kj_mol": 0.06317120579065658
+        },
+        "canonical_records_sha256": {
+          "evidence.json": "d712ac56c08cceb5725ca4297b93492184ffee5a3136f550bc094a90add00143",
+          "manifest.json": "6df803919b94840b1382b38feeff987962fd24ed9c164dee6af31a49840e9799",
+          "plan.json": "8dacccf423ab9a75cd44ca84ee49dfa885258c439f93bc5260cac04549542eea",
+          "run.json": "ad776eb75ba545a7824b287c5a8a38f274fd65c9f3708faf0730cacadc8bf78d"
+        },
+        "python_scientific_output_identical": true,
+        "reused_steps": [
+          "reconstruct"
+        ],
+        "saved_report_identical": true
+      },
+      {
+        "case": "campaigns/examples/tutorials/28-reaction-free-energy/flux-campaign.yaml",
+        "run_id": "run-83c0384e61c970d1",
+        "reference_checks": {
+          "quadrature_activation_free_energy_kj_mol": 7.499660491007051,
+          "maximum_replica_error_kj_mol": 0.38149804243088337
+        },
+        "canonical_records_sha256": {
+          "evidence.json": "f7c74dd4ba572581b324e09faa312bb7f1b8c5e59eb971d5d94f87f22366f8c1",
+          "manifest.json": "9ffdd3fa8127518b37fdb1a69087aed3b40d0dd266f8732e2d9b3bd5c6fd415b",
+          "plan.json": "b16599e051ce83e076e86075025ae09752cc6153a444b3d2fe8c3167433d758a",
+          "run.json": "03e78aa97d58a279501988d8a0f122a5ead8b9f3669738061cfcd1400b30b52c"
+        },
+        "python_scientific_output_identical": true,
+        "reused_steps": [
+          "reconstruct"
+        ],
+        "saved_report_identical": true
+      },
+      {
+        "case": "paired-request.yaml",
+        "run_id": "run-3ce1c2f0b85047e3",
+        "reference_checks": {
+          "maximum_pmf_error_kj_mol": 0.48872831752412793,
+          "basin_error_kj_mol": 0.06395265645751413
+        },
+        "canonical_records_sha256": {
+          "evidence.json": "4bf1c4582277beb69451702106291fdd8957cd9fc90a77ee3cadd963bfd0ec49",
+          "manifest.json": "0ebd88cec4f67abd7e5d28b65b0e3d2f2471e0a60754f12845275d061bc0550a",
+          "plan.json": "a734ed8c11e43989549b1b8cfa75fd2d7ab73b5d0d0359701f1d86a079dae146",
+          "run.json": "28fe7cfea439b3263e4b5e1c7f1415b46d1526806a26280c488663716ebbab75"
+        },
+        "python_scientific_output_identical": true,
+        "reused_steps": [
+          "reweight"
+        ],
+        "saved_report_identical": true
+      },
+      {
+        "case": "campaigns/examples/tutorials/29-qmmm-state/umbrella-analysis.yaml",
+        "run_id": "run-6322824ac8e1ea48",
+        "reference_checks": {
+          "original_molecular_analysis_reconstructed": true,
+          "source_sha256": "87d55e73d095faa3f2938802b665b6ef51f1d1a012ba7f2ae0a7203a211597d2"
+        },
+        "canonical_records_sha256": {
+          "evidence.json": "7daccd7b8223c83195f091eb0009a48561b89587d4567e65fb1100f02ee4bf1f",
+          "manifest.json": "f050a81b899293a715097d24083151d2ea73c7215b97bfe64ae0450bd2f910e6",
+          "plan.json": "9f71d4172dcd8c76ddff683f6e4103087986484167da4ea82d2befe13982fdb8",
+          "run.json": "9288810f6446de13ca5225a851f4df82f900c92eb65c906afa2f6f7ecd2c3b5a"
+        },
+        "python_scientific_output_identical": true,
+        "reused_steps": [
+          "density"
+        ],
+        "saved_report_identical": true
+      },
+      {
+        "case": "recorded/campaign.yaml",
+        "run_id": "run-d8fa1a67fdabf2fa",
+        "reference_checks": {
+          "original_molecular_analysis_reconstructed": true,
+          "source_sha256": "87d55e73d095faa3f2938802b665b6ef51f1d1a012ba7f2ae0a7203a211597d2"
+        },
+        "canonical_records_sha256": {
+          "evidence.json": "e4c335bfc4c40ecb4956ed9c3dc7106a863e277f826fa7533a50aff489331979",
+          "manifest.json": "78ecc99f3b6bf9f1d4aa9651f6a9faa77d87654accbb95f6c662ff5fc4df465e",
+          "plan.json": "8aedfd38cbf0f61e2216b89823d2c90ee46384aa995fb8a58da5ab879cdd0ebf",
+          "run.json": "781e88351a2d4bf752a0b96e381e2c705df68c397d5a24dcd80242a2486d5725"
+        },
+        "python_scientific_output_identical": true,
+        "reused_steps": [
+          "analysis"
+        ],
+        "saved_report_identical": true
+      }
+    ],
+    "independent_reconstruction": {
+      "cases": [
+        {
+          "artifacts": 5,
+          "canonical_records_verified": true,
+          "case": "campaigns/examples/tutorials/28-reaction-free-energy/campaign.yaml",
+          "complete_scientific_comparison": true,
+          "report_sha256": "7ccf5f161fad94722cf15978178e8bc375210d5c6d8aee1ffc8dc134e882d55a",
+          "run_id": "run-65ee60761de1ea2b",
+          "source_sha256": "ca16a864f04a161479ad52702a1a1087123f931ecd9f77dd60db55e4f1c5579d"
+        },
+        {
+          "artifacts": 5,
+          "canonical_records_verified": true,
+          "case": "campaigns/examples/tutorials/28-reaction-free-energy/flux-campaign.yaml",
+          "complete_scientific_comparison": true,
+          "report_sha256": "2606dece8b97fac0def66b9f83ae5aadb1a1ef952f38659c33977a76e05ab375",
+          "run_id": "run-83c0384e61c970d1",
+          "source_sha256": "ca16a864f04a161479ad52702a1a1087123f931ecd9f77dd60db55e4f1c5579d"
+        },
+        {
+          "artifacts": 5,
+          "canonical_records_verified": true,
+          "case": "paired-request.yaml",
+          "complete_scientific_comparison": true,
+          "report_sha256": "304d8c9dee12ec00f892c155d254fabca017460b6978cf4b4dda0574c2548e1b",
+          "run_id": "run-3ce1c2f0b85047e3",
+          "source_sha256": "b36c8f650d348e0e2305adae9d495f296b95f0e375095e2332bf69ea3334bdd5"
+        },
+        {
+          "artifacts": 5,
+          "canonical_records_verified": true,
+          "case": "campaigns/examples/tutorials/29-qmmm-state/umbrella-analysis.yaml",
+          "complete_scientific_comparison": true,
+          "report_sha256": "a93647475b5d48a9726050bf9c29a5019d1767351043165700936a38b1feba80",
+          "run_id": "run-6322824ac8e1ea48",
+          "source_sha256": "87d55e73d095faa3f2938802b665b6ef51f1d1a012ba7f2ae0a7203a211597d2"
+        },
+        {
+          "artifacts": 13,
+          "canonical_records_verified": true,
+          "case": "recorded/campaign.yaml",
+          "complete_scientific_comparison": true,
+          "report_sha256": "969519edeefcf3dd612d643a344ab90e395e9502dc42b01987857e8d7896f27e",
+          "run_id": "run-d8fa1a67fdabf2fa",
+          "source_sha256": "87d55e73d095faa3f2938802b665b6ef51f1d1a012ba7f2ae0a7203a211597d2"
+        }
+      ],
+      "passed": true,
+      "reader_sha256": "8a7f5c7e90fa9c25abbecbc0a912061037e0040d31d1748d12d39bb571f07943",
+      "source_verification_sha256": "12bb45ad558419529834d927ed633035a92cfcb28b1b511f95794b16f5081e10"
+    },
+    "mathematical_reference_checks_repeated": true
+  },
+  "checks": [
+    "Mathematical reference comparisons at the original criteria",
+    "Same source arrays and complete numerical records across Apple, native Linux and Docker",
+    "Native Linux and Docker environment package identities match",
+    "Actual installed workbench files match the qualified wheel",
+    "YAML and thin Python scientific outputs agree",
+    "Compatible reuse preserves complete step outputs",
+    "Saved results and their artifacts reconstruct independently after transfer",
+    "Original molecular summaries and state tables reproduce the compact saved samples",
+    "CPU analysis completes offline in the optional container"
+  ],
+  "numerical_test_skips": "Five schema/controller tests run in the workbench suite; the isolated numerical environment supplies PyMBAR, NumPy and SciPy. Linux additionally skips the optional Node.js report-logic check.",
+  "source_preservation": "The saved molecular trajectories retain their original Apple execution identities; these measurements qualify analysis portability."
+}

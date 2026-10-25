@@ -1,0 +1,6 @@
+# Tested pip-based Spark profile; use a separate Mamba Python environment.
+# Match runtime compilation to the existing CUDA 13.0-capable driver.
+openmm[cuda13]==8.6.0
+# Heavy-atom completion in structure.prepare_protein_system; pure Python, so the sdist builds.
+pdbfixer==1.12.0
+cuda-toolkit[crt,cudart,cufft,cupti,nvcc,nvrtc,nvjitlink,nvvm]==13.0.2

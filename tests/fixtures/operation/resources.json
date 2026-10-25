@@ -1,0 +1,106 @@
+{
+ "id": "batch-comparison",
+ "product": "Exact product form shared by both batches",
+ "cost_unit": "illustrative-credit",
+ "scope": "Selected enzyme and feedstock inputs per declared batch",
+ "resources": [
+  {
+   "id": "enzyme",
+   "unit": "g",
+   "price": {
+    "low": 1,
+    "base": 2,
+    "high": 4,
+    "source": "Illustrative scenario"
+   }
+  },
+  {
+   "id": "feed",
+   "unit": "mmol",
+   "price": {
+    "low": 0.1,
+    "base": 0.2,
+    "high": 0.4,
+    "source": "Illustrative scenario"
+   }
+  }
+ ],
+ "alternatives": [
+  {
+   "id": "A",
+   "basis": "One explicit reaction batch",
+   "product": {
+    "value": 10,
+    "unit": "mmol",
+    "source": "Explicit amount per declared batch"
+   },
+   "recovery": {
+    "low": 0.5,
+    "base": 0.8,
+    "high": 1,
+    "source": "Illustrative scenario"
+   },
+   "accepted": {
+    "low": 1,
+    "base": 1,
+    "high": 1,
+    "source": "Illustrative scenario"
+   },
+   "duration": {
+    "value": 2,
+    "unit": "h",
+    "source": "Explicit amount per declared batch"
+   },
+   "resources": {
+    "enzyme": {
+     "value": 2,
+     "unit": "g",
+     "source": "Explicit amount per declared batch"
+    },
+    "feed": {
+     "value": 10,
+     "unit": "mmol",
+     "source": "Explicit amount per declared batch"
+    }
+   }
+  },
+  {
+   "id": "B",
+   "basis": "One explicit reaction batch",
+   "product": {
+    "value": 10,
+    "unit": "mmol",
+    "source": "Explicit amount per declared batch"
+   },
+   "recovery": {
+    "low": 0.5,
+    "base": 0.8,
+    "high": 1,
+    "source": "Illustrative scenario"
+   },
+   "accepted": {
+    "low": 1,
+    "base": 1,
+    "high": 1,
+    "source": "Illustrative scenario"
+   },
+   "duration": {
+    "value": 2,
+    "unit": "h",
+    "source": "Explicit amount per declared batch"
+   },
+   "resources": {
+    "enzyme": {
+     "value": 1,
+     "unit": "g",
+     "source": "Explicit amount per declared batch"
+    },
+    "feed": {
+     "value": 20,
+     "unit": "mmol",
+     "source": "Explicit amount per declared batch"
+    }
+   }
+  }
+ ]
+}

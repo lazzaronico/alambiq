@@ -1,0 +1,130 @@
+{
+  "schema_version": "0.1",
+  "recorded_date": "2026-10-08",
+  "platform": "Linux ARM64 (NVIDIA GB10); CPU electronic backend",
+  "provider": "pyscf.qmmm-state",
+  "method_profile": "pyscf.molecular-pbe-gaussian.v1",
+  "installed_bioforge_wheel_sha256": "dce4bd64da898c4a525713cefe2dfd8830c6f858f9569d2ffd92d106fcbdf478",
+  "source_sha256": {
+    "src/bioforge/plugins/qmmm.py": "4113dd72de170a514769695834502949eda5ce383e83e4bf01a5999995ccb078",
+    "src/bioforge/plugins/runners/qmmm_runner.py": "4332655a90c498de5b182435207fdb12e76d5a36c008d774a8261d58ada1b0f1",
+    "src/bioforge/plugins/runners/qmmm_pyscf.py": "d5072e21c1695d288f3447531f885dd9e700ff069771bd9d7814dc6d92dd7aa8",
+    "src/bioforge/plugins/runners/qmmm_native.py": "61b76e8d3feb7c671d05c4e231a1d047ce8195b35ba19688c2ccf1f03721e60e",
+    "src/bioforge/plugins/openff_assembly.py": "eb8380f0acab694be5c632d4b91612603d01bd907f8c8ff271ead1ae37064f90",
+    "src/bioforge/inspection/qmmm.py": "6f51f8c063862870f267d62d57f22f57ff7108c3727e9b7160fbbc2151d13214"
+  },
+  "preparation": {
+    "source_run_id": "run-ccc630a435aea4a4",
+    "physical_hamiltonian_sha256": "ae848b1f4585e5e11fe19d1a696353ad6a98fe7cf8a7deec0b973907804cb120",
+    "profile": "protein-ligand.openff-complete-molecule-finite-environment-v1",
+    "ligand_parameterization": "Sage 2.3.0 / AshGC",
+    "physical_atoms": 8677,
+    "solute_atoms_retained": 6249,
+    "all_four_prepared_stages_reused": true,
+    "prepared_outputs_exact": true,
+    "inputs_sha256": {
+      "external_system_xml": "dd75eafe0635f79e606e6bbc86f17bc1cc09ef27694837d12c3f1f7082fe75b0",
+      "initial_density": "d3341e2e901bc6dcccbd812a7f73f3ac0cca4c6cc1e284af14c3424fe619aeed",
+      "state_xml": "f94620c76c4b4b241d00c1506f3feae9730328d9f0b3ba3160e40bc0ace4675e",
+      "system_xml": "cfef78b3329f4bd400b2f0083d3204d08c839ef67321fdad4494049fc1f3b1f7",
+      "topology_pdb": "088cbaea1f007c3b57d16697344fbbfc76f6358594affb62f704d2798b526ae8"
+    }
+  },
+  "parameters": {
+    "backend": "cpu",
+    "classical_coulomb_ratio": 0.9999999871065053,
+    "gaussian_radius_angstrom": 0.8,
+    "grid": 7,
+    "memory_mb": 6000,
+    "threads": 2
+  },
+  "quantum": {
+    "one_based_atoms": [
+      6178,
+      6179,
+      6180,
+      6181,
+      6182,
+      6183,
+      6184,
+      6185,
+      6186,
+      6187,
+      6188,
+      6189,
+      6190,
+      6191,
+      6192,
+      6193,
+      6194,
+      6195,
+      6196,
+      6197,
+      6198,
+      6199,
+      6200,
+      6201
+    ],
+    "residue": "CHA",
+    "charge": -2,
+    "link": null,
+    "electronic_atoms": 24,
+    "basis_functions": 264,
+    "expected_electrons": 118
+  },
+  "execution": {
+    "run_id": "run-f6a05961077f032e",
+    "runtime": {
+      "conda_package_set_sha256": "9869b427072622a8071f95fc81e809fe6628eb8b5d0940544543bb5f31cf2cc5",
+      "python_package_set_sha256": "0208c7a4bbd54b0a20c06b47f4aea076038ddd4ed90106dbabb76b2f0c55e10a",
+      "versions": {
+        "openmm": "8.6",
+        "pyscf": "2.14.0"
+      }
+    },
+    "electronic_backend": "cpu",
+    "native_elapsed_seconds": 374.3523704283871,
+    "scf_cycles": 40,
+    "converged": true,
+    "stationarity_passed": true,
+    "orbital_gradient_norm": 2.070858925529022e-09,
+    "electronic_energy_hartree": -836.0955141166032,
+    "electronic_energy_kj_mol": -2195168.46732314,
+    "classical_energy_kj_mol": -54269.34204661717,
+    "external_energy_kj_mol": 418.93941760608044,
+    "total_energy_kj_mol": -2249018.8699521506,
+    "maximum_physical_force_kj_mol_nm": 10722.908757694939
+  },
+  "checks": {
+    "all_five_canonical_steps_completed": true,
+    "prepared_stage_execution_forbidden_during_reuse": true,
+    "all_four_electronic_inputs_bound_to_preparation": true,
+    "complete_atom_map_and_coordinates_exact": true,
+    "classical_complement_reconstructed": true,
+    "complete_physical_force_partition_verified": true,
+    "independent_openmm_component_errors": {
+      "classical": {
+        "energy_kj_mol": 5.820766091346741e-11,
+        "maximum_force_kj_mol_nm": 4.547473508864641e-12
+      },
+      "external": {
+        "energy_kj_mol": 1.1368683772161603e-13,
+        "maximum_force_kj_mol_nm": 5.6843418860808015e-12
+      }
+    },
+    "reconstructed_electron_count": 117.99999999999999,
+    "density_orbitals_and_overlap_consistent": true,
+    "exact_resume_all_provider_execution_forbidden": true,
+    "complete_history_dossier_byte_identical": true,
+    "original_preparation_snapshot_files_unchanged": 9,
+    "returned_files_rehashed": 61,
+    "inherited_preparation_artifacts_rehashed": 63
+  },
+  "evidence_sha256": {
+    "packet/intent.json": "57773230cb69751b9cf55dff1babd393eac1f736648b0944b0868741d7684898",
+    "returned/verification.json": "69d920418706af4512f8f93429dae05f188a5d615ca9e2d149a664d68525fae6",
+    "local-verification.json": "2d18b7f34c3aa61da1d0f3692765050b4c8b3a0be0710d382c74e4138b0b61a2",
+    "collection-verification.json": "728e561ff4168224fb522b65bb5c59e3d18ef1bdc4eedc7fb3b8e96fa08a5fd5"
+  },
+  "scope": "Installed native electronic-state evaluation bound to the exact current Sage/AshGC finite enzyme preparation. Independent local readers reconstruct the atom map, physical force partition, classical and boundary energy/force contributions, electronic density/population and full recovered dossier. This single geometry is an integration measurement; it establishes no equilibrated catalytic profile, free-energy barrier, rate, production convergence or sensitivity assessment. Historical prepared systems retain their original identities."
+}

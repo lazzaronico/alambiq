@@ -1,0 +1,175 @@
+{
+ "id": "analytic-progress",
+ "experiments": [
+  {
+   "id": "first-order-reference",
+   "volume_L": 0.01,
+   "conditions": "Declared constant assay conditions",
+   "species": [
+    {
+     "id": "S",
+     "initial_M": 0.01,
+     "pools": {
+      "substrate-moiety": 1
+     }
+    },
+    {
+     "id": "P",
+     "initial_M": 0,
+     "pools": {
+      "substrate-moiety": 1
+     }
+    }
+   ],
+   "catalysts": [],
+   "channels": [
+    {
+     "id": "forward",
+     "reaction_id": "S-to-P",
+     "stoichiometry": {
+      "S": -1,
+      "P": 1
+     },
+     "capacity_M_s": 0.002,
+     "factors": [
+      {
+       "species": "S",
+       "kind": "mass-action",
+       "scale_M": 0.01
+      }
+     ],
+     "source": "Analytic first-order test, k = 0.2/s"
+    }
+   ],
+   "phases": [
+    {
+     "end_s": 10.0,
+     "dilution_per_s": 0.0,
+     "feed_M": {},
+     "active_channels": [
+      "forward"
+     ]
+    }
+   ],
+   "events": [],
+   "times_s": [
+    0,
+    1,
+    2,
+    3,
+    5,
+    7,
+    10
+   ]
+  }
+ ],
+ "parameters": [
+  {
+   "id": "capacity",
+   "unit": "M/s",
+   "lower": 0,
+   "upper": 0.02,
+   "scale": 0.002,
+   "targets": [
+    {
+     "experiment_id": "first-order-reference",
+     "path": [
+      "channels",
+      "forward",
+      "capacity_M_s"
+     ]
+    }
+   ]
+  }
+ ],
+ "starts": [
+  {
+   "capacity": 0.001
+  },
+  {
+   "capacity": 0.01
+  }
+ ],
+ "observations": [
+  {
+   "id": "t-1",
+   "experiment_id": "first-order-reference",
+   "time_s": 1,
+   "state": "after",
+   "quantity": "concentration",
+   "target": "S",
+   "unit": "M",
+   "value": 0.008187307530779819,
+   "scale": 0.001,
+   "partition": "fit",
+   "source": "Analytic first-order control"
+  },
+  {
+   "id": "t-2",
+   "experiment_id": "first-order-reference",
+   "time_s": 2,
+   "state": "after",
+   "quantity": "concentration",
+   "target": "S",
+   "unit": "M",
+   "value": 0.006703200460356393,
+   "scale": 0.001,
+   "partition": "fit",
+   "source": "Analytic first-order control"
+  },
+  {
+   "id": "t-3",
+   "experiment_id": "first-order-reference",
+   "time_s": 3,
+   "state": "after",
+   "quantity": "concentration",
+   "target": "S",
+   "unit": "M",
+   "value": 0.005488116360940264,
+   "scale": 0.001,
+   "partition": "fit",
+   "source": "Analytic first-order control"
+  },
+  {
+   "id": "t-5",
+   "experiment_id": "first-order-reference",
+   "time_s": 5,
+   "state": "after",
+   "quantity": "concentration",
+   "target": "S",
+   "unit": "M",
+   "value": 0.0036787944117144234,
+   "scale": 0.001,
+   "partition": "fit",
+   "source": "Analytic first-order control"
+  },
+  {
+   "id": "t-7",
+   "experiment_id": "first-order-reference",
+   "time_s": 7,
+   "state": "after",
+   "quantity": "concentration",
+   "target": "S",
+   "unit": "M",
+   "value": 0.0024659696394160645,
+   "scale": 0.001,
+   "partition": "evaluation",
+   "source": "Analytic first-order control"
+  },
+  {
+   "id": "t-10",
+   "experiment_id": "first-order-reference",
+   "time_s": 10,
+   "state": "after",
+   "quantity": "concentration",
+   "target": "S",
+   "unit": "M",
+   "value": 0.0013533528323661271,
+   "scale": 0.001,
+   "partition": "evaluation",
+   "source": "Analytic first-order control"
+  }
+ ],
+ "uncertainty": "descriptive",
+ "max_nfev": 100
+}

@@ -1,0 +1,67 @@
+{
+ "id": "later-measurements",
+ "operation_id": "first-order-reference",
+ "conditions": "Declared constant assay conditions",
+ "observations": [
+  {
+   "id": "t-0.0",
+   "time_s": 0.0,
+   "state": "after",
+   "quantity": "concentration",
+   "target": "S",
+   "unit": "M",
+   "value": 0.01,
+   "partition": "calibration",
+   "source": "Independent analytic first-order reference",
+   "reported_error": {
+    "kind": "SD",
+    "value": 0.0
+   }
+  },
+  {
+   "id": "t-1.0",
+   "time_s": 1.0,
+   "state": "after",
+   "quantity": "concentration",
+   "target": "S",
+   "unit": "M",
+   "value": 0.008187307530779819,
+   "partition": "calibration",
+   "source": "Independent analytic first-order reference",
+   "reported_error": {
+    "kind": "SD",
+    "value": 0.0
+   }
+  },
+  {
+   "id": "t-5.0",
+   "time_s": 5.0,
+   "state": "after",
+   "quantity": "concentration",
+   "target": "S",
+   "unit": "M",
+   "value": 0.0036787944117144234,
+   "partition": "calibration",
+   "source": "Independent analytic first-order reference",
+   "reported_error": {
+    "kind": "SD",
+    "value": 0.0
+   }
+  },
+  {
+   "id": "t-10.0",
+   "time_s": 10.0,
+   "state": "after",
+   "quantity": "concentration",
+   "target": "S",
+   "unit": "M",
+   "value": 0.0013533528323661271,
+   "partition": "evaluation",
+   "source": "Independent analytic first-order reference",
+   "reported_error": {
+    "kind": "SD",
+    "value": 0.0
+   }
+  }
+ ]
+}

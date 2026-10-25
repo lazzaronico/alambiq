@@ -1,0 +1,256 @@
+{
+  "bglb_preparations": [
+    {
+      "artifact_digests": {
+        "configuration": "sha256:1664b2802fd4c4621484db96a1a9edbb0790f5113f7c421a3b42fe845f70de62",
+        "execution-log": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "preparation": "sha256:29dbc3192b72849c22d58a5093215e835046634492eeb94a7f4064c9386f59e3",
+        "protein": "sha256:1d6f9201778583d2d0b53d950af6cea090f5d99be53187c4b52a47ad13a7a121",
+        "source-structure": "sha256:01c878a91c2d68d70f19a07933958ee841bbf33349bd9f541c52dacb61faf860",
+        "state": "sha256:55cd2038a08278086f5fecb0a715ed88ff22c8073a10204dd8a711544c1dae68",
+        "structure": "sha256:4af9d74d64626108372d53e81f416f0c18ab71cd0ab4b7b48a6b615baf3bf704",
+        "system": "sha256:6d1b68d0d3a2c5d16f67b78464df41292008e559ea2140c4f515e5670f16f035",
+        "topology": "sha256:67ac35e6f55ae368f6e7b9d48a99b708dfeecba0b344dea20cb84f3c0400222e"
+      },
+      "artifact_hashes_verified": 9,
+      "atom_count": 57779,
+      "case": "WT",
+      "elapsed_seconds": 516.4190587499179,
+      "forces_after": {
+        "maximum_atom_kj_mol_nm": 2684.5079744258724,
+        "rms_component_kj_mol_nm": 633.8939489551528,
+        "scope": "Raw force-field forces; constraint forces are excluded. These values do not certify constrained-minimizer convergence"
+      },
+      "ion_counts": {
+        "CL": 46,
+        "NA": 73
+      },
+      "minimum_catalytic_carboxyl_distance_nm": 0.37928281458056506,
+      "minimum_solute_image_distance_nm": 3.2417862800148227,
+      "potential_energy_after_kj_mol": -943744.167395488,
+      "potential_energy_before_kj_mol": -448366.7553482092,
+      "protein_atom_count": 7035,
+      "protein_charge_e": -26.99999999999996,
+      "residue_count": 445,
+      "run_id": "run-b8417ffd52de3fd6",
+      "sequence_changes_verified": [],
+      "total_charge_e": 4.263256414560601e-14,
+      "water_molecules": 16875
+    },
+    {
+      "artifact_digests": {
+        "configuration": "sha256:de379c43902bc8e81fa25f1c11c3b80031dfe80c2cfcd06b4927cc0b29c837d6",
+        "execution-log": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "preparation": "sha256:ec3110ba3b1f50e176b90b245df63a3b98999c1955ed1f069a5cd6313a2328ec",
+        "protein": "sha256:3fd0606cc422485e22ab51b8165d86ba79c29a3e1f5713ad002b8fa326136b39",
+        "source-structure": "sha256:01c878a91c2d68d70f19a07933958ee841bbf33349bd9f541c52dacb61faf860",
+        "state": "sha256:a368c5ae019b2186c62a1ef3ebd2784255a0e4c1083c6bc206fbe7f62a8d4280",
+        "structure": "sha256:22fca0bb4624a916b76be1124e63093e10f62bcfecd5251735faf56c94ad93ec",
+        "system": "sha256:b0bd9e1853298625a82f3dff4e6cb1424dbc965173d2fc4e80415e20dc2eeeb9",
+        "topology": "sha256:10bfa5f16803232efdbba6193d27749a947bedb152b413b88f4e21803583431a"
+      },
+      "artifact_hashes_verified": 9,
+      "atom_count": 57777,
+      "case": "N220Y",
+      "elapsed_seconds": 312.353610875085,
+      "forces_after": {
+        "maximum_atom_kj_mol_nm": 2770.481576689845,
+        "rms_component_kj_mol_nm": 632.6556729070685,
+        "scope": "Raw force-field forces; constraint forces are excluded. These values do not certify constrained-minimizer convergence"
+      },
+      "ion_counts": {
+        "CL": 46,
+        "NA": 73
+      },
+      "minimum_catalytic_carboxyl_distance_nm": 0.4647918016023137,
+      "minimum_solute_image_distance_nm": 3.2282542101011242,
+      "potential_energy_after_kj_mol": -941681.3416785357,
+      "potential_energy_before_kj_mol": -568679.991855033,
+      "protein_atom_count": 7042,
+      "protein_charge_e": -26.999999999999964,
+      "residue_count": 445,
+      "run_id": "run-bb77c6aed2accc95",
+      "sequence_changes_verified": [
+        {
+          "insertion_code": "",
+          "mutant": "Y",
+          "residue_id": "220",
+          "wild_type": "N"
+        }
+      ],
+      "total_charge_e": 4.973799150320701e-14,
+      "water_molecules": 16872
+    },
+    {
+      "artifact_digests": {
+        "configuration": "sha256:60b73fad8016e8b9a8031bc9f15320c73d02b8a707dff033834a6179211a4e05",
+        "execution-log": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "preparation": "sha256:9f8c5a12108cc8136c77bf031dba225e6ff2c1161b994597e6e34d7e2235a651",
+        "protein": "sha256:e687265abe62b8e4180bb4cbae31431b4391e8307cd605cb3438997f23c6bfde",
+        "source-structure": "sha256:01c878a91c2d68d70f19a07933958ee841bbf33349bd9f541c52dacb61faf860",
+        "state": "sha256:9c19a57fe122bcf07a5508d769c96be4bfb7d28875709371f4f239be40043e04",
+        "structure": "sha256:f957888054472740eb085e50ee9201500af07031e227cafad5b8a1cd2bddbd29",
+        "system": "sha256:8220f26caffd0dae95c73f35c93ee1a52f8c433b027859aa97dd353bc4ebe48c",
+        "topology": "sha256:5700c2c7877290956aa84a06c00e4cdc5e23c38e8ad8ef365ab6c1fa3c64fb81"
+      },
+      "artifact_hashes_verified": 9,
+      "atom_count": 57811,
+      "case": "N404A",
+      "elapsed_seconds": 283.24185770889744,
+      "forces_after": {
+        "maximum_atom_kj_mol_nm": 2657.963549752668,
+        "rms_component_kj_mol_nm": 633.2255774075327,
+        "scope": "Raw force-field forces; constraint forces are excluded. These values do not certify constrained-minimizer convergence"
+      },
+      "ion_counts": {
+        "CL": 46,
+        "NA": 73
+      },
+      "minimum_catalytic_carboxyl_distance_nm": 0.37805510723431063,
+      "minimum_solute_image_distance_nm": 3.223303871961991,
+      "potential_energy_after_kj_mol": -941730.2751668683,
+      "potential_energy_before_kj_mol": -424266.18985528435,
+      "protein_atom_count": 7031,
+      "protein_charge_e": -26.999999999999957,
+      "residue_count": 445,
+      "run_id": "run-5bb525b4b778a627",
+      "sequence_changes_verified": [
+        {
+          "insertion_code": "",
+          "mutant": "A",
+          "residue_id": "404",
+          "wild_type": "N"
+        }
+      ],
+      "total_charge_e": 4.263256414560601e-14,
+      "water_molecules": 16887
+    }
+  ],
+  "bglb_source": {
+    "doi": "10.1371/journal.pone.0176255",
+    "input": "Author-supplied 445-residue apo model",
+    "license": "CC-BY-4.0",
+    "sha256": "01c878a91c2d68d70f19a07933958ee841bbf33349bd9f541c52dacb61faf860",
+    "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0176255"
+  },
+  "dependency_changes": [],
+  "native_controls": {
+    "checks": {
+      "comparison.log": {
+        "log_sha256": "9be3ed6cdc61976c5c8f0a4569bbd0b4b87b374b8c1380e392ce192119033831",
+        "status": "passed",
+        "tests": 5
+      },
+      "example-navigation-final.log": {
+        "log_sha256": "dc8960df12c6b59767dde58b4f6f89e7cd657c2f37a775b24f9e3a1f2005b342",
+        "status": "passed",
+        "tests": 12
+      },
+      "native-substitutions-crosslinks.log": {
+        "log_sha256": "4fcdbfcf671bcefb294a6e4e061f9ec4c2596447f3d3a8624dda923769e9394a",
+        "status": "passed",
+        "tests": 4
+      },
+      "native-workbench.log": {
+        "log_sha256": "d2e3093ab595ce9fe519e3c8a0b2f2df36e2a8ae6400088d65fc81ac88c03b73",
+        "status": "passed",
+        "tests": 13
+      },
+      "navigation.log": {
+        "log_sha256": "b08cc111ca7e08dbcdc2f31e361be60c9c7c8eec1415b3c043b26151a4e27943",
+        "status": "passed",
+        "tests": 12
+      },
+      "readiness.log": {
+        "log_sha256": "4b32e56e2c784fe5f63a61007d035bbdbbcd603765e6417430c2b25c09d731c1",
+        "status": "passed",
+        "tests": 8
+      },
+      "trajectory.log": {
+        "log_sha256": "f55e27599ed24bd98c7f0d3ed75d0cf721dec020c17a355fd543d723bc8ea0cf",
+        "status": "passed",
+        "tests": 6
+      }
+    },
+    "covers": [
+      "Bundled offline standard templates and exact source/insertion-code identity",
+      "Wild-type mismatch, duplicate and ambiguous identity rejection",
+      "Retained heavy-atom coordinates preserved before minimization",
+      "Removed/rebuilt terminal OXT has new atom lineage",
+      "Proline ring addition/removal and native force-field graph matching",
+      "Crosslinked target rejection before excluded partner removal",
+      "Prepared mutant FASTA/mmCIF and source/prepared residue mapping",
+      "PDB blank insertion code normalization for protonation and substitution selectors",
+      "Substitution provenance in trajectory inspection and chemical-condition comparison"
+    ]
+  },
+  "native_environment": {
+    "DeterministicForces": "true",
+    "openmm_full_version": "8.6.0.dev-c6173db",
+    "pdbfixer": "1.12.0",
+    "pdbfixer_license": "MIT",
+    "platform": "macOS arm64 CPU",
+    "threads": 2
+  },
+  "preparation_scope": "All 27 input/output artifact hashes and actual serialized chemistry were independently checked. These development runs occurred during source-guard refinement and were not pinned to the final runner bytes; final-source native controls and the final wheel are separate evidence. Preparation uses seed 720001, ff14SB/TIP3P, pH 7.5 with explicit GLU164/GLU353, 0.15 M added NaCl, 2 nm dodecahedral padding and bounded 5000-iteration minimization. Local CPU costs include concurrent regression work and are not an isolated performance benchmark.",
+  "preserved_failure": {
+    "reason": "Blank PDB insertion codes were spaces and failed explicit empty-string residue-variant selection",
+    "resolution": "Normalize source PDB/mmCIF blank insertion codes and explicit selectors; final native PDB regression passes",
+    "result_sha256": "c012b94cc52f49fce52a3c31c50680d19b02028f0be6af5cb709c7153f5e1b52",
+    "run_id": "run-239ec889f5240b79"
+  },
+  "providers": {
+    "builtin.structural-ensemble-comparison": "0.1.1",
+    "mdtraj.trajectory-inspection": "0.5.2",
+    "openmm.protein-preparation": "0.8.0"
+  },
+  "recorded_date": "2026-10-04",
+  "regression": {
+    "log_sha256": "83e1b164090a456e9a6683a2dc42ab0bef6e35528ad064a391685b984ae73040",
+    "required_commands": 11,
+    "required_verification_sha256": "e4e99a5904df634331c90f20cdca7467f805dcb3b03f9af93da50b92947efa07",
+    "ruff": "passed",
+    "scope": "Full regression and required workflows preceded the final pre-exclusion crosslink guard; the final native substitution controls exercise that guard. Unchanged controls retain their completed evidence.",
+    "skipped": 87,
+    "status": "passed",
+    "tests_discovered": 1418
+  },
+  "resolved_histidine_variants": {
+    "101": "HID",
+    "119": "HID",
+    "140": "HIE",
+    "178": "HID",
+    "182": "HID",
+    "193": "HID",
+    "194": "HID",
+    "199": "HID",
+    "206": "HIE",
+    "223": "HIE",
+    "315": "HID",
+    "328": "HID",
+    "373": "HID",
+    "379": "HID",
+    "384": "HIE",
+    "419": "HID",
+    "56": "HID",
+    "58": "HID",
+    "59": "HID",
+    "74": "HID"
+  },
+  "resolved_microstates_equal_across_three_preparations": true,
+  "schema_version": "0.1",
+  "scope": "Explicit standard-residue substitution integration, PDB source identity normalization, and static BglB preparation chemistry/geometry. Dynamic readiness, sampling convergence, thermal stability and enzyme activity are unassessed.",
+  "source_sha256": {
+    "src/bioforge/plugins/openmm_workbench.py": "dd33955ed7684c7f80577223a2d8196f48f092354ecf628219f4adc3ddcc63b4",
+    "src/bioforge/plugins/runners/openmm_prepare_protein.py": "91b6eabc8846ec045f8bd09ff57ac9a6f0aa0ca4fd2b285247dbb4905924a40f",
+    "src/bioforge/plugins/structural_comparison.py": "2b1d687c50ae27056ea1565891bf3ccf9267f606771997f6e74a769931fa4755",
+    "src/bioforge/plugins/trajectory_inspection.py": "c846b1a07d1abbc984f7cfb0f5cba11e88874a637feb35d77df81b608d67ec71",
+    "tests/test_protein_substitutions.py": "937de289419d9d33c3eb7d4010b60cb95aec1991b76e421adc60956fb6faa5a7"
+  },
+  "static_audit_sha256": "6f7fd3d092d37a6449fb4a288472b159a02988f61b75086159e827ad614548c5",
+  "wheel": {
+    "exact_source_match": true,
+    "file_count": 229,
+    "wheel_sha256": "a78ef43ca884597de53901f6c020d6ec36fd54454e06146554d5e8486a697f03"
+  }
+}

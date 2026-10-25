@@ -1,0 +1,47 @@
+name: alambiq-openff-binding-v1
+channels:
+- conda-forge
+dependencies:
+- cinnabar ~=0.6.0
+- click >=8.2.0,<9.0
+- gufe=1.12.0
+- kartograf ~=2.0.0
+- konnektor ~=0.4.0
+- lomap2 ~=3.3.0
+- matplotlib-base
+- networkx
+- numpy
+- openfe-analysis ~=0.5.0
+- openff-units 0.3.1
+- packaging
+- pint >=0.24.0
+- plugcli
+- pooch >=1.9.0
+- psutil <7.2.0
+- pydantic >=2.0,<2.12
+- rich
+- threadpoolctl
+- typing-extensions
+- python=3.12
+- openmm=8.4.0
+- rdkit=2025.09.6
+- openff-toolkit-base=0.18.0
+- openff-interchange-base=0.4.11
+- openff-nagl=0.5.5
+# Charge inference runs on CPU; OpenMM selects its own dynamics platform.
+- pytorch=*=cpu*
+- openff-nagl-models=2025.09.0
+- openff-forcefields=2026.09.0
+- openmmtools=0.26.0
+- pymbar=4.2.0
+- pdbfixer=1.12.0
+- gemmi=0.7.5
+- parmed=4.3.1
+- tinydb
+- lxml
+- validators
+- pip
+- setuptools>=77.0.3
+- importlib_resources
+- setuptools-scm>=8
+- wheel

@@ -1,0 +1,39 @@
+id: kinetics-from-measurements
+steps:
+  - id: intake
+    capability: assay.inspect
+    params:
+      table: rates.csv
+      conditions:
+        c0: Substrate 0.05 mM
+        c1: Substrate 0.1 mM
+        c2: Substrate 0.25 mM
+        c3: Substrate 0.5 mM
+        c4: Substrate 1 mM
+        c5: Substrate 2.5 mM
+        c6: Substrate 5 mM
+        c7: Substrate 8 mM
+        c8: Substrate 20 mM
+        c9: Substrate 30 mM
+      condition_values:
+        c0: {substrate: {value: 0.05, unit: mM}}
+        c1: {substrate: {value: 0.1, unit: mM}}
+        c2: {substrate: {value: 0.25, unit: mM}}
+        c3: {substrate: {value: 0.5, unit: mM}}
+        c4: {substrate: {value: 1, unit: mM}}
+        c5: {substrate: {value: 2.5, unit: mM}}
+        c6: {substrate: {value: 5, unit: mM}}
+        c7: {substrate: {value: 8, unit: mM}}
+        c8: {substrate: {value: 20, unit: mM}}
+        c9: {substrate: {value: 30, unit: mM}}
+  - id: fit
+    capability: assay.fit
+    bind:
+      measurements: intake.record
+    params:
+      sample_id: enzyme
+      metric: initial-rate
+      x_quantity: substrate
+      x_unit: mM
+      y_unit: uM/min
+      model: michaelis_menten

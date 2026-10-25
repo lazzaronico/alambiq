@@ -1,0 +1,125 @@
+{
+  "date": "2026-09-06",
+  "resource": {
+    "root": "/Users/user/.bioforge/resources/sha256/ea536daaab01a513a6d0d124d330581569b3074d4a7295331a386097ad3ff15b",
+    "content_sha256": "ea536daaab01a513a6d0d124d330581569b3074d4a7295331a386097ad3ff15b",
+    "resource_lock_sha256": "d7a4ce46f914501e310ebacfa2e20d5e3af8ca97d482c841fa7558bca474cb55",
+    "files": 8,
+    "file_bytes": 1332058104,
+    "receipts": {
+      "path": "/Users/user/.bioforge/resources/staging/esmc-300m-24pet6re/downloads.jsonl",
+      "bytes": 15081,
+      "sha256": "c6564f1a1dc76a3205125889c2db11d268fec54a970dd1d4534b994d61fc028d"
+    }
+  },
+  "fresh_environment": {
+    "prefix": "/Users/user/.bioforge/environments/esmc-3.4.0-clean-install-v1",
+    "recipe": {
+      "bytes": 399,
+      "sha256": "e64ee1a925575722374a34cddc0d7bbac5f73deaae3eeda5eb808cdcb7ea5708"
+    },
+    "package_records": {
+      ".bioforge/esmc-portable/clean-install.pip-packages.json": {
+        "bytes": 21110,
+        "sha256": "ff72507dc3a9eb22d2cf544ec314a0a887e3f68927a2a3b83986af1fe2a1b08b"
+      },
+      ".bioforge/esmc-portable/clean-install.conda-packages.json": {
+        "bytes": 8807,
+        "sha256": "2b1c77eaa52b0e303e0a0e64dc0e4cebb29ef590a6414aaaed0c47c542246170"
+      }
+    },
+    "native_cpu_mps": {
+      "profiles": {
+        "cpu": {
+          "seconds": 85.9709589999984,
+          "versions": {
+            "esm": "3.4.0",
+            "torch": "2.11.0",
+            "transformers": "4.57.6"
+          }
+        },
+        "mps": {
+          "seconds": 7.980335959000513,
+          "versions": {
+            "esm": "3.4.0",
+            "torch": "2.11.0",
+            "transformers": "4.57.6"
+          }
+        }
+      },
+      "shape": [
+        142,
+        960
+      ],
+      "max_abs_difference": 0.0000022202730178833008,
+      "mean_abs_difference": 1.0932608773828179e-7
+    }
+  },
+  "canonical": {
+    "run_dir": ".bioforge/esmc-portable/canonical/run-6beea3a8d097f776",
+    "run_id": "run-6beea3a8d097f776",
+    "plan_id": "plan-8a0311d47d7aa9bc",
+    "records": {
+      "plan.json": {
+        "bytes": 4411,
+        "sha256": "43c6540e10e7a25102672cf786936ef77ef2fafb8135e0ee4cecda741edc90f2"
+      },
+      "run.json": {
+        "bytes": 465150,
+        "sha256": "77b8b62d368ba3967b255198c9a24248d26f0e05b8143fa005915ec2fbda2c20"
+      },
+      "evidence.json": {
+        "bytes": 465388,
+        "sha256": "dd3a7c98153559f96fbe143021d486adec129efaea4a201463ca9e9d2219776f"
+      },
+      "manifest.json": {
+        "bytes": 1103,
+        "sha256": "8777ebc74a6b6545a25212e8447a5de9d5fdbe8f1c65c18f987d52c756aa6601"
+      },
+      "report.html": {
+        "bytes": 156116,
+        "sha256": "67249161c666eb306a264a06ddf670503c07bd71ebc5459eb97330b95e256c58"
+      }
+    },
+    "artifacts": {
+      "artifact-2b1882e0ce4b6915": "sha256:2b1882e0ce4b691512d484ede89f1894c9f49107c8880a213ad2e102de012e6c",
+      "artifact-4e941fc521abe075": "sha256:4e941fc521abe0754c0904fa0c60188be0af7a60240ccdeac59acf8e1196c459",
+      "artifact-738429f5569e3381": "sha256:738429f5569e33812718236ea9c2398fa696d6bfceb27f444cde087df03120d0",
+      "artifact-80a79356a70f1045": "sha256:80a79356a70f1045dab4a7da16ec794768ddd3cba737eb10716915aa409b3803",
+      "artifact-83cfd41af4002fb5": "sha256:83cfd41af4002fb55ca4f0682314ad3fe031d507b6b510ed70def5696fc1455a",
+      "artifact-d4cc97313a9affd1": "sha256:d4cc97313a9affd106be920649403a8b9989b8cd7ba21e38b3a7284f958a0932",
+      "artifact-dde2c0a06a4ecfcc": "sha256:dde2c0a06a4ecfcc012339c83f8eaf45aa5ff1a31c165d51e47c42ef5cfe6f03",
+      "artifact-e3b0c44298fc1c14": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "protein_count": 6,
+    "max_pooled_difference_from_original_environment": 0
+  },
+  "verification": {
+    "full_tests": 336,
+    "passed": 330,
+    "skipped": 6,
+    "fresh_optional_numerical_tests": 3,
+    "required_cli_native_mmseqs": "passed",
+    "offline_build": "passed",
+    "built_wheel_resource_command": "passed",
+    "offline_browser_selection_and_exports": "passed"
+  },
+  "code": {
+    "src/bioforge/plugins/esmc_resource.py": {
+      "bytes": 7395,
+      "sha256": "14af00ab589487d868a7a5bcb7f7ef4b62eafa87166b563e680cd60d3e5b2165"
+    },
+    "src/bioforge/plugins/protein_embeddings.py": {
+      "bytes": 12927,
+      "sha256": "0dab46ce35617a5b5211072dec4e1449442a5ee2e16b7cc60e5ed0d0f2b55d6f"
+    },
+    "src/bioforge/resources/esmc-300m.json": {
+      "bytes": 2411,
+      "sha256": "807017ab63c69bd7f5781bc9dd9e3baf1d75657acb4b8665d39c44c2f66d60a5"
+    },
+    "src/bioforge/__main__.py": {
+      "bytes": 9882,
+      "sha256": "ca0aafdca415657c97941b6f970547b0a74c95b5d56f278f2fe935115ee09a81"
+    }
+  }
+}

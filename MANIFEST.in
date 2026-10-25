@@ -1,0 +1,10 @@
+include AGENTS.md CHANGELOG.md LICENSING.md uv.lock
+include .dockerignore .gitattributes .gitignore
+graft .github
+graft docs
+graft environments
+graft examples
+graft tests
+graft tools
+global-exclude *.py[cod] .DS_Store
+global-exclude __pycache__/*

@@ -1,0 +1,844 @@
+{
+  "date": "2026-10-02",
+  "fixed_state_force_agreement": {
+    "openmm_version": "8.6",
+    "platform_settings": {
+      "CPU": {
+        "DeterministicForces": "default",
+        "Threads": "8"
+      },
+      "CUDA": {
+        "Precision": "mixed"
+      }
+    },
+    "records": [
+      {
+        "absolute_energy_difference_kj_mol_per_atom": 1.3604356493053382e-06,
+        "atom_count": 99579,
+        "cpu_potential_kj_mol": -1367792.2187859677,
+        "cuda_potential_kj_mol": -1367792.0833151462,
+        "input_sha256": {
+          "state_xml": "1739288a82f8b5f44e4cd86e6fd73daba6b69478598617cb3e67ae3eb664d8a7",
+          "system_xml": "e7b92c0c907f81b7376b946352f23f4d3ec26e7f21476277d16c4f8550bb766d",
+          "topology_pdb": "2ce17af88c8e3aa0dc5c1c9336a08abf139bd2b80cd67e9389025b39b2884264"
+        },
+        "maximum_energy_difference_kj_mol_per_atom": 0.001,
+        "maximum_relative_force_rms_difference": 0.001,
+        "passed": true,
+        "relative_force_rms_difference": 4.045443135542697e-05,
+        "system": "enzyme"
+      },
+      {
+        "absolute_energy_difference_kj_mol_per_atom": 4.502870608441808e-06,
+        "atom_count": 3086,
+        "cpu_potential_kj_mol": -41993.74688597382,
+        "cuda_potential_kj_mol": -41993.732990115124,
+        "input_sha256": {
+          "state_xml": "48792b5587545560ca8e19b2a2dfcfa890979f19afd29c3c40d90e4b9e486a99",
+          "system_xml": "746608b76f7b1814647f9284f26964ba95b1a7ffa917f1a9ec651ca8a857150e",
+          "topology_pdb": "f640182efdec3f6e116b3866f6d929c91deec83540ade175a78fd0817ddfe63b"
+        },
+        "maximum_energy_difference_kj_mol_per_atom": 0.001,
+        "maximum_relative_force_rms_difference": 0.001,
+        "passed": true,
+        "relative_force_rms_difference": 3.2905195410537304e-05,
+        "system": "trpcage"
+      }
+    ],
+    "scope": "Fixed coordinates, box and physical system; CPU/CUDA implementation agreement within explicitly stated numerical tolerances. No force-field accuracy or trajectory identity inference."
+  },
+  "hardware": {
+    "apple_m2_max_cpu8": {
+      "affinity": "Operating-system placement; no core-affinity or thread-count sweep",
+      "cpu": "Apple M2 Max",
+      "os": "macOS-26.6.2-arm64-arm-64bit",
+      "physical_cores": 12,
+      "threads": 8
+    },
+    "spark_cpu8": {
+      "affinity": "Operating-system placement; no core-affinity or thread-count sweep",
+      "cpu": "NVIDIA GB10 ARM CPU; 10 Cortex-X925 and 10 Cortex-A725 cores",
+      "os": "Linux-6.17.0-1021-nvidia-aarch64-with-glibc2.39",
+      "threads": 8
+    },
+    "spark_cuda_mixed": {
+      "driver": "580.159.03",
+      "gpu": "NVIDIA GB10",
+      "os": "Linux-6.17.0-1021-nvidia-aarch64-with-glibc2.39",
+      "precision": "mixed"
+    }
+  },
+  "measurement_receipt_sha256": {
+    "force-agreement.json": "de664315dedcffeff6fa894f51cb37841884fc2a04da6d2157216385c9002a5b",
+    "gb3-verification.json": "cc9af5a7eff88eaa62fd6926217c35691ef9d7986aa31ed7827a80b38a02b6d8",
+    "qualification-2.json": "e165f58d347858a7bf97b77ee109e36d42790bb5cffd7ee487cf81a76cbdf435",
+    "timings-apple-cpu8-2/measurements.json": "f9892b2d97f6941578aade1e24482befde22ef3f8e932e57d1e565994cb5cd95",
+    "timings-spark-cpu8.json": "84a6b5e3321f3d7f2fc1f1e5f4adb1ac869c2bee5d986564403d4b2e656e6bfc",
+    "timings-spark-cuda.json": "56cf5eea351bc94efaa4e7bd1cc32a5e27212a29ce146abed140fd8a37294332"
+  },
+  "protocol": {
+    "barostat_interval": 25,
+    "checkpoint_interval": 1000,
+    "execution": "Ordinary capability and Prefect path",
+    "friction_per_ps": 1.0,
+    "measurement_scope": "Short uncontended repeats; declared eight-thread CPU baseline and mixed-precision GPU. Ratios describe these systems/settings, with no hardware-tuning or universal speedup claim.",
+    "pilot_production_steps": 1000,
+    "pilot_target_seconds": 60,
+    "pressure_bar": 1.0,
+    "qualification_minimization_max_iterations": 5000,
+    "qualification_minimization_tolerance_kj_mol_nm": 10,
+    "qualification_policy": "staged-solvent-v1",
+    "qualification_settings": {
+      "density_block_relative_tolerance": 0.02,
+      "energy_block_kj_mol_per_atom_tolerance": 0.1,
+      "max_windows": 3,
+      "nvt_ps": 50.0,
+      "release_ps": 100.0,
+      "restraint_kj_mol_nm2": 1000.0,
+      "temperature_block_relative_tolerance": 0.03,
+      "temperature_relative_tolerance": 0.05,
+      "window_ps": 200.0
+    },
+    "reference_preparation": "Fresh compact explicit-water systems, 0.15 M added NaCl and neutralizing counterions, hydrogen-bond constraints and rigid TIP3P water",
+    "repeats": 2,
+    "report_interval": 100,
+    "seed": 731,
+    "state_report_interval": 100,
+    "step_count_selection": "Pilot-calibrated, rounded up to 1000-step multiples; production lengths vary by platform",
+    "temperature_kelvin": 300.0,
+    "throughput_scope": "Production propagation, scheduled trajectory/state output and final checkpoint. Setup and final XML serialization are excluded; complete capability times are retained separately.",
+    "timed_equilibration_policy": "explicit-v1",
+    "timed_reference": "Identical system/state/topology bytes across all three platforms, exported after staged qualification and 1000 production steps",
+    "timestep_fs": 2.0,
+    "warmup_npt_steps": 1000,
+    "warmup_nvt_steps": 1000
+  },
+  "scope": "Measured preparation, bounded solvent/thermal readiness, portable-state reuse, CPU/CUDA numerical agreement and production throughput. Protein conformational equilibration, converged stability, binding and catalytic activity require separate scientific assessment.",
+  "software": {
+    "bioforge": "0.5.0.dev1",
+    "openmm": "8.6.0",
+    "provider_version": "0.5.0",
+    "source_sha256": {
+      "src/bioforge/plugins/amber_assembly.py": "a198fb101e9f65158e36b786e6133d93ffa4e6eb1f2b5062aa080b798a9c45e8",
+      "src/bioforge/plugins/complex_workbench.py": "d2243d65c897e665360384b57ea3507e6a5abbcdb6813a5e83860166867679f6",
+      "src/bioforge/plugins/openmm_workbench.py": "ffb3e747ff2084b8412d79e54010383ac89806912b3dac5b5b6b8852009b7996",
+      "src/bioforge/plugins/runners/amber_openmm_prepare.py": "45e7dbdc1c9d7ebdd73761ee03c7092a84e54f8dabb9ff8b9795ee718ca595d4",
+      "src/bioforge/plugins/runners/amber_solvation.py": "fea0cb5c8fa8b385b745ebe9f3caf6d0e35d0fda669e384cff7681ea7b0fc203",
+      "src/bioforge/plugins/runners/openmm_equilibration.py": "1814bc23b0c445209c1c9b09f8195a1a42053f98ce5cdde3ad85b517ae394e2d",
+      "src/bioforge/plugins/runners/openmm_prepare_complex.py": "ce22da033db7fffecb721a38084e6523de3d0a4322b9288a6da24306bb4ed4b5",
+      "src/bioforge/plugins/runners/openmm_prepare_protein.py": "f13b980fafeadcd2b465791d71f0680864752ad71e1c59f84bb21fce87ab4a33",
+      "src/bioforge/plugins/runners/openmm_runner.py": "da3f0d3ce681396b2506dac96326f94e20cc9b0e526503f05d1a55ec622181bb",
+      "src/bioforge/plugins/runners/solvent_conditions.py": "88c1a87a99b0f9269eb8065c02650e6531072747c715d8f777417301cab214b7",
+      "tests/test_md_readiness.py": "75120106f933bfce2fb9977cb1b6b73f32050ef4a8643621c70c6b31f90490e0",
+      "tools/benchmark_prepared_md.py": "354b336b5a6396cca1a4d4c036f0fbb8a7f983e947148903ddd456bf998a8729"
+    },
+    "wheel_sha256": "9e1fe241116f0a7a462b80d8204874c9e714de9765698a19e067d19927805b43"
+  },
+  "software_checks": {
+    "focused_final_checks": {
+      "log_sha256": "e3e72f916b324209098f31f412836e5238e2860bbd17af21a82cc63ba38380df",
+      "scope": "Source component guard, explicit source-indexed protonation, bounded readiness success/failure, removal of temporary force/parameter, fresh-context XML/checkpoint reload and provider/repository contracts",
+      "successful": true,
+      "tests_run": 24
+    },
+    "installed_wheel_regression": {
+      "optional_skips": 77,
+      "receipt_sha256": "d427b504b95309997c419f314755faf31c11d1ed1556c0e4362a91377472a29a",
+      "successful": true,
+      "tests_run": 1381
+    },
+    "positioned_ligand_example": {
+      "dynamics": "completed",
+      "inspect-dynamics": "completed",
+      "inspect-prepared": "completed",
+      "prepare": "completed"
+    },
+    "required_workflows": {
+      "count": 11,
+      "successful": true
+    },
+    "source_regression": {
+      "log_sha256": "46358d7e4216e4d4786fe80b4f85081c55713612407e4774f9cdbfe55e823933",
+      "optional_skips": 77,
+      "successful": true,
+      "tests_run": 1381
+    }
+  },
+  "systems": [
+    {
+      "added_ions": {
+        "Cl-": 84,
+        "Na+": 99
+      },
+      "atom_count": 99579,
+      "box_shape": "octahedron",
+      "environment": {
+        "added_salt_molar": 0.15,
+        "added_salt_pairs": 84,
+        "salt": "NaCl",
+        "salt_convention": "Added NaCl pairs exclude neutralizing counterions; rounded from replaceable water count using 55.4 M bulk water. Finite-cell concentration is approximate"
+      },
+      "maximum_relative_source_coordinate_change_angstrom": 5.056518403989685e-08,
+      "name": "enzyme",
+      "platforms": {
+        "apple_m2_max_cpu8": {
+          "actual_platform_properties": {
+            "DeterministicForces": "true",
+            "Threads": "8"
+          },
+          "mean_production_ns_per_day": 3.5985386555530763,
+          "pilot_production_seconds": 47.682723958045244,
+          "runs": [
+            {
+              "capability_seconds": 192.79925100016408,
+              "output_sha256": {
+                "final-state.xml": "b2abd0232d8f52bfcdd821816bc9e6bd8381a9d279cfb5118040acc6d2e033e7",
+                "state.csv": "97a0b7798d48006700221237ea9211c0aa6d6c4f9fe8fa80e2ce60aa7964c67f",
+                "system.xml": "c3e6ab064026aba94a91d74e3ee3502825a700c6e7d2a78412883be8ab411666",
+                "trajectory.dcd": "0814675ca71d67d3aa201b8ceb1244881c9d30e498d9904405c5dfa4b72a39b3"
+              },
+              "production_ns_per_day": 3.653653334656855,
+              "production_seconds": 94.59025483392179,
+              "production_steps": 2000
+            },
+            {
+              "capability_seconds": 196.8215248330962,
+              "output_sha256": {
+                "final-state.xml": "81f1a367ef2394afb4cb2c7fa277d213c8cae3fe1514b14fe256e7d0470df2fa",
+                "state.csv": "03ec70370310240ff9dc1bbab415977d6166491dcc79148c7b666e3922fe884a",
+                "system.xml": "c3e6ab064026aba94a91d74e3ee3502825a700c6e7d2a78412883be8ab411666",
+                "trajectory.dcd": "0fd02a155b5efa0f7f1839b20719c75a88d7de42952d1f0999847d834733acee"
+              },
+              "production_ns_per_day": 3.5434239764492976,
+              "production_seconds": 97.53278249991126,
+              "production_steps": 2000
+            }
+          ]
+        },
+        "spark_cpu8": {
+          "actual_platform_properties": {
+            "DeterministicForces": "true",
+            "Threads": "8"
+          },
+          "mean_production_ns_per_day": 3.679785494348657,
+          "pilot_production_seconds": 47.091214071027935,
+          "runs": [
+            {
+              "capability_seconds": 191.19880437199026,
+              "output_sha256": {
+                "final-state.xml": "9e7c9b37fd427c09d2b2b7b0ffb36be6c50f22c927288f98e4291ac41822ebc7",
+                "state.csv": "1ace1f9894c040d0d4f1ee9f501d2771d2613c47efc2df858cd1cbf3307238ca",
+                "system.xml": "c3e6ab064026aba94a91d74e3ee3502825a700c6e7d2a78412883be8ab411666",
+                "trajectory.dcd": "9903aa52d1face10356e3884df1240d7fa1df554119cd322711b9f767b894fc3"
+              },
+              "production_ns_per_day": 3.6750938326762586,
+              "production_seconds": 94.03841527178884,
+              "production_steps": 2000
+            },
+            {
+              "capability_seconds": 189.20549146877602,
+              "output_sha256": {
+                "final-state.xml": "298558f6a3137bb071eabed60916fcd222fff9716b91557a55940aefbbf46e76",
+                "state.csv": "a1aa173004d40afa95a83178b065bc3b968866d4e9b5b031667065f388fecda6",
+                "system.xml": "c3e6ab064026aba94a91d74e3ee3502825a700c6e7d2a78412883be8ab411666",
+                "trajectory.dcd": "09fccca957e22965e46fbe6759964982a61341a371d75d3e5319f030ca6626fb"
+              },
+              "production_ns_per_day": 3.6844771560210554,
+              "production_seconds": 93.79892597114667,
+              "production_steps": 2000
+            }
+          ]
+        },
+        "spark_cuda_mixed": {
+          "actual_platform_properties": {
+            "CudaCompiler": "",
+            "CudaHostCompiler": "",
+            "DeterministicForces": "false",
+            "DeviceIndex": "0",
+            "DeviceName": "NVIDIA GB10",
+            "DisablePmeStream": "false",
+            "Precision": "mixed",
+            "TempDirectory": "/tmp",
+            "UseBlockingSync": "false",
+            "UseCpuPme": "false"
+          },
+          "mean_production_ns_per_day": 93.01156488277039,
+          "pilot_production_seconds": 2.14562698174268,
+          "runs": [
+            {
+              "capability_seconds": 62.1747236228548,
+              "output_sha256": {
+                "final-state.xml": "443c413c2a3068d47f4935e0b52a317c48d3c8ff891d7668e9a62f05813ecf71",
+                "state.csv": "c7192eb956a2ff3c7cea041c9426198ec349e27bc664e5e83af70fd6b2e47d7a",
+                "system.xml": "c3e6ab064026aba94a91d74e3ee3502825a700c6e7d2a78412883be8ab411666",
+                "trajectory.dcd": "a62cc6f203fd8d0f54c19bb68da0570d5872a7a83010670f0d50ad9105af48be"
+              },
+              "production_ns_per_day": 93.11334770362731,
+              "production_seconds": 51.96247497620061,
+              "production_steps": 28000
+            },
+            {
+              "capability_seconds": 62.18001499818638,
+              "output_sha256": {
+                "final-state.xml": "945b4c8d6051058197083ad0f4fd70dcbbe57baf70f7d118061da64c28a7887a",
+                "state.csv": "010484f1dd90efa7b4a45e4c62097398f7d11bee4cf9bc2a546ce31436c02539",
+                "system.xml": "c3e6ab064026aba94a91d74e3ee3502825a700c6e7d2a78412883be8ab411666",
+                "trajectory.dcd": "23de8cddbc372c9763db2199e4f1d2285fa4ec4655235888c5825bbd4960ef2f"
+              },
+              "production_ns_per_day": 92.90978206191346,
+              "production_seconds": 52.07632493181154,
+              "production_steps": 28000
+            }
+          ]
+        }
+      },
+      "preparation_record_sha256": "aed30c2ae8104004db7967c4d0d802b38dc93144b0e1aa9e140ddca08e6618d1",
+      "prequalification_input_sha256": {
+        "state_xml": "e2175b0d6f659732ebb76bbe87d3fd32b2dc01e2e2fddd2d7f20aa90e6779076",
+        "system_xml": "9ae9472f56a4f53684d945d5379653d89dc84e46ae899a4ff76c9622ec695b58",
+        "topology_pdb": "2ce17af88c8e3aa0dc5c1c9336a08abf139bd2b80cd67e9389025b39b2884264"
+      },
+      "protein_force_field": "amber-ff14SB",
+      "qualification": {
+        "npt_steps_completed": 150000,
+        "nvt_steps_completed": 25000,
+        "policy": "staged-solvent-v1",
+        "restrained_heavy_atom_count": 3078,
+        "status": "passed",
+        "unrestrained_random_seeds": {
+          "barostat": 131094,
+          "integrator": 105460
+        },
+        "windows": [
+          {
+            "checks": {
+              "density_block_relative_range": {
+                "maximum": 0.02,
+                "observed": 0.0005649057434078897,
+                "passed": true
+              },
+              "energy_block_range_kj_mol_per_atom": {
+                "maximum": 0.1,
+                "observed": 0.001828651933594827,
+                "passed": true
+              },
+              "temperature_block_relative_range": {
+                "maximum": 0.03,
+                "observed": 0.0007902695735005713,
+                "passed": true
+              },
+              "temperature_relative_error": {
+                "maximum": 0.05,
+                "observed": 0.000880125129341233,
+                "passed": true
+              }
+            },
+            "end_step": 175000,
+            "passed": true,
+            "sample_count": 200,
+            "start_step": 75000
+          }
+        ]
+      },
+      "qualification_capability_seconds": 267.38269914127886,
+      "retained_source_waters": 132,
+      "source_atom_count": 6645,
+      "source_sha256": {
+        "amber-topology": "7e4b88151c3de126c2f621f7763a96fe3f5ceeb8d722ef326103234aaceb247f",
+        "coordinates": "f4a4df6a24f56402b475f0e6f2be46d30481eaef71a9733174106413f4b796a7",
+        "corrections": "b052dcb1b0c2c7cf5661ff9a39bb11348ecf26d62dcd712ea98d61c5e8a91167",
+        "ligand-a": "1f1f15c3391cd0e06bd6e180bc7a360eafdc322a5dc26f03ab41bb35f0b99aa9",
+        "ligand-b": "3c5d2d80d9d71896d0b0a1d745fd4e0985baaa94ecfeac69e1a8ad74c7930144",
+        "ligand-c": "9fc91649e8a7409413c6d1dc8d0cc28bce31dfec05c22ef0182d90bce7a479a7",
+        "preparation": "ef339667f15f5be2d031a6eef42dd4e5d3cfd329d7c2bfc4818959d4df8cbe50",
+        "topology": "b604b4c41e04104e8b36d66581cb9167c547e281c29d5c19843be2c4c3006e20"
+      },
+      "speed_ratios": {
+        "apple_m2_max_cpu8": 25.847037863339278,
+        "spark_cpu8": 25.276355109724665
+      },
+      "timed_input_sha256": {
+        "state_xml": "1739288a82f8b5f44e4cd86e6fd73daba6b69478598617cb3e67ae3eb664d8a7",
+        "system_xml": "e7b92c0c907f81b7376b946352f23f4d3ec26e7f21476277d16c4f8550bb766d",
+        "topology_pdb": "2ce17af88c8e3aa0dc5c1c9336a08abf139bd2b80cd67e9389025b39b2884264"
+      },
+      "water_model": "tip3p"
+    },
+    {
+      "atom_count": 3086,
+      "box_shape": "dodecahedron",
+      "environment": {
+        "added_salt_molar": 0.15,
+        "preparation_ph": 7.0,
+        "protonation": "Fixed OpenMM residue variants with explicit source-indexed overrides; pH-dependent defaults are not site-specific pKa estimates",
+        "residue_counts": {
+          "CL": 4,
+          "NA": 3
+        },
+        "salt": "NaCl",
+        "salt_convention": "Added bulk salt excludes neutralizing counterions; integer ion counts approximate the requested concentration"
+      },
+      "forcefield_files_sha256": {
+        "amber14/protein.ff14SB.xml": "d9f9779c09d67cd5f8bc657692f174ffab14c469dfd06d560ac1899fa7e976b8",
+        "amber14/tip3p.xml": "3f4b188dbcb6c02863230eaca231e927fb6bf3307ce947d8a50d0f46f6dd83d9"
+      },
+      "name": "trpcage",
+      "platforms": {
+        "apple_m2_max_cpu8": {
+          "actual_platform_properties": {
+            "DeterministicForces": "true",
+            "Threads": "8"
+          },
+          "mean_production_ns_per_day": 68.51372817659387,
+          "pilot_production_seconds": 2.5332457090262324,
+          "runs": [
+            {
+              "capability_seconds": 66.35641887504607,
+              "output_sha256": {
+                "final-state.xml": "6b76d72fa996cc3c1fdea2d282945e440e978fccd66d7871a24715ad8e590e05",
+                "state.csv": "c12691aa1ce161c994100d1ac483ceab34725511edd0109f18620ff260321c93",
+                "system.xml": "96534c80bc03272fbc75a1625a512b4546584746594cffd69f6fed2a2f5be709",
+                "trajectory.dcd": "a8603b4ca9b5ebc9951c40ebea5b1f20f54372b6a4f11ec76d5062ebf4dfdbac"
+              },
+              "production_ns_per_day": 68.34740914574823,
+              "production_seconds": 60.678232749924064,
+              "production_steps": 24000
+            },
+            {
+              "capability_seconds": 66.35474775009789,
+              "output_sha256": {
+                "final-state.xml": "58bcfb0f0ea62006638f514a85479aa5fea8e35487709068b16c5c21a9dad3cd",
+                "state.csv": "75427f791297de138e5c5013e05a01056828de596f742064241b29297323185d",
+                "system.xml": "96534c80bc03272fbc75a1625a512b4546584746594cffd69f6fed2a2f5be709",
+                "trajectory.dcd": "6c18a6ebc63233edad9da752a11585ccceadbbbfcb9c3a4191bcab5b6a716eff"
+              },
+              "production_ns_per_day": 68.6800472074395,
+              "production_seconds": 60.38434987491928,
+              "production_steps": 24000
+            }
+          ]
+        },
+        "spark_cpu8": {
+          "actual_platform_properties": {
+            "DeterministicForces": "true",
+            "Threads": "8"
+          },
+          "mean_production_ns_per_day": 20.28015763436506,
+          "pilot_production_seconds": 8.34336472908035,
+          "runs": [
+            {
+              "capability_seconds": 85.13557507144287,
+              "output_sha256": {
+                "final-state.xml": "55298d588a932d7a346eee54fca65e1ae0ab6d68569a7755c51de51399c0b6e6",
+                "state.csv": "bd8293cc3f15ec1be2710f5739e0e8787822a7c7d0e64a1faa8a5adcbef31177",
+                "system.xml": "96534c80bc03272fbc75a1625a512b4546584746594cffd69f6fed2a2f5be709",
+                "trajectory.dcd": "04cb0ba982bb975184584a2834fb0964c96d114d6a250e89fcc27ce8b2bfba95"
+              },
+              "production_ns_per_day": 20.56098545874353,
+              "production_seconds": 67.23413149500266,
+              "production_steps": 8000
+            },
+            {
+              "capability_seconds": 88.10609683115035,
+              "output_sha256": {
+                "final-state.xml": "3f9d1315e0f47b6dc3ded87b8b2282c8a7a441e403b3faddcc2b41dea99c2f46",
+                "state.csv": "c32c4169538541f2f73b4569e31ae4ba930f37cb2f51b1c65fa024422e3db9f9",
+                "system.xml": "96534c80bc03272fbc75a1625a512b4546584746594cffd69f6fed2a2f5be709",
+                "trajectory.dcd": "d8653e2731ddb3e5c0d87a8d5cc5060b05836a6d83b5a76a1d2cd482443b443d"
+              },
+              "production_ns_per_day": 19.999329809986595,
+              "production_seconds": 69.12231625430286,
+              "production_steps": 8000
+            }
+          ]
+        },
+        "spark_cuda_mixed": {
+          "actual_platform_properties": {
+            "CudaCompiler": "",
+            "CudaHostCompiler": "",
+            "DeterministicForces": "false",
+            "DeviceIndex": "0",
+            "DeviceName": "NVIDIA GB10",
+            "DisablePmeStream": "false",
+            "Precision": "mixed",
+            "TempDirectory": "/tmp",
+            "UseBlockingSync": "false",
+            "UseCpuPme": "false"
+          },
+          "mean_production_ns_per_day": 735.2000886738771,
+          "pilot_production_seconds": 0.2501185876317322,
+          "runs": [
+            {
+              "capability_seconds": 59.13796476693824,
+              "output_sha256": {
+                "final-state.xml": "6df44fc01c44de74b8c255506e10e4c54935c8b5bc5c307dd901053aa1ff04a6",
+                "state.csv": "d3b9048504b67898fa106e1dedce412433665fc13a0a094c34ccb79054a07727",
+                "system.xml": "96534c80bc03272fbc75a1625a512b4546584746594cffd69f6fed2a2f5be709",
+                "trajectory.dcd": "4b4c72f2c378db1961c7a79710f4b32555840393880dca2f9078e4039f2f7b3f"
+              },
+              "production_ns_per_day": 740.648361570012,
+              "production_seconds": 55.99418313987553,
+              "production_steps": 240000
+            },
+            {
+              "capability_seconds": 60.14526516478509,
+              "output_sha256": {
+                "final-state.xml": "e203fa8f4639c0fe26652cd880ad8d055a66ed33e8bb80dbe36a30ed0498b41d",
+                "state.csv": "233b3aa70f48492dd72b64ac71408860d195abf4d430518ec34b2c1dac2c4063",
+                "system.xml": "96534c80bc03272fbc75a1625a512b4546584746594cffd69f6fed2a2f5be709",
+                "trajectory.dcd": "2bcbefe5a5c959dbe9007ef4d1b74b0370166fd56d1169c8e951e295b40735c2"
+              },
+              "production_ns_per_day": 729.7518157777422,
+              "production_seconds": 56.83027997100726,
+              "production_steps": 240000
+            }
+          ]
+        }
+      },
+      "preparation_record_sha256": "f78bbb03f9a8c07756f732cb05688001cc21c4e9365d37dcc23972aaa2fffe14",
+      "prequalification_input_sha256": {
+        "state_xml": "6ac8af682de32902a99c36dcf15498aaaf715c550eda2a7ea4e907c68fb379af",
+        "system_xml": "d354c4ab200461f4ed3fc538552e9c748ec827f5177a62038be5354fca77cd6a",
+        "topology_pdb": "f640182efdec3f6e116b3866f6d929c91deec83540ade175a78fd0817ddfe63b"
+      },
+      "protein_force_field": "amber-ff14SB",
+      "qualification": {
+        "npt_steps_completed": 150000,
+        "nvt_steps_completed": 25000,
+        "policy": "staged-solvent-v1",
+        "restrained_heavy_atom_count": 154,
+        "status": "passed",
+        "unrestrained_random_seeds": {
+          "barostat": 131094,
+          "integrator": 105460
+        },
+        "windows": [
+          {
+            "checks": {
+              "density_block_relative_range": {
+                "maximum": 0.02,
+                "observed": 0.008382898276447396,
+                "passed": true
+              },
+              "energy_block_range_kj_mol_per_atom": {
+                "maximum": 0.1,
+                "observed": 0.01592511854171086,
+                "passed": true
+              },
+              "temperature_block_relative_range": {
+                "maximum": 0.03,
+                "observed": 0.002195154485675251,
+                "passed": true
+              },
+              "temperature_relative_error": {
+                "maximum": 0.05,
+                "observed": 0.0013109357443160737,
+                "passed": true
+              }
+            },
+            "end_step": 175000,
+            "passed": true,
+            "sample_count": 200,
+            "start_step": 75000
+          }
+        ]
+      },
+      "qualification_capability_seconds": 41.12044409196824,
+      "source_model_index": 0,
+      "source_pdb_id": "1L2Y",
+      "speed_ratios": {
+        "apple_m2_max_cpu8": 10.73069745641197,
+        "spark_cpu8": 36.25218807116511
+      },
+      "timed_input_sha256": {
+        "state_xml": "48792b5587545560ca8e19b2a2dfcfa890979f19afd29c3c40d90e4b9e486a99",
+        "system_xml": "746608b76f7b1814647f9284f26964ba95b1a7ffa917f1a9ec651ca8a857150e",
+        "topology_pdb": "f640182efdec3f6e116b3866f6d929c91deec83540ade175a78fd0817ddfe63b"
+      },
+      "water_model": "tip3p"
+    }
+  ],
+  "updated_gb3_example": {
+    "added_salt_molar": 0.05,
+    "atom_count": 6847,
+    "executed_request_sha256": "0dbf5c426e6018fa71824437774dcfcde542562805591ce16fb4018108fe7d13",
+    "execution": "Two preparation/inspection steps on Apple CPU with PDBFixer 1.12.0; exact prepared files handed to six CUDA mixed replicas and coupling analysis on Spark. Dynamics platform properties are the recipe override.",
+    "input_sha256": {
+      "observations.json": "fb729607c9c06a02dc93beb9e13efd00db776c1c7314a849313a4c178507420a",
+      "state": "2469a9b6b74c688a72a073a768a274b2e9c1299a00fa10fbb5337b738324ca85",
+      "system": "10eee5989038cd4cac497bb0e10d0dd7f4d7004ccbd05bb19a1623f59f98d759",
+      "topology": "2b3af0db08aa43c0dc1c274a62a204020392d5930b90528a4557d990c8dde780"
+    },
+    "mdtraj_version": "1.11.1.post2",
+    "observation_count": 225,
+    "ph": 7.0,
+    "production_ps_per_replica": 20,
+    "readiness": {
+      "t298-r1": {
+        "npt_steps_completed": 150000,
+        "nvt_steps_completed": 25000,
+        "policy": "staged-solvent-v1",
+        "restrained_heavy_atom_count": 437,
+        "status": "passed",
+        "unrestrained_random_seeds": {
+          "barostat": 167672,
+          "integrator": 142038
+        },
+        "windows": [
+          {
+            "checks": {
+              "density_block_relative_range": {
+                "maximum": 0.02,
+                "observed": 0.0018437531775451251,
+                "passed": true
+              },
+              "energy_block_range_kj_mol_per_atom": {
+                "maximum": 0.1,
+                "observed": 0.004721578750217503,
+                "passed": true
+              },
+              "temperature_block_relative_range": {
+                "maximum": 0.03,
+                "observed": 0.0084461842559985,
+                "passed": true
+              },
+              "temperature_relative_error": {
+                "maximum": 0.05,
+                "observed": 0.0012769916282375931,
+                "passed": true
+              }
+            },
+            "end_step": 175000,
+            "passed": true,
+            "sample_count": 200,
+            "start_step": 75000
+          }
+        ]
+      },
+      "t298-r2": {
+        "npt_steps_completed": 150000,
+        "nvt_steps_completed": 25000,
+        "policy": "staged-solvent-v1",
+        "restrained_heavy_atom_count": 437,
+        "status": "passed",
+        "unrestrained_random_seeds": {
+          "barostat": 167692,
+          "integrator": 142058
+        },
+        "windows": [
+          {
+            "checks": {
+              "density_block_relative_range": {
+                "maximum": 0.02,
+                "observed": 0.0035894202915403572,
+                "passed": true
+              },
+              "energy_block_range_kj_mol_per_atom": {
+                "maximum": 0.1,
+                "observed": 0.025455463886491003,
+                "passed": true
+              },
+              "temperature_block_relative_range": {
+                "maximum": 0.03,
+                "observed": 0.004674946773078828,
+                "passed": true
+              },
+              "temperature_relative_error": {
+                "maximum": 0.05,
+                "observed": 0.0015536425790210404,
+                "passed": true
+              }
+            },
+            "end_step": 175000,
+            "passed": true,
+            "sample_count": 200,
+            "start_step": 75000
+          }
+        ]
+      },
+      "t298-r3": {
+        "npt_steps_completed": 150000,
+        "nvt_steps_completed": 25000,
+        "policy": "staged-solvent-v1",
+        "restrained_heavy_atom_count": 437,
+        "status": "passed",
+        "unrestrained_random_seeds": {
+          "barostat": 167712,
+          "integrator": 142078
+        },
+        "windows": [
+          {
+            "checks": {
+              "density_block_relative_range": {
+                "maximum": 0.02,
+                "observed": 0.0018235201110264482,
+                "passed": true
+              },
+              "energy_block_range_kj_mol_per_atom": {
+                "maximum": 0.1,
+                "observed": 0.04038066624618786,
+                "passed": true
+              },
+              "temperature_block_relative_range": {
+                "maximum": 0.03,
+                "observed": 0.004839171913945599,
+                "passed": true
+              },
+              "temperature_relative_error": {
+                "maximum": 0.05,
+                "observed": 0.0012407550780910818,
+                "passed": true
+              }
+            },
+            "end_step": 175000,
+            "passed": true,
+            "sample_count": 200,
+            "start_step": 75000
+          }
+        ]
+      },
+      "t310-r1": {
+        "npt_steps_completed": 150000,
+        "nvt_steps_completed": 25000,
+        "policy": "staged-solvent-v1",
+        "restrained_heavy_atom_count": 437,
+        "status": "passed",
+        "unrestrained_random_seeds": {
+          "barostat": 167684,
+          "integrator": 142050
+        },
+        "windows": [
+          {
+            "checks": {
+              "density_block_relative_range": {
+                "maximum": 0.02,
+                "observed": 0.0006687426576503718,
+                "passed": true
+              },
+              "energy_block_range_kj_mol_per_atom": {
+                "maximum": 0.1,
+                "observed": 0.019314741795254164,
+                "passed": true
+              },
+              "temperature_block_relative_range": {
+                "maximum": 0.03,
+                "observed": 0.005348219349613622,
+                "passed": true
+              },
+              "temperature_relative_error": {
+                "maximum": 0.05,
+                "observed": 0.001688297576946928,
+                "passed": true
+              }
+            },
+            "end_step": 175000,
+            "passed": true,
+            "sample_count": 200,
+            "start_step": 75000
+          }
+        ]
+      },
+      "t310-r2": {
+        "npt_steps_completed": 150000,
+        "nvt_steps_completed": 25000,
+        "policy": "staged-solvent-v1",
+        "restrained_heavy_atom_count": 437,
+        "status": "passed",
+        "unrestrained_random_seeds": {
+          "barostat": 167704,
+          "integrator": 142070
+        },
+        "windows": [
+          {
+            "checks": {
+              "density_block_relative_range": {
+                "maximum": 0.02,
+                "observed": 0.0022293596504098672,
+                "passed": true
+              },
+              "energy_block_range_kj_mol_per_atom": {
+                "maximum": 0.1,
+                "observed": 0.028051837639427646,
+                "passed": true
+              },
+              "temperature_block_relative_range": {
+                "maximum": 0.03,
+                "observed": 0.004612179849372876,
+                "passed": true
+              },
+              "temperature_relative_error": {
+                "maximum": 0.05,
+                "observed": 0.0003990093356996509,
+                "passed": true
+              }
+            },
+            "end_step": 175000,
+            "passed": true,
+            "sample_count": 200,
+            "start_step": 75000
+          }
+        ]
+      },
+      "t310-r3": {
+        "npt_steps_completed": 150000,
+        "nvt_steps_completed": 25000,
+        "policy": "staged-solvent-v1",
+        "restrained_heavy_atom_count": 437,
+        "status": "passed",
+        "unrestrained_random_seeds": {
+          "barostat": 167724,
+          "integrator": 142090
+        },
+        "windows": [
+          {
+            "checks": {
+              "density_block_relative_range": {
+                "maximum": 0.02,
+                "observed": 0.0028847805302590506,
+                "passed": true
+              },
+              "energy_block_range_kj_mol_per_atom": {
+                "maximum": 0.1,
+                "observed": 0.026477670495909322,
+                "passed": true
+              },
+              "temperature_block_relative_range": {
+                "maximum": 0.03,
+                "observed": 0.004291147562517036,
+                "passed": true
+              },
+              "temperature_relative_error": {
+                "maximum": 0.05,
+                "observed": 0.0016149912207868422,
+                "passed": true
+              }
+            },
+            "end_step": 175000,
+            "passed": true,
+            "sample_count": 200,
+            "start_step": 75000
+          }
+        ]
+      }
+    },
+    "recipe": "campaigns/examples/tutorials/26-molecular-ensembles/campaign.yaml",
+    "recipe_sha256": "3a1f7813fef4222614e0af8d348b789c32c0d56d7208237e4a40ee139bc66405",
+    "replicas_per_temperature": 3,
+    "scope": "Recipe execution and analysis check using short demonstrations; observable convergence remains a separate assessment.",
+    "steps": {
+      "couplings": "completed",
+      "inspect-source": "completed",
+      "prepare": "completed",
+      "t298-r1": "completed",
+      "t298-r2": "completed",
+      "t298-r3": "completed",
+      "t310-r1": "completed",
+      "t310-r2": "completed",
+      "t310-r3": "completed"
+    },
+    "temperature_kelvin": [
+      298,
+      310
+    ]
+  }
+}

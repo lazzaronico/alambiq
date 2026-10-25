@@ -1,0 +1,701 @@
+{
+  "packages": [
+    {
+      "name": "aiohappyeyeballs",
+      "version": "2.7.1",
+      "file_count": 10,
+      "missing_file_count": 0,
+      "installed_bytes": 39176,
+      "content_sha256": "243379c30cecbfa7a4a7e96468ab02a9656f062af4bf283b743565ddf91690df"
+    },
+    {
+      "name": "aiohttp",
+      "version": "3.14.3",
+      "file_count": 74,
+      "missing_file_count": 0,
+      "installed_bytes": 7047229,
+      "content_sha256": "1cd98c99631a6db41be7e6eb5ed589b9eba96aa257473a1d9bc92a3bca87a4ea"
+    },
+    {
+      "name": "aiosignal",
+      "version": "1.4.0",
+      "file_count": 7,
+      "missing_file_count": 0,
+      "installed_bytes": 16636,
+      "content_sha256": "d3a205b735197a6aa47fbee3a60671e626dbaa5af40f9e4b72376dd68d425418"
+    },
+    {
+      "name": "antlr4-python3-runtime",
+      "version": "4.9.3",
+      "file_count": 61,
+      "missing_file_count": 0,
+      "installed_bytes": 474133,
+      "content_sha256": "7f8e6db8ec130df5f666eb7593aad602821d5ac8ba373db7ce390c8796ac06a5"
+    },
+    {
+      "name": "attrs",
+      "version": "26.1.0",
+      "file_count": 35,
+      "missing_file_count": 0,
+      "installed_bytes": 231125,
+      "content_sha256": "ca64fe07dd770efe37974ccc447bb8fcb3d3b2c3e0122d334b38a43ef0274035"
+    },
+    {
+      "name": "biopython",
+      "version": "1.84",
+      "file_count": 681,
+      "missing_file_count": 0,
+      "installed_bytes": 13624198,
+      "content_sha256": "caad6842d7456dd5937e1036d3fc678163d29d76d786f1c2661d8c32f7c826af"
+    },
+    {
+      "name": "boltz",
+      "version": "2.2.1",
+      "file_count": 115,
+      "missing_file_count": 0,
+      "installed_bytes": 1177622,
+      "content_sha256": "ad017eb46bcb559069f79842397a05e68e414eea6855f1bb16f5deee12d5932e"
+    },
+    {
+      "name": "certifi",
+      "version": "2026.7.22",
+      "file_count": 12,
+      "missing_file_count": 0,
+      "installed_bytes": 247980,
+      "content_sha256": "2f66556d1c426f4becb6ff1d27df6b61b55264a5a82abd15038508f957f86149"
+    },
+    {
+      "name": "charset-normalizer",
+      "version": "3.5.1",
+      "file_count": 22,
+      "missing_file_count": 0,
+      "installed_bytes": 913521,
+      "content_sha256": "99e8f08e90bb2a0212502918d729b4a1a694c21a602dfcaaf1cb794f98a9b843"
+    },
+    {
+      "name": "chembl-structure-pipeline",
+      "version": "1.2.2",
+      "file_count": 11,
+      "missing_file_count": 0,
+      "installed_bytes": 50306,
+      "content_sha256": "9a7d2c4bb22c986074c54c92d01cfa6b2044ecbf85a97eb76496e3fcbeced310"
+    },
+    {
+      "name": "click",
+      "version": "8.1.7",
+      "file_count": 22,
+      "missing_file_count": 0,
+      "installed_bytes": 352124,
+      "content_sha256": "25e63ad12a7f4c86108f2d628db49320b53bab48ae8cc350cb507d818cfb66a6"
+    },
+    {
+      "name": "cloudpickle",
+      "version": "3.1.2",
+      "file_count": 7,
+      "missing_file_count": 0,
+      "installed_bytes": 68424,
+      "content_sha256": "d4d15955afc65196cf01c3a8097b1ada52b2c9e8a1f36dae65cbf336f4567197"
+    },
+    {
+      "name": "cuda-bindings",
+      "version": "13.3.1",
+      "file_count": 94,
+      "missing_file_count": 0,
+      "installed_bytes": 26704246,
+      "content_sha256": "662220821d0195e134eea33baa71040819adef96a59fc2085592f61c178dffd7"
+    },
+    {
+      "name": "cuda-pathfinder",
+      "version": "1.6.0",
+      "file_count": 38,
+      "missing_file_count": 0,
+      "installed_bytes": 155210,
+      "content_sha256": "bcaa7c59c80640df4b9de4097370352edd6cc944628a2faa6e0048256ca781e1"
+    },
+    {
+      "name": "cuda-toolkit",
+      "version": "13.0.2",
+      "file_count": 3,
+      "missing_file_count": 0,
+      "installed_bytes": 9533,
+      "content_sha256": "e61dd4cc01403110bf866c9b5d42374aebe253d329af7988e4d9e4c80d3f36eb"
+    },
+    {
+      "name": "dm-tree",
+      "version": "0.1.8",
+      "file_count": 10,
+      "missing_file_count": 0,
+      "installed_bytes": 433471,
+      "content_sha256": "eba2c67a5c6b5295ecd628689b082ec7a388ec17f4b0e057e6b4cf5216d7747f"
+    },
+    {
+      "name": "docker-pycreds",
+      "version": "0.4.0",
+      "file_count": 11,
+      "missing_file_count": 0,
+      "installed_bytes": 19051,
+      "content_sha256": "fd61378bb332fb14f0e5cb9a6b6162d9605b9e23673fefce0906f006eabdeb16"
+    },
+    {
+      "name": "einops",
+      "version": "0.8.0",
+      "file_count": 23,
+      "missing_file_count": 0,
+      "installed_bytes": 137816,
+      "content_sha256": "74776d36ee6629f9c6c3a71ea0ace64ff1072ab2e1dcdc311ff1a4465332676c"
+    },
+    {
+      "name": "einx",
+      "version": "0.3.0",
+      "file_count": 53,
+      "missing_file_count": 0,
+      "installed_bytes": 415673,
+      "content_sha256": "4e7f4f985fd6cab83b9622613f71b12c2c30c4805f35d06f10492ee2ca783cdd"
+    },
+    {
+      "name": "fairscale",
+      "version": "0.4.13",
+      "file_count": 134,
+      "missing_file_count": 0,
+      "installed_bytes": 1063306,
+      "content_sha256": "0e9e908d48558dbb9870865942417811e8b3f901c5d28d6bf99761338dd9a4fa"
+    },
+    {
+      "name": "filelock",
+      "version": "3.32.3",
+      "file_count": 26,
+      "missing_file_count": 0,
+      "installed_bytes": 349976,
+      "content_sha256": "94989a7e09c64cd490e6256f0b847b3a4d25ad5f5f2e1a1e5911591b4d5f0d43"
+    },
+    {
+      "name": "frozendict",
+      "version": "2.4.7",
+      "file_count": 13,
+      "missing_file_count": 0,
+      "installed_bytes": 57987,
+      "content_sha256": "0019cd8dde841e848e58e78ee9b554a27c4a600a5195793a172d97a4e5717574"
+    },
+    {
+      "name": "frozenlist",
+      "version": "1.8.0",
+      "file_count": 10,
+      "missing_file_count": 0,
+      "installed_bytes": 955390,
+      "content_sha256": "9e323a3291171b57416c5a67ccc863ab380f864b3ff5c467b328781ba61e569a"
+    },
+    {
+      "name": "fsspec",
+      "version": "2026.7.0",
+      "file_count": 61,
+      "missing_file_count": 0,
+      "installed_bytes": 747383,
+      "content_sha256": "b33c534a39b9c369c4de3de46caf58c8b7da676d7142a143c6ef2787ebbe3403"
+    },
+    {
+      "name": "gemmi",
+      "version": "0.6.5",
+      "file_count": 273,
+      "missing_file_count": 0,
+      "installed_bytes": 13880689,
+      "content_sha256": "2f2eea041ecfb58907adbb9d19c2d514c2bc416a954715f6677718d25659243a"
+    },
+    {
+      "name": "gitdb",
+      "version": "4.0.12",
+      "file_count": 31,
+      "missing_file_count": 0,
+      "installed_bytes": 178728,
+      "content_sha256": "d11e1f2b3e54eb986bc1449a5a8810f558859c1db8fc47248ed3766efa6ec716"
+    },
+    {
+      "name": "gitpython",
+      "version": "3.1.62",
+      "file_count": 44,
+      "missing_file_count": 0,
+      "installed_bytes": 749762,
+      "content_sha256": "101efb1f68580a4aec5878b51b5201f29332954a6acdba76a4e01654a87d5327"
+    },
+    {
+      "name": "hydra-core",
+      "version": "1.3.2",
+      "file_count": 150,
+      "missing_file_count": 0,
+      "installed_bytes": 487697,
+      "content_sha256": "f213d25d17d334537a072f97a6c9ddfaccd912b2e3a1020c37b8cec6657aafcc"
+    },
+    {
+      "name": "idna",
+      "version": "3.19",
+      "file_count": 17,
+      "missing_file_count": 0,
+      "installed_bytes": 336266,
+      "content_sha256": "ad38360c90aeab1fcb67effc736be73bb7a2f2258f736461695d94181e2c9d0f"
+    },
+    {
+      "name": "ihm",
+      "version": "2.11",
+      "file_count": 32,
+      "missing_file_count": 0,
+      "installed_bytes": 1086520,
+      "content_sha256": "fafce36aca71979c0814cf5699f040f0d17f1a3be5c933f1d334526cfb8d1c13"
+    },
+    {
+      "name": "jinja2",
+      "version": "3.1.6",
+      "file_count": 31,
+      "missing_file_count": 0,
+      "installed_bytes": 494556,
+      "content_sha256": "973804cf1ec6a9cab2567f6322ef4a3ce9251b2836bed1e4c5f6392af748dbae"
+    },
+    {
+      "name": "joblib",
+      "version": "1.6.0",
+      "file_count": 141,
+      "missing_file_count": 0,
+      "installed_bytes": 907860,
+      "content_sha256": "d6c6b889e135188a27139200657b7586335fb62e2605ca76b9afd361a487952a"
+    },
+    {
+      "name": "lightning-utilities",
+      "version": "0.15.3",
+      "file_count": 25,
+      "missing_file_count": 0,
+      "installed_bytes": 83058,
+      "content_sha256": "2dfdf63ac6255e7ee9ef7e3b110d44a0309089ae4bab1a74ac52c94eb03206fb"
+    },
+    {
+      "name": "llvmlite",
+      "version": "0.44.0",
+      "file_count": 46,
+      "missing_file_count": 0,
+      "installed_bytes": 127205406,
+      "content_sha256": "526a7513a7ef93854b3880bb29c662d6f519d3a43356539bb1a58272ae5bef4e"
+    },
+    {
+      "name": "markupsafe",
+      "version": "3.0.3",
+      "file_count": 11,
+      "missing_file_count": 0,
+      "installed_bytes": 252991,
+      "content_sha256": "c8b8ae029394339408fbcd588882414599dbb344a1651f16e5acea521a3002f0"
+    },
+    {
+      "name": "mashumaro",
+      "version": "3.14",
+      "file_count": 47,
+      "missing_file_count": 0,
+      "installed_bytes": 384803,
+      "content_sha256": "9bf361afb050d7c51433c67486bbf7b42b5c52d73eaabbb5a96652b79d3d4693"
+    },
+    {
+      "name": "modelcif",
+      "version": "1.2",
+      "file_count": 19,
+      "missing_file_count": 0,
+      "installed_bytes": 149910,
+      "content_sha256": "cb8506f171379ae276b0b465ee25e902109cc3e992a8888d977a463a93af494b"
+    },
+    {
+      "name": "mpmath",
+      "version": "1.3.0",
+      "file_count": 92,
+      "missing_file_count": 0,
+      "installed_bytes": 1942524,
+      "content_sha256": "25e660d8ccd3eb17a8f58a4456f060ae9a57fc7e40649b7cae1774181c486b1c"
+    },
+    {
+      "name": "msgpack",
+      "version": "1.2.2",
+      "file_count": 10,
+      "missing_file_count": 0,
+      "installed_bytes": 1524784,
+      "content_sha256": "af251eecc16e7798b8e0e76bbae78fb2e9304819b947f044da23ec4b3e6699bc"
+    },
+    {
+      "name": "multidict",
+      "version": "6.7.1",
+      "file_count": 11,
+      "missing_file_count": 0,
+      "installed_bytes": 1023274,
+      "content_sha256": "b9b63bcdf9809f0c3eaa88ce4d2dc0bdc5c3d4c7eae06aae83a800f46618e448"
+    },
+    {
+      "name": "networkx",
+      "version": "3.6.1",
+      "file_count": 601,
+      "missing_file_count": 0,
+      "installed_bytes": 6978488,
+      "content_sha256": "79e2e6a3914f24a5b015847f19fe6d5d6a927bf2ce435e725dae60823237ebfe"
+    },
+    {
+      "name": "numba",
+      "version": "0.61.0",
+      "file_count": 820,
+      "missing_file_count": 0,
+      "installed_bytes": 16950206,
+      "content_sha256": "c8976003940e3e5774f91d23be27d7b5bde2b87adb5755ba1f667a868325c020"
+    },
+    {
+      "name": "numpy",
+      "version": "1.26.4",
+      "file_count": 789,
+      "missing_file_count": 0,
+      "installed_bytes": 47584156,
+      "content_sha256": "2587dc9972ae3d084dcdb9435043972ba05f5b401b8de18259bcd46c8bf775e9"
+    },
+    {
+      "name": "nvidia-cublas",
+      "version": "13.1.0.3",
+      "file_count": 14,
+      "missing_file_count": 0,
+      "installed_bytes": 693196748,
+      "content_sha256": "b7221ec2b86489d11b40e1b28d034600e3bdfde7d98605a5c8d338ab73a7e615"
+    },
+    {
+      "name": "nvidia-cuda-cupti",
+      "version": "13.0.85",
+      "file_count": 47,
+      "missing_file_count": 0,
+      "installed_bytes": 44228967,
+      "content_sha256": "7d280cff46198805d54e2c1b64357ba1fb0f5c29874df26ce3b5e154a660b384"
+    },
+    {
+      "name": "nvidia-cuda-nvrtc",
+      "version": "13.0.88",
+      "file_count": 8,
+      "missing_file_count": 0,
+      "installed_bytes": 103992409,
+      "content_sha256": "505b51228049c9716f21055a394dcd97f17bfe7f863edb2d6f73c5409a50d065"
+    },
+    {
+      "name": "nvidia-cuda-runtime",
+      "version": "13.0.96",
+      "file_count": 99,
+      "missing_file_count": 0,
+      "installed_bytes": 7244532,
+      "content_sha256": "80ac390994e6d65a8e9389cae2cf8e1a41eb4a16ea838f32ecbc2f84096f0740"
+    },
+    {
+      "name": "nvidia-cudnn-cu13",
+      "version": "9.19.0.56",
+      "file_count": 27,
+      "missing_file_count": 0,
+      "installed_bytes": 534033062,
+      "content_sha256": "7b1b9ba5991ac539c5cec1a3043df12b5e322dde2b5eaa07c07f1073ad000c88"
+    },
+    {
+      "name": "nvidia-cufft",
+      "version": "12.0.0.61",
+      "file_count": 11,
+      "missing_file_count": 0,
+      "installed_bytes": 284310291,
+      "content_sha256": "09742af35157892a3e7d11c7ece9654f8bb8ba56f816a7631d9f2c91a30478f0"
+    },
+    {
+      "name": "nvidia-cufile",
+      "version": "1.15.1.6",
+      "file_count": 8,
+      "missing_file_count": 0,
+      "installed_bytes": 3156497,
+      "content_sha256": "0c70929cb31ffc00988971422dc879efa92f78cac3a217c0db9775cdc6573867"
+    },
+    {
+      "name": "nvidia-curand",
+      "version": "10.4.0.35",
+      "file_count": 23,
+      "missing_file_count": 0,
+      "installed_bytes": 150055526,
+      "content_sha256": "fb5eaef7bccc58485088af4041639117c3d048e90c878f650a71b2593fd8b787"
+    },
+    {
+      "name": "nvidia-cusolver",
+      "version": "12.0.4.66",
+      "file_count": 13,
+      "missing_file_count": 0,
+      "installed_bytes": 268459596,
+      "content_sha256": "9ab505a65e268fdad99c5f701bf77c69a138888debc5137ddfccc0bf7dde38fc"
+    },
+    {
+      "name": "nvidia-cusparse",
+      "version": "12.6.3.3",
+      "file_count": 8,
+      "missing_file_count": 0,
+      "installed_bytes": 175203236,
+      "content_sha256": "ea110194ea7b153117aca155ebe50daa85d068d48512e6b1efba9ea45d88bda1"
+    },
+    {
+      "name": "nvidia-cusparselt-cu13",
+      "version": "0.8.0",
+      "file_count": 7,
+      "missing_file_count": 0,
+      "installed_bytes": 273930555,
+      "content_sha256": "a7246e00270593d143cc009c0dd88e1b3f08c69f06647ba6eb920ec7b49f039c"
+    },
+    {
+      "name": "nvidia-nccl-cu13",
+      "version": "2.28.9",
+      "file_count": 50,
+      "missing_file_count": 0,
+      "installed_bytes": 219649692,
+      "content_sha256": "a13b62a7f09a1d6d9aedaa80dd83ccf857a331cb2cab52c5f6308f39f7de7097"
+    },
+    {
+      "name": "nvidia-nvjitlink",
+      "version": "13.0.88",
+      "file_count": 7,
+      "missing_file_count": 0,
+      "installed_bytes": 89337290,
+      "content_sha256": "f989c8d5baced97455a2a14b9a3de71f5cb051c2666b0f1a23a747089fa145e1"
+    },
+    {
+      "name": "nvidia-nvshmem-cu13",
+      "version": "3.4.5",
+      "file_count": 64,
+      "missing_file_count": 0,
+      "installed_bytes": 80642527,
+      "content_sha256": "d52ef94067ec3e8ced0c97a41a270ce388366b75fd4ed56909b63cd822e2f97c"
+    },
+    {
+      "name": "nvidia-nvtx",
+      "version": "13.0.85",
+      "file_count": 41,
+      "missing_file_count": 0,
+      "installed_bytes": 585787,
+      "content_sha256": "61fdbab6e63d5b35a2038d05dcf01b3606523d3c046ca5a01bed59d719f483fa"
+    },
+    {
+      "name": "omegaconf",
+      "version": "2.3.1",
+      "file_count": 31,
+      "missing_file_count": 0,
+      "installed_bytes": 348230,
+      "content_sha256": "f34266e338de608115b3f6b41620870f2497c345c756c3a939821669836f0ffc"
+    },
+    {
+      "name": "pandas",
+      "version": "3.0.5",
+      "file_count": 1521,
+      "missing_file_count": 0,
+      "installed_bytes": 42154972,
+      "content_sha256": "88f8cf8b3e3277679468c89b48c04a54770b37dc1c8a2760b5797e3950039484"
+    },
+    {
+      "name": "pillow",
+      "version": "12.3.0",
+      "file_count": 140,
+      "missing_file_count": 0,
+      "installed_bytes": 22940395,
+      "content_sha256": "357e79c8f80a8a64d1eb2a9ea30ef70b73c9e81c680afa1ab115158c7de98d21"
+    },
+    {
+      "name": "platformdirs",
+      "version": "4.11.7",
+      "file_count": 14,
+      "missing_file_count": 0,
+      "installed_bytes": 127403,
+      "content_sha256": "bb974a3d0c8e35fbbbc5108ec6c99244af4064ca738a68a666fba64d70b0d8bd"
+    },
+    {
+      "name": "propcache",
+      "version": "0.5.2",
+      "file_count": 13,
+      "missing_file_count": 0,
+      "installed_bytes": 332756,
+      "content_sha256": "7ddd52bac673aa723a65a2dec5e4e5c441fd325362e434c43f1f618fb031b116"
+    },
+    {
+      "name": "protobuf",
+      "version": "5.29.6",
+      "file_count": 60,
+      "missing_file_count": 0,
+      "installed_bytes": 1311504,
+      "content_sha256": "9d274282cf8e06156967949256c294782fd9c1c2526c19e72ab301de5712e366"
+    },
+    {
+      "name": "psutil",
+      "version": "7.2.2",
+      "file_count": 16,
+      "missing_file_count": 0,
+      "installed_bytes": 690405,
+      "content_sha256": "d95ffe6f7bd2ef1952e580dd19c6f7adbf2e88e4d66a3c7ac68c86b65178f193"
+    },
+    {
+      "name": "python-dateutil",
+      "version": "2.9.0.post0",
+      "file_count": 25,
+      "missing_file_count": 0,
+      "installed_bytes": 439503,
+      "content_sha256": "26367241b25f6b98ff61fa0393c5e6e6e2e2e17926f1a5091e5c939ae9ee7c63"
+    },
+    {
+      "name": "pytorch-lightning",
+      "version": "2.5.0",
+      "file_count": 277,
+      "missing_file_count": 0,
+      "installed_bytes": 2745975,
+      "content_sha256": "4eb42944c4092653417770b1e0a575f73351868aa89826b02d9c7a8a7bdbccbd"
+    },
+    {
+      "name": "pyyaml",
+      "version": "6.0.2",
+      "file_count": 24,
+      "missing_file_count": 0,
+      "installed_bytes": 2679206,
+      "content_sha256": "baf83dc2a016230b44c3ef94aae45597f43c132dc1f219b07cda28f5d17d3487"
+    },
+    {
+      "name": "rdkit",
+      "version": "2026.3.6",
+      "file_count": 991,
+      "missing_file_count": 0,
+      "installed_bytes": 186839994,
+      "content_sha256": "bf8854cc50e84b762fd7851d72d38a61267f79cb260ae0498f922ecda022c749"
+    },
+    {
+      "name": "requests",
+      "version": "2.32.3",
+      "file_count": 23,
+      "missing_file_count": 0,
+      "installed_bytes": 203319,
+      "content_sha256": "a17476e7f431c85b5a1554b27b87e8426da51127116eb1c7b7d05783ec31d6f8"
+    },
+    {
+      "name": "scikit-learn",
+      "version": "1.6.1",
+      "file_count": 894,
+      "missing_file_count": 0,
+      "installed_bytes": 40281122,
+      "content_sha256": "99300c6f1a524be7b891c1408021593889edb9061fa5df68a2fcb4e97dc5756a"
+    },
+    {
+      "name": "scipy",
+      "version": "1.13.1",
+      "file_count": 1328,
+      "missing_file_count": 0,
+      "installed_bytes": 105168647,
+      "content_sha256": "4de0c13e58341d645cf73a4768056394bdf5486f54732379400a0a4f88814eec"
+    },
+    {
+      "name": "sentry-sdk",
+      "version": "2.69.0",
+      "file_count": 200,
+      "missing_file_count": 0,
+      "installed_bytes": 2047664,
+      "content_sha256": "1fe0544291fec9b28d9f7182c392b3d680f905ab159a463bb42035a6d231c40f"
+    },
+    {
+      "name": "setproctitle",
+      "version": "1.3.7",
+      "file_count": 8,
+      "missing_file_count": 0,
+      "installed_bytes": 268215,
+      "content_sha256": "ce61aa6b3f23de5fd0a713408d69b44e1f9d3d840a1e36cc770593eb67456db4"
+    },
+    {
+      "name": "six",
+      "version": "1.17.0",
+      "file_count": 6,
+      "missing_file_count": 0,
+      "installed_bytes": 37544,
+      "content_sha256": "0caeea2824344c3598301308f9f8f3d4b2c7542b0a7a09d408ff6714954a3489"
+    },
+    {
+      "name": "smmap",
+      "version": "5.0.3",
+      "file_count": 16,
+      "missing_file_count": 0,
+      "installed_bytes": 68204,
+      "content_sha256": "1e30d1af4aee4b1bd99ed0a3940535f3c9980e534e2b757828684054f24f1353"
+    },
+    {
+      "name": "sympy",
+      "version": "1.14.0",
+      "file_count": 1571,
+      "missing_file_count": 0,
+      "installed_bytes": 26696703,
+      "content_sha256": "f4934c7df47ae6036391cfbf2799977fafe3bc8c00c28426ed4157e0a5c86ecc"
+    },
+    {
+      "name": "threadpoolctl",
+      "version": "3.6.0",
+      "file_count": 5,
+      "missing_file_count": 0,
+      "installed_bytes": 66158,
+      "content_sha256": "0896fb3ece880976affb9e79f5f7ed4ca41978d6215bb8ca0bcd75fa3f837bda"
+    },
+    {
+      "name": "torch",
+      "version": "2.11.0+cu130",
+      "file_count": 12015,
+      "missing_file_count": 0,
+      "installed_bytes": 875137265,
+      "content_sha256": "8d3d16e7d381b8a1f17b26b0428ddc770298584ae3b9e9faa7b24f663eda0074"
+    },
+    {
+      "name": "torchmetrics",
+      "version": "1.9.0",
+      "file_count": 359,
+      "missing_file_count": 0,
+      "installed_bytes": 3545946,
+      "content_sha256": "100fe523282c71608e5ef1972b4b672be4a8279e594e547b805a168da1500df2"
+    },
+    {
+      "name": "tqdm",
+      "version": "4.70.0",
+      "file_count": 40,
+      "missing_file_count": 0,
+      "installed_bytes": 230771,
+      "content_sha256": "c6091158661220219005a857b6c9ae49809e0c828898c5e09c59fdab53dc808f"
+    },
+    {
+      "name": "triton",
+      "version": "3.6.0",
+      "file_count": 356,
+      "missing_file_count": 0,
+      "installed_bytes": 626517168,
+      "content_sha256": "dcff3527ae0b03e8dd085c367a98e472e82ad38d34f47a6a65bb6699d0cebfe9"
+    },
+    {
+      "name": "types-requests",
+      "version": "2.33.0.20260906",
+      "file_count": 24,
+      "missing_file_count": 0,
+      "installed_bytes": 56815,
+      "content_sha256": "90be13f234b7d3e7175d4b5c11621e094f058cfcd0132fd681a4ca2eef98acd7"
+    },
+    {
+      "name": "typing-extensions",
+      "version": "4.16.0",
+      "file_count": 5,
+      "missing_file_count": 0,
+      "installed_bytes": 182344,
+      "content_sha256": "ceb9b6b01c9b70abd53d7c5b23675f3f0d553ab8f5957ec877435d5df8759ed1"
+    },
+    {
+      "name": "urllib3",
+      "version": "2.7.0",
+      "file_count": 42,
+      "missing_file_count": 0,
+      "installed_bytes": 428938,
+      "content_sha256": "6000471b2cda64fe690da88202285a1818c0345836259daac012f5e3504d6711"
+    },
+    {
+      "name": "wandb",
+      "version": "0.18.7",
+      "file_count": 829,
+      "missing_file_count": 0,
+      "installed_bytes": 46156887,
+      "content_sha256": "c82245c6da3013ccddb88d0acd45320ca26b81e0b2093a25f56b1ccd57718ba2"
+    },
+    {
+      "name": "yarl",
+      "version": "1.24.5",
+      "file_count": 17,
+      "missing_file_count": 0,
+      "installed_bytes": 487217,
+      "content_sha256": "ef6e214b93dc7acc38fd4ec92ff16a50f8a6ae27b99dbec0ad0d64ac4d87bab5"
+    }
+  ],
+  "package_set_sha256": "989a412ca2080eba945422c2c35b4fe4441d811d040d2f7dfb1bc7854f2cdcbd"
+}

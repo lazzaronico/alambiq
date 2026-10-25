@@ -1,0 +1,72 @@
+{
+ "id": "hydrolysis",
+ "volume_L": 0.5,
+ "conditions": "Assay conditions of the kinetics measurement",
+ "species": [
+  {
+   "id": "S",
+   "initial_M": 0.01,
+   "pools": {
+    "moiety": 1
+   }
+  },
+  {
+   "id": "P",
+   "initial_M": 0,
+   "pools": {
+    "moiety": 1
+   }
+  }
+ ],
+ "catalysts": [
+  {
+   "id": "E",
+   "amount": 10,
+   "amount_unit": "mg",
+   "active_fraction": 1,
+   "reference_amount": 10,
+   "deactivation_per_s": 0,
+   "washout_fraction": 0
+  }
+ ],
+ "channels": [
+  {
+   "id": "hydrolysis",
+   "reaction_id": "S-to-P",
+   "stoichiometry": {
+    "S": -1,
+    "P": 1
+   },
+   "capacity_M_s": 0.0,
+   "catalyst": "E",
+   "factors": [
+    {
+     "species": "S",
+     "kind": "saturation",
+     "scale_M": 1.0
+    }
+   ],
+   "source": "Set by operation.define from the measured kinetics"
+  }
+ ],
+ "phases": [
+  {
+   "end_s": 3600.0,
+   "dilution_per_s": 0.0,
+   "feed_M": {},
+   "active_channels": [
+    "hydrolysis"
+   ]
+  }
+ ],
+ "events": [],
+ "times_s": [
+  0.0,
+  300.0,
+  600.0,
+  1200.0,
+  1800.0,
+  2700.0,
+  3600.0
+ ]
+}

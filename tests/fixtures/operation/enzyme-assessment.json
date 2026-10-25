@@ -1,0 +1,37 @@
+{
+ "id": "performance",
+ "operation_id": "first-order-reference",
+ "conditions": "Declared constant assay conditions",
+ "product": {
+  "species": "P",
+  "recovery_fraction": 0.8,
+  "accepted_fraction": 0.9,
+  "source": "Explicit conditional product handling"
+ },
+ "output": {
+  "final_reactor": true,
+  "exchanges_s": [],
+  "collections": []
+ },
+ "catalysts": [
+  {
+   "id": "E",
+   "molecular_mass_g_mol": 50000,
+   "active_sites_per_molecule": 1,
+   "source": "Synthetic known protein reference"
+  }
+ ],
+ "lifetime": [
+  {
+   "id": "useful-E",
+   "catalyst": "E",
+   "minimum_active_amount": 0.5,
+   "source": "Authored active-amount threshold, in the catalyst's mg basis"
+  }
+ ],
+ "additional_time": {
+  "value": 2,
+  "unit": "s",
+  "source": "Explicit synthetic handling time"
+ }
+}

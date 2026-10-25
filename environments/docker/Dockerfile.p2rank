@@ -1,0 +1,18 @@
+# P2Rank application/model resources remain external read-only mounts.
+ARG BASE_IMAGE=alambiq:dossier
+# The engine is built in a separate stage that starts from the same Python as the core image,
+# so rebuilding the core image reuses the cached engine stage.
+ARG ENGINE_BASE=python:3.11-slim-bookworm
+FROM ${ENGINE_BASE} AS engine
+USER root
+COPY --from=mambaorg/micromamba:2.5.0 /bin/micromamba /usr/local/bin/micromamba
+COPY environments/p2rank/environment.yaml /tmp/java.yaml
+RUN micromamba create --yes --root-prefix /tmp/mamba --prefix /opt/java --file /tmp/java.yaml
+
+FROM ${BASE_IMAGE} AS runtime
+COPY --from=engine /opt/java /opt/java
+# P2Rank is a Java program: the environment that runs it is the core Python, with Java
+# first on PATH.
+ENV ALAMBIQ_ENV_P2RANK=/opt/alambiq/bin/python \
+    PATH=/opt/java/bin:$PATH
+USER 1000:1000

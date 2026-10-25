@@ -1,0 +1,273 @@
+{
+  "schema_version": "0.1",
+  "status": "completed and independently audited",
+  "measurement_started_at_utc": "2026-10-04T15:18:37.725469+00:00",
+  "measurement_finished_at_utc": "2026-10-04T15:19:53.439409+00:00",
+  "source_commit": "b95208eb78d04f854177414ba3ee2f333ad0b31a",
+  "platform": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "machine": "arm64"
+  },
+  "scope": "Fresh optional environment, package downloads without pip cache, empty model store and fresh Prefect home, followed by unchanged frozen benchmark in fresh processes. Existing base Python, pip, installed workbench, experimental inputs, OS and network infrastructure are prerequisites; their acquisition and OS/CDN cache effects are outside this measurement.",
+  "prerequisites": {
+    "base_python": "3.11.14 (conda-forge)",
+    "installer": "pip 25.2",
+    "workbench_versions": {
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "gemmi": "0.7.5",
+      "prefect": "3.8.4"
+    }
+  },
+  "procedure": [
+    "Create a new Python 3.11.14 venv with --without-pip.",
+    "Use existing pip 25.2 with --isolated --python to install requirements.osx-arm64.txt from PyPI, --no-cache-dir --only-binary=:all: --retries 0 --timeout 30.",
+    "Invoke bioforge resource provision model.thermompnn with a new empty --store.",
+    "Run unchanged benchmark_bglb.py three times in fresh processes and separate output directories. Use the new model store and optional Python, one initially empty Prefect home, the same pinned source assets, seed 581004 and four CPU threads.",
+    "Verify installed package RECORD entries, model locks, saved native artifacts, all predictions and all position-bootstrap values against the original completed benchmark."
+  ],
+  "resource_bytes": 45688340,
+  "resource_files": 10,
+  "resource_lock_sha256": "673bf192d02004247a776ea1869ac60c25c28e7cc235f94d1d778b82a76a0cd4",
+  "resource_content_sha256": "2dd008ae623f8724f77e2327ae3f34e4fa14f739275cf2e2746592d49f3001c3",
+  "inputs": [
+    {
+      "path": "environments/thermompnn/requirements.osx-arm64.txt",
+      "sha256": "1f4d1c1b9db00519a53345f7394f84fadceff961fa086508f5fcbdc6f6b18ebb"
+    },
+    {
+      "path": "environments/thermompnn/benchmark_bglb.py",
+      "sha256": "8576fbfc75f47b4406a501e4a44071f57bde51f66c2027eecce5fc6bfebfc4e4"
+    },
+    {
+      "path": "environments/thermompnn/bglb-protocol.json",
+      "sha256": "91ae377528665f7f4ae76a49997d8b69fbb091fb33a997e79ef12300d808e4fb"
+    },
+    {
+      "path": "src/bioforge/resources/thermompnn.json",
+      "sha256": "ab02ecd79e780ad5ea209812d2b335920f5f4137ec095711bf47f5fd17e2b26f"
+    }
+  ],
+  "retained_measurement_script_sha256": "6d3774dd7fa2a1ad00cca969e88ff191e5d7dff9b6e716205ed6270420568f23",
+  "source_measurement_receipt_sha256": "9ae3589d23103ef363a39807487215766dc763f1189dca801b9a21a34c1052c0",
+  "source_audit_sha256": "d8f0dd5d4c48b072a6dbbe653e94700d717c66076fe338378256857092715e91",
+  "wheel_sha256": "b1f7d2ca4afe307d84bfcf70ab77c17092f6134fce6dd8e1d82ef0d23821d62f",
+  "runtime_files_verified": 229,
+  "package_installation_report_sha256": "e05f7c74ecaddc7ec49d9d345cbba5f42353405f11a79dd81cd6a68c329b53f9",
+  "packages": [
+    {
+      "name": "filelock",
+      "version": "4.0.10",
+      "download_url": "https://files.pythonhosted.org/packages/5b/2a/4b1ea3f2180be251a5cff1e70c8a5b7994ffa5c8eab8937901f8a9db58fe/filelock-4.0.10-py3-none-any.whl",
+      "archive_sha256": "698048d158dc3c9e18cc5e88b3efdd4bd0e77d76686b22adb4511cc4b2c2f0db"
+    },
+    {
+      "name": "fsspec",
+      "version": "2026.9.0",
+      "download_url": "https://files.pythonhosted.org/packages/6c/c0/a98505f18594f1bce828bb159cec0fcf9860562f1a2c85913409fc8f3d9e/fsspec-2026.9.0-py3-none-any.whl",
+      "archive_sha256": "8dd6e646e99ea382bd85f97a45e6b526a442d79423a7dc673f1e2756d05fcb5f"
+    },
+    {
+      "name": "Jinja2",
+      "version": "3.1.6",
+      "download_url": "https://files.pythonhosted.org/packages/62/a1/3d680cbfd5f4b8f15abc1d571870c5fc3e594bb582bc3b64ea099db13e56/jinja2-3.1.6-py3-none-any.whl",
+      "archive_sha256": "85ece4451f492d0c13c5dd7c13a64681a86afae63a5f347908daf103ce6d2f67"
+    },
+    {
+      "name": "MarkupSafe",
+      "version": "3.0.4",
+      "download_url": "https://files.pythonhosted.org/packages/6c/14/0b05f79b4733e264a18d08fe08fa1df7347630ff32a6cb82180d9dccec55/markupsafe-3.0.4-cp311-cp311-macosx_11_0_arm64.whl",
+      "archive_sha256": "7d3391b2188d18737cb2fa147028b1096236eaa7e156446c650a489fa2cadc91"
+    },
+    {
+      "name": "mpmath",
+      "version": "1.3.0",
+      "download_url": "https://files.pythonhosted.org/packages/43/e3/7d92a15f894aa0c9c4b49b8ee9ac9850d6e63b03c9c32c0367a13ae62209/mpmath-1.3.0-py3-none-any.whl",
+      "archive_sha256": "a0b2b9fe80bbcd81a6647ff13108738cfb482d481d826cc0e02f5b35e5c88d2c"
+    },
+    {
+      "name": "networkx",
+      "version": "3.6.1",
+      "download_url": "https://files.pythonhosted.org/packages/9e/c9/b2622292ea83fbb4ec318f5b9ab867d0a28ab43c5717bb85b0a5f6b3b0a4/networkx-3.6.1-py3-none-any.whl",
+      "archive_sha256": "d47fbf302e7d9cbbb9e2555a0d267983d2aa476bac30e90dfbe5669bd57f3762"
+    },
+    {
+      "name": "numpy",
+      "version": "1.26.4",
+      "download_url": "https://files.pythonhosted.org/packages/1a/2e/151484f49fd03944c4a3ad9c418ed193cfd02724e138ac8a9505d056c582/numpy-1.26.4-cp311-cp311-macosx_11_0_arm64.whl",
+      "archive_sha256": "edd8b5fe47dab091176d21bb6de568acdd906d1887a4584a15a9a96a1dca06ef"
+    },
+    {
+      "name": "sympy",
+      "version": "1.14.0",
+      "download_url": "https://files.pythonhosted.org/packages/a2/09/77d55d46fd61b4a135c444fc97158ef34a095e5681d0a6c10b75bf356191/sympy-1.14.0-py3-none-any.whl",
+      "archive_sha256": "e091cc3e99d2141a0ba2847328f5479b05d94a6635cb96148ccb3f34671bd8f5"
+    },
+    {
+      "name": "torch",
+      "version": "2.8.0",
+      "download_url": "https://files.pythonhosted.org/packages/a4/5e/05a5c46085d9b97e928f3f037081d3d2b87fb4b4195030fc099aaec5effc/torch-2.8.0-cp311-none-macosx_11_0_arm64.whl",
+      "archive_sha256": "5ae0524688fb6707c57a530c2325e13bb0090b745ba7b4a2cd6a3ce262572916"
+    },
+    {
+      "name": "typing_extensions",
+      "version": "4.16.0",
+      "download_url": "https://files.pythonhosted.org/packages/49/d3/b8441a820a491ddfc024b0b0cf0393375b75ea13866d9c66727e54c2fc80/typing_extensions-4.16.0-py3-none-any.whl",
+      "archive_sha256": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8"
+    }
+  ],
+  "installed_file_audit": {
+    "installed_record_files_verified": 15167,
+    "installed_record_bytes_verified": 410887099,
+    "installed_record_unhashed_entries": 4844,
+    "regenerated_bytecode": [
+      {
+        "path": "numpy/distutils/__pycache__/conv_template.cpython-311.pyc",
+        "sha256": "b99857ae1cde5aba2450fdcf8118b549aaf656872e1126d4d46dc706fe617854",
+        "source_sha256": "17ee2f9247c08c26fe7cdefd598ad75f704c1cca2240ef96daed3dab5d8e3ee2",
+        "matches_compiled_installed_source": true
+      }
+    ],
+    "initial_strict_record_findings_sha256": "654404611796e4bd9c7ab56027bd0c325e95e4cc75608d874ddc327d4909e5bf"
+  },
+  "phases": [
+    {
+      "name": "create-runtime",
+      "seconds": 0.07999441586434841,
+      "returncode": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "install-runtime",
+      "seconds": 28.036114083137363,
+      "returncode": 0,
+      "stdout_sha256": "695eefa9b5b63a0ecfa5ddd765f43f4b2310538bda184338be3412393c9a6864",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "runtime-inventory",
+      "seconds": 0.12938562501221895,
+      "returncode": 0,
+      "stdout_sha256": "bfe1df761edc70fa361e30f1ae666b3d96817dbe5cfdaab0d839bb01fa9f7c91",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "provision-model",
+      "seconds": 12.025895249797031,
+      "returncode": 0,
+      "stdout_sha256": "d721eae264be5c9622e2cf45d597f793fb16f7bfc3938de7e6c2be97f6463a9d",
+      "stderr_sha256": "62b3f950fb4c73d244e1f3df8914f8a16b65ba7a843a5a62af0f3a24493be91d"
+    },
+    {
+      "name": "first-benchmark",
+      "seconds": 16.930076624965295,
+      "returncode": 0,
+      "stdout_sha256": "f7716c532202374496aa81607e585767f636eee49e6b1d06f6d1b8bd337dec44",
+      "stderr_sha256": "2f536aeed654740b0f7083181187c24b3fbd0a317c76a87abca00ef3bb5e410d"
+    },
+    {
+      "name": "warm-benchmark-1",
+      "seconds": 10.090020457981154,
+      "returncode": 0,
+      "stdout_sha256": "4f9e473ea272cf5ceee9a38617722a008f9b73036a591d74b17b56a6d02b63eb",
+      "stderr_sha256": "47e6e16de1cfe5a5bc894cee69c07ea06d3b7379f876300e6ea3a201573e8ca9"
+    },
+    {
+      "name": "warm-benchmark-2",
+      "seconds": 8.345383541891351,
+      "returncode": 0,
+      "stdout_sha256": "41e62c22d3659ae8d7967272bb7ab5a07650e310b40e4422839775ec17b97f00",
+      "stderr_sha256": "9959aa3ae11fae37dc33c70c8a7d90e42758a9267cc69340e3b8305e642bddf3"
+    }
+  ],
+  "summed_setup_and_first_full_benchmark_seconds": 57.20146599877626,
+  "summed_optional_setup_including_inventory_seconds": 40.27138937381096,
+  "enclosing_setup_and_three_benchmarks_seconds": 75.64574666693807,
+  "timing_scope": "Phase times enclose each subprocess. The first-use sum includes optional environment creation, package download/install, inventory, model download/verification, and the first complete benchmark process (imports, input verification, canonical workflow, 2000 bootstrap replicates, output writing and shutdown). Inter-phase driver overhead and independent audit are separate. The enclosing interval additionally includes both warm repetitions. Warm repetitions reuse assets and Prefect state while starting new worker/server processes. OS/CDN caches were not cleared. One setup trial and two subsequent repetitions characterize this observation, not a population performance interval.",
+  "runs": [
+    {
+      "name": "first-benchmark",
+      "run_id": "run-be0db352f10ab13d",
+      "artifacts_verified": 5,
+      "exact_predictions": 129,
+      "exact_bootstrap_replicates": 2000,
+      "result_sha256": "5c8922c917643c3af215d5163d64093bdb51016477c7768434331e8086e31897",
+      "analysis_sha256": "00eb2a3aa77582b356e04e07b13e32d35c65e5ce86b72c3f2468730e1a4380c5",
+      "bootstrap_sha256": "2a10650069246f24beb2c4d8206381f7cebec37e871812cdaf1b068ad94ee627",
+      "canonical_workflow_seconds": 12.846519249957055,
+      "provider": {
+        "device": "cpu",
+        "threads": 4,
+        "seed": 581004,
+        "versions": {
+          "torch": "2.8.0",
+          "numpy": "1.26.4"
+        },
+        "load_seconds": 6.703993457835168,
+        "inference_seconds": 0.26261779200285673,
+        "worker_seconds_before_output": 6.966611999785528,
+        "provider_seconds": 7.459785541053861,
+        "provider_scope": "Structure validation, asset verification, worker startup, model loading and inference; excludes installation, downloads and workflow orchestration"
+      }
+    },
+    {
+      "name": "warm-benchmark-1",
+      "run_id": "run-6b58bea220a91b5b",
+      "artifacts_verified": 5,
+      "exact_predictions": 129,
+      "exact_bootstrap_replicates": 2000,
+      "result_sha256": "26661af2408667d2a13cb04798fe153e2fd38a0ef58c5601e37676d94f935e32",
+      "analysis_sha256": "e3355d4678e192faae49d9719faf41a77465af5846d4888a69cc208561a4ce80",
+      "bootstrap_sha256": "2a10650069246f24beb2c4d8206381f7cebec37e871812cdaf1b068ad94ee627",
+      "canonical_workflow_seconds": 6.923125790897757,
+      "provider": {
+        "device": "cpu",
+        "threads": 4,
+        "seed": 581004,
+        "versions": {
+          "torch": "2.8.0",
+          "numpy": "1.26.4"
+        },
+        "load_seconds": 0.6603719578124583,
+        "inference_seconds": 0.2163420831784606,
+        "worker_seconds_before_output": 0.8767152079381049,
+        "provider_seconds": 1.2199030418414623,
+        "provider_scope": "Structure validation, asset verification, worker startup, model loading and inference; excludes installation, downloads and workflow orchestration"
+      }
+    },
+    {
+      "name": "warm-benchmark-2",
+      "run_id": "run-f4eedc9cbb51d0b3",
+      "artifacts_verified": 5,
+      "exact_predictions": 129,
+      "exact_bootstrap_replicates": 2000,
+      "result_sha256": "b2a87808344ede6dd6845a850c0ef87adb6ae6cebcef1133a2db138180518158",
+      "analysis_sha256": "eb0fe5e4084bcd082354e77b35386b55b30227ee530182df2f09d75a9604e42b",
+      "bootstrap_sha256": "2a10650069246f24beb2c4d8206381f7cebec37e871812cdaf1b068ad94ee627",
+      "canonical_workflow_seconds": 5.700134250102565,
+      "provider": {
+        "device": "cpu",
+        "threads": 4,
+        "seed": 581004,
+        "versions": {
+          "torch": "2.8.0",
+          "numpy": "1.26.4"
+        },
+        "load_seconds": 0.7280349161010236,
+        "inference_seconds": 0.22531862510368228,
+        "worker_seconds_before_output": 0.953354291152209,
+        "provider_seconds": 1.344065458048135,
+        "provider_scope": "Structure validation, asset verification, worker startup, model loading and inference; excludes installation, downloads and workflow orchestration"
+      }
+    }
+  ],
+  "scientific_result": {
+    "exact_predictions_per_run": 129,
+    "exact_bootstrap_values_per_run": 2000,
+    "qualified_for_declared_single_enzyme_endpoint": false,
+    "scope": "The original frozen ranking and enrichment failure is reproduced unchanged. These costs characterize screening and establish no MD speedup."
+  },
+  "original_result_sha256": "c31004333bf435433c5e641a99edb4199f332c6a0a31b59e816bc381ca61c992",
+  "original_analysis_sha256": "e348539a8cc4caafaf80d65c60e7d1d37ffcff6de5c02681ec589d7c6590436d"
+}

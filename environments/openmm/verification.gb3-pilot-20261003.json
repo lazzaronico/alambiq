@@ -1,0 +1,1426 @@
+{
+  "schema_version": "0.1",
+  "date": "2026-10-03",
+  "scope": "Protein MD preparation and numerical readiness, plus a corrected three-replica 1 ns GB3 pilot against 225 published scalar couplings. This pilot fails its sampling criteria and establishes neither equilibrium convergence nor general protein stability or activity prediction.",
+  "native_runtime": {
+    "openmm": "8.6.0",
+    "pdbfixer": "1.12.0",
+    "platform": "CUDA",
+    "precision": "mixed",
+    "gpu": "NVIDIA GB10",
+    "driver": "580.159.03",
+    "package_count": 47,
+    "package_set_sha256": "d11441d568a18413a0acb1da118efd5271fd17950cc0e430950fee392e9134fb",
+    "lock": "locks/linux-aarch64.cuda13.packages.json",
+    "bioforge_wheel_sha256": "01a6dc3a30b7dbaab8559aaa980410da4a9cafa1fb9f6b422cdfefb079258a38"
+  },
+  "source": {
+    "archive_sha256": "47dbdc55551842d864d72ef66b58f59326637a83ef1c3eecf6f4dd2698536375",
+    "citation": "V\u00f6geli et al. (2015), DOI 10.1016/j.dib.2015.08.020",
+    "license": "CC-BY-4.0",
+    "member": "CollectedRestraints/GB3.cco",
+    "member_sha256": "736c0e922de8caf94eda131e30e7dd16ab71a9408d6d94a0ccb7fedf57abfe6c",
+    "url": "https://ars.els-cdn.com/content/image/1-s2.0-S2352340915001766-mmc1.zip"
+  },
+  "experimental_conditions": "2\u20134 mM GB3 in 50 mM potassium phosphate, pH 6.5\u20137.0, 97/3 or 95/5 H2O/D2O, 0.5 mg/mL sodium azide; source-specific measurements at 298 K",
+  "modeled_conditions": {
+    "temperature_kelvin": 298,
+    "pressure_bar": 1,
+    "added_nacl_molar": 0.05,
+    "fixed_preparation_ph": 7,
+    "protein_force_field": "ff14SB",
+    "water": "TIP3P",
+    "timestep_fs": 2,
+    "buffer_approximation": "Monovalent NaCl approximates the experimental potassium-phosphate buffer; isotopes, azide and concentration differ."
+  },
+  "pilot": {
+    "run_id": "run-2e1f75bcc5604e20",
+    "result_sha256": "2f1be71e3da6b778829f90ea05562da7f75851c641cdea2deeac182c2513e9f7",
+    "flow_wall_seconds": 559.148,
+    "steps": [
+      {
+        "id": "prepare",
+        "status": "completed",
+        "digest": "sha256:a766369472055a3dc21fac2123e51e2025a54ea174fa4ced84d761b4d7a4ae2b"
+      },
+      {
+        "id": "inspect-source",
+        "status": "completed",
+        "digest": "sha256:ac7c4c8e02b43d341cfa153d23598fe897e148dd6a5255d3fac04e65587cffc6"
+      },
+      {
+        "id": "t298-r1",
+        "status": "completed",
+        "digest": "sha256:a46eab42377baeab80f830397ef852e016a23d2ff4d5231c5d27caf4820bd759"
+      },
+      {
+        "id": "t298-r2",
+        "status": "completed",
+        "digest": "sha256:080bc9b9be590f7a9d9fede57ac1d92f5ff94576af34df07f6b74b33920a8235"
+      },
+      {
+        "id": "t298-r3",
+        "status": "completed",
+        "digest": "sha256:997c81ebd1e2ed4c35ffb59c61aafb3e6f89bd19672b5115791fe51a4ad87504"
+      },
+      {
+        "id": "couplings",
+        "status": "completed",
+        "digest": "sha256:edf05d2f31526f35c8886c983935f8d910e59c32149ae1a74dd7ab5c8e5c42a4"
+      }
+    ],
+    "replicas": [
+      {
+        "id": "t298-r1",
+        "summary": {
+          "atom_count": 6847,
+          "checkpoint_interval": 500000,
+          "continuation": "Independent seeded velocity initialization",
+          "energy_diagnostic": "Thermostat and barostat exchange energy; total-energy change is descriptive",
+          "ensemble": "NPT",
+          "equilibration_readiness": {
+            "npt_steps_completed": 150000,
+            "nvt_steps_completed": 25000,
+            "policy": "staged-solvent-v1",
+            "restrained_heavy_atom_count": 437,
+            "restraint_removal": "Physical positions, velocities, box and clock restored into a context with the temporary force and parameter removed; unrestrained integrator/barostat use the recorded derived seeds",
+            "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+            "settings": {
+              "density_block_relative_tolerance": 0.02,
+              "energy_block_kj_mol_per_atom_tolerance": 0.1,
+              "max_windows": 3,
+              "nvt_ps": 50.0,
+              "release_ps": 100.0,
+              "restraint_kj_mol_nm2": 1000.0,
+              "temperature_block_relative_tolerance": 0.03,
+              "temperature_relative_tolerance": 0.05,
+              "window_ps": 200.0
+            },
+            "stages": [
+              {
+                "end_step": 25000,
+                "name": "restrained-nvt",
+                "restraint_kj_mol_nm2": 1000.0,
+                "start_step": 0
+              },
+              {
+                "end_step": 35000,
+                "name": "npt-restraint-release",
+                "restraint_kj_mol_nm2": 1000.0,
+                "start_step": 25000
+              },
+              {
+                "end_step": 45000,
+                "name": "npt-restraint-release",
+                "restraint_kj_mol_nm2": 500.0,
+                "start_step": 35000
+              },
+              {
+                "end_step": 55000,
+                "name": "npt-restraint-release",
+                "restraint_kj_mol_nm2": 100.0,
+                "start_step": 45000
+              },
+              {
+                "end_step": 75000,
+                "name": "npt-restraint-release",
+                "restraint_kj_mol_nm2": 0.0,
+                "start_step": 55000
+              }
+            ],
+            "status": "passed",
+            "unrestrained_random_seeds": {
+              "barostat": 167672,
+              "integrator": 142038
+            },
+            "windows": [
+              {
+                "block_means": {
+                  "density_g_ml": [
+                    1.0368809747604777,
+                    1.035866965390096,
+                    1.0364092499276465,
+                    1.036444112325628
+                  ],
+                  "potential_energy_kj_mol_per_atom": [
+                    -13.061083697425268,
+                    -13.051583456326659,
+                    -13.055628322398986,
+                    -13.03128726144786
+                  ],
+                  "temperature_kelvin": [
+                    297.39417841705,
+                    298.3025269094706,
+                    298.30273517378555,
+                    298.3794445639336
+                  ]
+                },
+                "checks": {
+                  "density_block_relative_range": {
+                    "maximum": 0.02,
+                    "observed": 0.000978395457174016,
+                    "passed": true
+                  },
+                  "energy_block_range_kj_mol_per_atom": {
+                    "maximum": 0.1,
+                    "observed": 0.02979643597740811,
+                    "passed": true
+                  },
+                  "temperature_block_relative_range": {
+                    "maximum": 0.03,
+                    "observed": 0.0033062622378643926,
+                    "passed": true
+                  },
+                  "temperature_relative_error": {
+                    "maximum": 0.05,
+                    "observed": 0.000317856597516369,
+                    "passed": true
+                  }
+                },
+                "end_step": 175000,
+                "passed": true,
+                "sample_count": 200,
+                "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+                "start_step": 75000
+              }
+            ]
+          },
+          "final_cell": {
+            "cutoff_nm": null,
+            "minimum_reduced_cell_width_nm": 3.2353633350764173,
+            "scope": "Cell geometry and cutoff compatibility; does not establish solute-image separation or finite-size convergence",
+            "twice_cutoff_margin_nm": null,
+            "vectors_nm": [
+              [
+                4.575494707669726,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                4.575494707669726,
+                0.0
+              ],
+              [
+                2.287747353834863,
+                2.287747353834863,
+                3.2353633350764173
+              ]
+            ],
+            "volume_nm3": 67.73282261240703
+          },
+          "final_potential_energy_kj_per_mol": -89089.31381513464,
+          "final_total_energy_kj_per_mol": -71256.94979207776,
+          "finite_energies": true,
+          "frame_count": 100,
+          "initial_cell": {
+            "cutoff_nm": null,
+            "minimum_reduced_cell_width_nm": 3.232170032954997,
+            "scope": "Cell geometry and cutoff compatibility; does not establish solute-image separation or finite-size convergence",
+            "twice_cutoff_margin_nm": null,
+            "vectors_nm": [
+              [
+                4.570978696500839,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                4.570978696500839,
+                0.0
+              ],
+              [
+                2.2854893482504197,
+                2.2854893482504197,
+                3.232170032954997
+              ]
+            ],
+            "volume_nm3": 67.5324637025882
+          },
+          "initial_minimization": {
+            "assessment": "Bounded minimization before thermal initialization; convergence is not certified",
+            "energy_and_force_scope": "Includes the temporary solute restraint",
+            "forces_after": {
+              "maximum_atom_kj_mol_nm": 2363.133644328685,
+              "rms_component_kj_mol_nm": 628.7607652012136,
+              "scope": "Raw force-field forces; constraint forces are excluded. These values do not certify constrained-minimizer convergence"
+            },
+            "forces_before": {
+              "maximum_atom_kj_mol_nm": 2368.603240220427,
+              "rms_component_kj_mol_nm": 628.767884987774,
+              "scope": "Raw force-field forces; constraint forces are excluded. These values do not certify constrained-minimizer convergence"
+            },
+            "max_iterations": 5000,
+            "potential_energy_after_kj_mol": -108281.80415270902,
+            "potential_energy_before_kj_mol": -108277.65856660559,
+            "temporary_restraint_kj_mol_nm2": 1000.0,
+            "tolerance_kj_mol_nm": 10.0
+          },
+          "initial_potential_energy_kj_per_mol": -88920.635704574,
+          "initial_total_energy_kj_per_mol": -71290.44659322861,
+          "input_sha256": {
+            "state_xml": "ebd3d1efb1c2b807f04a9f0dee132dab7ceb8c122079b49b21eb71213463a1da",
+            "system_xml": "479df575ee946b4efe8ab4c32cfb1232a7f78803f9900467f961fa682a472fe4",
+            "topology_pdb": "dda9d4b47507c22a65f7d6015c608d357cf0c0a56f2329c93cb14d714f56b298"
+          },
+          "npt_equilibration_steps_completed": 150000,
+          "nvt_equilibration_steps_completed": 25000,
+          "output_sha256": {
+            "final-state.xml": "2736760fdd1d8bdbc6b73536826963166d86b7021cf4ab0c3dbce2b83ee26cd8",
+            "state.csv": "2192c0ae60967d2014f8ca7198d82e6b1d0a5d1efd6f9324ccb0513da308f228",
+            "system.xml": "62fdec86429e00931ed9d9998a10d13a57d610ca350824c3e07eca27e97e5f3f",
+            "trajectory.dcd": "c40b6c68378df0b9f972752eb9093a9d4458285190260c6ef31ac6356d3c0b5f"
+          },
+          "performance": {
+            "minimization_seconds": 0.03231553500518203,
+            "npt_equilibration_seconds": 41.03828990785405,
+            "nvt_equilibration_seconds": 5.602711006999016,
+            "production_ns_per_day": 651.9488155451121,
+            "production_seconds": 132.52574119297788,
+            "production_steps_timed": 500000,
+            "runner_seconds_before_summary_write": 180.2329225158319,
+            "scope": "Measured propagation including scheduled output and final checkpoint; excludes setup, final XML serialization and hashing. Short runs include warm-up effects; recovered timing covers only newly executed steps",
+            "provider_seconds": 181.24241268495098,
+            "provider_scope": "Runtime probing, input staging, native setup/equilibration/production and output parsing; excludes Prefect orchestration and final artifact publication"
+          },
+          "platform": "CUDA",
+          "platform_properties": {
+            "CudaCompiler": "",
+            "CudaHostCompiler": "",
+            "DeterministicForces": "false",
+            "DeviceIndex": "0",
+            "DeviceName": "NVIDIA GB10",
+            "DisablePmeStream": "false",
+            "Precision": "mixed",
+            "TempDirectory": "/tmp",
+            "UseBlockingSync": "false",
+            "UseCpuPme": "false"
+          },
+          "pressure_bar": 1.0,
+          "production_end_step": 675000,
+          "production_end_time_ps": 1349.9999999819006,
+          "production_start_step": 175000,
+          "production_start_time_ps": 350.0000000009431,
+          "production_steps_completed": 500000,
+          "relative_total_energy_drift": 0.0004698638141793872,
+          "report_interval": 5000,
+          "schema_version": "0.1",
+          "seed": 37309,
+          "state_report_interval": 5000,
+          "state_row_count": 100,
+          "steps_completed": 500000,
+          "temperature_kelvin": 298.0,
+          "thermodynamic_diagnostics": {
+            "equilibration": {
+              "assessment": "Descriptive sampled statistics; equilibration and effective sample size are not established",
+              "density_g_ml": {
+                "first_half_mean": 1.002810301687734,
+                "mean": 1.0216933612056192,
+                "second_half_mean": 1.0395273618613996,
+                "standard_deviation": 0.04043342651320025
+              },
+              "potential_energy_kj_mol": {
+                "first_half_mean": -88555.56723207557,
+                "mean": -88984.04874726964,
+                "second_half_mean": -89388.7257338418,
+                "standard_deviation": 960.4501301955725
+              },
+              "sample_count": 35,
+              "temperature_kelvin": {
+                "first_half_mean": 296.95505831834697,
+                "mean": 298.27390143031084,
+                "second_half_mean": 299.5194754804989,
+                "standard_deviation": 2.624841503358948
+              },
+              "volume_nm3": {
+                "first_half_mean": 70.19288507861647,
+                "mean": 68.8229514489987,
+                "second_half_mean": 67.52912524324859,
+                "standard_deviation": 2.9557899468351407
+              }
+            },
+            "production": {
+              "assessment": "Descriptive sampled statistics; equilibration and effective sample size are not established",
+              "density_g_ml": {
+                "first_half_mean": 1.0363557026205528,
+                "mean": 1.0364302072025908,
+                "second_half_mean": 1.0365047117846287,
+                "standard_deviation": 0.005521632347313483
+              },
+              "potential_energy_kj_mol": {
+                "first_half_mean": -89342.66813859051,
+                "mean": -89352.27880207807,
+                "second_half_mean": -89361.88946556562,
+                "standard_deviation": 284.89106923490345
+              },
+              "sample_count": 100,
+              "temperature_kelvin": {
+                "first_half_mean": 299.41804516731895,
+                "mean": 298.8391206652025,
+                "second_half_mean": 298.260196163086,
+                "standard_deviation": 3.6499832395012906
+              },
+              "volume_nm3": {
+                "first_half_mean": 67.73561869977259,
+                "mean": 67.73099105110468,
+                "second_half_mean": 67.72636340243675,
+                "standard_deviation": 0.3611980304390228
+              }
+            }
+          },
+          "timestep_fs": 2.0,
+          "velocity_initialization": "thermalize"
+        }
+      },
+      {
+        "id": "t298-r2",
+        "summary": {
+          "atom_count": 6847,
+          "checkpoint_interval": 500000,
+          "continuation": "Independent seeded velocity initialization",
+          "energy_diagnostic": "Thermostat and barostat exchange energy; total-energy change is descriptive",
+          "ensemble": "NPT",
+          "equilibration_readiness": {
+            "npt_steps_completed": 150000,
+            "nvt_steps_completed": 25000,
+            "policy": "staged-solvent-v1",
+            "restrained_heavy_atom_count": 437,
+            "restraint_removal": "Physical positions, velocities, box and clock restored into a context with the temporary force and parameter removed; unrestrained integrator/barostat use the recorded derived seeds",
+            "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+            "settings": {
+              "density_block_relative_tolerance": 0.02,
+              "energy_block_kj_mol_per_atom_tolerance": 0.1,
+              "max_windows": 3,
+              "nvt_ps": 50.0,
+              "release_ps": 100.0,
+              "restraint_kj_mol_nm2": 1000.0,
+              "temperature_block_relative_tolerance": 0.03,
+              "temperature_relative_tolerance": 0.05,
+              "window_ps": 200.0
+            },
+            "stages": [
+              {
+                "end_step": 25000,
+                "name": "restrained-nvt",
+                "restraint_kj_mol_nm2": 1000.0,
+                "start_step": 0
+              },
+              {
+                "end_step": 35000,
+                "name": "npt-restraint-release",
+                "restraint_kj_mol_nm2": 1000.0,
+                "start_step": 25000
+              },
+              {
+                "end_step": 45000,
+                "name": "npt-restraint-release",
+                "restraint_kj_mol_nm2": 500.0,
+                "start_step": 35000
+              },
+              {
+                "end_step": 55000,
+                "name": "npt-restraint-release",
+                "restraint_kj_mol_nm2": 100.0,
+                "start_step": 45000
+              },
+              {
+                "end_step": 75000,
+                "name": "npt-restraint-release",
+                "restraint_kj_mol_nm2": 0.0,
+                "start_step": 55000
+              }
+            ],
+            "status": "passed",
+            "unrestrained_random_seeds": {
+              "barostat": 167692,
+              "integrator": 142058
+            },
+            "windows": [
+              {
+                "block_means": {
+                  "density_g_ml": [
+                    1.0377022547947676,
+                    1.036109078449521,
+                    1.0366006589463717,
+                    1.037910817848516
+                  ],
+                  "potential_energy_kj_mol_per_atom": [
+                    -13.058139585421237,
+                    -13.04823383362813,
+                    -13.05359374933746,
+                    -13.053215471462728
+                  ],
+                  "temperature_kelvin": [
+                    298.43046699911577,
+                    298.81517252235375,
+                    298.0875722546999,
+                    298.8922568464453
+                  ]
+                },
+                "checks": {
+                  "density_block_relative_range": {
+                    "maximum": 0.02,
+                    "observed": 0.0017373184118020424,
+                    "passed": true
+                  },
+                  "energy_block_range_kj_mol_per_atom": {
+                    "maximum": 0.1,
+                    "observed": 0.009905751793107598,
+                    "passed": true
+                  },
+                  "temperature_block_relative_range": {
+                    "maximum": 0.03,
+                    "observed": 0.0027002838649174475,
+                    "passed": true
+                  },
+                  "temperature_relative_error": {
+                    "maximum": 0.05,
+                    "observed": 0.0018670038780324654,
+                    "passed": true
+                  }
+                },
+                "end_step": 175000,
+                "passed": true,
+                "sample_count": 200,
+                "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+                "start_step": 75000
+              }
+            ]
+          },
+          "final_cell": {
+            "cutoff_nm": null,
+            "minimum_reduced_cell_width_nm": 3.234396350769684,
+            "scope": "Cell geometry and cutoff compatibility; does not establish solute-image separation or finite-size convergence",
+            "twice_cutoff_margin_nm": null,
+            "vectors_nm": [
+              [
+                4.5741271853485586,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                4.5741271853485586,
+                0.0
+              ],
+              [
+                2.2870635926742793,
+                2.2870635926742793,
+                3.234396350769684
+              ]
+            ],
+            "volume_nm3": 67.67210887231919
+          },
+          "final_potential_energy_kj_per_mol": -89618.57178704411,
+          "final_total_energy_kj_per_mol": -71873.16611545441,
+          "finite_energies": true,
+          "frame_count": 100,
+          "initial_cell": {
+            "cutoff_nm": null,
+            "minimum_reduced_cell_width_nm": 3.2437997350827072,
+            "scope": "Cell geometry and cutoff compatibility; does not establish solute-image separation or finite-size convergence",
+            "twice_cutoff_margin_nm": null,
+            "vectors_nm": [
+              [
+                4.587425578976217,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                4.587425578976217,
+                0.0
+              ],
+              [
+                2.2937127894881084,
+                2.2937127894881084,
+                3.2437997350827072
+              ]
+            ],
+            "volume_nm3": 68.26405737820781
+          },
+          "initial_minimization": {
+            "assessment": "Bounded minimization before thermal initialization; convergence is not certified",
+            "energy_and_force_scope": "Includes the temporary solute restraint",
+            "forces_after": {
+              "maximum_atom_kj_mol_nm": 2363.1322075641847,
+              "rms_component_kj_mol_nm": 628.7607689072411,
+              "scope": "Raw force-field forces; constraint forces are excluded. These values do not certify constrained-minimizer convergence"
+            },
+            "forces_before": {
+              "maximum_atom_kj_mol_nm": 2368.6033235607783,
+              "rms_component_kj_mol_nm": 628.7678844990703,
+              "scope": "Raw force-field forces; constraint forces are excluded. These values do not certify constrained-minimizer convergence"
+            },
+            "max_iterations": 5000,
+            "potential_energy_after_kj_mol": -108281.80231141555,
+            "potential_energy_before_kj_mol": -108277.65859395417,
+            "temporary_restraint_kj_mol_nm2": 1000.0,
+            "tolerance_kj_mol_nm": 10.0
+          },
+          "initial_potential_energy_kj_per_mol": -89619.4961880073,
+          "initial_total_energy_kj_per_mol": -72022.12120279833,
+          "input_sha256": {
+            "state_xml": "ebd3d1efb1c2b807f04a9f0dee132dab7ceb8c122079b49b21eb71213463a1da",
+            "system_xml": "479df575ee946b4efe8ab4c32cfb1232a7f78803f9900467f961fa682a472fe4",
+            "topology_pdb": "dda9d4b47507c22a65f7d6015c608d357cf0c0a56f2329c93cb14d714f56b298"
+          },
+          "npt_equilibration_steps_completed": 150000,
+          "nvt_equilibration_steps_completed": 25000,
+          "output_sha256": {
+            "final-state.xml": "203ec2f8926197004cc54db65fc695bb13eaada9a3b67778cf3af2f1400bbd7b",
+            "state.csv": "f38763e373f2d6acfcfee6afdc70400a4d9ba485a6cb208d8ad9a1b9fa4a9e91",
+            "system.xml": "52745ac6eadf338b5cb16ee260ca5d180e856b67fd5f97ddf68c698349178bad",
+            "trajectory.dcd": "dc94935259fd94e379f91ba391c7e1fe107194eb6617ba82657009b2c655a36b"
+          },
+          "performance": {
+            "minimization_seconds": 0.03232836211100221,
+            "npt_equilibration_seconds": 41.422603444196284,
+            "nvt_equilibration_seconds": 5.679458374157548,
+            "production_ns_per_day": 633.7257762582519,
+            "production_seconds": 136.33657212136313,
+            "production_steps_timed": 500000,
+            "runner_seconds_before_summary_write": 184.522408134304,
+            "scope": "Measured propagation including scheduled output and final checkpoint; excludes setup, final XML serialization and hashing. Short runs include warm-up effects; recovered timing covers only newly executed steps",
+            "provider_seconds": 185.5623877136968,
+            "provider_scope": "Runtime probing, input staging, native setup/equilibration/production and output parsing; excludes Prefect orchestration and final artifact publication"
+          },
+          "platform": "CUDA",
+          "platform_properties": {
+            "CudaCompiler": "",
+            "CudaHostCompiler": "",
+            "DeterministicForces": "false",
+            "DeviceIndex": "0",
+            "DeviceName": "NVIDIA GB10",
+            "DisablePmeStream": "false",
+            "Precision": "mixed",
+            "TempDirectory": "/tmp",
+            "UseBlockingSync": "false",
+            "UseCpuPme": "false"
+          },
+          "pressure_bar": 1.0,
+          "production_end_step": 675000,
+          "production_end_time_ps": 1349.9999999819006,
+          "production_start_step": 175000,
+          "production_start_time_ps": 350.0000000009431,
+          "production_steps_completed": 500000,
+          "relative_total_energy_drift": 0.0020681852305417425,
+          "report_interval": 5000,
+          "schema_version": "0.1",
+          "seed": 37329,
+          "state_report_interval": 5000,
+          "state_row_count": 100,
+          "steps_completed": 500000,
+          "temperature_kelvin": 298.0,
+          "thermodynamic_diagnostics": {
+            "equilibration": {
+              "assessment": "Descriptive sampled statistics; equilibration and effective sample size are not established",
+              "density_g_ml": {
+                "first_half_mean": 1.0022737857622857,
+                "mean": 1.0207360230771079,
+                "second_half_mean": 1.0381725805411073,
+                "standard_deviation": 0.0401262603540158
+              },
+              "potential_energy_kj_mol": {
+                "first_half_mean": -88348.54872056552,
+                "mean": -88904.29515712814,
+                "second_half_mean": -89429.16679165956,
+                "standard_deviation": 1051.033967917719
+              },
+              "sample_count": 35,
+              "temperature_kelvin": {
+                "first_half_mean": 297.3127036964342,
+                "mean": 298.2370082098646,
+                "second_half_mean": 299.10996247254894,
+                "standard_deviation": 3.011014156843891
+              },
+              "volume_nm3": {
+                "first_half_mean": 70.2290199149976,
+                "mean": 68.88579279238249,
+                "second_half_mean": 67.61718939880153,
+                "standard_deviation": 2.935058440254869
+              }
+            },
+            "production": {
+              "assessment": "Descriptive sampled statistics; equilibration and effective sample size are not established",
+              "density_g_ml": {
+                "first_half_mean": 1.037373802788253,
+                "mean": 1.0370332809059102,
+                "second_half_mean": 1.0366927590235675,
+                "standard_deviation": 0.00519646114127627
+              },
+              "potential_energy_kj_mol": {
+                "first_half_mean": -89352.92967146517,
+                "mean": -89342.91571373006,
+                "second_half_mean": -89332.90175599493,
+                "standard_deviation": 283.4925671241772
+              },
+              "sample_count": 100,
+              "temperature_kelvin": {
+                "first_half_mean": 299.1560187400264,
+                "mean": 298.80103507200215,
+                "second_half_mean": 298.4460514039779,
+                "standard_deviation": 3.7769219341610865
+              },
+              "volume_nm3": {
+                "first_half_mean": 67.66911136767872,
+                "mean": 67.69138035187308,
+                "second_half_mean": 67.71364933606743,
+                "standard_deviation": 0.3393768729941252
+              }
+            }
+          },
+          "timestep_fs": 2.0,
+          "velocity_initialization": "thermalize"
+        }
+      },
+      {
+        "id": "t298-r3",
+        "summary": {
+          "atom_count": 6847,
+          "checkpoint_interval": 500000,
+          "continuation": "Independent seeded velocity initialization",
+          "energy_diagnostic": "Thermostat and barostat exchange energy; total-energy change is descriptive",
+          "ensemble": "NPT",
+          "equilibration_readiness": {
+            "npt_steps_completed": 150000,
+            "nvt_steps_completed": 25000,
+            "policy": "staged-solvent-v1",
+            "restrained_heavy_atom_count": 437,
+            "restraint_removal": "Physical positions, velocities, box and clock restored into a context with the temporary force and parameter removed; unrestrained integrator/barostat use the recorded derived seeds",
+            "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+            "settings": {
+              "density_block_relative_tolerance": 0.02,
+              "energy_block_kj_mol_per_atom_tolerance": 0.1,
+              "max_windows": 3,
+              "nvt_ps": 50.0,
+              "release_ps": 100.0,
+              "restraint_kj_mol_nm2": 1000.0,
+              "temperature_block_relative_tolerance": 0.03,
+              "temperature_relative_tolerance": 0.05,
+              "window_ps": 200.0
+            },
+            "stages": [
+              {
+                "end_step": 25000,
+                "name": "restrained-nvt",
+                "restraint_kj_mol_nm2": 1000.0,
+                "start_step": 0
+              },
+              {
+                "end_step": 35000,
+                "name": "npt-restraint-release",
+                "restraint_kj_mol_nm2": 1000.0,
+                "start_step": 25000
+              },
+              {
+                "end_step": 45000,
+                "name": "npt-restraint-release",
+                "restraint_kj_mol_nm2": 500.0,
+                "start_step": 35000
+              },
+              {
+                "end_step": 55000,
+                "name": "npt-restraint-release",
+                "restraint_kj_mol_nm2": 100.0,
+                "start_step": 45000
+              },
+              {
+                "end_step": 75000,
+                "name": "npt-restraint-release",
+                "restraint_kj_mol_nm2": 0.0,
+                "start_step": 55000
+              }
+            ],
+            "status": "passed",
+            "unrestrained_random_seeds": {
+              "barostat": 167712,
+              "integrator": 142078
+            },
+            "windows": [
+              {
+                "block_means": {
+                  "density_g_ml": [
+                    1.0370297435147462,
+                    1.0367328025417129,
+                    1.0371505875390108,
+                    1.0376250290130054
+                  ],
+                  "potential_energy_kj_mol_per_atom": [
+                    -13.030137006082363,
+                    -13.039108884795285,
+                    -13.04343587621028,
+                    -13.046860385424011
+                  ],
+                  "temperature_kelvin": [
+                    299.11542335415186,
+                    298.1802423169586,
+                    297.7960764615839,
+                    298.96237411088316
+                  ]
+                },
+                "checks": {
+                  "density_block_relative_range": {
+                    "maximum": 0.02,
+                    "observed": 0.0008602803554604362,
+                    "passed": true
+                  },
+                  "energy_block_range_kj_mol_per_atom": {
+                    "maximum": 0.1,
+                    "observed": 0.01672337934164858,
+                    "passed": true
+                  },
+                  "temperature_block_relative_range": {
+                    "maximum": 0.03,
+                    "observed": 0.004427338565664356,
+                    "passed": true
+                  },
+                  "temperature_relative_error": {
+                    "maximum": 0.05,
+                    "observed": 0.0017232518821958744,
+                    "passed": true
+                  }
+                },
+                "end_step": 175000,
+                "passed": true,
+                "sample_count": 200,
+                "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+                "start_step": 75000
+              }
+            ]
+          },
+          "final_cell": {
+            "cutoff_nm": null,
+            "minimum_reduced_cell_width_nm": 3.2273263924611704,
+            "scope": "Cell geometry and cutoff compatibility; does not establish solute-image separation or finite-size convergence",
+            "twice_cutoff_margin_nm": null,
+            "vectors_nm": [
+              [
+                4.5641287544232245,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                4.5641287544232245,
+                0.0
+              ],
+              [
+                2.2820643772116123,
+                2.2820643772116123,
+                3.2273263924611704
+              ]
+            ],
+            "volume_nm3": 67.22931161290161
+          },
+          "final_potential_energy_kj_per_mol": -89501.7154655148,
+          "final_total_energy_kj_per_mol": -72038.16616240234,
+          "finite_energies": true,
+          "frame_count": 100,
+          "initial_cell": {
+            "cutoff_nm": null,
+            "minimum_reduced_cell_width_nm": 3.230654828119179,
+            "scope": "Cell geometry and cutoff compatibility; does not establish solute-image separation or finite-size convergence",
+            "twice_cutoff_margin_nm": null,
+            "vectors_nm": [
+              [
+                4.568835873272253,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                4.568835873272253,
+                0.0
+              ],
+              [
+                2.2844179366361264,
+                2.2844179366361264,
+                3.230654828119179
+              ]
+            ],
+            "volume_nm3": 67.43753284841011
+          },
+          "initial_minimization": {
+            "assessment": "Bounded minimization before thermal initialization; convergence is not certified",
+            "energy_and_force_scope": "Includes the temporary solute restraint",
+            "forces_after": {
+              "maximum_atom_kj_mol_nm": 2363.1338109507874,
+              "rms_component_kj_mol_nm": 628.760778280936,
+              "scope": "Raw force-field forces; constraint forces are excluded. These values do not certify constrained-minimizer convergence"
+            },
+            "forces_before": {
+              "maximum_atom_kj_mol_nm": 2368.6033212615675,
+              "rms_component_kj_mol_nm": 628.7678849778116,
+              "scope": "Raw force-field forces; constraint forces are excluded. These values do not certify constrained-minimizer convergence"
+            },
+            "max_iterations": 5000,
+            "potential_energy_after_kj_mol": -108281.80281318328,
+            "potential_energy_before_kj_mol": -108277.65860823571,
+            "temporary_restraint_kj_mol_nm2": 1000.0,
+            "tolerance_kj_mol_nm": 10.0
+          },
+          "initial_potential_energy_kj_per_mol": -89350.96627639182,
+          "initial_total_energy_kj_per_mol": -71889.14157635874,
+          "input_sha256": {
+            "state_xml": "ebd3d1efb1c2b807f04a9f0dee132dab7ceb8c122079b49b21eb71213463a1da",
+            "system_xml": "479df575ee946b4efe8ab4c32cfb1232a7f78803f9900467f961fa682a472fe4",
+            "topology_pdb": "dda9d4b47507c22a65f7d6015c608d357cf0c0a56f2329c93cb14d714f56b298"
+          },
+          "npt_equilibration_steps_completed": 150000,
+          "nvt_equilibration_steps_completed": 25000,
+          "output_sha256": {
+            "final-state.xml": "7010cc4e5989b4156bceeab9e289f925879649bfcd0869c363b5cd7d29df6d5e",
+            "state.csv": "1e114e91e0890eede8de1be3bdb23e2e84b112b7ba6ef01763fc11467a3e3b25",
+            "system.xml": "2d93cc1c655e08813cf14932c12fa871a5d814e844ed1d0968ab9d647d68f201",
+            "trajectory.dcd": "f3738765c2ee1f5f57b513f7a29f67490da0b1d10ef9b0fbcdcc8e98af9da548"
+          },
+          "performance": {
+            "minimization_seconds": 0.03290119394659996,
+            "npt_equilibration_seconds": 42.119665952865034,
+            "nvt_equilibration_seconds": 5.67133380798623,
+            "production_ns_per_day": 649.1102384884715,
+            "production_seconds": 133.10527993086725,
+            "production_steps_timed": 500000,
+            "runner_seconds_before_summary_write": 181.94588796515018,
+            "scope": "Measured propagation including scheduled output and final checkpoint; excludes setup, final XML serialization and hashing. Short runs include warm-up effects; recovered timing covers only newly executed steps",
+            "provider_seconds": 183.0333913178183,
+            "provider_scope": "Runtime probing, input staging, native setup/equilibration/production and output parsing; excludes Prefect orchestration and final artifact publication"
+          },
+          "platform": "CUDA",
+          "platform_properties": {
+            "CudaCompiler": "",
+            "CudaHostCompiler": "",
+            "DeterministicForces": "false",
+            "DeviceIndex": "0",
+            "DeviceName": "NVIDIA GB10",
+            "DisablePmeStream": "false",
+            "Precision": "mixed",
+            "TempDirectory": "/tmp",
+            "UseBlockingSync": "false",
+            "UseCpuPme": "false"
+          },
+          "pressure_bar": 1.0,
+          "production_end_step": 675000,
+          "production_end_time_ps": 1349.9999999819006,
+          "production_start_step": 175000,
+          "production_start_time_ps": 350.0000000009431,
+          "production_steps_completed": 500000,
+          "relative_total_energy_drift": 0.0020729776816893427,
+          "report_interval": 5000,
+          "schema_version": "0.1",
+          "seed": 37349,
+          "state_report_interval": 5000,
+          "state_row_count": 100,
+          "steps_completed": 500000,
+          "temperature_kelvin": 298.0,
+          "thermodynamic_diagnostics": {
+            "equilibration": {
+              "assessment": "Descriptive sampled statistics; equilibration and effective sample size are not established",
+              "density_g_ml": {
+                "first_half_mean": 1.004711793263391,
+                "mean": 1.0218326033692628,
+                "second_half_mean": 1.0380022573581416,
+                "standard_deviation": 0.04043068415852978
+              },
+              "potential_energy_kj_mol": {
+                "first_half_mean": -88466.24983467917,
+                "mean": -88902.64746109168,
+                "second_half_mean": -89314.80077492572,
+                "standard_deviation": 974.0557978294141
+              },
+              "sample_count": 35,
+              "temperature_kelvin": {
+                "first_half_mean": 298.19800577572755,
+                "mean": 297.9898119234097,
+                "second_half_mean": 297.7931843962207,
+                "standard_deviation": 3.340092634442171
+              },
+              "volume_nm3": {
+                "first_half_mean": 70.06840543002664,
+                "mean": 68.81358197077718,
+                "second_half_mean": 67.62847092593044,
+                "standard_deviation": 2.956161105099262
+              }
+            },
+            "production": {
+              "assessment": "Descriptive sampled statistics; equilibration and effective sample size are not established",
+              "density_g_ml": {
+                "first_half_mean": 1.0359993673981727,
+                "mean": 1.035961503244848,
+                "second_half_mean": 1.0359236390915234,
+                "standard_deviation": 0.005597286438626991
+              },
+              "potential_energy_kj_mol": {
+                "first_half_mean": -89274.57008214979,
+                "mean": -89322.68528495888,
+                "second_half_mean": -89370.80048776802,
+                "standard_deviation": 277.6072495258083
+              },
+              "sample_count": 100,
+              "temperature_kelvin": {
+                "first_half_mean": 297.5003918671836,
+                "mean": 297.8502391090896,
+                "second_half_mean": 298.2000863509956,
+                "standard_deviation": 3.371771161909082
+              },
+              "volume_nm3": {
+                "first_half_mean": 67.75933086818254,
+                "mean": 67.7616898067595,
+                "second_half_mean": 67.76404874533645,
+                "standard_deviation": 0.3664913082861862
+              }
+            }
+          },
+          "timestep_fs": 2.0,
+          "velocity_initialization": "thermalize"
+        }
+      }
+    ],
+    "timing_scope": "Scheduled output included. Numerical checks briefly overlapped replica 2; these rates are operational observations, not a controlled performance comparison."
+  },
+  "native_checks": {
+    "scope": "CPU/CUDA agreement at identical prepared coordinates using predeclared tolerances; native CUDA checkpoint restoration with zero propagated steps. These controls do not establish force-field accuracy, equilibrium sampling or bit-identical continuation.",
+    "openmm_version": "8.6",
+    "force_agreement": {
+      "atom_count": 6847,
+      "cpu_potential_kj_mol": -108277.70199308432,
+      "cuda_potential_kj_mol": -108277.65856380248,
+      "absolute_energy_difference_kj_mol_per_atom": 6.34281902133097e-06,
+      "relative_force_rms_difference": 3.852693766470674e-05,
+      "maximum_energy_difference_kj_mol_per_atom": 0.001,
+      "maximum_relative_force_rms_difference": 0.001,
+      "passed": true,
+      "input_sha256": {
+        "state_xml": "ebd3d1efb1c2b807f04a9f0dee132dab7ceb8c122079b49b21eb71213463a1da",
+        "system_xml": "479df575ee946b4efe8ab4c32cfb1232a7f78803f9900467f961fa682a472fe4",
+        "topology_pdb": "dda9d4b47507c22a65f7d6015c608d357cf0c0a56f2329c93cb14d714f56b298"
+      }
+    },
+    "checkpoint_restoration": {
+      "new_steps": 0,
+      "step_count": 675000,
+      "expected_step_count": 675000,
+      "time_ps": 1349.9999999819006,
+      "expected_time_ps": 1349.9999999819006,
+      "maximum_position_difference_nm": 0.0,
+      "maximum_velocity_difference_nm_per_ps": 0.0,
+      "maximum_box_difference_nm": 0.0,
+      "parameters_match": true,
+      "tolerances": {
+        "position_nm": 1e-12,
+        "velocity_nm_per_ps": 1e-12,
+        "box_nm": 1e-12,
+        "time_ps": 1e-08
+      },
+      "input_sha256": {
+        "production-system": "62fdec86429e00931ed9d9998a10d13a57d610ca350824c3e07eca27e97e5f3f",
+        "replica-00-final-state": "2736760fdd1d8bdbc6b73536826963166d86b7021cf4ab0c3dbce2b83ee26cd8",
+        "replica-00-checkpoint": "1adb151d919e5996bbbd58425a9d80940d17c916a33562d74987416ce0009b39"
+      },
+      "passed": true
+    }
+  },
+  "preparation_checks": {
+    "scope": "Atom-count and charge consistency plus nearest translated protein images over lattice coefficients -2 through 2 at two snapshots. Periodic electrostatic finite-size effects and separation over the full trajectory need separate assessment.",
+    "protein_atoms": 862,
+    "expected_protein_atoms": 862,
+    "total_atoms": 6847,
+    "system_particles": 6847,
+    "water_molecules": 1993,
+    "sodium_ions": 4,
+    "chloride_ions": 2,
+    "protein_charge_e": -1.999999999999996,
+    "total_charge_e": 4.440892098500626e-15,
+    "charge_tolerance_e": 1e-06,
+    "snapshots": [
+      {
+        "state": "prepared",
+        "minimum_solute_image_atom_distance_nm": 1.433297310499728,
+        "image_translation": [
+          0,
+          -1,
+          0
+        ],
+        "nonbonded_cutoff_nm": 0.9,
+        "outside_real_space_cutoff": true,
+        "volume_nm3": 76.02056314928954
+      },
+      {
+        "state": "replica1-final",
+        "minimum_solute_image_atom_distance_nm": 1.3357614575967929,
+        "image_translation": [
+          -1,
+          0,
+          1
+        ],
+        "nonbonded_cutoff_nm": 0.9,
+        "outside_real_space_cutoff": true,
+        "volume_nm3": 67.73282261240703
+      }
+    ],
+    "passed": true
+  },
+  "naming_correction": {
+    "scope": "Geometric IUPAC beta-methylene assignment, independent of measured values; source observations and molecular trajectories unchanged. Each assignment is checked in every saved frame. Other atom groups retain exact-name matching.",
+    "provider_version": "0.4.0",
+    "reference": "https://doi.org/10.1007/s10858-013-9753-7",
+    "observed_pairs": 12,
+    "swapped_pairs": 9,
+    "affected_observations": 18,
+    "original_topology_label_rmse_hz": 1.9086692235082394,
+    "original_topology_label_mae_hz": 0.8376443072486932,
+    "corrected_run_id": "run-340213aaedc84c00",
+    "corrected_result_sha256": "30f1acbac078b0628f45e08ccec015f0bd59f99af375e4d6ed2d2b84959f91a8",
+    "mae_hz": 0.49968955822356054,
+    "rmse_hz": 0.7731742353912467,
+    "assignments": [
+      {
+        "chain_id": "A",
+        "residue_number": 3,
+        "residue_name": "TYR",
+        "atom_indices": {
+          "previous": 38,
+          "parent": 42,
+          "next": 45,
+          "HB2": 43,
+          "HB3": 44
+        },
+        "source_hydrogen_names": {
+          "HB2": "HB2",
+          "HB3": "HB3"
+        },
+        "swapped": false
+      },
+      {
+        "chain_id": "A",
+        "residue_number": 8,
+        "residue_name": "ASN",
+        "atom_indices": {
+          "previous": 135,
+          "parent": 139,
+          "next": 142,
+          "HB2": 141,
+          "HB3": 140
+        },
+        "source_hydrogen_names": {
+          "HB2": "HB3",
+          "HB3": "HB2"
+        },
+        "swapped": true
+      },
+      {
+        "chain_id": "A",
+        "residue_number": 22,
+        "residue_name": "ASP",
+        "atom_indices": {
+          "previous": 345,
+          "parent": 349,
+          "next": 352,
+          "HB2": 351,
+          "HB3": 350
+        },
+        "source_hydrogen_names": {
+          "HB2": "HB3",
+          "HB3": "HB2"
+        },
+        "swapped": true
+      },
+      {
+        "chain_id": "A",
+        "residue_number": 30,
+        "residue_name": "PHE",
+        "atom_indices": {
+          "previous": 453,
+          "parent": 457,
+          "next": 460,
+          "HB2": 459,
+          "HB3": 458
+        },
+        "source_hydrogen_names": {
+          "HB2": "HB3",
+          "HB3": "HB2"
+        },
+        "swapped": true
+      },
+      {
+        "chain_id": "A",
+        "residue_number": 35,
+        "residue_name": "ASN",
+        "atom_indices": {
+          "previous": 543,
+          "parent": 547,
+          "next": 550,
+          "HB2": 549,
+          "HB3": 548
+        },
+        "source_hydrogen_names": {
+          "HB2": "HB3",
+          "HB3": "HB2"
+        },
+        "swapped": true
+      },
+      {
+        "chain_id": "A",
+        "residue_number": 36,
+        "residue_name": "ASP",
+        "atom_indices": {
+          "previous": 557,
+          "parent": 561,
+          "next": 564,
+          "HB2": 563,
+          "HB3": 562
+        },
+        "source_hydrogen_names": {
+          "HB2": "HB3",
+          "HB3": "HB2"
+        },
+        "swapped": true
+      },
+      {
+        "chain_id": "A",
+        "residue_number": 37,
+        "residue_name": "ASN",
+        "atom_indices": {
+          "previous": 569,
+          "parent": 573,
+          "next": 576,
+          "HB2": 574,
+          "HB3": 575
+        },
+        "source_hydrogen_names": {
+          "HB2": "HB2",
+          "HB3": "HB3"
+        },
+        "swapped": false
+      },
+      {
+        "chain_id": "A",
+        "residue_number": 40,
+        "residue_name": "ASP",
+        "atom_indices": {
+          "previous": 606,
+          "parent": 610,
+          "next": 613,
+          "HB2": 612,
+          "HB3": 611
+        },
+        "source_hydrogen_names": {
+          "HB2": "HB3",
+          "HB3": "HB2"
+        },
+        "swapped": true
+      },
+      {
+        "chain_id": "A",
+        "residue_number": 43,
+        "residue_name": "TRP",
+        "atom_indices": {
+          "previous": 641,
+          "parent": 645,
+          "next": 648,
+          "HB2": 647,
+          "HB3": 646
+        },
+        "source_hydrogen_names": {
+          "HB2": "HB3",
+          "HB3": "HB2"
+        },
+        "swapped": true
+      },
+      {
+        "chain_id": "A",
+        "residue_number": 45,
+        "residue_name": "TYR",
+        "atom_indices": {
+          "previous": 679,
+          "parent": 683,
+          "next": 686,
+          "HB2": 685,
+          "HB3": 684
+        },
+        "source_hydrogen_names": {
+          "HB2": "HB3",
+          "HB3": "HB2"
+        },
+        "swapped": true
+      },
+      {
+        "chain_id": "A",
+        "residue_number": 46,
+        "residue_name": "ASP",
+        "atom_indices": {
+          "previous": 700,
+          "parent": 704,
+          "next": 707,
+          "HB2": 706,
+          "HB3": 705
+        },
+        "source_hydrogen_names": {
+          "HB2": "HB3",
+          "HB3": "HB2"
+        },
+        "swapped": true
+      },
+      {
+        "chain_id": "A",
+        "residue_number": 47,
+        "residue_name": "ASP",
+        "atom_indices": {
+          "previous": 712,
+          "parent": 716,
+          "next": 719,
+          "HB2": 717,
+          "HB3": 718
+        },
+        "source_hydrogen_names": {
+          "HB2": "HB2",
+          "HB3": "HB3"
+        },
+        "swapped": false
+      }
+    ]
+  },
+  "by_coupling_type": [
+    {
+      "type": "H-HA",
+      "n": 49,
+      "mae_hz": 0.5110716751723605,
+      "rmse_hz": 0.6623818926496633
+    },
+    {
+      "type": "H-CB",
+      "n": 49,
+      "mae_hz": 0.25551656867564515,
+      "rmse_hz": 0.32754560304192704
+    },
+    {
+      "type": "H-C",
+      "n": 49,
+      "mae_hz": 0.31797664199388664,
+      "rmse_hz": 0.4178919280613599
+    },
+    {
+      "type": "HA-HB3",
+      "n": 12,
+      "mae_hz": 1.5051275769399848,
+      "rmse_hz": 1.92072658347214
+    },
+    {
+      "type": "HA-HB2",
+      "n": 12,
+      "mae_hz": 1.358702949684183,
+      "rmse_hz": 1.6485924450273168
+    },
+    {
+      "type": "N-CG",
+      "n": 6,
+      "mae_hz": 0.2899620447484624,
+      "rmse_hz": 0.3379154756005885
+    },
+    {
+      "type": "C-CG",
+      "n": 6,
+      "mae_hz": 0.5877505139575532,
+      "rmse_hz": 0.6665023970882387
+    },
+    {
+      "type": "N-CG1",
+      "n": 5,
+      "mae_hz": 0.32126620545235907,
+      "rmse_hz": 0.39869358412056655
+    },
+    {
+      "type": "N-CG2",
+      "n": 16,
+      "mae_hz": 0.24338899818184145,
+      "rmse_hz": 0.37673450201258196
+    },
+    {
+      "type": "C-CG1",
+      "n": 5,
+      "mae_hz": 0.690310943226575,
+      "rmse_hz": 0.9902181965672836
+    },
+    {
+      "type": "C-CG2",
+      "n": 16,
+      "mae_hz": 0.6688824880011334,
+      "rmse_hz": 0.8287219114941529
+    }
+  ],
+  "sampling": {
+    "criteria": {
+      "split_rhat_max": 1.05,
+      "combined_ess_min": 400,
+      "required_jointly_passing_observations": 225
+    },
+    "status": "fail",
+    "jointly_passing": 0,
+    "total_observations": 225,
+    "saved_frames_per_replica": 100,
+    "split_rhat_passing": 194,
+    "combined_ess_passing": 0,
+    "interpretation": "Only 300 saved frames across the pilot; capped combined ESS cannot reach 400. The longer-sampling criterion is preserved. Replicas share one prepared source conformation; matching replica statistics alone would not establish global equilibrium."
+  },
+  "installed_analysis_verification": {
+    "platform": "Linux ARM64 / CPU",
+    "wheel_sha256": "a58234f60b40a452946f77d51249b88f53bc8373e53eddfc849a2fa16b384713",
+    "tests": {
+      "run": 19,
+      "failures": 0,
+      "skipped": 0
+    },
+    "pip_check": "passed",
+    "corrected_run_id": "run-95f5623777dfea80",
+    "result_sha256": "4f018149766c4a06463896ce55b4e76a47b57e17546e1e65ad38dad3d66299b3",
+    "output_digest": "sha256:a594c320787be6bb6f1fa4775f7b26e59f5e0a016cb5b257563d02385f4ff4ac",
+    "maximum_mac_spark_mean_difference_hz": 1.964497782225294e-07,
+    "comparison_tolerance_hz": 1e-05,
+    "assignments_identical": true,
+    "package_byte_verification": {
+      "wheel_sha256": "a58234f60b40a452946f77d51249b88f53bc8373e53eddfc849a2fa16b384713",
+      "verified_package_files": 228,
+      "provider_version": "0.4.0",
+      "source_modules": {
+        "ensemble_analysis.py": "c95e7c3d61c867b2c17a59e1d07aa63be809c20d5301ddac0e599abd9c529b83",
+        "_coupling_naming.py": "df0e5a83196b4bdf09ceafd6d49b3cf2641fdbbf1a090d28af8883f2b53a3b9d",
+        "structural_comparison.py": "90d363e843394f8167196c34a30c1bfb53612452bdd59f133050c4fc35164f55"
+      }
+    }
+  },
+  "source_validation": {
+    "suite": {
+      "run": 1376,
+      "failures": 0,
+      "skipped": 78
+    },
+    "required_workflow_checks": 11,
+    "required_workflow_failures": 0,
+    "source_test_log_sha256": "c61370f9595b5a13ac74092fc69d8203a2bcb1057bb30d1e7b464ef20b684fa5"
+  },
+  "independent_forward_model_audit": {
+    "status": "passed",
+    "scope": "Source-table projection, independent projected-vector cosine arithmetic on all 300 saved pilot frames and two static-conformation references. Atom paths use the declared resolved topology; the separate handedness audit remains necessary.",
+    "source_rows_verified": 225,
+    "pilot_frames": 300,
+    "maximum_per_frame_difference_hz": 2.436183720977425e-06,
+    "per_frame_tolerance_hz": 0.0001,
+    "maximum_canonical_mean_difference_hz": 7.412096536540957e-08,
+    "mean_tolerance_hz": 1e-05,
+    "source_assignment_swaps": 0,
+    "interpretation": "Static structures are references, not equilibrium ensembles. Backbone Karplus parameters in the 2015 source were fitted partly to GB3 data with assumed 10-degree fluctuations. Neither static nor MD agreement is a fully independent generalization test; no coefficients or observations were refitted here.",
+    "static_references": {
+      "deposited_source": {
+        "mae_hz": 0.4919775377769734,
+        "rmse_hz": 0.8499940103754952
+      },
+      "prepared_pilot_source": {
+        "mae_hz": 0.748902357673829,
+        "rmse_hz": 1.139614596668832
+      }
+    },
+    "reference": "Vogeli et al. (2015), doi:10.1016/j.dib.2015.08.020, section 2.3",
+    "receipt_sha256": "a59f725624decb3bee3dccffbd98b35c41d7508af5995bd6911a48ac610b15ba"
+  }
+}

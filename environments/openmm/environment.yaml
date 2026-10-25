@@ -1,0 +1,9 @@
+name: alambiq-openmm-8.6.0-v1
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - openmm=8.6.0
+  - pdbfixer=1.12.0
+  - numpy<3
+  - pip

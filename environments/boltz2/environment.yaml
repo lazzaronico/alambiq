@@ -1,0 +1,8 @@
+name: alambiq-boltz2-2.2.1-v1
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - boltz==2.2.1

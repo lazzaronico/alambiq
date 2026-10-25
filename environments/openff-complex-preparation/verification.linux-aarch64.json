@@ -1,0 +1,59 @@
+{
+  "platform": "Linux ARM64 / NVIDIA GB10",
+  "runtime": {
+    "prefix": "/home/user/.bioforge/commissioning/openff-migration-20261003/env",
+    "versions": {
+      "gemmi": "0.7.5",
+      "openmm": "8.6.0",
+      "rdkit": "2026.3.1",
+      "pdbfixer": "1.12.0",
+      "openff-toolkit": "0.19.0",
+      "openff-interchange": "0.5.5",
+      "openff-nagl": "0.5.5",
+      "openff-nagl-models": "2025.9.0",
+      "openff-forcefields": "2026.09.0",
+      "openmmforcefields": "0.15.1",
+      "ParmEd": "4.3.1"
+    },
+    "force_field_files_sha256": {
+      "openff_unconstrained-2.3.0.offxml": "65b926cf38ae4bc2f6f9cac907c3cadba154cc84988dd10ab2c3895aaf2dd995",
+      "openff-2.3.0.offxml": "7a0d7195a4b717e29fe14aa2cf1bc3203e87ce4aef9cc2ef10fb5145b7edcf63"
+    },
+    "charge_model_sha256": "7981e7f5b0b1e424c9e10a40d9e7606d96dcd3dd2b095cb4eeff6829f92238ee",
+    "force_field_xml_sha256": "5b86db685ac42658ef3cb1d4830d42cb9dff2f39100c5f742d1c693ad6e7f36e"
+  },
+  "native_controls": {
+    "chemistry_controls": 4,
+    "charge_and_coordinates_preserved": true,
+    "energy_difference_kj_mol": 5.009448713622078e-07,
+    "maximum_force_difference_kj_mol_nm": 0.00010010364610479883
+  },
+  "platform_controls": {
+    "Reference": {
+      "initial_energy_kj_mol": 9.048224354969989,
+      "final_energy_kj_mol": 12.683953829331612,
+      "steps": 100,
+      "precision": {},
+      "max_force_difference_from_reference": 0.0
+    },
+    "CPU": {
+      "initial_energy_kj_mol": 9.048221352904786,
+      "final_energy_kj_mol": 18.137285195863917,
+      "steps": 100,
+      "precision": {
+        "Threads": "2"
+      },
+      "max_force_difference_from_reference": 5.630830287373101e-06
+    },
+    "CUDA": {
+      "initial_energy_kj_mol": 9.048223814303846,
+      "final_energy_kj_mol": 13.759925895689289,
+      "steps": 100,
+      "precision": {
+        "Precision": "double"
+      },
+      "max_force_difference_from_reference": 0.0018195552364090872
+    }
+  },
+  "scope": "Native Sage/AshGC ligand inference, portable parameter export and bounded 100-step Reference/CPU/CUDA dynamics. Full assembly workflows and Docker are separate unmeasured scope; complete binding execution is recorded separately in binding-free-energy/verification.openff-20261003.json."
+}

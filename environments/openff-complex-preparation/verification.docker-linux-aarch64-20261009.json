@@ -1,0 +1,111 @@
+{
+  "schema_version": "0.1",
+  "recorded_date": "2026-10-09",
+  "scope": "Seven-stage offline Linux ARM64 CPU Docker preparation/short-dynamics integration, original native-state checks, exact provider-forbidden reuse and independently restored dossiers.",
+  "platform": "Linux ARM64 / NVIDIA GB10 host; CPU execution inside Docker",
+  "image_sha256": "84db3334aa896a6dd1bf40d480505fb548d7956221934298fb116a863d46c2cf",
+  "source_commit_at_image_build": "91c98cc3622543a0e84945e6f9fd60beb6b5519a",
+  "image_package_files": 231,
+  "current_matching_image_package_files": 230,
+  "explicit_difference_from_current_package": [
+    "plugins/runtime_locations.py"
+  ],
+  "all_scientific_and_report_code_exact_to_current": true,
+  "independent_current_reader_source_commit": "244bbaf23c16898ed7e34e2d15e6403a597390e0",
+  "independent_current_reader_wheel_sha256": "96639dc581278727ccc3c7f0798a9005f763df796473b84d87d8c8a1d24f1b59",
+  "recipe_sha256": "1cc02aea064de3da627bb1c591fd7317492baab82f8533ce05c4ccf83f71d286",
+  "execution": {
+    "started_at": "2026-10-09T05:18:46.569883+00:00",
+    "finished_at": "2026-10-09T05:22:53.966945+00:00",
+    "network": "disabled",
+    "root_filesystem": "read-only",
+    "uid": 1000,
+    "timeout_seconds": 10800,
+    "supervisor_and_container_exit_code": 0,
+    "canonical_steps_completed": 7
+  },
+  "assembly": {
+    "run_id": "run-9bcc77e02aa7dcea",
+    "reuse_run_id": "run-7f4eae4b836454ff",
+    "providers": [
+      "gemmi.rdkit-reactive-coordinate-preparation",
+      "openff.openmm-assembly-preparation"
+    ],
+    "method_profiles": [
+      "gemmi.rdkit-explicit-reactive-coordinates-v1",
+      "protein-ligand.ff14sb-sage-2.3.0-ashgc-terminal-relaxation-v1",
+      "protein-ligand.ff14sb-sage-2.3.0-ashgc-tip3p-solvation-v1",
+      "protein-ligand.openff-complete-molecule-finite-environment-v1"
+    ],
+    "prepared_heavy_atoms": 3030,
+    "assembled_atoms": 6645,
+    "solvated_atoms": 110927,
+    "finite_atoms": 8655,
+    "finite_solute_atoms": 6249,
+    "report_sha256": "20f504265188086d413e56d778ca13e3c79b106a079cd6686ef20e16481eea1e"
+  },
+  "predicted_complex": {
+    "run_id": "run-8bc2ca9435d2051a",
+    "reuse_run_id": "run-c6b369c781e385e3",
+    "providers": [
+      "mdtraj.trajectory-inspection",
+      "openff.openmm-complex-preparation",
+      "openmm.prepared-dynamics"
+    ],
+    "method_profiles": [
+      "protein-ligand.ff14sb-sage-2.3.0-ashgc-tip3p-explicit-v1",
+      "openmm.prepared-system-nvt-v1",
+      "openmm.dcd-state-ca-inspection-v1"
+    ],
+    "atoms": 34706,
+    "water_molecules": 10675,
+    "sodium_ions": 29,
+    "chloride_ions": 37,
+    "added_salt_pairs": 29,
+    "neutralizing_chloride_ions": 8,
+    "finite_state_energy_and_forces": true,
+    "state_system_boxes_equal": true,
+    "serialized_energy_difference_kj_mol": 0.02177042281255126,
+    "serialized_energy_tolerance": {
+      "rtol": 1e-06,
+      "atol_kj_mol": 0.1
+    },
+    "production_duration_ps": 2,
+    "steps": 1000,
+    "saved_frames": 10,
+    "all_saved_frames_image_passed": true,
+    "minimum_protein_image_distance_nm": 2.170715197571271,
+    "report_sha256": "fc454d7a02ac7ae8882324644738c9ba5f8e0aa5c43e4e6a2c262ae5b448faeb"
+  },
+  "environment_versions": {
+    "gemmi": "0.7.5",
+    "openmm": "8.6.0",
+    "rdkit": "2026.3.1",
+    "pdbfixer": "1.12.0",
+    "openff-toolkit": "0.19.0",
+    "openff-interchange": "0.5.5",
+    "openff-nagl": "0.5.5",
+    "openff-nagl-models": "2025.9.0",
+    "openff-forcefields": "2026.09.0",
+    "openmmforcefields": "0.15.1",
+    "ParmEd": "4.3.1"
+  },
+  "reuse_and_restoration": {
+    "all_native_provider_execution_forbidden_on_exact_resume": true,
+    "original_and_reuse_outputs_exact": true,
+    "strict_current_reader_original_and_reuse_reload_exact": true,
+    "both_current_reader_reports_byte_identical_to_original_container": true,
+    "returned_original_files_rehashed_unchanged": 166
+  },
+  "evidence_sha256": {
+    "qualification": "235eeae181d3d08cb9509fad87d23c0a4d51ecb71641aa9ff56baf552d618d54",
+    "returned_manifest": "8680a6b1aa87cd13cd38eae88a390e78c6b2a09178a26d79e996961dd8dccf09",
+    "predicted_native_state_audit": "63c286db18e27f616abb41ef7d0f360aa35e04f9850eac4a59662fccba8e5fec",
+    "independent_current_reader_verification": "27abb68174b316891360f052d0f490a333450777840f2093c9dec98d7252f3b8"
+  },
+  "limits": [
+    "The measured image retains its original package identity; the current generic runtime-location helper differs.",
+    "The finite 8655-atom geometry is distinct from earlier 8677-atom and historical 9575-atom preparations.",
+    "Native binding, electronic evaluation and scientific production convergence retain separate measurement scope."
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "artifact_archive_sha256": "516605d852711f4d8f7c6b3d7a0267f7bcc85376ea2a1a5b955ae9455e0149bb",
+  "canonical_run": "run-3a8d56279840c9b1",
+  "date": "2026-10-04",
+  "development_failures": [
+    {
+      "finding": "Diagnostic request-saving initially attempted direct dataclass JSON encoding",
+      "resolution": "Serialized through the ordinary contract helper; first interrupted control retained"
+    },
+    {
+      "finding": "Diagnostic result-saving used a nonexistent run_id attribute; read-only collection then looked for an intentionally omitted run_dir field in serialized output",
+      "resolution": "Collected the completed run from its saved directory and verified its existing native replay without repeating the simulation"
+    }
+  ],
+  "environment": {
+    "gpu": "NVIDIA GB10, 580.159.03",
+    "native_platform": "CUDA",
+    "openmm": "8.6.0.dev-c6173db",
+    "platform": "Linux-6.17.0-1021-nvidia-aarch64-with-glibc2.39",
+    "platform_properties": {
+      "CudaCompiler": "",
+      "CudaHostCompiler": "",
+      "DeterministicForces": "true",
+      "DeviceIndex": "0",
+      "DeviceName": "NVIDIA GB10",
+      "DisablePmeStream": "false",
+      "Precision": "mixed",
+      "TempDirectory": "/tmp",
+      "UseBlockingSync": "false",
+      "UseCpuPme": "false"
+    }
+  },
+  "limitations": [
+    "Physical convergence, scientific accuracy, peptide/protein sampling improvement and speedup remain unassessed",
+    "General equality to uninterrupted NPT dynamics is not established; native barostat adaptation and proposal phase reinitialize",
+    "CUDA adaptation-phase recovery and recovery after default staged solvent relaxation remain unmeasured",
+    "End-to-end workflow timing was lost after diagnostic result serialization failed; native timings remain in the saved summary"
+  ],
+  "method_profile": "openmm.prepared-npt-torsion-metadynamics-v1",
+  "oracle_byte_identity": {
+    "checkpoint.chk": true,
+    "final-state.xml": true,
+    "state.csv": true
+  },
+  "provider": {
+    "id": "openmm.prepared-dynamics",
+    "version": "0.8.0"
+  },
+  "recovery": {
+    "barostat_adaptation": "reinitialized",
+    "barostat_proposal_phase": "reinitialized",
+    "checkpoint_step": 28,
+    "checkpoint_time_ps": 0.014000000000000009,
+    "continuation": "Paired native state, bias and verified history resume to the original target; barostat adaptation and proposal phase reinitialize",
+    "energy_difference_kj_mol": {
+      "getKineticEnergy": 0.0,
+      "getPotentialEnergy": 0.0
+    },
+    "ignored_uncheckpointed_bytes": {
+      "adaptation-state.csv": 0,
+      "collective-variables.csv": 100,
+      "equilibration.csv": 0,
+      "frozen-equilibration-state.csv": 0,
+      "gaussians.csv": 0,
+      "production-start-state.xml": 0,
+      "state.csv": 232,
+      "system.xml": 0,
+      "trajectory.dcd": 176
+    },
+    "native_checkpoint_roundtrip_exact": true,
+    "original_target_step": 32,
+    "recovery_policy": "paired-bias-checkpoint-barostat-reset-v1",
+    "remaining_steps": 4,
+    "remaining_steps_by_phase": {
+      "adaptation": 0,
+      "frozen-equilibration": 0,
+      "frozen-production": 4
+    },
+    "retained_frames": 2,
+    "source_error": "Injected native control interruption",
+    "source_sha256": {
+      "recovery_adaptation_state": "7d68bc604aae6730f95eeffe298d0150b81d5577a9f836f6379087f32c3626d6",
+      "recovery_bias_snapshot": "63c70bf31a76cddd4f4d226ea7feb0b2f8def573b95e8ecc80d512704ac54ce4",
+      "recovery_configuration": "f9a25a62aaaef7ed106ca2faf5b5c4098847d82051d880a27755f52b5fda4a69",
+      "recovery_cv": "5b49a46191ee8379765b4d3cf96dcb2b6ae82ec12ebf84362537d0e0bcd90002",
+      "recovery_equilibration": "8672bf5be4c3e8c5c2bb16163567226c24a36b6fe352ccdaff3bdbda2e841d6f",
+      "recovery_frozen_state": "58f97478779c35f57b64c0385f8a4e8356cb20f159d8cf9e9b64f7a1fc2b7e04",
+      "recovery_gaussians": "90a2c8aa1687308bdb0a80be36f4fdbc0f66ecb34141881a7371c4e15f7caeca",
+      "recovery_production_start": "c8ceb08c5da2697877d3b90dbcb284ba3f3355d027480c733421b5f74a3e89ec",
+      "recovery_state": "a9c1dedb7207258d869e3d3607f909451c18785aab669b9999b5abf3e32d3818",
+      "recovery_system": "961156b114826e6dac570cfe7a520c128978f17971d5e3ec6b8f706f1b6d55e3",
+      "recovery_trajectory": "2b5118e4faa4affa13d9225f9136f0f7c7f29634055c1b0d00598b60b251bc95",
+      "state_xml": "bb334bae5b3470e129521e017f25645bc3f1626bc0bb7ade55a7d5effa211516",
+      "system_xml": "e7e4de93e085d166bff6dbe3a71346d25cc074c0cee3fd83822bda762bb67cce",
+      "topology_pdb": "51f668e9710ea7351956744ec583b8f983babdae8f93a0f9b79c3444af51a837"
+    },
+    "source_step_id": "interrupted-bias",
+    "source_task_sha256": "f218edb36ae9a15003a846aa61fdb2477028a1f4a0930a4f8fab13efd39b1e43",
+    "uninterrupted_trajectory_identity": "not-established"
+  },
+  "recovery_policy": "paired-bias-checkpoint-barostat-reset-v1",
+  "result_sha256": "c6a9397e7900a46da62e12fe9e17c28dab8eb258b54a27f51b6e10148b18e1b1",
+  "schema_version": "0.1",
+  "scope": "Eight-particle periodic two-torsion control with active isotropic NPT proposals every two steps. Interruption at production step 28 retains two frames and propagates four remaining steps to original step 32. Native original checkpoint plus paired bias restored through canonical capability, compared to a separate native OpenMM replay.",
+  "source_commit": "7bb4a0d",
+  "source_package_files_verified": 229,
+  "source_sha256": {
+    "src/bioforge/plugins/openmm_dynamics.py": "e03b60d3f9c971888a32b49958a35e49945479064d15f01241de3108e82f3e34",
+    "src/bioforge/plugins/openmm_workbench.py": "6c9f2675ef437191e2451c3c5ae6aea6f65ed21307db4ad39ca62b6f810ce938",
+    "src/bioforge/plugins/runners/openmm_bias_recovery.py": "529de6d7c04266fc88681be96aeb4170a58a315e544bfe743a5267cf7b42d610",
+    "src/bioforge/plugins/runners/openmm_metadynamics.py": "1eff4b2409e70fca392e9e54ae47ef69ad1911e143aa3cefcef60534423d92fd",
+    "src/bioforge/plugins/runners/openmm_runner.py": "09afb27455de16b9840f61c70f226b278c145a15e54e8bab681dc38c6aa4890a"
+  },
+  "status": "bounded-cuda-paired-recovery-control-passed"
+}

@@ -1,0 +1,7 @@
+h1: kinetics-from-measurements
+section intake
+h2: intake
+table: Reading | Count
+section fit
+h2: fit
+table: Coefficient | Value | Standard error | 95 % interval | Unit

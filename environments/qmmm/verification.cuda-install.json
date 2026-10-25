@@ -1,0 +1,117 @@
+{
+  "schema_version": "0.1",
+  "date": "2026-09-29",
+  "core_source_commit": "2cb9936",
+  "scope": "Fresh Linux ARM64 CUDA 13.0 / GB10 source installation; native numerical checks and the prepared five-atom water/ion state-to-sampling workflow.",
+  "installation": {
+    "recipe": "environments/qmmm/install_cuda.py",
+    "recipe_sha256": "125ae4ed8d5f51c7bd3b4bf2ce90b664b27e58ed2ad8b9d27f9902763439bee4",
+    "base_packages": 87,
+    "explicit_lock_sha256": "7d653a21bf8e759a0b313bbfa6ac66500e5641beb86252b7168d63ce5e6ddcab",
+    "package_records_sha256": "59b6d5843d00b95fc74960c2bf7406b09ce7a4b8c0e95e2b7b40cc91632080a3",
+    "gpu4pyscf_source_sha256": "eb75553ed3e05c907511e6260407e279c8c2151d61bc74f7bfbaee2e6c422121",
+    "cupy_wheel_sha256": "763f33f5641a28db5ac91788301271930e910813f1b1279119b504babeb1b863",
+    "cuda_pathfinder_wheel_sha256": "4e65059febdb4d19d5cbc4798677e19db2b582f2f702f457b609e571690d357e",
+    "native_dependency_commits": {
+      "cutlass": "751eb9a8859ac36bfc77551f9e4a957c31a5a8b1",
+      "libxc": "b225c254c063e1de835a4425115c9a6377478b32"
+    },
+    "compilers": {
+      "cmake": "3.28.3",
+      "c_and_cxx": "GNU 13.3.0",
+      "fortran": "GNU 15.3.0",
+      "cuda": "13.0.88",
+      "cuda_architecture": "121"
+    },
+    "build_parallelism": 4,
+    "build_type": "Release",
+    "built_wheel_bytes": 108490147,
+    "built_wheel_sha256": "07c1b441e3be54e297bcf09bc9302b48114b821b777d77bc5b031e24f2bd11eb",
+    "receipt_sha256": "4fead45ad4bc8ae4499a275d3a4f50024ba8d50066bede1d339f7928a8925abd",
+    "isolated_import_and_gpu_calculation_passed": true
+  },
+  "native_tests": {
+    "modules": [
+      "test_qmmm_native",
+      "test_qmmm_pyscf",
+      "test_qmmm_runner",
+      "test_qmmm_coupling",
+      "test_qmmm_dynamics_runner"
+    ],
+    "cuda": {
+      "cases": 35,
+      "passed": 35,
+      "optional_skips": 0,
+      "elapsed_seconds": 164.817,
+      "log_sha256": "b8045ed6f12f678b6245b68807be0e6b8c27e0221a8699878a2dea928ea03471"
+    },
+    "apple_cpu_documented_command": {
+      "cases": 35,
+      "passed": 33,
+      "optional_skips": 2,
+      "elapsed_seconds": 7.32,
+      "log_sha256": "ae412b17dd285b3787ba9fc485d17219579cc82b9f9d7198d7a6edb21770a936"
+    }
+  },
+  "ordinary_workflow": {
+    "input": "campaigns/examples/tutorials/29-qmmm-state/sampling.yaml",
+    "capabilities": ["simulation.evaluate_qmmm_state", "simulation.run_qmmm_dynamics"],
+    "functional": "PBE",
+    "basis": "6-31G**",
+    "grid": 3,
+    "gaussian_radius_angstrom": 0.8,
+    "seed": 741,
+    "equilibration_steps": 2,
+    "production_steps": 8,
+    "electronic_states_per_trajectory": 11,
+    "production_frames_per_trajectory": 4,
+    "intent_sha256": "821721c89f6514174b9e3f1fe045e73d3804b283c326f4c9c6502a99ede41e6b",
+    "comparison_limits": {
+      "position_angstrom": 1e-8,
+      "potential_kj_mol": 1e-5,
+      "initial_density": 1e-10
+    },
+    "cuda": {
+      "run_id": "run-c418a9fc18f4a259",
+      "reused_run_id": "run-71f5be3522a76d03",
+      "python_state_run_id": "run-ab36176dd4e6443d",
+      "python_sampling_run_id": "run-dc342072314b93cd",
+      "receipt_sha256": "c76a5742d316340a2d701a6bc7b96b0997351067abc4cea83105141804da1d3e",
+      "canonical_sha256": {
+        "plan.json": "645a7688ce2dac4519ac4d15c489fe3dc359b4bcb3b584f44669adf1ab0d121a",
+        "run.json": "4c15bd2ff6ee93486b3f17c5b6864f30ff040c41f72216575e5f79b4e5680c11",
+        "evidence.json": "4584be854b8e95cd15c7ba484ad870ab4295100cbb75fc5ace0ce523e9438307",
+        "manifest.json": "104aa1dc86f9580108610fad429ef08c7417481a318f470ee92ad486ce83e5d7"
+      },
+      "report_sha256": "a03e5347c1f6ae34984278f2a12f3fefc5c031aaaa93afd930c1e09e61bb7478",
+      "maximum_python_yaml_position_difference_angstrom": 2.220446049250313e-16,
+      "maximum_python_yaml_potential_difference_kj_mol": 4.94765117764473e-10,
+      "maximum_python_yaml_initial_density_difference": 0.0,
+      "independent_verification_sha256": "1598a238ebfd72bc01426e3b76511ae8ce858a5bbddf2b85be97793f681ff9db"
+    },
+    "apple_cpu": {
+      "run_id": "run-2cac14470feba56a",
+      "reused_run_id": "run-5e3289498d1ebdbd",
+      "python_state_run_id": "run-b4f42cdd4f5a0da5",
+      "python_sampling_run_id": "run-174123beeba5708f",
+      "receipt_sha256": "4fceb47ceb55d88dcf460bbb640aa77f5c580e3ee975064c193f8fffd098f174",
+      "report_sha256": "ba28416e746009c47c6646cfbe6574ad4fb46c0c482c570fc52a396aa238162b",
+      "maximum_python_yaml_position_difference_angstrom": 2.220446049250313e-16,
+      "maximum_python_yaml_potential_difference_kj_mol": 3.7834979593753815e-10,
+      "maximum_python_yaml_initial_density_difference": 5.639932965095795e-14,
+      "independent_verification_sha256": "ee8bea5e632e556488e7fdc432e64b9b7e4b4fe4fa58bed29c23c9cb38c3725a"
+    },
+    "independent_reader_sha256": "8b786ff5775c5d067e282fc956a3e9623ac9950d372ea059f4277f1d0d195f13",
+    "restored_runs": 8,
+    "native_trajectories_reconstructed": 4,
+    "all_artifacts_rehashed": true,
+    "saved_reports_reproduced": true,
+    "exported_reuse_passed": true
+  },
+  "retained_initial_qualification": {
+    "observation": "The initial qualification packet omitted the existing XML helper and stopped before native tests. Installation completed successfully.",
+    "log_sha256": "23f7dc1b8e21d7e0c210555f85ff9b1a588dcd6fbefbfd7b78ea40f9b4f5286c",
+    "recovery": "A complete test packet ran in a separate directory against the same installed environment and original scientific inputs.",
+    "completed_qualification_sha256": "7552523f525f45efeaf51fe1d397b73fd701d1b32095da105808d6fbc6193a5d"
+  }
+}

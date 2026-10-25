@@ -1,0 +1,6 @@
+name: alambiq-reaction-free-energy
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pymbar-core=4.2.0

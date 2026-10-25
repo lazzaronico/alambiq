@@ -1,0 +1,188 @@
+{
+  "schema_version": "0.1",
+  "recorded_date": "2026-10-08",
+  "provider": "pyscf.qmmm-state",
+  "method_profile": "pyscf.molecular-pbe-gaussian.v1",
+  "installed_bioforge_wheel_sha256": "dce4bd64da898c4a525713cefe2dfd8830c6f858f9569d2ffd92d106fcbdf478",
+  "source_sha256": {
+    "src/bioforge/plugins/qmmm.py": "4113dd72de170a514769695834502949eda5ce383e83e4bf01a5999995ccb078",
+    "src/bioforge/plugins/runners/qmmm_runner.py": "4332655a90c498de5b182435207fdb12e76d5a36c008d774a8261d58ada1b0f1",
+    "src/bioforge/plugins/runners/qmmm_pyscf.py": "d5072e21c1695d288f3447531f885dd9e700ff069771bd9d7814dc6d92dd7aa8",
+    "src/bioforge/plugins/runners/qmmm_native.py": "61b76e8d3feb7c671d05c4e231a1d047ce8195b35ba19688c2ccf1f03721e60e",
+    "src/bioforge/plugins/openff_assembly.py": "eb8380f0acab694be5c632d4b91612603d01bd907f8c8ff271ead1ae37064f90",
+    "src/bioforge/inspection/qmmm.py": "6f51f8c063862870f267d62d57f22f57ff7108c3727e9b7160fbbc2151d13214"
+  },
+  "preparation": {
+    "source_run_id": "run-ccc630a435aea4a4",
+    "physical_hamiltonian_sha256": "ae848b1f4585e5e11fe19d1a696353ad6a98fe7cf8a7deec0b973907804cb120",
+    "profile": "protein-ligand.openff-complete-molecule-finite-environment-v1",
+    "ligand_parameterization": "Sage 2.3.0 / AshGC",
+    "physical_atoms": 8677,
+    "solute_atoms_retained": 6249,
+    "all_four_prepared_stages_reused": true,
+    "prepared_outputs_exact": true,
+    "inputs_sha256": {
+      "external_system_xml": "dd75eafe0635f79e606e6bbc86f17bc1cc09ef27694837d12c3f1f7082fe75b0",
+      "initial_density": "d3341e2e901bc6dcccbd812a7f73f3ac0cca4c6cc1e284af14c3424fe619aeed",
+      "state_xml": "f94620c76c4b4b241d00c1506f3feae9730328d9f0b3ba3160e40bc0ace4675e",
+      "system_xml": "cfef78b3329f4bd400b2f0083d3204d08c839ef67321fdad4494049fc1f3b1f7",
+      "topology_pdb": "088cbaea1f007c3b57d16697344fbbfc76f6358594affb62f704d2798b526ae8"
+    }
+  },
+  "parameters": {
+    "backend": "cpu",
+    "classical_coulomb_ratio": 0.9999999871065053,
+    "gaussian_radius_angstrom": 0.8,
+    "grid": 7,
+    "memory_mb": 6000,
+    "threads": 2
+  },
+  "quantum": {
+    "one_based_atoms": [
+      6178,
+      6179,
+      6180,
+      6181,
+      6182,
+      6183,
+      6184,
+      6185,
+      6186,
+      6187,
+      6188,
+      6189,
+      6190,
+      6191,
+      6192,
+      6193,
+      6194,
+      6195,
+      6196,
+      6197,
+      6198,
+      6199,
+      6200,
+      6201
+    ],
+    "residue": "CHA",
+    "charge": -2,
+    "link": null,
+    "electronic_atoms": 24,
+    "basis_functions": 264,
+    "expected_electrons": 118
+  },
+  "platform": "macOS ARM64; CPU electronic backend",
+  "execution": {
+    "run_id": "run-1a8697f7aa31356a",
+    "runtime": {
+      "conda_package_set_sha256": "08b010d429dc3b104c80dac79d644acfef5994fc033f3a45f15752c384928f93",
+      "python_package_set_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "versions": {
+        "openmm": "8.6",
+        "pyscf": "2.14.0"
+      }
+    },
+    "electronic_backend": "cpu",
+    "native_elapsed_seconds": 491.1463229577057,
+    "scf_cycles": 40,
+    "converged": true,
+    "stationarity_passed": true,
+    "orbital_gradient_norm": 2.0711060725004098e-09,
+    "electronic_energy_hartree": -836.0955141166035,
+    "electronic_energy_kj_mol": -2195168.4673231402,
+    "classical_energy_kj_mol": -54269.34204661711,
+    "external_energy_kj_mol": 418.9394176060803,
+    "total_energy_kj_mol": -2249018.869952151,
+    "maximum_physical_force_kj_mol_nm": 10722.90875769494
+  },
+  "checks": {
+    "all_five_canonical_steps_completed": true,
+    "prepared_stage_execution_forbidden_during_reuse": true,
+    "all_four_electronic_inputs_bound_to_preparation": true,
+    "complete_atom_map_and_coordinates_exact": true,
+    "classical_complement_reconstructed": true,
+    "complete_physical_force_partition_verified": true,
+    "independent_openmm_component_errors": {
+      "classical": {
+        "energy_kj_mol": 0.0,
+        "maximum_force_kj_mol_nm": 0.0
+      },
+      "external": {
+        "energy_kj_mol": 0.0,
+        "maximum_force_kj_mol_nm": 0.0
+      }
+    },
+    "reconstructed_electron_count": 117.99999999999999,
+    "density_orbitals_and_overlap_consistent": true,
+    "exact_resume_all_provider_execution_forbidden": true,
+    "complete_history_dossier_byte_identical": true,
+    "original_source_files_rehashed": 147
+  },
+  "cross_host_comparison": {
+    "scope": "Descriptive comparison of independently converged native evaluations; no production method or sampling selected.",
+    "electronic_energy_hartree_difference": -2.2737367544323206e-13,
+    "classical_energy_kj_mol_difference": 5.820766091346741e-11,
+    "external_energy_kj_mol_difference": -1.1368683772161603e-13,
+    "maximum_absolute_physical_force_difference_kj_mol_nm": 1.827675077947788e-08,
+    "mac_scf_cycles": 40,
+    "linux_scf_cycles": 40,
+    "mac_orbital_gradient": 2.0711060725004098e-09,
+    "linux_orbital_gradient": 2.070858925529022e-09,
+    "physical_inputs_and_method_exact": true
+  },
+  "fresh_runtime_installation": {
+    "explicit_lock_sha256": "d3d1c8b5b2774bcc698a0b087d2c2c45e95fc00dc73fe053081b09ddba8c4bc2",
+    "package_records_sha256": "7737fef18eacffb3e25f0271c2d8ca9f3c516fd8a9716e503e77e87c42358aeb",
+    "exact_locked_packages": 69,
+    "exact_cached_archives": 69,
+    "cached_archive_bytes": 186870546,
+    "offline": true,
+    "downloads_performed": false,
+    "prior_native_prefix_reinstalled": false,
+    "native_identity_matches_qualified_enzyme_runtime": true,
+    "numerical_tests": {
+      "tests": 35,
+      "passed": 33,
+      "skipped": [
+        {
+          "test": "test_neutral_and_charged_full_density_gaussian_energy_and_forces (test_qmmm_pyscf.NativeCudaTests.test_neutral_and_charged_full_density_gaussian_energy_and_forces)",
+          "reason": "GPU4PySCF 1.8.1 and CUDA required"
+        },
+        {
+          "test": "test_real_cpu_cuda_sampled_states_agree (test_qmmm_dynamics_runner.NativeSamplingTests.test_real_cpu_cuda_sampled_states_agree)",
+          "reason": "GPU4PySCF CUDA environment required"
+        }
+      ],
+      "failures": 0,
+      "errors": 0,
+      "scope": "Documented native numerical suite in the fresh CPU environment. Directly loaded source runners match the installed wheel byte-for-byte."
+    },
+    "ordinary_workflow": {
+      "run_id": "run-7a7d4a33b4ec2bbc",
+      "canonical_steps_completed": 2,
+      "physical_atoms": 5,
+      "quantum_atoms": 3,
+      "equilibration_steps": 2,
+      "production_steps": 8,
+      "production_frames": 4,
+      "trajectory_electronic_calls": 11,
+      "state_evaluations": 1,
+      "state_rows": 6,
+      "independent_phase_step_and_time_checks": true,
+      "exact_resume_native_providers_forbidden": true,
+      "restored_dossier_byte_identical": true,
+      "report_sha256": "3c5f43d80ebfc09613124425a512a8bf5a5b228c53ee4f7b82926009d67c7809"
+    },
+    "scope": "Fresh exact native environment and shipped five-atom state/trajectory workflow; the enzyme evaluation used the existing environment with the same exact package identity."
+  },
+  "evidence_sha256": {
+    "enzyme-intent": "a0a1ce24d848058e7ae5816b948bf6e8c0da0a432a10617d15c78b6b155768cf",
+    "enzyme-verification": "2a4ed4c461bd211cae037f307bc5ab5eda4bd07884720f0c691dafee3de74887",
+    "independent-verification": "d13a59028b2ea362919e9e50792d5d0dcfa32092ac5001509b65b495a34efdd2",
+    "cross-host-comparison": "19a803d4d0ed4a83543e58f4d07134d3fd394cedc3ce6b634dc85251ce1c5565",
+    "fresh-installation": "dffd9d130094b88469b806932e5b23ca25e7f22854a5d64d583752d94760461f",
+    "fresh-workflow": "1e00fb257dee3468b241e845f7baf6e29944f82ddd613039264442c9c1b830d8",
+    "fresh-native-tests": "9e8e724a14c76aa9a27dabdbbbca04585f1f33426e3552c18129e35669bbaca6"
+  },
+  "scope": "Current Sage/AshGC finite-enzyme electronic integration on Mac CPU, independent physical/electronic reconstruction and restored progressive dossier. Fresh offline native installation, documented CPU numerical controls and the shipped small state-to-trajectory workflow pass separately. One enzyme geometry establishes no equilibrated catalytic profile, free-energy barrier, chemical rate, production convergence or sensitivity assessment. Historical systems keep their original identities."
+}

@@ -1,0 +1,16 @@
+# Share the native molecular CPU recipe and the ordinary core runtime.
+ARG BASE_IMAGE=alambiq:core
+# The engine is built in a separate stage that starts from the same Python as the core image,
+# so rebuilding the core image reuses the cached engine stage.
+ARG ENGINE_BASE=python:3.11-slim-bookworm
+FROM ${ENGINE_BASE} AS engine
+USER root
+COPY --from=mambaorg/micromamba:2.5.0 /bin/micromamba /usr/local/bin/micromamba
+COPY environments/qmmm/environment.yaml /tmp/qmmm.yaml
+RUN micromamba create --yes --root-prefix /tmp/mamba --prefix /opt/qmmm \
+    --file /tmp/qmmm.yaml
+
+FROM ${BASE_IMAGE} AS runtime
+COPY --from=engine /opt/qmmm /opt/qmmm
+ENV ALAMBIQ_ENV_QMMM=/opt/qmmm/bin/python
+USER 1000:1000

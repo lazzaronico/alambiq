@@ -1,0 +1,5 @@
+name: alambiq-p2rank-java17
+channels:
+  - conda-forge
+dependencies:
+  - openjdk=17

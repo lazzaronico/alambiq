@@ -1,0 +1,8 @@
+name: alambiq-openmm-ensemble-apple
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - openmm=8.6.0=py311h0e1cade_0_apple
+  - pdbfixer=1.12.0
+  - numpy=2.4.6

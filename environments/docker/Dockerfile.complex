@@ -1,0 +1,22 @@
+# Share the native version-pinned recipe; Mamba resolves the target architecture.
+# Build the core image with the dossier and trajectory extras first.
+ARG BASE_IMAGE=alambiq:trajectory
+# The engine is built in a separate stage that starts from the same Python as the core image,
+# so rebuilding the core image reuses the cached engine stage.
+ARG ENGINE_BASE=python:3.11-slim-bookworm
+FROM ${ENGINE_BASE} AS engine
+USER root
+COPY --from=mambaorg/micromamba:2.5.0 /bin/micromamba /usr/local/bin/micromamba
+COPY environments/openff-complex-preparation/environment.yaml /tmp/openff.yaml
+# Default matches the measured driver family; select another compatible CUDA
+# version explicitly when building for different NVIDIA hardware/drivers.
+COPY environments/install_openff_sources.py environments/openff-sources.json /tmp/openff-sources/
+ARG CUDA_VERSION=13.0
+RUN micromamba create --yes --root-prefix /tmp/mamba --prefix /opt/openff \
+    --file /tmp/openff.yaml "cuda-version=${CUDA_VERSION}"
+RUN /opt/openff/bin/python /tmp/openff-sources/install_openff_sources.py
+
+FROM ${BASE_IMAGE} AS runtime
+COPY --from=engine /opt/openff /opt/openff
+ENV ALAMBIQ_ENV_OPENFF=/opt/openff/bin/python
+USER 1000:1000

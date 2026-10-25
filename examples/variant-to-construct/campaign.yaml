@@ -1,0 +1,33 @@
+id: variant-to-construct
+steps:
+  - id: insert
+    capability: construct.compose_coding
+    params:
+      identifier: lysozyme-s100r-his6
+      stop_codon: TAA
+      codon_choices: codon-choices.json
+      parts:
+        - {id: lysozyme, role: protein, expected_protein: variant.fasta}
+        - {id: linker, role: linker, expected_protein: linker.faa}
+        - {id: his-tag, role: tag, expected_protein: tag.faa}
+
+  - id: recode
+    capability: dna.optimize_coding
+    bind:
+      coding_dna: insert.dna_fasta
+      expected_protein: insert.protein_fasta
+    params:
+      seed: 1
+      avoid_patterns: [CCCGGG, GGTCTC, GAGACC]
+      gc_min: 0.35
+      gc_max: 0.65
+      gc_window: 50
+
+  - id: build
+    capability: construct.assemble
+    bind:
+      insert: recode.dna_fasta
+      expected_protein: insert.protein_fasta
+    params:
+      vector: puc19.gb
+      enzyme: SmaI

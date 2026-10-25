@@ -1,0 +1,5 @@
+# Byte-pinned external inputs: preserve line endings and review via source hashes.
+tests/fixtures/**/*.cif -text -diff
+tests/fixtures/**/*.json -text -diff
+tests/fixtures/**/*.fasta -text
+tests/fixtures/**/*.gb -text

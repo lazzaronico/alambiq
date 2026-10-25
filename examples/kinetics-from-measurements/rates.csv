@@ -1,0 +1,11 @@
+measurement_id,sample_id,condition_id,metric,value,unit,independent_id,technical_id,role,status
+m0,enzyme,c0,initial-rate,3.529412,uM/min,,,sample,measured
+m1,enzyme,c1,initial-rate,6.923077,uM/min,,,sample,measured
+m2,enzyme,c2,initial-rate,16.363636,uM/min,,,sample,measured
+m3,enzyme,c3,initial-rate,30.000000,uM/min,,,sample,measured
+m4,enzyme,c4,initial-rate,51.428571,uM/min,,,sample,measured
+m5,enzyme,c5,initial-rate,90.000000,uM/min,,,sample,measured
+m6,enzyme,c6,initial-rate,120.000000,uM/min,,,sample,measured
+m7,enzyme,c7,initial-rate,137.142857,uM/min,,,sample,measured
+m8,enzyme,c8,initial-rate,160.000000,uM/min,,,sample,measured
+m9,enzyme,c9,initial-rate,166.153846,uM/min,,,sample,measured

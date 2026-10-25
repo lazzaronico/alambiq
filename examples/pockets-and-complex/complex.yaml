@@ -1,0 +1,17 @@
+# Predicts how benzene sits in T4 lysozyme L99A with Boltz-2 (needs the boltz environment and
+# the boltz2-2.2.1 resource; minutes on a GPU, much longer on a CPU). The sequence is the
+# observed chain of PDB 181L, where benzene is bound in the engineered cavity, so the
+# prediction can be compared with the deposited structure.
+id: pockets-and-complex-prediction
+steps:
+  - id: complex
+    capability: structure.predict_biomolecular_complex
+    params:
+      proteins:
+        - id: T4L
+          sequence: MNIFEMLRIDEGLRLKIYKDTEGYYTIGIGHLLTKSPSLNAAKSELDKAIGRNTNGVITKDEAEKLFNQDVDAAVRGILRNAKLKPVYDSLDAVRRAAAINMVFQMGETGVAGFTNSLRMLQQKRWDEAAVNLAKSRWYNQTPNRAKRVITTFRTGTWDAYK
+      ligand:
+        id: BNZ
+        smiles: c1ccccc1
+      sampling_steps: 200
+      diffusion_samples: 1

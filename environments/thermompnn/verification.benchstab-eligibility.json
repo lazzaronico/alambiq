@@ -1,0 +1,4328 @@
+{
+  "status": "Eligibility audit only; no new model predictions evaluated",
+  "dataset_doi": "10.5281/zenodo.10637728",
+  "dataset_license": "CC-BY-4.0",
+  "dataset_sha256": "ae423a42f9d8d6994484362bc0be9c7122d01c9f81672127505bab7a8fdf015d",
+  "family_audit": {
+    "engine": "MMseqs2 18-8cc5c",
+    "reference_sequences": 431,
+    "candidate_sequences": 36,
+    "prefilter_mode": 2,
+    "alignment_mode": 3,
+    "evalue_maximum": 0.001,
+    "primary_exclusion": "Any returned local alignment to MegaScale training/validation or previously evaluated proteins; no minimum identity or coverage filter",
+    "additional_context": "FireProt train/validation matches are reported separately; default checkpoint was trained on MegaScale. ProteinMPNN structure pretraining overlap is not resolved by this audit.",
+    "sensitivity_limit": "Sequence screening flags detectable related sequences; no-hit is not proof of fold novelty."
+  },
+  "structure_boundary": "Complete deposited entity sequence, selected author chain, canonical finite unambiguous N/CA/C/O backbone, continuous peptide chain and exact mutation mapping; no residue rebuilding or conformer selection",
+  "summary": {
+    "total_rows": 289,
+    "total_proteins": 36,
+    "eligible_rows": 2,
+    "eligible_proteins": [
+      "1DPM_A",
+      "1WIT_A"
+    ],
+    "exclusion_reasons": {
+      "Sequence similarity to supervised training, validation or previously evaluated protein": 225,
+      "Previously evaluated protein identity": 132,
+      "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct": 31,
+      "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone": 66,
+      "Structure/mapping boundary: Selected polymer requires canonical protein residues": 12,
+      "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct": 92,
+      "Structure/mapping boundary: Supply the complete 2\u20131024 residue canonical construct sequence": 8
+    }
+  },
+  "date": "2026-10-04",
+  "source_files": {
+    "thermompnn-result-2/artifacts/sha256/59/59e269ef843fa937c28ac16babfdf6ca94105702586b940bf152ae20edc59377": "59e269ef843fa937c28ac16babfdf6ca94105702586b940bf152ae20edc59377",
+    "vendor/fireprot/fireprot_upload/csvs/4_fireprotDB_bestpH.csv": "33a40e5bb23eda16a8b31063f5da19f44e727ad0980edf6eaa4f2231d6d62680",
+    "vendor/thermompnn/ThermoMPNN-370f76ec62bd929f7425e311d8df04a0d094990f/data_all/training/mega_train.csv": "f6cc76b43d8c9d253eae6d72a469733dec57341dfe3ba0c57c66d6a203660527",
+    "vendor/thermompnn/ThermoMPNN-370f76ec62bd929f7425e311d8df04a0d094990f/data_all/training/mega_val.csv": "03b39ea276de5f4727818f6d89112986a9b25a8e8ba61071605eb2363afd73f1",
+    "vendor/thermompnn/ThermoMPNN-370f76ec62bd929f7425e311d8df04a0d094990f/data_all/training/fireprot_train.csv": "1ad709696e4c563cb93301b3c01cd8bd048a64aca1987f646abbae6ff28409e1",
+    "vendor/thermompnn/ThermoMPNN-370f76ec62bd929f7425e311d8df04a0d094990f/data_all/training/fireprot_val.csv": "4688dcb52b75408402d206f8c8b7fa795b640a047e3666ce8184c96e03a1e55b"
+  },
+  "sequence_search_hits_sha256": "a596d47a5347a588d9af1bd704c4bbda531125466d3b7a4d748bbee9da702424",
+  "all_row_audit_sha256": "9dba3960e8c372249c7413b66473953334c1b78b22a4fe32fc44f6b91f0911ef",
+  "structures": [
+    {
+      "pdb_id": "1AZP",
+      "url": "https://files.rcsb.org/download/1AZP.cif",
+      "bytes": 179180,
+      "sha256": "b1d55b867f872179e2747d2ee520a9acf2c8468f08a3da437be876b7560ba155",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1BNL",
+      "url": "https://files.rcsb.org/download/1BNL.cif",
+      "bytes": 587757,
+      "sha256": "25a79f02049bfc1f9974f97dadea6b19fbf57ed6a32c80eb0f6816398cc893fe",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1BOY",
+      "url": "https://files.rcsb.org/download/1BOY.cif",
+      "bytes": 227885,
+      "sha256": "c3148d5fd9fc6b33d57dbb40612acf853ec47bcb8dab35aad473b293608f9160",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1C52",
+      "url": "https://files.rcsb.org/download/1C52.cif",
+      "bytes": 252804,
+      "sha256": "199a971a53cd627fc56d31b0624589275da656a36024d8718b2f41998ac894f9",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1C5G",
+      "url": "https://files.rcsb.org/download/1C5G.cif",
+      "bytes": 331650,
+      "sha256": "0667840f274c8be9bb0299016feb4187e59648677bd08119f01dc5abe73e1d41",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1C8C",
+      "url": "https://files.rcsb.org/download/1C8C.cif",
+      "bytes": 219927,
+      "sha256": "3c417e187d84c245b93a415a8638e24bdfc420a618ad87de679ca70c2766011c",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1CYC",
+      "url": "https://files.rcsb.org/download/1CYC.cif",
+      "bytes": 324768,
+      "sha256": "edffb44a87fa63fadbdb59f2de45b0460e8f75920fad035a3f5342938977debf",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1DPM",
+      "url": "https://files.rcsb.org/download/1DPM.cif",
+      "bytes": 596765,
+      "sha256": "be6f42dca471b21712e81353dab4634e88066c65071d4cb1e630129dac2713cc",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1EL1",
+      "url": "https://files.rcsb.org/download/1EL1.cif",
+      "bytes": 278239,
+      "sha256": "8a16e8ab768a9fb92f811cfe46f9c843b412756ac3167c371624158fd7c72f0f",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1FC1",
+      "url": "https://files.rcsb.org/download/1FC1.cif",
+      "bytes": 415374,
+      "sha256": "0692ac0e51204aaa909354f618f22143fd4c3ffcce8ea97c9b464c0881603cac",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1FEP",
+      "url": "https://files.rcsb.org/download/1FEP.cif",
+      "bytes": 593005,
+      "sha256": "401f15d0094d960141567d15cca150deedd86c6a02779311ce74f5fb96011268",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1IMQ",
+      "url": "https://files.rcsb.org/download/1IMQ.cif",
+      "bytes": 151586,
+      "sha256": "46493552061edcd9098d3a2071028f4b99a98c91b313165c96fd6e3dbaa3a071",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1IR3",
+      "url": "https://files.rcsb.org/download/1IR3.cif",
+      "bytes": 353369,
+      "sha256": "ba5a5a830e322a285c35c252501843b664fd240ac9f0db52b5cd9bd65afdbd58",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1IRO",
+      "url": "https://files.rcsb.org/download/1IRO.cif",
+      "bytes": 206597,
+      "sha256": "aa46fd61fc959edf586935538ebe22c0831bf95a75a12fa69ac7213c42b87150",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1ISP",
+      "url": "https://files.rcsb.org/download/1ISP.cif",
+      "bytes": 196038,
+      "sha256": "7ab626e5c5c1bec8ed8acdd4675f105939ef982542a559084860d16e4b07cc10",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1JNX",
+      "url": "https://files.rcsb.org/download/1JNX.cif",
+      "bytes": 227253,
+      "sha256": "8e89979fcd6a965d44ae1958c7c49393546d11ca08b916df2502c4770960e3c2",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1MJC",
+      "url": "https://files.rcsb.org/download/1MJC.cif",
+      "bytes": 94845,
+      "sha256": "2ce3a3b1694eb4a07930bcd4350892066ce6b064dffb495435427e645013d9f4",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1ONC",
+      "url": "https://files.rcsb.org/download/1ONC.cif",
+      "bytes": 141282,
+      "sha256": "afa0fa6802107b202fea1308bc4fcd9078ea4796760ba230d154408fc56b8ca9",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1PIN",
+      "url": "https://files.rcsb.org/download/1PIN.cif",
+      "bytes": 209140,
+      "sha256": "3060c3ca9dfff3af572d754a50c819eb400dfa0e9bf9065e72e1175f3814e375",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1QJP",
+      "url": "https://files.rcsb.org/download/1QJP.cif",
+      "bytes": 296178,
+      "sha256": "a82d580a083640cd2977f028776984b9c90c368eefc0b6cf34700d41ae4e2a70",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1RBP",
+      "url": "https://files.rcsb.org/download/1RBP.cif",
+      "bytes": 208543,
+      "sha256": "4ca0dbacfda4b8ccd09c74220b9d4f50de531326dc732e6afac53843332e2287",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1SUP",
+      "url": "https://files.rcsb.org/download/1SUP.cif",
+      "bytes": 281343,
+      "sha256": "217d486188795ece0432d42f56d55888634da5adbaad32b93045b34753c5de68",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1THQ",
+      "url": "https://files.rcsb.org/download/1THQ.cif",
+      "bytes": 192750,
+      "sha256": "ba82188b2a03f7c18f0e1bcaf314cd90ac84f2a84761b1c6e88f58d48421b458",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1TPK",
+      "url": "https://files.rcsb.org/download/1TPK.cif",
+      "bytes": 258084,
+      "sha256": "e9cc5c5654ca78195bb70998166f89cdd2d4b72de2cda2414104c49b19fb730a",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1WIT",
+      "url": "https://files.rcsb.org/download/1WIT.cif",
+      "bytes": 173036,
+      "sha256": "33e4228a1027b6b3013ecf9281c08e3d893e54ec3fc779a2cef361b483f1022a",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1XAS",
+      "url": "https://files.rcsb.org/download/1XAS.cif",
+      "bytes": 84445,
+      "sha256": "f8a5088e541ed9d9ad651076a83983600315a4db61b34c48e650e41df44c1b61",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "1ZYM",
+      "url": "https://files.rcsb.org/download/1ZYM.cif",
+      "bytes": 420927,
+      "sha256": "0047ab7ed2625dc0b5fc24d0fa656d5e76c814074504000285f2b93b74100adc",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "2ADA",
+      "url": "https://files.rcsb.org/download/2ADA.cif",
+      "bytes": 348996,
+      "sha256": "b46027ab4d3fa75cdf9477e9fc6e30f53825ed105e2c5650e9507f1154ba4eca",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "2BRD",
+      "url": "https://files.rcsb.org/download/2BRD.cif",
+      "bytes": 292916,
+      "sha256": "e82ba63e79cb42443cc3e44f3e72b22e52ef266006ec2348e8d027c4d20b5815",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "2CRK",
+      "url": "https://files.rcsb.org/download/2CRK.cif",
+      "bytes": 384177,
+      "sha256": "4c5bc0ab8458f74f493c95cfad07601f5201bae86b7cc93f62c6b7ff21cec04d",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "2HIP",
+      "url": "https://files.rcsb.org/download/2HIP.cif",
+      "bytes": 177876,
+      "sha256": "85c723d8b78a57f7c11a2363cbe842ca02ea7346ea75563e511a8269e885c2f6",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "2Q98",
+      "url": "https://files.rcsb.org/download/2Q98.cif",
+      "bytes": 209810,
+      "sha256": "a5b30c2c065979132c043e373460df35b3e0e6ffb625d3d7d4c7dbb9918c215c",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "2ZTA",
+      "url": "https://files.rcsb.org/download/2ZTA.cif",
+      "bytes": 95394,
+      "sha256": "e2cc4d55e0592a819a19c323e48f100b5bee441f365023792c05f9525f81c425",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "3D2A",
+      "url": "https://files.rcsb.org/download/3D2A.cif",
+      "bytes": 196128,
+      "sha256": "d669e22e2d07d05c63789acfc6679fb1cdb0ca0f52d086ae26e7772875e07283",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "451C",
+      "url": "https://files.rcsb.org/download/451C.cif",
+      "bytes": 134945,
+      "sha256": "1ee32e4aff6c2f2dbf92a774d377bb9bcf6bfb3f4abdca1301a039926ec998d2",
+      "license": "CC0-1.0"
+    },
+    {
+      "pdb_id": "4BLM",
+      "url": "https://files.rcsb.org/download/4BLM.cif",
+      "bytes": 501023,
+      "sha256": "c1f0745811444e976b5b76bd30a4a049ff5632c83f936cf36c87a0c8c40b54e5",
+      "license": "CC0-1.0"
+    }
+  ],
+  "proteins": [
+    {
+      "id": "1AZP_A",
+      "description": "PROTEIN (HYPERTHERMOPHILE CHROMOSOMAL PROTEIN SAC7D)",
+      "ec_number": "",
+      "sequence_sha256": "ba6d6e572ca1bbe945c82ce40b9cb94fdac9f5f800600bc276207273f1a8bf5d",
+      "rows": [
+        {
+          "experiment_id": "VB03994",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB03993",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB00335",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB00334",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB00333",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB00331",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB00330",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB00329",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB00328",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB00327",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB00326",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB00325",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB00324",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB00323",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB00322",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB00321",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB00320",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB00319",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB00318",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB00317",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB00316",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB00315",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB00314",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "1AZP_A",
+          "target": "fireprot_train_8",
+          "fident": "0.791",
+          "alnlen": "66",
+          "qstart": "1",
+          "qend": "66",
+          "qlen": "66",
+          "tstart": "1",
+          "tend": "64",
+          "tlen": "64",
+          "evalue": "9.640E-29",
+          "bits": "100",
+          "qcov": "1.000",
+          "tcov": "1.000",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P61991"
+          ]
+        },
+        {
+          "query": "1AZP_A",
+          "target": "mega_train_223",
+          "fident": "0.886",
+          "alnlen": "53",
+          "qstart": "4",
+          "qend": "55",
+          "qlen": "66",
+          "tstart": "2",
+          "tend": "54",
+          "tlen": "55",
+          "evalue": "5.964E-27",
+          "bits": "95",
+          "qcov": "0.788",
+          "tcov": "0.964",
+          "reference_group": "mega_train",
+          "reference_names": [
+            "1JIC.pdb"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 0
+    },
+    {
+      "id": "1BNL_A",
+      "description": "COLLAGEN XVIII",
+      "ec_number": "",
+      "sequence_sha256": "8253a9e0ffb043ecdb61460e1ef2b84f2e9ac8d4c7278c0c49bd2f5c0936e4aa",
+      "rows": [
+        {
+          "experiment_id": "VB05523",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "1BNL_A",
+          "target": "prior_fireprot_14",
+          "fident": "0.994",
+          "alnlen": "178",
+          "qstart": "1",
+          "qend": "178",
+          "qlen": "178",
+          "tstart": "1572",
+          "tend": "1749",
+          "tlen": "1754",
+          "evalue": "3.158E-121",
+          "bits": "373",
+          "qcov": "1.000",
+          "tcov": "0.101",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1BNL"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 0
+    },
+    {
+      "id": "1BOY_A",
+      "description": "HUMAN TISSUE FACTOR",
+      "ec_number": "",
+      "sequence_sha256": "1992650ca6c67a6754f6fb67efee4ee3cd69bf99dffc3a4ea717ba22c08c4167",
+      "rows": [
+        {
+          "experiment_id": "PT019170",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        }
+      ],
+      "matches": [],
+      "condition_metadata_available_rows": 0
+    },
+    {
+      "id": "1C52_A",
+      "description": "CYTOCHROME-C552",
+      "ec_number": "",
+      "sequence_sha256": "1b2147980e1a8a08be3928ae4deb425116f1c908db1f562e5cebe87f100e760b",
+      "rows": [
+        {
+          "experiment_id": "VB04007",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "VB04006",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "1C52_A",
+          "target": "prior_fireprot_87",
+          "fident": "1.000",
+          "alnlen": "131",
+          "qstart": "1",
+          "qend": "131",
+          "qlen": "131",
+          "tstart": "1",
+          "tend": "131",
+          "tlen": "131",
+          "evalue": "8.010E-84",
+          "bits": "263",
+          "qcov": "1.000",
+          "tcov": "1.000",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1C52"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 2
+    },
+    {
+      "id": "1C5G_A",
+      "description": "PLASMINOGEN ACTIVATOR INHIBITOR-1",
+      "ec_number": "",
+      "sequence_sha256": "85dcfe09ecc84ccb794ab1798f9ec2cc76cf5baf8cd55ead4a44e26bb3cebc08",
+      "rows": [
+        {
+          "experiment_id": "PT014263",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        },
+        {
+          "experiment_id": "PT014262",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "1C5G_A",
+          "target": "prior_fireprot_63",
+          "fident": "1.000",
+          "alnlen": "402",
+          "qstart": "1",
+          "qend": "402",
+          "qlen": "402",
+          "tstart": "1",
+          "tend": "402",
+          "tlen": "402",
+          "evalue": "6.773E-272",
+          "bits": "821",
+          "qcov": "1.000",
+          "tcov": "1.000",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1C5G"
+          ]
+        },
+        {
+          "query": "1C5G_A",
+          "target": "fireprot_train_43",
+          "fident": "1.000",
+          "alnlen": "402",
+          "qstart": "1",
+          "qend": "402",
+          "qlen": "402",
+          "tstart": "1",
+          "tend": "402",
+          "tlen": "402",
+          "evalue": "6.773E-272",
+          "bits": "821",
+          "qcov": "1.000",
+          "tcov": "1.000",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P05121"
+          ]
+        },
+        {
+          "query": "1C5G_A",
+          "target": "prior_fireprot_62",
+          "fident": "0.294",
+          "alnlen": "367",
+          "qstart": "36",
+          "qend": "402",
+          "qlen": "402",
+          "tstart": "55",
+          "tend": "415",
+          "tlen": "418",
+          "evalue": "2.322E-49",
+          "bits": "176",
+          "qcov": "0.913",
+          "tcov": "0.864",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1QLP"
+          ]
+        },
+        {
+          "query": "1C5G_A",
+          "target": "fireprot_train_42",
+          "fident": "0.294",
+          "alnlen": "367",
+          "qstart": "36",
+          "qend": "402",
+          "qlen": "402",
+          "tstart": "55",
+          "tend": "415",
+          "tlen": "418",
+          "evalue": "2.322E-49",
+          "bits": "176",
+          "qcov": "0.913",
+          "tcov": "0.864",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P01009"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 2
+    },
+    {
+      "id": "1C8C_A",
+      "description": "DNA-BINDING PROTEIN 7A",
+      "ec_number": "",
+      "sequence_sha256": "3157c9c3be146122f270f7419bdbb2ca595a7b29bd2d2e0d6572331b2a51e173",
+      "rows": [
+        {
+          "experiment_id": "VB04010",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB04009",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB04008",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "1C8C_A",
+          "target": "fireprot_train_8",
+          "fident": "0.984",
+          "alnlen": "64",
+          "qstart": "1",
+          "qend": "64",
+          "qlen": "64",
+          "tstart": "1",
+          "tend": "64",
+          "tlen": "64",
+          "evalue": "7.117E-38",
+          "bits": "126",
+          "qcov": "1.000",
+          "tcov": "1.000",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P61991"
+          ]
+        },
+        {
+          "query": "1C8C_A",
+          "target": "mega_train_223",
+          "fident": "1.000",
+          "alnlen": "55",
+          "qstart": "3",
+          "qend": "57",
+          "qlen": "64",
+          "tstart": "1",
+          "tend": "55",
+          "tlen": "55",
+          "evalue": "3.409E-33",
+          "bits": "113",
+          "qcov": "0.859",
+          "tcov": "1.000",
+          "reference_group": "mega_train",
+          "reference_names": [
+            "1JIC.pdb"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 0
+    },
+    {
+      "id": "1CYC_A",
+      "description": "FERROCYTOCHROME C",
+      "ec_number": "",
+      "sequence_sha256": "2fe22d58fe05440fef3fa5dce1b21f1ee185b8a8b7018b693392cd40247ea855",
+      "rows": [
+        {
+          "experiment_id": "PT000281",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "PT000280",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "PT000279",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "PT000278",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "1CYC_A",
+          "target": "fireprot_train_18",
+          "fident": "1.000",
+          "alnlen": "103",
+          "qstart": "1",
+          "qend": "103",
+          "qlen": "103",
+          "tstart": "2",
+          "tend": "104",
+          "tlen": "104",
+          "evalue": "1.850E-69",
+          "bits": "220",
+          "qcov": "1.000",
+          "tcov": "0.990",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P00025"
+          ]
+        },
+        {
+          "query": "1CYC_A",
+          "target": "prior_fireprot_33",
+          "fident": "1.000",
+          "alnlen": "103",
+          "qstart": "1",
+          "qend": "103",
+          "qlen": "103",
+          "tstart": "2",
+          "tend": "104",
+          "tlen": "104",
+          "evalue": "1.850E-69",
+          "bits": "220",
+          "qcov": "1.000",
+          "tcov": "0.990",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1CYC"
+          ]
+        },
+        {
+          "query": "1CYC_A",
+          "target": "fireprot_train_19",
+          "fident": "0.834",
+          "alnlen": "103",
+          "qstart": "1",
+          "qend": "103",
+          "qlen": "103",
+          "tstart": "2",
+          "tend": "104",
+          "tlen": "105",
+          "evalue": "8.640E-58",
+          "bits": "186",
+          "qcov": "1.000",
+          "tcov": "0.981",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P00004"
+          ]
+        },
+        {
+          "query": "1CYC_A",
+          "target": "prior_fireprot_34",
+          "fident": "0.834",
+          "alnlen": "103",
+          "qstart": "1",
+          "qend": "103",
+          "qlen": "103",
+          "tstart": "2",
+          "tend": "104",
+          "tlen": "105",
+          "evalue": "8.640E-58",
+          "bits": "186",
+          "qcov": "1.000",
+          "tcov": "0.981",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1HRC"
+          ]
+        },
+        {
+          "query": "1CYC_A",
+          "target": "prior_fireprot_43",
+          "fident": "0.341",
+          "alnlen": "113",
+          "qstart": "1",
+          "qend": "100",
+          "qlen": "103",
+          "tstart": "22",
+          "tend": "134",
+          "tlen": "137",
+          "evalue": "2.385E-11",
+          "bits": "53",
+          "qcov": "0.971",
+          "tcov": "0.825",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1C2R"
+          ]
+        },
+        {
+          "query": "1CYC_A",
+          "target": "fireprot_train_27",
+          "fident": "0.341",
+          "alnlen": "113",
+          "qstart": "1",
+          "qend": "100",
+          "qlen": "103",
+          "tstart": "22",
+          "tend": "134",
+          "tlen": "137",
+          "evalue": "2.385E-11",
+          "bits": "53",
+          "qcov": "0.971",
+          "tcov": "0.825",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P00094"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 4
+    },
+    {
+      "id": "1DPM_A",
+      "description": "PHOSPHOTRIESTERASE",
+      "ec_number": "",
+      "sequence_sha256": "5ad93ed903ef5bc3497c2ef722494b31c1728f393809ed951fdb4017515d8b03",
+      "rows": [
+        {
+          "experiment_id": "VB05531",
+          "eligible": true,
+          "exclusion_reasons": []
+        }
+      ],
+      "matches": [],
+      "condition_metadata_available_rows": 0
+    },
+    {
+      "id": "1EL1_A",
+      "description": "LYSOZYME C",
+      "ec_number": "3.2.1.17",
+      "sequence_sha256": "50b22954dea3788c8e6599327c2815c9eb22f54c10c9c5762b9caf567e5f0297",
+      "rows": [
+        {
+          "experiment_id": "PT012761",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "PT012760",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "PT012759",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "PT012758",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "1EL1_A",
+          "target": "fireprot_train_0",
+          "fident": "1.000",
+          "alnlen": "129",
+          "qstart": "2",
+          "qend": "130",
+          "qlen": "130",
+          "tstart": "1",
+          "tend": "129",
+          "tlen": "129",
+          "evalue": "1.325E-89",
+          "bits": "279",
+          "qcov": "0.992",
+          "tcov": "1.000",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P81708"
+          ]
+        },
+        {
+          "query": "1EL1_A",
+          "target": "prior_fireprot_0",
+          "fident": "1.000",
+          "alnlen": "129",
+          "qstart": "2",
+          "qend": "130",
+          "qlen": "130",
+          "tstart": "1",
+          "tend": "129",
+          "tlen": "129",
+          "evalue": "1.325E-89",
+          "bits": "279",
+          "qcov": "0.992",
+          "tcov": "1.000",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1EL1"
+          ]
+        },
+        {
+          "query": "1EL1_A",
+          "target": "fireprot_train_23",
+          "fident": "0.523",
+          "alnlen": "130",
+          "qstart": "2",
+          "qend": "130",
+          "qlen": "130",
+          "tstart": "19",
+          "tend": "148",
+          "tlen": "148",
+          "evalue": "1.569E-46",
+          "bits": "155",
+          "qcov": "0.992",
+          "tcov": "0.878",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P61626"
+          ]
+        },
+        {
+          "query": "1EL1_A",
+          "target": "prior_fireprot_40",
+          "fident": "0.523",
+          "alnlen": "130",
+          "qstart": "2",
+          "qend": "130",
+          "qlen": "130",
+          "tstart": "19",
+          "tend": "148",
+          "tlen": "148",
+          "evalue": "1.569E-46",
+          "bits": "155",
+          "qcov": "0.992",
+          "tcov": "0.878",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1LZ1"
+          ]
+        },
+        {
+          "query": "1EL1_A",
+          "target": "prior_fireprot_68",
+          "fident": "0.530",
+          "alnlen": "129",
+          "qstart": "2",
+          "qend": "130",
+          "qlen": "130",
+          "tstart": "19",
+          "tend": "147",
+          "tlen": "147",
+          "evalue": "5.549E-46",
+          "bits": "154",
+          "qcov": "0.992",
+          "tcov": "0.878",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "4LYZ"
+          ]
+        },
+        {
+          "query": "1EL1_A",
+          "target": "fireprot_train_46",
+          "fident": "0.530",
+          "alnlen": "129",
+          "qstart": "2",
+          "qend": "130",
+          "qlen": "130",
+          "tstart": "19",
+          "tend": "147",
+          "tlen": "147",
+          "evalue": "5.549E-46",
+          "bits": "154",
+          "qcov": "0.992",
+          "tcov": "0.878",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P00698"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 4
+    },
+    {
+      "id": "1FC1_A",
+      "description": "FC FRAGMENT",
+      "ec_number": "",
+      "sequence_sha256": "d1b3ea2ac6faa469ce90232d11380ce62e41d2565b1681a5a05782c2a2467f74",
+      "rows": [
+        {
+          "experiment_id": "PT003644",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT003643",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT003642",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT003641",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT003640",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT003639",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT003638",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT003637",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT003636",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT003635",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT003634",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT003633",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT003632",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT003631",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT003630",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT003629",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        }
+      ],
+      "matches": [],
+      "condition_metadata_available_rows": 0
+    },
+    {
+      "id": "1FEP_A",
+      "description": "FERRIC ENTEROBACTIN RECEPTOR",
+      "ec_number": "",
+      "sequence_sha256": "cf0d3dbce11f7eeb6455523a1b6f99538e815bd87005cc422b505786cf3e5990",
+      "rows": [
+        {
+          "experiment_id": "PT009149",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Selected polymer requires canonical protein residues"
+          ]
+        },
+        {
+          "experiment_id": "PT009148",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Selected polymer requires canonical protein residues"
+          ]
+        },
+        {
+          "experiment_id": "PT009147",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Selected polymer requires canonical protein residues"
+          ]
+        },
+        {
+          "experiment_id": "PT009146",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Selected polymer requires canonical protein residues"
+          ]
+        },
+        {
+          "experiment_id": "PT009145",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Selected polymer requires canonical protein residues"
+          ]
+        },
+        {
+          "experiment_id": "PT009144",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Selected polymer requires canonical protein residues"
+          ]
+        },
+        {
+          "experiment_id": "PT009143",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Selected polymer requires canonical protein residues"
+          ]
+        }
+      ],
+      "matches": [],
+      "condition_metadata_available_rows": 0
+    },
+    {
+      "id": "1IMQ_A",
+      "description": "IM9",
+      "ec_number": "",
+      "sequence_sha256": "97295d31fdaa4ed4f16db5cdc2246a3cbd07316dd4eab5ac0c1fa3523334dd9c",
+      "rows": [
+        {
+          "experiment_id": "VB05444",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB04746",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB04745",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB04744",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB04743",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB04741",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "PT017244",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "PT017240",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "PT017238",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "1IMQ_A",
+          "target": "prior_fireprot_26",
+          "fident": "1.000",
+          "alnlen": "86",
+          "qstart": "1",
+          "qend": "86",
+          "qlen": "86",
+          "tstart": "1",
+          "tend": "86",
+          "tlen": "86",
+          "evalue": "5.409E-55",
+          "bits": "177",
+          "qcov": "1.000",
+          "tcov": "1.000",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1IMQ"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 4
+    },
+    {
+      "id": "1IR3_A",
+      "description": "INSULIN RECEPTOR",
+      "ec_number": "2.7.1.112",
+      "sequence_sha256": "6a086b9d9e933a0722477954ff9c00e977140205e27474cc1a049c4b54b9fcca",
+      "rows": [
+        {
+          "experiment_id": "PT016306",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Selected polymer requires canonical protein residues"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "1IR3_A",
+          "target": "fireprot_train_22",
+          "fident": "0.382",
+          "alnlen": "287",
+          "qstart": "10",
+          "qend": "296",
+          "qlen": "306",
+          "tstart": "261",
+          "tend": "529",
+          "tlen": "536",
+          "evalue": "4.433E-55",
+          "bits": "189",
+          "qcov": "0.938",
+          "tcov": "0.502",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P12931"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 0
+    },
+    {
+      "id": "1IRO_A",
+      "description": "RUBREDOXIN",
+      "ec_number": "",
+      "sequence_sha256": "b91a89d44751bb09ad2c0328bf4fe94c92e1d375d3efe53ac4f56f46fe59e70e",
+      "rows": [
+        {
+          "experiment_id": "PT022382",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        },
+        {
+          "experiment_id": "PT022381",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "1IRO_A",
+          "target": "prior_fireprot_9",
+          "fident": "0.574",
+          "alnlen": "54",
+          "qstart": "1",
+          "qend": "54",
+          "qlen": "54",
+          "tstart": "1",
+          "tend": "54",
+          "tlen": "54",
+          "evalue": "1.353E-24",
+          "bits": "88",
+          "qcov": "1.000",
+          "tcov": "1.000",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1BRF"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 0
+    },
+    {
+      "id": "1ISP_A",
+      "description": "lipase",
+      "ec_number": "3.1.1.3",
+      "sequence_sha256": "90914bba8255e2e85de3277fe0d5ffdfdeb8e5b741ff593dde001f73c413a065",
+      "rows": [
+        {
+          "experiment_id": "LL002203",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        },
+        {
+          "experiment_id": "LL002197",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        },
+        {
+          "experiment_id": "LL002196",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "1ISP_A",
+          "target": "fireprot_train_24",
+          "fident": "1.000",
+          "alnlen": "181",
+          "qstart": "1",
+          "qend": "181",
+          "qlen": "181",
+          "tstart": "32",
+          "tend": "212",
+          "tlen": "212",
+          "evalue": "1.765E-120",
+          "bits": "371",
+          "qcov": "1.000",
+          "tcov": "0.854",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P37957"
+          ]
+        },
+        {
+          "query": "1ISP_A",
+          "target": "prior_fireprot_41",
+          "fident": "1.000",
+          "alnlen": "181",
+          "qstart": "1",
+          "qend": "181",
+          "qlen": "181",
+          "tstart": "32",
+          "tend": "212",
+          "tlen": "212",
+          "evalue": "1.765E-120",
+          "bits": "371",
+          "qcov": "1.000",
+          "tcov": "0.854",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1ISP"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 3
+    },
+    {
+      "id": "1JNX_X",
+      "description": "BREAST CANCER TYPE 1 SUSCEPTIBILITY PROTEIN",
+      "ec_number": "",
+      "sequence_sha256": "0added151d504ea8a251ebbe5be2f6bb5c6efe98adb5dc951000f1f8aac5d3c8",
+      "rows": [
+        {
+          "experiment_id": "VB04097",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "VB04096",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "VB04095",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "1JNX_X",
+          "target": "prior_fireprot_24",
+          "fident": "1.000",
+          "alnlen": "214",
+          "qstart": "1",
+          "qend": "214",
+          "qlen": "214",
+          "tstart": "1646",
+          "tend": "1859",
+          "tlen": "1863",
+          "evalue": "5.606E-149",
+          "bits": "455",
+          "qcov": "1.000",
+          "tcov": "0.115",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1JNX"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 3
+    },
+    {
+      "id": "1MJC_A",
+      "description": "MAJOR COLD-SHOCK PROTEIN 7.4",
+      "ec_number": "",
+      "sequence_sha256": "2eda23a73937566174d5056e3d1c15c52725cbe4dd7d5a247c0c61d485e3881b",
+      "rows": [
+        {
+          "experiment_id": "VB05452",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB05451",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB05450",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB05449",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB05448",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB05447",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB04782",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB04781",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB04777",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "1MJC_A",
+          "target": "fireprot_train_49",
+          "fident": "1.000",
+          "alnlen": "69",
+          "qstart": "1",
+          "qend": "69",
+          "qlen": "69",
+          "tstart": "2",
+          "tend": "70",
+          "tlen": "70",
+          "evalue": "1.214E-44",
+          "bits": "146",
+          "qcov": "1.000",
+          "tcov": "0.986",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P0A9X9"
+          ]
+        },
+        {
+          "query": "1MJC_A",
+          "target": "fireprot_train_34",
+          "fident": "0.625",
+          "alnlen": "64",
+          "qstart": "4",
+          "qend": "67",
+          "qlen": "69",
+          "tstart": "2",
+          "tend": "64",
+          "tlen": "67",
+          "evalue": "2.660E-23",
+          "bits": "85",
+          "qcov": "0.928",
+          "tcov": "0.940",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P32081"
+          ]
+        },
+        {
+          "query": "1MJC_A",
+          "target": "mega_train_116",
+          "fident": "0.380",
+          "alnlen": "60",
+          "qstart": "4",
+          "qend": "63",
+          "qlen": "69",
+          "tstart": "1",
+          "tend": "60",
+          "tlen": "68",
+          "evalue": "2.433E-04",
+          "bits": "31",
+          "qcov": "0.870",
+          "tcov": "0.882",
+          "reference_group": "mega_train",
+          "reference_names": [
+            "2KCM.pdb"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 0
+    },
+    {
+      "id": "1ONC_A",
+      "description": "P-30 PROTEIN",
+      "ec_number": "",
+      "sequence_sha256": "4b914a2e7f35e327dc507cedbc17fbd07de715fb95b4f2f3c4eea82a4f2a27c5",
+      "rows": [
+        {
+          "experiment_id": "VB05460",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Selected polymer requires canonical protein residues"
+          ]
+        },
+        {
+          "experiment_id": "VB05459",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Selected polymer requires canonical protein residues"
+          ]
+        },
+        {
+          "experiment_id": "VB05458",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Selected polymer requires canonical protein residues"
+          ]
+        },
+        {
+          "experiment_id": "VB05457",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Selected polymer requires canonical protein residues"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "1ONC_A",
+          "target": "prior_fireprot_88",
+          "fident": "1.000",
+          "alnlen": "104",
+          "qstart": "1",
+          "qend": "104",
+          "qlen": "104",
+          "tstart": "1",
+          "tend": "104",
+          "tlen": "104",
+          "evalue": "4.794E-72",
+          "bits": "227",
+          "qcov": "1.000",
+          "tcov": "1.000",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1ONC"
+          ]
+        },
+        {
+          "query": "1ONC_A",
+          "target": "fireprot_val_14",
+          "fident": "1.000",
+          "alnlen": "104",
+          "qstart": "1",
+          "qend": "104",
+          "qlen": "104",
+          "tstart": "1",
+          "tend": "104",
+          "tlen": "104",
+          "evalue": "4.794E-72",
+          "bits": "227",
+          "qcov": "1.000",
+          "tcov": "1.000",
+          "reference_group": "fireprot_val",
+          "reference_names": [
+            "P22069"
+          ]
+        },
+        {
+          "query": "1ONC_A",
+          "target": "prior_fireprot_10",
+          "fident": "0.292",
+          "alnlen": "113",
+          "qstart": "6",
+          "qend": "98",
+          "qlen": "104",
+          "tstart": "34",
+          "tend": "146",
+          "tlen": "150",
+          "evalue": "1.112E-06",
+          "bits": "39",
+          "qcov": "0.894",
+          "tcov": "0.753",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1KF2"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 0
+    },
+    {
+      "id": "1PIN_A",
+      "description": "PEPTIDYL-PROLYL CIS-TRANS ISOMERASE",
+      "ec_number": "5.2.1.8",
+      "sequence_sha256": "d8766228613d90eec8b5d683e0b08d0ac0a267d8b20d557e73af40590e9ea5bb",
+      "rows": [
+        {
+          "experiment_id": "VB03781",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "VB03780",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "VB03779",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "VB03778",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025214",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025213",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025212",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025211",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025210",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025209",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025208",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025207",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025206",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025205",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025204",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025203",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025202",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025200",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025199",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025198",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025197",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025196",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025195",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025194",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025193",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025192",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025191",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025190",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025189",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025188",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025187",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025186",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025185",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025184",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025182",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025181",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025180",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025179",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025178",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025177",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025176",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025175",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025174",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025173",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025172",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025171",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025170",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025169",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025168",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025167",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025166",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025165",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025164",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025163",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025162",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025160",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "1PIN_A",
+          "target": "mega_train_59",
+          "fident": "1.000",
+          "alnlen": "39",
+          "qstart": "1",
+          "qend": "39",
+          "qlen": "163",
+          "tstart": "5",
+          "tend": "43",
+          "tlen": "43",
+          "evalue": "5.929E-23",
+          "bits": "89",
+          "qcov": "0.239",
+          "tcov": "0.907",
+          "reference_group": "mega_train",
+          "reference_names": [
+            "2M8I.pdb"
+          ]
+        },
+        {
+          "query": "1PIN_A",
+          "target": "mega_val_12",
+          "fident": "1.000",
+          "alnlen": "39",
+          "qstart": "6",
+          "qend": "44",
+          "qlen": "163",
+          "tstart": "1",
+          "tend": "39",
+          "tlen": "39",
+          "evalue": "1.109E-22",
+          "bits": "88",
+          "qcov": "0.239",
+          "tcov": "1.000",
+          "reference_group": "mega_val",
+          "reference_names": [
+            "1I6C.pdb"
+          ]
+        },
+        {
+          "query": "1PIN_A",
+          "target": "mega_train_58",
+          "fident": "0.974",
+          "alnlen": "39",
+          "qstart": "1",
+          "qend": "39",
+          "qlen": "163",
+          "tstart": "5",
+          "tend": "43",
+          "tlen": "43",
+          "evalue": "2.074E-22",
+          "bits": "87",
+          "qcov": "0.239",
+          "tcov": "0.907",
+          "reference_group": "mega_train",
+          "reference_names": [
+            "2M8J.pdb"
+          ]
+        },
+        {
+          "query": "1PIN_A",
+          "target": "mega_val_5",
+          "fident": "1.000",
+          "alnlen": "34",
+          "qstart": "6",
+          "qend": "39",
+          "qlen": "163",
+          "tstart": "3",
+          "tend": "36",
+          "tlen": "36",
+          "evalue": "1.078E-19",
+          "bits": "79",
+          "qcov": "0.209",
+          "tcov": "0.944",
+          "reference_group": "mega_val",
+          "reference_names": [
+            "2KCF.pdb"
+          ]
+        },
+        {
+          "query": "1PIN_A",
+          "target": "mega_val_11",
+          "fident": "0.882",
+          "alnlen": "34",
+          "qstart": "6",
+          "qend": "39",
+          "qlen": "163",
+          "tstart": "1",
+          "tend": "34",
+          "tlen": "34",
+          "evalue": "2.609E-16",
+          "bits": "70",
+          "qcov": "0.209",
+          "tcov": "1.000",
+          "reference_group": "mega_val",
+          "reference_names": [
+            "2M9I.pdb"
+          ]
+        },
+        {
+          "query": "1PIN_A",
+          "target": "mega_val_10",
+          "fident": "0.823",
+          "alnlen": "34",
+          "qstart": "6",
+          "qend": "39",
+          "qlen": "163",
+          "tstart": "1",
+          "tend": "33",
+          "tlen": "33",
+          "evalue": "6.951E-14",
+          "bits": "63",
+          "qcov": "0.209",
+          "tcov": "1.000",
+          "reference_group": "mega_val",
+          "reference_names": [
+            "2M9F.pdb"
+          ]
+        },
+        {
+          "query": "1PIN_A",
+          "target": "mega_val_9",
+          "fident": "0.818",
+          "alnlen": "33",
+          "qstart": "6",
+          "qend": "38",
+          "qlen": "163",
+          "tstart": "1",
+          "tend": "32",
+          "tlen": "32",
+          "evalue": "3.264E-13",
+          "bits": "61",
+          "qcov": "0.202",
+          "tcov": "1.000",
+          "reference_group": "mega_val",
+          "reference_names": [
+            "2M9E.pdb"
+          ]
+        },
+        {
+          "query": "1PIN_A",
+          "target": "mega_val_6",
+          "fident": "0.483",
+          "alnlen": "31",
+          "qstart": "7",
+          "qend": "37",
+          "qlen": "163",
+          "tstart": "5",
+          "tend": "34",
+          "tlen": "36",
+          "evalue": "1.153E-05",
+          "bits": "38",
+          "qcov": "0.190",
+          "tcov": "0.833",
+          "reference_group": "mega_val",
+          "reference_names": [
+            "1WR4.pdb"
+          ]
+        },
+        {
+          "query": "1PIN_A",
+          "target": "mega_train_52",
+          "fident": "0.473",
+          "alnlen": "37",
+          "qstart": "7",
+          "qend": "42",
+          "qlen": "163",
+          "tstart": "6",
+          "tend": "42",
+          "tlen": "43",
+          "evalue": "6.903E-05",
+          "bits": "36",
+          "qcov": "0.221",
+          "tcov": "0.860",
+          "reference_group": "mega_train",
+          "reference_names": [
+            "2YSB.pdb"
+          ]
+        },
+        {
+          "query": "1PIN_A",
+          "target": "mega_train_63",
+          "fident": "0.419",
+          "alnlen": "31",
+          "qstart": "7",
+          "qend": "37",
+          "qlen": "163",
+          "tstart": "8",
+          "tend": "37",
+          "tlen": "43",
+          "evalue": "7.379E-04",
+          "bits": "33",
+          "qcov": "0.190",
+          "tcov": "0.698",
+          "reference_group": "mega_train",
+          "reference_names": [
+            "5AHT.pdb"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 0
+    },
+    {
+      "id": "1QJP_A",
+      "description": "OUTER MEMBRANE PROTEIN A",
+      "ec_number": "",
+      "sequence_sha256": "082e87a057c10413afb87f2f2a7978d0ce900a64865d7f6424598525bfc7d9ad",
+      "rows": [
+        {
+          "experiment_id": "PT025461",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025460",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025459",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025458",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025457",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025456",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025455",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025454",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025453",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025452",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025451",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025450",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "1QJP_A",
+          "target": "prior_fireprot_46",
+          "fident": "0.988",
+          "alnlen": "171",
+          "qstart": "1",
+          "qend": "171",
+          "qlen": "171",
+          "tstart": "22",
+          "tend": "192",
+          "tlen": "346",
+          "evalue": "2.056E-120",
+          "bits": "370",
+          "qcov": "1.000",
+          "tcov": "0.494",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1QJP"
+          ]
+        },
+        {
+          "query": "1QJP_A",
+          "target": "fireprot_train_29",
+          "fident": "0.988",
+          "alnlen": "171",
+          "qstart": "1",
+          "qend": "171",
+          "qlen": "171",
+          "tstart": "22",
+          "tend": "192",
+          "tlen": "346",
+          "evalue": "2.056E-120",
+          "bits": "370",
+          "qcov": "1.000",
+          "tcov": "0.494",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P0A910"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 11
+    },
+    {
+      "id": "1RBP_A",
+      "description": "PLASMA RETINOL-BINDING PROTEIN PRECURSOR",
+      "ec_number": "",
+      "sequence_sha256": "c92b49bc8ea0c20f92c4da87da4b2de0a3ad7b949a286a8e535c32bcee7eb18a",
+      "rows": [
+        {
+          "experiment_id": "VB04471",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "VB04470",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "VB04469",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "VB04468",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "VB04467",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "VB04466",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "1RBP_A",
+          "target": "prior_fireprot_51",
+          "fident": "1.000",
+          "alnlen": "182",
+          "qstart": "1",
+          "qend": "182",
+          "qlen": "182",
+          "tstart": "19",
+          "tend": "200",
+          "tlen": "201",
+          "evalue": "3.927E-128",
+          "bits": "393",
+          "qcov": "1.000",
+          "tcov": "0.905",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1RBP"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 6
+    },
+    {
+      "id": "1SUP_A",
+      "description": "SUBTILISIN BPN'",
+      "ec_number": "3.4.21.62",
+      "sequence_sha256": "9b8a51263c4f034b1c6ba842c6eb0ec532e0798eca9f9e5426051ecab67cb7e3",
+      "rows": [
+        {
+          "experiment_id": "PT014032",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT014031",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT014030",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT014029",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT014028",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT014027",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "1SUP_A",
+          "target": "prior_fireprot_64",
+          "fident": "1.000",
+          "alnlen": "275",
+          "qstart": "1",
+          "qend": "275",
+          "qlen": "275",
+          "tstart": "108",
+          "tend": "382",
+          "tlen": "382",
+          "evalue": "1.054E-174",
+          "bits": "533",
+          "qcov": "1.000",
+          "tcov": "0.720",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1SUP"
+          ]
+        },
+        {
+          "query": "1SUP_A",
+          "target": "fireprot_train_44",
+          "fident": "1.000",
+          "alnlen": "275",
+          "qstart": "1",
+          "qend": "275",
+          "qlen": "275",
+          "tstart": "108",
+          "tend": "382",
+          "tlen": "382",
+          "evalue": "1.054E-174",
+          "bits": "533",
+          "qcov": "1.000",
+          "tcov": "0.720",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P00782"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 6
+    },
+    {
+      "id": "1THQ_A",
+      "description": "CrcA protein",
+      "ec_number": "",
+      "sequence_sha256": "84fa7d6eef54f9f086f519c1f3d723b53605a05c8aca9a119a4fc25bb295dbc6",
+      "rows": [
+        {
+          "experiment_id": "VB05535",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "VB05534",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025488",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025487",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025486",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025485",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025484",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025483",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025482",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025481",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025480",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025479",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025478",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025476",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025475",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025474",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025473",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025472",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025471",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "1THQ_A",
+          "target": "prior_fireprot_61",
+          "fident": "1.000",
+          "alnlen": "161",
+          "qstart": "2",
+          "qend": "162",
+          "qlen": "170",
+          "tstart": "26",
+          "tend": "186",
+          "tlen": "186",
+          "evalue": "5.049E-120",
+          "bits": "369",
+          "qcov": "0.947",
+          "tcov": "0.866",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1THQ"
+          ]
+        },
+        {
+          "query": "1THQ_A",
+          "target": "fireprot_train_41",
+          "fident": "1.000",
+          "alnlen": "161",
+          "qstart": "2",
+          "qend": "162",
+          "qlen": "170",
+          "tstart": "26",
+          "tend": "186",
+          "tlen": "186",
+          "evalue": "5.049E-120",
+          "bits": "369",
+          "qcov": "0.947",
+          "tcov": "0.866",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P37001"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 17
+    },
+    {
+      "id": "1TPK_A",
+      "description": "TISSUE PLASMINOGEN ACTIVATOR",
+      "ec_number": "3.4.21.31",
+      "sequence_sha256": "dd0dcaea641546f5f33ce1df87302fcc94384525bb8869bcab80c1e1441a45e9",
+      "rows": [
+        {
+          "experiment_id": "PT014252",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "PT014251",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "PT014250",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "PT014249",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "PT014248",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "PT014247",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "1TPK_A",
+          "target": "prior_fireprot_23",
+          "fident": "1.000",
+          "alnlen": "88",
+          "qstart": "1",
+          "qend": "88",
+          "qlen": "88",
+          "tstart": "211",
+          "tend": "298",
+          "tlen": "562",
+          "evalue": "5.143E-64",
+          "bits": "203",
+          "qcov": "1.000",
+          "tcov": "0.157",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1TPK"
+          ]
+        },
+        {
+          "query": "1TPK_A",
+          "target": "fireprot_train_9",
+          "fident": "1.000",
+          "alnlen": "88",
+          "qstart": "1",
+          "qend": "88",
+          "qlen": "88",
+          "tstart": "211",
+          "tend": "298",
+          "tlen": "562",
+          "evalue": "5.143E-64",
+          "bits": "203",
+          "qcov": "1.000",
+          "tcov": "0.157",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P00750"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 6
+    },
+    {
+      "id": "1WIT_A",
+      "description": "TWITCHIN 18TH IGSF MODULE",
+      "ec_number": "",
+      "sequence_sha256": "2c0d0f4d5ebf5395a0d33f5c90c9649a85620e3bcf8e630687f33eda45410c74",
+      "rows": [
+        {
+          "experiment_id": "VB05285",
+          "eligible": true,
+          "exclusion_reasons": []
+        }
+      ],
+      "matches": [],
+      "condition_metadata_available_rows": 0
+    },
+    {
+      "id": "1XAS_A",
+      "description": "1,4-BETA-D-XYLAN XYLANOHYDROLASE",
+      "ec_number": "3.2.1.8",
+      "sequence_sha256": "b24a540d0c194dcf446ec3201c786ad7d9a46cb864d3d5ecead20afdd44de4fb",
+      "rows": [
+        {
+          "experiment_id": "VB04030",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "VB04029",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "VB04028",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "VB04027",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "VB04026",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "VB04025",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "VB04024",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "VB04023",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "VB04022",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "VB04021",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "VB04020",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "VB04019",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "1XAS_A",
+          "target": "prior_fireprot_37",
+          "fident": "0.993",
+          "alnlen": "299",
+          "qstart": "1",
+          "qend": "299",
+          "qlen": "299",
+          "tstart": "42",
+          "tend": "340",
+          "tlen": "477",
+          "evalue": "1.813E-204",
+          "bits": "620",
+          "qcov": "1.000",
+          "tcov": "0.627",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1E0W"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 12
+    },
+    {
+      "id": "1ZYM_A",
+      "description": "ENZYME I",
+      "ec_number": "2.7.3.9",
+      "sequence_sha256": "eea74ede09faa73266ef142d326dee3b0e8d817f4ad60cdc565a9f2510c8013a",
+      "rows": [
+        {
+          "experiment_id": "VB04537",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        },
+        {
+          "experiment_id": "VB04536",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        }
+      ],
+      "matches": [],
+      "condition_metadata_available_rows": 0
+    },
+    {
+      "id": "2ADA_A",
+      "description": "ADENOSINE DEAMINASE",
+      "ec_number": "3.5.4.4",
+      "sequence_sha256": "ae372e92c280c531aebbd4b272360911a6ff99bfe3624e03195cd7b5de120c92",
+      "rows": [
+        {
+          "experiment_id": "VB05562",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        },
+        {
+          "experiment_id": "VB05561",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        },
+        {
+          "experiment_id": "VB05503",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        },
+        {
+          "experiment_id": "PT016858",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "2ADA_A",
+          "target": "prior_fireprot_16",
+          "fident": "1.000",
+          "alnlen": "352",
+          "qstart": "1",
+          "qend": "352",
+          "qlen": "352",
+          "tstart": "1",
+          "tend": "352",
+          "tlen": "352",
+          "evalue": "4.543E-240",
+          "bits": "726",
+          "qcov": "1.000",
+          "tcov": "1.000",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "2ADA"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 1
+    },
+    {
+      "id": "2BRD_A",
+      "description": "BACTERIORHODOPSIN",
+      "ec_number": "",
+      "sequence_sha256": "d84aa25b63de17c269de058969e1daa06e079a1bdd4d1cbb5f9ef6fbacc15704",
+      "rows": [
+        {
+          "experiment_id": "PT017337",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT017336",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT017335",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT017334",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT017333",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT017332",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT017331",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT017330",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT017329",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT017328",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT017327",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT017326",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT017325",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT017324",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT017323",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT017322",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT017321",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT017320",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT017319",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT017318",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT017317",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT017316",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT017315",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        },
+        {
+          "experiment_id": "PT017314",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Every residue requires an unambiguous occupied N/CA/C/O backbone"
+          ]
+        }
+      ],
+      "matches": [],
+      "condition_metadata_available_rows": 0
+    },
+    {
+      "id": "2CRK_A",
+      "description": "PROTEIN (CREATINE KINASE)",
+      "ec_number": "2.7.3.2",
+      "sequence_sha256": "f34f61b76a523945340db01d4b0039f0027d296d87a9507cb2c9923e9332a57d",
+      "rows": [
+        {
+          "experiment_id": "VB05563",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        },
+        {
+          "experiment_id": "PT025292",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Backbone contains a peptide-chain break; provide a complete contiguous construct"
+          ]
+        }
+      ],
+      "matches": [],
+      "condition_metadata_available_rows": 0
+    },
+    {
+      "id": "2HIP_A",
+      "description": "HIGH POTENTIAL IRON SULFUR PROTEIN",
+      "ec_number": "",
+      "sequence_sha256": "e01861f5950ab207961e6204bdbf2dc1b3d48de4635d10961b76e806af49678a",
+      "rows": [
+        {
+          "experiment_id": "VB04545",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        }
+      ],
+      "matches": [],
+      "condition_metadata_available_rows": 0
+    },
+    {
+      "id": "2Q98_A",
+      "description": "Prolactin",
+      "ec_number": "",
+      "sequence_sha256": "03a5d844f1b133e6d93705f53e82d6552bb0c94146a218ea0a43f4afa9c9255d",
+      "rows": [
+        {
+          "experiment_id": "VB05571",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB05570",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB05569",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB05568",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB05567",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB05566",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB05565",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB05564",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB05325",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "2Q98_A",
+          "target": "prior_fireprot_58",
+          "fident": "0.989",
+          "alnlen": "190",
+          "qstart": "2",
+          "qend": "191",
+          "qlen": "191",
+          "tstart": "38",
+          "tend": "227",
+          "tlen": "227",
+          "evalue": "4.141E-124",
+          "bits": "382",
+          "qcov": "0.995",
+          "tcov": "0.837",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "2Q98"
+          ]
+        },
+        {
+          "query": "2Q98_A",
+          "target": "fireprot_train_39",
+          "fident": "0.989",
+          "alnlen": "190",
+          "qstart": "2",
+          "qend": "191",
+          "qlen": "191",
+          "tstart": "38",
+          "tend": "227",
+          "tlen": "227",
+          "evalue": "4.141E-124",
+          "bits": "382",
+          "qcov": "0.995",
+          "tcov": "0.837",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P01236"
+          ]
+        },
+        {
+          "query": "2Q98_A",
+          "target": "prior_fireprot_20",
+          "fident": "0.265",
+          "alnlen": "182",
+          "qstart": "5",
+          "qend": "186",
+          "qlen": "191",
+          "tstart": "30",
+          "tend": "211",
+          "tlen": "217",
+          "evalue": "1.989E-15",
+          "bits": "68",
+          "qcov": "0.953",
+          "tcov": "0.839",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1HGU"
+          ]
+        },
+        {
+          "query": "2Q98_A",
+          "target": "fireprot_train_7",
+          "fident": "0.265",
+          "alnlen": "182",
+          "qstart": "5",
+          "qend": "186",
+          "qlen": "191",
+          "tstart": "30",
+          "tend": "211",
+          "tlen": "217",
+          "evalue": "1.989E-15",
+          "bits": "68",
+          "qcov": "0.953",
+          "tcov": "0.839",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P01241"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 0
+    },
+    {
+      "id": "2ZTA_A",
+      "description": "GCN4 LEUCINE ZIPPER",
+      "ec_number": "",
+      "sequence_sha256": "805842a343863679f8df42bc2a1b2f2465b78e764dd75121d74a75d38f6a6c2c",
+      "rows": [
+        {
+          "experiment_id": "PT017023",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Supply the complete 2\u20131024 residue canonical construct sequence"
+          ]
+        },
+        {
+          "experiment_id": "PT017022",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Supply the complete 2\u20131024 residue canonical construct sequence"
+          ]
+        },
+        {
+          "experiment_id": "PT017021",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Supply the complete 2\u20131024 residue canonical construct sequence"
+          ]
+        },
+        {
+          "experiment_id": "PT017020",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Supply the complete 2\u20131024 residue canonical construct sequence"
+          ]
+        },
+        {
+          "experiment_id": "PT017019",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Supply the complete 2\u20131024 residue canonical construct sequence"
+          ]
+        },
+        {
+          "experiment_id": "PT017018",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Supply the complete 2\u20131024 residue canonical construct sequence"
+          ]
+        },
+        {
+          "experiment_id": "PT017017",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Supply the complete 2\u20131024 residue canonical construct sequence"
+          ]
+        },
+        {
+          "experiment_id": "PT017016",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Structure/mapping boundary: Supply the complete 2\u20131024 residue canonical construct sequence"
+          ]
+        }
+      ],
+      "matches": [],
+      "condition_metadata_available_rows": 0
+    },
+    {
+      "id": "3D2A_A",
+      "description": "Lipase",
+      "ec_number": "3.1.1.3",
+      "sequence_sha256": "a4d53a60f70cce64304188ecf1576bc1fc18e1a95260ef8c9cbc028e74eda596",
+      "rows": [
+        {
+          "experiment_id": "VB05339",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        },
+        {
+          "experiment_id": "VB05338",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        },
+        {
+          "experiment_id": "VB04586",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        },
+        {
+          "experiment_id": "LL002205",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        },
+        {
+          "experiment_id": "LL002204",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        },
+        {
+          "experiment_id": "LL002202",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        },
+        {
+          "experiment_id": "LL002201",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        },
+        {
+          "experiment_id": "LL002198",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        },
+        {
+          "experiment_id": "LL002195",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        },
+        {
+          "experiment_id": "LL002194",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        },
+        {
+          "experiment_id": "LL002193",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        },
+        {
+          "experiment_id": "LL002192",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        },
+        {
+          "experiment_id": "LL002191",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        },
+        {
+          "experiment_id": "LL002190",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "3D2A_A",
+          "target": "fireprot_train_24",
+          "fident": "0.977",
+          "alnlen": "181",
+          "qstart": "1",
+          "qend": "181",
+          "qlen": "181",
+          "tstart": "32",
+          "tend": "212",
+          "tlen": "212",
+          "evalue": "1.332E-117",
+          "bits": "363",
+          "qcov": "1.000",
+          "tcov": "0.854",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P37957"
+          ]
+        },
+        {
+          "query": "3D2A_A",
+          "target": "prior_fireprot_41",
+          "fident": "0.977",
+          "alnlen": "181",
+          "qstart": "1",
+          "qend": "181",
+          "qlen": "181",
+          "tstart": "32",
+          "tend": "212",
+          "tlen": "212",
+          "evalue": "1.332E-117",
+          "bits": "363",
+          "qcov": "1.000",
+          "tcov": "0.854",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1ISP"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 11
+    },
+    {
+      "id": "451C_A",
+      "description": "CYTOCHROME C551",
+      "ec_number": "",
+      "sequence_sha256": "d77c5f5648f3e6d9f20c375f7a0f1e4c0ff6bb08617a0c3179b0fe5de61beeba",
+      "rows": [
+        {
+          "experiment_id": "VB05573",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB05572",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB03694",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "VB03693",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "PT024932",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "PT015970",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "PT015969",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "PT014316",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "PT014313",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        },
+        {
+          "experiment_id": "PT014312",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "451C_A",
+          "target": "prior_fireprot_50",
+          "fident": "1.000",
+          "alnlen": "82",
+          "qstart": "1",
+          "qend": "82",
+          "qlen": "82",
+          "tstart": "23",
+          "tend": "104",
+          "tlen": "104",
+          "evalue": "1.049E-53",
+          "bits": "173",
+          "qcov": "1.000",
+          "tcov": "0.788",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "451C"
+          ]
+        },
+        {
+          "query": "451C_A",
+          "target": "fireprot_train_33",
+          "fident": "1.000",
+          "alnlen": "82",
+          "qstart": "1",
+          "qend": "82",
+          "qlen": "82",
+          "tstart": "23",
+          "tend": "104",
+          "tlen": "104",
+          "evalue": "1.049E-53",
+          "bits": "173",
+          "qcov": "1.000",
+          "tcov": "0.788",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P00099"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 5
+    },
+    {
+      "id": "4BLM_A",
+      "description": "BETA-LACTAMASE",
+      "ec_number": "3.5.2.6",
+      "sequence_sha256": "dfeafe9a3500f933d4787e2da980581ba3f1e2557cdb5410b19fa0418b06b0aa",
+      "rows": [
+        {
+          "experiment_id": "VB05575",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        },
+        {
+          "experiment_id": "VB05574",
+          "eligible": false,
+          "exclusion_reasons": [
+            "Previously evaluated protein identity",
+            "Sequence similarity to supervised training, validation or previously evaluated protein",
+            "Structure/mapping boundary: Complete observed chain sequence differs from the supplied construct"
+          ]
+        }
+      ],
+      "matches": [
+        {
+          "query": "4BLM_A",
+          "target": "prior_fireprot_48",
+          "fident": "1.000",
+          "alnlen": "265",
+          "qstart": "1",
+          "qend": "265",
+          "qlen": "265",
+          "tstart": "43",
+          "tend": "307",
+          "tlen": "307",
+          "evalue": "2.326E-174",
+          "bits": "531",
+          "qcov": "1.000",
+          "tcov": "0.863",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "4BLM"
+          ]
+        },
+        {
+          "query": "4BLM_A",
+          "target": "fireprot_train_31",
+          "fident": "1.000",
+          "alnlen": "265",
+          "qstart": "1",
+          "qend": "265",
+          "qlen": "265",
+          "tstart": "43",
+          "tend": "307",
+          "tlen": "307",
+          "evalue": "2.326E-174",
+          "bits": "531",
+          "qcov": "1.000",
+          "tcov": "0.863",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P00808"
+          ]
+        },
+        {
+          "query": "4BLM_A",
+          "target": "fireprot_train_50",
+          "fident": "0.411",
+          "alnlen": "225",
+          "qstart": "12",
+          "qend": "234",
+          "qlen": "265",
+          "tstart": "35",
+          "tend": "259",
+          "tlen": "286",
+          "evalue": "5.257E-53",
+          "bits": "181",
+          "qcov": "0.842",
+          "tcov": "0.787",
+          "reference_group": "fireprot_train",
+          "reference_names": [
+            "P62593"
+          ]
+        },
+        {
+          "query": "4BLM_A",
+          "target": "prior_fireprot_73",
+          "fident": "0.411",
+          "alnlen": "225",
+          "qstart": "12",
+          "qend": "234",
+          "qlen": "265",
+          "tstart": "35",
+          "tend": "259",
+          "tlen": "286",
+          "evalue": "5.257E-53",
+          "bits": "181",
+          "qcov": "0.842",
+          "tcov": "0.787",
+          "reference_group": "prior_fireprot",
+          "reference_names": [
+            "1ZG4"
+          ]
+        }
+      ],
+      "condition_metadata_available_rows": 0
+    }
+  ],
+  "interpretation": "Two individually mapped measurements remain, one for phosphotriesterase and one for a twitchin domain. This cohort is insufficient for enzyme-ranking, calibration or shortlist-enrichment qualification. Exclusion counts overlap. No model predictions were evaluated on this candidate cohort."
+}

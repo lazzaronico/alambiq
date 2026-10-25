@@ -1,0 +1,75 @@
+{
+  "logical_id": "database.pfam-38.2-mmseqs-profiles",
+  "version": "Pfam38.2",
+  "provider": "EMBL-EBI (Pfam)",
+  "license": "CC0-1.0",
+  "description": "Pfam 38.2 seed alignments (30,134 families) as an MMseqs2 profile database, with a precomputed search index.",
+  "build": "Built locally from https://ftp.ebi.ac.uk/pub/databases/Pfam/releases/Pfam38.2/Pfam-A.seed.gz (SHA-256 c53a1397f6741c3501f21db2179ad7810d98ddf9f3b3172257bd71ca07ba8c3b) with MMseqs2 18-8cc5c: convertmsa, msa2profile --msa-type 2 --match-mode 1 --match-ratio 0.5 --filter-msa 0, createindex -k 5 -s 7.5. Profiles are built from seed alignments, not the full Pfam HMMs, and Pfam gathering thresholds are not applied.",
+  "files": [
+    {
+      "path": "build.json",
+      "bytes": 723,
+      "sha256": "abee331a0dd06a545eecdb642f841ef59c347045126ae874e577670acb70b72c"
+    },
+    {
+      "path": "catalogue.json",
+      "bytes": 6768220,
+      "sha256": "cd41a560dc2c3f9a2635df561a9c56799101fdfe8fb3164c28a282d17e49ece7"
+    },
+    {
+      "path": "native.log",
+      "bytes": 6929,
+      "sha256": "126fd76482080801add32dee5f32883d0b7f02c620b34bd802f2a7d43f0d7dff"
+    },
+    {
+      "path": "profiles",
+      "bytes": 119373934,
+      "sha256": "bf419e89a2cacfd507f38f184059afe6a404b4f100dbf92e3a3ab2bb98ff3b75"
+    },
+    {
+      "path": "profiles.dbtype",
+      "bytes": 4,
+      "sha256": "26b25d457597a7b0463f9620f666dd10aa2c4373a505967c7c8d70922a2d6ece"
+    },
+    {
+      "path": "profiles.idx",
+      "bytes": 10288545792,
+      "sha256": "d488020c656fb1c119ec444d4b6c0fd3b44173b560e257320aa434c5298695fb"
+    },
+    {
+      "path": "profiles.idx.dbtype",
+      "bytes": 4,
+      "sha256": "9f076b7eb7fdc0311cd3208cdbbebbf8014dd3a05e35191c96947b358a362b40"
+    },
+    {
+      "path": "profiles.idx.index",
+      "bytes": 343,
+      "sha256": "5e464ca0ae4f90ec297b77c00b7030d1f8953eac75055619796da9c1d7bf607c"
+    },
+    {
+      "path": "profiles.index",
+      "bytes": 594447,
+      "sha256": "26e6985afc0ef725da43c53abd2606e4778b7021573470ba091c20fcb05d42b0"
+    },
+    {
+      "path": "profiles_h",
+      "bytes": 983920,
+      "sha256": "5f52bd8a6a5a9ff06f7bfe524371985daf00da3192c7354148dce506411ac636"
+    },
+    {
+      "path": "profiles_h.dbtype",
+      "bytes": 4,
+      "sha256": "42f4aeb81c1ef81f771f3de8abca9dcf66901c575530e7672e4b1146474ae650"
+    },
+    {
+      "path": "profiles_h.index",
+      "bytes": 467634,
+      "sha256": "c16f862c54463ea5921a4ff5b6ac2204ae5f0a1caaafd846b46263702267e8be"
+    },
+    {
+      "path": "source.sto.gz",
+      "bytes": 194369799,
+      "sha256": "c53a1397f6741c3501f21db2179ad7810d98ddf9f3b3172257bd71ca07ba8c3b"
+    }
+  ]
+}

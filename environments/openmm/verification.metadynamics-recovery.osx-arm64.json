@@ -1,0 +1,228 @@
+{
+  "canonical_runs": [
+    {
+      "new_production_steps": 4,
+      "platform": "Reference",
+      "production_end_step": 32,
+      "production_start_step": 24,
+      "recovery": {
+        "barostat_adaptation": "reinitialized",
+        "barostat_proposal_phase": "reinitialized",
+        "checkpoint_step": 28,
+        "checkpoint_time_ps": 0.014000000000000009,
+        "continuation": "Paired native state, bias and verified history resume to the original target; barostat adaptation and proposal phase reinitialize",
+        "energy_difference_kj_mol": {
+          "getKineticEnergy": 0.0,
+          "getPotentialEnergy": 0.0
+        },
+        "ignored_uncheckpointed_bytes": {
+          "adaptation-state.csv": 0,
+          "collective-variables.csv": 100,
+          "equilibration.csv": 0,
+          "frozen-equilibration-state.csv": 0,
+          "gaussians.csv": 0,
+          "production-start-state.xml": 0,
+          "state.csv": 233,
+          "system.xml": 0,
+          "trajectory.dcd": 176
+        },
+        "native_checkpoint_roundtrip_exact": true,
+        "original_target_step": 32,
+        "recovery_policy": "paired-bias-checkpoint-barostat-reset-v1",
+        "remaining_steps": 4,
+        "remaining_steps_by_phase": {
+          "adaptation": 0,
+          "frozen-equilibration": 0,
+          "frozen-production": 4
+        },
+        "retained_frames": 2,
+        "source_error": "Injected native control interruption",
+        "source_sha256": {
+          "recovery_adaptation_state": "b03977c0135e7306daf2e7f25e6444ab3171ad56602e07b31f42def2320d21a7",
+          "recovery_bias_snapshot": "5d4df7e80bee2edb141fb5a3c4ea923709ba787787ef379dfe82744fc1af0813",
+          "recovery_configuration": "22569d5ff60d42c647cee3721985d971cba2f8d1866fb859e5f24464361ab257",
+          "recovery_cv": "9a475f98a0bddf37f23eb291d6a8a61cbee74bc60f47106254e4873e87cda1aa",
+          "recovery_equilibration": "5588e83f55958e6673267a64d1dc484eada2d745853c52be1dc8e2f072d4f75a",
+          "recovery_frozen_state": "5a662804356677902476b0b8528da2678bcb55f0ad17c714f3ce07f239644541",
+          "recovery_gaussians": "67cb31a5927bcc975af7ef100ba73232d3cdd2040287a70c604bc637ddd7b8d7",
+          "recovery_production_start": "d1fad1f9b7eb496b72a59528f274993155493414bee1a61298058fa09cb54041",
+          "recovery_state": "150394688ce53bb5be0e613668ead7616e6055f7271dea5354cbf02a7cb89982",
+          "recovery_system": "662b9938013de7d8fd139acbf603c291cd5a66cdf4cc72fd6c9bd2a0fb57d45b",
+          "recovery_trajectory": "d28711d0b517aa8a5a45dcf8a68bb9277e7daca7c7f38972a8c62016f1a7dfdb",
+          "state_xml": "bb334bae5b3470e129521e017f25645bc3f1626bc0bb7ade55a7d5effa211516",
+          "system_xml": "e7e4de93e085d166bff6dbe3a71346d25cc074c0cee3fd83822bda762bb67cce",
+          "topology_pdb": "51f668e9710ea7351956744ec583b8f983babdae8f93a0f9b79c3444af51a837"
+        },
+        "source_step_id": "interrupted-bias",
+        "source_task_sha256": "cd91d985004506a84b2a460462b6803d18952dd0609a8f8a39628b5ad98f84e6",
+        "uninterrupted_trajectory_identity": "not-established"
+      },
+      "run_id": "run-edfc768641150a6a",
+      "step_record_sha256": "4462779034dd5d0aacf18cb8a69d7a202c9a1e8626a95d02208649fc445b3d18"
+    },
+    {
+      "new_production_steps": 4,
+      "platform": "CPU",
+      "production_end_step": 32,
+      "production_start_step": 24,
+      "recovery": {
+        "barostat_adaptation": "reinitialized",
+        "barostat_proposal_phase": "reinitialized",
+        "checkpoint_step": 28,
+        "checkpoint_time_ps": 0.014000000000000009,
+        "continuation": "Paired native state, bias and verified history resume to the original target; barostat adaptation and proposal phase reinitialize",
+        "energy_difference_kj_mol": {
+          "getKineticEnergy": 0.0,
+          "getPotentialEnergy": 0.0
+        },
+        "ignored_uncheckpointed_bytes": {
+          "adaptation-state.csv": 0,
+          "collective-variables.csv": 99,
+          "equilibration.csv": 0,
+          "frozen-equilibration-state.csv": 0,
+          "gaussians.csv": 0,
+          "production-start-state.xml": 0,
+          "state.csv": 232,
+          "system.xml": 0,
+          "trajectory.dcd": 176
+        },
+        "native_checkpoint_roundtrip_exact": true,
+        "original_target_step": 32,
+        "recovery_policy": "paired-bias-checkpoint-barostat-reset-v1",
+        "remaining_steps": 4,
+        "remaining_steps_by_phase": {
+          "adaptation": 0,
+          "frozen-equilibration": 0,
+          "frozen-production": 4
+        },
+        "retained_frames": 2,
+        "source_error": "Injected native control interruption",
+        "source_sha256": {
+          "recovery_adaptation_state": "26b9976b4507e4bbb668a27221647c18b19747d7231a11c05eae0a7be7f79318",
+          "recovery_bias_snapshot": "b993c16511fcf7004af4031b82436bf2c2661579f859454ca9afb9b55270e058",
+          "recovery_configuration": "5f48647e804df83f44a264bea22ac790aea8e1676dbd8bfdedb458c8f420c876",
+          "recovery_cv": "2957b04059699b61d0efbce1d3124c24bde317e06a781c8ecbcbed9eead08c51",
+          "recovery_equilibration": "c3640c299b696c12660a48ff7e40be15afccb9b0c233377861ec1d7cfff1cc25",
+          "recovery_frozen_state": "359ff84c2105c658ca461dd9ae1210bb320a3d481ec53b5212db85049e6560ec",
+          "recovery_gaussians": "789ab4eeadce7d28412af0cdf2053d00120b85bdf6eac2f4278d2fa44f8bab1c",
+          "recovery_production_start": "472bff459c3133af4d94545edbacb3659ab5f920e1b4c0e906315f1d19c078a6",
+          "recovery_state": "396d4a634a46a2f3c7f8ca122856dbc639ee4f0a3f87a2b9772e9b0b68364754",
+          "recovery_system": "27dd42e127cb85d3410090fae5093e73e1f70f29dc65f5c42ec021f2ed46af4a",
+          "recovery_trajectory": "2f0ac8f72ef7e8efc4ba5db170abd5f2ec4d9da8135955adc1e663b9786053e0",
+          "state_xml": "bb334bae5b3470e129521e017f25645bc3f1626bc0bb7ade55a7d5effa211516",
+          "system_xml": "e7e4de93e085d166bff6dbe3a71346d25cc074c0cee3fd83822bda762bb67cce",
+          "topology_pdb": "51f668e9710ea7351956744ec583b8f983babdae8f93a0f9b79c3444af51a837"
+        },
+        "source_step_id": "interrupted-bias",
+        "source_task_sha256": "2ff0b5869520b67f30c70e8e9f7c15b8ad4109aefe63320f3a3fff48096bb052",
+        "uninterrupted_trajectory_identity": "not-established"
+      },
+      "run_id": "run-73862bc044e94e29",
+      "step_record_sha256": "adb950fba2f730c51893904f0a2c69df901b64d82ef831e367f6a1c8e7488d29"
+    }
+  ],
+  "date": "2026-10-04",
+  "development_failures": [
+    {
+      "finding": "The first interruption worker incorrectly unpacked its added phase argument",
+      "resolution": "Corrected the test worker argument slice before native recovery executed; initial failed log retained"
+    },
+    {
+      "failed_log_sha256": "54e922dd9ba0c294e946119df557ed6ec97933eeff0aa52084412e06d726b32d",
+      "finding": "First full regression found two outdated shared skill-version references after guidance was revised",
+      "resolution": "Aligned both runtime references and both plugin manifests; 12 contract tests and complete 1402-test regression now pass"
+    }
+  ],
+  "environment": {
+    "cpu_properties": {
+      "DeterministicForces": "true",
+      "Threads": "2"
+    },
+    "native_platforms": [
+      "Reference",
+      "CPU"
+    ],
+    "openmm": "8.6.0.dev-c6173db",
+    "platform": "macOS-26.6.2-arm64-arm-64bit"
+  },
+  "limitations": [
+    "Bounded software/recovery controls; physical free-energy accuracy, equilibration and enzyme sampling are unassessed",
+    "OpenMM barostat adaptation, proposal scale and proposal phase reinitialize on native recovery",
+    "General equality to uninterrupted NPT dynamics is not established",
+    "GPU and cross-platform/build recovery are unqualified; the reader requires the identical OpenMM build and preserved scientific/platform settings",
+    "No sampling-speedup measurement",
+    "Earlier schema 0.1 snapshots remain historical and cannot be recovered by this reader"
+  ],
+  "method_profile": "openmm.prepared-npt-torsion-metadynamics-v1",
+  "native_controls": {
+    "active_npt": "Canonical capability recovery on Reference and CPU with proposals every two steps; state CSV, final state and native checkpoint equal an independent native checkpoint replay byte for byte",
+    "all_three_phase_restarts": "Exact retained history, final state and bias compared with an uninterrupted Reference run without barostat proposals",
+    "complete_checkpoint": {
+      "new_steps": 0,
+      "retained_frames": 4
+    },
+    "evidence_sha256": "d0aa60d236d527c4ffafac27b1f9d5c366c281398d5251f400db9904262a7454",
+    "negative_controls": [
+      "Changed scientific temperature rejected before propagation",
+      "Changed checkpointed state prefix rejected even when full source identity is updated",
+      "Missing paired inputs or explicit recovery policy rejected"
+    ],
+    "new_production_steps": 4,
+    "retained_frames": 2,
+    "system": "Eight massive particles with two periodic bonded torsions; 32 steps at 0.5 fs",
+    "test_log_sha256": "e98efec177e503036596697899926872ef22247a1411e374519940dae6d59bcb"
+  },
+  "provider": {
+    "id": "openmm.prepared-dynamics",
+    "version": "0.8.0"
+  },
+  "recovery_policy": "paired-bias-checkpoint-barostat-reset-v1",
+  "required_checks": {
+    "passed": 11,
+    "receipt_sha256": "8561e962b77f25a116fa92c7345045faaf93479e001dd946bbb31a38350146b2"
+  },
+  "schema_version": "0.1",
+  "snapshot_schema": "0.2",
+  "source_sha256": {
+    "src/bioforge/plugins/openmm_dynamics.py": "e03b60d3f9c971888a32b49958a35e49945479064d15f01241de3108e82f3e34",
+    "src/bioforge/plugins/openmm_workbench.py": "6c9f2675ef437191e2451c3c5ae6aea6f65ed21307db4ad39ca62b6f810ce938",
+    "src/bioforge/plugins/runners/openmm_bias_recovery.py": "529de6d7c04266fc88681be96aeb4170a58a315e544bfe743a5267cf7b42d610",
+    "src/bioforge/plugins/runners/openmm_metadynamics.py": "1eff4b2409e70fca392e9e54ae47ef69ad1911e143aa3cefcef60534423d92fd",
+    "src/bioforge/plugins/runners/openmm_runner.py": "09afb27455de16b9840f61c70f226b278c145a15e54e8bab681dc38c6aa4890a",
+    "tests/test_openmm_bias_recovery.py": "57ae98a736278a76d27442f8e2746f02fc75d54305e255fb5196df1163bb8442",
+    "tests/test_openmm_metadynamics.py": "af18275b12fc6a774d2da6862897b5e07e80b5a4ba3478418d43963524c3ed43"
+  },
+  "status": "bounded-native-and-canonical-recovery-controls-passed",
+  "tests": {
+    "contracts-final.log": {
+      "discovered": 12,
+      "sha256": "9281e3fa73187e38accffad46393e5bfa31fee161e47f4c6e5a26cb39319605b",
+      "skipped": 0,
+      "status": "passed"
+    },
+    "openmm-final.log": {
+      "discovered": 57,
+      "sha256": "6439ae70c0be4488ad4f6e3ee924ea6f604927aebb05e35860205b345a022367",
+      "skipped": 4,
+      "status": "passed"
+    },
+    "qualified-final/tests.log": {
+      "discovered": 4,
+      "sha256": "e98efec177e503036596697899926872ef22247a1411e374519940dae6d59bcb",
+      "skipped": 0,
+      "status": "passed"
+    },
+    "source-final.log": {
+      "discovered": 1402,
+      "sha256": "0d348bc0661b8ff0d1995e4649b201f6d1a0ce9540f9c9e1053de840cc976bac",
+      "skipped": 83,
+      "status": "passed"
+    }
+  },
+  "wheel": {
+    "matching_package_files": 229,
+    "stale_or_missing_package_files": 0,
+    "wheel": "bioforge-0.5.0.dev1-py3-none-any.whl",
+    "wheel_sha256": "3813f69bf1ca793287ed0f2ce7e193f9b417faff8fae4b33001fe9880864a916"
+  }
+}

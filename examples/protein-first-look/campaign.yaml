@@ -1,0 +1,9 @@
+id: protein-first-look
+steps:
+  - id: dossier
+    capability: protein.inspect
+    params:
+      fasta: hemoglobin-alpha.fasta
+      uniprot: P69905.json
+      structure: 1A3N.cif
+      coordinate_annotations: true

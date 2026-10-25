@@ -1,0 +1,56 @@
+{
+  "logical_id": "model.esmc-300m",
+  "version": "a59b831785f907e96e6a246b1d142bfb76df31ee",
+  "provider": "Biohub",
+  "license": "MIT-with-third-party-notices",
+  "files": [
+    {
+      "path": "model/README.md",
+      "bytes": 14887,
+      "sha256": "59867d6e974fc0b2f6841615901e85c9a8144098534b03553828212ac611c7a4",
+      "url": "https://huggingface.co/biohub/ESMC-300M/resolve/a59b831785f907e96e6a246b1d142bfb76df31ee/README.md"
+    },
+    {
+      "path": "model/config.json",
+      "bytes": 340,
+      "sha256": "0d4c14b1e7192175b5ce8bb6c0eaa6b06c02645d49d6708c84fc3c765fe83a04",
+      "url": "https://huggingface.co/biohub/ESMC-300M/resolve/a59b831785f907e96e6a246b1d142bfb76df31ee/config.json"
+    },
+    {
+      "path": "model/model.safetensors",
+      "bytes": 1332036392,
+      "sha256": "0772d8fe64bb25e14fe6f23b80e3c9a7d215d0da3c6cba5bd356d7c0e0bb22cc",
+      "url": "https://huggingface.co/biohub/ESMC-300M/resolve/a59b831785f907e96e6a246b1d142bfb76df31ee/model.safetensors"
+    },
+    {
+      "path": "model/special_tokens_map.json",
+      "bytes": 171,
+      "sha256": "0b7245ec86c8c3aeaf61523ba70dfa79be137e6283f127bd651adc30b4f15c74",
+      "url": "https://huggingface.co/biohub/ESMC-300M/resolve/a59b831785f907e96e6a246b1d142bfb76df31ee/special_tokens_map.json"
+    },
+    {
+      "path": "model/tokenizer.json",
+      "bytes": 2879,
+      "sha256": "8d3447b278176e65fb3ef0224472927bf5fee3be46ea2bd77fad0111423cee1f",
+      "url": "https://huggingface.co/biohub/ESMC-300M/resolve/a59b831785f907e96e6a246b1d142bfb76df31ee/tokenizer.json"
+    },
+    {
+      "path": "model/tokenizer_config.json",
+      "bytes": 1392,
+      "sha256": "e8d8e40c9f92b334f0272e80bb65ed4043cb9836523cbae899e9859e8cbb8833",
+      "url": "https://huggingface.co/biohub/ESMC-300M/resolve/a59b831785f907e96e6a246b1d142bfb76df31ee/tokenizer_config.json"
+    },
+    {
+      "path": "notices/LICENSE.md",
+      "bytes": 1095,
+      "sha256": "b63df9ca1dd96b3b21eec226b51b236d0bd152ac20eafc43aad46bf832b48d8a",
+      "url": "https://raw.githubusercontent.com/Biohub/esm/bf343ba264b650dff7a073643725f9aaa1fdbe8d/LICENSE.md"
+    },
+    {
+      "path": "notices/THIRD_PARTY_NOTICE.md",
+      "bytes": 948,
+      "sha256": "5bff8515ba4e0f53abdc43714c180b79c5b606160497d98de741a369cb9b6a23",
+      "url": "https://raw.githubusercontent.com/Biohub/esm/bf343ba264b650dff7a073643725f9aaa1fdbe8d/THIRD_PARTY_NOTICE.md"
+    }
+  ]
+}

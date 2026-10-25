@@ -1,0 +1,58 @@
+{
+ "id": "member-0",
+ "volume_L": 0.01,
+ "conditions": "Declared constant assay conditions",
+ "species": [
+  {
+   "id": "S",
+   "initial_M": 0.01,
+   "pools": {
+    "substrate-moiety": 1
+   }
+  },
+  {
+   "id": "P",
+   "initial_M": 0,
+   "pools": {
+    "substrate-moiety": 1
+   }
+  }
+ ],
+ "catalysts": [],
+ "channels": [
+  {
+   "id": "forward",
+   "reaction_id": "S-to-P",
+   "stoichiometry": {
+    "S": -1,
+    "P": 1
+   },
+   "capacity_M_s": 0.001,
+   "factors": [
+    {
+     "species": "S",
+     "kind": "mass-action",
+     "scale_M": 0.01
+    }
+   ],
+   "source": "Analytic first-order test, k = 0.2/s"
+  }
+ ],
+ "phases": [
+  {
+   "end_s": 10.0,
+   "dilution_per_s": 0.0,
+   "feed_M": {},
+   "active_channels": [
+    "forward"
+   ]
+  }
+ ],
+ "events": [],
+ "times_s": [
+  0.0,
+  1.0,
+  5.0,
+  10.0
+ ]
+}

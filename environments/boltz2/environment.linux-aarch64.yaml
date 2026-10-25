@@ -1,0 +1,7 @@
+# CUDA Torch is installed separately from its upstream index; see README.md.
+name: alambiq-boltz2-spark
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip

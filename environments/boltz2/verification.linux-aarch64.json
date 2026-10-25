@@ -1,0 +1,240 @@
+{
+  "base_commit": "417e149",
+  "browser": {
+    "checks": [
+      "source identity",
+      "model-local residue mapping",
+      "keyboard selection",
+      "chain selection",
+      "confidence color toggle",
+      "atom representation",
+      "WebGL",
+      "confidence export",
+      "reset",
+      "offline"
+    ],
+    "errors": [],
+    "local_values": 163,
+    "network": [],
+    "passed": true,
+    "pocket_overlay": false,
+    "selected": {
+      "label_asym_id": "A",
+      "label_seq_id": 1,
+      "observed": true,
+      "polymer": true,
+      "query_position": 1,
+      "residue_name": "MET",
+      "status": "present",
+      "value": 97.388
+    }
+  },
+  "core_only_saved_result_rendering": true,
+  "date": "2026-09-08",
+  "environment": {
+    "boltz": "2.2.1",
+    "conda_package_set_sha256": "79105eb723794692e724821486465425410b1db84f4a8346abf5acb3dcae14fd",
+    "cuda": "13.0",
+    "independent_prefix_portability": "not-established; inherited installed-file fingerprint gate remains",
+    "pip_check_exit_code": 1,
+    "pip_check_message": "nvidia-cusparselt-cu13 0.8.0 is not supported on this platform",
+    "pip_package_set_sha256": "989a412ca2080eba945422c2c35b4fe4441d811d040d2f7dfb1bc7854f2cdcbd",
+    "prefix_bytes": 5694612290,
+    "python": "3.12.14",
+    "torch": "2.11.0+cu130"
+  },
+  "execution_context": "Other GPU research workers were active during the successful run; timing is not an uncontended comparison.",
+  "interrupted_attempt": "Retained preprocessing and loader traceback; precise low-level lock cause not established.",
+  "local_archive": "/Users/user/projects/bioforge/bioforge/.bioforge/spark-boltz/remote",
+  "logs_sha256": {
+    "before.log": "999021c14d1fe4a64bad94c610c65abcfd855dde898ac5a4649d12371b6df247",
+    "browser.log": "c3c79b629ca560a1c8275fd0b6f4ef48f928cf553d442b1fed6e943e988c3b13",
+    "cli-loader-zero.jsonl": "183b5d359ee4f1c17705acfd740e5ca2aeb682431d2cb016a95758e5316706bb",
+    "core.log": "8314b04b2fb25f93529803f34ebe058ac0892d39289d28eabfba4c69e72e75aa",
+    "loader-after.log": "cf1d0b108160b9e9c19bc2ee254e626e7a1c01bfd6d4afc3932a4b51715dfe8a",
+    "loader-before.log": "31aa13bcf4833e073a0aeffd19394f4421cf4caa04094eb65f0a34db326547f5",
+    "remote/after-run-probe.log": "d236e9125bbdf2d629ef44e495366cc26da16d4dfa3eda8dca60d9934f2cc49d",
+    "remote/boltz-install.json": "6999e770de4f0962b68c1ff88ad975ec0f894007e39fef726c871b56b1931e7f",
+    "remote/download.log": "a33af1e174f438c26d748495ba08c86d783c044d821762e7a5c02b799f2bb08f",
+    "remote/journey-loader-zero-no-gpu.log": "c899b9d1c6d2a8c1f31b0de2eb8f3a7c605caee537ffab0aee497672ee3cc393",
+    "remote/journey-loader-zero.log": "b01ac8d231d9e27902eb32b834071ed8004461ba668a8c5528c54a24dd9cef5c",
+    "remote/journey.log": "3714d0d9be57a592021a682c559472407cca0082087efa26c0aea478791c0cb9",
+    "remote/pip-check.log": "18e716e37269560b02025078da6fd88e9518d92711d37d4d8d8de778a817d778",
+    "remote/torch-install.json": "5f52fd33de1704e22785f1fc0d73200f88e558014f9a91e2931770884577415a",
+    "tests-loader-zero.log": "2f13c1768bb53bf24d1f061634efba06afc9e28af1a417f23e7307a0b8dbeb03"
+  },
+  "memory_note": "Separate cumulative process maxima, not aggregate system or GPU memory.",
+  "model_samples": [
+    {
+      "complex_ipde": 0.45266225934028625,
+      "complex_iplddt": 0.9537751078605652,
+      "complex_pde": 0.3015362024307251,
+      "complex_plddt": 0.9777809977531433,
+      "confidence_score": 0.9764077067375183,
+      "sample_index": 0,
+      "structure_artifact": "boltz-model-00-cif"
+    }
+  ],
+  "native_platform": "Linux aarch64, NVIDIA GB10, driver 580.159.03",
+  "native_wheel_sha256": "1cbef1ee1558ef0a631955627b6c85ae86372342a2dc0edeb6cf81a3759cb84c",
+  "no_gpu_result": "Prediction fails explicitly with No supported gpu backend found; all dependent steps blocked.",
+  "parameters": {
+    "accelerator": "gpu",
+    "devices": 1,
+    "diffusion_samples": 1,
+    "enable_affinity": false,
+    "max_msa_seqs": 8192,
+    "model": "boltz2",
+    "num_subsampled_msa": 1024,
+    "num_workers": 0,
+    "output_format": "mmcif",
+    "recycling_steps": 3,
+    "sampling_steps": 200,
+    "seed": 20260908,
+    "subsample_msa": true,
+    "use_kernels": false
+  },
+  "post_run_resource_and_environment_verification": true,
+  "preparation": {
+    "atom_count": 24997,
+    "chloride_ion_count": 8,
+    "protein_residues": 162,
+    "sodium_ion_count": 0,
+    "water_molecule_count": 7458
+  },
+  "prepared_ligand_browser_selection": true,
+  "provider_version": "0.5.0",
+  "resource": {
+    "resource_lock_sha256": "a39cd6c51b818e8e16265bdb59dbd701983c3cd2b2f4eafcdb1df27fab6d0ed9",
+    "root": "/home/user/.bioforge/commissioning/417e149-boltz-20260908/downloaded-resources/27b7a5c169d62d9b06d7b1db549f7a45795a47ec0f0062fcebf082a1c26299be"
+  },
+  "runs": [
+    {
+      "canonical_sha256": {
+        "evidence.json": "50301f135c8a4f980371be4e7c485c6d08b1558127fea4e6e3aa30486c26d664",
+        "manifest.json": "31405f9507c28c7ad0b8b8d79ab7d08ab9adee00bcf099f5dd450a45ff004668",
+        "plan.json": "abd5ad237dd5bfffeb4338cf25ada9152a2d2d432b77afd63dd94b11f05f07ec",
+        "report.html": "317a6b84da6ebdd81a135eb0abf9b5fa492601499ede4f8358ec717aef451a4b",
+        "run.json": "89ac26d814b715b066b18fca2cd6267817fc02dd23c8f555a41787f29c64ba37"
+      },
+      "name": "interrupted",
+      "run_id": "run-704f1cd76f99a055",
+      "steps": [
+        {
+          "id": "predict",
+          "status": "failed"
+        },
+        {
+          "id": "inspect-predicted",
+          "status": "blocked"
+        },
+        {
+          "id": "prepare",
+          "status": "blocked"
+        },
+        {
+          "id": "inspect-prepared",
+          "status": "blocked"
+        }
+      ]
+    },
+    {
+      "canonical_sha256": {
+        "evidence.json": "89ca1cacd992481939a95584681d02fb7d1e216230fd5a7c0c6a5f10c01d8d20",
+        "manifest.json": "a3ffd85372e3241c873070ba8b35bc5014a624270ad39ca360e174205b54e8a8",
+        "plan.json": "abd5ad237dd5bfffeb4338cf25ada9152a2d2d432b77afd63dd94b11f05f07ec",
+        "report.html": "79f694eb3e4ce88c45478a48a3746f2480162e1a069c5175ff2e2bae380746d1",
+        "run.json": "145feb4f58a11a71e99b263077f2e194e5d7c5d2df7679fa4d75b27249823d00"
+      },
+      "name": "cuda",
+      "run_id": "run-6012433e6e6b39c0",
+      "steps": [
+        {
+          "id": "predict",
+          "status": "completed"
+        },
+        {
+          "id": "inspect-predicted",
+          "status": "completed"
+        },
+        {
+          "id": "prepare",
+          "status": "completed"
+        },
+        {
+          "id": "inspect-prepared",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "canonical_sha256": {
+        "evidence.json": "2de2ab157483dbf2cd3d71507bc804b66e44be3859f92da86995ff78a48769fe",
+        "manifest.json": "45c22db74d3b53248c344e6cec03a55945a5709c7dfeb56888b5a6fc5d3e53b1",
+        "plan.json": "abd5ad237dd5bfffeb4338cf25ada9152a2d2d432b77afd63dd94b11f05f07ec",
+        "report.html": "bdd80d11fddb50a24f24fa2989a7af1b121b07ee574bba17d094a1e280b2cc27",
+        "run.json": "5f377d99e4b09c2e200ca1c478161672529e198727b01dcf8480fee7a17ee73c"
+      },
+      "name": "no-gpu",
+      "run_id": "run-2bcfe7b80998b4a5",
+      "steps": [
+        {
+          "id": "predict",
+          "status": "failed"
+        },
+        {
+          "id": "inspect-predicted",
+          "status": "blocked"
+        },
+        {
+          "id": "prepare",
+          "status": "blocked"
+        },
+        {
+          "id": "inspect-prepared",
+          "status": "blocked"
+        }
+      ]
+    }
+  ],
+  "seconds_including_report": 141.35535387392156,
+  "separate_process_max_rss_kib": {
+    "children": 6128656,
+    "self": 836500
+  },
+  "source_sha256": {
+    "campaigns/examples/tutorials/13-trajectory-inspection/protein-ligand/predicted/spark/campaign.yaml": "5e9c820be4522cd46905d0fe01233db6f7ab9121bd7c60f3c24a23e091c3361f",
+    "environments/boltz2/environment.linux-aarch64.yaml": "09b7edfdaf3ecebb60a2f6ebd2808fd822912d407e3e705f7c77a8938c593c19",
+    "environments/boltz2/locks/linux-aarch64.conda-packages.json": "b4084ed45e94a8f01d83460406baa99d6961d51360872a23184db850c6f136a7",
+    "environments/boltz2/locks/linux-aarch64.pip-packages.json": "9245be7e302d9f660007cac30cc7cccdee0c91c236c5ac1b1ea98f8ecfe6e162",
+    "plugins/boltz2.protein-ligand-cofold/plugin.yaml": "1fe250ef8f5c99f86378c98e30ed49e3205b2fdaa3b9d711f353be713393ba40",
+    "src/bioforge/plugins/_boltz2.py": "5c560a73114b145ab9a1131723b28f835e7bfe4a878c97ea203b63d1d788e4f7",
+    "src/bioforge/plugins/boltz2_complex.py": "de856639769979d291b9130c3ced62d3006095fdeed525ef23c977efa85266a1",
+    "src/bioforge/plugins/boltz_request.py": "be16ecb888167c6a9b87aff263eba85f22f1b946016fc9e1bb3555c1111c9957",
+    "tests/test_boltz_cuda_request.py": "c21c85e7931b322b91c37164185cd77370f1a57a5744803c37b76d20fbc0b8f7"
+  },
+  "temporary_worker_pause": {
+    "bounded_seconds": 600,
+    "paused": [
+      1093127,
+      1093128,
+      1093129,
+      1093130
+    ],
+    "restored": [
+      1093127,
+      1093128,
+      1093129,
+      1093130
+    ],
+    "seconds": 234.06966972351074,
+    "started_unix": 1788872226.6103106
+  },
+  "tests": {
+    "passed": 642,
+    "required_cli_passed": 11,
+    "run": 659,
+    "seconds": 135.097,
+    "skipped": 17
+  }
+}

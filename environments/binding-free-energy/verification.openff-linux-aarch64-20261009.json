@@ -1,0 +1,205 @@
+{
+  "schema_version": "0.1",
+  "recorded_date": "2026-10-09",
+  "scope": "Current installed Sage/AshGC short two-leg Linux ARM64 CUDA-double workflow, independent native counters/finite checkpoints and MBAR equations, exact reuse and restored dossier. One-edge 1 ps sampling establishes no converged affinity or complete historical three-edge cycle.",
+  "provider": "openfe.relative-binding",
+  "method_profile": "openfe.sage-2.3.0-ashgc-neutral-relative-binding-v1",
+  "platform": "Linux ARM64 / NVIDIA GB10; OpenMM CUDA double precision",
+  "source_commit_at_execution": "244bbaf23c16898ed7e34e2d15e6403a597390e0",
+  "installed_bioforge_wheel_sha256": "96639dc581278727ccc3c7f0798a9005f763df796473b84d87d8c8a1d24f1b59",
+  "matching_installed_package_files": 231,
+  "source_sha256": {
+    "src/bioforge/plugins/openfe_binding.py": "1700ceaf99f6f514a4d0f40d976c56930c3962f59e0fe1c7af56dd0f4ed0f7f3",
+    "src/bioforge/plugins/runners/openfe_runner.py": "bb429c9f7e88d999f303cd6d45cb51c61e89cf0b93ded623c30eef4c80c603ad",
+    "src/bioforge/plugins/binding_free_energy.py": "ba3feeca97b353ccc82b2f8c3a0985d946c9dc3762e894644f5591f751d20e94",
+    "src/bioforge/inspection/binding.py": "329cb698718e10a1b65fc74279bfe40e9785762e11677d291d9831f93d1f6ce0"
+  },
+  "runtime": {
+    "conda_package_set_sha256": "b69659e382054ef8ddd28a3f0377f6f92c51890e8621de3a41e6be9308fdddef",
+    "versions": {
+      "gufe": "1.12.0",
+      "openfe": "1.12.0",
+      "openff-toolkit": "0.18.0",
+      "openmm": "8.4.0",
+      "openmmtools": "0.26.0",
+      "pymbar": "4.2.0",
+      "rdkit": "2025.9.6"
+    },
+    "native_prefix_installation": "Existing measured prefix; this run independently installs only the Bioforge wheel."
+  },
+  "execution": {
+    "run_id": "run-dea4a7603582e5ae",
+    "reuse_run_id": "run-0db45bb933b24fc4",
+    "canonical_steps_completed": 3,
+    "threads": 2,
+    "native_limit_seconds_per_phase": 3600,
+    "outer_limit_seconds": 7800,
+    "returncode": 0,
+    "started_at": "2026-10-09T05:49:07.883430+00:00",
+    "finished_at": "2026-10-09T06:03:13.742802+00:00",
+    "owned_launcher_and_worker_absent": true,
+    "shared_native_process_lifetime_completed": true
+  },
+  "physical_settings": {
+    "edge": {
+      "id": "benzene-toluene",
+      "a": "benzene",
+      "b": "toluene"
+    },
+    "phase": "solvent",
+    "atom_mapping": [
+      [
+        0,
+        4
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        4,
+        6
+      ],
+      [
+        5,
+        5
+      ],
+      [
+        6,
+        12
+      ],
+      [
+        7,
+        11
+      ],
+      [
+        8,
+        10
+      ],
+      [
+        10,
+        14
+      ],
+      [
+        11,
+        13
+      ]
+    ],
+    "temperature_kelvin": 302.0,
+    "pressure_bar": 1.0,
+    "solvent_padding_nm": 1.5,
+    "ionic_strength_molar": 0.05,
+    "replicas": 2,
+    "equilibration_ps": 0.2,
+    "production_ps": 1.0,
+    "time_per_iteration_ps": 0.02,
+    "checkpoint_interval_ps": 0.2,
+    "positions_interval_ps": 0.2,
+    "lambda_windows": 5,
+    "platform": "CUDA",
+    "threads": 2,
+    "timeout_seconds": 3600
+  },
+  "sources": {
+    "ligand_a": {
+      "sha256": "887e4f0d02a6c67cd137d45cfdc30572d78c5817da0295aa0ac655fe8717785c"
+    },
+    "ligand_b": {
+      "sha256": "c04e1f0d56e23258eda7efc2f780002391a23f81328a6bf56e50a97067d353a6"
+    },
+    "protein": {
+      "sha256": "2efb422b55ee5d4ea1d2f15a87d8a006b60cfab2634297438ff100948f6d05ca"
+    }
+  },
+  "method_sha256": "1e4da2f56cff1c96d34a84e1132501226c19952e2feef7dec04fa02b11a6ca28",
+  "native_archives": [
+    {
+      "phase": "solvent",
+      "sha256": "16a0bb42f2d5eeacbab2fe6b22f0205dc2bd8b4dbe26da34f5fc7eef764c135e",
+      "bytes": 2903136,
+      "files": 33
+    },
+    {
+      "phase": "bound",
+      "sha256": "dc069c14d697ba6099add873912268bb0c34d3181e6e3d01ebeb5e0d164a7dad",
+      "bytes": 42835897,
+      "files": 37
+    }
+  ],
+  "native_completeness": {
+    "repeats": 4,
+    "production_iterations_each": 50,
+    "states_each": 5,
+    "raw_energy_values": 5100,
+    "physical_atoms": {
+      "solvent": 1815,
+      "bound": 31867
+    },
+    "coordinate_box_volume_iterations": [
+      0,
+      10,
+      20,
+      30,
+      40,
+      50
+    ],
+    "latest_checkpoint_iteration": 50,
+    "checkpoint_file_creation_marker": 0,
+    "complete_finite_checkpoint_coordinates": true
+  },
+  "independent_numerical_checks": {
+    "solver": "SciPy BFGS initialization; 50-digit Newton refinement of the same gauge-fixed MBAR equations with analytic Jacobian.",
+    "sample_selection": "Same upstream-selected decorrelated samples; equations, Jacobian, solver and normalized weights independently reconstructed.",
+    "maximum_endpoint_difference_kcal_mol": 2.686491029635363e-10,
+    "maximum_overlap_difference": 8.79207817661154e-12,
+    "maximum_effective_sample_difference": 1.779341118890443e-10,
+    "maximum_weight_normalization_error": 1.3322676295501878e-15,
+    "tolerances": {
+      "endpoint_kcal_mol": 1e-05,
+      "overlap": 1e-07,
+      "effective_samples": 0.0001,
+      "weight_normalization": 1e-08
+    },
+    "two_leg_difference_and_replica_sem_reconstructed": true,
+    "native_bootstrap_uncertainties_retained_not_independently_resampled": true,
+    "initial_bfgs_endpoint_audit_failed": true,
+    "refinement": "Near-disconnected short-run overlap required 50-digit analytic-Jacobian Newton refinement. Original data and every numerical tolerance remain unchanged.",
+    "maximum_endpoint_refinement_change_kcal_mol": 1.4801005699534744e-05
+  },
+  "short_sampling_diagnostics": {
+    "delta_delta_g_kcal_mol": 9.401445402796941,
+    "replica_sem_kcal_mol": 1.920036563522587,
+    "minimum_effective_samples": 4.511344498239461,
+    "cycles_evaluated": 0,
+    "production_convergence_established": false
+  },
+  "reuse_and_restoration": {
+    "native_execution_forbidden_on_exact_resume": true,
+    "both_leg_method_identities_equal": true,
+    "original_reuse_outputs_exact": true,
+    "strict_reload_exact": true,
+    "restored_progressive_dossier_byte_identical": true,
+    "report_sha256": "915a0631746b1875773cd3c71cbfffc1d17a3f4d8182508d5d4f31f766c77624",
+    "original_launch_wrapper_error_before_sampling_retained": true
+  },
+  "evidence_sha256": {
+    "qualification": "ef04450ed10fb4421958ec750e3bc8715efe4fe2ed9e9a61b4d820d8c3895bb3",
+    "returned_manifest": "24ca318547b429c16774e1257fbf66441c9696e080d6270cc618d96dc1cd34bc",
+    "independent_verification": "7fe233841c805c0c452acc99c7dfc45273606603171f75d2a60c8033b1f7d91b",
+    "native_equation_verification": "9599228039b73bf9212a4104cc216d390dbd7601c67ec74cf2fbf00ff7d71e48",
+    "preserved_initial_equation_audit_failure": "60813a367de1bcd7587e3d4a6534a479cf38d016fd59649b097155ac1c60f6d5"
+  },
+  "limits": [
+    "Short-run overlap, effective samples and repeat disagreement require a separate scientific convergence assessment.",
+    "Historical legs retain their recorded force-field and charge-method identities.",
+    "This native run establishes no current OpenFF Docker binding measurement or general CPU/GPU speed ratio."
+  ]
+}

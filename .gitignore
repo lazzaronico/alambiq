@@ -1,0 +1,23 @@
+.DS_Store
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+build/
+dist/
+.alambiq/
+
+# Heavy scientific resources and generated results never belong in Git.
+/resources/
+runs/
+/artifacts/
+*.sif
+*.img
+*.ckpt
+*.pt
+*.pth

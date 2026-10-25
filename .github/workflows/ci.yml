@@ -1,0 +1,126 @@
+name: Installed package validation
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  PREFECT_SERVER_ANALYTICS_ENABLED: "false"
+  PREFECT_HOME: .alambiq/ci/prefect
+  ALAMBIQ_PREFECT_HOME: .alambiq/ci/prefect
+  PREFECT_SERVER_EPHEMERAL_STARTUP_TIMEOUT_SECONDS: "120"
+  PYTHONDONTWRITEBYTECODE: "1"
+  OMP_NUM_THREADS: "2"
+  OPENBLAS_NUM_THREADS: "2"
+  MKL_NUM_THREADS: "2"
+  NUMBA_NUM_THREADS: "2"
+
+jobs:
+  wheel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: python -m pip install uv==0.9.10 ruff==0.15.2
+      - run: uv lock --check
+      - run: ruff check src tests tools
+      - run: uv build --wheel --sdist --out-dir .alambiq/ci/wheel
+      - run: python tools/check_distribution.py
+      - run: python tools/check_getting_started.py
+      - run: uv export --frozen --all-extras --no-emit-project --no-hashes --output-file .alambiq/ci/wheel/dependencies.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: installed-wheel
+          path: .alambiq/ci/wheel/
+          if-no-files-found: error
+          include-hidden-files: true
+
+  installed:
+    needs: wheel
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-14]
+        python-version: ["3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - uses: actions/download-artifact@v4
+        with:
+          name: installed-wheel
+          path: .alambiq/ci/wheel
+      - name: Install the wheel with every pip-installable extra
+        shell: bash
+        run: |
+          for wheel in .alambiq/ci/wheel/*.whl; do
+            python -m pip install --constraint .alambiq/ci/wheel/dependencies.txt "$wheel[chemistry,routes,thermodynamics,quantitative,dossier,construct,coding-design,trajectory,openmm,protein-repair,embedding-analysis]" pytest
+          done
+          python -m pip check
+      - name: The wheel names its capabilities
+        run: alambiq capability list
+      - name: The example campaign validates and runs
+        run: |
+          alambiq validate examples/kinetics-from-measurements/campaign.yaml
+          alambiq run examples/kinetics-from-measurements/campaign.yaml --run-dir .alambiq/ci/runs/kinetics
+      - name: Licences of the installed dependencies
+        run: python tools/scan_licenses.py
+      - name: Headless browser for the report checks
+        run: |
+          python -m pip install playwright==1.62.0
+          python -m playwright install --with-deps chromium
+      - name: Tests against the installed wheel
+        shell: bash
+        run: |
+          for wheel in .alambiq/ci/wheel/*.whl; do
+            python -I tools/check_installed_package.py --wheel "$wheel" --require-extras --receipt .alambiq/ci/installed-${{ matrix.os }}-${{ matrix.python-version }}.json
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: evidence-${{ matrix.os }}-${{ matrix.python-version }}
+          path: .alambiq/ci/*.json
+          include-hidden-files: true
+
+  docker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the core image with the extras the examples need
+        run: |
+          docker build -f environments/docker/Dockerfile \
+            --build-arg 'ALAMBIQ_EXTRAS=quantitative dossier trajectory chemistry routes thermodynamics construct coding-design embedding-analysis' \
+            -t alambiq:ci-core .
+      - name: The image lists its capabilities
+        run: docker run --rm alambiq:ci-core capability list
+      - name: An example runs read-only with no network
+        run: |
+          mkdir -p .alambiq/docker-results
+          docker run --rm --network none --read-only \
+            --tmpfs /tmp:rw,nosuid,nodev,mode=1777,size=1g \
+            --user "$(id -u):$(id -g)" \
+            -v "$PWD:/work:ro" -v "$PWD/.alambiq/docker-results:/results" \
+            alambiq:ci-core run examples/kinetics-from-measurements/campaign.yaml \
+            --run-dir /results/kinetics --report /results/kinetics.html
+          test -s .alambiq/docker-results/kinetics.html
+      - name: The engine layers that need no download build
+        run: |
+          for layer in mmseqs p2rank; do
+            docker build -f environments/docker/Dockerfile.$layer \
+              --build-arg BASE_IMAGE=alambiq:ci-core -t alambiq:ci-$layer .
+          done
+          docker run --rm alambiq:ci-mmseqs env check mmseqs
+          docker run --rm alambiq:ci-p2rank env check p2rank

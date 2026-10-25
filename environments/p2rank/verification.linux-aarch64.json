@@ -1,0 +1,282 @@
+{
+  "base_commit": "a962f47",
+  "browser": {
+    "browser-confidence.log": {
+      "checks": [
+        "source identity",
+        "model-local residue mapping",
+        "keyboard selection",
+        "chain selection",
+        "confidence color toggle",
+        "atom representation",
+        "WebGL",
+        "confidence export",
+        "reset",
+        "offline"
+      ],
+      "errors": [],
+      "local_values": 163,
+      "network": [],
+      "passed": true,
+      "pocket_overlay": true,
+      "selected": {
+        "label_asym_id": "A",
+        "label_seq_id": 1,
+        "observed": true,
+        "polymer": true,
+        "query_position": 1,
+        "residue_name": "MET",
+        "status": "present",
+        "value": 97.341
+      }
+    },
+    "browser-deposited.log": {
+      "checks": [
+        "one shared dossier",
+        "exact structure identity",
+        "keyboard pocket selection",
+        "noncontiguous sequence mapping",
+        "WebGL view",
+        "separate pocket/dossier exports",
+        "clear pocket on manual residue selection",
+        "reset",
+        "offline"
+      ],
+      "errors": [],
+      "exact_query_positions": [
+        33,
+        40,
+        43,
+        44,
+        46,
+        47,
+        59,
+        62,
+        63,
+        66,
+        67,
+        84,
+        87,
+        88,
+        91,
+        92,
+        94,
+        98,
+        99,
+        102,
+        103,
+        106,
+        130,
+        133,
+        134,
+        137
+      ],
+      "network": [],
+      "passed": true,
+      "pockets": 15,
+      "selected_rank": 1
+    },
+    "browser-predicted.log": {
+      "checks": [
+        "one shared dossier",
+        "exact structure identity",
+        "keyboard pocket selection",
+        "noncontiguous sequence mapping",
+        "WebGL view",
+        "separate pocket/dossier exports",
+        "clear pocket on manual residue selection",
+        "reset",
+        "offline"
+      ],
+      "errors": [],
+      "exact_query_positions": [
+        10,
+        11,
+        18,
+        20,
+        21,
+        22,
+        30,
+        32,
+        35,
+        103,
+        104,
+        105,
+        106,
+        107,
+        145
+      ],
+      "network": [],
+      "passed": true,
+      "pockets": 2,
+      "selected_rank": 1
+    }
+  },
+  "core_only_views_byte_identical": true,
+  "date": "2026-09-08",
+  "deposited_pocket_inspection_equals_recorded_mac": true,
+  "folding_reexecuted": false,
+  "fresh_provision": {
+    "application_tree_equals_original": true,
+    "archive_bytes": 275625956,
+    "archive_sha256": "d243f2d9036ac053fefb9407b5fe1c85f4fe077c519fd975ac585e995feab274",
+    "content_sha256": "f80f5cfb6cacce70f6610ed2a07e848ae863b07703acc458576be654ba993001",
+    "path": "/private/tmp/bioforge-p2rank-install-EpDj7d",
+    "resource_lock_sha256": "65b9437d7298ec26338a17f4036c4c35923c2b51a83e93932da9b21800ebd96a"
+  },
+  "health": {
+    "checks": [
+      {
+        "id": "p2rank-resource",
+        "message": "P2Rank 2.5.1 resource lock verified at 3524f6261154aaab7fd2b9cbe7c5678e769cfe96e3c71c8dbab7d326527cfea3 (/home/user/.bioforge/commissioning/a962f47-p2rank-20260908/verified-resources/572bfe1c8acce7eef9dde8e030564a13fed96a518b6adf39ca0d0a7141f27fb6/p2rank).",
+        "status": "pass"
+      },
+      {
+        "id": "java-runtime",
+        "message": "Compatible Java 17.0.18 is available at /home/user/.bioforge/commissioning/a962f47-p2rank-20260908/java17-verified/lib/jvm/bin/java.",
+        "status": "pass"
+      }
+    ],
+    "provider_id": "p2rank.binding-pocket-detection",
+    "provider_version": "0.2.0",
+    "runtime": {
+      "accelerator": "none",
+      "determinism": "profile-dependent",
+      "environment": "isolated",
+      "environment_lock": "p2rank-2.5.1-java17-23-v1",
+      "network_policy": "denied"
+    },
+    "status": "ready"
+  },
+  "java_banner": "openjdk version \"17.0.18-internal\" 2026-01-20; 17.0.18-internal+0-adhoc.rattler.src",
+  "java_directory_bytes": 520007015,
+  "logs_sha256": {
+    "cli.jsonl": "ca82908a6dbda0283a923bbef8756820413d6dae05e5a8cb22a79144e1d7a269",
+    "core.log": "dd45a3eea324f4853ded36eca454feb49e78fe113a3bba4b5ff4ff69015d60a2",
+    "local-tests.log": "fe501e7de305fb6eb7ce68438fa82e5e775a008cb3d30ba7c2d27912a6d9f536",
+    "provision-after.log": "0c06d51b4ba23be705079c0161950ef2438fce1761c13b7abd5a7c79dfe3aff8",
+    "provision-before.log": "9e3534d9862df73e13f61d37148f8f1b1ea091c76e1c0427862ff72cff061f43",
+    "remote/health.json": "6261a6962e05c5fabff2d52ae6795da9a4329b1f5f8af90c94cfca3e158b46b7",
+    "remote/install-verified.log": "1265df5049f4817a408d49faa65ef22b7c11aa4f954845b4d80f88c15611f84d",
+    "remote/journeys-verified.log": "54da66400e1c59e8ed711cbff61ddba34ecebaf5137fa898a8f9e1e65f5b71a0",
+    "remote/tests.log": "c455876f020b53a9d77dadb62735f3456a2b8967ec2ef699f1b12ebbca81df2b",
+    "remote/transfer-verification.json": "32420773a24f9f9ba92763dd6c5842ef8dc8907cdb7ef6c6570df3347e5dd4b4"
+  },
+  "operational_evidence": {
+    "extra_macos_metadata_files": 677,
+    "failed_resource_tree_retained": true,
+    "full_receipts_from_separate_clean_cache": true,
+    "initial_java_prefix_retained": true,
+    "system_java_and_existing_research_jobs_unchanged": true
+  },
+  "package_inventory_sha256": "7cfe6d1048541380e23a45e91b340d808df26b25dfa660c1ef53ad8349673bb9",
+  "platform": "Linux aarch64 / NVIDIA Spark GB10; CPU P2Rank",
+  "remote_root": "/home/user/.bioforge/commissioning/a962f47-p2rank-20260908",
+  "resource": {
+    "application_tree": {
+      "bytes": 304606768,
+      "file_count": 599,
+      "path": "p2rank",
+      "sha256": "a095e3f96e469cd62b26d3be5c2294b015f75bf8cc914b858fd8397618e4d9dd"
+    },
+    "content_sha256": "572bfe1c8acce7eef9dde8e030564a13fed96a518b6adf39ca0d0a7141f27fb6",
+    "resource_lock_sha256": "3524f6261154aaab7fd2b9cbe7c5678e769cfe96e3c71c8dbab7d326527cfea3"
+  },
+  "runs": [
+    {
+      "ambiguous_memberships": 0,
+      "artifacts_verified": 12,
+      "canonical_sha256": {
+        "evidence.json": "9a43a040be27a2185f62f6f6725feee1d27d4da7fa0ea423d58b6ec1dbd9f085",
+        "manifest.json": "d1aca1bebbc05633d18e61245b41080e91b899a0cbb73320a5f802a5bee6b8d4",
+        "plan.json": "d8fa81a74f4a8e31f96c225940a2d12e5a88b0ae97217ea175890dbcf26a3a40",
+        "report.html": "3505440c25566205a44248de7e17d2919fc8a899b5421a3cc0b365a42171a286",
+        "run.json": "da1dfa1fd479f877cfc8a52f8186c391f9c2d42c4b2b0f2c7b4fd73805d3f3d5"
+      },
+      "local_archive": ".bioforge/spark-pockets/remote/verified-journeys/deposited/run-dee5b97ec4a9823b",
+      "mapped_memberships": 229,
+      "name": "deposited",
+      "pockets": 15,
+      "report": "/Users/user/projects/bioforge/bioforge/.bioforge/spark-pockets/reports/deposited.html",
+      "run_id": "run-dee5b97ec4a9823b",
+      "structure_sha256": "7cd2eb16d3469a3ef32864f33ee2ca09258b1b1fff2c1c83214b9af3087f93dd",
+      "top_probability": 0.98,
+      "top_score": 49.84,
+      "unmapped_memberships": 0,
+      "view_sha256": "3505440c25566205a44248de7e17d2919fc8a899b5421a3cc0b365a42171a286"
+    },
+    {
+      "ambiguous_memberships": 0,
+      "artifacts_verified": 12,
+      "canonical_sha256": {
+        "evidence.json": "4521279cab923b7ac84592ee36818bb30f06168784706d1e1f6ef1e1c989a06f",
+        "manifest.json": "2d321e0202e1dae17ff808fbc26a9724fe38aa770db2c1c9737cd622f452e7b9",
+        "plan.json": "55b4e79c77060768e772a0f3f6a73f6d6d3f80e3de26d5be069de7574089dba2",
+        "report.html": "2db3e2348ae40818667dbf34f05c2dc4ce023f82e410b2141d31764e9e122e03",
+        "run.json": "491f6b0f28cd91e469fc25809c574121df1d5c921c05d490c825ea8dd9e8bd6c"
+      },
+      "local_archive": ".bioforge/spark-pockets/remote/verified-journeys/predicted/run-cd53ee9ebe2d4080",
+      "mapped_memberships": 27,
+      "name": "predicted",
+      "pockets": 2,
+      "report": "/Users/user/projects/bioforge/bioforge/.bioforge/spark-pockets/reports/predicted.html",
+      "run_id": "run-cd53ee9ebe2d4080",
+      "structure_sha256": "c92238b0ff2de660db31f0463f2de23555dacdfb348e78cd15f16519504be7c2",
+      "top_probability": 0.263,
+      "top_score": 6.29,
+      "unmapped_memberships": 0,
+      "view_sha256": "2db3e2348ae40818667dbf34f05c2dc4ce023f82e410b2141d31764e9e122e03"
+    }
+  ],
+  "runtime": {
+    "package_count": 59,
+    "package_download_bytes": 221571201,
+    "package_set_sha256": "e67e7c2f8c5e46db88ff1fc42b3834807c3c0ff20274e8ddffeabeba0664af95",
+    "platform": "linux-aarch64",
+    "schema_version": "0.1"
+  },
+  "runtime_recipe_sha256": "f8f1aba6617e5299db2f83118a72f7954e64987858ac44a756019b360464d469",
+  "source_changes_sha256": {
+    "tests/test_provision_p2rank.py": "efe63365fdcdf4aea3924d55764f0f87c41ca45be15a5568ea1272ab4e0116d4",
+    "tools/provision_p2rank.py": "9dcbbeb63f239fe4596aba4a6f0ce26c2cae81600afcf06e82dd9d6fe24483d3"
+  },
+  "tests": {
+    "local": {
+      "passed": 635,
+      "run": 652,
+      "seconds": 210.045,
+      "skipped": 17
+    },
+    "required_local_cli_passed": 11,
+    "spark": {
+      "passed": 642,
+      "run": 652,
+      "seconds": 192.686,
+      "skipped": 10
+    }
+  },
+  "unsupported_system_java": {
+    "checks": [
+      {
+        "id": "p2rank-resource",
+        "message": "P2Rank 2.5.1 resource lock verified at 3524f6261154aaab7fd2b9cbe7c5678e769cfe96e3c71c8dbab7d326527cfea3 (/home/user/.bioforge/commissioning/a962f47-p2rank-20260908/verified-resources/572bfe1c8acce7eef9dde8e030564a13fed96a518b6adf39ca0d0a7141f27fb6/p2rank).",
+        "status": "pass"
+      },
+      {
+        "id": "java-runtime",
+        "message": "P2Rank requires Java 17-23; found 1.8.0",
+        "status": "fail"
+      }
+    ],
+    "provider_id": "p2rank.binding-pocket-detection",
+    "provider_version": "0.2.0",
+    "runtime": {
+      "accelerator": "none",
+      "determinism": "profile-dependent",
+      "environment": "isolated",
+      "environment_lock": "p2rank-2.5.1-java17-23-v1",
+      "network_policy": "denied"
+    },
+    "status": "unavailable"
+  }
+}

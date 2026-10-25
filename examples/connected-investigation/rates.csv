@@ -1,0 +1,11 @@
+measurement_id,sample_id,condition_id,metric,value,unit,independent_id,technical_id,role,status
+k0,S100R,c0,initial-rate,3.9867354744890218,uM/min,,,sample,measured
+k1,S100R,c1,initial-rate,8.100605442120791,uM/min,,,sample,measured
+k2,S100R,c2,initial-rate,19.263057313719667,uM/min,,,sample,measured
+k3,S100R,c3,initial-rate,34.269702016908404,uM/min,,,sample,measured
+k4,S100R,c4,initial-rate,57.91299154986456,uM/min,,,sample,measured
+k5,S100R,c5,initial-rate,102.4105918062113,uM/min,,,sample,measured
+k6,S100R,c6,initial-rate,139.1678967737522,uM/min,,,sample,measured
+k7,S100R,c7,initial-rate,150.38869269787492,uM/min,,,sample,measured
+k8,S100R,c8,initial-rate,185.33297879538068,uM/min,,,sample,measured
+k9,S100R,c9,initial-rate,191.43265693409873,uM/min,,,sample,measured

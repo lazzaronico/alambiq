@@ -1,0 +1,7 @@
+id: representative-panel
+steps:
+  - id: layout
+    capability: protein.explore_embeddings
+    params:
+      embeddings: embeddings.json
+      representatives: 3

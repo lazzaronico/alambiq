@@ -1,0 +1,48 @@
+id: measured-variant-rounds
+steps:
+  - id: measurements
+    capability: assay.inspect
+    params:
+      table: initial-observations.csv
+      conditions:
+        published-T50: Published ProteinGym ESTA_BACSU_Nutschel_2020 T50 endpoint, DOI 10.1021/acs.jcim.9b00954. Positions use the 212-aa precursor. Raw replicate identities and pointwise uncertainty are absent; this is thermostability, not an activity assay.
+
+  - id: model
+    capability: candidate.fit
+    bind:
+      assay: measurements.record
+    params:
+      panel: panel.json
+      metric: T50
+      condition_id: published-T50
+      unit: degC
+
+  - id: highest-predicted
+    capability: candidate.select
+    bind:
+      model: model.record
+    params:
+      panel: panel.json
+      strategy: highest-predicted
+      count: 8
+      seed: 1
+      max_per_group: 1
+
+  - id: most-uncertain
+    capability: candidate.select
+    bind:
+      model: model.record
+    params:
+      panel: panel.json
+      strategy: uncertain
+      count: 8
+      seed: 1
+      max_per_group: 1
+
+  - id: random
+    capability: candidate.select
+    params:
+      panel: panel.json
+      strategy: random
+      count: 8
+      seed: 1

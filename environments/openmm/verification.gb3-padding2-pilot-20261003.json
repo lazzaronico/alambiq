@@ -1,0 +1,3506 @@
+{
+  "schema_version": "0.1",
+  "date": "2026-10-03",
+  "scope": "Fresh GB3 2 nm OpenMM padding, 3\u00d70.4 ns CUDA integration/thermal/geometry pilot. Short duration leaves conformational sampling and long-run periodic separation unresolved.",
+  "status": "pilot-checks-passed-long-reference-pending",
+  "result_sha256": "c461172ba211e4b5028c6ab9f908647cf4fac3e35ed14e20d173442507975788",
+  "run_id": "run-1e9afd59bde135ba",
+  "plan_id": "plan-63bc4267f81f2351",
+  "providers": {
+    "openmm.protein-preparation": "0.7.0",
+    "bioforge.protein-dossier": "0.6.1",
+    "openmm.prepared-dynamics": "0.6.0",
+    "builtin.scalar-coupling-ensemble": "0.4.0",
+    "mdtraj.trajectory-inspection": "0.5.0"
+  },
+  "installed_wheel": {
+    "wheel_sha256": "8a0ef7c8c847d98f3da9af807a2ab79aadaeb765967db9b389544c6f59a1eb0c",
+    "verified_package_files": 223,
+    "preparation_provider_version": "0.7.0",
+    "inspection_provider_version": "0.5.0",
+    "padding_nm": 2.0
+  },
+  "preparation": {
+    "added_heavy_atoms": [],
+    "atom_count": 12596,
+    "box_shape": "dodecahedron",
+    "constraints": "HBonds; rigid water",
+    "disulfide_policy": "OpenMM input parser topology bonds and Modeller cysteine variants",
+    "environment": {
+      "added_salt_molar": 0.05,
+      "preparation_ph": 7.0,
+      "protonation": "Fixed OpenMM residue variants with explicit source-indexed overrides; pH-dependent defaults are not site-specific pKa estimates",
+      "residue_counts": {
+        "CL": 4,
+        "NA": 6
+      },
+      "salt": "NaCl",
+      "salt_convention": "Added bulk salt excludes neutralizing counterions; integer ion counts approximate the requested concentration"
+    },
+    "forcefield_files_sha256": {
+      "amber14/protein.ff14SB.xml": "d9f9779c09d67cd5f8bc657692f174ffab14c469dfd06d560ac1899fa7e976b8",
+      "amber14/tip3p.xml": "3f4b188dbcb6c02863230eaca231e927fb6bf3307ce947d8a50d0f46f6dd83d9"
+    },
+    "forces_after": {
+      "maximum_atom_kj_mol_nm": 2459.2194599110962,
+      "rms_component_kj_mol_nm": 649.2689991101405,
+      "scope": "Raw force-field forces; constraint forces are excluded. These values do not certify constrained-minimizer convergence"
+    },
+    "forces_before": {
+      "maximum_atom_kj_mol_nm": 160705.4610108244,
+      "rms_component_kj_mol_nm": 3270.9405287371355,
+      "scope": "Raw force-field forces; constraint forces are excluded. These values do not certify constrained-minimizer convergence"
+    },
+    "heavy_atom_completion": {
+      "added_atoms": [],
+      "existing_heavy_atoms_preserved_before_minimization": true,
+      "provider": "pdbfixer",
+      "seed": 17003,
+      "templates_sha256": {
+        "ALA": "5d4afe9fe13cbcd94f682a440fc2d8a1cecd2b356b68488213083a99c018891d",
+        "ASN": "03e4429faf869ed1debde1935bdfd652d6d2ed0efe3a8c0937f0726bc178510d",
+        "ASP": "76aa87d2ff758661c78a3b907b3c0043fa08850547ff06dda1c46a301e6e7aff",
+        "GLN": "2a6d372fc3b6a29e3846f95c286dc68dedc5499b5c53f74efed9f79f34724820",
+        "GLU": "a52934d6cb9e1fb2317ddeabb8424e0bb6c59e1246cd34e78df3f65fea78e681",
+        "GLY": "00ac8db40e228a7a3950d9570751c72e3d592bad049c8d64f1393d5b33fb1c3e",
+        "ILE": "3a8f8510be1d78198ef6ba2a6e191e2c185a8a33b870081fe5ec9378711e06c7",
+        "LEU": "177dcca58b59a036f71f78a04d792e08f6ba17b626c37301a1fc6fda3d5dcf54",
+        "LYS": "3c62dad1cbad3eb4c5fbed1511e8e129c42ff10b618ab43dfa0aaa9f0c237a0f",
+        "MET": "a698fdea05abda618ffceb6de5c09f875eb2127b8a01a9e8f0013e65c3fcb6a6",
+        "PHE": "68e11ff2b2694189ac8247b065df40b06bd034b1750ce02e98036100ec4a6aef",
+        "THR": "63ded1fd1fcd8a13e3e2289230083c402a5017a57e14362e244ffd6ba2e2a12f",
+        "TRP": "e49ca09b1f182c750bf725929a050a573ec0987c94b8184af081797e9a9f5d28",
+        "TYR": "ecd7f527671d90151aefbfa868372e5458aa0fea625f2b32d1c437cc14e30cd9",
+        "VAL": "0a035bae591b0e82bd2fea54f32d43263114adb3867ae22cbe149d2ee8080be2"
+      },
+      "version": "1.12.0"
+    },
+    "heavy_atom_mapping": [
+      {
+        "prepared_atom_index": 0,
+        "source_atom_index": 0
+      },
+      {
+        "prepared_atom_index": 4,
+        "source_atom_index": 1
+      },
+      {
+        "prepared_atom_index": 6,
+        "source_atom_index": 2
+      },
+      {
+        "prepared_atom_index": 7,
+        "source_atom_index": 3
+      },
+      {
+        "prepared_atom_index": 8,
+        "source_atom_index": 4
+      },
+      {
+        "prepared_atom_index": 11,
+        "source_atom_index": 5
+      },
+      {
+        "prepared_atom_index": 14,
+        "source_atom_index": 6
+      },
+      {
+        "prepared_atom_index": 15,
+        "source_atom_index": 7
+      },
+      {
+        "prepared_atom_index": 19,
+        "source_atom_index": 19
+      },
+      {
+        "prepared_atom_index": 21,
+        "source_atom_index": 20
+      },
+      {
+        "prepared_atom_index": 23,
+        "source_atom_index": 21
+      },
+      {
+        "prepared_atom_index": 24,
+        "source_atom_index": 22
+      },
+      {
+        "prepared_atom_index": 25,
+        "source_atom_index": 23
+      },
+      {
+        "prepared_atom_index": 28,
+        "source_atom_index": 24
+      },
+      {
+        "prepared_atom_index": 31,
+        "source_atom_index": 25
+      },
+      {
+        "prepared_atom_index": 32,
+        "source_atom_index": 26
+      },
+      {
+        "prepared_atom_index": 33,
+        "source_atom_index": 27
+      },
+      {
+        "prepared_atom_index": 36,
+        "source_atom_index": 36
+      },
+      {
+        "prepared_atom_index": 38,
+        "source_atom_index": 37
+      },
+      {
+        "prepared_atom_index": 40,
+        "source_atom_index": 38
+      },
+      {
+        "prepared_atom_index": 41,
+        "source_atom_index": 39
+      },
+      {
+        "prepared_atom_index": 42,
+        "source_atom_index": 40
+      },
+      {
+        "prepared_atom_index": 45,
+        "source_atom_index": 41
+      },
+      {
+        "prepared_atom_index": 46,
+        "source_atom_index": 42
+      },
+      {
+        "prepared_atom_index": 48,
+        "source_atom_index": 43
+      },
+      {
+        "prepared_atom_index": 50,
+        "source_atom_index": 44
+      },
+      {
+        "prepared_atom_index": 52,
+        "source_atom_index": 45
+      },
+      {
+        "prepared_atom_index": 54,
+        "source_atom_index": 46
+      },
+      {
+        "prepared_atom_index": 55,
+        "source_atom_index": 47
+      },
+      {
+        "prepared_atom_index": 57,
+        "source_atom_index": 57
+      },
+      {
+        "prepared_atom_index": 59,
+        "source_atom_index": 58
+      },
+      {
+        "prepared_atom_index": 61,
+        "source_atom_index": 59
+      },
+      {
+        "prepared_atom_index": 62,
+        "source_atom_index": 60
+      },
+      {
+        "prepared_atom_index": 63,
+        "source_atom_index": 61
+      },
+      {
+        "prepared_atom_index": 66,
+        "source_atom_index": 62
+      },
+      {
+        "prepared_atom_index": 69,
+        "source_atom_index": 63
+      },
+      {
+        "prepared_atom_index": 72,
+        "source_atom_index": 64
+      },
+      {
+        "prepared_atom_index": 75,
+        "source_atom_index": 65
+      },
+      {
+        "prepared_atom_index": 79,
+        "source_atom_index": 79
+      },
+      {
+        "prepared_atom_index": 81,
+        "source_atom_index": 80
+      },
+      {
+        "prepared_atom_index": 83,
+        "source_atom_index": 81
+      },
+      {
+        "prepared_atom_index": 84,
+        "source_atom_index": 82
+      },
+      {
+        "prepared_atom_index": 85,
+        "source_atom_index": 83
+      },
+      {
+        "prepared_atom_index": 88,
+        "source_atom_index": 84
+      },
+      {
+        "prepared_atom_index": 90,
+        "source_atom_index": 85
+      },
+      {
+        "prepared_atom_index": 94,
+        "source_atom_index": 86
+      },
+      {
+        "prepared_atom_index": 98,
+        "source_atom_index": 98
+      },
+      {
+        "prepared_atom_index": 100,
+        "source_atom_index": 99
+      },
+      {
+        "prepared_atom_index": 102,
+        "source_atom_index": 100
+      },
+      {
+        "prepared_atom_index": 103,
+        "source_atom_index": 101
+      },
+      {
+        "prepared_atom_index": 104,
+        "source_atom_index": 102
+      },
+      {
+        "prepared_atom_index": 106,
+        "source_atom_index": 103
+      },
+      {
+        "prepared_atom_index": 110,
+        "source_atom_index": 104
+      },
+      {
+        "prepared_atom_index": 114,
+        "source_atom_index": 114
+      },
+      {
+        "prepared_atom_index": 116,
+        "source_atom_index": 115
+      },
+      {
+        "prepared_atom_index": 118,
+        "source_atom_index": 116
+      },
+      {
+        "prepared_atom_index": 119,
+        "source_atom_index": 117
+      },
+      {
+        "prepared_atom_index": 120,
+        "source_atom_index": 118
+      },
+      {
+        "prepared_atom_index": 122,
+        "source_atom_index": 119
+      },
+      {
+        "prepared_atom_index": 125,
+        "source_atom_index": 120
+      },
+      {
+        "prepared_atom_index": 129,
+        "source_atom_index": 121
+      },
+      {
+        "prepared_atom_index": 133,
+        "source_atom_index": 133
+      },
+      {
+        "prepared_atom_index": 135,
+        "source_atom_index": 134
+      },
+      {
+        "prepared_atom_index": 137,
+        "source_atom_index": 135
+      },
+      {
+        "prepared_atom_index": 138,
+        "source_atom_index": 136
+      },
+      {
+        "prepared_atom_index": 139,
+        "source_atom_index": 137
+      },
+      {
+        "prepared_atom_index": 142,
+        "source_atom_index": 138
+      },
+      {
+        "prepared_atom_index": 143,
+        "source_atom_index": 139
+      },
+      {
+        "prepared_atom_index": 144,
+        "source_atom_index": 140
+      },
+      {
+        "prepared_atom_index": 147,
+        "source_atom_index": 147
+      },
+      {
+        "prepared_atom_index": 149,
+        "source_atom_index": 148
+      },
+      {
+        "prepared_atom_index": 152,
+        "source_atom_index": 149
+      },
+      {
+        "prepared_atom_index": 153,
+        "source_atom_index": 150
+      },
+      {
+        "prepared_atom_index": 154,
+        "source_atom_index": 154
+      },
+      {
+        "prepared_atom_index": 156,
+        "source_atom_index": 155
+      },
+      {
+        "prepared_atom_index": 158,
+        "source_atom_index": 156
+      },
+      {
+        "prepared_atom_index": 159,
+        "source_atom_index": 157
+      },
+      {
+        "prepared_atom_index": 160,
+        "source_atom_index": 158
+      },
+      {
+        "prepared_atom_index": 163,
+        "source_atom_index": 159
+      },
+      {
+        "prepared_atom_index": 166,
+        "source_atom_index": 160
+      },
+      {
+        "prepared_atom_index": 169,
+        "source_atom_index": 161
+      },
+      {
+        "prepared_atom_index": 172,
+        "source_atom_index": 162
+      },
+      {
+        "prepared_atom_index": 176,
+        "source_atom_index": 176
+      },
+      {
+        "prepared_atom_index": 178,
+        "source_atom_index": 177
+      },
+      {
+        "prepared_atom_index": 180,
+        "source_atom_index": 178
+      },
+      {
+        "prepared_atom_index": 181,
+        "source_atom_index": 179
+      },
+      {
+        "prepared_atom_index": 182,
+        "source_atom_index": 180
+      },
+      {
+        "prepared_atom_index": 184,
+        "source_atom_index": 181
+      },
+      {
+        "prepared_atom_index": 186,
+        "source_atom_index": 182
+      },
+      {
+        "prepared_atom_index": 190,
+        "source_atom_index": 190
+      },
+      {
+        "prepared_atom_index": 192,
+        "source_atom_index": 191
+      },
+      {
+        "prepared_atom_index": 194,
+        "source_atom_index": 192
+      },
+      {
+        "prepared_atom_index": 195,
+        "source_atom_index": 193
+      },
+      {
+        "prepared_atom_index": 196,
+        "source_atom_index": 194
+      },
+      {
+        "prepared_atom_index": 199,
+        "source_atom_index": 195
+      },
+      {
+        "prepared_atom_index": 201,
+        "source_atom_index": 196
+      },
+      {
+        "prepared_atom_index": 205,
+        "source_atom_index": 197
+      },
+      {
+        "prepared_atom_index": 209,
+        "source_atom_index": 209
+      },
+      {
+        "prepared_atom_index": 211,
+        "source_atom_index": 210
+      },
+      {
+        "prepared_atom_index": 213,
+        "source_atom_index": 211
+      },
+      {
+        "prepared_atom_index": 214,
+        "source_atom_index": 212
+      },
+      {
+        "prepared_atom_index": 215,
+        "source_atom_index": 213
+      },
+      {
+        "prepared_atom_index": 218,
+        "source_atom_index": 214
+      },
+      {
+        "prepared_atom_index": 221,
+        "source_atom_index": 215
+      },
+      {
+        "prepared_atom_index": 224,
+        "source_atom_index": 216
+      },
+      {
+        "prepared_atom_index": 227,
+        "source_atom_index": 217
+      },
+      {
+        "prepared_atom_index": 231,
+        "source_atom_index": 231
+      },
+      {
+        "prepared_atom_index": 233,
+        "source_atom_index": 232
+      },
+      {
+        "prepared_atom_index": 236,
+        "source_atom_index": 233
+      },
+      {
+        "prepared_atom_index": 237,
+        "source_atom_index": 234
+      },
+      {
+        "prepared_atom_index": 238,
+        "source_atom_index": 238
+      },
+      {
+        "prepared_atom_index": 240,
+        "source_atom_index": 239
+      },
+      {
+        "prepared_atom_index": 242,
+        "source_atom_index": 240
+      },
+      {
+        "prepared_atom_index": 243,
+        "source_atom_index": 241
+      },
+      {
+        "prepared_atom_index": 244,
+        "source_atom_index": 242
+      },
+      {
+        "prepared_atom_index": 247,
+        "source_atom_index": 243
+      },
+      {
+        "prepared_atom_index": 250,
+        "source_atom_index": 244
+      },
+      {
+        "prepared_atom_index": 251,
+        "source_atom_index": 245
+      },
+      {
+        "prepared_atom_index": 252,
+        "source_atom_index": 246
+      },
+      {
+        "prepared_atom_index": 253,
+        "source_atom_index": 253
+      },
+      {
+        "prepared_atom_index": 255,
+        "source_atom_index": 254
+      },
+      {
+        "prepared_atom_index": 257,
+        "source_atom_index": 255
+      },
+      {
+        "prepared_atom_index": 258,
+        "source_atom_index": 256
+      },
+      {
+        "prepared_atom_index": 259,
+        "source_atom_index": 257
+      },
+      {
+        "prepared_atom_index": 261,
+        "source_atom_index": 258
+      },
+      {
+        "prepared_atom_index": 263,
+        "source_atom_index": 259
+      },
+      {
+        "prepared_atom_index": 267,
+        "source_atom_index": 267
+      },
+      {
+        "prepared_atom_index": 269,
+        "source_atom_index": 268
+      },
+      {
+        "prepared_atom_index": 271,
+        "source_atom_index": 269
+      },
+      {
+        "prepared_atom_index": 272,
+        "source_atom_index": 270
+      },
+      {
+        "prepared_atom_index": 273,
+        "source_atom_index": 271
+      },
+      {
+        "prepared_atom_index": 275,
+        "source_atom_index": 272
+      },
+      {
+        "prepared_atom_index": 277,
+        "source_atom_index": 273
+      },
+      {
+        "prepared_atom_index": 281,
+        "source_atom_index": 281
+      },
+      {
+        "prepared_atom_index": 283,
+        "source_atom_index": 282
+      },
+      {
+        "prepared_atom_index": 285,
+        "source_atom_index": 283
+      },
+      {
+        "prepared_atom_index": 286,
+        "source_atom_index": 284
+      },
+      {
+        "prepared_atom_index": 287,
+        "source_atom_index": 285
+      },
+      {
+        "prepared_atom_index": 289,
+        "source_atom_index": 286
+      },
+      {
+        "prepared_atom_index": 291,
+        "source_atom_index": 287
+      },
+      {
+        "prepared_atom_index": 295,
+        "source_atom_index": 295
+      },
+      {
+        "prepared_atom_index": 297,
+        "source_atom_index": 296
+      },
+      {
+        "prepared_atom_index": 299,
+        "source_atom_index": 297
+      },
+      {
+        "prepared_atom_index": 300,
+        "source_atom_index": 298
+      },
+      {
+        "prepared_atom_index": 301,
+        "source_atom_index": 299
+      },
+      {
+        "prepared_atom_index": 304,
+        "source_atom_index": 300
+      },
+      {
+        "prepared_atom_index": 307,
+        "source_atom_index": 301
+      },
+      {
+        "prepared_atom_index": 310,
+        "source_atom_index": 302
+      },
+      {
+        "prepared_atom_index": 313,
+        "source_atom_index": 303
+      },
+      {
+        "prepared_atom_index": 317,
+        "source_atom_index": 317
+      },
+      {
+        "prepared_atom_index": 319,
+        "source_atom_index": 318
+      },
+      {
+        "prepared_atom_index": 321,
+        "source_atom_index": 319
+      },
+      {
+        "prepared_atom_index": 322,
+        "source_atom_index": 320
+      },
+      {
+        "prepared_atom_index": 323,
+        "source_atom_index": 321
+      },
+      {
+        "prepared_atom_index": 327,
+        "source_atom_index": 327
+      },
+      {
+        "prepared_atom_index": 329,
+        "source_atom_index": 328
+      },
+      {
+        "prepared_atom_index": 331,
+        "source_atom_index": 329
+      },
+      {
+        "prepared_atom_index": 332,
+        "source_atom_index": 330
+      },
+      {
+        "prepared_atom_index": 333,
+        "source_atom_index": 331
+      },
+      {
+        "prepared_atom_index": 335,
+        "source_atom_index": 332
+      },
+      {
+        "prepared_atom_index": 339,
+        "source_atom_index": 333
+      },
+      {
+        "prepared_atom_index": 343,
+        "source_atom_index": 343
+      },
+      {
+        "prepared_atom_index": 345,
+        "source_atom_index": 344
+      },
+      {
+        "prepared_atom_index": 347,
+        "source_atom_index": 345
+      },
+      {
+        "prepared_atom_index": 348,
+        "source_atom_index": 346
+      },
+      {
+        "prepared_atom_index": 349,
+        "source_atom_index": 347
+      },
+      {
+        "prepared_atom_index": 352,
+        "source_atom_index": 348
+      },
+      {
+        "prepared_atom_index": 353,
+        "source_atom_index": 349
+      },
+      {
+        "prepared_atom_index": 354,
+        "source_atom_index": 350
+      },
+      {
+        "prepared_atom_index": 355,
+        "source_atom_index": 355
+      },
+      {
+        "prepared_atom_index": 357,
+        "source_atom_index": 356
+      },
+      {
+        "prepared_atom_index": 359,
+        "source_atom_index": 357
+      },
+      {
+        "prepared_atom_index": 360,
+        "source_atom_index": 358
+      },
+      {
+        "prepared_atom_index": 361,
+        "source_atom_index": 359
+      },
+      {
+        "prepared_atom_index": 365,
+        "source_atom_index": 365
+      },
+      {
+        "prepared_atom_index": 367,
+        "source_atom_index": 366
+      },
+      {
+        "prepared_atom_index": 369,
+        "source_atom_index": 367
+      },
+      {
+        "prepared_atom_index": 370,
+        "source_atom_index": 368
+      },
+      {
+        "prepared_atom_index": 371,
+        "source_atom_index": 369
+      },
+      {
+        "prepared_atom_index": 374,
+        "source_atom_index": 370
+      },
+      {
+        "prepared_atom_index": 377,
+        "source_atom_index": 371
+      },
+      {
+        "prepared_atom_index": 378,
+        "source_atom_index": 372
+      },
+      {
+        "prepared_atom_index": 379,
+        "source_atom_index": 373
+      },
+      {
+        "prepared_atom_index": 380,
+        "source_atom_index": 380
+      },
+      {
+        "prepared_atom_index": 382,
+        "source_atom_index": 381
+      },
+      {
+        "prepared_atom_index": 384,
+        "source_atom_index": 382
+      },
+      {
+        "prepared_atom_index": 385,
+        "source_atom_index": 383
+      },
+      {
+        "prepared_atom_index": 386,
+        "source_atom_index": 384
+      },
+      {
+        "prepared_atom_index": 388,
+        "source_atom_index": 385
+      },
+      {
+        "prepared_atom_index": 390,
+        "source_atom_index": 386
+      },
+      {
+        "prepared_atom_index": 394,
+        "source_atom_index": 394
+      },
+      {
+        "prepared_atom_index": 396,
+        "source_atom_index": 395
+      },
+      {
+        "prepared_atom_index": 398,
+        "source_atom_index": 396
+      },
+      {
+        "prepared_atom_index": 399,
+        "source_atom_index": 397
+      },
+      {
+        "prepared_atom_index": 400,
+        "source_atom_index": 398
+      },
+      {
+        "prepared_atom_index": 404,
+        "source_atom_index": 404
+      },
+      {
+        "prepared_atom_index": 406,
+        "source_atom_index": 405
+      },
+      {
+        "prepared_atom_index": 408,
+        "source_atom_index": 406
+      },
+      {
+        "prepared_atom_index": 409,
+        "source_atom_index": 407
+      },
+      {
+        "prepared_atom_index": 410,
+        "source_atom_index": 408
+      },
+      {
+        "prepared_atom_index": 413,
+        "source_atom_index": 409
+      },
+      {
+        "prepared_atom_index": 416,
+        "source_atom_index": 410
+      },
+      {
+        "prepared_atom_index": 417,
+        "source_atom_index": 411
+      },
+      {
+        "prepared_atom_index": 418,
+        "source_atom_index": 412
+      },
+      {
+        "prepared_atom_index": 419,
+        "source_atom_index": 419
+      },
+      {
+        "prepared_atom_index": 421,
+        "source_atom_index": 420
+      },
+      {
+        "prepared_atom_index": 423,
+        "source_atom_index": 421
+      },
+      {
+        "prepared_atom_index": 424,
+        "source_atom_index": 422
+      },
+      {
+        "prepared_atom_index": 425,
+        "source_atom_index": 423
+      },
+      {
+        "prepared_atom_index": 428,
+        "source_atom_index": 424
+      },
+      {
+        "prepared_atom_index": 431,
+        "source_atom_index": 425
+      },
+      {
+        "prepared_atom_index": 434,
+        "source_atom_index": 426
+      },
+      {
+        "prepared_atom_index": 437,
+        "source_atom_index": 427
+      },
+      {
+        "prepared_atom_index": 441,
+        "source_atom_index": 441
+      },
+      {
+        "prepared_atom_index": 443,
+        "source_atom_index": 442
+      },
+      {
+        "prepared_atom_index": 445,
+        "source_atom_index": 443
+      },
+      {
+        "prepared_atom_index": 446,
+        "source_atom_index": 444
+      },
+      {
+        "prepared_atom_index": 447,
+        "source_atom_index": 445
+      },
+      {
+        "prepared_atom_index": 451,
+        "source_atom_index": 451
+      },
+      {
+        "prepared_atom_index": 453,
+        "source_atom_index": 452
+      },
+      {
+        "prepared_atom_index": 455,
+        "source_atom_index": 453
+      },
+      {
+        "prepared_atom_index": 456,
+        "source_atom_index": 454
+      },
+      {
+        "prepared_atom_index": 457,
+        "source_atom_index": 455
+      },
+      {
+        "prepared_atom_index": 460,
+        "source_atom_index": 456
+      },
+      {
+        "prepared_atom_index": 461,
+        "source_atom_index": 457
+      },
+      {
+        "prepared_atom_index": 463,
+        "source_atom_index": 458
+      },
+      {
+        "prepared_atom_index": 465,
+        "source_atom_index": 459
+      },
+      {
+        "prepared_atom_index": 467,
+        "source_atom_index": 460
+      },
+      {
+        "prepared_atom_index": 469,
+        "source_atom_index": 461
+      },
+      {
+        "prepared_atom_index": 471,
+        "source_atom_index": 471
+      },
+      {
+        "prepared_atom_index": 473,
+        "source_atom_index": 472
+      },
+      {
+        "prepared_atom_index": 475,
+        "source_atom_index": 473
+      },
+      {
+        "prepared_atom_index": 476,
+        "source_atom_index": 474
+      },
+      {
+        "prepared_atom_index": 477,
+        "source_atom_index": 475
+      },
+      {
+        "prepared_atom_index": 480,
+        "source_atom_index": 476
+      },
+      {
+        "prepared_atom_index": 483,
+        "source_atom_index": 477
+      },
+      {
+        "prepared_atom_index": 486,
+        "source_atom_index": 478
+      },
+      {
+        "prepared_atom_index": 489,
+        "source_atom_index": 479
+      },
+      {
+        "prepared_atom_index": 493,
+        "source_atom_index": 493
+      },
+      {
+        "prepared_atom_index": 495,
+        "source_atom_index": 494
+      },
+      {
+        "prepared_atom_index": 497,
+        "source_atom_index": 495
+      },
+      {
+        "prepared_atom_index": 498,
+        "source_atom_index": 496
+      },
+      {
+        "prepared_atom_index": 499,
+        "source_atom_index": 497
+      },
+      {
+        "prepared_atom_index": 502,
+        "source_atom_index": 498
+      },
+      {
+        "prepared_atom_index": 505,
+        "source_atom_index": 499
+      },
+      {
+        "prepared_atom_index": 506,
+        "source_atom_index": 500
+      },
+      {
+        "prepared_atom_index": 507,
+        "source_atom_index": 501
+      },
+      {
+        "prepared_atom_index": 510,
+        "source_atom_index": 510
+      },
+      {
+        "prepared_atom_index": 512,
+        "source_atom_index": 511
+      },
+      {
+        "prepared_atom_index": 514,
+        "source_atom_index": 512
+      },
+      {
+        "prepared_atom_index": 515,
+        "source_atom_index": 513
+      },
+      {
+        "prepared_atom_index": 516,
+        "source_atom_index": 514
+      },
+      {
+        "prepared_atom_index": 519,
+        "source_atom_index": 515
+      },
+      {
+        "prepared_atom_index": 520,
+        "source_atom_index": 516
+      },
+      {
+        "prepared_atom_index": 522,
+        "source_atom_index": 517
+      },
+      {
+        "prepared_atom_index": 524,
+        "source_atom_index": 518
+      },
+      {
+        "prepared_atom_index": 526,
+        "source_atom_index": 519
+      },
+      {
+        "prepared_atom_index": 528,
+        "source_atom_index": 520
+      },
+      {
+        "prepared_atom_index": 529,
+        "source_atom_index": 521
+      },
+      {
+        "prepared_atom_index": 531,
+        "source_atom_index": 531
+      },
+      {
+        "prepared_atom_index": 533,
+        "source_atom_index": 532
+      },
+      {
+        "prepared_atom_index": 535,
+        "source_atom_index": 533
+      },
+      {
+        "prepared_atom_index": 536,
+        "source_atom_index": 534
+      },
+      {
+        "prepared_atom_index": 537,
+        "source_atom_index": 535
+      },
+      {
+        "prepared_atom_index": 541,
+        "source_atom_index": 541
+      },
+      {
+        "prepared_atom_index": 543,
+        "source_atom_index": 542
+      },
+      {
+        "prepared_atom_index": 545,
+        "source_atom_index": 543
+      },
+      {
+        "prepared_atom_index": 546,
+        "source_atom_index": 544
+      },
+      {
+        "prepared_atom_index": 547,
+        "source_atom_index": 545
+      },
+      {
+        "prepared_atom_index": 550,
+        "source_atom_index": 546
+      },
+      {
+        "prepared_atom_index": 551,
+        "source_atom_index": 547
+      },
+      {
+        "prepared_atom_index": 552,
+        "source_atom_index": 548
+      },
+      {
+        "prepared_atom_index": 555,
+        "source_atom_index": 555
+      },
+      {
+        "prepared_atom_index": 557,
+        "source_atom_index": 556
+      },
+      {
+        "prepared_atom_index": 559,
+        "source_atom_index": 557
+      },
+      {
+        "prepared_atom_index": 560,
+        "source_atom_index": 558
+      },
+      {
+        "prepared_atom_index": 561,
+        "source_atom_index": 559
+      },
+      {
+        "prepared_atom_index": 564,
+        "source_atom_index": 560
+      },
+      {
+        "prepared_atom_index": 565,
+        "source_atom_index": 561
+      },
+      {
+        "prepared_atom_index": 566,
+        "source_atom_index": 562
+      },
+      {
+        "prepared_atom_index": 567,
+        "source_atom_index": 567
+      },
+      {
+        "prepared_atom_index": 569,
+        "source_atom_index": 568
+      },
+      {
+        "prepared_atom_index": 571,
+        "source_atom_index": 569
+      },
+      {
+        "prepared_atom_index": 572,
+        "source_atom_index": 570
+      },
+      {
+        "prepared_atom_index": 573,
+        "source_atom_index": 571
+      },
+      {
+        "prepared_atom_index": 576,
+        "source_atom_index": 572
+      },
+      {
+        "prepared_atom_index": 577,
+        "source_atom_index": 573
+      },
+      {
+        "prepared_atom_index": 578,
+        "source_atom_index": 574
+      },
+      {
+        "prepared_atom_index": 581,
+        "source_atom_index": 581
+      },
+      {
+        "prepared_atom_index": 583,
+        "source_atom_index": 582
+      },
+      {
+        "prepared_atom_index": 586,
+        "source_atom_index": 583
+      },
+      {
+        "prepared_atom_index": 587,
+        "source_atom_index": 584
+      },
+      {
+        "prepared_atom_index": 588,
+        "source_atom_index": 588
+      },
+      {
+        "prepared_atom_index": 590,
+        "source_atom_index": 589
+      },
+      {
+        "prepared_atom_index": 592,
+        "source_atom_index": 590
+      },
+      {
+        "prepared_atom_index": 593,
+        "source_atom_index": 591
+      },
+      {
+        "prepared_atom_index": 594,
+        "source_atom_index": 592
+      },
+      {
+        "prepared_atom_index": 596,
+        "source_atom_index": 593
+      },
+      {
+        "prepared_atom_index": 600,
+        "source_atom_index": 594
+      },
+      {
+        "prepared_atom_index": 604,
+        "source_atom_index": 604
+      },
+      {
+        "prepared_atom_index": 606,
+        "source_atom_index": 605
+      },
+      {
+        "prepared_atom_index": 608,
+        "source_atom_index": 606
+      },
+      {
+        "prepared_atom_index": 609,
+        "source_atom_index": 607
+      },
+      {
+        "prepared_atom_index": 610,
+        "source_atom_index": 608
+      },
+      {
+        "prepared_atom_index": 613,
+        "source_atom_index": 609
+      },
+      {
+        "prepared_atom_index": 614,
+        "source_atom_index": 610
+      },
+      {
+        "prepared_atom_index": 615,
+        "source_atom_index": 611
+      },
+      {
+        "prepared_atom_index": 616,
+        "source_atom_index": 616
+      },
+      {
+        "prepared_atom_index": 618,
+        "source_atom_index": 617
+      },
+      {
+        "prepared_atom_index": 621,
+        "source_atom_index": 618
+      },
+      {
+        "prepared_atom_index": 622,
+        "source_atom_index": 619
+      },
+      {
+        "prepared_atom_index": 623,
+        "source_atom_index": 623
+      },
+      {
+        "prepared_atom_index": 625,
+        "source_atom_index": 624
+      },
+      {
+        "prepared_atom_index": 627,
+        "source_atom_index": 625
+      },
+      {
+        "prepared_atom_index": 628,
+        "source_atom_index": 626
+      },
+      {
+        "prepared_atom_index": 629,
+        "source_atom_index": 627
+      },
+      {
+        "prepared_atom_index": 631,
+        "source_atom_index": 628
+      },
+      {
+        "prepared_atom_index": 635,
+        "source_atom_index": 629
+      },
+      {
+        "prepared_atom_index": 639,
+        "source_atom_index": 639
+      },
+      {
+        "prepared_atom_index": 641,
+        "source_atom_index": 640
+      },
+      {
+        "prepared_atom_index": 643,
+        "source_atom_index": 641
+      },
+      {
+        "prepared_atom_index": 644,
+        "source_atom_index": 642
+      },
+      {
+        "prepared_atom_index": 645,
+        "source_atom_index": 643
+      },
+      {
+        "prepared_atom_index": 648,
+        "source_atom_index": 644
+      },
+      {
+        "prepared_atom_index": 649,
+        "source_atom_index": 645
+      },
+      {
+        "prepared_atom_index": 651,
+        "source_atom_index": 646
+      },
+      {
+        "prepared_atom_index": 652,
+        "source_atom_index": 647
+      },
+      {
+        "prepared_atom_index": 654,
+        "source_atom_index": 648
+      },
+      {
+        "prepared_atom_index": 655,
+        "source_atom_index": 649
+      },
+      {
+        "prepared_atom_index": 657,
+        "source_atom_index": 650
+      },
+      {
+        "prepared_atom_index": 659,
+        "source_atom_index": 651
+      },
+      {
+        "prepared_atom_index": 661,
+        "source_atom_index": 652
+      },
+      {
+        "prepared_atom_index": 663,
+        "source_atom_index": 663
+      },
+      {
+        "prepared_atom_index": 665,
+        "source_atom_index": 664
+      },
+      {
+        "prepared_atom_index": 667,
+        "source_atom_index": 665
+      },
+      {
+        "prepared_atom_index": 668,
+        "source_atom_index": 666
+      },
+      {
+        "prepared_atom_index": 669,
+        "source_atom_index": 667
+      },
+      {
+        "prepared_atom_index": 671,
+        "source_atom_index": 668
+      },
+      {
+        "prepared_atom_index": 673,
+        "source_atom_index": 669
+      },
+      {
+        "prepared_atom_index": 677,
+        "source_atom_index": 677
+      },
+      {
+        "prepared_atom_index": 679,
+        "source_atom_index": 678
+      },
+      {
+        "prepared_atom_index": 681,
+        "source_atom_index": 679
+      },
+      {
+        "prepared_atom_index": 682,
+        "source_atom_index": 680
+      },
+      {
+        "prepared_atom_index": 683,
+        "source_atom_index": 681
+      },
+      {
+        "prepared_atom_index": 686,
+        "source_atom_index": 682
+      },
+      {
+        "prepared_atom_index": 687,
+        "source_atom_index": 683
+      },
+      {
+        "prepared_atom_index": 689,
+        "source_atom_index": 684
+      },
+      {
+        "prepared_atom_index": 691,
+        "source_atom_index": 685
+      },
+      {
+        "prepared_atom_index": 693,
+        "source_atom_index": 686
+      },
+      {
+        "prepared_atom_index": 695,
+        "source_atom_index": 687
+      },
+      {
+        "prepared_atom_index": 696,
+        "source_atom_index": 688
+      },
+      {
+        "prepared_atom_index": 698,
+        "source_atom_index": 698
+      },
+      {
+        "prepared_atom_index": 700,
+        "source_atom_index": 699
+      },
+      {
+        "prepared_atom_index": 702,
+        "source_atom_index": 700
+      },
+      {
+        "prepared_atom_index": 703,
+        "source_atom_index": 701
+      },
+      {
+        "prepared_atom_index": 704,
+        "source_atom_index": 702
+      },
+      {
+        "prepared_atom_index": 707,
+        "source_atom_index": 703
+      },
+      {
+        "prepared_atom_index": 708,
+        "source_atom_index": 704
+      },
+      {
+        "prepared_atom_index": 709,
+        "source_atom_index": 705
+      },
+      {
+        "prepared_atom_index": 710,
+        "source_atom_index": 710
+      },
+      {
+        "prepared_atom_index": 712,
+        "source_atom_index": 711
+      },
+      {
+        "prepared_atom_index": 714,
+        "source_atom_index": 712
+      },
+      {
+        "prepared_atom_index": 715,
+        "source_atom_index": 713
+      },
+      {
+        "prepared_atom_index": 716,
+        "source_atom_index": 714
+      },
+      {
+        "prepared_atom_index": 719,
+        "source_atom_index": 715
+      },
+      {
+        "prepared_atom_index": 720,
+        "source_atom_index": 716
+      },
+      {
+        "prepared_atom_index": 721,
+        "source_atom_index": 717
+      },
+      {
+        "prepared_atom_index": 722,
+        "source_atom_index": 722
+      },
+      {
+        "prepared_atom_index": 724,
+        "source_atom_index": 723
+      },
+      {
+        "prepared_atom_index": 726,
+        "source_atom_index": 724
+      },
+      {
+        "prepared_atom_index": 727,
+        "source_atom_index": 725
+      },
+      {
+        "prepared_atom_index": 728,
+        "source_atom_index": 726
+      },
+      {
+        "prepared_atom_index": 732,
+        "source_atom_index": 732
+      },
+      {
+        "prepared_atom_index": 734,
+        "source_atom_index": 733
+      },
+      {
+        "prepared_atom_index": 736,
+        "source_atom_index": 734
+      },
+      {
+        "prepared_atom_index": 737,
+        "source_atom_index": 735
+      },
+      {
+        "prepared_atom_index": 738,
+        "source_atom_index": 736
+      },
+      {
+        "prepared_atom_index": 740,
+        "source_atom_index": 737
+      },
+      {
+        "prepared_atom_index": 742,
+        "source_atom_index": 738
+      },
+      {
+        "prepared_atom_index": 746,
+        "source_atom_index": 746
+      },
+      {
+        "prepared_atom_index": 748,
+        "source_atom_index": 747
+      },
+      {
+        "prepared_atom_index": 750,
+        "source_atom_index": 748
+      },
+      {
+        "prepared_atom_index": 751,
+        "source_atom_index": 749
+      },
+      {
+        "prepared_atom_index": 752,
+        "source_atom_index": 750
+      },
+      {
+        "prepared_atom_index": 755,
+        "source_atom_index": 751
+      },
+      {
+        "prepared_atom_index": 758,
+        "source_atom_index": 752
+      },
+      {
+        "prepared_atom_index": 761,
+        "source_atom_index": 753
+      },
+      {
+        "prepared_atom_index": 764,
+        "source_atom_index": 754
+      },
+      {
+        "prepared_atom_index": 768,
+        "source_atom_index": 768
+      },
+      {
+        "prepared_atom_index": 770,
+        "source_atom_index": 769
+      },
+      {
+        "prepared_atom_index": 772,
+        "source_atom_index": 770
+      },
+      {
+        "prepared_atom_index": 773,
+        "source_atom_index": 771
+      },
+      {
+        "prepared_atom_index": 774,
+        "source_atom_index": 772
+      },
+      {
+        "prepared_atom_index": 776,
+        "source_atom_index": 773
+      },
+      {
+        "prepared_atom_index": 778,
+        "source_atom_index": 774
+      },
+      {
+        "prepared_atom_index": 782,
+        "source_atom_index": 782
+      },
+      {
+        "prepared_atom_index": 784,
+        "source_atom_index": 783
+      },
+      {
+        "prepared_atom_index": 786,
+        "source_atom_index": 784
+      },
+      {
+        "prepared_atom_index": 787,
+        "source_atom_index": 785
+      },
+      {
+        "prepared_atom_index": 788,
+        "source_atom_index": 786
+      },
+      {
+        "prepared_atom_index": 791,
+        "source_atom_index": 787
+      },
+      {
+        "prepared_atom_index": 792,
+        "source_atom_index": 788
+      },
+      {
+        "prepared_atom_index": 794,
+        "source_atom_index": 789
+      },
+      {
+        "prepared_atom_index": 796,
+        "source_atom_index": 790
+      },
+      {
+        "prepared_atom_index": 798,
+        "source_atom_index": 791
+      },
+      {
+        "prepared_atom_index": 800,
+        "source_atom_index": 792
+      },
+      {
+        "prepared_atom_index": 802,
+        "source_atom_index": 802
+      },
+      {
+        "prepared_atom_index": 804,
+        "source_atom_index": 803
+      },
+      {
+        "prepared_atom_index": 806,
+        "source_atom_index": 804
+      },
+      {
+        "prepared_atom_index": 807,
+        "source_atom_index": 805
+      },
+      {
+        "prepared_atom_index": 808,
+        "source_atom_index": 806
+      },
+      {
+        "prepared_atom_index": 810,
+        "source_atom_index": 807
+      },
+      {
+        "prepared_atom_index": 812,
+        "source_atom_index": 808
+      },
+      {
+        "prepared_atom_index": 816,
+        "source_atom_index": 816
+      },
+      {
+        "prepared_atom_index": 818,
+        "source_atom_index": 817
+      },
+      {
+        "prepared_atom_index": 820,
+        "source_atom_index": 818
+      },
+      {
+        "prepared_atom_index": 821,
+        "source_atom_index": 819
+      },
+      {
+        "prepared_atom_index": 822,
+        "source_atom_index": 820
+      },
+      {
+        "prepared_atom_index": 824,
+        "source_atom_index": 821
+      },
+      {
+        "prepared_atom_index": 828,
+        "source_atom_index": 822
+      },
+      {
+        "prepared_atom_index": 832,
+        "source_atom_index": 832
+      },
+      {
+        "prepared_atom_index": 834,
+        "source_atom_index": 833
+      },
+      {
+        "prepared_atom_index": 836,
+        "source_atom_index": 834
+      },
+      {
+        "prepared_atom_index": 837,
+        "source_atom_index": 835
+      },
+      {
+        "prepared_atom_index": 838,
+        "source_atom_index": 836
+      },
+      {
+        "prepared_atom_index": 840,
+        "source_atom_index": 837
+      },
+      {
+        "prepared_atom_index": 842,
+        "source_atom_index": 838
+      },
+      {
+        "prepared_atom_index": 846,
+        "source_atom_index": 846
+      },
+      {
+        "prepared_atom_index": 848,
+        "source_atom_index": 847
+      },
+      {
+        "prepared_atom_index": 850,
+        "source_atom_index": 848
+      },
+      {
+        "prepared_atom_index": 851,
+        "source_atom_index": 849
+      },
+      {
+        "prepared_atom_index": 852,
+        "source_atom_index": 850
+      },
+      {
+        "prepared_atom_index": 855,
+        "source_atom_index": 851
+      },
+      {
+        "prepared_atom_index": 858,
+        "source_atom_index": 852
+      },
+      {
+        "prepared_atom_index": 859,
+        "source_atom_index": 853
+      },
+      {
+        "prepared_atom_index": 860,
+        "source_atom_index": 854
+      },
+      {
+        "prepared_atom_index": 861,
+        "source_atom_index": 855
+      }
+    ],
+    "minimization_assessment": "Bounded OpenMM minimization; convergence is not certified by finite energy or the iteration limit",
+    "minimization_max_iterations": 5000,
+    "nonbonded_method": "PME",
+    "openmm_version": "8.6.0",
+    "parameters": {
+      "box_shape": "dodecahedron",
+      "chain_id": "A",
+      "heavy_atom_completion": "pdbfixer-standard",
+      "ionic_strength_molar": 0.05,
+      "minimization_max_iterations": 5000,
+      "minimization_tolerance_kj_mol_nm": 10.0,
+      "model_index": 0,
+      "padding_nm": 2.0,
+      "ph": 7.0,
+      "platform": "CUDA",
+      "platform_properties": {
+        "Precision": "mixed"
+      },
+      "residue_variants": [],
+      "seed": 17003,
+      "source_component_policy": "selected-chain-only",
+      "structure_format": "mmcif"
+    },
+    "periodic_cell": {
+      "cutoff_nm": 0.9,
+      "minimum_reduced_cell_width_nm": 4.069385374687698,
+      "scope": "Cell geometry and cutoff compatibility; does not establish solute-image separation or finite-size convergence",
+      "twice_cutoff_margin_nm": 2.2693853746876984,
+      "vectors_nm": [
+        [
+          5.754979987406061,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          5.754979987406061,
+          0.0
+        ],
+        [
+          2.8774899937030307,
+          2.8774899937030307,
+          4.069385374687698
+        ]
+      ],
+      "volume_nm3": 134.7772079835247
+    },
+    "platform": "CUDA",
+    "platform_properties": {
+      "CudaCompiler": "",
+      "CudaHostCompiler": "",
+      "DeterministicForces": "false",
+      "DeviceIndex": "0",
+      "DeviceName": "NVIDIA GB10",
+      "DisablePmeStream": "false",
+      "Precision": "mixed",
+      "TempDirectory": "/tmp",
+      "UseBlockingSync": "false",
+      "UseCpuPme": "false"
+    },
+    "potential_energy_after_kj_mol": -205491.54680997296,
+    "potential_energy_before_kj_mol": -88418.3459508568,
+    "protein_atoms": 862,
+    "protein_force_field": "amber-ff14SB",
+    "protein_residues": 56,
+    "protonation_policy": "Remove supplied protein hydrogens; OpenMM Modeller pH-dependent variants and hydrogen placement",
+    "removed_source_atoms": {
+      "hydrogen": 425
+    },
+    "residue_counts": {
+      "ALA": 6,
+      "ASN": 3,
+      "ASP": 5,
+      "CL": 4,
+      "GLN": 2,
+      "GLU": 4,
+      "GLY": 4,
+      "HOH": 3908,
+      "ILE": 1,
+      "LEU": 2,
+      "LYS": 7,
+      "MET": 1,
+      "NA": 6,
+      "PHE": 2,
+      "THR": 10,
+      "TRP": 1,
+      "TYR": 3,
+      "VAL": 5
+    },
+    "residue_mapping": [
+      {
+        "name": "MET",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 1,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "1",
+        "source_residue_index": 0
+      },
+      {
+        "name": "GLN",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 2,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "2",
+        "source_residue_index": 1
+      },
+      {
+        "name": "TYR",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 3,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "3",
+        "source_residue_index": 2
+      },
+      {
+        "name": "LYS",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 4,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "4",
+        "source_residue_index": 3
+      },
+      {
+        "name": "LEU",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 5,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "5",
+        "source_residue_index": 4
+      },
+      {
+        "name": "VAL",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 6,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "6",
+        "source_residue_index": 5
+      },
+      {
+        "name": "ILE",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 7,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "7",
+        "source_residue_index": 6
+      },
+      {
+        "name": "ASN",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 8,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "8",
+        "source_residue_index": 7
+      },
+      {
+        "name": "GLY",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 9,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "9",
+        "source_residue_index": 8
+      },
+      {
+        "name": "LYS",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 10,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "10",
+        "source_residue_index": 9
+      },
+      {
+        "name": "THR",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 11,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "11",
+        "source_residue_index": 10
+      },
+      {
+        "name": "LEU",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 12,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "12",
+        "source_residue_index": 11
+      },
+      {
+        "name": "LYS",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 13,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "13",
+        "source_residue_index": 12
+      },
+      {
+        "name": "GLY",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 14,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "14",
+        "source_residue_index": 13
+      },
+      {
+        "name": "GLU",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 15,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "15",
+        "source_residue_index": 14
+      },
+      {
+        "name": "THR",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 16,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "16",
+        "source_residue_index": 15
+      },
+      {
+        "name": "THR",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 17,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "17",
+        "source_residue_index": 16
+      },
+      {
+        "name": "THR",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 18,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "18",
+        "source_residue_index": 17
+      },
+      {
+        "name": "LYS",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 19,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "19",
+        "source_residue_index": 18
+      },
+      {
+        "name": "ALA",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 20,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "20",
+        "source_residue_index": 19
+      },
+      {
+        "name": "VAL",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 21,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "21",
+        "source_residue_index": 20
+      },
+      {
+        "name": "ASP",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 22,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "22",
+        "source_residue_index": 21
+      },
+      {
+        "name": "ALA",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 23,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "23",
+        "source_residue_index": 22
+      },
+      {
+        "name": "GLU",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 24,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "24",
+        "source_residue_index": 23
+      },
+      {
+        "name": "THR",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 25,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "25",
+        "source_residue_index": 24
+      },
+      {
+        "name": "ALA",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 26,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "26",
+        "source_residue_index": 25
+      },
+      {
+        "name": "GLU",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 27,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "27",
+        "source_residue_index": 26
+      },
+      {
+        "name": "LYS",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 28,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "28",
+        "source_residue_index": 27
+      },
+      {
+        "name": "ALA",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 29,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "29",
+        "source_residue_index": 28
+      },
+      {
+        "name": "PHE",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 30,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "30",
+        "source_residue_index": 29
+      },
+      {
+        "name": "LYS",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 31,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "31",
+        "source_residue_index": 30
+      },
+      {
+        "name": "GLN",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 32,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "32",
+        "source_residue_index": 31
+      },
+      {
+        "name": "TYR",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 33,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "33",
+        "source_residue_index": 32
+      },
+      {
+        "name": "ALA",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 34,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "34",
+        "source_residue_index": 33
+      },
+      {
+        "name": "ASN",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 35,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "35",
+        "source_residue_index": 34
+      },
+      {
+        "name": "ASP",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 36,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "36",
+        "source_residue_index": 35
+      },
+      {
+        "name": "ASN",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 37,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "37",
+        "source_residue_index": 36
+      },
+      {
+        "name": "GLY",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 38,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "38",
+        "source_residue_index": 37
+      },
+      {
+        "name": "VAL",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 39,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "39",
+        "source_residue_index": 38
+      },
+      {
+        "name": "ASP",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 40,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "40",
+        "source_residue_index": 39
+      },
+      {
+        "name": "GLY",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 41,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "41",
+        "source_residue_index": 40
+      },
+      {
+        "name": "VAL",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 42,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "42",
+        "source_residue_index": 41
+      },
+      {
+        "name": "TRP",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 43,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "43",
+        "source_residue_index": 42
+      },
+      {
+        "name": "THR",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 44,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "44",
+        "source_residue_index": 43
+      },
+      {
+        "name": "TYR",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 45,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "45",
+        "source_residue_index": 44
+      },
+      {
+        "name": "ASP",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 46,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "46",
+        "source_residue_index": 45
+      },
+      {
+        "name": "ASP",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 47,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "47",
+        "source_residue_index": 46
+      },
+      {
+        "name": "ALA",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 48,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "48",
+        "source_residue_index": 47
+      },
+      {
+        "name": "THR",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 49,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "49",
+        "source_residue_index": 48
+      },
+      {
+        "name": "LYS",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 50,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "50",
+        "source_residue_index": 49
+      },
+      {
+        "name": "THR",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 51,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "51",
+        "source_residue_index": 50
+      },
+      {
+        "name": "PHE",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 52,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "52",
+        "source_residue_index": 51
+      },
+      {
+        "name": "THR",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 53,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "53",
+        "source_residue_index": 52
+      },
+      {
+        "name": "VAL",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 54,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "54",
+        "source_residue_index": 53
+      },
+      {
+        "name": "THR",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 55,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "55",
+        "source_residue_index": 54
+      },
+      {
+        "name": "GLU",
+        "prepared_chain_id": "A",
+        "prepared_residue_number": 56,
+        "source_chain_id": "A",
+        "source_insertion_code": "",
+        "source_residue_id": "56",
+        "source_residue_index": 55
+      }
+    ],
+    "residue_variants": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "schema_version": "0.1",
+    "source_model_count": 1,
+    "source_model_index": 0,
+    "source_selection": {
+      "excluded_residues": [],
+      "policy": "selected-chain-only",
+      "scope": "One supplied standard-protein chain; biological assembly selection remains researcher-specified",
+      "selected_chain_id": "A"
+    },
+    "structure_metadata": "Prepared topology supplies polymer sequence, entity and asym identities; coordinates and author IDs are OpenMM's export",
+    "water_model": "tip3p",
+    "performance": {
+      "provider_seconds": 5.8569137821905315,
+      "scope": "Native runtime probing, input staging and preparation; excludes Prefect orchestration and final artifact publication"
+    },
+    "sources": {
+      "structure": {
+        "source_url": "https://files.rcsb.org/download/1P7E.cif",
+        "sha256": "c73071026885965920b3ba1d88a4e452b50c9743ef33c85e63d51a6fa2fd851a",
+        "license": "CC0-1.0"
+      }
+    },
+    "method_profile": "protein.openmm-amber14-tip3p-v1",
+    "output_sha256": {
+      "system_xml": "badf29a58ea6947f39af307c354759e58c02fa0e8a5df8ef75d51c214c986556",
+      "state_xml": "ffec23715778f966852ced878fd7e81d253574d6d5aeb46a353c2387b64a41f9",
+      "topology_pdb": "0534a191683a2e82e5a97324b5ecc85a0532c7a91718e54af06b00b4511b9f2b"
+    }
+  },
+  "replicas": [
+    {
+      "id": "t298-r1",
+      "parameters": {
+        "timestep_fs": 2.0,
+        "temperature_kelvin": 298.0,
+        "friction_per_ps": 1.0,
+        "pressure_bar": 1.0,
+        "barostat_interval": 25,
+        "velocity_initialization": "thermalize",
+        "timeout_seconds": 43200,
+        "minimization_tolerance_kj_mol_nm": 10.0,
+        "seed": 37309,
+        "steps": 200000,
+        "report_interval": 5000,
+        "state_report_interval": 5000,
+        "checkpoint_interval": 200000,
+        "equilibration_policy": "staged-solvent-v1",
+        "platform": "CUDA",
+        "platform_properties": {
+          "Precision": "mixed"
+        },
+        "equilibration_settings": {
+          "nvt_ps": 50.0,
+          "release_ps": 100.0,
+          "window_ps": 200.0,
+          "max_windows": 3,
+          "restraint_kj_mol_nm2": 1000.0,
+          "temperature_relative_tolerance": 0.05,
+          "temperature_block_relative_tolerance": 0.03,
+          "density_block_relative_tolerance": 0.02,
+          "energy_block_kj_mol_per_atom_tolerance": 0.1
+        },
+        "nvt_equilibration_steps": 25000,
+        "npt_equilibration_steps": 150000,
+        "minimization_max_iterations": 5000
+      },
+      "dynamics": {
+        "atom_count": 12596,
+        "frame_count": 40,
+        "seed": 37309,
+        "production_steps_completed": 200000,
+        "input_sha256": {
+          "state_xml": "ffec23715778f966852ced878fd7e81d253574d6d5aeb46a353c2387b64a41f9",
+          "system_xml": "badf29a58ea6947f39af307c354759e58c02fa0e8a5df8ef75d51c214c986556",
+          "topology_pdb": "0534a191683a2e82e5a97324b5ecc85a0532c7a91718e54af06b00b4511b9f2b"
+        },
+        "output_sha256": {
+          "final-state.xml": "88fa67452349a5e8d9634ab9d4326b6a830d04cace41baaf48c9b67d57db645c",
+          "state.csv": "f37dca128202fff7b27d8d7887cb332036c865560a11565c21717ad7c66c219e",
+          "system.xml": "628ed7ec3b9cc7cf617587a87b893734915fd1424323e72bea4e1319a80222c7",
+          "trajectory.dcd": "d91a7b92b43684d2d41663330c4557541dd061e35b6de7205237d2163ffd8f52"
+        },
+        "performance": {
+          "minimization_seconds": 0.03262840770184994,
+          "npt_equilibration_seconds": 50.766470924951136,
+          "nvt_equilibration_seconds": 7.355125381145626,
+          "production_ns_per_day": 513.1852752146718,
+          "production_seconds": 67.34409904014319,
+          "production_steps_timed": 200000,
+          "runner_seconds_before_summary_write": 126.9534830506891,
+          "scope": "Measured propagation including scheduled output and final checkpoint; excludes setup, final XML serialization and hashing. Short runs include warm-up effects; recovered timing covers only newly executed steps",
+          "provider_seconds": 128.04587988788262,
+          "provider_scope": "Runtime probing, input staging, native setup/equilibration/production and output parsing; excludes Prefect orchestration and final artifact publication"
+        },
+        "equilibration_readiness": {
+          "npt_steps_completed": 150000,
+          "nvt_steps_completed": 25000,
+          "policy": "staged-solvent-v1",
+          "restrained_heavy_atom_count": 437,
+          "restraint_removal": "Physical positions, velocities, box and clock restored into a context with the temporary force and parameter removed; unrestrained integrator/barostat use the recorded derived seeds",
+          "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+          "settings": {
+            "density_block_relative_tolerance": 0.02,
+            "energy_block_kj_mol_per_atom_tolerance": 0.1,
+            "max_windows": 3,
+            "nvt_ps": 50.0,
+            "release_ps": 100.0,
+            "restraint_kj_mol_nm2": 1000.0,
+            "temperature_block_relative_tolerance": 0.03,
+            "temperature_relative_tolerance": 0.05,
+            "window_ps": 200.0
+          },
+          "stages": [
+            {
+              "end_step": 25000,
+              "name": "restrained-nvt",
+              "restraint_kj_mol_nm2": 1000.0,
+              "start_step": 0
+            },
+            {
+              "end_step": 35000,
+              "name": "npt-restraint-release",
+              "restraint_kj_mol_nm2": 1000.0,
+              "start_step": 25000
+            },
+            {
+              "end_step": 45000,
+              "name": "npt-restraint-release",
+              "restraint_kj_mol_nm2": 500.0,
+              "start_step": 35000
+            },
+            {
+              "end_step": 55000,
+              "name": "npt-restraint-release",
+              "restraint_kj_mol_nm2": 100.0,
+              "start_step": 45000
+            },
+            {
+              "end_step": 75000,
+              "name": "npt-restraint-release",
+              "restraint_kj_mol_nm2": 0.0,
+              "start_step": 55000
+            }
+          ],
+          "status": "passed",
+          "unrestrained_random_seeds": {
+            "barostat": 167672,
+            "integrator": 142038
+          },
+          "windows": [
+            {
+              "block_means": {
+                "density_g_ml": [
+                  1.014253877239949,
+                  1.0154389566535666,
+                  1.016588307023108,
+                  1.0146039519236807
+                ],
+                "potential_energy_kj_mol_per_atom": [
+                  -13.3076118216037,
+                  -13.316571622540339,
+                  -13.327976952471616,
+                  -13.317969602738303
+                ],
+                "temperature_kelvin": [
+                  299.06503784104444,
+                  298.5863482115126,
+                  299.02756489248236,
+                  298.5627197470497
+                ]
+              },
+              "checks": {
+                "density_block_relative_range": {
+                  "maximum": 0.02,
+                  "observed": 0.002299429537934893,
+                  "passed": true
+                },
+                "energy_block_range_kj_mol_per_atom": {
+                  "maximum": 0.1,
+                  "observed": 0.020365130867915582,
+                  "passed": true
+                },
+                "temperature_block_relative_range": {
+                  "maximum": 0.03,
+                  "observed": 0.0016856311879018292,
+                  "passed": true
+                },
+                "temperature_relative_error": {
+                  "maximum": 0.05,
+                  "observed": 0.0027195223926922826,
+                  "passed": true
+                }
+              },
+              "end_step": 175000,
+              "passed": true,
+              "sample_count": 200,
+              "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+              "start_step": 75000
+            }
+          ]
+        },
+        "thermodynamic_diagnostics": {
+          "equilibration": {
+            "assessment": "Descriptive sampled statistics; equilibration and effective sample size are not established",
+            "density_g_ml": {
+              "first_half_mean": 0.9945003954002971,
+              "mean": 1.0052199638691894,
+              "second_half_mean": 1.0153440007564773,
+              "standard_deviation": 0.024056984166304977
+            },
+            "potential_energy_kj_mol": {
+              "first_half_mean": -166849.09511154704,
+              "mean": -167289.785852827,
+              "second_half_mean": -167705.99377514693,
+              "standard_deviation": 1059.4867430055485
+            },
+            "sample_count": 35,
+            "temperature_kelvin": {
+              "first_half_mean": 298.41894624978926,
+              "mean": 298.27563353743284,
+              "second_half_mean": 298.14028264242967,
+              "standard_deviation": 2.5679449755485866
+            },
+            "volume_nm3": {
+              "first_half_mean": 128.5100100236266,
+              "mean": 127.09129272086855,
+              "second_half_mean": 125.75139304604156,
+              "standard_deviation": 3.1867980997272545
+            }
+          },
+          "production": {
+            "assessment": "Descriptive sampled statistics; equilibration and effective sample size are not established",
+            "density_g_ml": {
+              "first_half_mean": 1.0148425929225973,
+              "mean": 1.0150087176343416,
+              "second_half_mean": 1.015174842346086,
+              "standard_deviation": 0.004009186518420386
+            },
+            "potential_energy_kj_mol": {
+              "first_half_mean": -167832.9127848159,
+              "mean": -167815.0082068959,
+              "second_half_mean": -167797.10362897586,
+              "standard_deviation": 426.3039425520467
+            },
+            "sample_count": 40,
+            "temperature_kelvin": {
+              "first_half_mean": 297.5310287253011,
+              "mean": 297.9214193253798,
+              "second_half_mean": 298.31180992545853,
+              "standard_deviation": 2.407576736562788
+            },
+            "volume_nm3": {
+              "first_half_mean": 125.81289914576057,
+              "mean": 125.79205933976759,
+              "second_half_mean": 125.7712195337746,
+              "standard_deviation": 0.4967159595794906
+            }
+          }
+        }
+      },
+      "geometry": {
+        "cutoff_nm": 0.9,
+        "checked_frame_count": 40,
+        "total_frame_count": 40,
+        "all_saved_frames_checked": true,
+        "within_cutoff_frame_count": 0,
+        "minimum_distance_nm": 2.1076755099327427,
+        "passed": true,
+        "scope": "Exact closest protein atom to translated protein copy in selected saved frames, before fitting, after whole-molecule reconstruction. Includes hydrogens. Requires one connected protein. Unsaved/intervening frames, separate ligands and electrostatic finite-size convergence need separate assessment."
+      },
+      "geometry_inspection_sources": {
+        "topology": {
+          "id": "artifact-0534a191683a2e82",
+          "media_type": "chemical/x-pdb",
+          "digest": "sha256:0534a191683a2e82e5a97324b5ecc85a0532c7a91718e54af06b00b4511b9f2b",
+          "uri": "bioforge+artifact://sha256/0534a191683a2e82e5a97324b5ecc85a0532c7a91718e54af06b00b4511b9f2b",
+          "sha256": "0534a191683a2e82e5a97324b5ecc85a0532c7a91718e54af06b00b4511b9f2b"
+        },
+        "reference_structure": {
+          "id": "artifact-0534a191683a2e82",
+          "media_type": "chemical/x-pdb",
+          "digest": "sha256:0534a191683a2e82e5a97324b5ecc85a0532c7a91718e54af06b00b4511b9f2b",
+          "uri": "bioforge+artifact://sha256/0534a191683a2e82e5a97324b5ecc85a0532c7a91718e54af06b00b4511b9f2b",
+          "sha256": "0534a191683a2e82e5a97324b5ecc85a0532c7a91718e54af06b00b4511b9f2b"
+        },
+        "preparation_manifest": {
+          "id": "artifact-c1dbcff35e79d833",
+          "media_type": "application/json",
+          "digest": "sha256:c1dbcff35e79d8331f12139aff46aeb4620c96e73d832c4685314d52a18a24c8",
+          "uri": "bioforge+artifact://sha256/c1dbcff35e79d8331f12139aff46aeb4620c96e73d832c4685314d52a18a24c8",
+          "sha256": "c1dbcff35e79d8331f12139aff46aeb4620c96e73d832c4685314d52a18a24c8"
+        },
+        "trajectory": {
+          "id": "artifact-d91a7b92b43684d2",
+          "media_type": "application/x-dcd",
+          "digest": "sha256:d91a7b92b43684d2d41663330c4557541dd061e35b6de7205237d2163ffd8f52",
+          "uri": "bioforge+artifact://sha256/d91a7b92b43684d2d41663330c4557541dd061e35b6de7205237d2163ffd8f52",
+          "sha256": "d91a7b92b43684d2d41663330c4557541dd061e35b6de7205237d2163ffd8f52"
+        },
+        "state_data": {
+          "id": "artifact-f37dca128202fff7",
+          "media_type": "text/csv",
+          "digest": "sha256:f37dca128202fff7b27d8d7887cb332036c865560a11565c21717ad7c66c219e",
+          "uri": "bioforge+artifact://sha256/f37dca128202fff7b27d8d7887cb332036c865560a11565c21717ad7c66c219e",
+          "sha256": "f37dca128202fff7b27d8d7887cb332036c865560a11565c21717ad7c66c219e"
+        },
+        "dynamics_summary": {
+          "id": "artifact-20713be134261bdb",
+          "media_type": "application/json",
+          "digest": "sha256:20713be134261bdb0db3effc87c83ec5af603ce80402b8ab98c88da8a0a5048f",
+          "uri": "bioforge+artifact://sha256/20713be134261bdb0db3effc87c83ec5af603ce80402b8ab98c88da8a0a5048f",
+          "sha256": "20713be134261bdb0db3effc87c83ec5af603ce80402b8ab98c88da8a0a5048f"
+        },
+        "dynamics_config": {
+          "id": "artifact-0a0957b6d159399d",
+          "media_type": "application/json",
+          "digest": "sha256:0a0957b6d159399d8d96a96e081019a92c3d65fed31c2f8b73a206ba73b7a6bd",
+          "uri": "bioforge+artifact://sha256/0a0957b6d159399d8d96a96e081019a92c3d65fed31c2f8b73a206ba73b7a6bd",
+          "sha256": "0a0957b6d159399d8d96a96e081019a92c3d65fed31c2f8b73a206ba73b7a6bd"
+        }
+      }
+    },
+    {
+      "id": "t298-r2",
+      "parameters": {
+        "timestep_fs": 2.0,
+        "temperature_kelvin": 298.0,
+        "friction_per_ps": 1.0,
+        "pressure_bar": 1.0,
+        "barostat_interval": 25,
+        "velocity_initialization": "thermalize",
+        "timeout_seconds": 43200,
+        "minimization_tolerance_kj_mol_nm": 10.0,
+        "seed": 37329,
+        "steps": 200000,
+        "report_interval": 5000,
+        "state_report_interval": 5000,
+        "checkpoint_interval": 200000,
+        "equilibration_policy": "staged-solvent-v1",
+        "platform": "CUDA",
+        "platform_properties": {
+          "Precision": "mixed"
+        },
+        "equilibration_settings": {
+          "nvt_ps": 50.0,
+          "release_ps": 100.0,
+          "window_ps": 200.0,
+          "max_windows": 3,
+          "restraint_kj_mol_nm2": 1000.0,
+          "temperature_relative_tolerance": 0.05,
+          "temperature_block_relative_tolerance": 0.03,
+          "density_block_relative_tolerance": 0.02,
+          "energy_block_kj_mol_per_atom_tolerance": 0.1
+        },
+        "nvt_equilibration_steps": 25000,
+        "npt_equilibration_steps": 150000,
+        "minimization_max_iterations": 5000
+      },
+      "dynamics": {
+        "atom_count": 12596,
+        "frame_count": 40,
+        "seed": 37329,
+        "production_steps_completed": 200000,
+        "input_sha256": {
+          "state_xml": "ffec23715778f966852ced878fd7e81d253574d6d5aeb46a353c2387b64a41f9",
+          "system_xml": "badf29a58ea6947f39af307c354759e58c02fa0e8a5df8ef75d51c214c986556",
+          "topology_pdb": "0534a191683a2e82e5a97324b5ecc85a0532c7a91718e54af06b00b4511b9f2b"
+        },
+        "output_sha256": {
+          "final-state.xml": "042aebe7083b1c27d211aa93a4408dccf95cfa5e5df5743e18f33215c9387fda",
+          "state.csv": "0336ea38116d7f685a495d9e8864c7a1ad4633aa296d4f959be6f37da75c09f6",
+          "system.xml": "8b8b1447f404f05490e57e535978b13282a35c292ad5c3fdc5a5f0cec309bf2a",
+          "trajectory.dcd": "82c2cfbc983739a2e08bdd4527b1eb81bdb2a4d29fb6ada8db1ff5b9565861fd"
+        },
+        "performance": {
+          "minimization_seconds": 0.044820208102464676,
+          "npt_equilibration_seconds": 50.92274011624977,
+          "nvt_equilibration_seconds": 7.360409341286868,
+          "production_ns_per_day": 511.54730942226763,
+          "production_seconds": 67.55973370093852,
+          "production_steps_timed": 200000,
+          "runner_seconds_before_summary_write": 127.14608332980424,
+          "scope": "Measured propagation including scheduled output and final checkpoint; excludes setup, final XML serialization and hashing. Short runs include warm-up effects; recovered timing covers only newly executed steps",
+          "provider_seconds": 128.35694940201938,
+          "provider_scope": "Runtime probing, input staging, native setup/equilibration/production and output parsing; excludes Prefect orchestration and final artifact publication"
+        },
+        "equilibration_readiness": {
+          "npt_steps_completed": 150000,
+          "nvt_steps_completed": 25000,
+          "policy": "staged-solvent-v1",
+          "restrained_heavy_atom_count": 437,
+          "restraint_removal": "Physical positions, velocities, box and clock restored into a context with the temporary force and parameter removed; unrestrained integrator/barostat use the recorded derived seeds",
+          "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+          "settings": {
+            "density_block_relative_tolerance": 0.02,
+            "energy_block_kj_mol_per_atom_tolerance": 0.1,
+            "max_windows": 3,
+            "nvt_ps": 50.0,
+            "release_ps": 100.0,
+            "restraint_kj_mol_nm2": 1000.0,
+            "temperature_block_relative_tolerance": 0.03,
+            "temperature_relative_tolerance": 0.05,
+            "window_ps": 200.0
+          },
+          "stages": [
+            {
+              "end_step": 25000,
+              "name": "restrained-nvt",
+              "restraint_kj_mol_nm2": 1000.0,
+              "start_step": 0
+            },
+            {
+              "end_step": 35000,
+              "name": "npt-restraint-release",
+              "restraint_kj_mol_nm2": 1000.0,
+              "start_step": 25000
+            },
+            {
+              "end_step": 45000,
+              "name": "npt-restraint-release",
+              "restraint_kj_mol_nm2": 500.0,
+              "start_step": 35000
+            },
+            {
+              "end_step": 55000,
+              "name": "npt-restraint-release",
+              "restraint_kj_mol_nm2": 100.0,
+              "start_step": 45000
+            },
+            {
+              "end_step": 75000,
+              "name": "npt-restraint-release",
+              "restraint_kj_mol_nm2": 0.0,
+              "start_step": 55000
+            }
+          ],
+          "status": "passed",
+          "unrestrained_random_seeds": {
+            "barostat": 167692,
+            "integrator": 142058
+          },
+          "windows": [
+            {
+              "block_means": {
+                "density_g_ml": [
+                  1.0142804523017839,
+                  1.0148970712358305,
+                  1.0142256891902481,
+                  1.0141731039401982
+                ],
+                "potential_energy_kj_mol_per_atom": [
+                  -13.318192193473715,
+                  -13.323110667747152,
+                  -13.314329450520777,
+                  -13.31233583678304
+                ],
+                "temperature_kelvin": [
+                  298.5868855676404,
+                  298.2816335348193,
+                  297.9585567026293,
+                  298.6970901452697
+                ]
+              },
+              "checks": {
+                "density_block_relative_range": {
+                  "maximum": 0.02,
+                  "observed": 0.0007136943230453247,
+                  "passed": true
+                },
+                "energy_block_range_kj_mol_per_atom": {
+                  "maximum": 0.1,
+                  "observed": 0.01077483096411136,
+                  "passed": true
+                },
+                "temperature_block_relative_range": {
+                  "maximum": 0.03,
+                  "observed": 0.0024783001430886,
+                  "passed": true
+                },
+                "temperature_relative_error": {
+                  "maximum": 0.05,
+                  "observed": 0.0012786627100325441,
+                  "passed": true
+                }
+              },
+              "end_step": 175000,
+              "passed": true,
+              "sample_count": 200,
+              "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+              "start_step": 75000
+            }
+          ]
+        },
+        "thermodynamic_diagnostics": {
+          "equilibration": {
+            "assessment": "Descriptive sampled statistics; equilibration and effective sample size are not established",
+            "density_g_ml": {
+              "first_half_mean": 0.9952467917945093,
+              "mean": 1.0054525203733575,
+              "second_half_mean": 1.0150912640311591,
+              "standard_deviation": 0.024001885718008813
+            },
+            "potential_energy_kj_mol": {
+              "first_half_mean": -166909.45993211906,
+              "mean": -167343.45755984465,
+              "second_half_mean": -167753.3442082522,
+              "standard_deviation": 1049.6099208104295
+            },
+            "sample_count": 35,
+            "temperature_kelvin": {
+              "first_half_mean": 298.99864004678847,
+              "mean": 298.31965164268394,
+              "second_half_mean": 297.6783848165851,
+              "standard_deviation": 2.3035519630315173
+            },
+            "volume_nm3": {
+              "first_half_mean": 128.41703786334259,
+              "mean": 127.0615962813433,
+              "second_half_mean": 125.78145700945515,
+              "standard_deviation": 3.181435183460744
+            }
+          },
+          "production": {
+            "assessment": "Descriptive sampled statistics; equilibration and effective sample size are not established",
+            "density_g_ml": {
+              "first_half_mean": 1.014819430355172,
+              "mean": 1.0138105880038577,
+              "second_half_mean": 1.012801745652543,
+              "standard_deviation": 0.004387264999352304
+            },
+            "potential_energy_kj_mol": {
+              "first_half_mean": -167799.45732899648,
+              "mean": -167765.828844882,
+              "second_half_mean": -167732.20036076749,
+              "standard_deviation": 352.02957791578
+            },
+            "sample_count": 40,
+            "temperature_kelvin": {
+              "first_half_mean": 297.89888352898026,
+              "mean": 297.65423220903654,
+              "second_half_mean": 297.4095808890928,
+              "standard_deviation": 2.895711524842181
+            },
+            "volume_nm3": {
+              "first_half_mean": 125.81503500472729,
+              "mean": 125.94111628916949,
+              "second_half_mean": 126.06719757361168,
+              "standard_deviation": 0.54515822817124
+            }
+          }
+        }
+      },
+      "geometry": {
+        "cutoff_nm": 0.9,
+        "checked_frame_count": 40,
+        "total_frame_count": 40,
+        "all_saved_frames_checked": true,
+        "within_cutoff_frame_count": 0,
+        "minimum_distance_nm": 2.0423116161677077,
+        "passed": true,
+        "scope": "Exact closest protein atom to translated protein copy in selected saved frames, before fitting, after whole-molecule reconstruction. Includes hydrogens. Requires one connected protein. Unsaved/intervening frames, separate ligands and electrostatic finite-size convergence need separate assessment."
+      },
+      "geometry_inspection_sources": {
+        "topology": {
+          "id": "artifact-0534a191683a2e82",
+          "media_type": "chemical/x-pdb",
+          "digest": "sha256:0534a191683a2e82e5a97324b5ecc85a0532c7a91718e54af06b00b4511b9f2b",
+          "uri": "bioforge+artifact://sha256/0534a191683a2e82e5a97324b5ecc85a0532c7a91718e54af06b00b4511b9f2b",
+          "sha256": "0534a191683a2e82e5a97324b5ecc85a0532c7a91718e54af06b00b4511b9f2b"
+        },
+        "reference_structure": {
+          "id": "artifact-0534a191683a2e82",
+          "media_type": "chemical/x-pdb",
+          "digest": "sha256:0534a191683a2e82e5a97324b5ecc85a0532c7a91718e54af06b00b4511b9f2b",
+          "uri": "bioforge+artifact://sha256/0534a191683a2e82e5a97324b5ecc85a0532c7a91718e54af06b00b4511b9f2b",
+          "sha256": "0534a191683a2e82e5a97324b5ecc85a0532c7a91718e54af06b00b4511b9f2b"
+        },
+        "preparation_manifest": {
+          "id": "artifact-c1dbcff35e79d833",
+          "media_type": "application/json",
+          "digest": "sha256:c1dbcff35e79d8331f12139aff46aeb4620c96e73d832c4685314d52a18a24c8",
+          "uri": "bioforge+artifact://sha256/c1dbcff35e79d8331f12139aff46aeb4620c96e73d832c4685314d52a18a24c8",
+          "sha256": "c1dbcff35e79d8331f12139aff46aeb4620c96e73d832c4685314d52a18a24c8"
+        },
+        "trajectory": {
+          "id": "artifact-82c2cfbc983739a2",
+          "media_type": "application/x-dcd",
+          "digest": "sha256:82c2cfbc983739a2e08bdd4527b1eb81bdb2a4d29fb6ada8db1ff5b9565861fd",
+          "uri": "bioforge+artifact://sha256/82c2cfbc983739a2e08bdd4527b1eb81bdb2a4d29fb6ada8db1ff5b9565861fd",
+          "sha256": "82c2cfbc983739a2e08bdd4527b1eb81bdb2a4d29fb6ada8db1ff5b9565861fd"
+        },
+        "state_data": {
+          "id": "artifact-0336ea38116d7f68",
+          "media_type": "text/csv",
+          "digest": "sha256:0336ea38116d7f685a495d9e8864c7a1ad4633aa296d4f959be6f37da75c09f6",
+          "uri": "bioforge+artifact://sha256/0336ea38116d7f685a495d9e8864c7a1ad4633aa296d4f959be6f37da75c09f6",
+          "sha256": "0336ea38116d7f685a495d9e8864c7a1ad4633aa296d4f959be6f37da75c09f6"
+        },
+        "dynamics_summary": {
+          "id": "artifact-1e53198967a47891",
+          "media_type": "application/json",
+          "digest": "sha256:1e53198967a478911988fee35acb1f74157bef9c25c64db3bedbb0f4d42a5d27",
+          "uri": "bioforge+artifact://sha256/1e53198967a478911988fee35acb1f74157bef9c25c64db3bedbb0f4d42a5d27",
+          "sha256": "1e53198967a478911988fee35acb1f74157bef9c25c64db3bedbb0f4d42a5d27"
+        },
+        "dynamics_config": {
+          "id": "artifact-ca1559034c2e1281",
+          "media_type": "application/json",
+          "digest": "sha256:ca1559034c2e1281c5d552a8c890fd237a4c55884a465a157c321918c2948214",
+          "uri": "bioforge+artifact://sha256/ca1559034c2e1281c5d552a8c890fd237a4c55884a465a157c321918c2948214",
+          "sha256": "ca1559034c2e1281c5d552a8c890fd237a4c55884a465a157c321918c2948214"
+        }
+      }
+    },
+    {
+      "id": "t298-r3",
+      "parameters": {
+        "timestep_fs": 2.0,
+        "temperature_kelvin": 298.0,
+        "friction_per_ps": 1.0,
+        "pressure_bar": 1.0,
+        "barostat_interval": 25,
+        "velocity_initialization": "thermalize",
+        "timeout_seconds": 43200,
+        "minimization_tolerance_kj_mol_nm": 10.0,
+        "seed": 37349,
+        "steps": 200000,
+        "report_interval": 5000,
+        "state_report_interval": 5000,
+        "checkpoint_interval": 200000,
+        "equilibration_policy": "staged-solvent-v1",
+        "platform": "CUDA",
+        "platform_properties": {
+          "Precision": "mixed"
+        },
+        "equilibration_settings": {
+          "nvt_ps": 50.0,
+          "release_ps": 100.0,
+          "window_ps": 200.0,
+          "max_windows": 3,
+          "restraint_kj_mol_nm2": 1000.0,
+          "temperature_relative_tolerance": 0.05,
+          "temperature_block_relative_tolerance": 0.03,
+          "density_block_relative_tolerance": 0.02,
+          "energy_block_kj_mol_per_atom_tolerance": 0.1
+        },
+        "nvt_equilibration_steps": 25000,
+        "npt_equilibration_steps": 150000,
+        "minimization_max_iterations": 5000
+      },
+      "dynamics": {
+        "atom_count": 12596,
+        "frame_count": 40,
+        "seed": 37349,
+        "production_steps_completed": 200000,
+        "input_sha256": {
+          "state_xml": "ffec23715778f966852ced878fd7e81d253574d6d5aeb46a353c2387b64a41f9",
+          "system_xml": "badf29a58ea6947f39af307c354759e58c02fa0e8a5df8ef75d51c214c986556",
+          "topology_pdb": "0534a191683a2e82e5a97324b5ecc85a0532c7a91718e54af06b00b4511b9f2b"
+        },
+        "output_sha256": {
+          "final-state.xml": "22c9eff6a19030b8d79f7a066d96995cb7a48f7ca51f78c6b8295ec3c6c8ddbf",
+          "state.csv": "de3e529681e4b82c5539186cc29c09f3f971672b5a1deb54ab299daca7e56026",
+          "system.xml": "db741ee37757dd7b98e806c846f9fdaf0b67b03587a17ecf06f6921a4dd80bed",
+          "trajectory.dcd": "8ea3b569abdf441bb274dd14462bbbe5cc3ee427cf7366f894da3eacc0db8237"
+        },
+        "performance": {
+          "minimization_seconds": 0.033063337206840515,
+          "npt_equilibration_seconds": 50.690197677817196,
+          "nvt_equilibration_seconds": 7.383256350643933,
+          "production_ns_per_day": 509.4122944057713,
+          "production_seconds": 67.84288557525724,
+          "production_steps_timed": 200000,
+          "runner_seconds_before_summary_write": 127.20708627812564,
+          "scope": "Measured propagation including scheduled output and final checkpoint; excludes setup, final XML serialization and hashing. Short runs include warm-up effects; recovered timing covers only newly executed steps",
+          "provider_seconds": 128.44371484499425,
+          "provider_scope": "Runtime probing, input staging, native setup/equilibration/production and output parsing; excludes Prefect orchestration and final artifact publication"
+        },
+        "equilibration_readiness": {
+          "npt_steps_completed": 150000,
+          "nvt_steps_completed": 25000,
+          "policy": "staged-solvent-v1",
+          "restrained_heavy_atom_count": 437,
+          "restraint_removal": "Physical positions, velocities, box and clock restored into a context with the temporary force and parameter removed; unrestrained integrator/barostat use the recorded derived seeds",
+          "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+          "settings": {
+            "density_block_relative_tolerance": 0.02,
+            "energy_block_kj_mol_per_atom_tolerance": 0.1,
+            "max_windows": 3,
+            "nvt_ps": 50.0,
+            "release_ps": 100.0,
+            "restraint_kj_mol_nm2": 1000.0,
+            "temperature_block_relative_tolerance": 0.03,
+            "temperature_relative_tolerance": 0.05,
+            "window_ps": 200.0
+          },
+          "stages": [
+            {
+              "end_step": 25000,
+              "name": "restrained-nvt",
+              "restraint_kj_mol_nm2": 1000.0,
+              "start_step": 0
+            },
+            {
+              "end_step": 35000,
+              "name": "npt-restraint-release",
+              "restraint_kj_mol_nm2": 1000.0,
+              "start_step": 25000
+            },
+            {
+              "end_step": 45000,
+              "name": "npt-restraint-release",
+              "restraint_kj_mol_nm2": 500.0,
+              "start_step": 35000
+            },
+            {
+              "end_step": 55000,
+              "name": "npt-restraint-release",
+              "restraint_kj_mol_nm2": 100.0,
+              "start_step": 45000
+            },
+            {
+              "end_step": 75000,
+              "name": "npt-restraint-release",
+              "restraint_kj_mol_nm2": 0.0,
+              "start_step": 55000
+            }
+          ],
+          "status": "passed",
+          "unrestrained_random_seeds": {
+            "barostat": 167712,
+            "integrator": 142078
+          },
+          "windows": [
+            {
+              "block_means": {
+                "density_g_ml": [
+                  1.0151541152333459,
+                  1.0127746911775768,
+                  1.0142219197746287,
+                  1.0143779767019645
+                ],
+                "potential_energy_kj_mol_per_atom": [
+                  -13.310600127420601,
+                  -13.316118663758969,
+                  -13.32019475499191,
+                  -13.328670528617447
+                ],
+                "temperature_kelvin": [
+                  298.7188372600317,
+                  298.46954876827465,
+                  298.3702050264931,
+                  297.57304245910666
+                ]
+              },
+              "checks": {
+                "density_block_relative_range": {
+                  "maximum": 0.02,
+                  "observed": 0.002346266209407422,
+                  "passed": true
+                },
+                "energy_block_range_kj_mol_per_atom": {
+                  "maximum": 0.1,
+                  "observed": 0.01807040119684622,
+                  "passed": true
+                },
+                "temperature_block_relative_range": {
+                  "maximum": 0.03,
+                  "observed": 0.003844948996392771,
+                  "passed": true
+                },
+                "temperature_relative_error": {
+                  "maximum": 0.05,
+                  "observed": 0.0009493569747534238,
+                  "passed": true
+                }
+              },
+              "end_step": 175000,
+              "passed": true,
+              "sample_count": 200,
+              "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+              "start_step": 75000
+            }
+          ]
+        },
+        "thermodynamic_diagnostics": {
+          "equilibration": {
+            "assessment": "Descriptive sampled statistics; equilibration and effective sample size are not established",
+            "density_g_ml": {
+              "first_half_mean": 0.99383010384061,
+              "mean": 1.0035427287030896,
+              "second_half_mean": 1.012715763295431,
+              "standard_deviation": 0.023147582830678616
+            },
+            "potential_energy_kj_mol": {
+              "first_half_mean": -166581.99995935592,
+              "mean": -167156.16924844592,
+              "second_half_mean": -167698.44024369755,
+              "standard_deviation": 1063.1665514767324
+            },
+            "sample_count": 35,
+            "temperature_kelvin": {
+              "first_half_mean": 298.8657770018308,
+              "mean": 298.62630562012384,
+              "second_half_mean": 298.40013820406716,
+              "standard_deviation": 2.975169202964595
+            },
+            "volume_nm3": {
+              "first_half_mean": 128.59212940868377,
+              "mean": 127.2982681962299,
+              "second_half_mean": 126.07628816224572,
+              "standard_deviation": 3.076279923827976
+            }
+          },
+          "production": {
+            "assessment": "Descriptive sampled statistics; equilibration and effective sample size are not established",
+            "density_g_ml": {
+              "first_half_mean": 1.0140425791615573,
+              "mean": 1.0139730225101862,
+              "second_half_mean": 1.0139034658588142,
+              "standard_deviation": 0.0041872740413037325
+            },
+            "potential_energy_kj_mol": {
+              "first_half_mean": -167872.2308755879,
+              "mean": -167804.40702654695,
+              "second_half_mean": -167736.58317750593,
+              "standard_deviation": 429.92629143113186
+            },
+            "sample_count": 40,
+            "temperature_kelvin": {
+              "first_half_mean": 297.2506934181653,
+              "mean": 297.53306471094453,
+              "second_half_mean": 297.81543600372356,
+              "standard_deviation": 3.0238571590071057
+            },
+            "volume_nm3": {
+              "first_half_mean": 125.91321066565047,
+              "mean": 125.92073311821392,
+              "second_half_mean": 125.92825557077728,
+              "standard_deviation": 0.5208492736687418
+            }
+          }
+        }
+      },
+      "geometry": {
+        "cutoff_nm": 0.9,
+        "checked_frame_count": 40,
+        "total_frame_count": 40,
+        "all_saved_frames_checked": true,
+        "within_cutoff_frame_count": 0,
+        "minimum_distance_nm": 2.1554508902725944,
+        "passed": true,
+        "scope": "Exact closest protein atom to translated protein copy in selected saved frames, before fitting, after whole-molecule reconstruction. Includes hydrogens. Requires one connected protein. Unsaved/intervening frames, separate ligands and electrostatic finite-size convergence need separate assessment."
+      },
+      "geometry_inspection_sources": {
+        "topology": {
+          "id": "artifact-0534a191683a2e82",
+          "media_type": "chemical/x-pdb",
+          "digest": "sha256:0534a191683a2e82e5a97324b5ecc85a0532c7a91718e54af06b00b4511b9f2b",
+          "uri": "bioforge+artifact://sha256/0534a191683a2e82e5a97324b5ecc85a0532c7a91718e54af06b00b4511b9f2b",
+          "sha256": "0534a191683a2e82e5a97324b5ecc85a0532c7a91718e54af06b00b4511b9f2b"
+        },
+        "reference_structure": {
+          "id": "artifact-0534a191683a2e82",
+          "media_type": "chemical/x-pdb",
+          "digest": "sha256:0534a191683a2e82e5a97324b5ecc85a0532c7a91718e54af06b00b4511b9f2b",
+          "uri": "bioforge+artifact://sha256/0534a191683a2e82e5a97324b5ecc85a0532c7a91718e54af06b00b4511b9f2b",
+          "sha256": "0534a191683a2e82e5a97324b5ecc85a0532c7a91718e54af06b00b4511b9f2b"
+        },
+        "preparation_manifest": {
+          "id": "artifact-c1dbcff35e79d833",
+          "media_type": "application/json",
+          "digest": "sha256:c1dbcff35e79d8331f12139aff46aeb4620c96e73d832c4685314d52a18a24c8",
+          "uri": "bioforge+artifact://sha256/c1dbcff35e79d8331f12139aff46aeb4620c96e73d832c4685314d52a18a24c8",
+          "sha256": "c1dbcff35e79d8331f12139aff46aeb4620c96e73d832c4685314d52a18a24c8"
+        },
+        "trajectory": {
+          "id": "artifact-8ea3b569abdf441b",
+          "media_type": "application/x-dcd",
+          "digest": "sha256:8ea3b569abdf441bb274dd14462bbbe5cc3ee427cf7366f894da3eacc0db8237",
+          "uri": "bioforge+artifact://sha256/8ea3b569abdf441bb274dd14462bbbe5cc3ee427cf7366f894da3eacc0db8237",
+          "sha256": "8ea3b569abdf441bb274dd14462bbbe5cc3ee427cf7366f894da3eacc0db8237"
+        },
+        "state_data": {
+          "id": "artifact-de3e529681e4b82c",
+          "media_type": "text/csv",
+          "digest": "sha256:de3e529681e4b82c5539186cc29c09f3f971672b5a1deb54ab299daca7e56026",
+          "uri": "bioforge+artifact://sha256/de3e529681e4b82c5539186cc29c09f3f971672b5a1deb54ab299daca7e56026",
+          "sha256": "de3e529681e4b82c5539186cc29c09f3f971672b5a1deb54ab299daca7e56026"
+        },
+        "dynamics_summary": {
+          "id": "artifact-7ae3412c89fdc7f5",
+          "media_type": "application/json",
+          "digest": "sha256:7ae3412c89fdc7f59ea63b3a27f1ce406839e9834809ecf7244327735fdd017e",
+          "uri": "bioforge+artifact://sha256/7ae3412c89fdc7f59ea63b3a27f1ce406839e9834809ecf7244327735fdd017e",
+          "sha256": "7ae3412c89fdc7f59ea63b3a27f1ce406839e9834809ecf7244327735fdd017e"
+        },
+        "dynamics_config": {
+          "id": "artifact-9c82cad3d26b52e9",
+          "media_type": "application/json",
+          "digest": "sha256:9c82cad3d26b52e97b7e226d346bf8f3454e60900a6b95e9f014c38a8ef0210c",
+          "uri": "bioforge+artifact://sha256/9c82cad3d26b52e97b7e226d346bf8f3454e60900a6b95e9f014c38a8ef0210c",
+          "sha256": "9c82cad3d26b52e97b7e226d346bf8f3454e60900a6b95e9f014c38a8ef0210c"
+        }
+      }
+    }
+  ],
+  "couplings": {
+    "reference_comparison": {
+      "rmse_hz": 0.7267983717514833,
+      "mae_hz": 0.4970636171327138
+    },
+    "sampling_criteria": {
+      "split_rhat_max": 1.05,
+      "combined_ess_min": 400,
+      "required_jointly_passing_observations": 225
+    },
+    "sampling_assessment": {
+      "id": "t298",
+      "temperature_kelvin": 298.0,
+      "jointly_passing": 0,
+      "unassessed": 0,
+      "total_observations": 225,
+      "required_jointly_passing": 225,
+      "status": "fail"
+    }
+  },
+  "interpretation": "A larger starting margin and explicit trajectory geometry diagnostics address the observed defect. This short pilot is not a validated equilibrium ensemble, enzyme activity model or electrostatic finite-size study.",
+  "native_controls": {
+    "sha256": "4122eb931241f336ceca0d02b618df72e8124e709511deda710614b7b8e355e8",
+    "result": {
+      "scope": "CPU/CUDA agreement at identical prepared coordinates using predeclared tolerances; native CUDA checkpoint restoration with zero propagated steps. These controls do not establish force-field accuracy, equilibrium sampling or bit-identical continuation.",
+      "openmm_version": "8.6",
+      "force_agreement": {
+        "atom_count": 12596,
+        "cpu_potential_kj_mol": -205491.68062851133,
+        "cuda_potential_kj_mol": -205491.55413397227,
+        "absolute_energy_difference_kj_mol_per_atom": 1.0042437206859568e-05,
+        "relative_force_rms_difference": 1.533117152276992e-05,
+        "maximum_energy_difference_kj_mol_per_atom": 0.001,
+        "maximum_relative_force_rms_difference": 0.001,
+        "passed": true,
+        "input_sha256": {
+          "state_xml": "ffec23715778f966852ced878fd7e81d253574d6d5aeb46a353c2387b64a41f9",
+          "system_xml": "badf29a58ea6947f39af307c354759e58c02fa0e8a5df8ef75d51c214c986556",
+          "topology_pdb": "0534a191683a2e82e5a97324b5ecc85a0532c7a91718e54af06b00b4511b9f2b"
+        }
+      },
+      "checkpoint_restoration": {
+        "new_steps": 0,
+        "step_count": 375000,
+        "expected_step_count": 375000,
+        "time_ps": 749.9999999960886,
+        "expected_time_ps": 749.9999999960886,
+        "maximum_position_difference_nm": 0.0,
+        "maximum_velocity_difference_nm_per_ps": 0.0,
+        "maximum_box_difference_nm": 0.0,
+        "parameters_match": true,
+        "tolerances": {
+          "position_nm": 1e-12,
+          "velocity_nm_per_ps": 1e-12,
+          "box_nm": 1e-12,
+          "time_ps": 1e-08
+        },
+        "input_sha256": {
+          "production-system": "628ed7ec3b9cc7cf617587a87b893734915fd1424323e72bea4e1319a80222c7",
+          "replica-00-final-state": "88fa67452349a5e8d9634ab9d4326b6a830d04cace41baaf48c9b67d57db645c",
+          "replica-00-checkpoint": "7d29213d8a369b12bb7cae630e645853cdc03b775fcf0c78285f4f6e38520000"
+        },
+        "passed": true
+      }
+    }
+  },
+  "preparation_controls": {
+    "sha256": "ad7a9aa33cc3beb43f911ca35d3aa52bc40627f3f8cd4bc5dd404a0c9acede47",
+    "result": {
+      "scope": "Atom-count and charge consistency plus nearest translated protein images over lattice coefficients -2 through 2 at two snapshots. Periodic electrostatic finite-size effects and separation over the full trajectory need separate assessment.",
+      "protein_atoms": 862,
+      "expected_protein_atoms": 862,
+      "total_atoms": 12596,
+      "system_particles": 12596,
+      "water_molecules": 3908,
+      "sodium_ions": 6,
+      "chloride_ions": 4,
+      "protein_charge_e": -1.999999999999996,
+      "total_charge_e": 4.440892098500626e-15,
+      "charge_tolerance_e": 1e-06,
+      "snapshots": [
+        {
+          "state": "prepared",
+          "minimum_solute_image_atom_distance_nm": 2.507898712673264,
+          "image_translation": [
+            -1,
+            0,
+            1
+          ],
+          "nonbonded_cutoff_nm": 0.9,
+          "outside_real_space_cutoff": true,
+          "volume_nm3": 134.7772079835247
+        },
+        {
+          "state": "replica1-final",
+          "minimum_solute_image_atom_distance_nm": 2.3140049140176915,
+          "image_translation": [
+            -1,
+            0,
+            1
+          ],
+          "nonbonded_cutoff_nm": 0.9,
+          "outside_real_space_cutoff": true,
+          "volume_nm3": 125.12516887823743
+        }
+      ],
+      "passed": true
+    }
+  },
+  "software_checks": {
+    "unit_tests": 1379,
+    "optional_skips": 78,
+    "status": "passed",
+    "required_workflows": 11,
+    "navigation_checks": 12,
+    "lint": "passed",
+    "full_suite_log_sha256": "e6f09ae712edb00a9da747fa3b57a7606e9f474aee98e0ded21fc2e76c40cb5a"
+  }
+}

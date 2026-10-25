@@ -1,0 +1,557 @@
+{
+  "date": "2026-10-04",
+  "environment": {
+    "gpu": "NVIDIA GB10, 580.159.03",
+    "native_platform": "CUDA",
+    "openmm": "8.6.0.dev-c6173db",
+    "platform": "Linux-6.17.0-1021-nvidia-aarch64-with-glibc2.39",
+    "platform_properties": {
+      "CudaCompiler": "",
+      "CudaHostCompiler": "",
+      "DeterministicForces": "true",
+      "DeviceIndex": "0",
+      "DeviceName": "NVIDIA GB10",
+      "DisablePmeStream": "true",
+      "Precision": "mixed",
+      "TempDirectory": "/tmp",
+      "UseBlockingSync": "false",
+      "UseCpuPme": "false"
+    }
+  },
+  "force_controls": {
+    "comparisons": [
+      {
+        "all_repeat_max": 141.81471252441406,
+        "component_sum_max": 141.81471252441406,
+        "max_reference_difference": {
+          "all0": 118.7692975837133,
+          "bias": 0.00048204251464767367,
+          "physical": 0.04351261070030432
+        },
+        "mode": "default-a"
+      },
+      {
+        "all_repeat_max": 141.81471252441406,
+        "component_sum_max": 141.81471252441406,
+        "max_reference_difference": {
+          "all0": 0.04351261070030432,
+          "bias": 0.00048204251464767367,
+          "physical": 0.04351261070030432
+        },
+        "mode": "default-b"
+      },
+      {
+        "all_repeat_max": 0.0,
+        "component_sum_max": 0.0,
+        "max_reference_difference": {
+          "all0": 0.04351261070030432,
+          "bias": 0.00048204251464767367,
+          "physical": 0.04351261070030432
+        },
+        "mode": "sync-a"
+      },
+      {
+        "all_repeat_max": 0.0,
+        "component_sum_max": 0.0,
+        "max_reference_difference": {
+          "all0": 0.04351261070030432,
+          "bias": 0.00048204251464767367,
+          "physical": 0.04351261070030432
+        },
+        "mode": "sync-b"
+      },
+      {
+        "all_repeat_max": 0.0,
+        "component_sum_max": 2.2737367544323206e-13,
+        "max_reference_difference": {
+          "all0": 0.0,
+          "bias": 0.0,
+          "physical": 0.0
+        },
+        "mode": "reference"
+      },
+      {
+        "all_repeat_max": 141.81585693359375,
+        "component_sum_max": 141.81585693359375,
+        "max_reference_difference": {
+          "all0": 54.531849694684524,
+          "bias": 0.0025572378271476737,
+          "physical": 0.09864697465968675
+        },
+        "mode": "default-state"
+      },
+      {
+        "all_repeat_max": 0.0,
+        "component_sum_max": 0.0,
+        "max_reference_difference": {
+          "all0": 0.09864697465968675,
+          "bias": 0.0025572378271476737,
+          "physical": 0.09864697465968675
+        },
+        "mode": "sync-state"
+      }
+    ],
+    "force_units": "kJ/mol/nm",
+    "interpretation": "CUDA concurrent PME and bias evaluation gives inconsistent full forces at identical coordinates. DisablePmeStream=true yields exact repeated force arrays and component sums in the measured peptide controls. The precise upstream kernel mechanism remains unproved.",
+    "native_force_test": "tests/test_openmm_metadynamics.py::NativeMetadynamicsTests.test_pme_and_bias_force_components",
+    "native_force_test_scope": "Eight charged particles with PME and a nonzero periodic two-torsion bias; twenty combined-force queries compared with separately evaluated physical and bias components; passed on Reference and CUDA mixed precision",
+    "queries_per_process": 10,
+    "system": "2656-particle periodic ACE\u2013ALA\u2013NME plus 878 TIP3P waters, Amber99SB, PME and nonzero two-torsion CustomCVForce bias"
+  },
+  "limitations": [
+    "Pilot is bounded preparation, force/geometry/coordinate and cost evidence; free-energy accuracy, equilibrium convergence and sampling speedup remain unassessed",
+    "Original author geometry and all 100 corrected pilot frames retain a terminal cis amide; projected phi/psi sampling does not establish amide-sector equilibration",
+    "The OpenMM model is an adaptation of published inputs; exact Gromacs Hamiltonian, thermostat, barostat and trajectory identity are unqualified",
+    "General equality to an uninterrupted NPT trajectory remains unestablished; barostat adaptation and proposal phase reinitialize",
+    "Historical eight-particle CUDA recovery used CutoffPeriodic and does not qualify PME/bias force accumulation",
+    "CUDA adaptation-phase recovery remains unmeasured; default-staged CUDA production recovery is verified on the recorded peptide case"
+  ],
+  "method_profile": "openmm.prepared-npt-torsion-metadynamics-v1",
+  "peptide_pilot": {
+    "all_saved_frame_solute_image_checks_passed": true,
+    "amide_absolute_angle_median_degrees": [
+      173.38934326171875,
+      9.697519302368164
+    ],
+    "amide_cis_frame_counts": [
+      0,
+      100
+    ],
+    "archive": {
+      "archive_sha256": "8bd255eb1ae103885346a7291eb144340609a6fe48be42cc114a981dfd7b2be5",
+      "bytes": 5722946
+    },
+    "canonical_cost": {
+      "purpose": "Preparation, numerical propagation and sizing only; no free-energy reference comparison or accuracy-based parameter tuning",
+      "run_id": "run-48b8d1b2b3113899",
+      "steps": {
+        "analysis": "completed"
+      },
+      "wall_seconds": 357.03584924992174
+    },
+    "cutoff_nm": 1.1,
+    "frame_count": 100,
+    "input_sha256": {
+      "state_xml": "ddc14e2928fedc2e516ff1d8bb9ec3e1d33772d0a87930dfb4e831119bae4ab4",
+      "system_xml": "4f9734dc167122ace44e2b6e0377626e3c756473f9d18ec2f8b604b63e1788d4",
+      "topology_pdb": "05ed7fe0c8eb6f00801fca8edd8b8a8981c689133cc34ac5b2648af0138a6e58"
+    },
+    "minimum_absolute_peptide_omega_radians": 0.0009880580473691225,
+    "minimum_solute_image_distance_nm": 2.164989426673119,
+    "native_mdtraj_max_periodic_torsion_error_radians": 7.092952728271484e-06,
+    "native_performance": {
+      "minimization_seconds": 0.8930293843150139,
+      "npt_equilibration_seconds": 42.139524159021676,
+      "nvt_equilibration_seconds": 6.3561172699555755,
+      "production_ns_per_day": 611.6495178446745,
+      "production_seconds": 141.25736631732434,
+      "production_steps_timed": 500000,
+      "provider_scope": "Runtime probing, input staging, native setup/equilibration/production and output parsing; excludes Prefect orchestration and final artifact publication",
+      "provider_seconds": 350.54771434282884,
+      "runner_seconds_before_summary_write": 349.3992453403771,
+      "scope": "Measured propagation including scheduled output and final checkpoint; excludes setup, final XML serialization and hashing. Short runs include warm-up effects; recovered timing covers only newly executed steps"
+    },
+    "phase_lengths_ns": {
+      "bias_adaptation": 1.0,
+      "frozen_equilibration": 0.1,
+      "ordinary_staged_relaxation": 0.35,
+      "production": 1.0
+    },
+    "physical_model": {
+      "atom_count": 2656,
+      "cutoff_nm": 1.1,
+      "force_field_sha256": {
+        "amber99sb.xml": "186f8570413f2ad3efe923578fc53cc895006d50de4b612e9fc58977a914c092",
+        "tip3p.xml": "607f0fc9566c3770db2d9eb579fed68c4157578445eed1ec0aa7dccc23d57a6c"
+      },
+      "force_fields": [
+        "amber99sb.xml",
+        "tip3p.xml"
+      ],
+      "pme_error_tolerance": 1e-05,
+      "pressure_bar": 1.0,
+      "scope": "Author geometry and nominal Amber99SB/TIP3P model reconstructed using installed OpenMM assets. Cross-engine numerical identity unqualified. OpenMM Langevin/barostat and LJ cutoff convention differ from original Gromacs settings.",
+      "temperature_kelvin": 298.15,
+      "timestep_fs": 2.0,
+      "water_count": 878
+    },
+    "platform_properties": {
+      "CudaCompiler": "",
+      "CudaHostCompiler": "",
+      "DeterministicForces": "true",
+      "DeviceIndex": "0",
+      "DeviceName": "NVIDIA GB10",
+      "DisablePmeStream": "true",
+      "Precision": "mixed",
+      "TempDirectory": "/tmp",
+      "UseBlockingSync": "false",
+      "UseCpuPme": "false"
+    },
+    "readiness": {
+      "npt_steps_completed": 150000,
+      "nvt_steps_completed": 25000,
+      "policy": "staged-solvent-v1",
+      "restrained_heavy_atom_count": 10,
+      "restraint_removal": "Physical positions, velocities, box and clock restored into a context with the temporary force and parameter removed; unrestrained integrator/barostat use the recorded derived seeds",
+      "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+      "settings": {
+        "density_block_relative_tolerance": 0.02,
+        "energy_block_kj_mol_per_atom_tolerance": 0.1,
+        "max_windows": 3,
+        "nvt_ps": 50.0,
+        "release_ps": 100.0,
+        "restraint_kj_mol_nm2": 1000.0,
+        "temperature_block_relative_tolerance": 0.03,
+        "temperature_relative_tolerance": 0.05,
+        "window_ps": 200.0
+      },
+      "stages": [
+        {
+          "end_step": 25000,
+          "name": "restrained-nvt",
+          "restraint_kj_mol_nm2": 1000.0,
+          "start_step": 0
+        },
+        {
+          "end_step": 35000,
+          "name": "npt-restraint-release",
+          "restraint_kj_mol_nm2": 1000.0,
+          "start_step": 25000
+        },
+        {
+          "end_step": 45000,
+          "name": "npt-restraint-release",
+          "restraint_kj_mol_nm2": 500.0,
+          "start_step": 35000
+        },
+        {
+          "end_step": 55000,
+          "name": "npt-restraint-release",
+          "restraint_kj_mol_nm2": 100.0,
+          "start_step": 45000
+        },
+        {
+          "end_step": 75000,
+          "name": "npt-restraint-release",
+          "restraint_kj_mol_nm2": 0.0,
+          "start_step": 55000
+        }
+      ],
+      "status": "passed",
+      "unrestrained_random_seeds": {
+        "barostat": 844366,
+        "integrator": 818732
+      },
+      "windows": [
+        {
+          "block_means": {
+            "density_g_ml": [
+              0.9899932766898994,
+              0.9853562513160954,
+              0.9855143739256893,
+              0.9842024179599435
+            ],
+            "potential_energy_kj_mol_per_atom": [
+              -13.305141489239272,
+              -13.285554420095133,
+              -13.308463808773539,
+              -13.297029099813189
+            ],
+            "temperature_kelvin": [
+              298.42235166133787,
+              299.0878729756235,
+              298.0352718534136,
+              298.9482916831466
+            ]
+          },
+          "checks": {
+            "density_block_relative_range": {
+              "maximum": 0.02,
+              "observed": 0.005871494429138085,
+              "passed": true
+            },
+            "energy_block_range_kj_mol_per_atom": {
+              "maximum": 0.1,
+              "observed": 0.022909388678405307,
+              "passed": true
+            },
+            "temperature_block_relative_range": {
+              "maximum": 0.03,
+              "observed": 0.0035304414630552457,
+              "passed": true
+            },
+            "temperature_relative_error": {
+              "maximum": 0.05,
+              "observed": 0.001587949164448636,
+              "passed": true
+            }
+          },
+          "end_step": 175000,
+          "passed": true,
+          "sample_count": 200,
+          "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+          "start_step": 75000
+        }
+      ]
+    },
+    "run_id": "run-48b8d1b2b3113899",
+    "scope": "Bounded preparation, geometry, coordinate/reporting and cost controls only; free-energy accuracy and equilibrium convergence unassessed",
+    "solute_atom_count": 22,
+    "source": {
+      "copyright": "2017 Hythem Sidky",
+      "doi": "10.1063/1.5018708",
+      "license": "MIT",
+      "publication": "Sidky and Whitmer, J. Chem. Phys. 148, 104111 (2018)",
+      "revision": "a5b9fb3e842a37db9a15164909996373f652cc65",
+      "url": "https://github.com/hsidky/ann_sampling"
+    },
+    "verified_artifacts": 23
+  },
+  "preserved_failure_archive": {
+    "archive_sha256": "e83f43a99d165d73198522531d74e502c1cdd23f998ddccbb8f1dd43c56d79f6",
+    "bytes": 62172605
+  },
+  "preserved_failures": [
+    {
+      "archive_sha256": "669f2b0f54bc7542345a4eb4e599bbb116c9e43192ec9f1d200a17d6433984c7",
+      "assessment": "Earlier pilot used concurrent PME; retained as failed physical evidence despite passing readiness and geometry checks",
+      "run_id": "run-04d407b15f1a1a09"
+    },
+    {
+      "assessment": "Earlier canonical checkpoint restore was exact but subsequent independent native replay differed. Native-only repeated recovery and fixed-coordinate tests reproduce the CUDA force inconsistency, including with portable-state initialization.",
+      "run_id": "run-425c29ebb2ebae7f"
+    }
+  ],
+  "provider": {
+    "id": "openmm.prepared-dynamics",
+    "version": "0.8.1"
+  },
+  "repository_verification": {
+    "all_required_passed": true,
+    "native_log_sha256": "fcbc2be32a9ecb3ca58211e0908a3556d82f2a309a9bd085a4efce234fe8f2b1",
+    "native_optional_skips": 4,
+    "native_tests": 60,
+    "navigation_and_contract_tests": 24,
+    "required_workflows": 11,
+    "source_log_sha256": "36df56cb7d6cc5cbeba0dd3205686a407e6bf2c88e1a8d7d203e71e07dde71f9",
+    "source_optional_skips": 85,
+    "source_tests": 1405,
+    "wheel": {
+      "matching_package_files": 229,
+      "stale_or_missing_package_files": 0,
+      "wheel": "bioforge-0.5.0.dev1-py3-none-any.whl",
+      "wheel_sha256": "915bcbcf845135d2b748bfd1519f043ea21ecc39c240f89f9c7ca20977040116"
+    }
+  },
+  "schema_version": "0.1",
+  "source_baseline_commit": "a4cfc51",
+  "source_package_files_verified": 229,
+  "source_packet_sha256": "39326f6a13550f05b11fc759a6b10e28cd457208e8b8f2097047301ffbeaf34c",
+  "source_sha256": {
+    "src/bioforge/plugins/openmm_workbench.py": "7a6bf11fd59b1da11313ce3e299e02f90b7f9d089b4c114e1ecb899e79e22159",
+    "src/bioforge/plugins/runners/openmm_bias_recovery.py": "529de6d7c04266fc88681be96aeb4170a58a315e544bfe743a5267cf7b42d610",
+    "src/bioforge/plugins/runners/openmm_metadynamics.py": "ba81eeb30e950e9caacd07d38503b82fdd323eeadb4f4efd2b1164a2798017b1",
+    "src/bioforge/plugins/runners/openmm_runner.py": "5c158aa6d807f66eb46184eaab7249e75d5941a255c6b8a53d1c8667635907f9",
+    "tests/test_openmm_bias_recovery.py": "f1e2d92af9357dbec2eaf0798d24805ba656b07bbedf4364b8b876ff97b7427a",
+    "tests/test_openmm_metadynamics.py": "084769e3faf8f115b8c5c631ed9100963a693055de1ab6e67315afb7a8f5ec1d"
+  },
+  "staged_cuda_recovery": {
+    "archive": {
+      "archive_sha256": "ddca57689c0b0c65b2c37b55fe197f1e6ca0044c5b47b8833508c6e126aa2128",
+      "bytes": 9433526
+    },
+    "equilibration_readiness": {
+      "npt_steps_completed": 150000,
+      "nvt_steps_completed": 25000,
+      "policy": "staged-solvent-v1",
+      "restrained_heavy_atom_count": 10,
+      "restraint_removal": "Physical positions, velocities, box and clock restored into a context with the temporary force and parameter removed; unrestrained integrator/barostat use the recorded derived seeds",
+      "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+      "settings": {
+        "density_block_relative_tolerance": 0.02,
+        "energy_block_kj_mol_per_atom_tolerance": 0.1,
+        "max_windows": 3,
+        "nvt_ps": 50.0,
+        "release_ps": 100.0,
+        "restraint_kj_mol_nm2": 1000.0,
+        "temperature_block_relative_tolerance": 0.03,
+        "temperature_relative_tolerance": 0.05,
+        "window_ps": 200.0
+      },
+      "stages": [
+        {
+          "end_step": 25000,
+          "name": "restrained-nvt",
+          "restraint_kj_mol_nm2": 1000.0,
+          "start_step": 0
+        },
+        {
+          "end_step": 35000,
+          "name": "npt-restraint-release",
+          "restraint_kj_mol_nm2": 1000.0,
+          "start_step": 25000
+        },
+        {
+          "end_step": 45000,
+          "name": "npt-restraint-release",
+          "restraint_kj_mol_nm2": 500.0,
+          "start_step": 35000
+        },
+        {
+          "end_step": 55000,
+          "name": "npt-restraint-release",
+          "restraint_kj_mol_nm2": 100.0,
+          "start_step": 45000
+        },
+        {
+          "end_step": 75000,
+          "name": "npt-restraint-release",
+          "restraint_kj_mol_nm2": 0.0,
+          "start_step": 55000
+        }
+      ],
+      "status": "passed",
+      "unrestrained_random_seeds": {
+        "barostat": 844366,
+        "integrator": 818732
+      },
+      "windows": [
+        {
+          "block_means": {
+            "density_g_ml": [
+              0.9894760985125542,
+              0.9870951960675869,
+              0.9869259090724792,
+              0.989477926679713
+            ],
+            "potential_energy_kj_mol_per_atom": [
+              -13.2929789692588,
+              -13.294276149701467,
+              -13.318841498627643,
+              -13.304477887152158
+            ],
+            "temperature_kelvin": [
+              300.01322745924676,
+              297.8374476669057,
+              300.01297379191305,
+              297.8535039052754
+            ]
+          },
+          "checks": {
+            "density_block_relative_range": {
+              "maximum": 0.02,
+              "observed": 0.002582376587852935,
+              "passed": true
+            },
+            "energy_block_range_kj_mol_per_atom": {
+              "maximum": 0.1,
+              "observed": 0.025862529368843923,
+              "passed": true
+            },
+            "temperature_block_relative_range": {
+              "maximum": 0.03,
+              "observed": 0.007297601181757756,
+              "passed": true
+            },
+            "temperature_relative_error": {
+              "maximum": 0.05,
+              "observed": 0.0026137454497241574,
+              "passed": true
+            }
+          },
+          "end_step": 175000,
+          "passed": true,
+          "sample_count": 200,
+          "scope": "Solvent/thermal relaxation checks on the last unrestrained NPT window. Passing permits production under the requested policy; protein conformational equilibration, effective sample size, stability and activity need separate assessment.",
+          "start_step": 75000
+        }
+      ]
+    },
+    "interrupted_seconds": 217.22015570104122,
+    "oracle_byte_identity": {
+      "checkpoint.chk": true,
+      "final-state.xml": true,
+      "state.csv": true
+    },
+    "oracle_seconds": 135.94106315402314,
+    "performance": {
+      "minimization_seconds": 0.0,
+      "npt_equilibration_seconds": 0.0,
+      "nvt_equilibration_seconds": 0.0,
+      "production_ns_per_day": 603.0450654430284,
+      "production_seconds": 136.10923080798239,
+      "production_steps_timed": 475000,
+      "provider_scope": "Runtime probing, input staging, native setup/equilibration/production and output parsing; excludes Prefect orchestration and final artifact publication",
+      "provider_seconds": 137.94097022758797,
+      "runner_seconds_before_summary_write": 136.6278134197928,
+      "scope": "Measured propagation including scheduled output and final checkpoint; excludes setup, final XML serialization and hashing. Short runs include warm-up effects; recovered timing covers only newly executed steps"
+    },
+    "production_end_step": 1225000,
+    "production_start_step": 725000,
+    "recovery": {
+      "checkpoint_recovery": {
+        "barostat_adaptation": "reinitialized",
+        "barostat_proposal_phase": "reinitialized",
+        "checkpoint_step": 750000,
+        "checkpoint_time_ps": 1499.9999999783536,
+        "continuation": "Paired native state, bias and verified history resume to the original target; barostat adaptation and proposal phase reinitialize",
+        "energy_difference_kj_mol": {
+          "getKineticEnergy": 0.0,
+          "getPotentialEnergy": 0.0
+        },
+        "ignored_uncheckpointed_bytes": {
+          "adaptation-state.csv": 0,
+          "collective-variables.csv": 103,
+          "equilibration.csv": 0,
+          "frozen-equilibration-state.csv": 0,
+          "gaussians.csv": 0,
+          "production-start-state.xml": 0,
+          "state.csv": 1191,
+          "system.xml": 0,
+          "trajectory.dcd": 31952
+        },
+        "native_checkpoint_roundtrip_exact": true,
+        "original_target_step": 1225000,
+        "recovery_policy": "paired-bias-checkpoint-barostat-reset-v1",
+        "remaining_steps": 475000,
+        "remaining_steps_by_phase": {
+          "adaptation": 0,
+          "frozen-equilibration": 0,
+          "frozen-production": 475000
+        },
+        "retained_frames": 5,
+        "source_error": "Injected peptide production interruption after uncheckpointed output",
+        "source_sha256": {
+          "recovery_adaptation_state": "e278d76fffecbb1a32824e900cbcb5d9850cdf03e76ded6509963d4f0304be6e",
+          "recovery_bias_snapshot": "13235287e07777d79ff093904964d0e89fc1dbe0c178bc7aeb876cff083e1fb1",
+          "recovery_configuration": "ca6fb2916895afaf1c6ebd148ddb2def9421ff57c8aae44781f88e22a831ef2f",
+          "recovery_cv": "eae8bdb2c674a50b26e16200a184e6fb24414a70c6bea11cde71840423dfbd25",
+          "recovery_equilibration": "a7bc4dc3030847c378feee702a9b5c5f4d4e32188b1a6acea7578d86990bc5d9",
+          "recovery_frozen_state": "25456ad0f61634505751752f23a08f40d9dc0d2054ae2bcb41c76175bb56fe64",
+          "recovery_gaussians": "04ccec609ade4e4dc13d59bd746ec685c32ccd1eaf9eedb6c456055031735760",
+          "recovery_production_start": "960f8d66c8183ff06c03de6e6402e55f38aa6f2e56eaa0325cf0d5fb55f958e4",
+          "recovery_state": "ad3fd5307f8977979cad10c3cb66416efd110e6de149a702731fb7212fdbf0fa",
+          "recovery_system": "0e515911ab4b193b085a51a25b5d49e6e8d01fabd29d7f2813c1e804f3f6ff47",
+          "recovery_trajectory": "e17f8168d00356fa8901d4b9990fb0d4ece417e1034d6d2507f4f3c139e9abb9",
+          "state_xml": "ddc14e2928fedc2e516ff1d8bb9ec3e1d33772d0a87930dfb4e831119bae4ab4",
+          "system_xml": "4f9734dc167122ace44e2b6e0377626e3c756473f9d18ec2f8b604b63e1788d4",
+          "topology_pdb": "05ed7fe0c8eb6f00801fca8edd8b8a8981c689133cc34ac5b2648af0138a6e58"
+        },
+        "source_step_id": "interrupted-staged-peptide",
+        "source_task_sha256": "257a2727097b67460906db07697d205ad3c5a67670e28aedea40d850a9517289",
+        "uninterrupted_trajectory_identity": "not-established"
+      }
+    },
+    "recovery_seconds": 141.4730211040005,
+    "run_id": "run-4b684f39610a74ae",
+    "scope": "Default staged solvent relaxation retained, production interrupted at step 750000 with uncheckpointed output, five committed frames retained and 475000 remaining steps completed to step 1225000; matched independent native restart, with barostat adaptation/proposal phase reset",
+    "verified_artifacts": 33
+  },
+  "staged_seed_recovery_fix": {
+    "correction": "Preserve the serialized barostat seed for paired bias recovery",
+    "defect": "Recovery overwrote the archived derived production barostat seed with the original request seed after staged restraint removal",
+    "native_regression": "tests/test_openmm_bias_recovery.py::NativeBiasRecoveryTests.test_staged_restraint_removal_preserves_production_seed_on_recovery",
+    "reference_result": "Exact uninterrupted system, Gaussian history, state/CV rows and final state; completed relaxation retained; original target preserved"
+  },
+  "status": "fixed-state-force-controls-staged-pilot-and-paired-recovery-passed"
+}

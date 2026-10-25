@@ -1,0 +1,7 @@
+# Regenerates embeddings.json. Needs the esm environment and the esmc-300m resource.
+id: embed-panel
+steps:
+  - id: embed
+    capability: protein.embed
+    params:
+      proteins: representation-panel.fasta

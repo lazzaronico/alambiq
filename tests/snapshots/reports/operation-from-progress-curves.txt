@@ -1,0 +1,17 @@
+h1: operation-from-progress-curves
+section hydrogel-saturation
+h2: hydrogel-saturation
+table: Parameter | Value | Unit | Bounds | Local 95 % interval | 
+section free-first-order
+h2: free-first-order
+table: Parameter | Value | Unit | Bounds | Local 95 % interval | 
+section free-saturation
+h2: free-saturation
+note: These parameters finished at a bound: Km.
+table: Parameter | Value | Unit | Bounds | Local 95 % interval | 
+section hydrogel-first-order
+h2: hydrogel-first-order
+table: Parameter | Value | Unit | Bounds | Local 95 % interval | 
+section reuse-fitted-operation
+h2: reuse-fitted-operation
+table: Species | Final concentration (M)

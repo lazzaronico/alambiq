@@ -1,0 +1,2395 @@
+{
+  "date": "2026-09-08",
+  "status": "bounded-spark-accelerator-workflows-tested",
+  "source": {
+    "archive_commit": "306a919",
+    "mmseqs_identity_increment": "be4edac",
+    "cli_increment": "b26c88e",
+    "note": "OpenMM journey predates the CLI refresh; model journeys follow it. Scientific providers/runners are unchanged between these increments. A stale support-status note was removed after native runs.",
+    "installed_file_sha256": {
+      "__main__.py": "cc3dfed08d4c38476b5f50c259247a746b7871e63def74989cf3101a4b1a28f6",
+      "plugins/protein_embeddings.py": "f689610a77aea55c1d556a49a5c86f3bf08f8031fc0e665c44e67836d810fe5d",
+      "plugins/esm3_annotation.py": "58daf225aae6ed093aa4ffa3d44eaa582d1f8fe23a9fe3d634f84d88a34dd414",
+      "plugins/protein_completion.py": "7368d39876a4a0c16505df38decd3d8daba4300a00a6a570a7ec482809829271",
+      "plugins/model_resource.py": "083f1794d37592d671d6641e93736068048fabe975c348548bf9fe5e8e20bd4d",
+      "plugins/openmm_workbench.py": "cb72530c43320d21fda4d1e17ec7d500396ba83f8b6f962161d7bdc36e7878a5",
+      "plugins/runners/esmc_runner.py": "cbe0f96f8d71fa391055d8a453166a2d613180fbef172d38b23b1128c2cfd20a",
+      "plugins/runners/esm3_runner.py": "aeab4bd6b11b4cd9ddc661e0ecca5ab9fe843ecbec678d497efed3ad89dc54b1",
+      "plugins/runners/esm3_completion.py": "d02ed410af2909193e2d155e1e6970b42044801335ea23e633c4f8aa7e8b5ee8",
+      "plugins/runners/openmm_prepare_protein.py": "01aeccb9d4cbf80bd6f2f043a9163c16356cff38a9f672d834940c0f25d3544c",
+      "plugins/runners/openmm_runner.py": "25e133894ca0971f550ce95786e5c387abebc122469304e10994ac4680b42163"
+    }
+  },
+  "hardware": {
+    "platform": "linux-aarch64",
+    "device": "NVIDIA GB10",
+    "driver": "580.159.03",
+    "cpu_count": 20,
+    "system_memory_kib": 127600812
+  },
+  "model_runtime": {
+    "python": "3.12.14",
+    "platform": "Linux-6.17.0-1021-nvidia-aarch64-with-glibc2.39",
+    "packages": {
+      "esm": "3.4.0",
+      "torch": "2.11.0",
+      "transformers": "4.57.6",
+      "numpy": "2.5.2",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.0"
+    },
+    "torch_runtime_version": "2.11.0+cu130",
+    "cuda_runtime": "13.0",
+    "cuda_device": "NVIDIA GB10",
+    "cuda_capability": [
+      12,
+      1
+    ],
+    "compiled_architectures": [
+      "sm_80",
+      "sm_90",
+      "sm_100",
+      "sm_110",
+      "sm_120"
+    ],
+    "kernel": {
+      "operation": "seed-42 float32 32x32 matrix times its transpose",
+      "atol": 0.0001,
+      "rtol": 0.0001,
+      "max_absolute_cpu_cuda_difference": 0
+    },
+    "dependency_check": {
+      "exit_code": 1,
+      "stdout": "nvidia-cusparselt-cu13 0.8.0 is not supported on this platform\n",
+      "stderr": "",
+      "package": "nvidia-cusparselt-cu13",
+      "version": "0.8.0",
+      "wheel_metadata": "Wheel-Version: 1.0\nGenerator: setuptools (80.9.0)\nRoot-Is-Purelib: true\nTag: py3-none-manylinux2014_sbsa\n\n",
+      "library": "/home/user/.bioforge/commissioning/306a919-20260908/models/lib/python3.12/site-packages/nvidia/cusparselt/lib/libcusparseLt.so.0",
+      "elf_machine": 183,
+      "library_sha256": "20de6b36cbbf5753b26826eec753a2005608e14cbc3bfdd4681138098be86941",
+      "library_load": "passed",
+      "vendor_metadata_modified": false
+    }
+  },
+  "model_pip_packages": [
+    {
+      "name": "accelerate",
+      "version": "1.14.0"
+    },
+    {
+      "name": "anyio",
+      "version": "4.15.1"
+    },
+    {
+      "name": "asttokens",
+      "version": "3.0.2"
+    },
+    {
+      "name": "attrs",
+      "version": "26.1.0"
+    },
+    {
+      "name": "biopython",
+      "version": "1.88"
+    },
+    {
+      "name": "biotite",
+      "version": "1.7.1"
+    },
+    {
+      "name": "biotraj",
+      "version": "1.2.2"
+    },
+    {
+      "name": "boto3",
+      "version": "1.43.89"
+    },
+    {
+      "name": "botocore",
+      "version": "1.43.89"
+    },
+    {
+      "name": "brotli",
+      "version": "1.2.0"
+    },
+    {
+      "name": "certifi",
+      "version": "2026.7.22"
+    },
+    {
+      "name": "charset-normalizer",
+      "version": "3.5.1"
+    },
+    {
+      "name": "cloudpathlib",
+      "version": "0.25.0"
+    },
+    {
+      "name": "cloudpickle",
+      "version": "3.1.2"
+    },
+    {
+      "name": "comm",
+      "version": "0.2.3"
+    },
+    {
+      "name": "contourpy",
+      "version": "1.3.3"
+    },
+    {
+      "name": "cuda-bindings",
+      "version": "13.3.1"
+    },
+    {
+      "name": "cuda-pathfinder",
+      "version": "1.8.1"
+    },
+    {
+      "name": "cuda-toolkit",
+      "version": "13.0.2"
+    },
+    {
+      "name": "cycler",
+      "version": "0.12.1"
+    },
+    {
+      "name": "dna_features_viewer",
+      "version": "3.1.5"
+    },
+    {
+      "name": "einops",
+      "version": "0.8.2"
+    },
+    {
+      "name": "esm",
+      "version": "3.4.0"
+    },
+    {
+      "name": "executing",
+      "version": "2.2.1"
+    },
+    {
+      "name": "filelock",
+      "version": "3.32.5"
+    },
+    {
+      "name": "fonttools",
+      "version": "4.64.0"
+    },
+    {
+      "name": "fsspec",
+      "version": "2026.7.0"
+    },
+    {
+      "name": "h11",
+      "version": "0.16.0"
+    },
+    {
+      "name": "hf-xet",
+      "version": "1.6.0"
+    },
+    {
+      "name": "httpcore",
+      "version": "1.0.9"
+    },
+    {
+      "name": "httpx",
+      "version": "0.28.1"
+    },
+    {
+      "name": "huggingface_hub",
+      "version": "0.36.2"
+    },
+    {
+      "name": "idna",
+      "version": "3.19"
+    },
+    {
+      "name": "ipython",
+      "version": "9.17.1"
+    },
+    {
+      "name": "ipython_pygments_lexers",
+      "version": "1.1.1"
+    },
+    {
+      "name": "ipywidgets",
+      "version": "8.1.9"
+    },
+    {
+      "name": "jedi",
+      "version": "0.20.0"
+    },
+    {
+      "name": "Jinja2",
+      "version": "3.1.6"
+    },
+    {
+      "name": "jmespath",
+      "version": "1.1.0"
+    },
+    {
+      "name": "joblib",
+      "version": "1.6.0"
+    },
+    {
+      "name": "jupyterlab_widgets",
+      "version": "3.0.17"
+    },
+    {
+      "name": "kiwisolver",
+      "version": "1.5.1"
+    },
+    {
+      "name": "MarkupSafe",
+      "version": "3.0.3"
+    },
+    {
+      "name": "matplotlib",
+      "version": "3.11.1"
+    },
+    {
+      "name": "matplotlib-inline",
+      "version": "0.2.2"
+    },
+    {
+      "name": "mpmath",
+      "version": "1.3.0"
+    },
+    {
+      "name": "msgpack",
+      "version": "1.2.2"
+    },
+    {
+      "name": "msgpack-numpy",
+      "version": "0.4.8"
+    },
+    {
+      "name": "narwhals",
+      "version": "2.25.0"
+    },
+    {
+      "name": "networkx",
+      "version": "3.6.1"
+    },
+    {
+      "name": "numpy",
+      "version": "2.5.2"
+    },
+    {
+      "name": "nvidia-cublas",
+      "version": "13.1.0.3"
+    },
+    {
+      "name": "nvidia-cuda-cupti",
+      "version": "13.0.85"
+    },
+    {
+      "name": "nvidia-cuda-nvrtc",
+      "version": "13.0.88"
+    },
+    {
+      "name": "nvidia-cuda-runtime",
+      "version": "13.0.96"
+    },
+    {
+      "name": "nvidia-cudnn-cu13",
+      "version": "9.19.0.56"
+    },
+    {
+      "name": "nvidia-cufft",
+      "version": "12.0.0.61"
+    },
+    {
+      "name": "nvidia-cufile",
+      "version": "1.15.1.6"
+    },
+    {
+      "name": "nvidia-curand",
+      "version": "10.4.0.35"
+    },
+    {
+      "name": "nvidia-cusolver",
+      "version": "12.0.4.66"
+    },
+    {
+      "name": "nvidia-cusparse",
+      "version": "12.6.3.3"
+    },
+    {
+      "name": "nvidia-cusparselt-cu13",
+      "version": "0.8.0"
+    },
+    {
+      "name": "nvidia-nccl-cu13",
+      "version": "2.28.9"
+    },
+    {
+      "name": "nvidia-nvjitlink",
+      "version": "13.0.88"
+    },
+    {
+      "name": "nvidia-nvshmem-cu13",
+      "version": "3.4.5"
+    },
+    {
+      "name": "nvidia-nvtx",
+      "version": "13.0.85"
+    },
+    {
+      "name": "packaging",
+      "version": "26.3"
+    },
+    {
+      "name": "pandas",
+      "version": "3.0.5"
+    },
+    {
+      "name": "parso",
+      "version": "0.8.7"
+    },
+    {
+      "name": "pexpect",
+      "version": "4.9.0"
+    },
+    {
+      "name": "pillow",
+      "version": "12.3.0"
+    },
+    {
+      "name": "pip",
+      "version": "26.2.1"
+    },
+    {
+      "name": "prompt_toolkit",
+      "version": "3.0.53"
+    },
+    {
+      "name": "psutil",
+      "version": "7.2.2"
+    },
+    {
+      "name": "ptyprocess",
+      "version": "0.7.0"
+    },
+    {
+      "name": "pure_eval",
+      "version": "0.2.3"
+    },
+    {
+      "name": "py3Dmol",
+      "version": "2.5.5"
+    },
+    {
+      "name": "pydssp",
+      "version": "0.9.1"
+    },
+    {
+      "name": "Pygments",
+      "version": "2.21.0"
+    },
+    {
+      "name": "pygtrie",
+      "version": "2.6.1"
+    },
+    {
+      "name": "pyparsing",
+      "version": "3.3.2"
+    },
+    {
+      "name": "python-dateutil",
+      "version": "2.9.0.post0"
+    },
+    {
+      "name": "PyYAML",
+      "version": "6.0.3"
+    },
+    {
+      "name": "rdkit",
+      "version": "2026.3.6"
+    },
+    {
+      "name": "regex",
+      "version": "2026.9.3"
+    },
+    {
+      "name": "requests",
+      "version": "2.34.2"
+    },
+    {
+      "name": "s3transfer",
+      "version": "0.19.2"
+    },
+    {
+      "name": "safetensors",
+      "version": "0.8.0"
+    },
+    {
+      "name": "scikit-learn",
+      "version": "1.9.0"
+    },
+    {
+      "name": "scipy",
+      "version": "1.18.1"
+    },
+    {
+      "name": "setuptools",
+      "version": "81.0.0"
+    },
+    {
+      "name": "six",
+      "version": "1.17.0"
+    },
+    {
+      "name": "stack-data",
+      "version": "0.6.3"
+    },
+    {
+      "name": "sympy",
+      "version": "1.14.0"
+    },
+    {
+      "name": "tenacity",
+      "version": "9.1.4"
+    },
+    {
+      "name": "threadpoolctl",
+      "version": "3.6.0"
+    },
+    {
+      "name": "tokenizers",
+      "version": "0.22.2"
+    },
+    {
+      "name": "torch",
+      "version": "2.11.0"
+    },
+    {
+      "name": "tqdm",
+      "version": "4.70.0"
+    },
+    {
+      "name": "traitlets",
+      "version": "5.16.1"
+    },
+    {
+      "name": "transformers",
+      "version": "4.57.6"
+    },
+    {
+      "name": "triton",
+      "version": "3.6.0"
+    },
+    {
+      "name": "typing_extensions",
+      "version": "4.16.0"
+    },
+    {
+      "name": "urllib3",
+      "version": "2.7.0"
+    },
+    {
+      "name": "wcwidth",
+      "version": "0.8.3"
+    },
+    {
+      "name": "wheel",
+      "version": "0.48.0"
+    },
+    {
+      "name": "widgetsnbextension",
+      "version": "4.0.16"
+    },
+    {
+      "name": "zstd",
+      "version": "1.5.7.2"
+    }
+  ],
+  "vendor_wheel": {
+    "filename": "nvidia_cusparselt_cu13-0.8.0-py3-none-manylinux2014_aarch64.whl",
+    "sha256": "400c6ed1cf6780fc6efedd64ec9f1345871767e6a1a0a552a1ea0578117ea77c",
+    "bytes": 220791277,
+    "wheel_metadata": "Wheel-Version: 1.0\nGenerator: setuptools (80.9.0)\nRoot-Is-Purelib: true\nTag: py3-none-manylinux2014_sbsa\n\n",
+    "library_sha256": "20de6b36cbbf5753b26826eec753a2005608e14cbc3bfdd4681138098be86941"
+  },
+  "openmm_cuda_packages": [
+    {
+      "name": "cuda-toolkit",
+      "version": "13.0.2"
+    },
+    {
+      "name": "nvidia-cuda-crt",
+      "version": "13.0.88"
+    },
+    {
+      "name": "nvidia-cuda-cupti",
+      "version": "13.0.85"
+    },
+    {
+      "name": "nvidia-cuda-nvcc",
+      "version": "13.0.88"
+    },
+    {
+      "name": "nvidia-cuda-nvrtc",
+      "version": "13.0.88"
+    },
+    {
+      "name": "nvidia-cuda-runtime",
+      "version": "13.0.96"
+    },
+    {
+      "name": "nvidia-cufft",
+      "version": "12.0.0.61"
+    },
+    {
+      "name": "nvidia-nvjitlink",
+      "version": "13.0.88"
+    },
+    {
+      "name": "nvidia-nvvm",
+      "version": "13.0.88"
+    },
+    {
+      "name": "OpenMM",
+      "version": "8.6.0"
+    },
+    {
+      "name": "OpenMM-CUDA-13",
+      "version": "8.6.0"
+    }
+  ],
+  "storage_bytes": {
+    "model_environment": 5929548494,
+    "optional_workbench_with_cuda": 1827810941,
+    "interpretation": "directory byte totals, not peak memory"
+  },
+  "resources": {
+    "esmc": {
+      "acquisition": "normal explicit resource provision",
+      "content_sha256": "ea536daaab01a513a6d0d124d330581569b3074d4a7295331a386097ad3ff15b",
+      "resource_lock_sha256": "d7a4ce46f914501e310ebacfa2e20d5e3af8ca97d482c841fa7558bca474cb55",
+      "file_count": 8,
+      "file_bytes": 1332058104,
+      "health": {
+        "checks": [
+          {
+            "id": "model-resource-runtime",
+            "message": "Exact checkpoint resource and model-package versions verified; device availability is checked at execution.",
+            "status": "pass"
+          }
+        ],
+        "provider_id": "esmc.protein-embeddings",
+        "provider_version": "0.3.1",
+        "runtime": {
+          "accelerator": "optional",
+          "determinism": "profile-dependent",
+          "environment": "protein-representations",
+          "environment_lock": "protein-representations-esmc-3.4.0",
+          "network_policy": "denied"
+        },
+        "status": "ready"
+      }
+    },
+    "esm3": {
+      "source_kind": "verified local resource copied from Mac over SSH",
+      "source": "/Users/user/.bioforge/resources/sha256/01e9361654b3872d16ecb9172cb4303351ab7711f05e206daca1a81355e29123",
+      "staging": "/home/user/.bioforge/commissioning/306a919-20260908/transferred-models/01e9361654b3872d16ecb9172cb4303351ab7711f05e206daca1a81355e29123",
+      "root": "/home/user/.bioforge/resources/sha256/01e9361654b3872d16ecb9172cb4303351ab7711f05e206daca1a81355e29123",
+      "reused_existing_target": false,
+      "content_sha256": "01e9361654b3872d16ecb9172cb4303351ab7711f05e206daca1a81355e29123",
+      "resource_lock_sha256": "84d397196dee48f9c21d1cffe4375172841588c038f35debda386eff1cbbe598",
+      "file_count": 12,
+      "file_bytes": 4147240326,
+      "redundant_download": {
+        "action": "intentional SIGINT after verified transfer and promotion",
+        "pid": 2474333,
+        "exit_code": 130,
+        "staging": "/home/user/.bioforge/resources/staging/esm3-small-u63s37f5",
+        "retained_partial_bytes": 1071644672
+      }
+    }
+  },
+  "openmm": {
+    "run_dir": "/home/user/.bioforge/commissioning/306a919-20260908/model-journeys/13-trajectory-inspection-biological-cuda/run-19bf8e1de28ca6c7",
+    "steps": {
+      "prepare": "completed",
+      "inspect-source": "completed",
+      "dynamics": "completed",
+      "inspect-dynamics": "completed"
+    },
+    "preparation": {
+      "atom_count": 4520,
+      "protein_residues": 20,
+      "residue_counts": {
+        "ARG": 1,
+        "ASN": 1,
+        "ASP": 1,
+        "CL": 1,
+        "GLN": 1,
+        "GLY": 3,
+        "HOH": 1405,
+        "ILE": 1,
+        "LEU": 2,
+        "LYS": 1,
+        "PRO": 4,
+        "SER": 3,
+        "TRP": 1,
+        "TYR": 1
+      },
+      "platform": "CUDA",
+      "platform_properties": {
+        "CudaCompiler": "",
+        "CudaHostCompiler": "",
+        "DeterministicForces": "false",
+        "DeviceIndex": "0",
+        "DeviceName": "NVIDIA GB10",
+        "DisablePmeStream": "false",
+        "Precision": "mixed",
+        "TempDirectory": "/tmp",
+        "UseBlockingSync": "false",
+        "UseCpuPme": "false"
+      },
+      "potential_energy_before_kj_mol": -8747.190367852512,
+      "potential_energy_after_kj_mol": -65523.21319007443,
+      "forcefield_files_sha256": {
+        "amber14/protein.ff14SB.xml": "d9f9779c09d67cd5f8bc657692f174ffab14c469dfd06d560ac1899fa7e976b8",
+        "amber14/tip3p.xml": "3f4b188dbcb6c02863230eaca231e927fb6bf3307ce947d8a50d0f46f6dd83d9"
+      },
+      "parameters": {
+        "chain_id": "A",
+        "heavy_atom_completion": "none",
+        "ionic_strength_molar": 0,
+        "minimization_max_iterations": 200,
+        "model_index": 0,
+        "padding_nm": 1,
+        "ph": 7,
+        "platform": "CUDA",
+        "platform_properties": {
+          "Precision": "mixed"
+        },
+        "seed": 42,
+        "structure_format": "mmcif"
+      }
+    },
+    "dynamics": {
+      "parameters": {
+        "friction_per_ps": 1,
+        "platform": "CUDA",
+        "platform_properties": {
+          "Precision": "mixed"
+        },
+        "report_interval": 100,
+        "seed": 42,
+        "steps": 5000,
+        "temperature_kelvin": 300,
+        "timestep_fs": 2
+      },
+      "replica": {
+        "checkpoint_artifact": "replica-00-checkpoint",
+        "final_potential_energy_kj_per_mol": -57221.455576383916,
+        "final_state_artifact": "replica-00-final-state",
+        "final_total_energy_kj_per_mol": -45910.034245417,
+        "finite_energies": true,
+        "initial_potential_energy_kj_per_mol": -65523.20781911013,
+        "initial_total_energy_kj_per_mol": -53787.88184127279,
+        "platform": "CUDA",
+        "platform_properties": {
+          "CudaCompiler": "",
+          "CudaHostCompiler": "",
+          "DeterministicForces": "false",
+          "DeviceIndex": "0",
+          "DeviceName": "NVIDIA GB10",
+          "DisablePmeStream": "false",
+          "Precision": "mixed",
+          "TempDirectory": "/tmp",
+          "UseBlockingSync": "false",
+          "UseCpuPme": "false"
+        },
+        "relative_total_energy_drift": 0.14646138360873173,
+        "replica_index": 0,
+        "seed": 42,
+        "state_data_artifact": "replica-00-state-data",
+        "status": "completed",
+        "steps_completed": 5000,
+        "trajectory_artifact": "replica-00-trajectory"
+      }
+    },
+    "trajectory": {
+      "atom_count": 4520,
+      "frame_count": 50,
+      "parameters": {
+        "max_preview_frames": 20,
+        "timestep_fs": 2
+      },
+      "mdtraj_version": "1.11.1.post2",
+      "first_frame": {
+        "ca_rmsd_angstrom": 0,
+        "kinetic_energy_kj_mol": 8432.86582674122,
+        "potential_energy_kj_mol": -60717.417388444126,
+        "step": 100,
+        "temperature_kelvin": 220.67898884714785,
+        "time_ps": 0.2,
+        "total_energy_kj_mol": -52284.55156170291
+      },
+      "last_frame": {
+        "ca_rmsd_angstrom": 0.769014298915863,
+        "kinetic_energy_kj_mol": 11311.421330966918,
+        "potential_energy_kj_mol": -57221.45559793821,
+        "step": 5000,
+        "temperature_kelvin": 296.0076767528107,
+        "time_ps": 10,
+        "total_energy_kj_mol": -45910.0342669713
+      }
+    },
+    "artifacts": [
+      {
+        "sha256": "563b1134f7dd3ad166b020e23a86fff10167fde53e4ff70a0cd36d5e8d20eb21",
+        "media_type": "application/json"
+      },
+      {
+        "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "media_type": "text/plain"
+      },
+      {
+        "sha256": "7a448dcfddf3ca2b18daaf95b704b622e6c8c7c1597ef5f9b2f10ae452aed6bd",
+        "media_type": "application/json"
+      },
+      {
+        "sha256": "d8a3e1acd8f46b1735dad6cce60778f614b631c57e6fb612b6f9b304866788a9",
+        "media_type": "text/x-fasta"
+      },
+      {
+        "sha256": "8face44439c270c7bb9734a5eda12551460a9228969153f9caa306e1da75c671",
+        "media_type": "application/octet-stream"
+      },
+      {
+        "sha256": "d0636858f79ea5a62e63dba3e1424e02d9704b629c5c4d1ec7e7ec09f083aa4d",
+        "media_type": "application/xml"
+      },
+      {
+        "sha256": "0b5e424b8b16008bac77f9fcd5175001f0688fa060ecb74b7c6a19b6d6f30ad9",
+        "media_type": "chemical/x-mmcif"
+      },
+      {
+        "sha256": "fe2e1e1149912d52ba41a1fa412645c814beda10012b7adb779e2864ba275df3",
+        "media_type": "application/xml"
+      },
+      {
+        "sha256": "995a9e0ead2a68d6eb6eaaf0f42ca8462b4dba2407c7e2c9fd3a7487650ff883",
+        "media_type": "chemical/x-pdb"
+      },
+      {
+        "sha256": "62c72d1f729e794beae9950cffd2606b96b921b94bc9c40d9b0299cfda2c4300",
+        "media_type": "application/vnd.bioforge.step-output+json"
+      },
+      {
+        "sha256": "15cda91f29b94a93b18341dec51b8f9384a57f71fe6947d7cb99079a0bc01d64",
+        "media_type": "application/json"
+      },
+      {
+        "sha256": "d8a3e1acd8f46b1735dad6cce60778f614b631c57e6fb612b6f9b304866788a9",
+        "media_type": "text/plain"
+      },
+      {
+        "sha256": "8face44439c270c7bb9734a5eda12551460a9228969153f9caa306e1da75c671",
+        "media_type": "chemical/x-mmcif"
+      },
+      {
+        "sha256": "0dcb28f63508a10f8b24686f498b0b6d8a478866049797cc2192c28643c11f80",
+        "media_type": "application/vnd.bioforge.step-output+json"
+      },
+      {
+        "sha256": "8ae9580ca00db664ae5cb00219acbe448ed6a88b77e55c76f3257f8199377d93",
+        "media_type": "application/json"
+      },
+      {
+        "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "media_type": "text/plain"
+      },
+      {
+        "sha256": "3faf4054798d98a244db7dafc15c7c5d1312decaff4971c86642e6f2711f0a41",
+        "media_type": "application/octet-stream"
+      },
+      {
+        "sha256": "713ebb0ebbc0e81e37bcc39a59aa73363fd4f163e05ff2e506f3b24d398c6730",
+        "media_type": "application/xml"
+      },
+      {
+        "sha256": "ef23ad5703f7ab04aea72451e8d770e5230be802be75624b5d81bb577ed896bb",
+        "media_type": "text/csv"
+      },
+      {
+        "sha256": "1b4c350bac46261ddf6e46d8330655dad65a390dfc0f5ce5f95e7532c1412ca8",
+        "media_type": "application/json"
+      },
+      {
+        "sha256": "443c143b69cd842525b3fe73cff30a5239b3e50d883b7525cc72af3f8435076f",
+        "media_type": "application/x-dcd"
+      },
+      {
+        "sha256": "d0636858f79ea5a62e63dba3e1424e02d9704b629c5c4d1ec7e7ec09f083aa4d",
+        "media_type": "application/octet-stream"
+      },
+      {
+        "sha256": "fe2e1e1149912d52ba41a1fa412645c814beda10012b7adb779e2864ba275df3",
+        "media_type": "application/octet-stream"
+      },
+      {
+        "sha256": "995a9e0ead2a68d6eb6eaaf0f42ca8462b4dba2407c7e2c9fd3a7487650ff883",
+        "media_type": "application/octet-stream"
+      },
+      {
+        "sha256": "7c0ce1aa144ab1a9c605eff3ff4b298af51364247b6926f739233e2f7ca34efa",
+        "media_type": "application/vnd.bioforge.step-output+json"
+      },
+      {
+        "sha256": "8ae9580ca00db664ae5cb00219acbe448ed6a88b77e55c76f3257f8199377d93",
+        "media_type": "application/json"
+      },
+      {
+        "sha256": "7a448dcfddf3ca2b18daaf95b704b622e6c8c7c1597ef5f9b2f10ae452aed6bd",
+        "media_type": "application/json"
+      },
+      {
+        "sha256": "ef23ad5703f7ab04aea72451e8d770e5230be802be75624b5d81bb577ed896bb",
+        "media_type": "text/csv"
+      },
+      {
+        "sha256": "995a9e0ead2a68d6eb6eaaf0f42ca8462b4dba2407c7e2c9fd3a7487650ff883",
+        "media_type": "chemical/x-pdb"
+      },
+      {
+        "sha256": "443c143b69cd842525b3fe73cff30a5239b3e50d883b7525cc72af3f8435076f",
+        "media_type": "application/x-dcd"
+      },
+      {
+        "sha256": "fb40887d4320c4fa96d83da84a56afc434f7565ea136f922b06ec574ecdcfc55",
+        "media_type": "application/json"
+      },
+      {
+        "sha256": "b60dc5696cc62db4b928b09405c5ae3204e1082675797845ebf6a95c9519a74b",
+        "media_type": "application/vnd.bioforge.step-output+json"
+      }
+    ],
+    "sha256": {
+      "plan.json": "4c787a9dced06d9230df3a6f41bab3561bcf8f6dd8201013deceda9ba74fbd51",
+      "run.json": "576a6205225fdf96adcd5d8a3ef99de5cf640c33764bfa52b28f28ac8c52803e",
+      "evidence.json": "21a7720761d7cad4e421cb6a8dbc1257264b5aaba792e955a1acf419b2f55cb5",
+      "manifest.json": "71279e13aafd0e1edc37ed25f487aa7a0d4bb0c64142e4d226cd94647f53b1f3",
+      "report.html": "b96983849a26e5cf175077a0450d58607fbfb8b4c140b8599d48f255dd23bb9f"
+    },
+    "core_regenerated_report_sha256": "559a80da68152d48fa9961ce1ce0a2b2200a3d195e54f1e46f1a1fb02367afe8",
+    "source_campaign": "campaigns/examples/tutorials/13-trajectory-inspection/biological/campaign.yaml",
+    "source_campaign_sha256": "d3b306ce19cfb0deb5f51deb717443dfb35f2ca534d1c2855e4e4bf23a491b8d",
+    "campaign": "/home/user/.bioforge/commissioning/306a919-20260908/model-journeys/13-trajectory-inspection-biological-cuda/13-trajectory-inspection-biological-cuda.yaml",
+    "campaign_sha256": "258e5c8e6f158183c59780d2809569b40ca58f8824f7f6c4ba074cb859e81771",
+    "elapsed_seconds_including_execution_collection": 30.34763974114321
+  },
+  "esmc_runs": [
+    {
+      "run_dir": "/home/user/.bioforge/commissioning/306a919-20260908/model-journeys/09-representation-space-cpu/run-90b91dc16552aac6",
+      "representation": {
+        "batch_size": 1,
+        "device": "cpu",
+        "dimension": 960,
+        "dtype": "float32",
+        "input_tracks": [
+          "sequence"
+        ],
+        "layer": "last-hidden-state-post-norm",
+        "model": "biohub/ESMC-300M",
+        "pooling": "mean-of-residues",
+        "resource_content_sha256": "ea536daaab01a513a6d0d124d330581569b3074d4a7295331a386097ad3ff15b",
+        "revision": "a59b831785f907e96e6a246b1d142bfb76df31ee",
+        "seed": 0,
+        "source": {
+          "license": "CC-BY-4.0",
+          "sha256": "83cfd41af4002fb55ca4f0682314ad3fe031d507b6b510ed70def5696fc1455a",
+          "source_url": "https://www.uniprot.org/"
+        },
+        "special_tokens_excluded": true,
+        "threads": 4,
+        "versions": {
+          "esm": "3.4.0",
+          "torch": "2.11.0",
+          "transformers": "4.57.6"
+        },
+        "weights_sha256": "0772d8fe64bb25e14fe6f23b80e3c9a7d215d0da3c6cba5bd356d7c0e0bb22cc"
+      },
+      "proteins": [
+        {
+          "id": "P02144",
+          "residue_array": "protein_0",
+          "sequence_sha256": "bac6fdad1c0e60c1c97738282c8d247ab269c726b9878a1ad4a7d61386b1c277"
+        },
+        {
+          "id": "P60709",
+          "residue_array": "protein_1",
+          "sequence_sha256": "d498c40159d7c993d9e7e36afbe2f4921d5e81e6ab08d5388cbab47cc0234a92"
+        },
+        {
+          "id": "P68871",
+          "residue_array": "protein_2",
+          "sequence_sha256": "9ebf320eb707d71644444fe5006ed58af56a0bf0ec9568eb6a3a65e0e8191465"
+        },
+        {
+          "id": "P69891",
+          "residue_array": "protein_3",
+          "sequence_sha256": "1fab31d54b6ed8c51ed9346bfffcb549fcea34e238e7f82c4185ee40ee0a68a9"
+        },
+        {
+          "id": "P69905",
+          "residue_array": "protein_4",
+          "sequence_sha256": "14725a10598943a7aa719eed7d24c7fee599192a6c63c75b051ee6f156341242"
+        },
+        {
+          "id": "P99999",
+          "residue_array": "protein_5",
+          "sequence_sha256": "5e0b0254ee34f62546efdffc29fcf59e44b184deee0bce126d0a7541dccd6c13"
+        }
+      ],
+      "representatives": [
+        "P69891",
+        "P60709",
+        "P02144"
+      ],
+      "sha256": {
+        "plan.json": "2b5bf99a3d5d42c7251d24b60ad5bbac7af65df52d29da36390b0962b264e82a",
+        "run.json": "671042c41316bf75acf096034f290930e3c0a5775662c980bbb2b65cd6d7dfeb",
+        "evidence.json": "8225900ecebe1e232ff5f83372c17fac367446f851f8aa25c731064889af208b",
+        "manifest.json": "82a4145f3f3380bf99442dfefb875a96b71f700060aad80214d003b951899d89",
+        "report.html": "571fb4e59b45ef0d6ddb4daffedb0befd995eca2b1a1f1a7577b5e03debfe1cb"
+      },
+      "regenerated_report": "/home/user/.bioforge/commissioning/306a919-20260908/model-journeys/esmc-cpu.html",
+      "regenerated_report_sha256": "571fb4e59b45ef0d6ddb4daffedb0befd995eca2b1a1f1a7577b5e03debfe1cb",
+      "artifacts": [
+        {
+          "sha256": "85669b0b39f9c9d7b1b4c4c148aba10b038645d76c0fc99fed18ff5bf501efb9",
+          "media_type": "text/plain"
+        },
+        {
+          "sha256": "1dda8f7cf79b296534df8cd795bbd1eefe26d03e89d57544cc7a66f83c2ebdd1",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "b9530479931bf2e4f1b56418f348d25d7fc9c301c94c05907bb245c69497bdfc",
+          "media_type": "application/x-npz"
+        },
+        {
+          "sha256": "83cfd41af4002fb55ca4f0682314ad3fe031d507b6b510ed70def5696fc1455a",
+          "media_type": "text/plain"
+        },
+        {
+          "sha256": "86bf0d484d2409e54b68465090272c76ea2eb64850a780a735335c2a3aa42480",
+          "media_type": "application/vnd.bioforge.step-output+json"
+        },
+        {
+          "sha256": "ad75115f852ad2b60471db1261dd2a3145b8db17f708222ce81e53400a0d0ed6",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "media_type": "text/plain"
+        },
+        {
+          "sha256": "1dda8f7cf79b296534df8cd795bbd1eefe26d03e89d57544cc7a66f83c2ebdd1",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "589fbc62add63f377455a2cfe7a83ae3fd64a7d726327c4745702ecedbe89f0d",
+          "media_type": "application/vnd.bioforge.step-output+json"
+        }
+      ]
+    },
+    {
+      "run_dir": "/home/user/.bioforge/commissioning/306a919-20260908/model-journeys/09-representation-space-cuda/run-134c720ee08829b3",
+      "representation": {
+        "batch_size": 1,
+        "device": "cuda",
+        "dimension": 960,
+        "dtype": "float32",
+        "input_tracks": [
+          "sequence"
+        ],
+        "layer": "last-hidden-state-post-norm",
+        "model": "biohub/ESMC-300M",
+        "pooling": "mean-of-residues",
+        "resource_content_sha256": "ea536daaab01a513a6d0d124d330581569b3074d4a7295331a386097ad3ff15b",
+        "revision": "a59b831785f907e96e6a246b1d142bfb76df31ee",
+        "seed": 0,
+        "source": {
+          "license": "CC-BY-4.0",
+          "sha256": "83cfd41af4002fb55ca4f0682314ad3fe031d507b6b510ed70def5696fc1455a",
+          "source_url": "https://www.uniprot.org/"
+        },
+        "special_tokens_excluded": true,
+        "threads": 4,
+        "versions": {
+          "esm": "3.4.0",
+          "torch": "2.11.0",
+          "transformers": "4.57.6"
+        },
+        "weights_sha256": "0772d8fe64bb25e14fe6f23b80e3c9a7d215d0da3c6cba5bd356d7c0e0bb22cc"
+      },
+      "proteins": [
+        {
+          "id": "P02144",
+          "residue_array": "protein_0",
+          "sequence_sha256": "bac6fdad1c0e60c1c97738282c8d247ab269c726b9878a1ad4a7d61386b1c277"
+        },
+        {
+          "id": "P60709",
+          "residue_array": "protein_1",
+          "sequence_sha256": "d498c40159d7c993d9e7e36afbe2f4921d5e81e6ab08d5388cbab47cc0234a92"
+        },
+        {
+          "id": "P68871",
+          "residue_array": "protein_2",
+          "sequence_sha256": "9ebf320eb707d71644444fe5006ed58af56a0bf0ec9568eb6a3a65e0e8191465"
+        },
+        {
+          "id": "P69891",
+          "residue_array": "protein_3",
+          "sequence_sha256": "1fab31d54b6ed8c51ed9346bfffcb549fcea34e238e7f82c4185ee40ee0a68a9"
+        },
+        {
+          "id": "P69905",
+          "residue_array": "protein_4",
+          "sequence_sha256": "14725a10598943a7aa719eed7d24c7fee599192a6c63c75b051ee6f156341242"
+        },
+        {
+          "id": "P99999",
+          "residue_array": "protein_5",
+          "sequence_sha256": "5e0b0254ee34f62546efdffc29fcf59e44b184deee0bce126d0a7541dccd6c13"
+        }
+      ],
+      "representatives": [
+        "P69891",
+        "P60709",
+        "P02144"
+      ],
+      "sha256": {
+        "plan.json": "d04aea5ee5c5765593525710897dd23b83c051be4a6692c311710c2075e5330f",
+        "run.json": "a3d79042c0ec5af2f43e89609758db00cef427ba268078147fc1736909d32ef1",
+        "evidence.json": "209f57c451437a5c8697f3787b3519566f03cd77ce529e2f8a33ef61391987f4",
+        "manifest.json": "55931e3313399a082b37c5110f7d5b2af0c071468661e04ab41dc4569b33739e",
+        "report.html": "a6cfca40274d7a5bc913bac6630c6530f9bf02cf955ff093e933d194aafefbea"
+      },
+      "regenerated_report": "/home/user/.bioforge/commissioning/306a919-20260908/model-journeys/esmc-cuda.html",
+      "regenerated_report_sha256": "a6cfca40274d7a5bc913bac6630c6530f9bf02cf955ff093e933d194aafefbea",
+      "artifacts": [
+        {
+          "sha256": "85669b0b39f9c9d7b1b4c4c148aba10b038645d76c0fc99fed18ff5bf501efb9",
+          "media_type": "text/plain"
+        },
+        {
+          "sha256": "f54622aba503689d06c27de84cd37b64c80230acf9726e8a399966ed98daafdd",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "1df70c129948284d34a1a51f64d8ad752eef9fc5b1bd235854fce38e1c61ae29",
+          "media_type": "application/x-npz"
+        },
+        {
+          "sha256": "83cfd41af4002fb55ca4f0682314ad3fe031d507b6b510ed70def5696fc1455a",
+          "media_type": "text/plain"
+        },
+        {
+          "sha256": "0fb7afc8a8885a2c33f2ab4d624ef4696a49a8e1e6f9619d1116a18f2a533238",
+          "media_type": "application/vnd.bioforge.step-output+json"
+        },
+        {
+          "sha256": "2b387f4567aa977aa961f17dc42376455ed6b9041acb58bf24300ccead2b37fe",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "media_type": "text/plain"
+        },
+        {
+          "sha256": "f54622aba503689d06c27de84cd37b64c80230acf9726e8a399966ed98daafdd",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "c8226e1e35bb116f5d49f7a6be533fdf7d47dd770d59478d4c66555309fbec5e",
+          "media_type": "application/vnd.bioforge.step-output+json"
+        }
+      ]
+    }
+  ],
+  "esmc_cpu_cuda_observed_differences": [
+    {
+      "id": "P02144",
+      "sequence_sha256": "bac6fdad1c0e60c1c97738282c8d247ab269c726b9878a1ad4a7d61386b1c277",
+      "shape": [
+        154,
+        960
+      ],
+      "max_absolute_residue_difference": 0.0000020563602447509766,
+      "mean_absolute_residue_difference": 1.07831538173271e-7,
+      "max_absolute_pooled_difference": 2.980232238769531e-7
+    },
+    {
+      "id": "P60709",
+      "sequence_sha256": "d498c40159d7c993d9e7e36afbe2f4921d5e81e6ab08d5388cbab47cc0234a92",
+      "shape": [
+        375,
+        960
+      ],
+      "max_absolute_residue_difference": 0.0000017881393432617188,
+      "mean_absolute_residue_difference": 9.384505418077449e-8,
+      "max_absolute_pooled_difference": 3.8743019104003906e-7
+    },
+    {
+      "id": "P68871",
+      "sequence_sha256": "9ebf320eb707d71644444fe5006ed58af56a0bf0ec9568eb6a3a65e0e8191465",
+      "shape": [
+        147,
+        960
+      ],
+      "max_absolute_residue_difference": 0.0000021085143089294434,
+      "mean_absolute_residue_difference": 1.1269266735613385e-7,
+      "max_absolute_pooled_difference": 4.023313522338867e-7
+    },
+    {
+      "id": "P69891",
+      "sequence_sha256": "1fab31d54b6ed8c51ed9346bfffcb549fcea34e238e7f82c4185ee40ee0a68a9",
+      "shape": [
+        147,
+        960
+      ],
+      "max_absolute_residue_difference": 0.0000020489096641540527,
+      "mean_absolute_residue_difference": 1.1343501365475103e-7,
+      "max_absolute_pooled_difference": 4.172325134277344e-7
+    },
+    {
+      "id": "P69905",
+      "sequence_sha256": "14725a10598943a7aa719eed7d24c7fee599192a6c63c75b051ee6f156341242",
+      "shape": [
+        142,
+        960
+      ],
+      "max_absolute_residue_difference": 0.000001646578311920166,
+      "mean_absolute_residue_difference": 1.065718831609927e-7,
+      "max_absolute_pooled_difference": 1.9371509552001953e-7
+    },
+    {
+      "id": "P99999",
+      "sequence_sha256": "5e0b0254ee34f62546efdffc29fcf59e44b184deee0bce126d0a7541dccd6c13",
+      "shape": [
+        105,
+        960
+      ],
+      "max_absolute_residue_difference": 0.0000014007091522216797,
+      "mean_absolute_residue_difference": 1.0194718626790757e-7,
+      "max_absolute_pooled_difference": 1.2665987014770508e-7
+    }
+  ],
+  "esm3_runs": [
+    {
+      "source_campaign": "campaigns/examples/tutorials/08-compare-representations/campaign.yaml",
+      "source_campaign_sha256": "1d8402bebf687d20b56795762fb06e04b8ecda8855e7ed92ff6b9e01e165f4ac",
+      "campaign": "/home/user/.bioforge/commissioning/306a919-20260908/model-journeys/08-compare-representations-cpu/08-compare-representations-cpu.yaml",
+      "campaign_sha256": "c547efde7317a15fcb2322f9fbeeaca338d8ef2b86cce84dc73b220692935478",
+      "device": "cpu",
+      "run_dir": "/home/user/.bioforge/commissioning/306a919-20260908/model-journeys/08-compare-representations-cpu/run-a0a90c6f16b01ac0",
+      "elapsed_seconds_including_execution_collection": 29.32588610588573,
+      "steps": {
+        "embed-esmc": "completed",
+        "explore-esmc": "completed",
+        "embed-esm3": "completed",
+        "explore-esm3": "completed"
+      },
+      "record_sha256": {
+        "plan.json": "3a01d832982ad05ac9a95f40aca896e331a4ca1cf52cf9059bbd2c5b91535547",
+        "run.json": "b55a8e940304f72102b7c21133a8f6d857d66415073f3f809b3b53730f805e1a",
+        "evidence.json": "67ee7c04954461d4a009481113f0355862e655ea64a54f0a3c1d0af2b3a6bdab",
+        "manifest.json": "0892cfe3cd9bd2a37a288f685a2d1ecf561fd9b7965a37b0b1c7725043aa3b9b",
+        "report.html": "3f7bf9f42444cc6387a921288ecaf0fb8f1540c64ceb83579395d18fb828c286"
+      },
+      "report": "/home/user/.bioforge/commissioning/306a919-20260908/model-journeys/08-compare-representations-cpu/run-a0a90c6f16b01ac0/report.html",
+      "regenerated_report": "/home/user/.bioforge/commissioning/306a919-20260908/model-journeys/08-compare-representations-cpu.html",
+      "regenerated_report_sha256": "3f7bf9f42444cc6387a921288ecaf0fb8f1540c64ceb83579395d18fb828c286",
+      "artifacts": [
+        {
+          "sha256": "85669b0b39f9c9d7b1b4c4c148aba10b038645d76c0fc99fed18ff5bf501efb9",
+          "media_type": "text/plain"
+        },
+        {
+          "sha256": "3c194c4e678968e29d22ee0cd6606872d6ba0b4cc446d8d28b5ee983c128ad8a",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "b9530479931bf2e4f1b56418f348d25d7fc9c301c94c05907bb245c69497bdfc",
+          "media_type": "application/x-npz"
+        },
+        {
+          "sha256": "83cfd41af4002fb55ca4f0682314ad3fe031d507b6b510ed70def5696fc1455a",
+          "media_type": "text/plain"
+        },
+        {
+          "sha256": "1938034e5e24276051529f7cb1f8764152a66f7f1c587f05a208158689ca2d04",
+          "media_type": "application/vnd.bioforge.step-output+json"
+        },
+        {
+          "sha256": "dcc08b6be29b47b9ac9ef6fd874b75db168c05dc0421d46256ea86036a9e37aa",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "media_type": "text/plain"
+        },
+        {
+          "sha256": "3c194c4e678968e29d22ee0cd6606872d6ba0b4cc446d8d28b5ee983c128ad8a",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "d98b2102a33af0643df5bc06c9ccf518993848215f9422424b2b7d6c6ebf1e0c",
+          "media_type": "application/vnd.bioforge.step-output+json"
+        },
+        {
+          "sha256": "f6bea8238d8c721df032428edb6bffa1ee868d33c1bf97dccc93554490b445cf",
+          "media_type": "text/plain"
+        },
+        {
+          "sha256": "f11ee4f17f4aa2e687573387ff11ed39e9f5388c207283c8ff937d684fc27dc4",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "e229ed632537d8417af2468958a124bd48dd8b1ed3104658f50bf11491252665",
+          "media_type": "application/x-npz"
+        },
+        {
+          "sha256": "83cfd41af4002fb55ca4f0682314ad3fe031d507b6b510ed70def5696fc1455a",
+          "media_type": "text/plain"
+        },
+        {
+          "sha256": "494ce776d3f53ed77009d5a2a6ba881a28b695753dce4db12b202ddc51aad58f",
+          "media_type": "application/vnd.bioforge.step-output+json"
+        },
+        {
+          "sha256": "f3f358413738b81d387550f06f6257ea197b89528bde773f0b2b2b99552c096b",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "media_type": "text/plain"
+        },
+        {
+          "sha256": "f11ee4f17f4aa2e687573387ff11ed39e9f5388c207283c8ff937d684fc27dc4",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "2600470479927412bbbb8904e17db8deda7416d4ab90719a27b0a88e2b0d851d",
+          "media_type": "application/vnd.bioforge.step-output+json"
+        }
+      ],
+      "outputs": {
+        "embed-esmc": {
+          "representation": {
+            "batch_size": 1,
+            "device": "cpu",
+            "dimension": 960,
+            "dtype": "float32",
+            "input_tracks": [
+              "sequence"
+            ],
+            "layer": "last-hidden-state-post-norm",
+            "model": "biohub/ESMC-300M",
+            "pooling": "mean-of-residues",
+            "resource_content_sha256": "ea536daaab01a513a6d0d124d330581569b3074d4a7295331a386097ad3ff15b",
+            "revision": "a59b831785f907e96e6a246b1d142bfb76df31ee",
+            "seed": 0,
+            "source": {
+              "license": "CC-BY-4.0",
+              "sha256": "83cfd41af4002fb55ca4f0682314ad3fe031d507b6b510ed70def5696fc1455a",
+              "source_url": "https://www.uniprot.org/"
+            },
+            "special_tokens_excluded": true,
+            "threads": 4,
+            "versions": {
+              "esm": "3.4.0",
+              "torch": "2.11.0",
+              "transformers": "4.57.6"
+            },
+            "weights_sha256": "0772d8fe64bb25e14fe6f23b80e3c9a7d215d0da3c6cba5bd356d7c0e0bb22cc"
+          },
+          "proteins": [
+            {
+              "id": "P02144",
+              "residue_array": "protein_0",
+              "sequence_sha256": "bac6fdad1c0e60c1c97738282c8d247ab269c726b9878a1ad4a7d61386b1c277"
+            },
+            {
+              "id": "P60709",
+              "residue_array": "protein_1",
+              "sequence_sha256": "d498c40159d7c993d9e7e36afbe2f4921d5e81e6ab08d5388cbab47cc0234a92"
+            },
+            {
+              "id": "P68871",
+              "residue_array": "protein_2",
+              "sequence_sha256": "9ebf320eb707d71644444fe5006ed58af56a0bf0ec9568eb6a3a65e0e8191465"
+            },
+            {
+              "id": "P69891",
+              "residue_array": "protein_3",
+              "sequence_sha256": "1fab31d54b6ed8c51ed9346bfffcb549fcea34e238e7f82c4185ee40ee0a68a9"
+            },
+            {
+              "id": "P69905",
+              "residue_array": "protein_4",
+              "sequence_sha256": "14725a10598943a7aa719eed7d24c7fee599192a6c63c75b051ee6f156341242"
+            },
+            {
+              "id": "P99999",
+              "residue_array": "protein_5",
+              "sequence_sha256": "5e0b0254ee34f62546efdffc29fcf59e44b184deee0bce126d0a7541dccd6c13"
+            }
+          ]
+        },
+        "explore-esmc": {
+          "representatives": [
+            "P69891",
+            "P60709",
+            "P02144"
+          ]
+        },
+        "embed-esm3": {
+          "representation": {
+            "autocast": "disabled",
+            "batch_size": 1,
+            "device": "cpu",
+            "dimension": 1536,
+            "dtype": "float32",
+            "input_tracks": [
+              "sequence"
+            ],
+            "layer": "last-hidden-state-pre-final-norm",
+            "loader": "upstream-local-infrastructure-cwd",
+            "model": "biohub/esm3-sm-open-v1",
+            "pooling": "mean-of-residues",
+            "resource_content_sha256": "01e9361654b3872d16ecb9172cb4303351ab7711f05e206daca1a81355e29123",
+            "revision": "47f0545b2b6daf26a93439a3cd610f4f7f3d5478",
+            "seed": 0,
+            "source": {
+              "license": "CC-BY-4.0",
+              "sha256": "83cfd41af4002fb55ca4f0682314ad3fe031d507b6b510ed70def5696fc1455a",
+              "source_url": "https://www.uniprot.org/"
+            },
+            "special_tokens_excluded": true,
+            "threads": 4,
+            "versions": {
+              "esm": "3.4.0",
+              "torch": "2.11.0",
+              "transformers": "4.57.6"
+            }
+          },
+          "proteins": [
+            {
+              "id": "P02144",
+              "residue_array": "protein_0",
+              "sequence_sha256": "bac6fdad1c0e60c1c97738282c8d247ab269c726b9878a1ad4a7d61386b1c277"
+            },
+            {
+              "id": "P60709",
+              "residue_array": "protein_1",
+              "sequence_sha256": "d498c40159d7c993d9e7e36afbe2f4921d5e81e6ab08d5388cbab47cc0234a92"
+            },
+            {
+              "id": "P68871",
+              "residue_array": "protein_2",
+              "sequence_sha256": "9ebf320eb707d71644444fe5006ed58af56a0bf0ec9568eb6a3a65e0e8191465"
+            },
+            {
+              "id": "P69891",
+              "residue_array": "protein_3",
+              "sequence_sha256": "1fab31d54b6ed8c51ed9346bfffcb549fcea34e238e7f82c4185ee40ee0a68a9"
+            },
+            {
+              "id": "P69905",
+              "residue_array": "protein_4",
+              "sequence_sha256": "14725a10598943a7aa719eed7d24c7fee599192a6c63c75b051ee6f156341242"
+            },
+            {
+              "id": "P99999",
+              "residue_array": "protein_5",
+              "sequence_sha256": "5e0b0254ee34f62546efdffc29fcf59e44b184deee0bce126d0a7541dccd6c13"
+            }
+          ]
+        },
+        "explore-esm3": {
+          "representatives": [
+            "P69891",
+            "P60709",
+            "P99999"
+          ]
+        }
+      }
+    },
+    {
+      "source_campaign": "campaigns/examples/tutorials/08-compare-representations/campaign.yaml",
+      "source_campaign_sha256": "1d8402bebf687d20b56795762fb06e04b8ecda8855e7ed92ff6b9e01e165f4ac",
+      "campaign": "/home/user/.bioforge/commissioning/306a919-20260908/model-journeys/08-compare-representations-cuda/08-compare-representations-cuda.yaml",
+      "campaign_sha256": "8572e700201b96bbfa1cc8db0986f3f72b2c8fe9178609b64d3b39e24fe8ae39",
+      "device": "cuda",
+      "run_dir": "/home/user/.bioforge/commissioning/306a919-20260908/model-journeys/08-compare-representations-cuda/run-5670245b6d7ce4c5",
+      "elapsed_seconds_including_execution_collection": 32.33618054911494,
+      "steps": {
+        "embed-esmc": "completed",
+        "explore-esmc": "completed",
+        "embed-esm3": "completed",
+        "explore-esm3": "completed"
+      },
+      "record_sha256": {
+        "plan.json": "1b065018335b161c8d4b749ff931d856a3d5865ba939356594769e4f80d213c2",
+        "run.json": "72703eccfd58fccc2bc510a69a5ae6821f000c26928429f13d4f199586cd980a",
+        "evidence.json": "aa1049c57e555044eb059138d382f3447b63b4753bce22f49d3c15cbd1b06264",
+        "manifest.json": "2e5e53bb388eaa11a1f99ef61d0ff9d2eb2c1f0586a690ab5c6780931f291f4c",
+        "report.html": "f6a39796091bc9297453658651e72e24d7e28126bb946a4afc7b430eef454340"
+      },
+      "report": "/home/user/.bioforge/commissioning/306a919-20260908/model-journeys/08-compare-representations-cuda/run-5670245b6d7ce4c5/report.html",
+      "regenerated_report": "/home/user/.bioforge/commissioning/306a919-20260908/model-journeys/08-compare-representations-cuda.html",
+      "regenerated_report_sha256": "f6a39796091bc9297453658651e72e24d7e28126bb946a4afc7b430eef454340",
+      "artifacts": [
+        {
+          "sha256": "85669b0b39f9c9d7b1b4c4c148aba10b038645d76c0fc99fed18ff5bf501efb9",
+          "media_type": "text/plain"
+        },
+        {
+          "sha256": "d1e9c94cc63efe6a66cc24f9de037ea6fc57ac9d47b25a0545c8773cd32ad5a7",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "1df70c129948284d34a1a51f64d8ad752eef9fc5b1bd235854fce38e1c61ae29",
+          "media_type": "application/x-npz"
+        },
+        {
+          "sha256": "83cfd41af4002fb55ca4f0682314ad3fe031d507b6b510ed70def5696fc1455a",
+          "media_type": "text/plain"
+        },
+        {
+          "sha256": "ab5647238000674e359eed2869ea1734023efa4e7014f9e82db6a859282e1b0a",
+          "media_type": "application/vnd.bioforge.step-output+json"
+        },
+        {
+          "sha256": "ea447541a7f0db930967fd15e7389ef2bd978f76a6b1d551d84a1c00c0688620",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "media_type": "text/plain"
+        },
+        {
+          "sha256": "d1e9c94cc63efe6a66cc24f9de037ea6fc57ac9d47b25a0545c8773cd32ad5a7",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "0c48641f9419f488b966e6e467cfc3d9e535b819cf644df09146b9dfaddce5df",
+          "media_type": "application/vnd.bioforge.step-output+json"
+        },
+        {
+          "sha256": "f6bea8238d8c721df032428edb6bffa1ee868d33c1bf97dccc93554490b445cf",
+          "media_type": "text/plain"
+        },
+        {
+          "sha256": "9f875541627caae6edc0590dbe2c95e5e6d25121b23743e020b3af0a46e59140",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "7bfb142c69a12d8812bb89191ef78beaf3dfe6b8eec2e57db21fb101f64baa57",
+          "media_type": "application/x-npz"
+        },
+        {
+          "sha256": "83cfd41af4002fb55ca4f0682314ad3fe031d507b6b510ed70def5696fc1455a",
+          "media_type": "text/plain"
+        },
+        {
+          "sha256": "af589c444267ba04be8d1b979cdcaa5ab14882a59b59691af592498cbabf8869",
+          "media_type": "application/vnd.bioforge.step-output+json"
+        },
+        {
+          "sha256": "9720bb7213305b6e63941f78ea1a84bd2af7ff093c07a2a0cdfe70058646b393",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "media_type": "text/plain"
+        },
+        {
+          "sha256": "9f875541627caae6edc0590dbe2c95e5e6d25121b23743e020b3af0a46e59140",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "80cafd0962caafa081745cca1b1f5063351206778dc2bf58f65afa9642f6af98",
+          "media_type": "application/vnd.bioforge.step-output+json"
+        }
+      ],
+      "outputs": {
+        "embed-esmc": {
+          "representation": {
+            "batch_size": 1,
+            "device": "cuda",
+            "dimension": 960,
+            "dtype": "float32",
+            "input_tracks": [
+              "sequence"
+            ],
+            "layer": "last-hidden-state-post-norm",
+            "model": "biohub/ESMC-300M",
+            "pooling": "mean-of-residues",
+            "resource_content_sha256": "ea536daaab01a513a6d0d124d330581569b3074d4a7295331a386097ad3ff15b",
+            "revision": "a59b831785f907e96e6a246b1d142bfb76df31ee",
+            "seed": 0,
+            "source": {
+              "license": "CC-BY-4.0",
+              "sha256": "83cfd41af4002fb55ca4f0682314ad3fe031d507b6b510ed70def5696fc1455a",
+              "source_url": "https://www.uniprot.org/"
+            },
+            "special_tokens_excluded": true,
+            "threads": 4,
+            "versions": {
+              "esm": "3.4.0",
+              "torch": "2.11.0",
+              "transformers": "4.57.6"
+            },
+            "weights_sha256": "0772d8fe64bb25e14fe6f23b80e3c9a7d215d0da3c6cba5bd356d7c0e0bb22cc"
+          },
+          "proteins": [
+            {
+              "id": "P02144",
+              "residue_array": "protein_0",
+              "sequence_sha256": "bac6fdad1c0e60c1c97738282c8d247ab269c726b9878a1ad4a7d61386b1c277"
+            },
+            {
+              "id": "P60709",
+              "residue_array": "protein_1",
+              "sequence_sha256": "d498c40159d7c993d9e7e36afbe2f4921d5e81e6ab08d5388cbab47cc0234a92"
+            },
+            {
+              "id": "P68871",
+              "residue_array": "protein_2",
+              "sequence_sha256": "9ebf320eb707d71644444fe5006ed58af56a0bf0ec9568eb6a3a65e0e8191465"
+            },
+            {
+              "id": "P69891",
+              "residue_array": "protein_3",
+              "sequence_sha256": "1fab31d54b6ed8c51ed9346bfffcb549fcea34e238e7f82c4185ee40ee0a68a9"
+            },
+            {
+              "id": "P69905",
+              "residue_array": "protein_4",
+              "sequence_sha256": "14725a10598943a7aa719eed7d24c7fee599192a6c63c75b051ee6f156341242"
+            },
+            {
+              "id": "P99999",
+              "residue_array": "protein_5",
+              "sequence_sha256": "5e0b0254ee34f62546efdffc29fcf59e44b184deee0bce126d0a7541dccd6c13"
+            }
+          ]
+        },
+        "explore-esmc": {
+          "representatives": [
+            "P69891",
+            "P60709",
+            "P02144"
+          ]
+        },
+        "embed-esm3": {
+          "representation": {
+            "autocast": "bfloat16",
+            "batch_size": 1,
+            "device": "cuda",
+            "dimension": 1536,
+            "dtype": "float32",
+            "input_tracks": [
+              "sequence"
+            ],
+            "layer": "last-hidden-state-pre-final-norm",
+            "loader": "upstream-local-infrastructure-cwd",
+            "model": "biohub/esm3-sm-open-v1",
+            "pooling": "mean-of-residues",
+            "resource_content_sha256": "01e9361654b3872d16ecb9172cb4303351ab7711f05e206daca1a81355e29123",
+            "revision": "47f0545b2b6daf26a93439a3cd610f4f7f3d5478",
+            "seed": 0,
+            "source": {
+              "license": "CC-BY-4.0",
+              "sha256": "83cfd41af4002fb55ca4f0682314ad3fe031d507b6b510ed70def5696fc1455a",
+              "source_url": "https://www.uniprot.org/"
+            },
+            "special_tokens_excluded": true,
+            "threads": 4,
+            "versions": {
+              "esm": "3.4.0",
+              "torch": "2.11.0",
+              "transformers": "4.57.6"
+            }
+          },
+          "proteins": [
+            {
+              "id": "P02144",
+              "residue_array": "protein_0",
+              "sequence_sha256": "bac6fdad1c0e60c1c97738282c8d247ab269c726b9878a1ad4a7d61386b1c277"
+            },
+            {
+              "id": "P60709",
+              "residue_array": "protein_1",
+              "sequence_sha256": "d498c40159d7c993d9e7e36afbe2f4921d5e81e6ab08d5388cbab47cc0234a92"
+            },
+            {
+              "id": "P68871",
+              "residue_array": "protein_2",
+              "sequence_sha256": "9ebf320eb707d71644444fe5006ed58af56a0bf0ec9568eb6a3a65e0e8191465"
+            },
+            {
+              "id": "P69891",
+              "residue_array": "protein_3",
+              "sequence_sha256": "1fab31d54b6ed8c51ed9346bfffcb549fcea34e238e7f82c4185ee40ee0a68a9"
+            },
+            {
+              "id": "P69905",
+              "residue_array": "protein_4",
+              "sequence_sha256": "14725a10598943a7aa719eed7d24c7fee599192a6c63c75b051ee6f156341242"
+            },
+            {
+              "id": "P99999",
+              "residue_array": "protein_5",
+              "sequence_sha256": "5e0b0254ee34f62546efdffc29fcf59e44b184deee0bce126d0a7541dccd6c13"
+            }
+          ]
+        },
+        "explore-esm3": {
+          "representatives": [
+            "P69891",
+            "P60709",
+            "P99999"
+          ]
+        }
+      }
+    },
+    {
+      "source_campaign": "campaigns/examples/tutorials/04-local-annotation/campaign.yaml",
+      "source_campaign_sha256": "dd084374f84edc0d6d0a08cb45afc7c5c19a8a1171a33a7bea0faaa1c7e49855",
+      "campaign": "/home/user/.bioforge/commissioning/306a919-20260908/model-journeys/04-local-annotation-cuda/04-local-annotation-cuda.yaml",
+      "campaign_sha256": "46033e46fd5f8f50859142d096f819a77d1e886a23e52ef39c0543a1c24f1ea1",
+      "device": "cuda",
+      "run_dir": "/home/user/.bioforge/commissioning/306a919-20260908/model-journeys/04-local-annotation-cuda/run-63ddeb65cdbc3a22",
+      "elapsed_seconds_including_execution_collection": 17.16987952310592,
+      "steps": {
+        "reference": "completed",
+        "annotate": "completed"
+      },
+      "record_sha256": {
+        "plan.json": "ba405ff7372d783950b8af1e7d247980e142c588026172925b75759943a0a018",
+        "run.json": "32f4793b8df929e6901b476f7f886cbc8b742dc214e3aa00f55d2af7c771697c",
+        "evidence.json": "04cb0c1600d7ea29899336679cabebda1eb8809959a622f95ad45025d1e47a2d",
+        "manifest.json": "8a5e6fe55308c89104779fa0f0e2a3a939bdb6d3295b0e4e3446fe0437a13b82",
+        "report.html": "05ce9e924dfb5975c6781868c28a32b09af3816b14b66d85de61ccffc0df007a"
+      },
+      "report": "/home/user/.bioforge/commissioning/306a919-20260908/model-journeys/04-local-annotation-cuda/run-63ddeb65cdbc3a22/report.html",
+      "regenerated_report": "/home/user/.bioforge/commissioning/306a919-20260908/model-journeys/04-local-annotation-cuda.html",
+      "regenerated_report_sha256": "1b9540d1b52ab76d2474d22828fc807c81b0740acb78a2c241d36549806f4346",
+      "artifacts": [
+        {
+          "sha256": "d0877295f26b4f594ef72bcc04fd3b5ef02812b9dde4459a217e1cd27065ba4b",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "18ec6eeda28d4f770fa0eed3068e1f2b1d7101811478ab02d1be361774a21055",
+          "media_type": "text/plain"
+        },
+        {
+          "sha256": "7cd2eb16d3469a3ef32864f33ee2ca09258b1b1fff2c1c83214b9af3087f93dd",
+          "media_type": "chemical/x-mmcif"
+        },
+        {
+          "sha256": "7bd75c3a8e28a4a7c61c20a9efda889ca37c113ed2829b34c732d3ac1f98bcc8",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "8006510902e444179c6c2d2b8aba2157382c4f897437d3a921926df6923a9bc8",
+          "media_type": "application/vnd.bioforge.step-output+json"
+        },
+        {
+          "sha256": "c6b7b7d42b219e4e7130fe9fa636e0fd7bb63412c6c8700e3169592b6b54f92b",
+          "media_type": "application/octet-stream"
+        },
+        {
+          "sha256": "c590e128cafded5de1f71f904b6b5a8ad8a50916b90aef80c70b09d45654d527",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "8776ab0c6bf4a72e4107b43e53e1c1bf423e5cc1adf785045f6b0f4694a2c653",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "f6bea8238d8c721df032428edb6bffa1ee868d33c1bf97dccc93554490b445cf",
+          "media_type": "text/plain"
+        },
+        {
+          "sha256": "9b3fa0f6a47f707ff0e0f3cd16558b528116cfe5b78e43bf7d46f32b5eba1edb",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "8f2014a2942ce7f0cc7049daaf622a85d47618c1ee7b8d2899bb4d6ee6a9111b",
+          "media_type": "application/octet-stream"
+        },
+        {
+          "sha256": "d7727645f8cd3ec50a2798150413604bc1222e027c8422e8a0c349764fb04f5c",
+          "media_type": "application/vnd.bioforge.step-output+json"
+        }
+      ],
+      "outputs": {
+        "annotate": {
+          "representation": {
+            "autocast": "bfloat16",
+            "batch_size": 1,
+            "device": "cuda",
+            "dimension": 1536,
+            "dtype": "float32",
+            "input_tracks": [
+              "sequence"
+            ],
+            "layer": "last-hidden-state-pre-final-norm",
+            "loader": "upstream-local-infrastructure-cwd",
+            "model": "biohub/esm3-sm-open-v1",
+            "pooling": "mean-of-residues",
+            "revision": "47f0545b2b6daf26a93439a3cd610f4f7f3d5478",
+            "seed": 0,
+            "special_tokens_excluded": true,
+            "threads": 4,
+            "versions": {
+              "esm": "3.4.0",
+              "torch": "2.11.0",
+              "transformers": "4.57.6"
+            }
+          },
+          "proteins": [
+            {
+              "id": "P69905",
+              "residue_array": "protein_0",
+              "sequence_sha256": "14725a10598943a7aa719eed7d24c7fee599192a6c63c75b051ee6f156341242"
+            }
+          ],
+          "annotation": {
+            "identifier": "P69905",
+            "sequence_sha256": "14725a10598943a7aa719eed7d24c7fee599192a6c63c75b051ee6f156341242",
+            "device": "cuda",
+            "dtype": "float32",
+            "autocast": "bfloat16",
+            "range_count": 224,
+            "decoding": {
+              "function_temperature": 1,
+              "function_top_p": 1,
+              "interpro_threshold": 0.1,
+              "keyword_threshold": 0.5,
+              "merge_gap": 3,
+              "minimum_span": 5,
+              "p_none_threshold": 0.05,
+              "secondary_structure": "argmax-over-eight-residue-classes"
+            },
+            "first_ten_ranges": [
+              {
+                "description": "DNA mismatch repair protein MutS, C-terminal (IPR000432)",
+                "end": 141,
+                "kind": "interpro",
+                "label": "IPR000432",
+                "origin": "model-predicted",
+                "start": 135
+              },
+              {
+                "description": "CbxX/CfxQ (IPR000641)",
+                "end": 9,
+                "kind": "interpro",
+                "label": "IPR000641",
+                "origin": "model-predicted",
+                "start": 3
+              },
+              {
+                "description": "CbxX/CfxQ (IPR000641)",
+                "end": 141,
+                "kind": "interpro",
+                "label": "IPR000641",
+                "origin": "model-predicted",
+                "start": 135
+              },
+              {
+                "description": "Glycoside hydrolase family 1 (IPR001360)",
+                "end": 141,
+                "kind": "interpro",
+                "label": "IPR001360",
+                "origin": "model-predicted",
+                "start": 135
+              },
+              {
+                "description": "Small GTPase (IPR001806)",
+                "end": 9,
+                "kind": "interpro",
+                "label": "IPR001806",
+                "origin": "model-predicted",
+                "start": 3
+              },
+              {
+                "description": "Small GTPase (IPR001806)",
+                "end": 20,
+                "kind": "interpro",
+                "label": "IPR001806",
+                "origin": "model-predicted",
+                "start": 15
+              },
+              {
+                "description": "Small GTPase (IPR001806)",
+                "end": 141,
+                "kind": "interpro",
+                "label": "IPR001806",
+                "origin": "model-predicted",
+                "start": 135
+              },
+              {
+                "description": "DNA mismatch repair protein MutS, core (IPR007696)",
+                "end": 20,
+                "kind": "interpro",
+                "label": "IPR007696",
+                "origin": "model-predicted",
+                "start": 3
+              },
+              {
+                "description": "DNA mismatch repair protein MutS, core (IPR007696)",
+                "end": 59,
+                "kind": "interpro",
+                "label": "IPR007696",
+                "origin": "model-predicted",
+                "start": 55
+              },
+              {
+                "description": "tRNA pseudouridine synthase II, TruB (IPR014780)",
+                "end": 140,
+                "kind": "interpro",
+                "label": "IPR014780",
+                "origin": "model-predicted",
+                "start": 135
+              }
+            ],
+            "secondary_structure_length": 142,
+            "complete_secondary_structure_sha256": "dbf4dc1698bf8ffe2e4cb9947a4eb5d11914e27f79883ad728ed1922fcd26b01"
+          }
+        }
+      }
+    },
+    {
+      "source_campaign": "campaigns/examples/tutorials/14-sequence-completion/campaign.yaml",
+      "source_campaign_sha256": "2545df7b9b41a5c0963a00f7d183429ffb64a5de71c56effec4bd40482d8f3e8",
+      "campaign": "/home/user/.bioforge/commissioning/306a919-20260908/model-journeys/14-sequence-completion-cuda/14-sequence-completion-cuda.yaml",
+      "campaign_sha256": "194334edaf1b5b5d3aeb15c755c358c3ca9b1d3aa8516153b8e41db9a37613af",
+      "device": "cuda",
+      "run_dir": "/home/user/.bioforge/commissioning/306a919-20260908/model-journeys/14-sequence-completion-cuda/run-3be76b3f2be41fec",
+      "elapsed_seconds_including_execution_collection": 24.14402434695512,
+      "steps": {
+        "reference": "completed",
+        "complete": "completed"
+      },
+      "record_sha256": {
+        "plan.json": "27fef77d088c30ddd5cc5b4657b8d9e21b5e5d80781acff4bd3433497487c54e",
+        "run.json": "fcea8b27a761d9f6771fd9b210078c0089b515b9f66544cca1ca8273365cb64e",
+        "evidence.json": "d3dac4c319e83884c3b3ff85a67a1e701277973214c9e04d6903a06b81069274",
+        "manifest.json": "2ed2fe68a6d6b088561709bd9494da656a5031564cd7f8ae52041f871a04d20a",
+        "report.html": "07ac48037f210377e2b9578ff6704cf17c41ef517bc9287f90840c0ea1d39582"
+      },
+      "report": "/home/user/.bioforge/commissioning/306a919-20260908/model-journeys/14-sequence-completion-cuda/run-3be76b3f2be41fec/report.html",
+      "regenerated_report": "/home/user/.bioforge/commissioning/306a919-20260908/model-journeys/14-sequence-completion-cuda.html",
+      "regenerated_report_sha256": "8b5ea0dacffa28ee4a92ee66984cae10bfab6d7d2d066da6706eceac7705b8a3",
+      "artifacts": [
+        {
+          "sha256": "d0877295f26b4f594ef72bcc04fd3b5ef02812b9dde4459a217e1cd27065ba4b",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "18ec6eeda28d4f770fa0eed3068e1f2b1d7101811478ab02d1be361774a21055",
+          "media_type": "text/plain"
+        },
+        {
+          "sha256": "7cd2eb16d3469a3ef32864f33ee2ca09258b1b1fff2c1c83214b9af3087f93dd",
+          "media_type": "chemical/x-mmcif"
+        },
+        {
+          "sha256": "7bd75c3a8e28a4a7c61c20a9efda889ca37c113ed2829b34c732d3ac1f98bcc8",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "8006510902e444179c6c2d2b8aba2157382c4f897437d3a921926df6923a9bc8",
+          "media_type": "application/vnd.bioforge.step-output+json"
+        },
+        {
+          "sha256": "c0adffa9317bfc6e6b07e378d1b794c97a4a168beb25e06b6103f777f89bc497",
+          "media_type": "text/plain"
+        },
+        {
+          "sha256": "eff5bc879d11b2cb79e35e9ee58a457afcfd30fa62a2c70d8a9bef06bbdd1c25",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "460e9a19dcd30732b653b9a08bb75608617338ed00324c6e47046470b5e817b8",
+          "media_type": "application/json"
+        },
+        {
+          "sha256": "07b26c5ae8f4787b7fee35494d645605fd95c9d9edf6a01fcd255e5e2034413b",
+          "media_type": "application/vnd.bioforge.step-output+json"
+        }
+      ],
+      "outputs": {
+        "complete": {
+          "proposals": {
+            "autocast": "bfloat16",
+            "candidates": [
+              {
+                "duplicate_of": null,
+                "id": "proposal-1",
+                "mutations": [],
+                "seed": 42,
+                "sequence": "MVLSPADKTNVKAAWGKVGAHAGEYGAEALERMFLSFPTTKTYFPHFDLSHGSAQVKGHGKKVADALTNAVAHVDDMPNALSALSDLHAHKLRVDPVNFKLLSHCLLVTLAAHLPAEFTPAVHASLDKFLASVSTVLTSKYR",
+                "sequence_sha256": "14725a10598943a7aa719eed7d24c7fee599192a6c63c75b051ee6f156341242",
+                "status": "completed",
+                "unchanged_from_input": true
+              },
+              {
+                "duplicate_of": "proposal-1",
+                "id": "proposal-2",
+                "mutations": [],
+                "seed": 43,
+                "sequence": "MVLSPADKTNVKAAWGKVGAHAGEYGAEALERMFLSFPTTKTYFPHFDLSHGSAQVKGHGKKVADALTNAVAHVDDMPNALSALSDLHAHKLRVDPVNFKLLSHCLLVTLAAHLPAEFTPAVHASLDKFLASVSTVLTSKYR",
+                "sequence_sha256": "14725a10598943a7aa719eed7d24c7fee599192a6c63c75b051ee6f156341242",
+                "status": "completed",
+                "unchanged_from_input": true
+              },
+              {
+                "duplicate_of": "proposal-1",
+                "id": "proposal-3",
+                "mutations": [],
+                "seed": 44,
+                "sequence": "MVLSPADKTNVKAAWGKVGAHAGEYGAEALERMFLSFPTTKTYFPHFDLSHGSAQVKGHGKKVADALTNAVAHVDDMPNALSALSDLHAHKLRVDPVNFKLLSHCLLVTLAAHLPAEFTPAVHASLDKFLASVSTVLTSKYR",
+                "sequence_sha256": "14725a10598943a7aa719eed7d24c7fee599192a6c63c75b051ee6f156341242",
+                "status": "completed",
+                "unchanged_from_input": true
+              },
+              {
+                "duplicate_of": "proposal-1",
+                "id": "proposal-4",
+                "mutations": [],
+                "seed": 45,
+                "sequence": "MVLSPADKTNVKAAWGKVGAHAGEYGAEALERMFLSFPTTKTYFPHFDLSHGSAQVKGHGKKVADALTNAVAHVDDMPNALSALSDLHAHKLRVDPVNFKLLSHCLLVTLAAHLPAEFTPAVHASLDKFLASVSTVLTSKYR",
+                "sequence_sha256": "14725a10598943a7aa719eed7d24c7fee599192a6c63c75b051ee6f156341242",
+                "status": "completed",
+                "unchanged_from_input": true
+              }
+            ],
+            "device": "cuda",
+            "dtype": "float32",
+            "generation": {
+              "condition_on_coordinates_only": true,
+              "invalid_ids": [],
+              "num_steps": 8,
+              "only_compute_backbone_rmsd": false,
+              "schedule": "cosine",
+              "strategy": "random",
+              "temperature": 1,
+              "temperature_annealing": true,
+              "top_p": 1,
+              "track": "sequence"
+            },
+            "input": {
+              "id": "P69905",
+              "mutable_positions": [
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32
+              ],
+              "parameters": {
+                "candidates": 4,
+                "device": "cuda",
+                "num_steps": 8,
+                "regions": [
+                  {
+                    "end": 32,
+                    "start": 25
+                  }
+                ],
+                "seed": 42,
+                "temperature": 1,
+                "threads": 4,
+                "top_p": 1
+              },
+              "prompt": "MVLSPADKTNVKAAWGKVGAHAGE________MFLSFPTTKTYFPHFDLSHGSAQVKGHGKKVADALTNAVAHVDDMPNALSALSDLHAHKLRVDPVNFKLLSHCLLVTLAAHLPAEFTPAVHASLDKFLASVSTVLTSKYR",
+              "sequence": "MVLSPADKTNVKAAWGKVGAHAGEYGAEALERMFLSFPTTKTYFPHFDLSHGSAQVKGHGKKVADALTNAVAHVDDMPNALSALSDLHAHKLRVDPVNFKLLSHCLLVTLAAHLPAEFTPAVHASLDKFLASVSTVLTSKYR",
+              "sequence_sha256": "14725a10598943a7aa719eed7d24c7fee599192a6c63c75b051ee6f156341242"
+            },
+            "input_tracks": [
+              "masked-sequence"
+            ],
+            "interface": "upstream-token-generation-sequence-only-decoding",
+            "model": "biohub/esm3-sm-open-v1",
+            "resource_content_sha256": "01e9361654b3872d16ecb9172cb4303351ab7711f05e206daca1a81355e29123",
+            "revision": "47f0545b2b6daf26a93439a3cd610f4f7f3d5478",
+            "schema_version": "0.1",
+            "source": {
+              "fasta": {
+                "license": "CC-BY-4.0",
+                "sha256": "18ec6eeda28d4f770fa0eed3068e1f2b1d7101811478ab02d1be361774a21055",
+                "source_url": "https://rest.uniprot.org/uniprotkb/P69905.json"
+              },
+              "structure": {
+                "license": "CC0-1.0",
+                "sha256": "7cd2eb16d3469a3ef32864f33ee2ca09258b1b1fff2c1c83214b9af3087f93dd",
+                "source_url": "https://files.rcsb.org/download/1A3N.cif"
+              },
+              "uniprot": {
+                "license": "CC-BY-4.0",
+                "sha256": "7bd75c3a8e28a4a7c61c20a9efda889ca37c113ed2829b34c732d3ac1f98bcc8",
+                "source_url": "https://rest.uniprot.org/uniprotkb/P69905.json"
+              }
+            },
+            "versions": {
+              "esm": "3.4.0",
+              "torch": "2.11.0",
+              "transformers": "4.57.6"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "esm3_cpu_cuda_observed_differences": [
+    {
+      "id": "P02144",
+      "sequence_sha256": "bac6fdad1c0e60c1c97738282c8d247ab269c726b9878a1ad4a7d61386b1c277",
+      "shape": [
+        154,
+        1536
+      ],
+      "max_absolute_residue_difference": 74.64453125,
+      "mean_absolute_residue_difference": 1.2754194209906116,
+      "max_absolute_pooled_difference": 1.88671875,
+      "relative_residue_l2_difference": 0.005918035088403308,
+      "cpu_max_absolute_value": 11809.0693359375,
+      "pooled_cpu_cuda_cosine_similarity": 0.9999994302121205
+    },
+    {
+      "id": "P60709",
+      "sequence_sha256": "d498c40159d7c993d9e7e36afbe2f4921d5e81e6ab08d5388cbab47cc0234a92",
+      "shape": [
+        375,
+        1536
+      ],
+      "max_absolute_residue_difference": 42.91552734375,
+      "mean_absolute_residue_difference": 1.1187758800593308,
+      "max_absolute_pooled_difference": 0.80126953125,
+      "relative_residue_l2_difference": 0.006946644707690577,
+      "cpu_max_absolute_value": 9013.8232421875,
+      "pooled_cpu_cuda_cosine_similarity": 0.9999990325495167
+    },
+    {
+      "id": "P68871",
+      "sequence_sha256": "9ebf320eb707d71644444fe5006ed58af56a0bf0ec9568eb6a3a65e0e8191465",
+      "shape": [
+        147,
+        1536
+      ],
+      "max_absolute_residue_difference": 59.4326171875,
+      "mean_absolute_residue_difference": 1.3047196763718623,
+      "max_absolute_pooled_difference": 6.49072265625,
+      "relative_residue_l2_difference": 0.007360732259893781,
+      "cpu_max_absolute_value": 9312.4248046875,
+      "pooled_cpu_cuda_cosine_similarity": 0.9999985773662774
+    },
+    {
+      "id": "P69891",
+      "sequence_sha256": "1fab31d54b6ed8c51ed9346bfffcb549fcea34e238e7f82c4185ee40ee0a68a9",
+      "shape": [
+        147,
+        1536
+      ],
+      "max_absolute_residue_difference": 60.2099609375,
+      "mean_absolute_residue_difference": 1.3361738795314781,
+      "max_absolute_pooled_difference": 3.341796875,
+      "relative_residue_l2_difference": 0.007273397310930351,
+      "cpu_max_absolute_value": 9364.5830078125,
+      "pooled_cpu_cuda_cosine_similarity": 0.999998516082895
+    },
+    {
+      "id": "P69905",
+      "sequence_sha256": "14725a10598943a7aa719eed7d24c7fee599192a6c63c75b051ee6f156341242",
+      "shape": [
+        142,
+        1536
+      ],
+      "max_absolute_residue_difference": 53.3486328125,
+      "mean_absolute_residue_difference": 1.2299987530052123,
+      "max_absolute_pooled_difference": 0.9242057800292969,
+      "relative_residue_l2_difference": 0.006908559795695475,
+      "cpu_max_absolute_value": 9185.98046875,
+      "pooled_cpu_cuda_cosine_similarity": 0.9999989153159621
+    },
+    {
+      "id": "P99999",
+      "sequence_sha256": "5e0b0254ee34f62546efdffc29fcf59e44b184deee0bce126d0a7541dccd6c13",
+      "shape": [
+        105,
+        1536
+      ],
+      "max_absolute_residue_difference": 40.56640625,
+      "mean_absolute_residue_difference": 1.084464605244261,
+      "max_absolute_pooled_difference": 3.80224609375,
+      "relative_residue_l2_difference": 0.006997566572558866,
+      "cpu_max_absolute_value": 7737.93408203125,
+      "pooled_cpu_cuda_cosine_similarity": 0.9999980699096099
+    }
+  ],
+  "tests": {
+    "spark_optional_cuda": {
+      "run": 610,
+      "passed": 600,
+      "skipped": 10,
+      "skips": "six isolated ESM checks, three separate locked assessment checks, one Amber check"
+    },
+    "spark_optional_without_mmseqs_path_retained": {
+      "run": 610,
+      "passed": 592,
+      "skipped": 18
+    },
+    "isolated_model_boundary_tests": {
+      "run": 10,
+      "passed": 10
+    },
+    "local": {
+      "run": 610,
+      "passed": 593,
+      "skipped": 17
+    },
+    "required_local_cli_checks": {
+      "run": 11,
+      "passed": 11
+    }
+  },
+  "offline_browser": {
+    "trpcage-cuda.json": {
+      "passed": true,
+      "frames": 50,
+      "atoms": 4520,
+      "displayed_atoms": 155,
+      "rendered_frame_changed": true,
+      "exports_exact": true,
+      "webgl_fallback": true,
+      "errors": [],
+      "network": []
+    },
+    "esmc-cuda.json": {
+      "passed": true,
+      "model": "biohub/ESMC-300M",
+      "proteins": 6,
+      "projections": [
+        "pca"
+      ],
+      "representatives": [
+        "P69891",
+        "P60709",
+        "P02144"
+      ],
+      "checks": [
+        "offline white report",
+        "independent panel selections",
+        "plot-table linked selection",
+        "projection switch preserves selection and neighbours when available",
+        "keyboard hierarchy selection",
+        "original-vector selection",
+        "exact FASTA and embedding exports",
+        "empty selection"
+      ],
+      "errors": [],
+      "network": []
+    },
+    "two-model-cuda.json": {
+      "passed": true,
+      "panels": [
+        {
+          "passed": true,
+          "model": "biohub/ESMC-300M",
+          "proteins": 6,
+          "projections": [
+            "pca"
+          ],
+          "representatives": [
+            "P69891",
+            "P60709",
+            "P02144"
+          ],
+          "checks": [
+            "offline white report",
+            "independent panel selections",
+            "plot-table linked selection",
+            "projection switch preserves selection and neighbours when available",
+            "keyboard hierarchy selection",
+            "original-vector selection",
+            "exact FASTA and embedding exports",
+            "empty selection"
+          ],
+          "errors": [],
+          "network": []
+        },
+        {
+          "passed": true,
+          "model": "biohub/esm3-sm-open-v1",
+          "proteins": 6,
+          "projections": [
+            "pca"
+          ],
+          "representatives": [
+            "P69891",
+            "P60709",
+            "P99999"
+          ],
+          "checks": [
+            "offline white report",
+            "independent panel selections",
+            "plot-table linked selection",
+            "projection switch preserves selection and neighbours when available",
+            "keyboard hierarchy selection",
+            "original-vector selection",
+            "exact FASTA and embedding exports",
+            "empty selection"
+          ],
+          "errors": [],
+          "network": []
+        }
+      ],
+      "errors": [],
+      "network": []
+    },
+    "annotation-cuda.json": {
+      "passed": true,
+      "predicted_features": 254,
+      "checks": [
+        "one augmented dossier",
+        "separate model and reference labels",
+        "keyboard range selection",
+        "sequence/structure linkage",
+        "original evidence retained",
+        "exact augmented export",
+        "ESM3 vector export",
+        "offline"
+      ],
+      "errors": [],
+      "network": []
+    },
+    "completion-cuda.json": {
+      "passed": true,
+      "candidates": 4,
+      "changed_candidates": 0,
+      "selected": "proposal-1",
+      "position": 25,
+      "errors": [],
+      "network": []
+    },
+    "completion-existing-cpu.json": {
+      "passed": true,
+      "candidates": 4,
+      "changed_candidates": 1,
+      "selected": "proposal-3",
+      "position": 25,
+      "errors": [],
+      "network": []
+    }
+  },
+  "visual_inspection": [
+    "CUDA Trp-cage trajectory",
+    "CUDA ESM3 panel",
+    "CUDA annotation/source dossier",
+    "unchanged CUDA completion proposals"
+  ],
+  "core_only_exported_continuation": {
+    "status": "completed",
+    "input": "exact browser-exported completion-cuda-selection.json",
+    "run": "run-789ea2d5110ca7f5",
+    "steps": {
+      "inspect": "completed"
+    },
+    "sequence_length": 142,
+    "sha256": {
+      "plan.json": "03c00e7e4b55633c365617a139dce0b6a501a29abf2c398247bd3dac89b1810a",
+      "run.json": "99839c91fdf456bc5f9caa30a561298188276a624010dc95e32183a9cf0de961",
+      "manifest.json": "5b853377a111b43aa0e8eb7f8c672b3d60a11dd9ae24c47ed103675f70708e62",
+      "evidence.json": "3b6cdf046cf2b14a4060fddcb5d777591b2a17fd97db7baaf5e1bf2a025afec0",
+      "report.html": "cfbca167579600d053e9152b9571a7086f99c48932950986c07d38da7adbdc4e"
+    }
+  },
+  "existing_gpu_workloads": {
+    "pids_unchanged": [
+      1093127,
+      1093129,
+      1093130,
+      1093128
+    ],
+    "driver_and_workloads_modified": false
+  },
+  "evidence": {
+    "root": ".bioforge/spark-commissioning",
+    "sha256": {
+      "model-install.log": "b80e1ac9e82d3fd183f1992347678a02e9935fe8ec2042a326bcf9ea3cb28bec",
+      "model-resources.log": "ae7dcdee90781f9874537428cfc35738e06260c26bb71975ec20a12c2c709a59",
+      "model-probes.log": "832cf59836dc4a80fb7db979fb3d99be35257ebbdef68d9abd4fd23144a6b422",
+      "model-native-tests.log": "579d6d5a0baff6f9b71e8f7d9d15fae94f9cf643af8e94c7278583278bce3898",
+      "model-pip-packages.json": "8e2414f2f0f264106c1da1afee7af0df12ab251548c4ba7289d6430949cf7259",
+      "model-conda-explicit.txt": "497bbbe5f300bf9fcc5fdb4195682a662c270559d02aab37f08cd5597ff6c83e",
+      "cusparselt-wheel.log": "e87cb92e32fcb16d674e6a5c52f7df803663bf7e0edf97186a73f2d9c205ab24",
+      "cusparselt-wheel.json": "71da3f1a2964eedee78d0c7a055f67c80951e5bf50266a0e0ea7e9c10237aabb",
+      "esm3-transfer-verification.log": "1a5906697aca79bff75f905af58b96978b3d6f8d7bda05d3f781b8a281e2073f",
+      "esm3-redundant-download-stop.log": "bb6a7fc94fee9128f4fa14dfb2891b1a2433b872f2238c4dcffff110b0fb7304",
+      "openmm-cuda-install.log": "59982343831b8f96ec2a0ecc82784d0a8bf30a90f36963a85988ce24227f54ac",
+      "openmm-cuda-install.json": "d0a379a706387dbcd09ae00eae9220a953fc1b15e1e91868c7dcc38326f0ebff",
+      "openmm-cuda130-install.log": "0df1b262990fe78cb95577fcde948a4faf57f504a51945ff679f0b6730f02dcb",
+      "openmm-cuda130-install.json": "dba0386f4630b4b9056ee07061b7ad5ea1aafd18973eb9def1e773789df1caec",
+      "optional-cuda-pip-packages.json": "971822097a085f0131e4eaeebfb26a0ef065abe38af12a54ee5e0354711d6149",
+      "optional-cuda130-pip-packages.json": "cac7fd50effa21b6e63e56acd835252d06232c3deea9790fa8e414addb216d7a",
+      "openmm-cuda-journey.log": "40923be779e789cde892dee6aefd552e44e9a41272e784b75bb9c806f46cf1d9",
+      "openmm-cuda-full-tests.log": "395c6ddd1029b9979c541ccc00563ca4b7b4f8df20d2041945d80a29cbd0525f",
+      "openmm-cuda-full-tests-with-mmseqs.log": "a9d44c8ab22c85774e219d678738f75894af76f82045ba7610ca972b083c98ed",
+      "esmc-journeys.log": "26e373251de09920f8d98647e12fd1920dfc251c8dc7c327d15d68513a2c5ca9",
+      "esm3-journeys.log": "31339e5ef5a965e30db81d862b1df0d896f203b2f4f1204a9ccc0ac9036d28ff",
+      "esmc-pair-records.json": "1b4feeb3efb58eb3b4e6e0a1f91fe3969e7ef94e89d41ca6bac136f64e1ba369",
+      "esm3-journey-records.json": "d93685f03eb3c93f66d72cb333e290873fa38033c6f8ef4d501186093e16d948",
+      "cuda-journey-records.json": "307dbcb2ce33a1763f5f5f28b00eb61740d1ac7140460fd87f1454364d668bd0",
+      "esm3-core-report-verification.log": "9151dcb231bbf086618239a1543947959a0c44871afdb1d3d1bbbccd7f9c0fc6",
+      "final-core-verification.log": "baa72b32c3e11b0e3d99a85dd3452e8c076fefe3f92756ccd91ec1f7ab0b8b35",
+      "openmm-core-optional-report-verification.log": "fef7229a3be86940bd04e5b9b21b5dd3b5bfb26a1da75a6813f447984750f5d9",
+      "accelerator-local-tests.log": "9c13b84345ac0e53b17e247174de6e124dc7f6acddcb29c0d3f96ea34ae311cf",
+      "accelerator-required-cli.log": "f47938155d1820c492bbb14150a24555b4db58c68430ddc77a9463f0812da0cc",
+      "completion-cuda-continuation.log": "690259a4e1ae2d9e1afc4d08281905aced78c191ba7eb0c9587bff8e2d8d2142",
+      "accelerator-installed-source.json": "c37deaf03eea4f85d97c903368eb881d44deede2f1a647eb6d18996253287dfd",
+      "accelerator-storage-workloads.log": "0686034a0bdb4ab132d51b25a0112462ecaafd6938992b24424208833ab7aee8",
+      "browser/completion-cuda-red.log": "fb1b2696baedd1cc7c093a5804ade2069e38b1bbb49c565b8ead70b30faee8ca",
+      "probe-model-runtime.py": "57a3b46deb72b83b8a9b9606edc14a1b4e9e1c655de1b04f077e8d98ee656d4a",
+      "run-model-journeys.py": "fec1077ba77e1a0124b0c960fc3493270bcb326084f1b6bfde04ddbac629f44b",
+      "inspect-cuda-journey.py": "c71f1b92b3bfc5faf2b77f4654d9d269f7d11755db3ccaacfb24f4d47f962ab7",
+      "inspect-esmc-pair.py": "aea8ea81963ae87c818b7d9e8edda268aa4ae3feaf50c6d4bef2e38c5bf0c13e",
+      "inspect-esm3-journeys.py": "463692e3cbc8bb6d911b91488c31da07b61bfa9b0448c315e5728142a0224b3a",
+      "browser/trpcage-cuda.json": "59051bdd5e380c6b88cd14fa093c3e3c1920d2b7e8a0ef152410dbce25dffa59",
+      "browser/esmc-cuda.json": "3aa18b9f1474af2002d0c968fe0025d599a697d93ce6d708914e529e9fb742fc",
+      "browser/two-model-cuda.json": "29148cabc782589b0475f709e4c0b96807805e597b798cf913440572da1fb915",
+      "browser/annotation-cuda.json": "dcdabd813b497d43864f7abba9c7507df83bc7ee91df5e2e529850d825ab36bb",
+      "browser/completion-cuda.json": "cf8ee46f560674f1fa1be249f55271a5e42938fbf7df0b7cdb7a4caa1390ec94",
+      "browser/completion-existing-cpu.json": "6946ab27cf71f489fe4998d6a8fff3e986850d7e11e402ff243a5401ba00fdc3"
+    }
+  },
+  "remaining": [
+    "annotation quality and whole-library family assignment",
+    "larger inputs and peak memory",
+    "Boltz/P2Rank/Amber on Spark",
+    "Linux x86_64",
+    "optional Docker",
+    "actual cluster allocation",
+    "independent-operator usability"
+  ]
+}

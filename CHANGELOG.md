@@ -1,0 +1,72 @@
+# Changelog
+
+## 0.1.0
+
+Alambiq is organized around capabilities that have declared request and result types.
+
+### Capabilities and runs
+
+- Capabilities in families (characterize, investigate, engineer, measure,
+  operate). Each capability is a function with a declared request type, a declared result
+  type and documented limits, and has tests in `tests/core`. `alambiq capability list`
+  prints the capabilities; `alambiq capability show ID` prints the request, result,
+  method and limits of one capability.
+- A campaign is a list of steps; each step has `params` and `bind` (see
+  [Concepts](docs/concepts.md)). Prefect executes the campaign. Results are stored in a
+  content-addressed artifact store. A step is reused when its key is unchanged
+  (see [Reuse](docs/concepts.md#reuse)).
+- Docker images for the engine environments (MMseqs2, P2Rank, ThermoMPNN, pymbar, QM/MM,
+  OpenMM CUDA, OpenFF, ESM, Boltz-2, OpenFE). An engine environment is built from a plain
+  Python image and copied onto the core image, so a change to the core does not rebuild
+  it. `Dockerfile.tests` adds the test runner (pytest) to any image, so that the repository
+  tests, mounted at run time, run against the engines of that image. The images were built
+  for linux/arm64 on a Linux ARM64 host with an NVIDIA GB10 GPU on 2026-10-25. The
+  environment check of each image and the examples named in the receipt were run there, and
+  the engine tests were run there with 20 QM/MM engine tests skipped
+  (`environments/docker/verification.linux-arm64-spark-20261025.json`). The
+  Apple GPU environment of Boltz-2 is available only as a native environment.
+- Engines run in engine environments (separate Python environments with pinned packages,
+  named by `ALAMBIQ_ENV_<NAME>`) and are started by a runner that imports only the Python
+  standard library. Models and databases are pinned resources: each is installed before
+  a run and verified before use.
+- Every run writes a run record (`run.json`); a copy of every run, including the latest, is
+  stored under `history/` in the run directory. `alambiq history RUN_DIR` lists the runs, and
+  `alambiq replay RUN_DIR STEP --out DIR` writes one step of a recorded run as a
+  campaign that runs it again.
+
+### Reports
+
+- One HTML file per run, with no external references. Charts are inline SVG that records
+  the plotted x and y values. An offline structure viewer (3Dmol.js, BSD-3-Clause) is
+  added when a structure is shown. Alignments are shown as aligned rows in blocks. When the run
+  directory holds at least 2 recorded runs of the campaign, the report ends with a table of
+  those runs.
+
+### Methods
+
+- `assay.fit` fits Arrhenius, first-order decay and pH-profile models in addition to the
+  linear and Michaelis-Menten models, with derived quantities and their uncertainty.
+- `operation.define` converts measured kinetics into an operating definition (see
+  [Operation file formats](docs/operation-formats.md)), with temperature and pH
+  dependence, a stated operating state (`state`: temperature and pH) and, for a reversible
+  pair, the Haldane relation to the equilibrium constant. `operation.propagate`
+  propagates the uncertainty of a fitted Michaelis-Menten rate to the predicted
+  concentrations.
+- `protein.score_substitutions` scores substitutions with ESM C by masked marginals.
+  `variant.propose` ranks them by the language-model score, the predicted change in folding
+  free energy or the mean of both percentile ranks, with filters that include the presence
+  of the mutant residue in homologs. A benchmark on 4
+  measured datasets (3 of single substitutions of natural enzymes and 1 of an engineered
+  lineage) is in [the methods page](docs/methods/variant-proposal.md). The Spearman
+  correlation between the language-model score and the measurements is +0.37 for the
+  thermostability of Bacillus subtilis Lipase A, +0.58 for the activity of human
+  glucokinase, +0.37 for the abundance of human glucokinase and -0.42 (95 % interval -0.73
+  to -0.01) for an amine transaminase lineage.
+- `candidate.select` has 7 strategies, among them `highest-predicted-diverse`, which
+  weights predicted response against diversity, and `pareto`, which takes non-dominated
+  fronts over 2 to 5 fitted objectives.
+
+### Examples and documentation
+
+- Runnable examples with asserted headline values, methods pages and an installation
+  guide.

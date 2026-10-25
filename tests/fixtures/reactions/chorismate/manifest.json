@@ -1,0 +1,33 @@
+{
+  "citation": "Rhea reaction 13897 and ChEBI explicit-species structures",
+  "url": "https://www.rhea-db.org/rhea/13897",
+  "license": "CC-BY-4.0",
+  "license_url": "https://www.rhea-db.org/help/license-disclaimer",
+  "snapshot_date": "2026-09-19",
+  "direction": "RHEA:13898, left-to-right member of RHEA:13897",
+  "expected_formula": "C10H8O6-2",
+  "expected_charge": -2,
+  "species": [
+    {
+      "name": "chorismate",
+      "accession": "CHEBI:29748",
+      "smiles": "O[C@@H]1C=CC(=C[C@H]1OC(=C)C([O-])=O)C([O-])=O",
+      "mol_smiles": "C=C(O[C@@H]1C=C(C(=O)[O-])C=C[C@H]1O)C(=O)[O-]",
+      "inchi_key": "WTFXTQVDAKGDEY-HTQZYQBOSA-L",
+      "mol_url": "https://ftp.expasy.org/databases/rhea/ctfiles/mol/CHEBI_29748.mol",
+      "mol_bytes": 1590,
+      "mol_sha256": "cc58d414f06ecdf6a5e52873ce572db44ee55883df4a8735b8592ec0cdbb93b0"
+    },
+    {
+      "name": "prephenate",
+      "accession": "CHEBI:29934",
+      "smiles": "O[C@H]1C=C[C@](CC(=O)C([O-])=O)(C=C1)C([O-])=O",
+      "mol_smiles": "O=C([O-])C(=O)C[C@]1(C(=O)[O-])C=C[C@@H](O)C=C1",
+      "inchi_key": "FPWMCUPFBRFMLH-XGAOUMNUSA-L",
+      "mol_url": "https://ftp.expasy.org/databases/rhea/ctfiles/mol/CHEBI_29934.mol",
+      "mol_bytes": 1682,
+      "mol_sha256": "6b5d4902362cd769c4122af74f18b0eab8e14f586cad478ef2d66617a2aaee51"
+    }
+  ],
+  "preparation": "SMILES and InChIKeys transcribed from the Rhea participant page. The independently downloaded linked mol files were parsed with RDKit 2026.03.1 to produce mol_smiles. Exact upstream bytes remain identified by the hashes above. Molecular states and stereochemistry are preserved."
+}

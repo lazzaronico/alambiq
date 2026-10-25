@@ -1,0 +1,41 @@
+{
+  "logical_id": "model.boltz2",
+  "version": "2.2.1",
+  "provider": "Boltz community (jwohlwend/boltz)",
+  "license": "MIT",
+  "source_revision": "huggingface:boltz-community/boltz-2@6fdef46d763fee7fbb83ca5501ccceff43b85607",
+  "content_address": "27b7a5c169d62d9b06d7b1db549f7a45795a47ec0f0062fcebf082a1c26299be",
+  "description": "Boltz-2 structure and affinity checkpoints with the chemical-component cache (mols) that Boltz reads at prediction time.",
+  "sources": [
+    "https://huggingface.co/boltz-community/boltz-2/resolve/main/mols.tar",
+    "https://model-gateway.boltz.bio/boltz2_aff.ckpt",
+    "https://model-gateway.boltz.bio/boltz2_conf.ckpt"
+  ],
+  "build": "Fetched by Boltz's own downloader from the sources listed, which also unpacks mols.tar into the directory mols/ beside it. `alambiq resource provision` runs it in the Boltz environment and verifies the result against this record. Not redistributed. The directory is named by the content address of an earlier lock of the same files, stated here.",
+  "fetch": {"environment": "boltz", "entry": "boltz_download:run"},
+  "files": [
+    {
+      "path": "boltz2_aff.ckpt",
+      "bytes": 2062139170,
+      "sha256": "dcc5cd3722b1c9eaa34267e4ae32f55cbbf1963f4c19319381ccfa30fdd2ca9e"
+    },
+    {
+      "path": "boltz2_conf.ckpt",
+      "bytes": 2286561469,
+      "sha256": "090e82ac8c92f5e943fa1b39e7410a44027bea7243c0bbb3caa67a77fc1428e1"
+    },
+    {
+      "path": "mols.tar",
+      "bytes": 1855662080,
+      "sha256": "39e076d96dbec6b4e86982bbda16f3a53a2a60c9bdc17828d88f6f9a0c7d1fd7"
+    }
+  ],
+  "trees": [
+    {
+      "path": "mols",
+      "file_count": 45227,
+      "bytes": 1820698819,
+      "sha256": "5d54b64c0bcf23a98f6570ae01033e22eb733bc14f4d5bc51e30254546bb1062"
+    }
+  ]
+}

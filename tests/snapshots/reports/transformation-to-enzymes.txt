@@ -1,0 +1,27 @@
+h1: transformation-to-enzymes
+section retrieve
+h2: retrieve
+table: Rank | Protein | Class | Bits | Best reference | Identity | Length (residues)
+section characterize
+h2: characterize
+table: Protein | Class | Decision | Reasons | Retrieval bits | Identity | Coverage | Features conserved
+details: A0A140N5J7: residues
+table: Reference position | Expected | Role | Protein position | Observed | Match
+details: O06995: residues
+table: Reference position | Expected | Role | Protein position | Observed | Match
+details: P22643: residues
+table: Reference position | Expected | Role | Protein position | Observed | Match
+details: P24070: residues
+table: Reference position | Expected | Role | Protein position | Observed | Match
+details: P32662: residues
+table: Reference position | Expected | Role | Protein position | Observed | Match
+details: P60527: residues
+table: Reference position | Expected | Role | Protein position | Observed | Match
+details: Q53464: residues
+table: Reference position | Expected | Role | Protein position | Observed | Match
+details: Q60099: residues
+table: Reference position | Expected | Role | Protein position | Observed | Match
+details: Q7DI63: residues
+table: Reference position | Expected | Role | Protein position | Observed | Match
+details: Q8KLS9: residues
+table: Reference position | Expected | Role | Protein position | Observed | Match

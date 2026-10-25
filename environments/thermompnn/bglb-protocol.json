@@ -1,0 +1,78 @@
+{
+  "schema_version": "0.1",
+  "frozen_at_utc": "2026-10-04T06:25:11.354997+00:00",
+  "status": "Frozen before predictions; no model tuning",
+  "scientific_endpoint": "Rank reported BglB functional thermal midpoints after 30-minute heat challenge; folding ddG is used as an uncalibrated ranking score",
+  "scope": "One enzyme with author-prepared apo backbone; not equilibrium folding ddG, physical melting-temperature calibration, activity prediction or enzyme-family generalization",
+  "data": {
+    "doi": "10.1371/journal.pone.0176255",
+    "license": "CC-BY-4.0",
+    "table_sha256": "3d94ee8b73d4b67cc7c1f6def54b00a40bdacc6f1eaf1b53bcd01294fe58b619",
+    "structure_sha256": "01c878a91c2d68d70f19a07933958ee841bbf33349bd9f541c52dacb61faf860",
+    "table_rows": 129,
+    "mutant_rows": 128,
+    "wild_type_rows": 1,
+    "mutant_finite_thermal_midpoints": 78,
+    "distinct_mutated_positions": 67,
+    "discrepancy": "The supplied table contains 128 mutants plus BglB WT; the article describes 129 mutants and 79 mutant thermal midpoints. Every supplied row is retained, without inventing the absent variant."
+  },
+  "model_context": {
+    "sequence_length": 445,
+    "input_type": "Author-supplied prepared apo coordinates from supplementary archive file 8504015; no restricted modeling software executed",
+    "numbering": "Author prepared residues 1\u2013445 exactly match all 128 table mutation identities; current deposited 2O9P uses different numbering and engineered background residues",
+    "terminal_context": "Observed/model scaffold excludes unresolved N-terminal expression-tag/terminal residues in deposited 2O9P; no full experimental-construct atomistic claim",
+    "source_differences": "Direct deposited 2O9P mismatches H373R wild type; original unmodified structure and failed check retained"
+  },
+  "overlap": {
+    "engine": "MMseqs2 18-8cc5c",
+    "prefilter_mode": 2,
+    "alignment_mode": 3,
+    "evalue_maximum": 0.001,
+    "queries": "Full deposited entity, observed construct and author-prepared construct",
+    "reference_sequences": 431,
+    "hits": 0,
+    "reference_groups": [
+      "MegaScale training",
+      "MegaScale validation",
+      "previously evaluated FireProt proteins",
+      "reported FireProt training/validation context"
+    ],
+    "limit": "No detectable sequence overlap at this threshold; ProteinMPNN structure pretraining and remote fold similarity remain unresolved"
+  },
+  "inference": {
+    "capability": "protein.predict_stability_change",
+    "profile": "thermompnn-single-substitution-v1",
+    "seed": 581004,
+    "threads": 4,
+    "device": "cpu",
+    "wild_type_control": "S14S must equal zero"
+  },
+  "primary_analysis": {
+    "cohort": "All 78 finite mutant thermal midpoints, excluding the WT control",
+    "score": "Negative predicted ddG; larger score ranks as more stable",
+    "statistic": "Spearman rank correlation",
+    "uncertainty": "2000 bootstrap replicates resampling mutated positions with replacement and retaining all variants within each selected position; percentile 95% interval",
+    "random_seed": 581005,
+    "positive_ranking_criterion": "Lower endpoint of the position-bootstrap 95% interval is greater than zero"
+  },
+  "shortlist_analysis": {
+    "measured_cohort": "Top 10 of the 78 measured variants ranked by negative ddG, ties by mutant name",
+    "gain_threshold_celsius": 1.0,
+    "reference_midpoint_celsius": 39.93,
+    "baseline": "Uniform random shortlist of 10 from the same 78 variants; exact hypergeometric upper-tail probability",
+    "enrichment_criterion": "Top-10 verified gain count exceeds random expectation with one-sided hypergeometric p <= 0.05",
+    "full_screen": "Also show top 10 of all 128 variants, with missing midpoint, nonexpression and censored activity retained explicitly; no imputation",
+    "observed_activity_retention": "Report separately whether measured catalytic efficiency is at least 50% of WT (87000 M^-1 min^-1); <10 is censored low and NA stays unknown"
+  },
+  "assay_conditions": {
+    "buffer": "50 mM HEPES, 150 mM NaCl, 25 mM EDTA, pH 7.50",
+    "heat_challenge_minutes": 30,
+    "source_range_celsius": [
+      30,
+      50
+    ],
+    "source_grid_ambiguity": "Article states 8 temperatures in 2.5 C increments between 30 and 50 C; those descriptions differ in point count. Analysis uses reported fitted midpoints and does not reconstruct raw fits.",
+    "substrate": "pNPG activity readout after heat challenge"
+  },
+  "cost": "Measure fresh workflow wall time and complete provider/worker timing; installation and resource download remain separately reported. No comparison of inference seconds to nanoseconds of physical MD as a speedup."
+}
