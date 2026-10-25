@@ -3,9 +3,9 @@
 Alambiq consists of the core, the engine environments and the resources. The core is the
 `alambiq` Python package with its required dependencies, Prefect and PyYAML. It requires
 Python 3.11 or newer and is tested on macOS (Apple silicon) and Linux x86_64 (see
-Platforms). Engine environments provide the scientific software that 23 of the 54
-capabilities need; 9 of these capabilities declare resources (models and databases).
-Install the core, run `examples/kinetics-from-measurements`, then install the engine
+Platforms). Engine environments provide the scientific software that some capabilities
+need, and some of these capabilities declare resources (models and databases). Install
+the core, run `examples/kinetics-from-measurements`, then install the engine
 environments and resources that the capabilities in use require.
 
 ## Docker and native installation
@@ -26,6 +26,15 @@ only as a native environment. Docker images set the `ALAMBIQ_ENV_<NAME>` variabl
 inside the image; a native installation sets them in the shell.
 
 ## Core
+
+Install the package from PyPI. The `quantitative` extra is described below:
+
+```bash
+pipx install "alambiq[quantitative]"
+```
+
+The examples are in the repository. To run one from a clone, install the core in a
+virtual environment:
 
 ```bash
 python -m venv .venv
