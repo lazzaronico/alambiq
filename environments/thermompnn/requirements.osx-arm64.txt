@@ -1,5 +1,5 @@
 # Observed optional CPU inference runtime; Python 3.11.14. Other platforms need separate commissioning.
-filelock==4.0.10
+filelock==4.2.1
 fsspec==2026.9.0
 Jinja2==3.1.6
 MarkupSafe==3.0.4
