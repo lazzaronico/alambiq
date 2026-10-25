@@ -5,11 +5,11 @@ A campaign, written in YAML or Python, lists steps, and each step runs one capab
 A capability that runs scientific software does so in a pinned engine environment, and one
 that needs models or databases declares them as pinned resources. A report is one HTML file;
 `alambiq run --report PATH` writes it. The terms are defined in
-[Concepts](docs/concepts.md).
+[Concepts](https://github.com/lazzaronico/alambiq/blob/main/docs/concepts.md).
 
 Version `0.1.0`. The code, documentation and configuration written for
-Alambiq are [Apache-2.0](LICENSE). Optional software, models and datasets are licensed
-under their own terms ([LICENSING.md](LICENSING.md)).
+Alambiq are [Apache-2.0](https://github.com/lazzaronico/alambiq/blob/main/LICENSE). Optional software, models and datasets are licensed
+under their own terms ([LICENSING.md](https://github.com/lazzaronico/alambiq/blob/main/LICENSING.md)).
 
 ## Capabilities
 
@@ -44,19 +44,26 @@ result, the method and the limits of `assay.fit`.
 
 `alambiq run --report PATH` writes a report: one HTML file that lists each step with its
 result. The first image shows the report of
-[kinetics-from-measurements](examples/kinetics-from-measurements/README.md): a table of the
+[kinetics-from-measurements](https://github.com/lazzaronico/alambiq/blob/main/examples/kinetics-from-measurements/README.md): a table of the
 readings and a Michaelis-Menten fit with the interval of the curve. The second image shows
 the search and alignment steps of the report of
-[lanmodulin-comparison](examples/lanmodulin-comparison/README.md).
+[lanmodulin-comparison](https://github.com/lazzaronico/alambiq/blob/main/examples/lanmodulin-comparison/README.md).
 
-![Report of kinetics-from-measurements: the intake table of 10 readings and the fitted curve with its coefficients](docs/images/report-kinetics.png)
+![Report of kinetics-from-measurements: the intake table of 10 readings and the fitted curve with its coefficients](https://raw.githubusercontent.com/lazzaronico/alambiq/main/docs/images/report-kinetics.png)
 
-![Report of lanmodulin-comparison: the search hits and the alignment with conservation per position](docs/images/report-lanmodulin.png)
+![Report of lanmodulin-comparison: the search hits and the alignment with conservation per position](https://raw.githubusercontent.com/lazzaronico/alambiq/main/docs/images/report-lanmodulin.png)
 
 ## Installation
 
-Install the [core](docs/install.md) in a virtual environment (Python 3.11 or newer) and
-run the example:
+Install the package from PyPI (Python 3.11 or newer). The `quantitative` extra installs
+NumPy, SciPy and scikit-learn:
+
+```bash
+pipx install "alambiq[quantitative]"
+```
+
+The examples are in the repository. To run one from a clone, install the
+[core](https://github.com/lazzaronico/alambiq/blob/main/docs/install.md) in a virtual environment:
 
 ```bash
 python -m venv .venv
@@ -64,32 +71,32 @@ python -m venv .venv
 .venv/bin/alambiq run examples/kinetics-from-measurements/campaign.yaml --report report.html
 ```
 
-The `quantitative` extra installs NumPy, SciPy and scikit-learn. The example fits a
-Michaelis-Menten curve to a table of 10 initial rates and writes a report.
+The example fits a Michaelis-Menten curve to a table of 10 initial rates and writes a
+report.
 
 Each engine environment contains one of the following scientific packages and the Alambiq
 engines that call it: MMseqs2, P2Rank, ThermoMPNN, ESM, OpenMM, Boltz-2, OpenFF, OpenFE,
 pymbar, PySCF (QM/MM). Each engine environment except the Apple GPU environment of Boltz-2 is available as a
-[Docker image](environments/docker/README.md), and each is available as a native environment
-built from a recipe. The [installation guide](docs/install.md) describes both routes and the
+[Docker image](https://github.com/lazzaronico/alambiq/blob/main/environments/docker/README.md), and each is available as a native environment
+built from a recipe. The [installation guide](https://github.com/lazzaronico/alambiq/blob/main/docs/install.md) describes both routes and the
 pinned resources. `alambiq env check` reports which engine environments are ready, and
 `alambiq resource list` reports which resources are installed.
 
 ## Documentation
 
-- [Index](docs/README.md): the pages by subject.
-- [Getting started](docs/getting-started.md): installation of the core and the first run.
-- [Installation](docs/install.md): extras, engine environments, resources, run
+- [Index](https://github.com/lazzaronico/alambiq/blob/main/docs/README.md): the pages by subject.
+- [Getting started](https://github.com/lazzaronico/alambiq/blob/main/docs/getting-started.md): installation of the core and the first run.
+- [Installation](https://github.com/lazzaronico/alambiq/blob/main/docs/install.md): extras, engine environments, resources, run
   directories and platforms.
-- [Concepts](docs/concepts.md): capabilities, families, campaigns, steps, bindings,
+- [Concepts](https://github.com/lazzaronico/alambiq/blob/main/docs/concepts.md): capabilities, families, campaigns, steps, bindings,
   presets, requests, results, records, runs, run records, reuse, engine environments,
   resources and reports.
-- [Python interface](docs/python.md): campaigns and capabilities from Python.
-- [Examples](examples/README.md): worked examples.
-- [Methods](docs/methods/README.md): choosing and reading the capabilities of each method
+- [Python interface](https://github.com/lazzaronico/alambiq/blob/main/docs/python.md): campaigns and capabilities from Python.
+- [Examples](https://github.com/lazzaronico/alambiq/blob/main/examples/README.md): worked examples.
+- [Methods](https://github.com/lazzaronico/alambiq/blob/main/docs/methods/README.md): choosing and reading the capabilities of each method
   area.
-- [Reports](docs/reports.md): the contents of a report.
-- [Licensing](LICENSING.md): the licenses of Alambiq and of optional software, models and
+- [Reports](https://github.com/lazzaronico/alambiq/blob/main/docs/reports.md): the contents of a report.
+- [Licensing](https://github.com/lazzaronico/alambiq/blob/main/LICENSING.md): the licenses of Alambiq and of optional software, models and
   datasets.
 
 ## Repository layout
@@ -105,4 +112,4 @@ pinned resources. `alambiq env check` reports which engine environments are read
 - `tests/core`: the test suite (`python -m pytest tests/core`).
 
 Models, engine environments and databases are installed as described in
-[docs/install.md](docs/install.md).
+[docs/install.md](https://github.com/lazzaronico/alambiq/blob/main/docs/install.md).
