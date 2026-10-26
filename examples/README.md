@@ -1,22 +1,24 @@
 # Examples
 
-Each example directory holds a `campaign.yaml`, the input files that the campaign reads and
-a README that states the question, the requirements, the outputs to inspect and the limits.
-`tests/core/test_examples.py` runs the `campaign.yaml` of each example and checks values of
-its results; `tests/core/test_connected_investigation.py` does the same for
-`connected-investigation`. The campaigns `complex.yaml` (in `pockets-and-complex`) and
-`embed.yaml` (in `representative-panel`) are not run by a test. Examples that need an
-engine environment are skipped when the environment is not configured.
+Each example is a directory with a `campaign.yaml`, the input files that the campaign reads
+and a README. The README states the question, the steps, the requirements, the outputs to
+inspect and the limits.
 
 ```bash
 alambiq run examples/kinetics-from-measurements/campaign.yaml --report report.html
 ```
 
-A dossier is the result of `protein.inspect`: the sequence of one protein (the query) with
-the features of a UniProt record and the chains and residues of a structure, in the
-numbering of the query. The `dossier` extra installs the structure file reader (Gemmi) that
-`protein.inspect` needs. A round is one batch of variants that is made and measured
-together.
+`tests/core/test_examples.py` runs the `campaign.yaml` of each example and checks values of
+its results. `tests/core/test_connected_investigation.py` does the same for
+`connected-investigation`. The campaigns `complex.yaml` (in `pockets-and-complex`) and
+`embed.yaml` (in `representative-panel`) are not run by a test. Examples that need an
+engine environment are skipped when the environment is not configured.
+
+A dossier is the result of `protein.inspect`: the
+sequence of one protein (the query), the features of its UniProt record and the chains and
+residues of a structure, in the numbering of the query. A round is one batch of variants
+that is made and measured together. The `dossier` extra installs the structure file reader
+(Gemmi) that `protein.inspect` needs.
 
 Protein, variant and structure examples:
 

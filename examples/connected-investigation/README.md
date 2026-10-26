@@ -1,9 +1,8 @@
 # Connected investigation
 
-**Question.** Starting from a protein, which substitutions are proposed, which unmeasured
-variant has the highest activity predicted by a model fitted to a returned round of
-generated activities, and how does the simulated operation of that variant in a 0.5 L
-reactor over 1 h compare with a generated progress curve?
+**Question.** Starting from a protein, which unmeasured variant has the highest predicted
+activity, and how does the simulated operation of that variant compare with a generated
+progress curve?
 
 The campaign has 10 steps:
 
@@ -31,10 +30,10 @@ capability.
 
 ## Data provenance
 
-The sequence is that of hen egg-white lysozyme, and the language-model scores are computed
-by ESM C 300M. `prepare.py` generates the returned round, the rates and the progress curve
-from a stated model with fixed seeds, so that the fitted values can be compared with the
-generating values in `truth.json`:
+The sequence is that of hen egg-white lysozyme. ESM C 300M computes the language-model
+scores. `prepare.py` generates the returned round, the rates and the progress curve from a
+stated model with fixed seeds, so that the fitted values can be compared with the generating
+values in `truth.json`:
 
 - activity = 1 + 0.15 × (change in the number of arginines) + noise, with a Gaussian noise
   standard deviation of 0.015;
@@ -46,7 +45,7 @@ generating values in `truth.json`:
 
 The arginine rule is a synthetic rule that a model on the composition features can learn.
 To use other data, replace `returned.csv`, `rates.csv` and `progress.json` with files of
-the same layout, update `panel.json` (sample ids and partitions) and the `sample_id` of
+the same layout. Then update `panel.json` (sample ids and partitions) and the `sample_id` of
 the `kinetics` step to the variant that `next-batch` selects, and rerun `propose` to
 select the variants of a new round.
 
@@ -58,23 +57,22 @@ select the variants of a new round.
   lineage for which the ranking is inverted.
 - **`model`**: the root-mean-square error on the held-out variants and, for comparison, the
   error of predicting the training mean. The report states that 2 candidates have identical
-  features; the stored record names them (K97R and K116R, which have the same amino-acid
+  features. The stored record names them (K97R and K116R, which have the same amino-acid
   counts), and the model assigns them the same prediction.
-- **`kinetics`**: the fitted Km and Vmax with their 95 % intervals; both intervals contain
+- **`kinetics`**: the fitted Km and Vmax with their 95 % intervals. Both intervals contain
   the generating values (207 µM/min and 2.5 mM).
 - **`define`**: the capacity of the channel `hydrolysis` (see
   [operation formats](../../docs/operation-formats.md)), computed from Vmax, the enzyme
-  concentration of the assay (20 mg/L) and the 10 mg of enzyme in 0.5 L. The campaign
-  assumes that the assay temperature and pH equal those of the reactor. The model has no
-  dependence on conditions other than the species concentrations: the template declares no
-  dependence of the rate on temperature or pH, so the simulation applies the fitted rate at
-  the assay temperature and pH.
+  concentration of the assay (20 mg/L) and the 10 mg of enzyme in 0.5 L. The template
+  declares no dependence of the rate on temperature or pH, so the simulation applies the
+  fitted rate at the assay temperature and pH. The campaign assumes that these equal the
+  temperature and pH of the reactor.
 - **`compare`**: the root-mean-square difference between the simulated and the generated
   substrate concentration, in M.
 
 **Limits.** In an experimental investigation the proposed variants are measured, and the
 steps after `propose` use those measurements. In this example the measurements are
-generated. The language-model score ranks sequences by similarity to natural proteins; the
+generated. The language-model score ranks sequences by similarity to natural proteins. The
 activity of a variant is known only from the generated round, which follows the arginine
 rule. The model on the composition features is fitted to 12 variants and evaluated on 6
 held-out variants; `model` reports the held-out error.

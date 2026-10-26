@@ -1,14 +1,16 @@
 # Getting started
 
-Python 3.11 or newer is required. Capabilities that run scientific software, for example
-sequence search (MMseqs2), protein language models (ESM) and molecular dynamics (OpenMM),
-need an engine environment, which is installed as described in
-[Installation](install.md).
+This page installs the core and runs one example. Python 3.11 or newer is required.
+
+Capabilities that run scientific software need an engine environment. Examples are
+sequence search (MMseqs2), protein language models (ESM) and molecular dynamics (OpenMM).
+[Installation](install.md) describes the engine environments.
 
 ## Install
 
 From the root of the repository, create a virtual environment and install the
-[core](install.md) with the `quantitative` [extra](install.md#core) (NumPy, SciPy and scikit-learn):
+[core](install.md) with the `quantitative` [extra](install.md#core) (NumPy, SciPy and
+scikit-learn):
 
 ```bash
 python -m venv .venv
@@ -22,8 +24,8 @@ Check the installation:
 .venv/bin/alambiq capability list
 ```
 
-The list shows the family of each capability. `alambiq capability show assay.fit`
-prints the request fields, result, method and limits of one capability.
+The list shows the family of each capability. `alambiq capability show assay.fit` prints
+the request fields, result, method and limits of one capability.
 
 ## Run an example
 
@@ -32,7 +34,7 @@ prints the request fields, result, method and limits of one capability.
 ```
 
 The command prints one line per step, then `report:` with the path of the report file and
-`artifacts:` with the path of the [run directory](concepts.md#runs):
+`artifacts:` with the path of the [run directory](concepts.md#runs).
 
 ```text
 intake                   completed    0.02s
@@ -41,35 +43,38 @@ report: report.html
 artifacts: /tmp/alambiq-...
 ```
 
-Open `report.html` in a browser. The report is one HTML file with no external references;
-it can be moved and opened without a network connection. Each step has a section with its
-result, a chart if the capability defines one, and the notes recorded by the capability.
+Open `report.html` in a browser. The report is one HTML file with no external references,
+so it opens without a network connection. Each step has a section with its result, a chart
+if the capability defines one, and the notes recorded by the capability.
 
-The rates in this example are generated without noise from Vmax = 180 µM/min and
-Km = 2.5 mM, and the fit returns these values to a relative tolerance of 1e-5 (the
-tolerance used in `tests/core/test_examples.py`). The rates are synthetic. A successful run shows that the core and the `quantitative` extra are installed.
+The rates in this example are synthetic: they are generated without noise from
+Vmax = 180 µM/min and Km = 2.5 mM. The fit returns these values to a relative tolerance of
+1e-5 (the tolerance used in `tests/core/test_examples.py`). A successful run shows that the
+core and the `quantitative` extra are installed.
 
 ## Repeated runs
 
 Without `--run-dir`, a run uses a new temporary directory, so no result is reused. Run the
-following command twice with the same `--run-dir`:
+following command twice with the same `--run-dir`.
 
 ```bash
 .venv/bin/alambiq run examples/kinetics-from-measurements/campaign.yaml --run-dir runs/kinetics
 .venv/bin/alambiq run examples/kinetics-from-measurements/campaign.yaml --run-dir runs/kinetics
 ```
 
-The second run reports every step as `reused`: the key of each step (capability version,
-request, and the name and SHA-256 digest of each input file) is unchanged, so the stored
-results are used (see [Reuse](concepts.md#reuse)). After any change to
-`examples/kinetics-from-measurements/rates.csv`, `intake` is computed again, because the
-digest of the file is part of its key, and `fit` is computed again when the record that
-`intake` writes has changed. `alambiq history runs/kinetics` lists the runs recorded in
-the run directory.
+The second run reports every step as `reused`. The key of each step is unchanged, so the
+stored results are used (see [Reuse](concepts.md#reuse)). The key is built from the
+capability version, the request, and the name and SHA-256 digest of each input file.
+
+After any change to `examples/kinetics-from-measurements/rates.csv`, `intake` is computed
+again, because the digest of the file is part of its key. `fit` is computed again when the
+record that `intake` writes has changed.
+
+`alambiq history runs/kinetics` lists the runs recorded in the run directory.
 
 ## Docker
 
-The same example runs in a container with a read-only filesystem and no network access:
+The same example runs in a container with a read-only filesystem and no network access.
 
 ```bash
 docker build -f environments/docker/Dockerfile --build-arg ALAMBIQ_EXTRAS=quantitative -t alambiq:core .
@@ -80,23 +85,24 @@ docker run --rm --network none --read-only --tmpfs /tmp:rw,nosuid,nodev,mode=177
   --run-dir /results/kinetics --report /results/kinetics.html
 ```
 
-Engine environments are available as images; the
+Engine environments are available as images. The
 [Docker notes](../environments/docker/README.md) list the images and the run command.
 
 ## Adaptation of the example
 
 Copy the example directory, replace `rates.csv` with a table of the same columns, and
 describe the conditions in `campaign.yaml`. If the table is invalid, the run stops at the
-step that detects the error, with a message that names the reading, column or unit at
-fault. The [measurements page](methods/measurements.md) describes the layout and the
-choice of model. The [examples](../examples/README.md) include a protein analysis
+step that detects the error. The message names the reading, column or unit at fault.
+
+The [measurements page](methods/measurements.md) describes the layout and the choice of
+model. The [examples](../examples/README.md) include a protein analysis
 (`protein-first-look`), a reaction transformation (`transformation-and-routes`), measured
 rounds of variants (`measured-variant-rounds`) and a construct design
 (`variant-to-construct`).
 
 ## Related documentation
 
-- [Concepts](concepts.md): definitions of capability, family, campaign, step, binding, preset, request, result, record, run, run record, reuse, engine environment, resource and report.
+- [Concepts](concepts.md): the terms of Alambiq.
 - [Methods](methods/README.md): choosing and reading the capabilities of each method area.
 - [Installation](install.md): the engine environments and resources.
 - [Python interface](python.md): running campaigns from Python.

@@ -1,32 +1,37 @@
 # Candidate models
 
-Fitting a model to measured protein properties and using it to choose the next
-candidates to make. The capabilities are `candidate.fit` and `candidate.select`.
+A candidate model predicts a measured protein property. It is used to choose the next
+candidates to make. `candidate.fit` fits the model and `candidate.select` chooses
+candidates.
 
 The model is Bayesian ridge regression on standardized features, fitted on the training
-candidates alone, with Gaussian predictive intervals. A panel is a set of protein
-candidates. Each candidate has a sample id, a sequence, a group id that assigns related
-candidates to one group, and a partition label.
+candidates alone, with Gaussian predictive intervals.
+
+A panel is a set of protein candidates. Each candidate has a sample id, a sequence, a
+group id that assigns related candidates to one group, and a partition label.
 
 ## Panel partitions
 
-The partition label of a candidate is `train`, `evaluation` or `pool`. The assignment of
-candidates to partitions and groups is a choice made by the researcher.
+The partition label of a candidate is `train`, `evaluation` or `pool`. The researcher
+assigns candidates to partitions and groups.
 
 - **Training** fits the model and the feature standardization.
 - **Evaluation** measures error and interval coverage.
 - **Pool** holds the candidates that have not been measured and are eligible to be made
   next.
 
-Alambiq refuses a panel unless every group in the evaluation partition appears in
-neither training nor the pool, and every sequence in the evaluation partition appears in
-neither training nor the pool. Pool candidates carry no measured outcomes, because a pool
-prediction made from the measured value of the same candidate is not a prediction;
-Alambiq refuses a panel that supplies one. A fit requires at least 8
-measured training candidates in 3 groups and at least 4 measured evaluation candidates in
-2 groups. A group can appear in both training and the pool. Failed, missing and censored
-measurements are excluded from the target values (the measured property) with their
-reasons; only measured values count toward these minimums.
+Alambiq refuses a panel unless every group and every sequence in the evaluation
+partition appears in neither training nor the pool. A group can appear in both training
+and the pool.
+
+Pool candidates carry no measured outcomes, because a pool prediction made from the
+measured value of the same candidate is not a prediction. Alambiq refuses a panel that
+supplies one.
+
+A fit requires at least 8 measured training candidates in 3 groups and at least 4
+measured evaluation candidates in 2 groups. Failed, missing and censored measurements are
+excluded from the target values (the measured property) with their reasons. Only measured
+values count toward these minimums.
 
 The researcher chooses evaluation groups to match the intended use of the model. Holding
 out random candidates tests interpolation among variants whose positions appear in
@@ -37,20 +42,20 @@ positions or families absent from training. The result records the partition use
 
 The training-mean baseline is the RMSE on the evaluation set of a predictor that returns
 the mean of the training responses for every candidate. A model improves on the baseline
-on a partition when its evaluation RMSE is lower than the baseline RMSE, whatever its R²;
-otherwise the result adds a diagnostic. The result reports both errors.
+when its evaluation RMSE is lower than the baseline RMSE, whatever its R². Otherwise the
+result adds a diagnostic. The result reports both errors.
 
 The result also reports the evaluation error, the residuals and the observed coverage of
-the 95 % predictive interval. The predictive standard deviation comes from the fitted
-model, so the interval depends on the model's assumptions. The observed coverage on the
-evaluation set is the fraction of evaluation candidates whose measured response lies
-inside its 95 % predictive interval. When the observed coverage is
-below 95 %, the result adds a diagnostic, and the observed coverage, not the nominal
-level, describes the reliability of the interval.
+the 95 % predictive interval. The observed coverage on the evaluation set is the fraction
+of evaluation candidates whose measured response lies inside its 95 % predictive
+interval. The predictive standard deviation comes from the fitted model, so the interval
+depends on the model's assumptions. When the observed coverage is below 95 %, the result
+adds a diagnostic, and the observed coverage, not the nominal level, describes the
+reliability of the interval.
 
 Evaluation sets with fewer than 30 candidates are flagged in the result, because the
-estimates of error and interval coverage are based on a small sample. The number
-of evaluation groups, not the number of variants, is the number of independent tests of
+estimates of error and interval coverage are based on a small sample. The number of
+evaluation groups, not the number of variants, is the number of independent tests of
 generalization.
 
 ## Features
@@ -61,20 +66,20 @@ composition, and the result lists these sets of candidates. A representation tha
 distinguish two candidates predicts the same value for both.
 
 A single component of a pooled embedding from a protein language model has no assigned
-meaning; the vector as a whole and the distances between vectors are used. Vectors are
+meaning. The vector as a whole and the distances between vectors are used. Vectors are
 comparable within one model, revision, layer and pooling. `candidate.fit` and
 `candidate.select` each read one embedding record and do not check it against the record
-used in another step. Merging several records into one panel refuses records that differ in
-model, revision, layer, pooling, input tracks or dimension.
+used in another step. Merging several records into one panel refuses records that differ
+in model, revision, layer, pooling, input tracks or dimension.
 
 Measured responses are excluded from feature construction. A feature derived from the
 quantity being predicted gives low error only on candidates whose response is known.
 
 ## Batch selection
 
-`candidate.select` selects from the pool only, greedily (one candidate at a time, the one
-with the highest selection value at each step), in an order fixed by a seed, under the
-constraints stated in the request: an eligibility list, a cap per group, and a budget
+`candidate.select` selects from the pool only. It selects greedily: one candidate at a
+time, the one with the highest selection value at each step, in an order fixed by a seed.
+The request states the constraints: an eligibility list, a cap per group, and a budget
 against per-candidate costs.
 
 `strategy` selects one of:
@@ -97,20 +102,20 @@ A ranking from a fitted model is limited by the evaluation error of that model, 
 result reports with the baseline and the coverage.
 
 Every candidate that is not chosen is recorded with the reason. A batch that cannot be
-filled is reported as unfilled. A batch truncated by the budget and a batch truncated by
-group caps are different cases, and the recorded reasons distinguish them.
+filled is reported as unfilled. The recorded reasons distinguish a batch truncated by the
+budget from a batch truncated by group caps.
 
-A seeded greedy selection returns the same batch for the same inputs.
+A seeded selection returns the same batch for the same inputs.
 
 ## Measurement rounds
 
 A round is one cycle of fitting, selection and measurement. When new measurements are
 available, the researcher moves the measured candidates from the pool to training in the
 panel and refits the model. The evaluation partition and the observation basis
-(`observation_basis`) are kept unchanged across rounds. Moving the evaluation candidates
-of one round to training in the next is a change of the panel and is recorded in it. To
-test the loop on a published dataset, exclude the responses of unselected candidates from
-the model inputs.
+(`observation_basis`) stay unchanged across rounds. Moving the evaluation candidates of
+one round to training in the next is a change of the panel and is recorded in it. To test
+the loop on a published dataset, exclude the responses of unselected candidates from the
+model inputs.
 
 ## Limits
 
@@ -123,6 +128,5 @@ assumption for the variation present between the training and evaluation groups.
 
 Selection uses the supplied predictions and constraints (the eligibility list, the cap per
 group and the budget against per-candidate costs). Synthesis feasibility, expression,
-toxicity and laboratory capacity are taken into account through the eligibility list and the
-costs that the researcher supplies. A named candidate is a proposal for the researcher to
-decide on.
+toxicity and laboratory capacity enter through the eligibility list and the costs that
+the researcher supplies. A named candidate is a proposal for the researcher to decide on.

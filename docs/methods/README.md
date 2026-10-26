@@ -1,8 +1,8 @@
 # Methods
 
-One page per method area. Each page covers the capabilities of one area: what their
-results state and the limits of those results. `alambiq capability show <id>` prints the
-request, result, units and limits of one capability.
+Each page covers one method area. A page states what the results of its capabilities mean
+and where those results stop holding. `alambiq capability show <id>` prints the request,
+result, units and limits of one capability.
 
 - [Measurements](measurements.md): measurement tables, replicate structure, response
   models, the four uncertainties (coefficient standard error, mean-response interval,

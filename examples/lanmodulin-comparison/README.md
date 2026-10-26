@@ -1,9 +1,9 @@
 # Lanmodulin comparison
 
-**Question.** Which proteins of a 12-protein panel pass the similarity thresholds for
-Mex-LanM, the lanmodulin of *Methylorubrum extorquens* AM1, how do the source annotations and
-the metal-bound structures of Mex-LanM and Hans-LanM (the lanmodulin of *Hansschlegelia
-quercus*) compare, and which genes lie within 10 kb of the Mex-LanM gene?
+**Question.** Which proteins of a 12-protein panel are similar to Mex-LanM, the lanmodulin
+of *Methylorubrum extorquens* AM1? How do the annotations and the metal-bound structures of
+Mex-LanM and Hans-LanM (the lanmodulin of *Hansschlegelia quercus*) compare? Which genes lie
+within 10 kb of the Mex-LanM gene?
 
 The panel holds the 10 proteins of the Mex-LanM gene cluster (including Mex-LanM itself),
 Hans-LanM and human calmodulin-1, an EF-hand protein that binds calcium. The campaign has
@@ -15,10 +15,10 @@ Hans-LanM and human calmodulin-1, an EF-hand protein that binds calcium. The cam
 2. `hans-lanm` (`protein.inspect`) does the same for Hans-LanM (UniProt A0A4V2JDD3) with the
    lanthanum-bound structure 8DQ2.
 3. `comparison` (`protein.search`) aligns Mex-LanM with MMseqs2 against `panel.fasta` at
-   sensitivity 7.5 and keeps hits with an e-value of at most 0.001, an identity of at least
+   sensitivity 7.5. It keeps hits with an e-value of at most 0.001, an identity of at least
    0.2 and a query coverage of at least 0.6.
 4. `alignment` (`sequence.inspect_msa`) reads `comparison.a3m`, the MMseqs2 alignment of
-   Mex-LanM and Hans-LanM, and reports conservation per column in the numbering of the
+   Mex-LanM and Hans-LanM. It reports conservation per column in the numbering of the
    Mex-LanM precursor. `full_sequences` gives the whole precursor of each row, so that a
    column also maps to a position in the Hans-LanM precursor.
 5. `cluster` (`genome.inspect_context`) places each protein of `lanm-pair.fasta` in
@@ -37,18 +37,18 @@ alambiq run examples/lanmodulin-comparison/campaign.yaml --report report.html
 **What to look at.**
 
 - *Annotations and structures.* The UniProt record of Mex-LanM has 42 features, all mapped
-  onto the query; 20 of them are binding sites for Nd(3+), 5 in each of the 4 EF-hand
+  onto the query. 20 of them are binding sites for Nd(3+), 5 in each of the 4 EF-hand
   domains (residues 35–46, 59–70, 84–95 and 108–119). The record of Hans-LanM has 3
   features (signal peptide, chain and one EF-hand domain, residues 94–129) and no binding
-  site; the record names the protein "EF-hand domain-containing protein". Structure 8FNS
+  site. The record names the protein "EF-hand domain-containing protein". Structure 8FNS
   contributes 1 chain (precursor residues 29–133, 105 observed residues) and 4 neodymium
-  atoms. Structure 8DQ2 contributes 4 chains (precursor residues
-  24–133 each, 440 observed residues in total) and 12 lanthanum atoms. All 5 chains map
-  exactly. The structures differ in metal, construct and crystallization conditions.
+  atoms. Structure 8DQ2 contributes 4 chains (precursor residues 24–133 each, 440 observed
+  residues in total) and 12 lanthanum atoms. All 5 chains map exactly. The structures differ
+  in metal, construct and crystallization conditions.
 - *Search.* Of the 12 panel proteins, 2 pass the thresholds: Mex-LanM itself (ACS39628.1,
   100 % identity, e-value 2.08e-81) and Hans-LanM (36.0 % identity over 100 aligned
   residues, 73 bits, e-value 3.64e-19, query coverage 0.752). The other 9 cluster
-  proteins and calmodulin-1 are not returned. The query is a member of the panel and
+  proteins and calmodulin-1 are not returned. The query is a member of the panel, so it
   returns itself.
 - *Alignment.* The alignment has 2 rows and 133 columns. Hans-LanM aligns to the query
   columns 33–132, and the first 32 columns and the last column are gaps for it. 36 columns
@@ -57,17 +57,17 @@ alambiq run examples/lanmodulin-comparison/campaign.yaml --report report.html
 - *Gene cluster.* The Mex-LanM gene (locus `MexAM1_META1p1786`, protein ACS39628.1) lies
   on CP001510.1 at 1,858,038–1,858,439, on the plus strand. The window of 10 kb on each side
   is 1,848,038–1,868,439 and is not clipped, within the circular chromosome of 5,511,322 bp.
-  It holds 10 CDS features (`MexAM1_META1p1778` to `MexAM1_META1p1787`), all on the plus
-  strand, and the step writes their 10 proteins to a FASTA file. Hans-LanM is reported as
-  unmapped, because `context.gff3` holds the cluster of *M. extorquens* AM1 only. Product
-  labels and qualifiers of each feature are in the record, including the label
+  The window holds 10 CDS features (`MexAM1_META1p1778` to `MexAM1_META1p1787`), all on the
+  plus strand, and the step writes their 10 proteins to a FASTA file. Hans-LanM is reported
+  as unmapped, because `context.gff3` holds the cluster of *M. extorquens* AM1 only. The
+  record lists the product labels and qualifiers of each feature, including the label
   "conserved hypothetical protein; putative exported protein" for ACS39628.1.
 
 **Limits.** The search covers the 12 supplied proteins. An e-value depends on the size of the
 panel and compares only between searches of the same panel. Identity is measured over the
 aligned region. The thresholds select sequence similarity and carry no information about
-metal selectivity. Binding-site features are the annotation of the UniProt record, and the
-structures hold one metal each (neodymium in 8FNS, lanthanum in 8DQ2); a difference
+metal selectivity. Binding-site features are the annotation of the UniProt record. The
+structures hold one metal each (neodymium in 8FNS, lanthanum in 8DQ2), so a difference
 between the two structures combines a different protein, metal, construct and crystal
 condition. The conservation in `comparison.a3m` applies to the 2 aligned proteins. The
 annotation in `context.gff3` covers the 10 CDS features of the cluster, so the window lists

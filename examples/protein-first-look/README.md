@@ -5,10 +5,10 @@ report for this protein?
 
 The campaign has one step, `protein.inspect`, with 3 inputs for human hemoglobin subunit
 alpha (UniProt P69905): the sequence, the UniProt record (`uniprot`) and the deposited
-structure 1A3N (`structure`). Without `uniprot` and `structure` the step returns a dossier
-that contains sequence-derived information only. The UniProt record adds the reference
-features and the structure adds the chain mapping table. With `coordinate_annotations: true`
-the report also gives the secondary structure and the surface area.
+structure 1A3N (`structure`). The sequence alone gives a dossier with
+sequence-derived information. The UniProt record adds the reference features and the
+structure adds the chain mapping table. With `coordinate_annotations: true` the report also
+gives the secondary structure and the surface area.
 
 ```bash
 alambiq run examples/protein-first-look/campaign.yaml --report report.html
@@ -22,10 +22,10 @@ structure and surface area from the coordinates). The command
 **What to look at.** The report opens with the sequence (142 residues) and the 214 UniProt
 features, all of which are mapped onto the sequence. The structure section maps chains A and
 C onto the query. Chains B and D are withheld with the reason "sequence mismatch or
-ambiguous" (`sequence-mismatch-or-ambiguous` in the stored record): they are the beta
+ambiguous" (`sequence-mismatch-or-ambiguous` in the stored record). They are the beta
 chains, whose sequences do not match the query. Secondary structure and surface area are
-computed for all 572 observed residues of the 4 chains, including chains B and D, which are
-withheld from the mapping; the mean surface area is given per observed residue.
+computed for all 572 observed residues of the 4 chains, including chains B and D. The mean
+surface area is given per observed residue.
 
 **Limits.** A chain is mapped only when its polymer sequence contains the query exactly
 once or is contained in the query exactly once. Chains are matched by exact sequence

@@ -1,5 +1,7 @@
 # Alambiq documentation
 
+Alambiq is software that runs computational methods for biotechnology as capabilities. A campaign lists steps, and each step runs one capability.
+
 | Subject | Page |
 | --- | --- |
 | First installation of the core and first run of an example | [Getting started](getting-started.md) |
@@ -14,5 +16,4 @@
 | Licenses and attribution | [Licensing](../LICENSING.md) |
 
 `alambiq capability list` prints every capability. `alambiq capability show ID` prints
-the request fields, result, method and limits of one capability, read from its
-declaration in the code.
+one capability: its request fields, result, method and limits.

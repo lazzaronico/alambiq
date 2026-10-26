@@ -1,40 +1,40 @@
 # Installation
 
-Alambiq consists of the core, the engine environments and the resources. The core is the
-`alambiq` Python package with its required dependencies, Prefect and PyYAML. It requires
-Python 3.11 or newer and is tested on macOS (Apple silicon) and Linux x86_64 (see
-Platforms). Engine environments provide the scientific software that some capabilities
-need, and some of these capabilities declare resources (models and databases). Install
-the core, run `examples/kinetics-from-measurements`, then install the engine
+Alambiq has three parts: the core, the engine environments and the resources. The core is
+the `alambiq` Python package and requires Python 3.11 or newer. Engine environments provide
+the scientific software that some capabilities need. Resources are the models and databases
+that some capabilities declare.
+
+Install the core and run `examples/kinetics-from-measurements`. Then install the engine
 environments and resources that the capabilities in use require.
 
 ## Docker and native installation
 
-Two routes provide the engine environments.
+Engine environments come from Docker images or from native builds.
 
-- Docker: one image per engine environment. The documented run command uses
-  `--read-only` and `--network none`. The
+- Docker: one image per engine environment. Use this route where Docker runs Linux
+  containers. The images are built and tested for linux/arm64. The
   [Docker notes](../environments/docker/README.md) list the images, the tests run in each
-  and the run command. Use this route where Docker runs Linux containers; the images are
-  built and tested for linux/arm64.
-- Native: build each engine environment from its recipe in `environments/`; the table
+  and the run command, which uses `--read-only` and `--network none`.
+- Native: build each engine environment from its recipe in `environments/`. The table
   under Engine environments lists the recipes. Use this route where Docker does not run
   Linux containers.
 
-The routes differ in one respect: `ALAMBIQ_ENV_BOLTZ_MPS` (Apple GPU) is available
-only as a native environment. Docker images set the `ALAMBIQ_ENV_<NAME>` variables listed in the table
-inside the image; a native installation sets them in the shell.
+`ALAMBIQ_ENV_BOLTZ_MPS` (Apple GPU) is available only as a native environment. Docker
+images set the `ALAMBIQ_ENV_<NAME>` variables listed in the table inside the image. A
+native installation sets them in the shell.
 
 ## Core
 
-Install the package from PyPI. The `quantitative` extra is described below:
+The core requires Prefect and PyYAML. Install the package from PyPI. The `quantitative`
+extra is described below:
 
 ```bash
 pipx install "alambiq[quantitative]"
 ```
 
-The examples are in the repository. To run one from a clone, install the core in a
-virtual environment:
+The examples are in the repository. To run one from a clone, install the core in a virtual
+environment:
 
 ```bash
 python -m venv .venv
@@ -46,9 +46,9 @@ The last command runs the example and writes `report.html`. `alambiq capability 
 prints every capability, and `alambiq capability show ID` prints the request fields,
 result, method and limits of one capability.
 
-Extras are optional dependency groups of the core package. One or several extras are
-installed in a quoted argument, for example `pip install -e ".[quantitative,chemistry]"`.
-The table lists the extras and the capabilities that import their packages.
+Extras are optional dependency groups of the core package. Install one or several in a
+quoted argument, for example `pip install -e ".[quantitative,chemistry]"`. The table lists
+the extras and the capabilities that import their packages.
 
 | Extra | Adds | Used by |
 | --- | --- | --- |
@@ -65,11 +65,13 @@ The table lists the extras and the capabilities that import their packages.
 
 ## Engine environments
 
-An engine runs in its own engine environment with its own pinned packages, so the
-dependencies of an engine may conflict with those of the core without affecting it. Set
-`ALAMBIQ_ENV_<NAME>` to the Python executable (`bin/python`) of an environment built from
-its recipe. `alambiq env check` reports which engine environments are ready and, for each
-that is not, the reason (for an unset variable, the variable to set) and the recipe.
+An engine runs in its own engine environment with its own pinned packages. Its
+dependencies may conflict with those of the core without affecting it.
+
+Set `ALAMBIQ_ENV_<NAME>` to the Python executable (`bin/python`) of an environment built
+from its recipe. `alambiq env check` reports which engine environments are ready. For each
+that is not, it reports the reason (for an unset variable, the variable to set) and the
+recipe.
 
 | Variable | Used by | Recipe |
 | --- | --- | --- |
@@ -85,8 +87,8 @@ that is not, the reason (for an unset variable, the variable to set) and the rec
 | `ALAMBIQ_ENV_PYMBAR` | `simulation.analyze_reaction_free_energy` | [binding-free-energy](../environments/binding-free-energy/README.md) or [reaction-free-energy](../environments/reaction-free-energy/README.md) |
 | `ALAMBIQ_ENV_QMMM` | `simulation.evaluate_qmmm_state`, `simulation.run_qmmm_dynamics` | [qmmm](../environments/qmmm/README.md) |
 
-Create the MMseqs2 environment with the pinned release (conda package version `18.8cc5c`,
-which is release 18-8cc5c):
+Create the MMseqs2 environment with the pinned release, conda package version `18.8cc5c`
+(release 18-8cc5c):
 
 ```bash
 mamba create --prefix "$HOME/.alambiq/environments/mmseqs2" \
@@ -97,14 +99,14 @@ export ALAMBIQ_ENV_MMSEQS="$HOME/.alambiq/environments/mmseqs2/bin/python"
 The key of a step includes the identity of its engine environment and of each resource it
 read (see [Reuse](concepts.md#reuse)). A rerun in the same run directory computes a step
 again when the Python version, a declared package version or a declared tool version of
-its engine environment has changed.
+its engine environment changes.
 
 ## Resources
 
-Resources (models and sequence databases) are pinned by the SHA-256 digest of each file
-and verified before use. They are installed before a run, with
-`alambiq resource provision` or, for the locally built databases, with the commands in the
-`build` field of the specification, as described below.
+A resource is a model or a sequence database. Each file is pinned by its SHA-256 digest
+and verified before use. Install resources before a run, with `alambiq resource provision`
+or, for a locally built database, with the commands in the `build` field of its
+specification.
 
 ```bash
 alambiq resource list
@@ -113,48 +115,55 @@ alambiq resource verify esmc-300m
 alambiq resource provision thermompnn --yes
 ```
 
-`list` shows the known resources and which are installed. `show` prints the provider,
-license, size and location of a resource and, where its specification has a `build` field,
-how the resource is obtained. `verify` checks the installed files against the digests.
-`provision` downloads the files of a resource, or fetches them with the downloader named
-in the specification, and verifies them. It refuses a resource that is built locally.
+- `list` shows the known resources and which are installed.
+- `show` prints the provider, license, size and location of a resource and, where its
+  specification has a `build` field, how the resource is obtained.
+- `verify` checks the installed files against the digests.
+- `provision` downloads the files of a resource, or fetches them with the downloader named
+  in the specification, and verifies them. It refuses a resource that is built locally.
+
+`provision` downloads a resource only when its specification in `src/alambiq/resources/`
+lists a download URL for every file or a `fetch` method, and only with `--yes`. Without
+`--yes` it prints the size, the license and the hosts and downloads nothing. UniRef50 and
+Pfam are built locally with the commands in the `build` field of their specifications.
+Boltz-2 is fetched by Boltz's downloader inside the Boltz environment.
 
 Resources are stored in `~/.alambiq/resources`, or in `ALAMBIQ_RESOURCE_HOME`. Set
 `ALAMBIQ_RESOURCE_<NAME>` (the resource name in capitals, punctuation as underscores) to
-use a resource stored elsewhere. `alambiq resource provision NAME` downloads a resource
-only when its specification in `src/alambiq/resources/` lists a download URL for every
-file or a `fetch` method, and only with `--yes`; without `--yes` it prints the size, the
-license and the hosts and downloads nothing. UniRef50 and Pfam are built locally with the
-commands in the `build` field of their specifications. Boltz-2 is fetched by Boltz's
-downloader inside the Boltz environment. Every resource is verified against the digests
-in its specification.
+use a resource stored elsewhere.
 
 ## Run directories
 
-A run writes to the directory given by `--run-dir`; without `--run-dir`, it writes to a
-new temporary directory. The run directory holds the content-addressed artifact store, the
-step cache used for reuse and the run record (`run.json`). Stored results and the run
-record write the location of the artifact store as the token `{store}`, so a run
-directory can be moved or copied to another machine and its stored results remain usable.
+A run writes to the directory given by `--run-dir`, or to a new temporary directory
+without it. The run directory holds the content-addressed artifact store, the step cache
+used for reuse and the run record (`run.json`). Stored results and the run record write the
+location of the artifact store as the token `{store}`. A run directory can therefore be
+moved or copied to another machine, and its stored results remain usable.
 
 ## Prefect state
 
 Prefect stores its state in `~/.alambiq/prefect-VERSION`, where VERSION is the installed
-Prefect version, so the state is separate from any other Prefect installation and from
-other Prefect versions on the machine. `ALAMBIQ_PREFECT_HOME` replaces this location.
+Prefect version. The state is separate from any other Prefect installation and from other
+Prefect versions on the machine. `ALAMBIQ_PREFECT_HOME` replaces this location.
 `PREFECT_HOME`, when set, takes precedence over both.
 
 ## Platforms
 
-CI installs the wheel with every pip-installable extra and runs the tests on
-ubuntu-latest (Linux x86_64) and macos-14 (Apple silicon) with Python 3.11 and 3.13. The
-verification files in the directories under `environments/` record runs on macOS Apple
-silicon (osx-arm64) for binding-free-energy, openff-complex-preparation, openmm,
-protein-representations, qmmm and thermompnn, and on Linux ARM64 (linux-aarch64) for
-binding-free-energy, boltz2, openff-complex-preparation, openmm, p2rank,
-protein-representations, qmmm and reaction-free-energy. Docker images for every
-engine environment except the Apple GPU path were built for linux/arm64 on 2026-10-23 and
-tested on one Linux ARM64 host with an NVIDIA GPU (see
-[the Docker notes](../environments/docker/README.md)).
-All steps of a campaign run on the machine that starts the run; on a cluster, run a
+All steps of a campaign run on the machine that starts the run. On a cluster, run a
 campaign in a single-node job.
+
+The core is tested on macOS (Apple silicon) and Linux x86_64. CI installs the wheel with
+every pip-installable extra and runs the tests on ubuntu-latest (Linux x86_64) and macos-14
+(Apple silicon) with Python 3.11 and 3.13.
+
+The verification files in the directories under `environments/` record runs on two
+platforms.
+
+- macOS Apple silicon (osx-arm64): binding-free-energy, openff-complex-preparation,
+  openmm, protein-representations, qmmm and thermompnn.
+- Linux ARM64 (linux-aarch64): binding-free-energy, boltz2, openff-complex-preparation,
+  openmm, p2rank, protein-representations, qmmm and reaction-free-energy.
+
+Docker images for every engine environment except the Apple GPU path were built for
+linux/arm64 on 2026-10-23 and tested on one Linux ARM64 host with an NVIDIA GPU (see
+[the Docker notes](../environments/docker/README.md)).

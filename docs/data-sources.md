@@ -1,9 +1,9 @@
 # Example data sources and attribution
 
-The licenses of the source data, of the tables derived from them, of the model resources
-and of the Alambiq code are independent of each other. This page lists the data used by
-each example in `examples/`. Redistribution of the source material, or of an example built
-from it, remains subject to the license and attribution terms stated below.
+This page lists the data used by each example in `examples/`. The licenses of the source
+data, of the tables derived from them, of the model resources and of the Alambiq code are
+independent of each other. Redistribution of the source material, or of an example built
+from it, is subject to the license and attribution terms stated below.
 
 - **protein-first-look, pockets-and-complex**: UniProtKB P69905 (record and sequence;
   UniProt Consortium, [CC BY 4.0](https://www.uniprot.org/help/license)) and wwPDB
@@ -24,9 +24,12 @@ from it, remains subject to the license and attribution terms stated below.
 - **kinetics-from-measurements, cofactor-regeneration, transformation-and-routes**: the
   values in the example directory are generated or written for the example, as the README
   of each example states. The thermodynamic data of transformation-and-routes come from the
-  eQuilibrator packages named in the report of that example. The data are in the eQuilibrator packages, outside the example directory; their terms are stated in [LICENSING.md](../LICENSING.md#terms-of-optional-software-models-and-data).
-- **variant-to-construct**: pUC19 (INSDC record M77789.2, no use restriction under the INSDC data-use policy) and the mature hen egg-white
-  lysozyme sequence (UniProtKB P00698, CC BY 4.0) with the S100R substitution.
+  eQuilibrator packages named in the report of that example. They are outside the example
+  directory, and their terms are stated in
+  [LICENSING.md](../LICENSING.md#terms-of-optional-software-models-and-data).
+- **variant-to-construct**: pUC19 (INSDC record M77789.2, no use restriction under the
+  INSDC data-use policy) and the mature hen egg-white lysozyme sequence (UniProtKB P00698,
+  CC BY 4.0) with the S100R substitution.
 - **connected-investigation**: the lysozyme sequence as above; the language-model scores
   are ESM C 300M output; the measurements are simulated from the model stated in the README
   of the example, with fixed seeds; the generating values are in `truth.json`.

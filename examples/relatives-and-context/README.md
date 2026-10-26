@@ -1,21 +1,21 @@
 # Relatives and context
 
-**Question.** Which proteins of a 6-protein panel pass the similarity thresholds for
-hemoglobin alpha, which alignment columns are conserved among the query and 3 relatives, and
-which proteins are encoded within 5 kb of each of 2 genes in a genome?
+**Question.** Which proteins of a 6-protein panel are similar to hemoglobin alpha, which
+alignment columns are conserved among hemoglobin alpha and 3 relatives, and which proteins
+are encoded near 2 genes in a genome?
 
 The campaign has 3 steps with separate inputs:
 
 1. `protein.search` aligns hemoglobin alpha with MMseqs2 against the panel
-   `representation-panel.fasta`, which contains 6 human proteins, and filters hits by
+   `representation-panel.fasta`, which contains 6 human proteins. It filters hits by
    e-value, identity and coverage.
 2. `sequence.inspect_msa` reads the stored A3M alignment `globin-search.a3m` and reports
    conservation and entropy per column. The alignment is an input file and does not depend
-   on step 1. It contains 4 sequences: the query P69905 and P68871, P69891 and P02144; its
+   on step 1. It contains 4 sequences: the query P69905 and P68871, P69891 and P02144. Its
    headers give the hit statistics of the 3 other sequences (P02144 has identity 0.263,
    below the threshold of step 1).
 3. `genome.inspect_context` extracts the annotated genes within 5 kb on each side of each of
-   two anchor genes of a gut metagenome-assembled genome. The request names the anchors.
+   2 anchor genes of a gut metagenome-assembled genome. The request names the anchors.
 
 ```bash
 export ALAMBIQ_ENV_MMSEQS=/path/to/mmseqs2/bin/python   # see docs/install.md
@@ -31,10 +31,11 @@ not pass the thresholds. The alignment has 4 sequences, 142 columns and 23 fully
 positions. Each of the 2 anchors matches exactly one locus. The step writes the 25 proteins
 of the 2 windows (14 and 11, anchors included) to a FASTA file. The window of
 `MGYG000000699_00080` is clipped at position 1 and the window of `MGYG000000699_00104` at
-position 16709, the contig bounds declared in `context.gff3`; the report states this.
+position 16709. These are the contig bounds declared in `context.gff3`, and the report
+states the clipping.
 
-**Limits.** The search covers the 6 panel proteins. Conservation statistics apply to the 4 aligned
-sequences. The genome subset is a single contig of 29 features around two ribosomal protein
+**Limits.** The search covers the 6 panel proteins. Conservation statistics apply to the 4
+aligned sequences. The genome subset is a single contig of 29 features around two ribosomal protein
 genes. The rank of a hit reflects sequence similarity.
 
 **Data.** Sequences are UniProtKB (CC BY 4.0); see `representation-panel.sources.json`. The

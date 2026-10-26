@@ -1,21 +1,21 @@
 # Transformation and routes
 
 **Question.** Is the hydrolysis of methyl acetate thermodynamically favorable under stated
-conditions, and which routes do a supplied reaction operator (a SMARTS transformation) and
-the supplied feedstocks give?
+conditions, and which routes produce acetic acid from the supplied feedstocks?
 
 The campaign has 3 steps for the hydrolysis of methyl acetate:
 
 1. `reaction.inspect` balances the equation and reads the bond changes from the atom
    mapping given in the campaign.
-2. `reaction.explore_routes` applies the reaction operator for ester hydrolysis to the
-   listed feedstock compounds (methyl acetate and water) and reports the routes that
-   produce the target compound (acetic acid).
+2. `reaction.explore_routes` applies the reaction operator for ester hydrolysis (a SMARTS
+   transformation) to the listed feedstock compounds (methyl acetate and water). It reports
+   the routes that produce the target compound (acetic acid).
 3. `reaction.estimate_thermodynamics` estimates the standard transformed Gibbs energy
-   ΔG°′ and the Gibbs energy ΔG′ for methyl acetate + water -> acetate + methanol at the
-   stated activities (1 mM for each solute relative to the 1 M standard state, 1 for
-   water), pH, pMg, ionic strength and temperature, with a model uncertainty. Steps 1 and 2
-   use neutral acetic acid; step 3 uses the compound acetate (`kegg:C00033`).
+   ΔG°′ and the Gibbs energy ΔG′ for methyl acetate + water -> acetate + methanol, with a
+   model uncertainty. The stated conditions are the activities (1 mM for each solute
+   relative to the 1 M standard state, 1 for water), pH, pMg, ionic strength and
+   temperature. Steps 1 and 2 use neutral acetic acid; step 3 uses the compound acetate
+   (`kegg:C00033`).
 
 ```bash
 alambiq run examples/transformation-and-routes/campaign.yaml --report report.html
