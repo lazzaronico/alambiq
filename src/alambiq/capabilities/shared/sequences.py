@@ -21,7 +21,7 @@ def parse_fasta(text: str) -> tuple[str, str]:
     sequence = "".join(lines[1:]).upper()
     if not ALPHABET.fullmatch(sequence) or len(sequence) > MAX_RESIDUES:
         raise ValueError(
-            "Expected one ungapped protein sequence, 1–10000 residues, without stop symbols"
+            "Expected one ungapped protein sequence of 1 to 10,000 residues, without stop symbols"
         )
     return lines[0][1:].split()[0], sequence
 
@@ -44,17 +44,17 @@ def parse_panel(text):
     if not 1 <= len(records) <= 10000 or len({r["id"] for r in records}) != len(
         records
     ):
-        raise ValueError("Supply 1–10000 proteins with unique identifiers")
+        raise ValueError("Supply 1 to 10,000 proteins with unique identifiers")
     if any(
         not re.fullmatch(r"[ACDEFGHIKLMNPQRSTVWYX]{1,5000}", r["sequence"])
         for r in records
     ):
         raise ValueError(
-            "Each protein needs 1–5000 ungapped standard residues (X allowed)"
+            "Each protein needs 1 to 5,000 ungapped standard residues (X allowed)"
         )
     if sum(len(r["sequence"]) for r in records) > 1_000_000:
         raise ValueError(
-            "This local-panel profile accepts at most one million residues"
+            "The local-panel profile accepts at most 1,000,000 residues in total"
         )
     return records
 
@@ -67,6 +67,6 @@ def parse_residue(text: str) -> tuple[str, str]:
     found = RESIDUE_LABEL.fullmatch(text.strip())
     if found is None:
         raise ValueError(
-            f"Residue {text!r} must be an author residue number with an optional insertion letter"
+            f"Residue {text!r} must be an author residue number with an optional insertion letter, such as 55 or 55A"
         )
     return found.group(1), found.group(2)

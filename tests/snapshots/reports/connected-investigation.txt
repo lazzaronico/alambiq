@@ -4,7 +4,7 @@ h2: round
 table: Reading | Count
 section model
 h2: model
-note: 2 candidates share identical input features. The number of sets of identical features is 1.
+note: 2 candidates share identical input features; number of sets: 1.
 note: The 95 % predictive intervals contain less than 95 % of the evaluation observations.
 note: Fewer than 30 evaluation observations.
 table: Predictor | Candidates | Mean absolute error (relative) | RMSE (relative) | R²
@@ -27,7 +27,7 @@ h2: propose
 table: Rank | Variant | Log-likelihood ratio | Predicted ΔΔG (kcal/mol) | Combined rank | Homologs with it (count)
 section next-batch
 h2: next-batch
-note: 2 candidates share identical input features. The number of sets of identical features is 1.
+note: 2 candidates share identical input features; number of sets: 1.
 note: The 95 % predictive intervals contain less than 95 % of the evaluation observations.
 note: Fewer than 30 evaluation observations.
 table: Candidate | Group

@@ -97,7 +97,7 @@ def validate_request(request):
         value = conditions[key]
         if type(value) not in (float, int) or not low <= value <= high:
             raise ValueError(
-                f"{key} requires a finite value in [{low}, {high}] for this aqueous profile"
+                f"{key} must be a number from {low} to {high}"
             )
     compounds = request["compounds"]
     if not isinstance(compounds, list) or not 2 <= len(compounds) <= 200:
@@ -122,7 +122,7 @@ def validate_request(request):
             type(activity) not in (int, float) or not 1e-15 <= activity <= 10
         ):
             raise ValueError(
-                "Supply a finite positive dimensionless activity in [1e-15,10]; buffered protons use null"
+                "The activity must be a number from 1e-15 to 10, or null for a proton"
             )
     reactions = request["reactions"]
     if not isinstance(reactions, list) or not 1 <= len(reactions) <= 50:
@@ -158,7 +158,7 @@ def validate_request(request):
         values = [signed_coefficient(v) for v in stoich.values()]
         if not any(v < 0 for v in values) or not any(v > 0 for v in values):
             raise ValueError(
-                "Supply reactants with negative coefficients and products with positive coefficients"
+                "A reaction needs reactants with negative coefficients and products with positive coefficients"
             )
     weights = request["route_weights"]
     if not isinstance(weights, dict) or not weights or weights.keys() - reaction_ids:
@@ -177,11 +177,11 @@ def resolve_compounds(request, model):
         if compound is not None:
             if compound.inchi_key == "JLVVSXFLKOJNIY-UHFFFAOYSA-N":
                 raise ValueError(
-                    "This profile specifies free magnesium through pMg; supply magnesium-containing solute ensembles by their own accession"
+                    "Free magnesium is set by pMg. Supply magnesium-containing solute ensembles by their own accession"
                 )
             if compound.id in used:
                 raise ValueError(
-                    "Use one local identity/activity for each resolved compound, including accession aliases"
+                    "Two compounds resolve to the same database entry; give that entry one compound and one activity, whatever its accession alias"
                 )
             used.add(compound.id)
             record.update(
@@ -193,12 +193,12 @@ def resolve_compounds(request, model):
             proton = compound.inchi_key == PROTON_INCHI_KEY
             if proton and supplied["activity"] is not None:
                 raise ValueError(
-                    "Buffered protons use activity: null; pH specifies their reservoir"
+                    "A proton takes activity null, because the pH sets its activity"
                 )
             if not proton and supplied["activity"] is None:
                 raise ValueError("Each solute requires an explicit activity")
             if compound.inchi_key == WATER_INCHI_KEY and supplied["activity"] != 1:
-                raise ValueError("This aqueous profile uses unit water activity")
+                raise ValueError("The activity of water must be 1")
             if "reference_smiles" in supplied:
                 from rdkit import Chem
 
@@ -247,7 +247,7 @@ def request_from_route(network, solution):
         weights[step["reaction_id"]] += coefficient(step["extent"])
     if not selected:
         raise ValueError(
-            "Select a route containing at least one chemical transformation"
+            "The selected route has no chemical transformation; select another route_index"
         )
     mapping = {}
     if not isinstance(solution["compounds"], list) or len(solution["compounds"]) > 200:
@@ -264,7 +264,7 @@ def request_from_route(network, solution):
         smiles = canonical(entry["smiles"])
         if smiles in mapping:
             raise ValueError(
-                "Supply one aqueous mapping for each explicit-species identity"
+                "Two route_compounds entries describe the same species; supply one entry per species"
             )
         mapping[smiles] = entry
     required = sorted({k for r in selected for k in r["stoichiometry"]})
@@ -355,7 +355,7 @@ def assess_thermodynamics(request, model=None, model_identity=None):
                 "unbalanced" if not missing_formula else "unresolved-formula"
             )
             row["notes"] = [
-                "Balance retains non-hydrogen elements and electrons; hydrogen exchange is buffered by pH."
+                "The balance covers non-hydrogen elements and electrons. The pH buffers hydrogen exchange."
             ]
             continue
         reaction = Reaction({compounds[k]: float(v) for k, v in stoich.items()})
@@ -383,7 +383,7 @@ def assess_thermodynamics(request, model=None, model_identity=None):
             row.update(
                 status="unresolved-model",
                 notes=[
-                    "This equation retains an unconstrained component-contribution direction."
+                    "The model leaves a direction of this equation unconstrained."
                 ],
             )
             continue
@@ -403,7 +403,7 @@ def assess_thermodynamics(request, model=None, model_identity=None):
         cov = np.asarray(cov.m_as("(kJ/mol)**2"))
         if not np.isfinite(means).all() or not np.isfinite(cov).all():
             raise ValueError(
-                "The numerical model returned nonfinite energies or covariance"
+                "The model returned a nonfinite energy or covariance"
             )
         covariance[np.ix_(estimate_indices, estimate_indices)] = cov
         for i, index in enumerate(estimate_indices):
@@ -449,7 +449,7 @@ def assess_thermodynamics(request, model=None, model_identity=None):
         w = np.asarray(weights, dtype=float)
         variance = float(w @ covariance @ w)
         if variance < -1e-9:
-            raise ValueError("Route covariance produced a negative variance")
+            raise ValueError("The route covariance gives a negative variance")
         route["model_sd_kj_mol"] = math.sqrt(max(0.0, variance))
     # Null rows express unresolved estimates; a numeric zero denotes a computed covariance.
     public_cov = [
@@ -473,5 +473,5 @@ def assess_thermodynamics(request, model=None, model_identity=None):
         "covariance_order": [row["id"] for row in rows],
         "covariance_kj2_mol2": public_cov,
         "route": route,
-        "method": "Component-contribution standard transformed Gibbs energies at 298.15 K with explicit pH, pMg and ionic strength. Activities are dimensionless relative to the 1 M standard state; water has unit activity and protons exchange with the fixed-pH reservoir. Delta G prime equals Delta G zero prime plus RT ln Q. Route uncertainty uses the full shared-model covariance, conditional on the supplied activities and conditions. Standard InChI comparison retains connectivity, stereochemistry and isotopes while allowing proton-ensemble identity.",
+        "method": "Standard transformed Gibbs energies come from the component-contribution model at 298.15 K, for the stated pH, pMg and ionic strength. Activities are dimensionless relative to the 1 M standard state. Water has unit activity, and protons exchange with the reservoir fixed by the pH. Delta G prime equals Delta G zero prime plus RT ln Q. The route uncertainty uses the full covariance of the model and is conditional on the stated activities and conditions. The standard InChI comparison keeps connectivity, stereochemistry and isotopes and allows different proton ensembles of one compound.",
     }

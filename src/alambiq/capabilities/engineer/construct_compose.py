@@ -1,23 +1,12 @@
 """Join ordered parts into one coding insert and check what it translates to.
 
-Each part supplies an expected protein and, unless a codon table is given, the
-coding DNA that encodes it. The parts are concatenated in the order given, a
-stop codon is appended, and the complete insert is translated under genetic
-code 11 and compared with the concatenated expected proteins. The first part
-must begin with a start codon of genetic code 11. A part may declare that its
-terminal stop is removed before joining. The span of every part in both the DNA
-and the protein is recorded, one-based and inclusive.
+The result gives the span of every part in the insert, in the DNA and in the protein (one-based and inclusive). The stored record holds the insert, its DNA and its protein.
 
-When `codon_choices` is given, every part is encoded from the codon table:
-exactly one codon per amino acid, each codon checked to encode its amino acid
-under genetic code 11. A part then has no `coding_dna` (a part that has one is
-refused) and `remove_terminal_stop` is not read.
+Each part supplies an expected protein and, unless a codon table is given, the coding DNA that encodes it. The parts are joined in the order given and a stop codon is appended. The complete insert is translated under genetic code 11 and compared with the concatenated expected proteins. The first part must begin with a start codon of genetic code 11. A part may declare that its terminal stop is removed before joining.
 
-Limits. The capability composes and verifies a sequence. The translation
-check confirms that the DNA encodes the stated protein. The composed insert,
-including the stop codon, is 60 to 6,000 bp. Codons come from the `coding_dna`
-of each part or from `codon_choices`. `dna.optimize_coding` recodes
-a coding sequence under constraints.
+When `codon_choices` is given, every part is encoded from the codon table, with exactly one codon per amino acid. Each codon is checked to encode its amino acid under genetic code 11. A part then has no `coding_dna` (a part that has one is refused), and `remove_terminal_stop` is not read.
+
+Limits. The composed insert, including the stop codon, is 60 to 6,000 bp. The translation check confirms that the DNA encodes the stated protein. Codons come from the `coding_dna` of each part or from `codon_choices`. `dna.optimize_coding` recodes a coding sequence under constraints.
 """
 
 from __future__ import annotations
@@ -35,19 +24,17 @@ class Part:
     """One ordered part of the insert.
 
     id, role:
-        The name of the part (1 to 64 characters, unique within the insert), and its
+        The name of the part (1 to 64 characters, unique within the insert) and its
         role: `protein`, `tag` or `linker`.
     expected_protein:
         Path to the FASTA protein that this part contributes.
     coding_dna:
         Path to the FASTA DNA that encodes the protein: whole codons, at most 6,000
-        bases. Must be omitted when `codon_choices` is given; the capability
-        refuses a part that has both.
+        bases. Omit it when `codon_choices` is given. A part that has both is refused.
     remove_terminal_stop:
-        Remove the final stop codon of this part before joining it to the next
-        part. When `codon_choices` is given, the value is not read: a part
-        encoded from the codon table holds no stop codon, and the insert ends
-        with `stop_codon` alone.
+        Remove the final stop codon of this part before joining it to the next part.
+        When `codon_choices` is given, the value is not read. A part encoded from the
+        codon table holds no stop codon, and the insert ends with `stop_codon` alone.
     """
 
     id: str
@@ -63,8 +50,8 @@ class ComposeRequest:
 
     parts:
         The ordered parts, each with `id`, `role`, `expected_protein`, `coding_dna`
-        and `remove_terminal_stop`. 2 to 20 parts, or 1 to 20 when `codon_choices`
-        is given.
+        and `remove_terminal_stop`: 2 to 20 parts, or 1 to 20 when `codon_choices` is
+        given.
     identifier:
         The name of the composed insert: 1 to 64 characters, letters, digits, `_`,
         `.` and `-`, starting with a letter or digit.
@@ -72,8 +59,8 @@ class ComposeRequest:
         The stop codon appended to the insert: TAA, TAG or TGA.
     codon_choices:
         Path to a JSON object that maps each of the 20 standard amino acids, by
-        one-letter code, to one uppercase ACGT codon. When given, every part is
-        encoded from it, and a part that also has `coding_dna` is refused.
+        one-letter code, to one uppercase ACGT codon. Every part is then encoded from
+        it, and a part that also has `coding_dna` is refused.
     """
 
     parts: list[Part]
@@ -84,7 +71,7 @@ class ComposeRequest:
 
 @dataclass(frozen=True, slots=True)
 class PartSpan:
-    """The span of one part in the insert: DNA and protein start and end, one-based and inclusive."""
+    """The span of one part in the insert: DNA and protein start and end (one-based, inclusive)."""
 
     id: str
     role: str
@@ -93,7 +80,7 @@ class PartSpan:
     protein_start: int
     protein_end: int
     removed_stop_codon: str | None
-    """The terminal stop codon removed before joining, or None if none was removed."""
+    """The terminal stop codon removed before joining, or None."""
 
 
 @dataclass(frozen=True, slots=True)
@@ -106,11 +93,11 @@ class ComposeResult:
     parts: list[PartSpan]
     encoded_from_codon_table: bool
     record: str
-    """Path to the stored record: the insert, its DNA, its protein and the part sources."""
+    """Path to the stored record: the insert, its DNA, its protein and the sources of the parts."""
     dna_fasta: str = ""
     """The DNA of the insert as FASTA, for binding to `dna.optimize_coding` or `construct.assemble`."""
     protein_fasta: str = ""
-    """The protein the insert encodes, as FASTA."""
+    """The protein that the insert encodes, as FASTA."""
 
 
 def _fasta(ctx: StepContext, name: str, sequence: str, filename: str) -> str:
@@ -132,7 +119,7 @@ def _descriptor(ctx: StepContext, path: str) -> dict[str, Any]:
     render=render,
 )
 def compose_coding(request: ComposeRequest, ctx: StepContext) -> ComposeResult:
-    """Compose the insert and confirm it translates to the expected protein."""
+    """Compose the insert and confirm that it translates to the expected protein."""
     from alambiq.capabilities.engineer.science.composition import compose
 
     parts = []
@@ -145,8 +132,8 @@ def compose_coding(request: ComposeRequest, ctx: StepContext) -> ComposeResult:
         if request.codon_choices is not None and part.coding_dna is not None:
             raise ValueError(
                 f"Part {part.id} has coding_dna {part.coding_dna!r} together with "
-                "codon_choices; supply coding_dna for every part, or codon_choices "
-                "alone, not both."
+                "codon_choices. Supply coding_dna for every part, or codon_choices "
+                "alone."
             )
         if request.codon_choices is None:
             if part.coding_dna is None:

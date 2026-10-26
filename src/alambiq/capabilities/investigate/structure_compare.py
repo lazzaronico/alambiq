@@ -1,32 +1,37 @@
-"""Superpose one chain of a structure on another chain and report the RMSD of mapped alpha carbons.
+"""Superpose one chain of a structure on another and report the RMSD of mapped alpha carbons.
 
-Two stored `protein.inspect` records each supply a structure (deposited or predicted);
-the request selects one chain of each. The chains are fitted by a rigid-body superposition of their
-alpha carbons over corresponding residues, with equal weights; every pair with both
-alpha carbons observed enters the fit.
-The correspondence between residues comes from one of these: the residue pairs of the
-request, or the columns of the alignment of the request (with the reference row and the
-mobile row named). A request supplies at most one of them. With neither, both proteins must have
-the same query sequence, and equal positions in the query sequence correspond. The
-result gives the RMSD over the fitted pairs before and after the fit, the distance of
-every pair, the rotation and translation, and the mobile chain's atoms in the reference
-frame as an mmCIF file.
+The result gives the RMSD of the paired alpha carbons before and after the best rigid-body
+fit, the distance of every pair, the rotation and translation, and the atoms of the mobile
+chain in the reference frame as an mmCIF file.
 
-The result gives how closely the alpha-carbon traces of the paired residues agree after
-the best rigid fit, for this pairing.
+Two stored `protein.inspect` records each supply a structure (deposited or predicted); the
+request selects one chain of each. The fit superposes the alpha carbons of corresponding
+residues with equal weights. Every pair with both alpha carbons observed enters the fit.
 
-Limits. An RMSD depends on which residues are paired. A pairing that includes a
-flexible loop or residues that are not equivalent can increase it, and a pairing restricted
-to a well-conserved core can decrease it, so the value depends on the pairing as well as on
-the two proteins. With equal weights, large displacements of
-individual residues affect the whole fit. The fit uses the alpha carbons of the selected
-deposited model and chain; ligands, waters and other chains do not enter the RMSD. Residues missing an alpha carbon in either
-structure are listed and excluded, and the fraction of each query that was fitted is
-reported together with the RMSD. The RMSD is computed from the coordinates as deposited and
-is subject to their experimental uncertainty. If a record holds a predicted
-structure, the RMSD includes the prediction error. The fit requires at least 3 fitted
-pairs (pairs in which both alpha carbons are observed) that are not collinear. A request
-with more than 10,000 pairs is refused.
+The correspondence between residues comes from one of these:
+
+- the residue pairs of the request;
+- the columns of the alignment of the request, with the reference row and the mobile row
+  named;
+- the query sequence, when the request gives neither. Both proteins must then have the same
+  query sequence, and equal positions correspond.
+
+A request supplies at most one of the residue pairs and the alignment.
+
+Limits.
+
+- The RMSD depends on which residues are paired. A pairing that includes a flexible loop or
+  residues that are not equivalent can increase it. A pairing restricted to a well-conserved
+  core can decrease it.
+- Equal weights let large displacements of individual residues affect the whole fit.
+- Only the alpha carbons of the selected model and chain enter the fit; ligands, waters and
+  other chains do not.
+- Residues missing an alpha carbon in either structure are listed and excluded. The fraction
+  of each query that was fitted is reported with the RMSD.
+- The coordinates are as deposited and carry their experimental uncertainty. The RMSD of a
+  predicted structure includes the prediction error.
+- The fit requires at least 3 fitted pairs that are not collinear. A request with more than
+  10,000 pairs is refused.
 """
 
 from __future__ import annotations
@@ -58,24 +63,23 @@ class CompareRequest:
     reference:
         A path to a `protein.inspect` record whose structure is the fixed reference.
     mobile:
-        A path to a `protein.inspect` record whose chain is moved onto it.
+        A path to a `protein.inspect` record whose chain is moved onto the reference.
     reference_chain, mobile_chain:
-        The `label_asym_id` of the chain in each record; the record must map that chain
+        The `label_asym_id` of the chain in each record. The record must map that chain
         exactly to its query sequence (mapping `exact`).
     residue_pairs:
         An explicit correspondence of 1 to 10,000 pairs. The fit requires at least 3
         fitted pairs that are not collinear.
     alignment:
         A path to an alignment whose columns give the correspondence, instead of
-        `residue_pairs`. With it, set `alignment_format`, `reference_row` and
-        `mobile_row`.
+        `residue_pairs`. Set `alignment_format`, `reference_row` and `mobile_row` with it.
     alignment_format:
         `fasta` or `a3m`.
     reference_row, mobile_row:
         The identifiers of the alignment rows for each protein.
 
-    With neither pairs nor an alignment, both proteins must have the same query
-    sequence and residues are paired by position in the query sequence.
+    With neither pairs nor an alignment, both proteins must have the same query sequence.
+    Residues are then paired by position in it.
     """
 
     reference: str

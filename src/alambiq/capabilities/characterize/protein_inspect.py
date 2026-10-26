@@ -1,35 +1,42 @@
 """Inspect one protein: its sequence, a UniProt entry and a structure.
 
-The result is one dossier: a stored record, in the numbering of the query
-sequence, that holds the query, the features of the UniProt entry, the
-structure chains and residues, and the mapping state of each. A UniProt entry
-contributes its features, which are projected onto the query only where the
-query occurs exactly once in the sequence of the entry, and only for a feature
-with exact start and end positions inside the query span and no `sequence`
-qualifier. An mmCIF structure contributes its chains and residues; only
-`polypeptide(L)` entities form chains. A chain is mapped when its polymer
-sequence contains the query exactly once or is contained in the query exactly
-once; a polymer sequence that contains X is not mapped unless the
-`_entity_poly_seq` category resolves it to standard residues. A residue is
-mapped when its monomer agrees with the query at that position and the
-position lies inside the query span (otherwise the reason is
-`outside-query-span`). Anything that does not meet those conditions is stored
-and marked withheld, with the reason. With
-`coordinate_annotations`, secondary structure (DSSP, 8 states) and solvent
-accessible surface area are computed per residue. Independently of that
-option, the per-residue pLDDT declared in a ModelCIF structure is reported.
+Returns one stored record, numbered as the query sequence. The record holds the
+query, the features of the UniProt entry, the chains and residues of the
+structure, and the mapping state of each. Anything that does not map is stored
+and marked withheld, with the reason.
 
-Limits. Mapping requires exact sequence agreement, so a structure or UniProt
-entry that differs from the query by a mutation, a tag or a different construct
-is withheld whole. The structure is read in mmCIF format. Alternate locations
-other than "A" are dropped, and a file with more than 100,000 `_atom_site` rows
-(all models together) is refused. A structure is one model of one state. The
-confidence estimate is the pLDDT declared in a ModelCIF; an experimental
-structure reports none. Crystal packing and absent binding partners can change
-secondary structure and surface exposure relative to the free protein. The
-version of MDTraj that computed the DSSP and surface-area annotations is
-recorded in the result and not enforced. Any use of `structure` requires the
-`dossier` extra (gemmi 0.7.5).
+The mapping:
+
+- A UniProt feature maps onto the query when the query occurs exactly once in
+  the entry sequence. The feature has exact start and end positions inside the
+  query span and no `sequence` qualifier.
+- Only `polypeptide(L)` entities of an mmCIF structure form chains.
+- A chain maps when its polymer sequence contains the query exactly once or is
+  contained in the query exactly once. A polymer sequence with X maps only when
+  the `_entity_poly_seq` category resolves it to standard residues.
+- A residue maps when its monomer agrees with the query at that position and
+  the position lies inside the query span. Otherwise the reason is
+  `outside-query-span`.
+- The per-residue pLDDT declared in a ModelCIF structure is always reported.
+- With `coordinate_annotations`, secondary structure (DSSP, 8 states) and
+  solvent accessible surface area are computed per residue.
+
+Limits.
+
+- Mapping requires exact sequence agreement. A structure or UniProt entry that
+  differs from the query by a mutation, a tag or a different construct is
+  withheld whole.
+- The structure is read in mmCIF format. Alternate locations other than "A" are
+  dropped. A file with more than 100,000 `_atom_site` rows (all models
+  together) is refused.
+- A structure is one model of one state. Crystal packing and absent binding
+  partners can change secondary structure and surface exposure relative to the
+  free protein.
+- An experimental structure has no confidence estimate. The pLDDT comes from a
+  ModelCIF.
+- The result records the version of MDTraj that computed the annotations. The
+  version is not enforced.
+- Any use of `structure` requires the `dossier` extra (gemmi 0.7.5).
 """
 
 from __future__ import annotations
@@ -69,17 +76,16 @@ class InspectRequest:
         A path to a UniProt JSON entry. With no `fasta`, its sequence is the
         query.
     structure:
-        A path to an mmCIF structure to map onto the query. Requires the
-        `dossier` extra (gemmi 0.7.5) in the Python environment that runs
-        Alambiq.
+        A path to an mmCIF structure to map onto the query. Needs the `dossier`
+        extra (gemmi 0.7.5) in the Python environment that runs Alambiq.
     model_number:
-        The model of the structure to use, numbered from 1; default 1.
-        `protein.predict_stability_change` numbers the same concept from 0 in
+        The model of the structure, numbered from 1; default 1.
+        `protein.predict_stability_change` numbers models from 0 in
         `model_index`.
     coordinate_annotations:
-        Compute secondary structure and surface area for each residue.
-        Needs the structure, and the MDTraj package (extra `trajectory`)
-        installed in the Python environment that runs Alambiq.
+        Compute secondary structure and surface area for each residue. Needs
+        `structure` and the MDTraj package (extra `trajectory`) in the Python
+        environment that runs Alambiq.
     source_notes:
         Attribution for each supplied file, by input name (`fasta`, `uniprot`,
         `structure`).
@@ -106,7 +112,7 @@ class ConfidenceSummary:
 
 @dataclass(frozen=True, slots=True)
 class InspectResult:
-    """The counts of mapped features, chains and residues, the chain mappings, the pLDDT summary, the optional secondary-structure and surface-area summaries, and the paths of the stored records."""
+    """Counts of mapped features, chains and residues, the chain mappings, the pLDDT summary, optional secondary-structure and surface-area summaries, and the stored records."""
 
     identifier: str
     sequence_length: int
@@ -116,7 +122,7 @@ class InspectResult:
     chains: int
     mapped_chains: int
     chain_mappings: list[dict[str, Any]]
-    """The `label_asym_id` of the chain (not the author chain), its mapping state and its reason, for each chain in the order of the file."""
+    """For each chain in file order: its `label_asym_id` (not the author chain), mapping state and reason."""
     mapped_residues: int
     observed_residues: int
     confidence: ConfidenceSummary | None

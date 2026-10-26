@@ -282,7 +282,7 @@ def assemble_construct(
         ):
             raise ValueError(
                 "A vector feature location is not an exact position range inside the "
-                "vector; every vector feature location must be exact."
+                "vector."
             )
         originals.append(feature_record(feature))
         # A previous product used as backbone is a new source, not this insert.

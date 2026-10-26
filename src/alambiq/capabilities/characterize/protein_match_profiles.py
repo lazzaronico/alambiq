@@ -1,35 +1,42 @@
 """Find the family profiles that match a protein, in a named library.
 
-The protein is searched with MMseqs2 against sequence profiles: either the
-pinned Pfam 38.2 library, or profiles built from supplied Stockholm
-alignments at the time of the search. Every returned alignment is reported as a
-separate match, with its span on the protein and on the profile, its bit score
-and expectation value, and the fraction of the profile that it covers. A match
-is `selected` when it meets the expectation and coverage thresholds and
-`filtered` when it does not.
+Returns the alignments of a protein to family profiles, each as a separate
+match. A match gives the span on the protein and on the profile, the bit score,
+the expectation value and the fraction of the profile covered. A match shows
+that a region of the protein resembles the seed alignment of a family, in a
+named database at a named version.
 
-What the result supports: that a region of the protein resembles the seed
-alignment of a family, in a named database at a named version.
+The method:
 
-Limits. The matches are MMseqs2 profile matches: the profiles are built from
-the seed alignments, and the thresholds of the request replace the curated
-gathering thresholds of Pfam, so a hit can be one that Pfam would not report,
-and a Pfam match can be absent from the result. Expectation values depend on the
-size of the library searched, so they are comparable within one library only.
-Overlapping families are all reported; no best family is chosen. For supplied
-profiles with a `CL` line, a note names the selected families that share a
-clan. Positions on the protein are one-based and inclusive; profile positions
-are counted in the match columns of the profile, not in the columns of the
-original alignment. The pinned Pfam library has no clan or entry-type
-metadata, so those columns are empty for it. A family match assigns the
-matched region to the family of the profile; regions without a profile in the
-library are unannotated. A library search verifies the size of each file of the
-resource against the record and recomputes its SHA-256 when no receipt of an
-earlier verification matches the size and modification time of the file. A
-supplied set of profiles holds at most 64 alignments; each alignment has 2 to
-10,000 sequences and 5 to 5,000 columns, and all alignments together have at
-most 1,000,000 cells. Accessions are unique; the residues are the 20 amino
-acids and B, X, Z, with gaps.
+- MMseqs2 searches the protein against sequence profiles. The profiles are the
+  pinned Pfam 38.2 library, or profiles built at search time from supplied
+  Stockholm alignments.
+- A match is `selected` when it meets the expectation and coverage thresholds
+  and `filtered` when it does not.
+- Overlapping families are all reported. No best family is chosen.
+- For supplied profiles with a `CL` line, a note names the selected families
+  that share a clan.
+- A family match assigns the matched region to the family of the profile.
+  Regions without a profile in the library are unannotated.
+
+Limits.
+
+- The profiles are built from seed alignments, and the thresholds of the
+  request replace the curated gathering thresholds of Pfam. A hit can be one
+  that Pfam does not report, and a Pfam match can be absent.
+- Expectation values depend on the size of the library searched. They are
+  comparable within one library.
+- Protein positions are one-based and inclusive. Profile positions count the
+  match columns of the profile, not the columns of the original alignment.
+- The pinned Pfam library has no clan or entry-type metadata. Those columns are
+  empty for it.
+- A library search compares the size of each resource file with the record. It
+  recomputes the SHA-256 when no receipt of an earlier verification matches the
+  size and modification time of the file.
+- A supplied set of profiles has at most 64 alignments. Each alignment has 2 to
+  10,000 sequences and 5 to 5,000 columns. All alignments together have at most
+  1,000,000 cells.
+- Accessions are unique. Residues are the 20 amino acids and B, X, Z, with gaps.
 """
 
 from __future__ import annotations
@@ -49,22 +56,22 @@ LIBRARY = "pfam-38.2-profiles"
 
 @dataclass(frozen=True, slots=True)
 class MatchRequest:
-    """The protein, the profiles to search, and the thresholds that a match must meet.
+    """The protein, the profiles to search and the thresholds of a match.
 
     protein:
         A path to a FASTA with one protein of 10 to 5,000 residues from the 20
         amino acids and X.
     profiles:
-        A path to a Stockholm 1.0 file of 1 to 64 alignments, each with AC, ID
-        and DE lines and a unique accession; an optional `CL` line gives the
-        clan. Exactly one of this field and `library` is required.
+        A path to a Stockholm 1.0 file of 1 to 64 alignments. Each alignment has
+        AC, ID and DE lines and a unique accession. An optional `CL` line gives
+        the clan. Exactly one of `profiles` and `library` is required.
     library:
         The pinned profile library to search instead of `profiles`. The only
         value is `pfam-38.2`.
     evalue:
-        Matches above this expectation value are filtered. The search itself
-        reports matches up to the same value. Above 0 and at most 1,000,000;
-        default 0.001.
+        Matches above this expectation value are filtered. The search reports
+        matches up to the same value. Above 0 and at most 1,000,000; default
+        0.001.
     sensitivity:
         MMseqs2 sensitivity (`-s`), 1 to 7.5; default 7.5. A higher value finds
         more distant matches.
@@ -72,8 +79,8 @@ class MatchRequest:
         Matches covering less than this fraction of the profile are filtered.
         0 to 1; default 0.5.
     alternative_alignments:
-        Number of further alignments of the same profile to report, 0 to 20,
-        for families that repeat in a protein; default 0.
+        Further alignments of the same profile to report, 0 to 20, for families
+        that repeat in a protein; default 0.
     """
 
     protein: str
@@ -108,7 +115,7 @@ class Match:
 
 @dataclass(frozen=True, slots=True)
 class MatchResult:
-    """The matches, and the library that was searched."""
+    """The matches and the library searched."""
 
     query_id: str
     query_length: int

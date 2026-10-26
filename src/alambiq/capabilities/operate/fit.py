@@ -1,51 +1,57 @@
 """Fit operating definitions to measured progress or recovery.
 
-The fit adjusts named parameters of one or more operating definitions (the files that
-`operation.simulate` integrates, listed under `experiments` in the fit specification)
-to minimize the standardized residuals between the predictions of
-`operation.simulate` and the supplied observations: concentrations, conversions,
-removed amounts, collected effluent concentrations or catalyst amounts. A fitted
-parameter is a field value of the operating definitions that the fit adjusts. A
-parameter can target several fields, so that one physical constant is shared across
-operating definitions, exchanges or both reaction directions. Fields that no parameter
-targets retain their supplied values.
+The capability adjusts named parameters of one or more operating definitions so that the
+predictions of `operation.simulate` match the supplied observations. It returns the
+fitted parameters, the error of the fit and of the held-out observations, and the
+diagnostics. The observations are concentrations, conversions, removed amounts,
+collected effluent concentrations or catalyst amounts.
 
-The optimizer is bounded trust-region least squares on scaled parameters, started
-from every supplied start. Each residual evaluation integrates every operating
-definition that has `fit` observations. The number of residual evaluations of each
-start is limited by `max_nfev` (1 to 2000). Each evaluation of the Jacobian needs 2
-residual evaluations per free parameter, which do not count against `max_nfev`. The
-reported parameters are those of the converged start (the optimizer reports success)
-with the lowest sum of squared standardized residuals; the fit fails when no start
-converges. Each observation carries the partition label `fit` or `evaluation` in the
-fit specification. The parameters are fitted to the `fit` observations only, and the
-error of both partitions is reported as a standardized RMSE: the root mean square
-of the residuals (prediction minus value), each divided by the `scale` of its
-observation. For each parameter that has `profile_values`, the capability fixes
-the parameter at each of these values, re-fits the other parameters and stores
-the sum of squared standardized residuals at each value in the stored record.
+The operating definitions are the files that `operation.simulate` integrates, listed
+under `experiments` in the fit specification. A fitted parameter is a field value of
+these definitions. One parameter can target several fields, so that one physical
+constant is shared across operating definitions, exchanges or both reaction directions.
+Fields that no parameter targets keep their supplied values.
 
-Limits. The fit specification has 1 to 20 operating definitions, 1 to 12 parameters,
-1 to 10 starts, at most 50 `profile_values` per parameter, 1 to 10000 observations and
-more `fit` observations than parameters. `descriptive` uncertainty reports the
-diagnostics and the profiles only. `independent-residuals` adds local 95 % intervals,
-computed from the Jacobian of the standardized residuals at the optimum. They assume
-independent residuals with one common variance after division by the observation
-`scale`, and they are computed only if the rank equals the number of parameters and no
-parameter is at a bound. Residuals within one progress curve are correlated,
-which violates the independence assumption; the intervals are valid for fits whose
-observations are independent of each other, which excludes several observations
-along one progress curve. The rank counts the singular values of that Jacobian
-above 1e-7 times the largest. A parameter is at a bound when it is within 1e-4 of
-the bound in scaled units. The result holds the rank, the scaled condition number of the Jacobian and the
-parameters at a bound; the stored record also holds the profiles. A
-rank below the number of parameters means that the data do not determine at least
-one combination of parameters. A parameter at a bound is a limit of the search
-range. If an active fraction and a catalytic capacity are
-estimated together, the data determine only their product. Recovery and
-deactivation parameters are separable only with direct measurements of recovery
-and of activity. The format of the fit specification is described in
-`docs/operation-formats.md`.
+Method.
+- The optimizer is bounded trust-region least squares on scaled parameters. It starts
+  from every supplied start and minimizes the sum of squared standardized residuals.
+- Each residual evaluation integrates every operating definition that has `fit`
+  observations. `max_nfev` (1 to 2000) limits the residual evaluations of each start.
+  The evaluations of the Jacobian (2 per free parameter) do not count against it.
+- The reported parameters are those of the converged start (the optimizer reports
+  success) with the lowest sum of squared standardized residuals. The fit fails when no
+  start converges.
+- Each observation has the partition label `fit` or `evaluation`. The parameters are
+  fitted to the `fit` observations only. The error of both partitions is the
+  standardized RMSE: the root mean square of the residuals (prediction minus value), each
+  divided by the `scale` of its observation.
+- For each parameter with `profile_values`, the capability fixes the parameter at each
+  value, re-fits the other parameters and stores the sum of squared standardized
+  residuals at each value in the stored record.
+
+Limits.
+- The fit specification has 1 to 20 operating definitions, 1 to 12 parameters, 1 to 10
+  starts, at most 50 `profile_values` per parameter, 1 to 10000 observations and more
+  `fit` observations than parameters.
+- `descriptive` uncertainty reports the diagnostics and the profiles only.
+  `independent-residuals` adds local 95 % intervals from the Jacobian of the
+  standardized residuals at the optimum. They are computed when the rank equals the
+  number of parameters and no parameter is at a bound.
+- The intervals assume independent residuals with one common variance after division by
+  the observation `scale`. They hold for observations that are independent of each other.
+  Several observations along one progress curve have correlated residuals.
+- The rank counts the singular values of the Jacobian above 1e-7 times the largest. A
+  rank below the number of parameters means that the data do not determine at least one
+  combination of parameters.
+- A parameter is at a bound when it is within 1e-4 of the bound in scaled units. It is
+  then a limit of the search range.
+- If an active fraction and a catalytic capacity are estimated together, the data
+  determine only their product. Recovery and deactivation parameters are separable only
+  with direct measurements of recovery and of activity.
+- The result holds the rank, the scaled condition number and the parameters at a bound.
+  The stored record also holds the profiles.
+
+The format of the fit specification is in `docs/operation-formats.md`.
 """
 
 from __future__ import annotations

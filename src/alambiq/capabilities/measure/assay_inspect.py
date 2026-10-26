@@ -1,29 +1,36 @@
 """Read a table of measurements into a stored record.
 
-The table is read as given. Each row is one measurement and stores its state,
-so that a missing value and a measured zero are distinct. Four states are
-distinguished: measured, missing, failed and censored. A censored measurement
-has `status` `below-limit` or `above-limit` and stores its limit in `limit`; its
-`value` is empty and is not set to the limit.
+The capability stores each row of the table as given, with its state, and returns the
+counts of rows in each state. The record keeps a missing value distinct from a measured
+zero.
 
-Replicate structure is preserved. An independent unit is one independent
-replicate of a sample; the `independent_unit` request field describes it (for
-example `preparation`). A technical reading is a repeated measurement of one
-independent unit. Each row carries `independent_id` and `technical_id`, so that
-an analysis can average technical readings within each independent unit.
-Standard errors reported by a source are retained as reported.
+Method. Each row is one measurement. A row is measured, missing, failed or censored. A
+censored row has `status` `below-limit` or `above-limit` and stores its limit in
+`limit`. Its `value` is empty and is not set to the limit.
 
-Limits. At most 10,000 rows and 500 groups of rows that share sample,
-condition, metric, unit and role. Conditions such as temperature and pH are
-recorded as metadata; `assay.fit` uses one of them as the independent quantity
-(`x_quantity`) and requires the others to be equal across the selected conditions
-or pools the measurements across them (`pool_over`). Units are converted only for
-the metrics named in the `units` request field, and only between units of one
-dimension in a fixed table: concentration (M, mM, uM, nM), time (s, min, h), temperature (K, degC),
-mass concentration (mg/mL, g/L, ug/mL), specific activity (U/mg, mU/mg) and
-concentration rate (M, mM, uM or nM per s, min or h). A conversion that needs a
-molecular weight, an extinction coefficient or an assay calibration is
-refused. The original values are stored beside the converted ones.
+Each row has `independent_id` and `technical_id`. An independent unit is one
+independent replicate of a sample, described by the `independent_unit` request field
+(for example `preparation`). A technical reading is a repeated measurement of one
+independent unit. An analysis can average technical readings within each independent
+unit. Standard errors reported by a source are stored as reported.
+
+Conditions such as temperature and pH are stored as metadata. `assay.fit` uses one of
+them as the independent quantity (`x_quantity`). It requires the others to be equal
+across the selected conditions, or pools the measurements across them (`pool_over`).
+
+Units are converted for the metrics named in the `units` request field, and only
+between units of one dimension:
+- concentration: M, mM, uM, nM;
+- time: s, min, h;
+- temperature: K, degC;
+- mass concentration: mg/mL, g/L, ug/mL;
+- specific activity: U/mg, mU/mg;
+- concentration rate: M, mM, uM or nM per s, min or h.
+A conversion that needs a molecular weight, an extinction coefficient or an assay
+calibration is refused. The original values are stored beside the converted ones.
+
+Limits. At most 10,000 rows and 500 groups of rows that share sample, condition,
+metric, unit and role.
 """
 
 from __future__ import annotations
@@ -41,53 +48,57 @@ class InspectRequest:
     """The measurement table and the settings needed to read it.
 
     table:
-        Path to the measurements, one row per measurement. Required columns:
-        `measurement_id` (unique), `sample_id`, `condition_id`, `metric`, `value`
-        (a number, or empty), `unit`, `independent_id` and `technical_id` (both
-        empty when there is no replicate structure) and `role` (`sample`,
-        `reference`, `blank` or `control`; it is stored with the row, the
-        measurements of one sample, condition, metric and unit share one role,
-        and values are stored as supplied). Optional
-        columns: `status` (`measured`, `missing`, `failed`, `below-limit` or
-        `above-limit`; when absent or empty it is `measured` if `value` is a
-        number and `missing` if `value` is empty; `measured` requires a number
-        and every other status requires an empty `value`), `limit` (a number,
-        required for `below-limit` and `above-limit` and empty otherwise),
-        `reported_standard_error` and `note`. At most 10,000 rows.
+        Path to the measurements, one row per measurement, at most 10,000 rows.
+        Required columns:
+        - `measurement_id`, unique;
+        - `sample_id`, `condition_id`, `metric` and `unit`;
+        - `value`, a number or empty;
+        - `independent_id` and `technical_id`, both empty when there is no replicate
+          structure;
+        - `role`: `sample`, `reference`, `blank` or `control`. The measurements of
+          one sample, condition, metric and unit share one role. It is stored with
+          the row.
+        Optional columns:
+        - `status`: `measured`, `missing`, `failed`, `below-limit` or `above-limit`.
+          When absent or empty it is `measured` for a numeric `value` and `missing`
+          for an empty one. `measured` requires a number; every other status requires
+          an empty `value`;
+        - `limit`, a number. Required for `below-limit` and `above-limit`, empty
+          otherwise;
+        - `reported_standard_error` and `note`.
+        Values are stored as supplied.
     conditions:
-        A description for each condition id that the table refers to, 1 to 100
-        conditions of 1 to 4,000 characters each. Every condition named by a row
-        must appear here.
+        A description for each condition id of the table: 1 to 100 conditions of 1
+        to 4,000 characters each. Every condition named by a row appears here.
     independent_unit:
-        The description of one independent replicate, for example
-        `preparation`. Required when any row has an `independent_id`. A row
-        without an `independent_id` is stored without replicate assignment;
-        `assay.fit` with `supplied-values` fits each such row separately.
+        The description of one independent replicate, for example `preparation`.
+        Required when any row has an `independent_id`. A row without an
+        `independent_id` has no replicate assignment; `assay.fit` with
+        `supplied-values` fits each such row separately.
     table_format:
-        `csv`, or `json` for a flat array of objects with the same fields in
-        every object, one object per row. Default `csv`.
+        `csv`, or `json` for a flat array with one object per row and the same
+        fields in every object. Default `csv`.
     condition_values:
-        Numeric quantities per condition id, such as substrate concentration,
-        each with a value and a unit (1 to 30 quantities per condition).
-        `assay.fit` reads its independent quantity (`x_quantity`) from them.
+        Numeric quantities per condition id, such as substrate concentration, each
+        with a value and a unit (1 to 30 quantities per condition). `assay.fit` reads
+        its independent quantity (`x_quantity`) from them.
     sample_descriptions:
-        Maps a sample id to a nonblank description of at most 4,000 characters.
-        Every key must be a sample id that occurs in the table.
+        Maps a sample id to a nonblank description of at most 4,000 characters. Every
+        key is a sample id that occurs in the table.
     units:
-        Requested unit conversions: each key is a `metric` of the table and each
+        Requested unit conversions. Each key is a `metric` of the table and each
         value is the target unit.
     columns:
-        Maps each required or optional column name to the name of the column in
-        the supplied table, for example `{"value": "reading", "unit": "units"}`.
-        Applies when the headers differ from those names. When given, only the
-        fields it names are read from the table; each source column may be used
-        once.
+        Maps a column name to the name of the column in the supplied table, for
+        example `{"value": "reading", "unit": "units"}`. Use it when the headers
+        differ. When given, only the fields it names are read from the table. Each
+        source column is used once.
     defaults:
-        A constant used for a required or optional column in every row, such as
-        `{"role": "sample"}`. A field takes its value from a source column or
-        from a default, never both. Every required field must have one or the
-        other, including `independent_id` and `technical_id`, which are given
-        as the empty string when the table has no replicate structure.
+        A constant for a required or optional column in every row, such as
+        `{"role": "sample"}`. A field takes its value from a source column or from a
+        default, not both. Every required field has one or the other. When the table
+        has no replicate structure, `independent_id` and `technical_id` are given as
+        the empty string.
     """
 
     table: str

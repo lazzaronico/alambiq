@@ -1,43 +1,43 @@
-"""Relate a measured Michaelis-Menten fit to a batch product target.
+"""Compute the conversion and the volumetric activity that a batch product target requires.
 
-Given a fitted initial-rate curve and a stated batch (substrate, volume,
-duration, product, and its formation, recovery and accepted fractions), the
-capability computes for each scenario the conversion that the target requires
-and the volumetric activity (the required Vmax) that reaches it in the stated
-time. A scenario is the set of request values with the overrides of one
-`sensitivity` entry; the scenario `base` has no overrides and is always
-computed. The calculation integrates irreversible single-substrate
-Michaelis-Menten depletion at constant activity and volume:
+The capability takes a fitted Michaelis-Menten initial-rate curve and a stated batch
+(substrate, volume, duration, product, and the formation, recovery and accepted
+fractions). For each scenario it returns the conversion that the target requires and
+the volumetric activity (the required Vmax) that reaches it in the stated time. A
+scenario is the set of request values with the overrides of one `sensitivity` entry.
+The scenario `base` has no overrides and is always computed.
+
+Method. The calculation integrates irreversible single-substrate Michaelis-Menten
+depletion at constant activity and volume:
 
     required Vmax = measured_per_substrate * (S0 * X - Km * ln(1 - X)) / t
 
-where S0 is `substrate_initial`, X is the required conversion (the fraction of
-the initial substrate consumed: `target_product` divided by the accepted
-product at full conversion), Km is the fitted Michaelis constant, t is
-`duration`, and `measured_per_substrate` is the moles of measured species per
-mole of substrate in the rate basis of the fit.
+S0 is `substrate_initial`. X is the required conversion, the fraction of the initial
+substrate consumed: `target_product` divided by the accepted product at full conversion.
+Km is the fitted Michaelis constant and t is `duration`. `measured_per_substrate` is
+the moles of measured species per mole of substrate in the rate basis of the fit.
 
-The rate basis is the relation between the measured rate and the moles of
-substrate consumed; it is the `rate_basis` request field of `assay.fit`. The
-measured rate is converted to substrate consumed through the rate basis of the
-fit, and the required Vmax is expressed in the measured units of the fit.
+The rate basis is the `rate_basis` request field of `assay.fit`. It converts the
+measured rate to substrate consumed. The required Vmax is in the measured units of the
+fit.
 
-Limits. The batch, the target, the duration and the formation, recovery and
-accepted fractions are request values of the scenario, not measured outcomes.
-The equation assumes that the assay kinetics hold at the batch conditions: no
-product inhibition, enzyme decay, reversibility or transport limits. A
-scenario is flagged as an extrapolation when its initial substrate
-concentration is above the highest concentration of the fit or, for a scenario
-without a `limitation`, when the concentration remaining after the required
-conversion is below the lowest concentration of the fit. A scenario has a
-`limitation` message and no required Vmax when no activity can reach the
-target: a fraction of 0 (no accepted product), a target above the accepted
-product at full conversion (conversion above 1), or complete conversion
-(conversion equal to 1) with a Km above 0, which takes infinite time.
-Differences between scenarios describe the sensitivity to the request values.
-The scenarios use the fitted coefficients as point values; their uncertainty is
-stored in the source `assay.fit` record, and the `assay.balance` record copies
-the fitted coefficients and diagnostics of that record.
+Limits.
+- The batch, the target, the duration and the three fractions are request values of
+  the scenario, not measured outcomes.
+- The equation assumes that the assay kinetics hold at the batch conditions, with
+  product inhibition, enzyme decay, reversibility and transport limits absent.
+- A scenario is flagged as an extrapolation when its initial substrate concentration is
+  above the highest concentration of the fit. A scenario without a `limitation` is also
+  flagged when the concentration remaining after the required conversion is below the
+  lowest concentration of the fit.
+- A scenario has a `limitation` message and no required Vmax when no activity can reach
+  the target. This happens when a fraction is 0 (no accepted product), when the target
+  exceeds the accepted product at full conversion (conversion above 1), and when the
+  conversion is 1 with Km above 0 (infinite time).
+- Differences between scenarios describe the sensitivity to the request values.
+- The scenarios use the fitted coefficients as point values. Their uncertainty is in
+  the source `assay.fit` record, and the `assay.balance` record copies the fitted
+  coefficients and diagnostics of that record.
 """
 
 from __future__ import annotations
@@ -61,7 +61,7 @@ class Quantity:
 
 @dataclass(frozen=True, slots=True)
 class Scenario:
-    """A named variation of the request values: `overrides` replaces the listed base values, and `id` names the scenario."""
+    """A named variation of the request values. `id` names it and `overrides` replaces the listed base values."""
 
     id: str
     overrides: dict[str, Any]
@@ -73,32 +73,32 @@ class BalanceRequest:
 
     fit:
         Path to a stored `assay.fit` record that uses the Michaelis-Menten model
-        and has a `rate_basis` (defined in `assay.fit`).
+        and has a `rate_basis`.
     substrate_initial, volume, duration:
         The batch. Each is an object with a positive `value` and a `unit`, for
-        example `{"value": 10, "unit": "mM"}`: concentration (M, mM, uM, nM;
-        `uM` is micromolar), volume (L, mL) and time (s, min, h).
+        example `{"value": 10, "unit": "mM"}`. Units: concentration M, mM, uM
+        (micromolar) or nM; volume L or mL; time s, min or h.
     product_molar_mass, product_per_substrate:
         Molar mass of the product, an object with `value` and `unit` (g/mol), and
         moles of product formed per mole of substrate (a positive number).
     target_product:
-        Accepted product to reach, an object with `value` and `unit` (g, mg, kg).
+        Accepted product to reach, an object with `value` and `unit` (g, mg or kg).
     formation_fraction, recovery_fraction, accepted_fraction:
-        `formation_fraction` is the fraction of the theoretical product that
-        forms. `recovery_fraction` is the fraction of the formed product that is
-        recovered. `accepted_fraction` is the fraction of the recovered product
-        that meets specification. Each is from 0 to 1 inclusive.
+        Each is from 0 to 1 inclusive. `formation_fraction` is the fraction of the
+        theoretical product that forms. `recovery_fraction` is the fraction of the
+        formed product that is recovered. `accepted_fraction` is the fraction of the
+        recovered product that meets specification.
     assumption_note:
-        The reason that the assay kinetics are expected to apply to this batch,
-        and the conditions of the assay that were not reported. A nonblank text
-        of at most 3,000 characters. Stored in the record.
+        Why the assay kinetics are expected to apply to this batch, and which assay
+        conditions were not reported. Nonblank, at most 3,000 characters. Stored in
+        the record.
     sensitivity:
-        Up to 20 scenarios. Each is an object with an `id` (nonempty, at most 200
-        characters, distinct, and not `base`) and `overrides`, a nonempty object
-        that replaces any of `substrate_initial`, `volume`, `duration`,
-        `product_molar_mass`, `target_product`, `product_per_substrate` and the
-        three fractions. `fit` and `assumption_note` cannot be overridden. The
-        fitted coefficients are not changed.
+        Up to 20 scenarios. Each is an object with an `id` and `overrides`. The `id`
+        is nonempty, at most 200 characters, distinct and not `base`. `overrides` is a
+        nonempty object that replaces any of `substrate_initial`, `volume`,
+        `duration`, `product_molar_mass`, `target_product`, `product_per_substrate`
+        and the three fractions. `fit` and `assumption_note` cannot be overridden.
+        The fitted coefficients are not changed.
     """
 
     fit: str

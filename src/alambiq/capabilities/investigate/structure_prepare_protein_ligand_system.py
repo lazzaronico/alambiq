@@ -1,43 +1,47 @@
 """Parameterize a modeled protein with positioned ligands, relax it, and optionally solvate it.
 
+The result is a fully parameterized, minimized model: the Amber topology, the OpenMM system
+and the OpenMM state, which a simulation, `structure.prepare_finite_environment` and QM/MM
+calculations read. It also gives the residue number, first atom index and atom count of each
+ligand in the topology. With `solvent: tip3p`, the net charge is within 0.01 e of zero. With
+`solvent: none`, it is the charge of the protein and the ligands.
+
 The inputs are a protein with the heavy atoms that it contains (for example the model that
-`structure.prepare_reactive_coordinates` writes) and the ligands placed in it. Heavy
-atoms in residues not listed in `modeled_residues` are called observed atoms; they are
-held at their positions during relaxation. The capability builds
-the system that a simulation or a QM/MM calculation reads. Terminal oxygens and
-hydrogens are completed, histidines keep the tautomer named in the file, and the protein
-is assigned Amber ff14SB parameters. Each ligand is assigned Sage 2.3.0 parameters and
-AshGC charges. The unsolvated model is then relaxed in vacuum with every observed heavy
-atom, the ligands and any retained crystal waters held at their positions, and the
-residues in `modeled_residues` tied by springs to their placed positions. With
-`solvent: tip3p`, a TIP3P box with neutralizing ions and salt is built around the
-relaxed model, and the solvent and hydrogens are minimized with all solute heavy atoms
-still held. The result is the Amber topology, the OpenMM system and the OpenMM state,
-which `structure.prepare_finite_environment` and QM/MM calculations read. The result also
-gives the residue number, first atom index and atom count of each ligand in the
-topology.
+`structure.prepare_reactive_coordinates` writes) and the ligands placed in it. Heavy atoms
+in residues not listed in `modeled_residues` are observed atoms. The method has these steps:
 
-The result is a fully parameterized, minimized model. With `solvent: tip3p` its net
-charge is within 0.01 e of zero; with `solvent: none` its net charge is that of the
-protein and the ligands. The observed heavy atoms, the ligands and the retained crystal
-waters keep their supplied positions. The residues in `modeled_residues` move within
-their position restraint, and the result reports the maximum displacement of their heavy
-atoms.
+- The protein receives Amber ff14SB parameters, completed terminal oxygens and hydrogens,
+  and the histidine tautomers named in the file.
+- Each ligand receives Sage 2.3.0 parameters and AshGC charges.
+- The unsolvated model is relaxed in vacuum. Every observed heavy atom, the ligands and any
+  retained crystal waters are held at their positions. The residues in `modeled_residues`
+  are tied by springs to their placed positions.
+- With `solvent: tip3p`, a TIP3P box with neutralizing ions and salt is built around the
+  relaxed model. The solvent and hydrogens are minimized with all solute heavy atoms held.
 
-Limits. The relaxation is a minimization that reduces steric clashes; the strain from
-the positions of the held atoms remains. Modeled residues are tied to
-their placed positions by springs, so they move only as far as the held atoms and the
-spring constant allow. The ligand charges come from a graph neural network trained to
-reproduce AM1-BCC and the protein charges from ff14SB, so they derive from different
-methods. A ligand contains only the elements H, C, N, O, F, P, S, Cl, Br and I; it is
-closed-shell, with explicit hydrogens and a single conformer. The parameterized
-components are standard amino acids, crystal waters and non-covalent ligands. A protein
-with missing residues, or with missing heavy atoms other than a terminal oxygen, is
-refused. The protonation is fixed: histidines as named in the file, and the
-other ionizable groups as OpenMM `Modeller.addHydrogens` assigns them at pH 7.0. A
-system that `structure.prepare_finite_environment` reads requires an orthorhombic cell,
-and of the box shapes only `cube` gives one. OpenMM adds the salt ions as whole ion
-pairs, so the salt concentration of the finished box is approximate.
+The observed heavy atoms, the ligands and the retained crystal waters keep their supplied
+positions. The residues in `modeled_residues` move within their position restraint. The
+result reports the maximum displacement of their heavy atoms.
+
+Limits.
+
+- The relaxation is a minimization that reduces steric clashes. The strain from the
+  positions of the held atoms remains.
+- Modeled residues move only as far as the held atoms and the spring constant allow.
+- The ligand charges come from a graph neural network trained to reproduce AM1-BCC, and the
+  protein charges from ff14SB, so they derive from different methods.
+- A ligand contains only the elements H, C, N, O, F, P, S, Cl, Br and I. It is closed-shell,
+  with explicit hydrogens and a single conformer.
+- The parameterized components are standard amino acids, crystal waters and non-covalent
+  ligands.
+- A protein with missing residues, or with missing heavy atoms other than a terminal oxygen,
+  is refused.
+- The protonation is fixed: histidines as named in the file, and the other ionizable groups
+  as OpenMM `Modeller.addHydrogens` assigns them at pH 7.0.
+- A system that `structure.prepare_finite_environment` reads requires an orthorhombic cell.
+  Of the box shapes, only `cube` gives one.
+- OpenMM adds the salt ions as whole ion pairs, so the salt concentration of the finished
+  box is approximate.
 """
 
 from __future__ import annotations
@@ -79,7 +83,7 @@ class LigandPlacement:
         The SDF of the ligand at its place: one molecule, explicit hydrogens, one
         conformer.
     formal_charge:
-        The charge the molecule must have; a mismatch is refused.
+        The charge the molecule must have. A mismatch is refused.
     """
 
     chain: str

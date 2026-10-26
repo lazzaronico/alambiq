@@ -1,34 +1,39 @@
 """Run constant-temperature QM/MM dynamics on a prepared molecular system.
 
-The system is divided as in `simulation.evaluate_qmmm_state`: a quantum region solved
-with closed-shell PBE/6-31G** in PySCF, in the field of the Gaussian-smeared charges of
-the classical atoms, and a classical remainder (with an optional external potential). A
-Langevin thermostat, with the temperature, friction, timestep and seed given in the
-request, propagates every atom, with an electronic calculation at each new geometry; the
-density of the previous integration step is the starting point of each solution.
-Equilibration steps are run first. The table records the initial geometry and every
-reporting interval of the equilibration and production steps (column `phase`); the
-trajectory holds the production frames only. An optional umbrella bias adds a harmonic
-potential on the difference of two interatomic distances, which holds the reaction
-coordinate near a chosen value. The result reports the bias energy separately from the
-unbiased potential energy.
+Returns a seeded trajectory of the system, started from the supplied positions, with the
+energy components at each reporting interval.
 
-The result gives a seeded trajectory of this system, started from these positions,
-under this Hamiltonian and thermostat, with the energy components at each reporting interval.
+The system is divided as in `simulation.evaluate_qmmm_state`: a quantum region solved with
+closed-shell PBE/6-31G** in PySCF, in the field of the Gaussian-smeared charges of the
+classical atoms, and a classical remainder with an optional external potential.
 
-Limits. Each integration step requires a self-consistent-field solution, which limits
-the length of a trajectory; the trajectory samples the processes that occur within its length.
-A trajectory depends on the starting geometry, and an error estimate needs independent
-trajectories. The Hamiltonian has the limits of `simulation.evaluate_qmmm_state`: PBE
-without dispersion, fixed classical charges, and the division and cap defined in the
-request. The thermostat is Langevin, so the dynamics are stochastic. The kinetic energy
-is the native expression of the OpenMM LangevinMiddle integrator, which uses half-step
-velocities. The instantaneous temperature of a system with N degrees of freedom has a
-relative standard deviation of sqrt(2/N), which is 26 % for 30 degrees of freedom. The
-velocities are drawn from the seed, so each simulation starts from the supplied
-positions. The capability runs on the OpenMM Reference platform on the CPU, and the
-system must contain no cell and only the terms listed in
-`simulation.evaluate_qmmm_state`.
+A Langevin thermostat propagates every atom, with the temperature, friction, timestep and
+seed given in the request. An electronic calculation runs at each new geometry, starting
+from the density of the previous integration step. Equilibration steps run first.
+
+The table records the initial geometry and every reporting interval of the equilibration
+and production steps (column `phase`). The trajectory holds the production frames only.
+
+An optional umbrella bias adds a harmonic potential on the difference of two interatomic
+distances, which holds the reaction coordinate near a chosen value. The result reports the
+bias energy separately from the unbiased potential energy.
+
+Limits.
+
+- Each integration step requires a self-consistent-field solution, which limits the length
+  of a trajectory. The trajectory samples the processes that occur within its length.
+- A trajectory depends on the starting geometry. An error estimate needs independent
+  trajectories.
+- The Hamiltonian has the limits of `simulation.evaluate_qmmm_state`: PBE without
+  dispersion, fixed classical charges, and the division and cap defined in the request.
+- The thermostat is Langevin, so the dynamics are stochastic. The velocities are drawn from
+  the seed, and each simulation starts from the supplied positions.
+- The kinetic energy is the native expression of the OpenMM LangevinMiddle integrator,
+  which uses half-step velocities.
+- The instantaneous temperature of a system with N degrees of freedom has a relative
+  standard deviation of sqrt(2/N), which is 26 % for 30 degrees of freedom.
+- The capability runs on the OpenMM Reference platform on the CPU. The system has no cell
+  and only the terms listed in `simulation.evaluate_qmmm_state`.
 """
 
 from __future__ import annotations

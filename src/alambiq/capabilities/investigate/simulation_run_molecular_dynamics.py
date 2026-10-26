@@ -1,45 +1,54 @@
 """Run molecular dynamics on a prepared system with OpenMM.
 
+Returns a trajectory that starts from the prepared system, with the statistics of every
+phase, the readiness verdict, and the platform and versions used.
+
 A serialized system, OpenMM state file and topology, such as those written by
-`structure.prepare_protein_system`, are run through the following phases, whose lengths
-are set in picoseconds:
+`structure.prepare_protein_system`, are run through these phases. The request sets their
+lengths in picoseconds.
 
 1. Optional minimization.
 2. Velocities drawn at the target temperature, or taken from the state file.
 3. Thermalization at constant volume with the protein heavy atoms restrained.
-4. For `npt`, release: the restraints decrease to zero while the barostat relaxes the
-   box.
+4. For `npt`, release: the restraints decrease to zero while the barostat relaxes the box.
 5. Readiness windows. Each window runs unrestrained dynamics in 4 blocks and tests the
-   drift of temperature, density and potential energy against the thresholds given
-   under Limits. Readiness windows repeat up to `max_readiness_windows`.
+   drift of temperature, density and potential energy against the thresholds under Limits.
+   Windows repeat up to `max_readiness_windows`.
 6. Production, which writes a trajectory and the thermodynamic data.
 
-The ensembles are `npt` and `nvt` for explicit solvent, `implicit` for a GBn2 system
-and `nve` for energy-conserving dynamics, which has no thermostat and so no
+The ensembles are `npt` and `nvt` for explicit solvent, `implicit` for a GBn2 system and
+`nve` for energy-conserving dynamics. The `nve` ensemble has no thermostat and no
 equilibration.
 
-The result gives a trajectory that started from the prepared system, with the
-statistics of every phase, the readiness verdict, and the platform and versions used.
+Limits.
 
-Limits. A readiness window passes when four conditions hold: the mean temperature of the
-window is within 5 % of the target, the means of the 4 blocks span at most 3 % of the
-target temperature, the block means of the potential energy span at most 0.1 kJ/mol per
-atom, and (for a periodic system) the block means of the density span at most 2 % of the
-mean density. A passed last window means that none of these thresholds was exceeded in
-that window, which indicates stable temperature, density and potential energy over the
-window. A simulation samples the motions that occur within its length, and an average
-over the simulation describes that sampling. A difference between two conditions is
-tested with replicas. A simulation samples the ensemble that its thermostat and barostat
-settings define. The force field is that of the supplied system; for a system from
-`structure.prepare_protein_system` it is Amber ff14SB with TIP3P water (explicit
-solvent) or GBn2 (implicit solvent), and the limits of that force field apply. Timesteps
-above 1 fs require constrained hydrogen bonds. On one CPU thread, the default, the same
-seed gives the same trajectory for the implicit-solvent system in
-`tests/core/test_simulation_run_molecular_dynamics.py`. With more threads, the order of
-floating-point sums varies, simulations diverge from each other, and results agree only
-statistically. Results on different platforms also agree only statistically. A
-trajectory holds every atom, solvent included. A request that would write more than
-20,000 frames is refused.
+A readiness window passes when:
+
+- the mean temperature of the window is within 5 % of the target;
+- the means of the 4 blocks span at most 3 % of the target temperature;
+- the block means of the potential energy span at most 0.1 kJ/mol per atom;
+- for a periodic system, the block means of the density span at most 2 % of the mean
+  density.
+
+A passed last window means that none of these thresholds was exceeded in that window.
+Other limits:
+
+- A simulation samples the motions that occur within its length, and an average over the
+  simulation describes that sampling. A difference between two conditions is tested with
+  replicas.
+- A simulation samples the ensemble that its thermostat and barostat settings define.
+- The force field is that of the supplied system. For a system from
+  `structure.prepare_protein_system` it is Amber ff14SB with TIP3P water (explicit solvent)
+  or GBn2 (implicit solvent), and the limits of that force field apply.
+- Timesteps above 1 fs require constrained hydrogen bonds.
+- On one CPU thread, the default, the same seed gives the same trajectory for the
+  implicit-solvent system in `tests/core/test_simulation_run_molecular_dynamics.py`. With
+  more threads the order of floating-point sums varies and simulations diverge from each
+  other. Results on different platforms also differ. In both cases results agree only
+  statistically.
+- A trajectory holds every atom, solvent included.
+
+The capability refuses a request that would write more than 20,000 frames.
 """
 
 from __future__ import annotations

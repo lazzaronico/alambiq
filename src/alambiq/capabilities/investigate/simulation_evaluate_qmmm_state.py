@@ -1,39 +1,47 @@
 """Evaluate the quantum-mechanical and classical energy and forces of one molecular geometry.
 
-A prepared molecular system (its serialized OpenMM system, OpenMM state file and
-topology, from `structure.prepare_finite_environment` or from another preparation that
-gives a system as defined under Limits) is divided into a quantum region, whose atoms
-are listed in the request, and a classical remainder. The quantum region is solved with
-PySCF as closed-shell PBE in the 6-31G** basis, in the field of the charges of the
-classical atoms, which enter as Gaussian-smeared point charges of the radius given in
-the request. Where one covalent bond joins the quantum region to the classical
-remainder, the bond is capped with a hydrogen at the distance 1/`alpha` of the bond
-length from the quantum parent atom, with `alpha` from the request. The classical
-remainder keeps its charges, the Lennard-Jones terms between classical and quantum
-atoms, and every bonded term that has at least one atom outside the set formed by the
-quantum region and the classical parent atom of the bond; these are evaluated
-classically. An optional external potential (the boundary of a finite droplet) is added.
-The result is the electronic, classical and external energies, their sum, and the force
-on every atom. The capability refuses a result with a non-finite force.
+Returns the electronic, classical and external energies, their sum, and the force on every
+atom.
 
-The result gives the energy and forces of this geometry under this division. The
-capability refuses an evaluation unless the self-consistent field has converged, the
-electron count agrees with the expected count within 1e-7, and the norm of the orbital
-gradient is at most 1e-7.
+A prepared molecular system (its serialized OpenMM system, OpenMM state file and topology,
+from `structure.prepare_finite_environment` or from another preparation that meets the
+system conditions under Limits) is divided into a quantum region and a classical remainder.
+The request lists the atoms of the quantum region.
 
-Limits. The functional is PBE, a generalized-gradient functional without dispersion
-correction and without exact exchange; the basis is 6-31G**. The Lennard-Jones terms
-between quantum and classical atoms are the dispersion treatment of the interaction
-between the quantum region and its surroundings. Barrier heights and reaction energies
-are those of PBE in the 6-31G** basis. The classical charges are fixed values that do
-not change with the quantum region. The result depends on the division in the request:
-the atoms of the quantum region, the hydrogen cap and the classical atoms whose charges
-are excluded from the field of the quantum region (`cancelled_coupling_atoms`). Energies
-are comparable between geometries that share one division. The capability refuses a
-quantum region that is cut by a covalent bond other than the declared link. The system
-must contain only all-pair nonbonded terms, harmonic bonds, angles and periodic
-torsions, with no cutoff and no cell. The capability supports closed-shell systems on
-the CPU. One call evaluates one geometry.
+- The quantum region is solved with PySCF as closed-shell PBE in the 6-31G** basis, in the
+  field of the charges of the classical atoms. These enter as Gaussian-smeared point
+  charges of the radius given in the request.
+- A covalent bond that joins the quantum region to the classical remainder is capped with
+  a hydrogen. The cap lies at the distance 1/`alpha` of the bond length from the quantum
+  parent atom, with `alpha` from the request.
+- The classical remainder keeps its charges, the Lennard-Jones terms between classical and
+  quantum atoms, and every bonded term that has at least one atom outside the set formed
+  by the quantum region and the classical parent atom of the bond. These are evaluated
+  classically.
+- An optional external potential, such as the boundary of a finite droplet, is added.
+
+The capability refuses an evaluation with a non-finite force, and one in which the
+self-consistent field has not converged, the electron count differs from the expected
+count by more than 1e-7, or the norm of the orbital gradient exceeds 1e-7.
+
+Limits.
+
+- The functional is PBE, a generalized-gradient functional without dispersion correction
+  and without exact exchange. The basis is 6-31G**. Barrier heights and reaction energies
+  are those of PBE in this basis.
+- The Lennard-Jones terms between quantum and classical atoms are the dispersion treatment
+  of the interaction between the quantum region and its surroundings.
+- The classical charges are fixed values that do not change with the quantum region.
+- The result depends on the division in the request: the atoms of the quantum region, the
+  hydrogen cap and the classical atoms whose charges are excluded from the field of the
+  quantum region (`cancelled_coupling_atoms`). Energies are comparable between geometries
+  that share one division.
+- The system contains only all-pair nonbonded terms, harmonic bonds, angles and periodic
+  torsions, with no cutoff and no cell.
+- The system is closed-shell and runs on the CPU. One call evaluates one geometry.
+
+The capability refuses a quantum region that is cut by a covalent bond other than the
+declared link.
 """
 
 from __future__ import annotations

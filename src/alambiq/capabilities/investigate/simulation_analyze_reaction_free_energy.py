@@ -1,41 +1,55 @@
 """Reconstruct a free-energy profile along a reaction coordinate from umbrella windows.
 
-Each umbrella window is a QM/MM simulation (`simulation.run_qmmm_dynamics`) with a
-harmonic bias on the same distance-difference coordinate, centered at its own value.
-Each replica is a complete set of umbrella windows run with independent seeds. For each
-replica the capability decorrelates the samples of each umbrella window and combines the
-windows with MBAR against the unbiased thermodynamic state (the state without the bias).
-The density of the coordinate in the bins of the request gives the potential of mean
-force and its asymptotic uncertainty. The profile is referenced to a reference bin in
-the reactant bins. The capability derives from the profile the free-energy difference
-between the product bins and the reactant bins (from their integrated probabilities) and
-the maximum of the profile over the populated transition bins, relative to the reference
-bin. If requested, a classical one-way flux through a dividing surface gives a rate and
-an activation free energy. Chronological blocks of each replica are analyzed separately,
-and a block that cannot be reconstructed is recorded as a failure.
+Returns the potential of mean force along one coordinate, the free-energy difference
+between the product bins and the reactant bins, the height of the transition bins above a
+reference bin, and the diagnostics of the sampling. A classical one-way flux through a
+dividing surface gives a rate and an activation free energy when requested.
 
-The result gives the free-energy profile of this coordinate under the Hamiltonian
-sampled by the windows, the spread of independent replicas together with the
-uncertainty of each replica, and the overlap between neighboring umbrella windows and
-the effective sample sizes, which indicate whether the windows connect.
+Each umbrella window is a QM/MM simulation (`simulation.run_qmmm_dynamics`) with a harmonic
+bias on the same distance-difference coordinate, centered at its own value. A replica is a
+complete set of windows run with independent seeds. For each replica the capability:
 
-Limits. The profile is that of one chosen coordinate under one Hamiltonian, with the
-other restraints of the simulation. It holds when the degrees of freedom orthogonal to
-the coordinate that relax slowly are sampled within each window. The umbrella windows must overlap. The
-analysis refuses the windows when the graph of window pairs with an overlap above 1e-12
-is not connected. The effective sample sizes of the windows, the agreement among
-replicas and the agreement between time blocks indicate whether the overlap suffices.
-The asymptotic uncertainty assumes decorrelated samples. The capability obtains them
-with a stride equal to the larger of the statistical inefficiencies of the coordinate
-and of the harmonic bias energy, rounded up. The uncertainty is too small when a
-relaxation time of the system exceeds the length of the simulation. A barrier from QM/MM
-at PBE/6-31G** includes the error of that functional and basis. The classical flux has a
-transmission factor of 1, a constant inverse mass for the coordinate and a finite-width
-surface estimate, so its rate is a transition-state estimate. A request with fewer than
-2 or more than 20 replicas, fewer than 2 or more than 100 windows per replica, more than
-100,000 frames per replica or more than 1,000,000 frames in all is refused, and so is a
-request in which an umbrella window has fewer frames after `discard_frames` than 20
-times the largest value of `block_counts` (every time block needs at least 20 frames).
+- decorrelates the samples of each window;
+- combines the windows with MBAR against the unbiased thermodynamic state;
+- takes the density of the coordinate in the bins of the request, which gives the
+  potential of mean force and its asymptotic uncertainty, referenced to a bin in the
+  reactant bins;
+- derives the free-energy difference between the product bins and the reactant bins from
+  their integrated probabilities;
+- derives the maximum of the profile over the populated transition bins, relative to the
+  reference bin.
+
+Chronological blocks of each replica are analyzed separately. A block that cannot be
+reconstructed is recorded as a failure.
+
+The result also gives the spread of the independent replicas, the uncertainty of each
+replica, the overlap between neighboring windows and the effective sample sizes. These
+indicate whether the windows connect.
+
+Limits.
+
+- The profile is that of one chosen coordinate under one Hamiltonian, with the other
+  restraints of the simulation. It holds when the slowly relaxing degrees of freedom
+  orthogonal to the coordinate are sampled within each window.
+- The windows must overlap. The analysis refuses windows when the graph of window pairs
+  with an overlap above 1e-12 is not connected. The effective sample sizes, the agreement
+  among replicas and the agreement between time blocks indicate whether the overlap
+  suffices.
+- The asymptotic uncertainty assumes decorrelated samples. The stride that decorrelates
+  them is the larger of the statistical inefficiencies of the coordinate and of the
+  harmonic bias energy, rounded up. The uncertainty is too small when a relaxation time of
+  the system exceeds the length of the simulation.
+- A QM/MM barrier at PBE/6-31G** includes the error of that functional and basis.
+- The classical flux has a transmission factor of 1, a constant inverse mass for the
+  coordinate and a finite-width surface estimate. Its rate is a transition-state estimate.
+
+The capability refuses:
+
+- fewer than 2 or more than 20 replicas;
+- fewer than 2 or more than 100 windows per replica;
+- more than 100,000 frames per replica or more than 1,000,000 frames in all;
+- an umbrella window with fewer frames after `discard_frames` than 20 times the largest
+  value of `block_counts`, because every time block needs at least 20 frames.
 """
 
 from __future__ import annotations
@@ -164,7 +178,7 @@ class FluxSummary:
 
 @dataclass(frozen=True, slots=True)
 class ReactionResult:
-    """The profile, the free-energy difference between the product bins and the reactant bins, and the sampling diagnostics."""
+    """The profile, the product-minus-reactant free-energy difference and the sampling diagnostics."""
 
     title: str
     temperature_kelvin: float
@@ -257,8 +271,8 @@ def analyze_reaction_free_energy(
         )
     if failed_total:
         ctx.note(
-            f"{failed_total} chronological block(s) could not be reconstructed; they are "
-            "stored in the details with their reasons."
+            f"{failed_total} chronological block(s) could not be reconstructed; the details "
+            "give the reason for each."
         )
     flux = None
     if "transition_state_flux" in summary:

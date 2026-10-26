@@ -1,41 +1,51 @@
 """Check whether candidates retain the residues that the literature associates
 with function.
 
-Given the ranked protein set from `enzyme.retrieve_candidates`, one reference
-protein and the residues of that reference that published work associates with
-its function (the named residues; the request field is `features`), each
-candidate is aligned to the reference with MMseqs2 and the named residues are
-read from the alignment. The reference is part of the set and is aligned to
-itself.
+Returns a decision for each protein of the set from `enzyme.retrieve_candidates`:
+whether it has the amino acids that the literature names at the aligned
+positions. The positive and negative controls of that record are decided by the
+same rule. The result reports the fraction of positive controls that advance and
+the fraction of negative controls that are rejected.
 
-Each protein of the set receives the first applicable decision: (1) reject, if
-it has no alignment to the reference (the reason code is `no-reference-alignment`
-alone; the retrieval score is not tested); (2) reject, if its retrieval score (the
-highest bit score of its alignments to a different reference in the
-`enzyme.retrieve_candidates` record) is below `minimum_retrieval_bits`; (3)
-withhold, if the alignment covers less than `minimum_query_coverage` of the
-reference; (4) withhold, if the fraction of named residues inside the alignment
-is below `minimum_mapped_feature_fraction`; (5) reject, if the fraction of named
-residues that are the expected amino acid is below
-`minimum_conserved_feature_fraction`; (6) advance. The thresholds are fields of
-the request.
+The input is the ranked set, one reference protein and the residues of that
+reference that published work associates with its function. These are the named
+residues, in the request field `features`.
 
-What the result supports: whether each candidate has the amino acids named in
-the literature at the aligned positions. The positive and negative controls
-named in the `enzyme.retrieve_candidates` record are decided by the same rule.
-The result reports the fraction of positive controls that advance and the
-fraction of negative controls that are rejected.
+The method:
 
-Limits. The named residues are supplied in the request: the capability checks
-that the reference has the stated residues and records the citations as
-supplied. A match between the aligned residue and the named residue indicates
-that the candidate has the named amino acid at the aligned position; a residue
-can match by chance in a weak alignment. A named residue is transferred
-correctly only if the alignment is correct at that position; alignment accuracy
-decreases as sequence identity decreases. The sequence identity and the
-coverage of the alignment on which each decision rests are reported. An
-insertion or deletion between two named residues can shift the aligned position
-of one of them. A decision changes when a threshold changes.
+- MMseqs2 aligns each protein to the reference. The reference is part of the set
+  and is aligned to itself.
+- The named residues are read from the alignment.
+- Each protein receives the first applicable decision below. The thresholds are
+  fields of the request.
+
+1. Reject, if it has no alignment to the reference. The reason code is
+   `no-reference-alignment` alone, and the retrieval score is not tested.
+2. Reject, if its retrieval score is below `minimum_retrieval_bits`. The score is
+   the highest bit score of its alignments to a different reference in the
+   `enzyme.retrieve_candidates` record.
+3. Withhold, if the alignment covers less than `minimum_query_coverage` of the
+   reference.
+4. Withhold, if the fraction of named residues inside the alignment is below
+   `minimum_mapped_feature_fraction`.
+5. Reject, if the fraction of named residues that are the expected amino acid is
+   below `minimum_conserved_feature_fraction`.
+6. Advance.
+
+Limits.
+
+- The request supplies the named residues. The capability checks that the
+  reference has them and records the citations as supplied.
+- A match between the aligned residue and the named residue indicates that the
+  candidate has the named amino acid at the aligned position. A residue can
+  match by chance in a weak alignment.
+- A named residue is transferred correctly when the alignment is correct at that
+  position. Alignment accuracy decreases as sequence identity decreases.
+- The result reports the sequence identity and the coverage of the alignment
+  behind each decision.
+- An insertion or deletion between two named residues can shift the aligned
+  position of one of them.
+- A decision changes when a threshold changes.
 """
 
 from __future__ import annotations
@@ -80,33 +90,31 @@ class Feature:
 
 @dataclass(frozen=True, slots=True)
 class CharacterizeRequest:
-    """The retrieved protein set, the reference to transfer from, and the thresholds.
+    """The retrieved protein set, the reference to transfer from and the thresholds.
 
     retrieval:
         A path to the stored record of `enzyme.retrieve_candidates`.
     reference_id:
-        The reference whose named residues are transferred. It must be one of
-        the references of the `retrieval` record.
+        The reference whose named residues are transferred. It is one of the
+        references of the `retrieval` record.
     features:
-        The named residues of the reference: residues that the literature
-        associates with its function. At least one is required.
+        The named residues of the reference, which the literature associates
+        with its function. At least one is required.
     minimum_retrieval_bits:
-        A candidate whose retrieval score in the record is below this many
-        bits is rejected. At least 0; default 100.0.
+        A candidate whose retrieval score in the record is below this many bits
+        is rejected. At least 0; default 100.0.
     minimum_query_coverage:
-        The smallest fraction of the reference that the alignment must cover
-        for the transfer to be valid. Candidates below it are withheld. 0 to
-        1; default 0.8.
+        The smallest fraction of the reference that the alignment covers for a
+        valid transfer. Candidates below it are withheld. 0 to 1; default 0.8.
     minimum_mapped_feature_fraction:
-        The smallest fraction of named residues that must fall inside the
-        alignment and not on a gap. Candidates below it are withheld. 0 to 1;
-        default 1.0.
+        The smallest fraction of named residues inside the alignment and not on
+        a gap. Candidates below it are withheld. 0 to 1; default 1.0.
     minimum_conserved_feature_fraction:
-        The smallest fraction of named residues that must be the expected
-        residue. Candidates below it are rejected. 0 to 1; default 1.0.
+        The smallest fraction of named residues that are the expected residue.
+        Candidates below it are rejected. 0 to 1; default 1.0.
     sensitivity, evalue:
-        MMseqs2 sensitivity (`-s`), 1 to 7.5; default 7.5, and the largest
-        expectation value that is reported (positive; default 10000.0).
+        MMseqs2 sensitivity (`-s`), 1 to 7.5, default 7.5; and the largest
+        expectation value reported, positive, default 10000.0.
     """
 
     retrieval: str
@@ -122,7 +130,7 @@ class CharacterizeRequest:
 
 @dataclass(frozen=True, slots=True)
 class Assessment:
-    """The decision for one protein, with its reasons. `query_coverage` is the fraction of the reference that the alignment covers; `identity` is the sequence identity of the alignment."""
+    """The decision for one protein, with its reasons. `query_coverage` is the fraction of the reference that the alignment covers. `identity` is the sequence identity of the alignment."""
 
     identifier: str
     evidence_class: str
@@ -134,12 +142,12 @@ class Assessment:
     mapped_feature_fraction: float
     conserved_feature_fraction: float
     residues: list[dict[str, Any]]
-    """For each named residue: the aligned position, the residue of the protein there, and whether it matches."""
+    """For each named residue: the aligned position, the residue of the protein there and whether it matches."""
 
 
 @dataclass(frozen=True, slots=True)
 class CharacterizeResult:
-    """The decision for every protein of the set, the fractions of controls decided as expected, and the thresholds applied."""
+    """The decision for every protein of the set, the fractions of controls decided as expected and the thresholds applied."""
 
     reference_id: str
     assessments: list[Assessment]

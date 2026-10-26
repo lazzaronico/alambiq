@@ -1,70 +1,74 @@
 """Fit a response model to the measurements of one sample and one metric.
 
-The fit estimates the coefficients of an explicit response model from supplied
-measurements. An observation is the value that enters the fit: one measurement
-under the `supplied-values` basis, or the mean of the technical readings of one
-independent unit under the `independent-means` basis. Five models are
-available, identified by the value of `model`:
+The capability estimates the coefficients of an explicit response model from supplied
+measurements. It returns each coefficient with its standard error and 95 % interval,
+quantities derived from the coefficients, and predictions at chosen values of the
+independent quantity.
 
+An observation is the value that enters the fit. Under the `supplied-values` basis it
+is one measurement. Under the `independent-means` basis it is the mean of the technical
+readings of one independent unit.
+
+Method. The `model` field selects one of five models:
 - `linear`: intercept + slope * x, with the coefficients `intercept` and `slope`.
 - `michaelis_menten`: Vmax * x / (Km + x), the initial-rate relation, with the
   coefficients `Km` and `Vmax`.
-- `arrhenius`: k_ref * exp(-Ea / R * (1 / T - 1 / T_ref)), the dependence of a
-  rate constant on temperature, with the coefficients `k_ref` and `Ea`. T is
-  the temperature in K, T_ref is the reference temperature in K (`reference_x`)
-  and R is 8.314462618 J/(mol K).
+- `arrhenius`: k_ref * exp(-Ea / R * (1 / T - 1 / T_ref)), the dependence of a rate
+  constant on temperature, with the coefficients `k_ref` and `Ea`. T is the
+  temperature in K, T_ref is the reference temperature in K (`reference_x`) and R is
+  8.314462618 J/(mol K).
 - `first_order_decay`: A0 * exp(-k * x), first-order decay in time (thermal
   inactivation), with the coefficients `A0` and `k`.
-- `ph_bell`: ymax / (1 + 10^(pKa1 - pH) + 10^(pH - pKa2)), a bell-shaped
-  activity profile over pH (the independent quantity x is the pH), with the
-  coefficients `ymax`, `pKa1` and `pKa2`.
+- `ph_bell`: ymax / (1 + 10^(pKa1 - pH) + 10^(pH - pKa2)), a bell-shaped activity
+  profile over pH (x is the pH), with the coefficients `ymax`, `pKa1` and `pKa2`.
 
-Coefficients can be bounded or held fixed at supplied values, and predictions
-can be requested at chosen values of the independent quantity. Quantities that
-follow from the coefficients are reported with a standard error and a 95 %
-interval from the delta method: the half-life for decay, the activation energy
-in kJ/mol (the coefficient `Ea` is in J/mol) and the pre-exponential factor for
-Arrhenius, and the optimum pH and the activity at the optimum for the pH
-profile. The reference temperature of an Arrhenius fit is reported without a
-standard error.
+Coefficients can be bounded or held fixed at supplied values. Measurements listed in
+`exclude` are omitted from the fit. Their measured values can be compared with the
+predictions to assess the error on held-out measurements.
 
-Three intervals are reported. The standard error and 95 % interval of a
-coefficient describe how precisely the data determine it. The mean-response
-interval is the 95 % interval for the expected value of the response at a point
-of the independent quantity. The future-observation interval is the 95 %
-interval for a single new measurement at that point and is wider; it is not
-estimated with `cluster_bootstrap`. Measurements listed in `exclude` are omitted from the fit, and their measured
-values can be compared with the predictions to assess the error on held-out
-measurements.
+Derived quantities have a standard error and a 95 % interval from the delta method:
+- decay: the half-life;
+- Arrhenius: the activation energy in kJ/mol (the coefficient `Ea` is in J/mol) and
+  the pre-exponential factor;
+- pH profile: the optimum pH and the activity at the optimum.
+The reference temperature of an Arrhenius fit has no standard error.
 
-Limits. Every interval is conditional on the recorded experiment and the
-chosen model; its width reflects the scatter of the data about that model. With
-`uncertainty` set to `residual` (the default) the intervals come from the
-covariance of the model linearized at the fitted coefficients and from
-Student-t quantiles; they assume independent residuals with equal variance, and
-for nonlinear models they are approximate and can extend beyond the physical
-bounds of a coefficient. A cluster bootstrap resamples whole independent units
-instead and gives percentile intervals for the coefficients and the mean
-response; derived quantities use the delta method with the bootstrap
-covariance, and no future-observation interval is computed. The cluster
-bootstrap is valid only when the independent units are the sampling units.
+Three intervals are reported:
+- The standard error and 95 % interval of a coefficient describe how precisely the
+  data determine it.
+- The mean-response interval is the 95 % interval for the expected response at a
+  value of x.
+- The future-observation interval is the 95 % interval for one new measurement at
+  that value. It is wider than the mean-response interval and is not estimated with
+  `cluster_bootstrap`.
 
-A fixed coefficient has no standard error or interval. When any free
-coefficient ends at a bound, when the scaled Jacobian is rank deficient or has
-a condition number of 1e8 or more, when the response is flat across x for a
-model other than `linear` with 2 or more free coefficients, or when any
-bootstrap resample fails, no coefficient, derived quantity or prediction has a
-standard error or interval, and a diagnostic states this.
-
-The fit requires at least 4 observations at 3 or more distinct values of x.
-Measurements without a value (status other than `measured`) and measurements
-whose condition lacks the x quantity are omitted and listed with the reason in
-the record. `supplied-values` rejects measurements that have an
-`independent_id`; `independent-means` requires an `independent_id` on every
-included measurement. `arrhenius` requires `x_unit` K or degC, temperatures
-above absolute zero and positive responses. `michaelis_menten` and
-`first_order_decay` require x of 0 or more. A prediction outside the measured
-range is labeled as extrapolated.
+Limits.
+- Every interval is conditional on the recorded experiment and the chosen model. Its
+  width reflects the scatter of the data about that model.
+- With `uncertainty` set to `residual` (the default), the intervals come from the
+  covariance of the model linearized at the fitted coefficients and from Student-t
+  quantiles. They assume independent residuals with equal variance. For nonlinear
+  models they are approximate and can extend beyond the physical bounds of a
+  coefficient.
+- With `cluster_bootstrap`, whole independent units are resampled. The coefficients
+  and the mean response get percentile intervals. Derived quantities use the delta
+  method with the bootstrap covariance. The bootstrap applies when the independent
+  units are the sampling units.
+- A fixed coefficient has no standard error or interval.
+- No coefficient, derived quantity or prediction has a standard error or interval, and
+  a diagnostic states this, when any of these holds: a free coefficient ends at a
+  bound; the scaled Jacobian is rank deficient or has a condition number of 1e8 or
+  more; the response is flat across x for a model other than `linear` with 2 or more
+  free coefficients; a bootstrap resample fails.
+- The fit requires at least 4 observations at 3 or more distinct values of x.
+- Measurements without a value (status other than `measured`) and measurements whose
+  condition lacks the x quantity are omitted. The record lists them with the reason.
+- `supplied-values` rejects measurements that have an `independent_id`.
+  `independent-means` requires an `independent_id` on every included measurement.
+- `arrhenius` requires `x_unit` K or degC, temperatures above absolute zero and
+  positive responses.
+- `michaelis_menten` and `first_order_decay` require x of 0 or more.
+- A prediction outside the measured range is labeled as extrapolated.
 """
 
 from __future__ import annotations
@@ -123,74 +127,77 @@ class FitRequest:
         The sample and the measured quantity to fit.
     x_quantity, x_unit, y_unit:
         The independent quantity (a name from `condition_values` of the
-        `assay.inspect` record) and the units of both axes. The units must equal
-        the units stored in the record; no conversion is applied.
+        `assay.inspect` record) and the units of both axes. The units equal the
+        units stored in the record. No conversion is applied.
     observation_basis:
         `supplied-values` fits the values as given, as for published individual
-        measurements. `independent-means` fits the mean of the technical readings
-        of each named independent unit. Default `supplied-values`.
+        measurements. `independent-means` fits the mean of the technical readings of
+        each named independent unit. Default `supplied-values`.
     model:
-        The response model to fit: `linear`, `michaelis_menten`, `arrhenius`,
-        `first_order_decay` or `ph_bell`. Default `michaelis_menten`.
+        `linear`, `michaelis_menten`, `arrhenius`, `first_order_decay` or `ph_bell`.
+        Default `michaelis_menten`.
     condition_ids:
         Restrict the fit to these conditions. When omitted, all conditions of the
         record are used. A condition quantity other than `x_quantity` that differs
         between the included conditions is an error unless `pool_over` names it.
     pool_over:
-        Names of condition quantities (other than `x_quantity`) that differ, or
-        are given for only some conditions, across the included measurements.
-        The model has no term for them; a note of the step and a diagnostic in
-        the stored record state that they were pooled.
+        Names of condition quantities (other than `x_quantity`) that differ, or are
+        given for only some conditions, across the included measurements. The model
+        has no term for them. A note of the step and a diagnostic in the stored
+        record state that they were pooled.
     exclude:
-        Ids of measurements of the fitted sample and metric that are omitted from
-        the fit. Their measured values can be compared with the predictions to
-        assess the error on held-out measurements.
+        Ids of measurements of the fitted sample and metric that are omitted from the
+        fit. Their measured values can be compared with the predictions to assess
+        the error on held-out measurements.
     parameter_bounds:
-        Bounds on coefficients, as `{"Vmax": [0, 150]}`: a lower and an upper
-        value in the coefficient's own units, with `null` for unbounded. The
-        coefficients are `Km` and `Vmax` for Michaelis-Menten, `intercept` and
-        `slope` for the linear model, `k_ref` (the rate constant at the reference
-        temperature) and `Ea` (the activation energy, J/mol) for Arrhenius, `A0`
-        and `k` for decay, and `ymax`, `pKa1` and `pKa2` for the pH profile.
+        Bounds on coefficients, as `{"Vmax": [0, 150]}`: a lower and an upper value
+        in the coefficient's own units, with `null` for unbounded. The coefficients
+        are:
+        - `Km` and `Vmax` for Michaelis-Menten;
+        - `intercept` and `slope` for the linear model;
+        - `k_ref` (the rate constant at the reference temperature) and `Ea` (the
+          activation energy, J/mol) for Arrhenius;
+        - `A0` and `k` for decay;
+        - `ymax`, `pKa1` and `pKa2` for the pH profile.
         The coefficients `Km`, `Vmax`, `k_ref`, `A0`, `k` and `ymax` cannot be
-        negative: a bound given for one of them needs a lower value of 0 or more,
-        and a `null` lower value is rejected.
+        negative. A bound given for one of them has a lower value of 0 or more, and
+        a `null` lower value is rejected.
     fixed_parameters:
-        Coefficients held constant at the supplied values, as `{"Km": 2.5}`. A
-        value must lie within the bounds of its coefficient. At least one
-        coefficient must remain to be fitted (the two-coefficient models allow
-        one fixed). The intervals for the remaining coefficients are conditional
-        on the fixed values.
+        Coefficients held constant at the supplied values, as `{"Km": 2.5}`. A value
+        lies within the bounds of its coefficient. At least one coefficient remains
+        to be fitted, so a two-coefficient model allows one fixed. The intervals for
+        the remaining coefficients are conditional on the fixed values.
     reference_x:
-        For the Arrhenius model, the temperature (in `x_unit`) at which the
-        rate constant `k_ref` is stated. Defaults to the mean of the measured
+        For the Arrhenius model, the temperature (in `x_unit`) at which the rate
+        constant `k_ref` is stated. Defaults to the mean of the measured
         temperatures.
     prediction_x:
         1 to 200 values of the independent quantity, in `x_unit`, at which to
-        predict. When omitted, the stored record contains predictions at 51
-        evenly spaced values across the measured range, and the result contains
-        none.
+        predict. When omitted, the stored record has predictions at 51 evenly spaced
+        values across the measured range and the result has none.
     uncertainty:
         `residual` gives standard errors and intervals from the covariance of the
-        model linearized at the fitted coefficients, with Student-t quantiles; it
+        model linearized at the fitted coefficients, with Student-t quantiles. It
         assumes independent residuals with equal variance. `cluster_bootstrap`
-        resamples whole independent units; it is valid only when those units are
-        the sampling units, and requires the `independent-means` basis with at
-        least 4 independent units.
+        resamples whole independent units. It applies when those units are the
+        sampling units, and requires the `independent-means` basis with at least 4
+        independent units.
     seed:
-        An integer from 0 to 2,147,483,647. Required by the bootstrap; the same
-        seed reproduces the reported intervals.
+        An integer from 0 to 2,147,483,647. Required by the bootstrap. The same seed
+        reproduces the reported intervals.
     resamples:
-        Number of bootstrap resamples, 100 to 2,000. Default 1,000. Used only
-        with `cluster_bootstrap`.
+        Number of bootstrap resamples, 100 to 2,000. Default 1,000. Used only with
+        `cluster_bootstrap`.
     rate_basis:
         The relation between the measured rate and the substrate consumed, for the
         `michaelis_menten` model with a concentration `x_unit` and a
-        concentration-rate `y_unit`. An object with `kind` (`substrate-consumption`
-        or `product-formation`), `measured_species`, `substrate` and
-        `measured_per_substrate` (moles of measured species per mole of substrate
-        consumed; 1, with the substrate as measured species, for
-        `substrate-consumption`). Required when the fit is used by `assay.balance`.
+        concentration-rate `y_unit`. Required when `assay.balance` uses the fit. An
+        object with:
+        - `kind`: `substrate-consumption` or `product-formation`;
+        - `measured_species` and `substrate`;
+        - `measured_per_substrate`: moles of measured species per mole of substrate
+          consumed. For `substrate-consumption` it is 1 and the substrate is the
+          measured species.
     """
 
     measurements: str
@@ -248,14 +255,14 @@ class Prediction:
     mean_interval_95: list[float] | None
     """95 % interval for the expected value of the response at this x."""
     prediction_interval_95: list[float] | None
-    """95 % interval for a single new measurement at this x; wider than the mean interval. Not estimated with `cluster_bootstrap`."""
+    """95 % interval for one new measurement at this x. It is wider than the mean interval and is not estimated with `cluster_bootstrap`."""
     extrapolation: bool
     """True when x lies outside the measured range."""
 
 
 @dataclass(frozen=True, slots=True)
 class FitResult:
-    """The coefficients with their uncertainty, the counts of observations used and measurements omitted, the measured range, the requested predictions and the path of the stored record."""
+    """The coefficients with their uncertainty, the counts of observations used and omitted, the measured range, the requested predictions and the path of the stored record."""
 
     model: Model
     parameters: list[FittedParameter]
@@ -266,9 +273,9 @@ class FitResult:
     measured_range: list[float]
     """The lowest and highest x of the fitted observations."""
     predictions: list[Prediction]
-    """One prediction per requested x; empty when `prediction_x` is not given."""
+    """One prediction per requested x. Empty when `prediction_x` is not given."""
     record: str
-    """Path to the stored fit record, which includes the residuals and the predictions."""
+    """Path to the stored fit record, with the residuals and the predictions."""
     derived: list[DerivedQuantity] = field(default_factory=list)
     """Half-life, optimum pH and similar, with delta-method uncertainty."""
 
@@ -360,8 +367,8 @@ def fit(request: FitRequest, ctx: StepContext) -> FitResult:
     if request.uncertainty == "cluster_bootstrap":
         if request.seed is None:
             raise ValueError(
-                "uncertainty cluster_bootstrap requires seed, which makes the intervals "
-                "reproducible."
+                "uncertainty cluster_bootstrap requires seed, which makes the "
+                "intervals reproducible."
             )
         parameters["uncertainty"] = {
             "method": "cluster-bootstrap",

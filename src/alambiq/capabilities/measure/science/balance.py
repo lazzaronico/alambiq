@@ -71,16 +71,15 @@ def validate_parameters(parameters):
         or parameters.keys() - set(FIELDS) - {"assumption_note", "sensitivity"}
     ):
         raise ValueError(
-            "The balance parameters must include "
+            "The balance parameters are "
             + ", ".join(FIELDS)
-            + " and assumption_note, and may include sensitivity in addition."
+            + ", assumption_note and optionally sensitivity."
         )
     note = parameters["assumption_note"]
     if not isinstance(note, str) or not note.strip() or len(note) > 3000:
         raise ValueError(
-            "assumption_note must be a nonblank text of at most 3,000 characters that "
-            "states the assumptions in the transfer from the experiment to the "
-            "application."
+            "assumption_note must be nonblank text of at most 3,000 characters that "
+            "states the assumptions of transferring the experiment to the application."
         )
     numerical_parameters(parameters)
     scenarios = parameters.get("sensitivity", [])
@@ -97,9 +96,9 @@ def validate_parameters(parameters):
             or s["id"] in ids
         ):
             raise ValueError(
-                "Each sensitivity scenario must have exactly the fields id and "
-                "overrides, and its id must be a nonblank string of at most 200 "
-                "characters that no other scenario and not base uses."
+                "Each sensitivity scenario has exactly the fields id and overrides. "
+                "Its id is a nonblank string of at most 200 characters, distinct "
+                "from the other ids and from base."
             )
         ids.add(s["id"])
         if (
@@ -108,7 +107,7 @@ def validate_parameters(parameters):
             or s["overrides"].keys() - set(FIELDS)
         ):
             raise ValueError(
-                "The overrides of a scenario must be a nonempty mapping of balance "
+                "The overrides of a scenario are a nonempty mapping of balance "
                 "quantities or fractions. The fitted coefficients cannot be overridden."
             )
         numerical_parameters({**parameters, **s["overrides"]})
@@ -266,7 +265,7 @@ def balance(fit, parameters):
             "substrate_vmax": {"value": vmax, "unit": "M/s"},
         },
         "scenarios": scenarios,
-        "method": "Integrated irreversible single-substrate Michaelis–Menten depletion at constant enzyme activity, constant volume and conditions compatible with the assay. The measured rate is converted to substrate consumption with the fixed molar mapping of the assay. The required Vmax is expressed on the basis of the originally measured species. The formation, recovery and accepted-product fractions describe the application scenario. Differences between scenarios show the sensitivity to the inputs; the uncertainty of the fitted coefficients is stated in the source fit.",
+        "method": "Integrated irreversible single-substrate Michaelis–Menten depletion at constant enzyme activity, constant volume and conditions compatible with the assay. The measured rate is converted to substrate consumption with the molar mapping of the assay. The required Vmax is expressed on the basis of the originally measured species. The formation, recovery and accepted-product fractions describe the application scenario. Differences between scenarios show the sensitivity to the inputs. The uncertainty of the fitted coefficients is in the source fit.",
         "equation": "required_Vmax_measured = measured_per_substrate * (S0*conversion - Km*ln(1-conversion))/duration",
     }
     try:

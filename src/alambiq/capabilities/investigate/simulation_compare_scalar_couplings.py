@@ -1,40 +1,50 @@
 """Compute three-bond scalar couplings from replica trajectories and compare them with measurements.
 
-Each measured coupling specifies its two coupled atoms and the Karplus coefficients that
-convert a dihedral angle into a coupling, J(theta) = A cos^2(theta) + B cos(theta) + C
-in hertz. For every frame of every replica, the dihedral of the unique three-bond path
-between the two atoms is computed (with the minimum-image convention when the trajectory
-has a periodic cell) and converted into a coupling. A replica can consist of 1 to 10
-trajectory segments that follow one another. The segments of a replica are joined end to
-end, every frame has equal weight within a replica, and replicas have equal weight in
-the mean. The standard error is the sample standard deviation of the replica means
-divided by the square root of the number of replicas. The result gives, for each
-coupling, the calculated mean, its error, its residual against the measurement and the
-error reported for the measurement, then the root-mean-square and mean absolute
-residuals. When sampling checks are set, the split R-hat and effective sample size of
-each coupling are also judged. Beta-methylene hydrogens named HB2 and HB3 can be
-assigned by their geometry (the IUPAC convention) instead of by the labels of the
-topology, which differ between force fields.
+Returns, for each measured coupling, the calculated mean, its error, its residual against
+the measurement and the error reported for the measurement. It also returns the
+root-mean-square and mean absolute residuals.
 
-The result gives the agreement between the measurements and the couplings computed
-from the sampling of this structure by this force field, through these Karplus
-coefficients, and the precision with which the sampling determines each computed value.
+Each measured coupling names its two coupled atoms and the Karplus coefficients that
+convert a dihedral angle into a coupling, J(theta) = A cos^2(theta) + B cos(theta) + C in
+hertz. For every frame of every replica:
 
-Limits. A residual combines three contributions: the force field and its sampling, the
-Karplus relation, and the measurement. The coefficients are empirical and depend on the
-coupling and the residues. The standard error is computed from the replica means with the
-coefficients taken as given, so the errors of the coefficients are additional to it. The
-measured error is the error that the source reports, with the meaning that its authors
-give it. The ratio of the residual to the measured error is a scale for the residual.
-The standard error assumes independent replicas; with 2 replicas it rests on 1 degree of
-freedom, and replicas that agree can all remain in the same part of the conformational
-space. The couplings are averaged over the ensemble; averaging the angles first gives
-different values. A difference of more than 5 K between the measurement temperature and
-the mean sampled temperature produces a note, and the comparison proceeds. The
-capability refuses a pair of atoms that has no unique three-bond path. With
-`iupac-beta-methylene` the capability checks every frame and refuses the trajectory if
-the assignment of HB2 and HB3 changes. A request with more than 30 replicas, or with
-more than 10 segments in a replica, is refused.
+- the dihedral of the unique three-bond path between the two atoms is computed, with the
+  minimum-image convention when the trajectory has a periodic cell;
+- the dihedral is converted into a coupling.
+
+A replica consists of 1 to 10 trajectory segments that follow one another and are joined
+end to end. Every frame has equal weight within a replica, and replicas have equal weight
+in the mean. The standard error is the sample standard deviation of the replica means
+divided by the square root of the number of replicas.
+
+When sampling checks are set, the split R-hat and effective sample size of each coupling
+are also judged. The atoms HB2 and HB3 of beta-methylene groups can be assigned by
+geometry (the IUPAC convention) instead of by the labels of the topology, which differ
+between force fields.
+
+Limits.
+
+- A residual combines three contributions: the force field and its sampling, the Karplus
+  relation, and the measurement.
+- The Karplus coefficients are empirical and depend on the coupling and the residues. The
+  standard error takes them as given, so their errors come in addition.
+- The measured error is the error that the source reports, with the meaning that its
+  authors give it. The ratio of the residual to the measured error is a scale for the
+  residual.
+- The standard error assumes independent replicas. With 2 replicas it rests on 1 degree of
+  freedom. Replicas that agree can all remain in the same part of the conformational
+  space.
+- The couplings are averaged over the ensemble. Averaging the angles first gives different
+  values.
+- A difference of more than 5 K between the measurement temperature and the mean sampled
+  temperature produces a note, and the comparison proceeds.
+
+The capability refuses:
+
+- a pair of atoms that has no unique three-bond path;
+- with `iupac-beta-methylene`, a trajectory in which the assignment of HB2 and HB3
+  changes between frames;
+- more than 30 replicas, or more than 10 segments in a replica.
 """
 
 from __future__ import annotations
@@ -211,7 +221,7 @@ class CouplingRow:
 
 @dataclass(frozen=True, slots=True)
 class CouplingResult:
-    """The calculated mean, error, residual and measured error of each coupling, the summary residuals and the sampling diagnostics."""
+    """The calculated value and residual of each coupling, the summary residuals and the sampling diagnostics."""
 
     couplings: list[CouplingRow]
     rmse_hz: float

@@ -92,7 +92,7 @@ def validate_request(request, *, chemical_checks=True):
         raise ValueError("Supply every expansion and route-trace bound")
     for key, maximum in BOUND_MAXIMA.items():
         if type(bounds[key]) is not int or not 1 <= bounds[key] <= maximum:
-            raise ValueError(f"{key} requires an integer in [1,{maximum}]")
+            raise ValueError(f"{key} must be a whole number from 1 to {maximum}")
     feeds = request["feedstocks"]
     if not isinstance(feeds, list) or not 1 <= len(feeds) <= 30:
         raise ValueError("Supply 1–30 explicit feedstocks")
@@ -111,7 +111,7 @@ def validate_request(request, *, chemical_checks=True):
         identity = canonical(feed["smiles"]) if chemical_checks else feed["smiles"]
         if feed["id"] in ids or identity in identities:
             raise ValueError(
-                "Each feedstock requires a distinct ID and chemical identity"
+                "Each feedstock needs a distinct ID and a distinct species"
             )
         ids.add(feed["id"])
         identities.add(identity)
@@ -126,7 +126,7 @@ def validate_request(request, *, chemical_checks=True):
                 "Use substrate, cosubstrate, cofactor, catalyst or water as feedstock role"
             )
         if chemical_checks and molecule(identity).GetNumAtoms() > bounds["max_atoms"]:
-            raise ValueError("Each feedstock must fit the explicit-atom bound")
+            raise ValueError("Each feedstock must have at most max_atoms atoms")
     if len(identities) > bounds["max_nodes"]:
         raise ValueError("max_nodes must accommodate the supplied feedstocks")
     recovery = request["recover_feedstocks"]
@@ -137,7 +137,7 @@ def validate_request(request, *, chemical_checks=True):
         or set(recovery) - ids
     ):
         raise ValueError(
-            "recover_feedstocks names distinct supplied feedstock IDs to restore at the route endpoint"
+            "recover_feedstocks must list distinct IDs of feedstocks in the request"
         )
     target = request["target"]
     if not isinstance(target, dict) or set(target) != {"smiles", "amount"}:
@@ -224,7 +224,7 @@ def validate_request(request, *, chemical_checks=True):
             or not 1 <= rxn.GetNumProductTemplates() <= 5
         ):
             raise ValueError(
-                "Operators require 1–3 reactants and 1–5 products, with catalyst requirements stated separately"
+                "An operator needs 1 to 3 reactant templates, 1 to 5 product templates and no agent templates; state catalysts in catalyst_requirements"
             )
         maps = []
         for templates in (rxn.GetReactants(), rxn.GetProducts()):
@@ -255,16 +255,16 @@ def validate_request(request, *, chemical_checks=True):
                     and atom.GetAtomicNum() != original.GetAtomicNum()
                 ):
                     raise ValueError(
-                        "Mapped operator atoms retain their element identity"
+                        "A mapped operator atom must keep its element identity"
                     )
                 if atom.GetIsotope() and original.GetIsotope() != atom.GetIsotope():
                     raise ValueError(
-                        "Mapped operator atoms retain their explicit isotope identity"
+                        "A mapped operator atom must keep its explicit isotope identity"
                     )
         operator = rdChemReactions.ReactionToSmarts(rxn)
         if rule["id"] in ids or operator in operators:
             raise ValueError(
-                "Use one distinct rule per operator and combine its reference evidence"
+                "Two operators share an ID or a reaction; give each reaction one operator and combine their enzyme_evidence"
             )
         ids.add(rule["id"])
         operators.add(operator)
@@ -564,5 +564,5 @@ def explore_routes(request):
         "recipe_candidate_limit": candidate_limit,
         "expansion_rounds": rounds,
         "route_states_visited": visited,
-        "method": "Forward DORAnet bounded-batch expansion applies the supplied mapped operators within explicit generation, recipe, product, molecule and reaction bounds. The recipe heap and batch use max_recipes as their size limit; candidate ranking is capped at max_recipes times max_nodes and retains completed generations when exhausted. Balanced products preserve stereochemistry, isotopes, charge and every coproduct. Finite-feed breadth-first traces apply the declared extent per step, require selected feedstocks to be restored at the endpoint, and retain the first ordering of equivalent inventory/step-count states. Catalyst requirements and exact-equation enzyme references accompany each generated step. Target matching uses exact explicit-species identity. The resulting alternatives describe the supplied rules, feeds, extent and search bounds.",
+        "method": "DORAnet applies the supplied mapped operators to the feedstocks, forward, within the bounds on generations, recipes, products, molecules and reactions. The recipe heap and each batch hold at most max_recipes recipes. Candidate ranking is capped at max_recipes times max_nodes, and the completed generations are retained when the cap is reached. Balanced products keep stereochemistry, isotopes, charge and every coproduct. A breadth-first trace follows the finite feedstocks at the extent per step, requires the selected feedstocks to be restored at the end, and keeps the first of equivalent inventory and step-count states. Catalyst requirements and exact-equation enzyme references accompany each generated step. Target matching is exact on the explicit species. The routes describe the supplied operators, feedstocks, extent and bounds.",
     }

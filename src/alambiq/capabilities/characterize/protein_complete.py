@@ -1,29 +1,38 @@
 """Propose new residues for chosen regions of a protein, with ESM3-small.
 
-The residues in the requested regions are masked, and the model predicts them
-over the requested number of unmasking steps, once for each seed (one seed per
-proposal), with the ESM3 generation settings `schedule` `cosine`, `strategy`
-`random` and temperature annealing, which are stored under `generation` in the
-record. Residues outside the regions are given to the model unmasked. Each
-proposal is then checked independently of the model: it must be a sequence of
-the same length, made of the 20 standard amino acids, with no change outside
-the regions. A proposal that passes the checks has status `completed` and is
-counted as accepted; one that fails a check has status `rejected` and is
-stored with its reason. An accepted proposal that repeats an earlier one, or
-that changes no residue, is flagged and remains in the FASTA output.
+Returns proposals for the residues in the requested regions, sampled from
+ESM3-small and conditioned on the residues outside the regions. The proposals
+are hypotheses to test experimentally, for example as the starting set of a
+library.
 
-What the result supports: sequences sampled from a protein language model
-conditioned on the unmasked residues. They are hypotheses to test
-experimentally, for example as the starting set of a library.
+The method:
 
-Limits. A language-model proposal is a sample from a model trained on natural
-proteins, and a change it samples can abolish activity. In the repository test,
-a repeated request with the same seed, device and package versions returned the
-same proposals; the test compares runs on one device. Proposals from different
-seeds can be identical, and repeated proposals are flagged. The model input is
-the sequence, and active-site residues are preserved only if they are outside
-the regions. A protein of more than 512 residues or a request for more than 8
-proposals is refused.
+- The residues in the regions are masked. The model predicts them over the
+  requested number of unmasking steps, once for each seed. Each seed gives one
+  proposal.
+- The generation settings are `schedule` `cosine`, `strategy` `random` and
+  temperature annealing. The record stores them under `generation`.
+- Residues outside the regions are given to the model unmasked.
+- Each proposal is then checked independently of the model. It has the same
+  length, contains only the 20 standard amino acids and changes nothing outside
+  the regions.
+- A proposal that passes has status `completed` and counts as accepted. One
+  that fails has status `rejected` and is stored with its reason.
+- An accepted proposal that repeats an earlier one, or changes no residue, is
+  flagged and stays in the FASTA output.
+
+Limits.
+
+- The model was trained on natural proteins, and a sampled change can abolish
+  activity.
+- The model input is the sequence. Active-site residues are preserved when they
+  are outside the regions.
+- Proposals from different seeds can be identical. Repeated proposals are
+  flagged.
+- In the repository test, a repeated request with the same seed, device and
+  package versions returned the same proposals on one device.
+- A protein of more than 512 residues, or a request for more than 8 proposals,
+  is refused.
 """
 
 from __future__ import annotations
@@ -63,18 +72,17 @@ class CompleteRequest:
         standard amino acids.
     regions:
         The regions in which the model may change residues, with one-based
-        inclusive positions. They must not overlap, and at least one residue
-        must be outside them.
+        inclusive positions. Regions do not overlap, and at least one residue
+        is outside them.
     seed:
         Required, 0 to 4,294,967,287. Proposal `i` (numbered from 0) uses seed
-        `seed + i`. A repeated request with the same seed, device and package
-        versions returned the same proposals in the repository test.
+        `seed + i`.
     candidates:
-        Number of proposals to make, 1 to 8; default 4.
+        Number of proposals, 1 to 8; default 4.
     temperature:
-        Initial sampling temperature, above 0 and at most 2; default 1.0. The
-        temperature is annealed over the unmasking steps. A higher value gives
-        more varied proposals.
+        Initial sampling temperature, above 0 and at most 2; default 1.0. It is
+        annealed over the unmasking steps. A higher value gives more varied
+        proposals.
     top_p:
         Cumulative probability, above 0 and at most 1, of the most probable
         residues from which each residue is sampled; default 1.0.
@@ -83,10 +91,10 @@ class CompleteRequest:
         The default is the smaller of 8 and the number of masked residues.
     device:
         `cpu`, `mps` or `cuda`; default `cpu`. An unavailable device is an
-        error; there is no fallback to another device.
+        error.
     threads:
-        Threads of the host CPU used by the engine, applied on every device, 1
-        to 32; default 4.
+        Host CPU threads used by the engine on every device, 1 to 32; default
+        4.
     """
 
     protein: str
@@ -125,7 +133,7 @@ class Proposal:
 
 @dataclass(frozen=True, slots=True)
 class CompleteResult:
-    """The proposals, the prompt they were generated from, and the model that generated them."""
+    """The proposals, the prompt they came from and the model that generated them."""
 
     protein_id: str
     length: int
@@ -135,7 +143,7 @@ class CompleteResult:
     proposals: list[Proposal]
     accepted: int
     fasta: str | None
-    """A FASTA of the accepted proposals, usable as input to `protein.embed` and `protein.inspect`, or None."""
+    """A FASTA of the accepted proposals, or None. `protein.embed` and `protein.inspect` read it."""
     record: str
     model: str
     revision: str

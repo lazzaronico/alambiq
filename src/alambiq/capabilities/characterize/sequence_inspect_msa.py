@@ -1,30 +1,42 @@
 """Describe a supplied multiple sequence alignment, column by column.
 
-The alignment is read as supplied, with every row and column as given and every
-row at weight 1. Each column reports the number of rows with each residue, the
-most common residue (the consensus) and the fraction of the non-gap,
-non-ambiguous rows of the column that it accounts for, the fraction of gaps and
-of ambiguous letters, and the Shannon entropy of the residue distribution in
-bits. The first row is the query, and its ungapped positions number the
-columns. An A3M file (an alignment format in which lowercase letters mark
-insertions relative to the query) also retains its inserted residues, attached
-to the column that they follow. Optionally each row is accompanied by the full
-protein of which the row is a fragment, so that the alignment positions of a
-fragment map back to its full sequence.
+Returns, for each column of a supplied alignment, the residue counts, the
+consensus, the gap fraction and the Shannon entropy in bits. The result also
+counts rows, columns, duplicate rows and insertions, and lists the fully
+conserved positions.
 
-Limits. Every row counts once, so a column dominated by close relatives has low
-entropy whatever the number of independent lineages. The entropy of a column is
-computed from the raw residue counts of the rows that are neither gaps nor
-ambiguous letters, and a column with fewer such rows has a less certain
-entropy. Gaps and the ambiguous letters B, J, X and Z are
-excluded from the entropy and the consensus; selenocysteine and pyrrolysine are
-included. Rows whose match columns equal those of an earlier row are flagged as
-duplicates (`duplicate_rows`) and not removed; `unique_rows` counts the
-distinct match-column strings, the quantity that `sequence.generate_msa`
-reports as `unique_sequences`. An alignment with more than 200 rows, 5,000
-columns or 250,000 aligned cells is refused. Conservation is a property of the
-supplied sequences, which were selected by the search that produced the
-alignment; it is read as functional importance only against that selection.
+The method:
+
+- The alignment is read as supplied. Every row has weight 1.
+- The first row is the query. Its ungapped positions number the columns.
+- Each column reports the number of rows with each residue.
+- The consensus is the most common residue. Its fraction is the share of the
+  non-gap, non-ambiguous rows of the column that have it.
+- Each column reports the fraction of gaps and of ambiguous letters.
+- The entropy of a column comes from the raw residue counts of the rows that
+  are neither gaps nor ambiguous letters. Gaps and the ambiguous letters B, J,
+  X and Z are excluded from the entropy and the consensus. Selenocysteine and
+  pyrrolysine are included.
+- An A3M file, an alignment format in which lowercase letters mark insertions
+  relative to the query, keeps its inserted residues. Each attaches to the
+  column that it follows.
+- Optionally each row comes with the full protein of which it is a fragment.
+  The alignment positions of the fragment then map back to its full sequence.
+- Rows whose match columns equal those of an earlier row are flagged as
+  duplicates (`duplicate_rows`) and not removed. `unique_rows` counts the
+  distinct match-column strings, which `sequence.generate_msa` reports as
+  `unique_sequences`.
+
+Limits.
+
+- Every row counts once. A column dominated by close relatives has low entropy
+  whatever the number of independent lineages.
+- A column with fewer informative rows has a less certain entropy.
+- Conservation is a property of the supplied sequences, which the search that
+  produced the alignment selected. It indicates functional importance only
+  against that selection.
+- An alignment with more than 200 rows, 5,000 columns or 250,000 aligned cells
+  is refused.
 """
 
 from __future__ import annotations
@@ -58,18 +70,17 @@ class InspectMsaRequest:
 
     alignment:
         A path to the alignment. The identifier of a row is its header text up
-        to the first whitespace; identifiers are unique. In both formats the
-        first row is the query and contains no gaps and no lowercase letters;
-        the capability refuses the alignment otherwise.
+        to the first whitespace. Identifiers are unique. In both formats the
+        first row is the query, with no gaps and no lowercase letters.
     format:
-        `fasta`: aligned FASTA, in which `-` marks gaps and lowercase letters
-        in the rows after the first are accepted and converted to uppercase.
-        `a3m`: lowercase letters mark inserted residues and `.` pads them; the
+        `fasta`: aligned FASTA. `-` marks gaps. Lowercase letters in the rows
+        after the first become uppercase.
+        `a3m`: lowercase letters mark inserted residues and `.` pads them. The
         rows after the first can hold `-`.
     full_sequences:
         A mapping from row identifier to the full protein and the one-based
-        position at which the row begins in it. If supplied, its identifiers
-        must be exactly the row identifiers of the alignment.
+        position at which the row begins in it. Its identifiers are exactly
+        the row identifiers of the alignment.
     """
 
     alignment: str
@@ -90,7 +101,7 @@ class Position:
 
 @dataclass(frozen=True, slots=True)
 class InspectMsaResult:
-    """The counts of rows, columns, duplicates and insertions, the fully conserved positions, the mean entropy and gap fraction, the 10 query positions with the highest entropy, and the stored record."""
+    """Counts of rows, columns, duplicates and insertions, the fully conserved positions, the mean entropy and gap fraction, the 10 query positions with the highest entropy, and the stored record."""
 
     query_id: str
     rows: int

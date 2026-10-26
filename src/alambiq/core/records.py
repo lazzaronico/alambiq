@@ -210,7 +210,7 @@ def replay(root: str | Path, step_id: str, out_dir: str | Path) -> Path:
     if match["request"] is None:
         raise ValueError(
             f"Step {step_id!r} ended before its request was built, so there is nothing "
-            f"to replay ({match['error'] or 'it was not run'})"
+            f"to replay: {match['error'] or 'it was not run'}"
         )
     store = Store(root / "artifacts")
     request = store.local(match["request"])

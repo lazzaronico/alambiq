@@ -1,29 +1,33 @@
 """Identify the species of a stated reaction, check its balance and read its atom maps.
 
-Every participant is a SMILES string for one explicit species, and the equation is
-exactly as supplied: protons, water, cofactors and counter-ions are participants like
-any other, with a role and an exact coefficient (an integer, a fraction such as `1/3`,
-or a decimal). Each species is identified by its canonical isomeric SMILES, which
-retains stereochemistry, charge, isotopes and disconnected fragments. The capability
-checks that the equation balances in element, isotope and charge, using exact rational
+The result states whether the equation balances, which species it involves and whether
+the atom maps are consistent.
+
+Every participant is one explicit species, given as a SMILES string with a role and an
+exact coefficient (an integer, a fraction such as `1/3`, or a decimal). Protons, water,
+cofactors and counter-ions are participants like any other. A species is identified by
+its canonical isomeric SMILES, which retains stereochemistry, charge, isotopes and
+disconnected fragments. The balance in element, isotope and charge uses exact rational
 arithmetic. When atom maps are supplied, the capability checks that they correspond one
 to one and reads the bonds that change.
 
-The result states whether the stated equation balances, which species it involves and
-whether the atom correspondence is consistent. A reference structure attached to a
-participant is compared with the species, so a wrong enantiomer or protonation state is
-reported. A database accession is taken from the request as given, without a lookup in the
-database; the capability reports an accession assigned to participants of different
-species.
+A reference structure attached to a participant is compared with the species, so a wrong
+enantiomer or protonation state is reported. A database accession is taken from the
+request as given. The capability reports an accession assigned to participants of
+different species.
 
-Limits. The result applies to the equation as stated: its species, coefficients and atom
-maps. Conditions (pH, temperature, ionic strength) are recorded as context and do not
-change the balance, which depends only on the chosen species. A neutral, protonated,
-deprotonated or tautomeric form is a different species with a different identity; the
-form is chosen in the request. Bond changes are reconstructed only when atom maps cover
-every heavy atom one to one with unit coefficients. Cahn-Ingold-Prelog labels are those
-that RDKit assigns to each species separately. A request with more than 100
-participants, or with a species of more than 2,000 explicit atoms, is refused.
+Limits:
+
+- The result applies to the equation as stated: its species, coefficients and atom maps.
+- Conditions (pH, temperature, ionic strength) are recorded as context. The balance
+  depends only on the species.
+- A neutral, protonated, deprotonated or tautomeric form is a different species. The
+  request chooses the form.
+- Bond changes are reconstructed when atom maps cover every heavy atom one to one with
+  unit coefficients.
+- Cahn-Ingold-Prelog labels are those that RDKit assigns to each species separately.
+- A request with more than 100 participants, or with a species of more than 2,000
+  explicit atoms, is refused.
 """
 
 from __future__ import annotations

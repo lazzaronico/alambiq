@@ -1,42 +1,52 @@
 """Prepare a Boltz-predicted protein-ligand complex for molecular dynamics.
 
-The inputs are the three files that `structure.predict_biomolecular_complex` writes for
-one sample (one predicted structure of the complex): the predicted mmCIF, the pose of the ligand as an SDF, and the ligand
-chemistry file (a JSON file with the canonical isomeric SMILES and the atom names of the
-ligand). The protein must consist of standard amino acids with exactly the heavy atoms
-of its residues and, if declared, the declared sequences. The capability identifies a
-disulfide bond when two cysteine sulfur atoms are at most 2.5 angstrom apart, and
-refuses a pair at a distance from 2.5 to 3.5 angstrom as ambiguous. The ligand pose
-must be the one the SMILES specifies, including its handedness. The capability adds
-hydrogens to the ligand and assigns Sage 2.3.0 parameters and AshGC partial charges. It
-assigns Amber ff14SB parameters to the protein, adds the terminal oxygen and hydrogens,
-and sets every histidine to the epsilon tautomer (HIE). It solvates the complex in a
-TIP3P box with neutralizing ions and salt, builds the system with PME and constrained
-hydrogen bonds, and minimizes it. The result is the serialized system, state and topology
-that `simulation.run_molecular_dynamics` takes, with the energies, forces, charges and
-composition.
+The result is a minimized, fully parameterized model of the predicted complex, solvated
+in TIP3P with a net charge within 0.01 e of zero. It consists of the serialized system,
+state and topology that `simulation.run_molecular_dynamics` takes, with the energies,
+forces, charges and composition. The model is built from the positions of the prediction
+and minimized without restraints, so heavy atoms move from the predicted positions.
 
-The result is a minimized, fully parameterized model of the predicted complex, with a
-net charge within 0.01 e of zero. The model is built from the positions of the
-prediction and then minimized without restraints, so heavy atoms are displaced from
-the predicted positions.
+The inputs are the three files that `structure.predict_biomolecular_complex` writes for one
+sample (one predicted structure of the complex):
 
-Limits. Every input is a prediction, and the pose is as accurate as the prediction. A
-minimized energy that is finite and lower than the starting energy indicates that the
-system can be built; the pose is that of the prediction. A predicted complex in a box can dissociate or rearrange during dynamics. The
-ligand charges come from a graph neural network trained to reproduce AM1-BCC and the
-protein charges from ff14SB, so ligand and protein electrostatics derive from
-different methods. A ligand contains only the elements H, C, N, O, F, P, S, Cl, Br and I; it is
-closed-shell and connected; its stereochemistry is fully specified; it has at most 999
-atoms. A sample whose ligand has the opposite handedness from the SMILES is refused. The
-protonation is fixed: histidine as HIE, and the other ionizable groups in the states that
-OpenMM `Modeller.addHydrogens` assigns at pH 7.0, independent of the environment of the
-binding site. The capability prepares the one sample given. The
-capability refuses residues other than the 20 standard amino acids and one ligand
-residue (`LIG1`), which excludes metals, cofactors, nucleic acids and modified
-residues, and the topology has no covalent bond between the ligand and the protein. OpenMM
-adds the salt ions as whole ion pairs, so the salt concentration of the finished box
-is approximate.
+- the predicted mmCIF;
+- the pose of the ligand as an SDF;
+- the ligand chemistry file, a JSON file with the canonical isomeric SMILES and the atom
+  names of the ligand.
+
+The protein must consist of standard amino acids with exactly the heavy atoms of its
+residues and, if declared, the declared sequences. The method has these steps:
+
+- Two cysteine sulfur atoms at most 2.5 angstrom apart form a disulfide bond. A pair from
+  2.5 to 3.5 angstrom apart is refused as ambiguous.
+- The ligand pose must be the one the SMILES specifies, including its handedness.
+- The ligand receives hydrogens, Sage 2.3.0 parameters and AshGC partial charges.
+- The protein receives Amber ff14SB parameters, the terminal oxygen and hydrogens, and the
+  epsilon tautomer (HIE) for every histidine.
+- The complex is solvated in a TIP3P box with neutralizing ions and salt. The system uses
+  PME and constrained hydrogen bonds, and is minimized.
+
+Limits.
+
+- Every input is a prediction, and the pose is as accurate as the prediction.
+- A minimized energy that is finite and lower than the starting energy shows that the system
+  can be built. The pose is that of the prediction.
+- A predicted complex in a box can dissociate or rearrange during dynamics.
+- The ligand charges come from a graph neural network trained to reproduce AM1-BCC, and the
+  protein charges from ff14SB. Ligand and protein electrostatics therefore derive from
+  different methods.
+- A ligand contains only the elements H, C, N, O, F, P, S, Cl, Br and I. It is closed-shell
+  and connected, its stereochemistry is fully specified, and it has at most 999 atoms. A
+  sample whose ligand has the opposite handedness from the SMILES is refused.
+- The protonation is fixed: histidine as HIE, and the other ionizable groups in the states
+  that OpenMM `Modeller.addHydrogens` assigns at pH 7.0, independent of the environment of
+  the binding site.
+- The topology holds the 20 standard amino acids and one ligand residue (`LIG1`), without a
+  covalent bond between ligand and protein. Metals, cofactors, nucleic acids and modified
+  residues are refused.
+- OpenMM adds the salt ions as whole ion pairs, so the salt concentration of the finished
+  box is approximate.
+- The capability prepares the one sample given.
 """
 
 from __future__ import annotations
@@ -68,10 +78,9 @@ class ComplexRequest:
         The ligand chemistry file (JSON) written for the same sample.
     protein_sequences:
         Optional. The sequences the protein chains must have, in the file's chain
-        order; a mismatch is refused. Without it the sequences are read from the
-        file.
+        order. A mismatch is refused. Without it, the sequences are read from the file.
     ligand_formal_charge:
-        Optional. The charge the ligand must have; a mismatch is refused.
+        Optional. The charge the ligand must have. A mismatch is refused.
     padding_nm:
         The distance from the solute to the box edge, 0.5 to 3.
     ionic_strength_molar:
@@ -128,7 +137,7 @@ class ComplexResult:
     topology_pdb: str
     protein_pdb: str
     amber_topology: str
-    """The Amber topology of the periodic system, which `structure.prepare_finite_environment` reads."""
+    """The Amber topology of the periodic system. `structure.prepare_finite_environment` reads it."""
     ligand_parameters: str
     """A JSON file with the ligand's atom names, charges and positions."""
     manifest: str

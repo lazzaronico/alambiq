@@ -128,8 +128,8 @@ def validate_observation(op, obs):
         )
     elif obs["time_s"] not in times:
         raise ValueError(
-            "The time of an observation must be the time of a recorded state, and the "
-            "state before requires the time of an exchange."
+            "The time of an observation must be the time of a recorded state. The "
+            "state before an exchange requires the time of that exchange."
         )
     label(obs["target"], "observation target")
     if obs["quantity"] in {

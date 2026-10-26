@@ -1,29 +1,36 @@
 """Propagate the uncertainty of a fitted rate to the predicted concentrations.
 
-A stored `assay.fit` record of the Michaelis-Menten model holds a Km and a Vmax and,
-depending on the fit, a covariance or bootstrap draws. The capability draws coefficient
-sets from the covariance of the fit (`normal`) or resamples the coefficient sets of a
-cluster bootstrap fit (`bootstrap`). With `normal`, a draw whose Km or Vmax is not above
-0 is discarded and redrawn. With `bootstrap`, the resampled sets have the skew of the
-bootstrap distribution. For each set the capability builds the operating definition as
-`operation.define` does, simulates it, and reports quantiles of the predicted
-concentrations at the recorded times. The result holds the spread of each species at
-each recorded time and the mean and standard deviation of each coefficient over the
-draws; the stored record holds every draw and the concentrations that it produced.
+The capability turns the uncertainty of a fitted Michaelis-Menten rate into a spread of
+predicted concentrations. It returns the quantiles of each species at each recorded time
+and the mean and standard deviation of each coefficient over the draws. The stored record
+holds every draw and the concentrations that it produced.
 
-Limits. Only the fitted coefficients vary. The enzyme concentration of the assay,
-its active fraction, the other rates of the template, the dependences on
-temperature and pH, and the model form are held fixed. The fields `temperature_fit`,
-`ph_fit`, `assay_temperature_K` and `assay_pH` of `kinetics` are ignored. The spread
-therefore includes only the uncertainty of the fitted coefficients. The Michaelis-Menten
-form is assumed to hold at the operating conditions. The normal
-approximation assumes jointly normal coefficients, which a nonlinear fit
-satisfies only approximately. `normal` fails when the fit has no covariance (a
-coefficient at a bound, an ill-conditioned fit, or a failed bootstrap resample) and when
-50 batches of `samples` draws do not yield `samples` accepted draws. `bootstrap` fails
-when the fit has no bootstrap draws. The number of discarded draws is reported, and a
-note is issued when it exceeds 20 % of `samples`. The sampling error of a quantile is
-proportional to 1/sqrt(n) for n samples.
+Method.
+- A stored `assay.fit` record of the Michaelis-Menten model holds a Km and a Vmax and,
+  depending on the fit, a covariance or bootstrap draws.
+- The capability draws coefficient sets from the covariance of the fit (`normal`) or
+  resamples the coefficient sets of a cluster bootstrap fit (`bootstrap`).
+- With `normal`, a draw whose Km or Vmax is not above 0 is discarded and redrawn. With
+  `bootstrap`, the resampled sets have the skew of the bootstrap distribution.
+- For each set, the capability builds the operating definition as `operation.define`
+  does, simulates it, and reports quantiles of the predicted concentrations at the
+  recorded times.
+
+Limits.
+- Only the fitted coefficients vary. The enzyme concentration of the assay, its active
+  fraction, the other rates of the template, the dependences on temperature and pH, and
+  the model form are held fixed. The fields `temperature_fit`, `ph_fit`,
+  `assay_temperature_K` and `assay_pH` of `kinetics` are ignored. The spread includes only
+  the uncertainty of the fitted coefficients.
+- The Michaelis-Menten form is assumed to hold at the operating conditions.
+- The normal approximation assumes jointly normal coefficients, which a nonlinear fit
+  satisfies only approximately.
+- `normal` fails when the fit has no covariance (a coefficient at a bound, an
+  ill-conditioned fit or a failed bootstrap resample) and when more than 98 % of the draws
+  are discarded. `bootstrap` fails when the fit has no bootstrap draws.
+- The number of discarded draws is reported. A note is issued when it exceeds 20 % of
+  `samples`.
+- The sampling error of a quantile is proportional to 1/sqrt(n) for n samples.
 """
 
 from __future__ import annotations
@@ -40,7 +47,7 @@ from alambiq.core.registry import capability
 
 @dataclass(frozen=True, slots=True)
 class PropagateRequest:
-    """The operating definition, the fit whose uncertainty is propagated, and the sampling settings.
+    """The operating definition, the fit whose uncertainty is propagated and the sampling settings.
 
     template:
         Path to the operating definition, as for `operation.define`.
@@ -50,13 +57,13 @@ class PropagateRequest:
         `temperature_fit`, `ph_fit`, `assay_temperature_K` and `assay_pH` are
         ignored.
     species:
-        The species whose concentrations are reported; all species when empty.
+        The species whose concentrations are reported. All species when empty.
     samples:
         Number of coefficient sets to simulate, 20 to 2000. Default 200.
     seed:
-        The random seed; the same seed reproduces the draws. Default 1.
+        The random seed. The same seed reproduces the draws. Default 1.
     distribution:
-        `normal` draws from the fit's covariance; `bootstrap` resamples the draws of a
+        `normal` draws from the fit's covariance. `bootstrap` resamples the draws of a
         `cluster_bootstrap` fit. Default `normal`.
     quantiles:
         The quantile levels to report, each strictly between 0 and 1. Default 0.05,

@@ -133,8 +133,8 @@ def _fitted_cif(mobile, transform):
 def _alignment_pairs(spec, format, selected, reference, mobile):
     if not isinstance(selected, dict) or set(selected) != {"reference", "mobile"}:
         raise ValueError(
-            "The alignment rows are not a mapping with exactly the keys reference and "
-            "mobile; one row identifier per key is required"
+            "The alignment rows must be a mapping with exactly the keys reference and "
+            "mobile, each naming one row identifier"
         )
     if any(not isinstance(v, str) or not v for v in selected.values()):
         raise ValueError(

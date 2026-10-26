@@ -1,7 +1,8 @@
 """The report: one self-contained HTML file per run.
 
-The page contains the navigation, and for each step the notes and the result. A capability supplies a `render` function that receives its typed result and
-returns the HTML of the result.
+The page contains the navigation and, for each step, the notes and the result. A
+capability supplies a `render` function. It receives the typed result and returns the
+HTML of the result.
 
 A report opens from a file and needs no server and no network.
 """

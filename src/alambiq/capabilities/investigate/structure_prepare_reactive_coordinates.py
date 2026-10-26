@@ -1,39 +1,48 @@
 """Build a model of an enzyme with missing terminal residues and a bound substrate from deposited structures.
 
-The capability builds the coordinates of an enzyme with its substrate bound, from four
-inputs: a target structure (an assembly of one or more chains, with the termini that the
-crystal did not resolve), a donor structure that contains those termini, a structure
-with the substrate (or a close analogue) deposited, and the substrate as an explicit
-molecule. The anchor residues of a terminus are the observed residues next to the gap
-(`terminal_model.anchor_residues` of them). The capability copies the missing terminal
-residues of each target chain from the donor chain with the lowest RMSD after
-superposition on the anchor residues of the target, among the donor chains that meet all
-of these conditions: the RMSD of the fit is below the declared maximum, the length of
-the new peptide bond is in the declared range, and no modeled atom is closer than the
-declared clash distance to another protein atom. It refuses the request if no donor
-chain meets them. The substrate takes the coordinates of the deposited ligand through
-the declared atom mapping and is transferred to the target by aligning an analogue in
-the active site. A force field adds hydrogens to the
-substrate with every heavy atom held fixed. Histidine protonation states are declared in
-the request, and waters closer than the declared exclusion distance to a modeled atom
-are removed.
+The result gives the heavy-atom coordinates of a protein-substrate complex, with hydrogens
+on the substrate. Every deposited atom is at its deposited position, every modeled atom is
+traceable to a donor, and the substrate has the chemistry of the supplied molecule. The
+geometric overlap of substrate and protein is reported.
 
-The result gives heavy-atom coordinates of a protein-substrate complex, with hydrogens
-on the substrate, in which every deposited atom is at its deposited position, every
-modeled atom is traceable to a donor, and the substrate's chemistry is that of the
-supplied molecule, with the geometric overlap of substrate and protein reported.
+The inputs are:
 
-Limits. The modeled termini and the transferred substrate are geometric models. A
-terminus takes the conformation of the donor, which can differ from the conformation in
-the target at the same sequence, and a substrate positioned by aligning an analogue takes
-the position of the analogue. The protonation of histidines is as declared. The protonation of the
-other ionizable groups is set by the preparation capability that reads this result (for
-example `structure.prepare_protein_ligand_system`). The hydrogens of the substrate come
-from the geometry of a force field with all heavy atoms held fixed. Relaxation,
-parameterization and dynamics are done by other capabilities. Only
-canonical protein residues with all their heavy atoms are accepted (the terminal oxygen
-excepted). A request with more than 4,000 residues or more than 64 modeled terminal
-residues is refused.
+- a target structure, an assembly of one or more chains with termini that the crystal did
+  not resolve;
+- a donor structure that contains those termini;
+- a structure in which the substrate or a close analogue is deposited;
+- the substrate as an explicit molecule.
+
+The anchor residues of a terminus are the observed residues next to the gap
+(`terminal_model.anchor_residues` of them). The method has these steps:
+
+- The missing terminal residues of each target chain are copied from the donor chain with the
+  lowest RMSD after superposition on the anchor residues of the target.
+- A donor chain qualifies when the RMSD of the fit is below the declared maximum, the new
+  peptide bond length is in the declared range, and no modeled atom is closer than the
+  declared clash distance to another protein atom. The request is refused if no donor chain
+  qualifies.
+- The substrate takes the coordinates of the deposited ligand through the declared atom
+  mapping. It is transferred to the target by aligning an analogue in the active site.
+- A force field adds hydrogens to the substrate with every heavy atom held fixed.
+- Histidine protonation states are declared in the request.
+- Waters closer than the declared exclusion distance to a modeled atom are removed.
+
+Limits.
+
+- The modeled termini and the transferred substrate are geometric models.
+- A terminus takes the conformation of the donor, which can differ from the conformation in
+  the target at the same sequence.
+- A substrate positioned by aligning an analogue takes the position of the analogue.
+- The protonation of histidines is as declared. The preparation capability that reads this
+  result sets the protonation of the other ionizable groups (for example
+  `structure.prepare_protein_ligand_system`).
+- The hydrogens of the substrate come from the geometry of a force field with all heavy
+  atoms held fixed. Other capabilities do relaxation, parameterization and dynamics.
+- Only canonical protein residues with all their heavy atoms are accepted, except the
+  terminal oxygen.
+- A request with more than 4,000 residues or more than 64 modeled terminal residues is
+  refused.
 """
 
 from __future__ import annotations
@@ -61,8 +70,8 @@ class TargetChain:
     sequence:
         The complete canonical sequence, 4 to 2,000 letters.
     missing_residues:
-        The one-based positions the crystal did not resolve; they must be terminal
-        groups around one observed range.
+        The one-based positions the crystal did not resolve. They must be terminal groups
+        around one observed range.
     histidines:
         For every histidine, by one-based position as text, its state: `HID`, `HIE` or
         `HIP`.
@@ -99,7 +108,7 @@ class Donor:
     model_number:
         The deposited model to use.
     chains:
-        The names of the donor chains that can supply termini; each must hold the exact
+        The names of the donor chains that can supply termini. Each must hold the exact
         complete target sequence.
     """
 

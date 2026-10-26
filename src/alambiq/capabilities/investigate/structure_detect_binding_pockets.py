@@ -1,29 +1,33 @@
 """Predict and rank candidate ligand-binding pockets on a protein surface with P2Rank.
 
-P2Rank assigns each point of the protein's solvent-accessible surface a score from a
-model trained on known ligand-binding sites, using features of the local chemistry. It
-clusters the high-scoring points into pockets and ranks the pockets. Each pocket is
-reported with a score, P2Rank's probability (a value from 0 to 1), the number of surface
-points and atoms in it, a center in angstroms and the residues that P2Rank assigns to it. For a protein
-inspected with `protein.inspect`, the residues are also mapped to positions in the
-query sequence, by exact author chain and residue number.
+The result gives the pockets that P2Rank ranks highest on the structure, with the residues
+that line them. Each pocket has a score, P2Rank's probability (0 to 1), the number of
+surface points and atoms in it, a center in angstroms and the residues that P2Rank assigns
+to it. For a protein inspected with `protein.inspect`, the residues are also mapped to
+positions in the query sequence, by exact author chain and residue number.
 
-Two configurations exist, and the request states which applies because they are
-different models: `experimental` for a deposited structure, and `predicted` for a
-model from a structure predictor, which omits the B-factor feature because the B-factor
-column of a predicted structure holds a confidence value.
+P2Rank scores each point of the solvent-accessible surface with a model trained on known
+ligand-binding sites, using features of the local chemistry. It clusters the high-scoring
+points into pockets and ranks the pockets.
 
-The result gives where this model, trained on known ligand-binding sites, ranks
-candidate pockets on this structure, with the residues that line them.
+The request states the kind of structure, because each kind uses a different model:
 
-Limits. A pocket score orders the pockets of one structure; a high rank marks a
-candidate ligand site to be tested. A protein with no ligand site receives ranked
-pockets as well, unless P2Rank returns none. The center is a single point; the lining
-residues are listed in the result. Detection reads the structure as given, so ligands, cofactors and other chains
-present in the file affect the result, and the pockets refer to the assembly in the file.
-On a predicted structure the pockets include the errors of the prediction, which the
-confidence values in the file describe. P2Rank runs on one thread with a 2 GB Java heap.
-The result contains the `maximum_pockets` highest-ranked pockets.
+- `experimental` for a deposited structure;
+- `predicted` for a model from a structure predictor. This model omits the B-factor
+  feature, because the B-factor column of a predicted structure holds a confidence value.
+
+Limits.
+
+- A pocket score orders the pockets of one structure. A high rank marks a candidate ligand
+  site to be tested.
+- A protein with no ligand site receives ranked pockets as well, unless P2Rank returns none.
+- The center is a single point. The lining residues are listed in the result.
+- Detection reads the structure as given. Ligands, cofactors and other chains in the file
+  affect the result, and the pockets refer to the assembly in the file.
+- On a predicted structure, the pockets include the errors of the prediction, which the
+  confidence values in the file describe.
+- P2Rank runs on one thread with a 2 GB Java heap.
+- The result contains the `maximum_pockets` highest-ranked pockets.
 """
 
 from __future__ import annotations
@@ -56,13 +60,13 @@ class PocketsRequest:
     """The structure, and which kind of structure it is.
 
     structure_kind:
-        `experimental` or `predicted`. They select different P2Rank models.
+        `experimental` or `predicted`. Each selects a different P2Rank model.
     structure:
         A path to a PDB, mmCIF or BCIF file, which may be gzipped. Exactly one of
-        `structure` and `protein` is supplied.
+        `structure` and `protein` is required.
     protein:
-        A path to a `protein.inspect` record that holds a structure, so that pocket
-        residues are mapped to query positions.
+        A path to a `protein.inspect` record that holds a structure. Pocket residues are
+        then mapped to query positions.
     maximum_pockets:
         The number of highest-ranked pockets in the result, 1 to 50.
     """
@@ -85,7 +89,7 @@ class Pocket:
     surface_atoms: int
     center_angstrom: list[float]
     residue_ids: list[str]
-    """P2Rank's residue names: author chain, underscore, author residue number and insertion code."""
+    """P2Rank's residue names: author chain, underscore, author residue number, insertion code."""
     query_positions: list[int] | None
     """Query positions of the pocket's residues, or None if no protein record was given."""
     unmapped_residue_ids: list[str]

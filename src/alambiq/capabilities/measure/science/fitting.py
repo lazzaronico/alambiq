@@ -87,10 +87,10 @@ def validate_parameters(profile, parameters):
         }
     ):
         raise ValueError(
-            "The fit parameters must include sample_id, metric, x_quantity, x_unit, "
-            "y_unit and observation_basis, and may include exclude_measurement_ids, "
-            "prediction_x, condition_ids, pool_over, parameter_bounds, "
-            "fixed_parameters, uncertainty, rate_basis and reference_x."
+            "The fit parameters are sample_id, metric, x_quantity, x_unit, y_unit and "
+            "observation_basis, plus optionally exclude_measurement_ids, prediction_x, "
+            "condition_ids, pool_over, parameter_bounds, fixed_parameters, "
+            "uncertainty, rate_basis and reference_x."
         )
     for key in REQUIRED:
         value = parameters[key]
@@ -166,7 +166,7 @@ def validate_parameters(profile, parameters):
     ):
         raise ValueError(
             "The cluster bootstrap requires exactly the fields method, resamples and "
-            "seed, with resamples an integer from 100 to 2,000 and seed an integer "
+            "seed. resamples is an integer from 100 to 2,000 and seed an integer "
             "from 0 to 2,147,483,647."
         )
 
@@ -221,9 +221,8 @@ def parameter_constraints(profile, parameters):
         or (len(fixed) > 1 and len(names) == 2)
     ):
         raise ValueError(
-            "parameter_bounds and fixed_parameters must be mappings that name only "
-            f"coefficients of the model ({', '.join(names)}), and at least 1 "
-            "coefficient must remain free."
+            "parameter_bounds and fixed_parameters name only coefficients of the "
+            f"model ({', '.join(names)}), and at least 1 coefficient must remain free."
         )
     bounds = {name: supplied.get(name, DEFAULT_BOUNDS[profile][name]) for name in names}
     for name, pair in bounds.items():
@@ -234,7 +233,7 @@ def parameter_constraints(profile, parameters):
         ):
             raise ValueError(
                 f"The bounds of {name} must be a list [lower, upper] of numbers or null "
-                "in the unit of the coefficient; null means unbounded."
+                "in the unit of the coefficient. null means unbounded."
             )
         lo, hi = [finite(v, "parameter bound") if v is not None else None for v in pair]
         if (lo is not None and hi is not None and lo >= hi) or (
@@ -306,7 +305,8 @@ def condition_variation(data, points, parameters):
             + ", ".join(sorted(set(changing) - pooled))
             + " differ between the selected conditions or are missing in some of them. "
             "Select conditions with equal quantities in condition_ids, or list the "
-            "quantities in pool_over; pooled measurements are fitted with one set of coefficients."
+            "quantities in pool_over. Pooled measurements are fitted with one set of "
+            "coefficients."
         )
     return changing
 
@@ -360,8 +360,8 @@ def checked_assay(data):
         return rebuilt
     except (KeyError, TypeError, AttributeError) as exc:
         raise ValueError(
-            "The assay record is incomplete or has fields of the wrong type; it must be "
-            "a complete assay.inspect record with its source and settings."
+            "The assay record is incomplete or has fields of the wrong type. Supply a "
+            "complete assay.inspect record with its source and settings."
         ) from exc
 
 
@@ -888,7 +888,7 @@ def fit_assay(data, profile, parameters):
         )
     if not reliable:
         diagnostics.append(
-            "No parameter uncertainty is estimated, because the fit has a coefficient at "
+            "No parameter uncertainty is estimated because the fit has a coefficient at "
             "a bound, a rank-deficient or ill-conditioned local Jacobian, or failed "
             "resamples."
         )
@@ -1078,13 +1078,13 @@ def fit_assay(data, profile, parameters):
         "predictions": predictions,
         "diagnostics": diagnostics,
         "uncertainty": uncertainty,
-        "method": "Unweighted least squares on the observation basis selected in the request. Technical readings are averaged within a named independent unit when independent-means is requested. "
+        "method": "Unweighted least squares on the observation basis of the request. Technical readings are averaged within a named independent unit under independent-means. "
         + (
-            "Cluster percentile-bootstrap intervals of the coefficients and of the mean resample whole named independent units, with the measurements of a unit kept together. They assume experimentally independent, representative units. Intervals of future observations are available with the residual method. "
+            "The intervals of the coefficients and of the mean are cluster percentile-bootstrap intervals. They resample whole named independent units and assume experimentally independent, representative units. Intervals of future observations come from the residual method. "
             if bootstrap
-            else "Local Jacobian covariance and Student-t intervals assume independent, homoskedastic residual errors and an adequate model; nonlinear intervals are approximate and can extend beyond physical parameter bounds. The uncertainty of the mean and the uncertainty of a future observation are separate. "
+            else "The intervals come from the local Jacobian covariance and Student-t quantiles. They assume independent residual errors with equal variance and an adequate model. Nonlinear intervals are approximate and can extend beyond physical parameter bounds. The uncertainty of the mean and the uncertainty of a future observation are separate. "
         )
-        + "Fixed coefficients have no estimated interval; the other uncertainty is conditional on their values. Extrapolations are labeled.",
+        + "Fixed coefficients have no interval. The uncertainty of the other coefficients is conditional on their values. Extrapolations are labeled.",
     }
     # Numerical extremes must become a useful failure, never invalid JSON.
     try:

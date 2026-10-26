@@ -1,36 +1,47 @@
 """Fit the frames of a molecular dynamics trajectory to a reference and measure them.
 
+Returns the alpha-carbon RMSD and radius of gyration of every frame, the per-residue
+alpha-carbon fluctuation, and the distances, angles and contacts that the request selects.
+It also returns the state-data averages of temperature, potential energy and volume.
+
 A trajectory from `simulation.run_molecular_dynamics`, with its topology and state data,
-is read once from start to end. Every frame is fitted onto a reference by the protein
-alpha carbons (the reference is the first saved frame unless a structure is supplied).
-The result gives the alpha-carbon RMSD and the radius of gyration of the alpha carbons
-of every frame, the per-residue alpha-carbon fluctuation, and the distances, angles and
-contacts between atoms that the request selects by exact atom identity (chain, residue
-number, residue name and atom name). Optionally it gives the per-residue contact
-fraction with a ligand and a check that the protein does not come closer to its own
-periodic image than `protein_image_check.cutoff_nm`. The full per-frame values are
-written to an array file. A details file holds 2 to 100 frames (`max_preview_frames`)
-and 100 to 5,000 points of each series (`max_plot_frames`) for plotting.
+is read once from start to end. Every frame is fitted onto a reference by the protein alpha
+carbons. The reference is the first saved frame unless a structure is supplied. Distances,
+angles and contacts are measured between atoms selected by exact identity (chain, residue
+number, residue name and atom name).
 
-The result describes the behavior of this trajectory, frame by frame, by the selected
-measures, with the state-data averages (temperature, potential energy, volume).
+Two checks are optional:
 
-Limits. A mean or a fluctuation from one trajectory describes the time sampled; the
-variation between independent trajectories is estimated with
-`simulation.compare_replica_structures`. An RMSD that rises and remains high shows that
-the structure moved away from the reference. Fluctuations are taken about the mean of
-this trajectory after fitting, so they reflect the time sampled. The fit and the RMSD
-use alpha carbons, so they register backbone motion; a motion of side chains or ligands
-that leaves the backbone unchanged is followed with the distances, angles and contacts
-that the request defines. The reference is the first saved frame unless `reference_structure`
-supplies one, for example the minimized starting structure. Distances, angles and
-contacts use the stored coordinates unless `periodic_observables` (minimum-image
-distances) is set. A molecule that crosses the box edge in the stored coordinates is
-broken across the edge unless `imaging: whole-molecules` is set. The periodic image
-check covers only the `protein_image_check.frames` evenly spaced saved frames. A contact
-fraction counts saved frames, unweighted by time. The measures are structural
-descriptors of the trajectory. A request with more than 100,000 frames or more than
-250,000 atoms is refused.
+- the per-residue contact fraction with a ligand;
+- a check that the protein does not come closer to its own periodic image than
+  `protein_image_check.cutoff_nm`.
+
+The full per-frame values are written to an array file. A details file holds 2 to 100
+frames (`max_preview_frames`) and 100 to 5,000 points of each series (`max_plot_frames`)
+for plotting.
+
+Limits.
+
+- A mean or a fluctuation from one trajectory describes the time sampled. The variation
+  between independent trajectories is estimated with `simulation.compare_replica_structures`.
+- Fluctuations are taken about the mean of this trajectory after fitting.
+- An RMSD that rises and remains high shows that the structure moved away from the
+  reference.
+- The fit and the RMSD use alpha carbons, so they register backbone motion. A motion of
+  side chains or ligands that leaves the backbone unchanged appears in the distances,
+  angles and contacts that the request defines.
+- The reference is the first saved frame unless `reference_structure` supplies one, for
+  example the minimized starting structure.
+- Distances, angles and contacts use the stored coordinates unless `periodic_observables`
+  (minimum-image distances) is set.
+- A molecule that crosses the box edge in the stored coordinates is broken across the edge
+  unless `imaging: whole-molecules` is set.
+- The periodic image check covers only the `protein_image_check.frames` evenly spaced saved
+  frames.
+- A contact fraction counts saved frames, unweighted by time.
+
+The capability refuses a trajectory with more than 100,000 frames or more than 250,000
+atoms.
 """
 
 from __future__ import annotations

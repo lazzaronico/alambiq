@@ -1,47 +1,34 @@
 """Choose which candidates to make and measure next.
 
-The request names a candidate panel, defined in `candidate.fit`. Selection is
-greedy over the pool partition only. At each pick the candidate that ranks
-first under the strategy is chosen, and ties are resolved by an order fixed by
-the supplied seed. The constraints are an eligibility list, a cap per group,
-and a budget against per-candidate costs. 7 strategies are available:
+The result lists up to `count` candidates from the pool partition of a candidate panel (defined in `candidate.fit`). The stored record gives the reason that each other candidate was not chosen.
+
+Selection is greedy. At each pick, the candidate that ranks first under the strategy is chosen. A seed fixes the order that resolves ties. The constraints are an eligibility list, a cap per group, and a budget against per-candidate costs.
+
+The strategies are:
 
 - `random` orders the pool by a seeded shuffle.
-- `diverse` picks first the candidate that is first in the seeded shuffle, then
-  at each pick the candidate with the largest distance to its nearest chosen
-  candidate.
-- `highest-predicted` and `lowest-predicted` pick the candidate with the highest
-  or the lowest predicted response.
-- `uncertain` picks the candidate with the largest predictive standard
-  deviation.
-- `highest-predicted-diverse` picks the candidate with the largest sum of its
-  predicted response, scaled 0 to 1 over the eligible candidates (0.5 for every
-  candidate when all values are equal), and `diversity_weight` times its
-  distance to the nearest chosen candidate.
-- `pareto` ranks candidates by non-dominated front over 2 to 5 fitted
-  objectives. A candidate is dominated when another candidate is at least as
-  good on every objective and better on at least one. Front 0 is the set of
-  non-dominated candidates, front 1 the set that is non-dominated once front 0
-  is removed, and so on.
+- `diverse` picks first the candidate that is first in the seeded shuffle. At each later pick, it chooses the candidate with the largest distance to its nearest chosen candidate.
+- `highest-predicted` and `lowest-predicted` pick the candidate with the highest or the lowest predicted response.
+- `uncertain` picks the candidate with the largest predictive standard deviation.
+- `highest-predicted-diverse` picks the candidate with the largest sum of two terms: its predicted response, scaled 0 to 1 over the eligible candidates (0.5 for every candidate when all values are equal), and `diversity_weight` times its distance to the nearest chosen candidate.
+- `pareto` ranks candidates by non-dominated front over 2 to 5 fitted objectives. A candidate is dominated when another candidate is at least as good on every objective and better on at least one. Front 0 is the set of non-dominated candidates. Front 1 is the set that is non-dominated once front 0 is removed, and so on.
 
-The strategies `highest-predicted`, `lowest-predicted`, `uncertain` and
-`highest-predicted-diverse` require a stored `candidate.fit` record of the same
-candidate panel; `pareto` requires one such record per objective. `diverse`
-and `highest-predicted-diverse` require the request field `diversity`, set to
-`sequence` or `embedding-cosine`.
+The strategies `highest-predicted`, `lowest-predicted`, `uncertain` and `highest-predicted-diverse` require a stored `candidate.fit` record of the same candidate panel. `pareto` requires one such record per objective. `diverse` and `highest-predicted-diverse` require the request field `diversity`, set to `sequence` or `embedding-cosine`.
 
-The stored record lists every panel candidate that is not chosen with its
-reasons: `partition-<name>` for a candidate outside the pool partition,
-`researcher-eligibility`, `group-cap`, `remaining-budget`, or
-`not-selected-in-requested-batch`. When fewer than
-`count` candidates satisfy the constraints, the result lists fewer candidates
-than `requested` and a note states the shortfall.
+The stored record lists every panel candidate that is not chosen, with its reasons:
 
-Limits. Greedy selection with a seed is reproducible; each pick ranks
-first under the strategy among the eligible candidates, given the earlier picks.
-Sequence distance is the fraction of positions that differ and requires eligible
-candidates of equal length. `candidate.fit` measures the prediction error on the evaluation
-partition; the pool partition is unmeasured.
+- `partition-<name>`: the candidate is outside the pool partition;
+- `researcher-eligibility`;
+- `group-cap`;
+- `remaining-budget`;
+- `not-selected-in-requested-batch`.
+
+When fewer than `count` candidates satisfy the constraints, the result lists fewer candidates than `requested`, and a note states the shortfall.
+
+Limits. Greedy selection with a seed is reproducible. Each pick ranks first under the strategy among the eligible candidates, given the earlier picks.
+
+- Sequence distance is the fraction of positions that differ. It requires eligible candidates of equal length.
+- `candidate.fit` measures the prediction error on the evaluation partition. The pool partition is unmeasured.
 """
 
 from __future__ import annotations
@@ -74,42 +61,42 @@ class CandidateSelectRequest:
         The number of candidates to choose (1 to 500), and the seed (0 to
         2,147,483,647) that fixes the order and resolves ties.
     strategy:
-        One of the 7 strategies listed in the capability description. Default
-        `random`. `highest-predicted`, `lowest-predicted`, `uncertain` and
-        `highest-predicted-diverse` require `model`; `highest-predicted-diverse`
-        also requires `diversity`; `pareto` requires `models` and `objectives`. The
-        first pick of `highest-predicted-diverse` has no chosen candidate and uses
-        the predicted response alone.
+        One of the strategies listed in the capability description. Default `random`.
+        `highest-predicted`, `lowest-predicted`, `uncertain` and
+        `highest-predicted-diverse` require `model`. `highest-predicted-diverse`
+        also requires `diversity`. `pareto` requires `models` and `objectives`. The
+        first pick of `highest-predicted-diverse` has no chosen candidate and uses the
+        predicted response alone.
     model:
         Path to a stored `candidate.fit` record of the same candidate panel, for the
         strategies that use predictions.
     models, objectives:
         For `pareto`: 2 to 5 stored `candidate.fit` records of the same candidate
-        panel, and a list of the same length that gives, for each record in order,
-        whether to `maximize` or `minimize` its predicted response. Fronts are taken
-        in order from front 0; within a front the objectives, scaled 0 to 1 over
-        the eligible candidates (a `minimize` objective with its sign reversed),
-        are added with equal weight and
-        the candidate with the largest sum is picked first.
+        panel, and a list of the same length. The list gives, for each record in
+        order, whether to `maximize` or `minimize` its predicted response. Fronts are
+        taken in order from front 0. Within a front, the objectives are scaled 0 to 1
+        over the eligible candidates (a `minimize` objective with its sign reversed)
+        and added with equal weight. The candidate with the largest sum is picked
+        first.
     diversity_weight:
         For `highest-predicted-diverse`: the weight of the distance from the chosen
-        set relative to the predicted response, 0 to 10; 1 by default. A weight
-        of 0 is equivalent to `highest-predicted`; a larger weight increases the
-        influence of the distance on the selection.
+        set relative to the predicted response, 0 to 10. Default 1. A weight of 0 is
+        equivalent to `highest-predicted`. A larger weight increases the influence of
+        the distance.
     diversity, embeddings:
         For `diverse` and `highest-predicted-diverse`: `sequence` distance, or
         `embedding-cosine` with a path to a stored embedding record.
     eligible_ids, exclude_ids:
-        `eligible_ids`: only these pool candidates are eligible; all pool candidates
+        `eligible_ids`: only these pool candidates are eligible. All pool candidates
         are eligible when the list is empty. `exclude_ids`: these candidates are
         removed from the eligible set.
     max_per_group:
         At most this many candidates from any one group (1 to 500).
     costs, budget, cost_unit:
         `costs`: a positive cost for every eligible pool candidate, keyed by
-        `sample_id`. `budget`: a positive upper bound on the sum of the costs of
-        the chosen candidates. `cost_unit`: the unit of both, a nonblank text. The
-        three are supplied together or not at all.
+        `sample_id`. `budget`: a positive upper bound on the sum of the costs of the
+        chosen candidates. `cost_unit`: the unit of both, as nonblank text. Supply the
+        three together or not at all.
     """
 
     panel: str
@@ -132,7 +119,7 @@ class CandidateSelectRequest:
 
 @dataclass(frozen=True, slots=True)
 class Chosen:
-    """One selected candidate: sample id, group id and cost (None without costs)."""
+    """One selected candidate: sample id, group id and cost (None when no costs are supplied)."""
 
     sample_id: str
     group_id: str
@@ -141,7 +128,7 @@ class Chosen:
 
 @dataclass(frozen=True, slots=True)
 class CandidateSelectResult:
-    """The batch, its total cost and the reasons the other candidates were not chosen."""
+    """The batch, its total cost, and the reasons that the other candidates were not chosen."""
 
     selected: list[Chosen]
     requested: int
@@ -162,7 +149,7 @@ class CandidateSelectResult:
     render=render,
 )
 def select(request: CandidateSelectRequest, ctx: StepContext) -> CandidateSelectResult:
-    """Choose the batch and record the reason for the rejection of each candidate that is not chosen."""
+    """Choose the batch and record the reason that each other candidate was not chosen."""
     from alambiq.capabilities.engineer.science.selection import select_candidates
 
     parameters: dict[str, object] = {

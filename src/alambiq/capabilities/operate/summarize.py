@@ -1,44 +1,49 @@
 """Report the product amounts and the catalyst use of a simulation record.
 
-From a stored `operation.simulate` record and an explicit assessment, the capability
-computes:
+The capability reads a stored `operation.simulate` record and an explicit assessment. It
+returns the net formed, selected and useful amounts of the product, the productivity,
+the product per supplied active site of each catalyst, and the time at which each
+catalyst falls below its usefulness threshold. The format of the assessment is in
+`docs/operation-formats.md`.
 
-- the product ledger: the initial, fed, formed, consumed, removed and final
-  amounts of the product species (held by the stored record; the result holds the
-  net formed amount, formed minus consumed);
-- the selected output, which is the sum of the amounts that the assessment counts
-  (final reactor contents, discrete exchanges and continuous collections), and
-  the useful output, which is the selected output multiplied by the stated
-  recovery and accepted fractions;
-- the productivity: the useful output divided by the reaction time in mol/s and,
-  when an additional handling time is supplied, divided by the sum of the reaction
-  time and the handling time;
-- for each catalyst listed in the assessment, the supplied active sites and the net
-  product and the useful output per supplied active site (these need the active-site
-  count and, for a catalyst counted in a mass unit, the molecular mass); the stored
-  record also holds the extent of each channel of that catalyst and its turnovers per
-  supplied active site;
-- for each usefulness threshold (a minimum active amount of a catalyst, in the
-  amount unit of the catalyst), the interval between two recorded states in which
-  the active amount first falls below the threshold, or the time of the exchange
-  when the fall occurs at a discrete event.
+Method.
+- Product ledger: the initial, fed, formed, consumed, removed and final amounts of the
+  product species. The stored record holds the ledger. The result holds the net formed
+  amount, formed minus consumed.
+- Selected output: the sum of the amounts that the assessment counts (final reactor
+  contents, discrete exchanges and continuous collections).
+- Useful output: the selected output multiplied by the stated recovery and accepted
+  fractions.
+- Productivity: the useful output divided by the reaction time, in mol/s. When the
+  assessment gives an additional handling time, the useful output is also divided by the
+  sum of the reaction time and the handling time.
+- Catalyst use, for each catalyst listed in the assessment: the supplied active sites,
+  and the net product and the useful output per supplied active site. These need the
+  active-site count and, for a catalyst counted in a mass unit, the molecular mass. The
+  stored record also holds the extent of each channel of the catalyst and its turnovers
+  per supplied active site.
+- Usefulness threshold: a minimum active amount of a catalyst, in the amount unit of the
+  catalyst. The result is the interval between two recorded states in which the active
+  amount first falls below the threshold, or the time of the exchange when the fall
+  occurs at a discrete event.
 
-Limits. The assessment names the simulated definition (`operation_id`) and its
-conditions; a different definition or different conditions are refused. The selected
-collection windows must not overlap, and the selected output must not exceed the
-recorded available amount of the product (final plus removed). The recovery fraction and the accepted fraction
-are stated handling assumptions. The turnover per active site is
-reported as unresolved when the molecular mass is missing for a catalyst counted in a
-mass unit, when the amount unit of the catalyst is not one of `mol`, `mmol`, `umol`,
-`nmol`, `kg`, `g`, `mg` or `ug`, or when the supplied active sites number zero. A
-catalyst without an entry in the assessment has no turnover figures. The net product of
-the product species is the sum over channels of the stoichiometric coefficient times the
-extent; it equals the extent of one channel only if that channel is the only one that
-changes the species and the coefficient is 1. A threshold crossing between two recorded
-states is located only within that interval. For a threshold that is not crossed,
-the result states whether the active amount is below it at time zero or stays at
-or above it up to the last recorded time. The format of the assessment is
-described in `docs/operation-formats.md`.
+Limits.
+- The assessment names the simulated definition (`operation_id`) and its conditions. A
+  different definition or different conditions are refused.
+- The selected collection windows do not overlap. The selected output does not exceed the
+  recorded available amount of the product (final plus removed).
+- The recovery fraction and the accepted fraction are stated handling assumptions.
+- The turnover per active site is unresolved when any of these holds: the molecular mass
+  is missing for a catalyst counted in a mass unit; the amount unit of the catalyst is
+  not one of `mol`, `mmol`, `umol`, `nmol`, `kg`, `g`, `mg` or `ug`; the supplied active
+  sites number zero. A catalyst without an entry in the assessment has no turnover
+  figures.
+- The net product of the product species is the sum over channels of the stoichiometric
+  coefficient times the extent. It equals the extent of one channel when that channel is
+  the only one that changes the species and the coefficient is 1.
+- A threshold crossing between two recorded states is located within that interval only.
+  For a threshold that is not crossed, the result states whether the active amount is
+  below it at time zero or stays at or above it up to the last recorded time.
 """
 
 from __future__ import annotations
@@ -57,11 +62,14 @@ class SummarizeRequest:
     operation:
         A stored `operation.simulate` record.
     assessment:
-        Path to the assessment: the product species and its recovery and accepted
-        fractions, which outputs count, the active-site count of each catalyst
-        and, for a catalyst counted in a mass unit, its molecular mass, the
-        usefulness thresholds and an optional additional handling time, which is
-        added to the reaction time.
+        Path to the assessment. It states:
+        - the product species and its recovery and accepted fractions;
+        - which outputs count;
+        - the active-site count of each catalyst and, for a catalyst counted in a mass
+          unit, its molecular mass;
+        - the usefulness thresholds;
+        - optionally, an additional handling time, which is added to the reaction
+          time.
     """
 
     operation: str
@@ -81,7 +89,7 @@ class CatalystUse:
 
 @dataclass(frozen=True, slots=True)
 class Lifetime:
-    """The interval in which the active amount of one catalyst first falls below a threshold, and the recorded horizon."""
+    """The interval in which the active amount of one catalyst first falls below a threshold, with the recorded horizon."""
 
     id: str
     catalyst: str

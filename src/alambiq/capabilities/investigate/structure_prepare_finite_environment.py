@@ -1,38 +1,45 @@
 """Cut a finite droplet around a solute from a periodic solvated system.
 
-The capability builds a finite cluster of a solute and solvent for use as the
-surroundings of a QM/MM calculation. The inputs are the Amber topology of a periodic,
-solvated system and an OpenMM state file of it. Bonds are unwrapped so that every
-molecule is whole, whole molecules are imaged around an anchor molecule, and every water
-or ion with any atom inside a sphere of the radius given in the request, centered on the
-heavy atom of the anchor molecule that is nearest to its center of mass, is retained
-whole, together with the declared solute residues. The retained atoms receive their own
-Amber topology. The capability compares every force-field parameter of every retained
-particle with the source and refuses a cluster in which any parameter differs. The
-boundary is a separate set of explicit potentials: harmonic position restraints tie
-the heavy atoms of the outer solute residues to their source positions, and a wall acts
-on the center of mass of each retained water or ion. Protected atoms are the atoms listed
-in `protected_atoms`, for example the quantum region; the capability refuses a request
-in which a protected atom belongs to a residue that would be restrained.
+The result is a finite cluster of the solute and solvent, neutral or charged, with an
+explicit boundary. It serves as the surroundings of a QM/MM calculation. The retained atoms
+and their parameters are those of the periodic system, and the cluster has its own Amber
+topology.
 
-The result is a finite cluster, neutral or charged, whose retained atoms and parameters
-are those of the periodic system, with an explicit boundary, for use as the surroundings
-of a QM/MM calculation.
+The inputs are the Amber topology of a periodic, solvated system and an OpenMM state file
+of it. The method has these steps:
 
-Limits. A droplet has a surface. The wall and the springs approximate the bulk beyond the
-surface, and the dielectric screening, the density at the edge and the net charge of the
-cluster differ from those of the periodic system. The quantum region has to lie inside
-the sphere and away from its surface; the capability refuses a protected atom only when
-its residue would be restrained, a residue whose atoms all lie farther than
-`inner_solute_radius_angstrom` from the droplet center. The cluster starts from the
-positions of one frame of the source.
-The periodic cell must be orthorhombic. Of the `box_shape` values of the
-preparation capabilities, only `cube` gives an orthorhombic cell. The capability refuses
-a residue that is not a complete solute residue, a whole water or a single ion, and a
-cluster of more than 100,000 atoms. The cluster has no bond constraints, and its charge
-and Lennard-Jones interactions are evaluated for all atom pairs. The cluster is a
-finite system and is valid only with the boundary potentials in `external_system_xml`,
-for QM/MM calculations and dynamics.
+- Bonds are unwrapped so that every molecule is whole, and whole molecules are imaged around
+  the anchor molecule.
+- The center of the droplet is the heavy atom of the anchor molecule that is nearest to its
+  center of mass.
+- Every water or ion with any atom inside the sphere of the requested radius around that
+  center is retained whole, together with the declared solute residues.
+- Every force-field parameter of every retained particle is compared with the source. A
+  cluster in which any parameter differs is refused.
+
+The boundary is a separate set of explicit potentials. Harmonic position restraints tie the
+heavy atoms of the outer solute residues to their source positions, and a wall acts on the
+center of mass of each retained water or ion. Protected atoms are the atoms listed in
+`protected_atoms`, for example the quantum region. A request in which a protected atom
+belongs to a residue that would be restrained is refused.
+
+Limits.
+
+- A droplet has a surface. The wall and the springs approximate the bulk beyond the surface.
+  The dielectric screening, the density at the edge and the net charge of the cluster differ
+  from those of the periodic system.
+- The quantum region has to lie inside the sphere and away from its surface. A protected atom
+  is refused only when its residue would be restrained, that is, when all atoms of the
+  residue lie farther than `inner_solute_radius_angstrom` from the droplet center.
+- The cluster starts from the positions of one frame of the source.
+- The periodic cell must be orthorhombic. Of the `box_shape` values of the preparation
+  capabilities, only `cube` gives an orthorhombic cell.
+- A residue that is not a complete solute residue, a whole water or a single ion is refused.
+  A cluster of more than 100,000 atoms is refused.
+- The cluster has no bond constraints. Its charge and Lennard-Jones interactions are
+  evaluated for all atom pairs.
+- The cluster is valid only with the boundary potentials in `external_system_xml`, for QM/MM
+  calculations and dynamics.
 """
 
 from __future__ import annotations
@@ -73,7 +80,7 @@ class FiniteRequest:
         ions are retained, 10 to 50.
     inner_solute_radius_angstrom:
         Heavy atoms of each solute residue whose atoms all lie farther than this radius from
-        the droplet center are restrained. Range 5 to 40; less than
+        the droplet center are restrained. The range is 5 to 40, and the value is less than
         `solvent_radius_angstrom`.
     position_coefficient_kj_mol_nm2:
         The spring constant of those restraints.
@@ -119,7 +126,7 @@ class FiniteResult:
     topology_pdb: str
     amber_topology: str
     source_atom_map: str
-    """The source atom of each retained atom, and the positions of the protected atoms and the center in the cluster."""
+    """The source atom of each retained atom, and the cluster positions of the protected atoms and the center."""
     manifest: str
     versions: dict[str, str]
 

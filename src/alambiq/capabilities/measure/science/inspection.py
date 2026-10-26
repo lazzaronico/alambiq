@@ -79,9 +79,9 @@ def link_sample_constructs(sources, sequences, sample_ids):
             or protein != sequences[sample_id]
         ):
             raise ValueError(
-                f"The construct record of sample {sample_id} is inconsistent: its "
+                f"The construct record of sample {sample_id} is inconsistent. Its "
                 "schema_version, topology, length, sequence digest and protein digest "
-                "must agree with its sequence and translation, and its translation must "
+                "must agree with its sequence and translation. Its translation must "
                 "equal the sample protein."
             )
         samples.append(
@@ -101,7 +101,7 @@ def link_sample_constructs(sources, sequences, sample_ids):
     return {
         "samples": samples,
         "unlinked_sample_ids": sorted(sample_ids - sources.keys()),
-        "method": "The association of samples with constructs is supplied by the researcher. The source bytes and the recorded DNA and protein digests are checked, and the recorded translation equals the supplied sample sequence.",
+        "method": "The researcher supplies the association of samples with constructs. The source bytes and the recorded DNA and protein digests are checked. The recorded translation equals the supplied sample sequence.",
     }
 
 
@@ -277,9 +277,8 @@ def inspect_assay(
             }
             if row["measurement_id"] in identifiers:
                 raise ValueError(
-                    f"measurement_id {row['measurement_id']!r} appears more than once; "
-                    "each measurement_id must be unique, and duplicates are neither "
-                    "selected nor averaged."
+                    f"measurement_id {row['measurement_id']!r} appears more than once. "
+                    "Each measurement_id must be unique."
                 )
             identifiers.add(row["measurement_id"])
             if row["condition_id"] not in conditions:
@@ -296,7 +295,7 @@ def inspect_assay(
             ):
                 raise ValueError(
                     f"Measurement {row['measurement_id']}: role {row['role']!r} must be "
-                    "sample, reference, blank or control, and must equal the role of "
+                    "sample, reference, blank or control. It must equal the role of "
                     "the other measurements of the same sample, condition, metric and "
                     "unit."
                 )
@@ -488,7 +487,7 @@ def inspect_assay(
         "rows": rows,
         "groups": groups,
         "intake": {**intake, "units": units or {}},
-        "method": "Arithmetic means within named independent units, then equal-weight mean and sample SD (n-1) of those means. Missing, failed and censored records are retained, not imputed or pooled as observations. Unassigned observed values prevent group pooling. "
+        "method": "Arithmetic means within named independent units, then the equal-weight mean and sample SD (n-1) of those means. Missing, failed and censored records are retained as they are. Observed values without an independent unit prevent pooling a group. "
         + (
             "Explicit unit conversions are recorded beside original values. "
             if units

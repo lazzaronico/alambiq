@@ -1,33 +1,39 @@
 """Estimate the transformed Gibbs energy of reactions in aqueous solution and of a route.
 
-For each stated reaction, with compounds identified by accession and given an activity,
-this reports the standard transformed Gibbs energy ΔG′° at 298.15 K for a stated pH, pMg
-and ionic strength, from eQuilibrator's component-contribution model; the energy at the
-stated activities, ΔG′ = ΔG′° + RT ln Q; and ln K′. The energy of a weighted route is
-the weighted sum of the reaction energies. The uncertainty of the sum uses the full
-covariance matrix of the reaction estimates, so the correlation between the errors of
-different reactions enters the variance of the sum. A route can instead be taken from a
-stored record of `reaction.explore_routes`: the request names one route by its
-zero-based index and maps each participant to an accession and an activity.
+For each reaction, the result gives the standard transformed Gibbs energy ΔG′° at
+298.15 K, the energy ΔG′ at the stated activities, and ln K′. It also gives the model
+standard deviation. The sign of ΔG′ indicates whether the equation, as written, runs
+forward or backward at those conditions and activities.
 
-The result gives the model's estimate of whether the equation, as written and at the
-stated conditions and activities, runs forward or backward, with the model's
-uncertainty. Water has unit activity. The pH fixes the proton activity, so the request
-gives the proton activity as null.
+The standard energy comes from eQuilibrator's component-contribution model, for a
+stated pH, pMg and ionic strength. The energy at the stated activities is
+ΔG′ = ΔG′° + RT ln Q. Each compound is identified by an accession and has an activity.
+Water has unit activity. The pH fixes the proton activity, so the request gives the
+proton activity as null.
 
-Limits. An estimate is a model prediction of the equilibrium position; its standard
-deviation is the uncertainty of the model, conditional on the stated conditions and
-activities. The estimate covers aqueous solution at 298.15 K, with magnesium given as
-pMg. A reaction that cannot be estimated is reported with the reason. The statuses are
-`unresolved-compounds` (an unresolved accession or a reference structure that does not
-match), `unbalanced` (an unbalanced element other than hydrogen), `unresolved-formula`
-(a compound without a formula), `buffer-only-equation` (all participants are protons),
-`unresolved-transform` (missing dissociation data) and `unresolved-model` (a direction
-that the model does not constrain). A route that uses such a reaction has no route energy. Hydrogen exchange is
-fixed by the pH and is excluded from the element balance. The estimate applies to the
-activities stated; activities in a cell differ from those of a dilute buffer. A request
-with fewer than 2 or more than 200 compounds, or with fewer than 1 or more than 50
-reactions, is refused.
+The energy of a weighted route is the weighted sum of its reaction energies. The
+variance of the sum uses the full covariance matrix of the reaction estimates, so the
+correlation between reaction errors enters it. A route can also be taken from a stored
+record of `reaction.explore_routes`. The request names one route by its zero-based index
+and maps each participant to an accession and an activity.
+
+Limits:
+
+- An estimate is a model prediction of the equilibrium position. Its standard deviation
+  is the uncertainty of the model, conditional on the stated conditions and activities.
+- The estimate covers aqueous solution at 298.15 K, with magnesium given as pMg.
+- Activities in a cell differ from those of a dilute buffer. The estimate applies to the
+  activities stated.
+- Hydrogen exchange is fixed by the pH and is excluded from the element balance.
+- A reaction that cannot be estimated is reported with one of these statuses:
+  `unresolved-compounds` (an unresolved accession or a reference structure that does not
+  match), `unbalanced` (an unbalanced element other than hydrogen), `unresolved-formula`
+  (a compound without a formula), `buffer-only-equation` (all participants are protons),
+  `unresolved-transform` (missing dissociation data) and `unresolved-model` (a direction
+  that the model leaves unconstrained).
+- A route that uses such a reaction has no route energy.
+- A request with fewer than 2 or more than 200 compounds, or with fewer than 1 or more
+  than 50 reactions, is refused.
 """
 
 from __future__ import annotations
@@ -149,13 +155,13 @@ class ThermoRequest:
         Free text that states what the activities and conditions assume.
     compounds, reactions, route_weights:
         The equations to estimate. `route_weights` gives the number of times each
-        reaction is used in the route (an integer, or a string holding a fraction or a decimal;
-        above 0 and at most 10,000).
+        reaction is used in the route: an integer, or a string holding a fraction or a
+        decimal, above 0 and at most 10,000.
     route, route_index, route_compounds:
         A route of `reaction.explore_routes` to estimate: its stored record, the
         zero-based index of the route in it, and an aqueous identity (accession and
         activity) for every participant of the route's reactions. A request supplies
-        either the first group of fields or this group, not both.
+        either the equation fields or these route fields.
     """
 
     id: str

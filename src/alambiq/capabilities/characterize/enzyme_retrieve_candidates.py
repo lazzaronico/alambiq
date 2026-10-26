@@ -1,36 +1,43 @@
 """Rank candidate proteins by their similarity to experimentally supported ones.
 
-Every reference is aligned with MMseqs2 against every reference and candidate
-(exhaustively, with every alignment retained), and each protein is scored by
-the highest bit score of its alignments to a different reference. The ranking
-is then judged against the named controls: positive controls, which are
-references known to have the function, and negative controls, which are
-candidates known not to have it (the field names `maximum_hard_negative_bits`
-and `hard_negative_margin_bits` and the evidence class `hard-negative-control`
-use the term hard negative). The result reports the area under the receiver
-operating characteristic curve (AUROC) of the score for positive controls
-against negative controls, and the AUROC of a score from sequence length alone
-(the negative of the smallest length difference to another reference). The
-difference between the two AUROC values is reported as
-`control_auroc_lift_over_length`. A difference above 0 indicates that
-similarity separates the controls better than size does.
+Returns a ranking of all references and candidates by sequence similarity to the
+references, and a check of the ranking against named controls. The check shows
+how well sequence similarity to the supplied references separates the supplied
+controls.
 
-What the result supports: how well sequence similarity to the supplied
-references separates the supplied controls. The rank orders all references and
-candidates by the highest bit score of their alignments to a different
-reference.
+The method:
 
-Limits. The ranking depends on the references and the controls, which are
-supplied in the request. The AUROC is the probability that a random positive
-control outscores a random negative control, with ties counting half. For P
-positive and N negative controls it takes values in steps of 1/(PN) without
-tied scores and 1/(2PN) with ties; with 3 and 3 controls the steps are 1/9 and
-1/18. An AUROC near 1 indicates that similarity to the references separates these
-controls. For a candidate that is not a control, a high rank indicates
-similarity to the references; homologs can share a fold without sharing a
-reaction. Scores are comparable only between proteins ranked against the same
-references. A references FASTA or a candidates FASTA with more than 2,000
-proteins is refused.
+- MMseqs2 aligns every reference against every reference and candidate,
+  exhaustively, with every alignment retained.
+- The score of a protein is the highest bit score of its alignments to a
+  different reference.
+- Positive controls are references known to have the function. Negative
+  controls are candidates known not to have it. The field names
+  `maximum_hard_negative_bits` and `hard_negative_margin_bits` and the evidence
+  class `hard-negative-control` call them hard negatives.
+- The result reports the area under the receiver operating characteristic curve
+  (AUROC) of the score for positive controls against negative controls.
+- The result also reports the AUROC of a score from sequence length alone, the
+  negative of the smallest length difference to another reference.
+- `control_auroc_lift_over_length` is the difference between the two. A
+  difference above 0 indicates that similarity separates the controls better
+  than size does.
+
+Limits.
+
+- The ranking depends on the references and the controls that the request
+  supplies.
+- The AUROC is the probability that a random positive control outscores a random
+  negative control, with ties counting half. For P positive and N negative
+  controls it changes in steps of 1/(PN) without tied scores and 1/(2PN) with
+  ties. With 3 and 3 controls the steps are 1/9 and 1/18.
+- An AUROC near 1 indicates that similarity to the references separates these
+  controls.
+- For a candidate that is not a control, a high rank indicates similarity to
+  the references. Homologs can share a fold without sharing a reaction.
+- Scores are comparable between proteins ranked against the same references.
+- A references FASTA or a candidates FASTA with more than 2,000 proteins is
+  refused.
 """
 
 from __future__ import annotations
@@ -45,37 +52,37 @@ from alambiq.core.registry import capability
 
 @dataclass(frozen=True, slots=True)
 class RetrieveRequest:
-    """The references, the candidates, and the controls against which the ranking is judged.
+    """The references, the candidates and the controls that judge the ranking.
 
     references:
         A path to a protein FASTA of 2 to 2,000 proteins that the request
-        states to have experimental support for the function.
-        Identifiers are unique and use letters, digits, underscore, dot and
-        hyphen. Sequences use the letters A to Z.
+        states to have experimental support for the function. Identifiers are
+        unique and use letters, digits, underscore, dot and hyphen. Sequences
+        use the letters A to Z.
     candidates:
         A path to a protein FASTA of 1 to 2,000 proteins to rank. Identifiers
-        are unique and use the same characters as the identifiers of
-        `references`. No identifier may also be a reference.
+        are unique, use the same characters as those of `references` and differ
+        from every reference identifier.
     positive_controls:
-        References known to have the function, as asserted in the request. At
-        least one is required.
+        References known to have the function, as the request asserts. At least
+        one is required.
     negative_controls:
-        Candidates known not to have the function, as asserted in the request.
-        A negative control with no alignment to a reference scores 0 bits and
-        does not test the ranking. At least one is required.
+        Candidates known not to have the function, as the request asserts. A
+        negative control with no alignment to a reference scores 0 bits and does
+        not test the ranking. At least one is required.
     positive_min_bits:
         A positive control that scores at least this many bits counts toward
         `positive_control_recall`. At least 0; default 40.0. The value is
         independent of `minimum_retrieval_bits` of
         `enzyme.characterize_candidates`, whose default is 100.0 bits.
     sensitivity:
-        MMseqs2 sensitivity (`-s`), 1 to 7.5; default 7.5. A higher value
-        finds more distant relatives.
+        MMseqs2 sensitivity (`-s`), 1 to 7.5; default 7.5. A higher value finds
+        more distant relatives.
     evalue:
-        The largest expectation value that the search reports (positive;
-        default 10000.0). The default retains weak alignments, so that a
-        protein with only a weak alignment receives a low bit score; a protein
-        with no alignment receives 0 bits.
+        The largest expectation value that the search reports. Positive;
+        default 10000.0. The default retains weak alignments, so a protein with
+        only a weak alignment receives a low bit score. A protein with no
+        alignment receives 0 bits.
     """
 
     references: str
@@ -115,7 +122,7 @@ class RetrieveResult:
     length_only_baseline_auroc: float
     control_auroc_lift_over_length: float
     record: str
-    """The stored ranking with sequences, which `enzyme.characterize_candidates` reads."""
+    """The stored ranking with sequences, as `enzyme.characterize_candidates` reads it."""
     engine_versions: dict[str, Any]
 
 

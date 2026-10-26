@@ -153,13 +153,13 @@ def read_prediction(structure_path: Path, sequences: list[str] | None):
             if any(not finite_position(atom) for atom in atoms):
                 raise ValueError(
                     f"Residue {residue_index} of chain {chain_name} has non-finite "
-                    "coordinates; finite coordinates are required"
+                    "coordinates"
                 )
             names = [atom.name.strip() for atom in atoms]
             if len(names) != len(set(names)):
                 raise ValueError(
                     f"Residue {residue_index} of chain {chain_name} repeats a heavy-atom "
-                    "name; unique names within a residue are required"
+                    "name"
                 )
             expected = EXPECTED_HEAVY_ATOMS[residue.name.upper()]
             if set(names) != expected:
@@ -179,7 +179,7 @@ def read_prediction(structure_path: Path, sequences: list[str] | None):
         )
     if any(not finite_position(atom) for atom in ligand_atoms):
         raise ValueError(
-            "The LIG1 residue has non-finite coordinates; finite coordinates are required"
+            "The LIG1 residue has non-finite coordinates"
         )
     names = [atom.name.strip() for atom in ligand_atoms]
     if len(names) != len(set(names)):

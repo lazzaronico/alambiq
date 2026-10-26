@@ -7,5 +7,5 @@ h2: recode
 table: Sequence | Constraints met | GC fraction | Lowest window GC (fraction) | Highest window GC (fraction) | Motif matches | GC violations
 section build
 h2: build
-note: Vector features outside the retained backbone are not annotated on the product: 3.
+note: 3 vector features are not annotated on the product because they are outside the retained backbone.
 table: Primer | Sequence | Annealing footprint | Footprint Tm (°C)

@@ -1,8 +1,7 @@
 """Alambiq: capabilities and campaigns for molecular investigations.
 
-The execution stack is imported when a name in `alambiq.api` is first used, so a
-numerical module can be imported and tested without Prefect or a scientific engine.
-The science of a capability is therefore written in plain functions.
+The execution stack is imported when a name in `alambiq.api` is first used. A numerical
+module can therefore be imported and tested without Prefect or a scientific engine.
 
 The entry points are `alambiq.api` and `alambiq.cli`.
 """

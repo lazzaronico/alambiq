@@ -1,43 +1,49 @@
 """Prepare protein and ring-congener inputs for relative binding free energies.
 
-From a deposited complex with a six-carbon aromatic ring in the binding site (benzene
-in a lysozyme cavity, for example), the capability prepares one protein chain and a
-series of neutral congeners that each contain that ring plus substituents. The protein
-is the named chain, with heterogens and water removed, hydrogens added at the stated pH
-and, if allowed in the request, missing terminal residues modeled; the capability checks
-that every deposited heavy atom is at its deposited position. The capability places each
-congener by superposing its ring on the deposited ring in each of the 12
-symmetry-related orientations, relaxing the substituents with the ring held fixed, and
-keeping the orientation with the lowest clash score of the substituents against the
-protein (the clash score is the summed squared shortfall below 2.2 angstrom between
-substituent atoms and protein heavy atoms). The first substituted congener fixes the
-deposited ring atom on which its substituent lies. For every later congener only the
-orientations that place the substituent on that ring atom are considered, and the one
-with the lowest clash score is kept. A congener has heavy-atom substituents on exactly one ring position. The
-capability assigns AshGC partial charges to each congener and writes it as an SDF that
-`simulation.run_relative_free_energy` accepts. For each listed edge, the capability
-proposes an atom mapping with the LOMAP mapper of OpenFE without element changes,
-choosing the mapping with the smallest summed squared distance between mapped atoms.
+The result is a protein file and a ligand file for each congener, from which sampling starts
+with a pose consistent with the deposited ring. The manifest (a JSON file) records every
+placement choice and the atom mapping of each edge.
 
-The result gives protein and ligand files from which sampling starts with a pose
-consistent with the deposited ring, with every placement choice and the atom mapping
-recorded in the manifest (a JSON file).
+The input is a deposited complex with a six-carbon aromatic ring in the binding site
+(benzene in a lysozyme cavity, for example). The capability prepares one protein chain and a
+series of neutral congeners. Each congener contains that ring plus heavy-atom substituents
+on exactly one ring position. The method has these steps:
 
-Limits. The pose of a substituent is a geometric placement: the one with the lowest clash
-score among the eligible orientations. A substituent that the deposited site cannot hold
-is accepted and appears as a clash score in the manifest. The capability handles proteins
-of one chain, one anchor ring and congeners whose only ring is a six-membered aromatic
-carbon ring; the site retains that chain and the congener, and cofactors, ions,
-structural waters and a second ligand are removed. The protonation is assigned at one pH
-by OpenMM `Modeller.addHydrogens`, independent of the environment of the site. The
-coordinates of terminal residues that the request allows to be modeled come from
-modeling. Hydrogens are placed by an energy minimization whose result varies between
-executions. Two executions of the capability agree exactly on the heavy atoms and the
-ligands. Protein hydrogen positions differed by up to 0.063 angstrom between two
-executions; the test of this capability bounds the difference at 0.5 angstrom. The atom
-mapping is the output of the LOMAP mapper. `simulation.run_relative_free_energy` checks
-the mapping for chemistry and connectivity. A request with more than 20 ligands or more
-than 50 edges is refused.
+- The protein is the named chain with heterogens and water removed and hydrogens added at the
+  stated pH. If the request allows it, missing terminal residues are modeled. The capability
+  checks that every deposited heavy atom is at its deposited position.
+- Each congener is placed by superposing its ring on the deposited ring in each of the 12
+  symmetry-related orientations and relaxing the substituents with the ring held fixed.
+- The orientation with the lowest clash score is kept. The clash score is the summed squared
+  shortfall below 2.2 angstrom between substituent atoms and protein heavy atoms.
+- The first substituted congener fixes the deposited ring atom on which its substituent lies.
+  For every later congener, only the orientations that place the substituent on that ring
+  atom are considered.
+- Each congener receives AshGC partial charges and is written as an SDF that
+  `simulation.run_relative_free_energy` accepts.
+- For each listed edge, the LOMAP mapper of OpenFE proposes an atom mapping without element
+  changes. The mapping with the smallest summed squared distance between mapped atoms is
+  chosen.
+
+Limits.
+
+- The pose of a substituent is a geometric placement: the one with the lowest clash score
+  among the eligible orientations. A substituent that the deposited site cannot hold is
+  accepted and appears as a clash score in the manifest.
+- The capability handles proteins of one chain, one anchor ring and congeners whose only ring
+  is a six-membered aromatic carbon ring. The site keeps that chain and the congener. Cofactors,
+  ions, structural waters and a second ligand are removed.
+- The protonation is assigned at one pH by OpenMM `Modeller.addHydrogens`, independent of the
+  environment of the site.
+- The coordinates of terminal residues that the request allows to be modeled come from
+  modeling.
+- Hydrogens are placed by an energy minimization whose result varies between executions. Two
+  executions agree exactly on the heavy atoms and the ligands. Protein hydrogen positions
+  differed by up to 0.063 angstrom between two executions; the test of this capability bounds
+  the difference at 0.5 angstrom.
+- The atom mapping is the output of the LOMAP mapper. `simulation.run_relative_free_energy`
+  checks the mapping for chemistry and connectivity.
+- A request with more than 20 ligands or more than 50 edges is refused.
 """
 
 from __future__ import annotations
@@ -60,8 +66,8 @@ class Congener:
     """One ligand of the series.
 
     id:
-        Identifier of the ligand: a letter, then letters, digits, `_` or `-`; used for
-        its file.
+        Identifier of the ligand and name of its file: a letter, then letters, digits,
+        `_` or `-`.
     smiles:
         The ligand with explicit stereochemistry. The first ligand must be benzene
         (`c1ccccc1`), the deposited ring itself.
@@ -83,16 +89,16 @@ class BindingInputsRequest:
     chain_id:
         The one protein chain to keep.
     anchor_residue_name:
-        The residue name of the deposited ring, which must occur exactly once and
-        hold only carbon atoms.
+        The residue name of the deposited ring. It must occur exactly once and hold only
+        carbon atoms.
     anchor_atom_names:
         The six ring carbons' atom names, in order around the ring.
     ligands:
-        2 to 20 ligands; the first is benzene.
+        2 to 20 ligands. The first is benzene.
     edges:
         1 to 50 directed edges between them.
     structure_format:
-        `pdb` or `mmcif`; needed only when the file name does not say.
+        `pdb` or `mmcif`. Required only when the file name does not give the format.
     ph:
         The pH for adding hydrogens, 0 to 14.
     complete_terminals:
@@ -210,7 +216,7 @@ def prepare_relative_binding_inputs(
         not re.fullmatch(r"[A-Za-z][A-Za-z0-9_-]{0,31}", i) for i in ids
     ):
         raise ValueError(
-            "A ligand id is repeated or does not match the pattern; ligand ids must be "
+            "A ligand id is repeated or malformed; ligand ids must be "
             "distinct and start with a letter, then letters, digits, `_` or `-` "
             "(32 characters at most)"
         )
@@ -245,9 +251,9 @@ def prepare_relative_binding_inputs(
             or not re.fullmatch(r"[A-Za-z][A-Za-z0-9_-]{0,63}", edge.id)
         ):
             raise ValueError(
-                f"The edge {edge.id} ({edge.a} to {edge.b}) has a repeated id, an id that "
-                "does not match the pattern, or ligands that are identical or not in the "
-                "series; edges need distinct ids and two different ligands from the series"
+                f"The edge {edge.id} ({edge.a} to {edge.b}) is not valid; edges need "
+                "distinct ids (a letter, then letters, digits, `_` or `-`, 64 characters "
+                "at most) and two different ligands from the series"
             )
         edge_ids.add(edge.id)
     if not math.isfinite(request.ph) or not 0 <= request.ph <= 14:

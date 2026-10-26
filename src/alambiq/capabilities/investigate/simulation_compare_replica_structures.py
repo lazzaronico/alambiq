@@ -1,50 +1,61 @@
 """Judge whether independent replicas determine the mean of named observables to a precision.
 
-Each replica is a trajectory already described by `simulation.inspect_trajectory`, with
-the same alpha carbons and observable definitions in every inspection; with a
-`tolerance`, every inspection is fitted to the same supplied `reference_structure`. The
-capability pools the per-frame values of the observables named in the request. For each
-observable it reports:
+Returns, for each named observable, the mean over replicas, its standard error, convergence
+diagnostics, and whether the replicas meet the requested precision. With a `tolerance`, it
+also returns whether the mean agrees with the value on a reference structure.
+
+Each replica is a trajectory already described by `simulation.inspect_trajectory`. Every
+inspection has the same alpha carbons and observable definitions. With a `tolerance`,
+every inspection is fitted to the same supplied `reference_structure`. The capability pools
+the per-frame values of the observables named in the request. For each observable it
+reports:
 
 - the mean over replicas (the mean of the replica means);
 - its standard error, computed from the spread of the replica means;
-- the split R-hat: each replica is split into two halves, and R-hat is the square root
-  of the ratio of the pooled variance estimate to the mean within-half variance (a
-  value of 1 indicates that the halves agree);
+- the split R-hat, which is 1 when the halves agree. Each replica is split into two halves.
+  R-hat is the square root of the ratio of the pooled variance estimate to the mean
+  within-half variance;
 - the effective sample size;
 - the drift between the halves of each replica;
 - the block-averaged errors.
 
-An observable meets its precision when the standard error of the replica means is at
-most `precision`, the split R-hat is at most `max_split_rhat`, the effective sample
-size is at least `min_effective_samples` and the drift between the halves of each
-replica is at most twice `precision`. It agrees with the reference structure when the
-95 % interval of its mean lies within `tolerance` of the value measured on the
-reference structure. The result also reports the first checkpoint, in frames and
-picoseconds per replica, at and after which the precision criterion is met up to the
-end of the trajectory. Checkpoints are 40 frames per replica, the full length, and the
-multiples of 20 frames nearest below each tenth of the length (at least 40 frames).
+An observable meets its precision when:
 
-The result states whether these replicas, at this length, determine the mean of each
-named observable to the requested precision, and whether that mean lies within the
-requested tolerance of the value of the reference structure.
+- the standard error of the replica means is at most `precision`;
+- the split R-hat is at most `max_split_rhat`;
+- the effective sample size is at least `min_effective_samples`;
+- the drift between the halves of each replica is at most twice `precision`.
 
-Limits. Agreement applies to the named observables. The observables are alpha-carbon
-RMSD, radius of gyration and the distances, angles and contacts defined in the
-`simulation.inspect_trajectory` request. The errors assume that the replicas are
-independent draws from one ensemble, which requires independent starting states and
-seeds. The interval uses a t quantile with n - 1 degrees of freedom for n replicas,
-which is 12.71 for 2 replicas and 4.30 for 3 replicas, so the interval is wide for a
-small number of replicas. R-hat and effective sample size that meet their thresholds
-show that the replicas agree with each other over the time sampled. Motions slower than
-that time need longer trajectories, and replicas that all started from one structure can
-agree while remaining in one conformational state. The checkpoint values describe these
-samples. The capability gives every frame the same weight, so the statistics apply to
-unbiased trajectories; a biased trajectory, such as one from metadynamics, needs frame
-weights. The capability refuses a periodic trajectory that was inspected with `imaging:
-as-stored`; a periodic trajectory must be inspected with `imaging: whole-molecules`.
-Each replica requires at least 40 frames after the frames beyond the last multiple of 20
-are excluded. A request with fewer than 2 or more than 30 replicas is refused.
+An observable agrees with the reference structure when the 95 % interval of its mean lies
+within `tolerance` of the value measured on the reference structure.
+
+The result also reports the first checkpoint, in frames and picoseconds per replica, at and
+after which the precision criterion is met up to the end of the trajectory. Checkpoints are
+40 frames per replica, the full length, and the multiples of 20 frames nearest below each
+tenth of the length (at least 40 frames).
+
+Limits.
+
+- The observables are alpha-carbon RMSD, radius of gyration and the distances, angles and
+  contacts defined in the `simulation.inspect_trajectory` request.
+- The errors assume that the replicas are independent draws from one ensemble. This
+  requires independent starting states and seeds.
+- The interval uses a t quantile with n - 1 degrees of freedom for n replicas: 12.71 for
+  2 replicas and 4.30 for 3 replicas. The interval is wide for a small number of replicas.
+- R-hat and effective sample size that meet their thresholds show that the replicas agree
+  with each other over the time sampled. Slower motions need longer trajectories. Replicas
+  that all started from one structure can agree while remaining in one conformational
+  state.
+- The checkpoint values describe these samples.
+- Every frame has the same weight, so the statistics apply to unbiased trajectories. A
+  biased trajectory, such as one from metadynamics, needs frame weights.
+
+The capability refuses:
+
+- a periodic trajectory inspected with `imaging: as-stored`; use `imaging: whole-molecules`;
+- a replica with fewer than 40 frames after the frames beyond the last multiple of 20 are
+  excluded;
+- fewer than 2 or more than 30 replicas.
 """
 
 from __future__ import annotations
@@ -162,7 +173,7 @@ class Checkpoint:
 
 @dataclass(frozen=True, slots=True)
 class ReplicaResult:
-    """The precision and agreement of each observable, the diagnostics of the replicas, and the first checkpoint at which the precision holds."""
+    """The precision and agreement of each observable, the replica diagnostics and the first sustained checkpoint."""
 
     replicas: list[str]
     frames_per_replica: int
@@ -227,7 +238,7 @@ def compare_replica_structures(
             if arrays["observable_ids"].tolist() != details["observables"]["ids"]:
                 raise ValueError(
                     f"{source.id}: observable_ids in arrays differ from observables in "
-                    "details; both must come from the same inspection"
+                    "details; supply the details and arrays of the same inspection"
                 )
             replicas.append(
                 {

@@ -1,41 +1,51 @@
 """Predict how single substitutions change a protein's folding stability.
 
-ThermoMPNN, a network trained on measured stability changes, reads the backbone
-of one chain and returns, for each requested substitution, a predicted change in
-folding free energy in kcal/mol: mutant minus wild type, so a positive value is
-destabilizing. The structure is mapped by author residue number (with an
-optional insertion letter). The chain must match the supplied construct
-sequence residue for residue. Every residue requires exactly one N, CA, C and O
-atom, each with an occupancy above 0 and no alternate-location label, and no
-chain break (a distance from the C of one residue to the N of the next outside
-1.0 to 1.8 angstrom).
+Returns, for each requested substitution, a predicted change in folding free
+energy in kcal/mol, mutant minus wild type. A positive value is destabilizing.
+The score screens for substitutions that disrupt the fold of the selected
+chain. A substitution to the wild-type residue is a zero-change control and
+returns 0 kcal/mol.
 
-What the result supports: a screening score for which substitutions are
-predicted to disrupt the fold, on this backbone, for the selected chain alone.
-A substitution that names the wild-type residue itself is a zero-change control
-and returns 0 kcal/mol.
+The method:
 
-Limits. The score is a prediction and is independent of assay conditions:
-temperature, pH, ligands, oligomeric state and the function of the protein are
-not inputs. Only the backbone of the selected chain is read. Other chains,
-waters and side-chain coordinates are excluded. In mmCIF, non-polymer and
-branched residues of the selected chain are also excluded; in PDB, a non-water
-residue of the selected chain that is not a standard amino acid is refused. The
-list of excluded items is stored with the result. The capability runs on the
-CPU. In the benchmark of this repository on a beta-glucosidase (BglB), 128
-substitutions were scored and 78 had a measured functional thermal midpoint
-(derived from the activity measured after a 30 min heat challenge; not an
-equilibrium folding free energy). The Spearman correlation of the negative
-predicted change with the midpoint was 0.161 (95% position-bootstrap interval
--0.098 to 0.379; criterion: lower end above 0). Of the 10 highest-ranked of
-those 78 variants, 3 had a midpoint at least 1 °C above wild type; random
-selection gives 1.28, and the one-sided hypergeometric probability of 3 or more
-is 0.113 (criterion: at most 0.05). Both criteria, fixed before any prediction,
-were not met (`environments/thermompnn/BGLB_BENCHMARK.md`). That benchmark covers
-one enzyme and one prepared structure and is the repository's evaluation of
-these scores on an enzyme. A substitution predicted as stabilizing can reduce
-function. A request with more than 20,000
-substitutions, or a construct sequence of more than 1,024 residues, is refused.
+- ThermoMPNN, a network trained on measured stability changes, reads the
+  backbone of one chain.
+- The structure is mapped by author residue number, with an optional insertion
+  letter.
+- The chain matches the supplied construct sequence residue for residue.
+- Every residue has exactly one N, CA, C and O atom. Each atom has an occupancy
+  above 0 and no alternate-location label.
+- The chain has no break. A break is a distance from the C of one residue to
+  the N of the next outside 1.0 to 1.8 angstrom.
+
+Limits.
+
+- Temperature, pH, ligands, oligomeric state and the function of the protein
+  are not inputs.
+- Only the backbone of the selected chain is read. Other chains, waters and
+  side-chain coordinates are excluded. In mmCIF, non-polymer and branched
+  residues of the selected chain are also excluded. The result stores the list
+  of excluded items.
+- In PDB, a non-water residue of the selected chain that is not a standard
+  amino acid is refused.
+- The capability runs on the CPU.
+- A request with more than 20,000 substitutions, or a construct sequence of
+  more than 1,024 residues, is refused.
+- A substitution predicted as stabilizing can reduce function.
+
+Evaluation. The repository benchmark covers one enzyme, a beta-glucosidase
+(BglB), and one prepared structure (`environments/thermompnn/BGLB_BENCHMARK.md`).
+
+- 128 substitutions were scored. 78 had a measured functional thermal midpoint,
+  derived from the activity after a 30 min heat challenge. It is not an
+  equilibrium folding free energy.
+- The Spearman correlation of the negative predicted change with the midpoint
+  was 0.161 (95% position-bootstrap interval -0.098 to 0.379). The criterion
+  was a lower end above 0.
+- Of the 10 highest-ranked of the 78 variants, 3 had a midpoint at least 1 °C
+  above wild type. Random selection gives 1.28. The one-sided hypergeometric
+  probability of 3 or more is 0.113. The criterion was at most 0.05.
+- Both criteria were fixed before any prediction. Neither was met.
 """
 
 from __future__ import annotations
@@ -68,8 +78,7 @@ class Substitution:
         checked against the structure.
     mutant:
         The residue to substitute, one of the 20 standard amino acids, as one
-        letter. The same
-        letter as `wild_type` is a zero-change control.
+        letter. The same letter as `wild_type` is a zero-change control.
     """
 
     residue: str
@@ -79,35 +88,32 @@ class Substitution:
 
 @dataclass(frozen=True, slots=True)
 class StabilityRequest:
-    """The structure, the construct, the chain and the substitutions.
+    """The structure, the construct sequence, the chain and the substitutions.
 
     structure:
         A path to a PDB or mmCIF file.
     sequence:
         A path to a FASTA with the complete construct sequence of the chain,
-        2 to 1,024 residues from the 20 standard amino acids. The observed residues of the chain must
-        equal it exactly; a structure with missing residues is therefore
-        rejected.
+        2 to 1,024 residues from the 20 standard amino acids. The observed
+        residues of the chain equal it exactly, so a structure with missing
+        residues is refused.
     chain_id:
         The author chain to read (`auth_asym_id`). `protein.inspect` reports
         chains by `label_asym_id`, which can differ.
     mutations:
         1 to 20,000 distinct substitutions.
     structure_format:
-        `pdb` or `mmcif`. By default read from the file extension (`.pdb` and
-        `.ent` as PDB; `.cif` and `.mmcif` as mmCIF); any other extension is
-        refused unless this field is set.
+        `pdb` or `mmcif`. By default the file extension decides: `.pdb` and
+        `.ent` are PDB, `.cif` and `.mmcif` are mmCIF. Any other extension needs
+        this field.
     model_index:
         The model of an ensemble to read, numbered from 0, 0 to 999; default
-        0. `protein.inspect` numbers the same concept from 1 in
-        `model_number`.
+        0. `protein.inspect` numbers models from 1 in `model_number`.
     seed, threads:
         `seed`, 0 to 2,147,483,647 (default 0), seeds the random number
-        generators of the engine. `threads` is the number of threads of the
-        host CPU used by the engine, 1 to 32 (default 4). The engine runs on
-        the CPU, so the request has no field for the hardware that the ESM
-        capabilities call `device` and `structure.predict_biomolecular_complex`
-        calls `accelerator`.
+        generators of the engine. `threads` is the number of host CPU threads
+        the engine uses, 1 to 32 (default 4). The engine runs on the CPU, so the
+        request has no `device` or `accelerator` field.
     """
 
     structure: str
@@ -134,7 +140,7 @@ class Prediction:
 
 @dataclass(frozen=True, slots=True)
 class StabilityResult:
-    """Every prediction, and the inputs that the model used."""
+    """Every prediction and the inputs that the model used."""
 
     chain_id: str
     length: int

@@ -1,36 +1,49 @@
 """Run one leg of a relative binding free-energy transformation with OpenFE.
 
+Returns the free-energy difference of the transformation A to B for each replica of the
+leg, with the sampling diagnostics of each replica. A bound leg and a solvent leg of the
+same edge, analyzed together by `simulation.analyze_binding_free_energy`, give the relative
+binding free energy.
+
 The capability applies the OpenFE relative hybrid topology protocol to two positioned
-neutral ligands (each an SDF with AshGC partial charges), an atom mapping between them
-and, for the protein-bound leg, the protein. The protocol uses Sage 2.3.0 for the
-ligands, ff14SB for the protein, TIP3P for the water, hydrogen masses of 1.0 amu (no
-hydrogen mass repartitioning) and a 2 fs integration step. A set of lambda windows
-connects the two ligands. Each of the `replicas` independent replicas samples the lambda
-windows with replica exchange. Each replica gives its free-energy difference for the
-transformation A to B, the error that MBAR reports for it, the overlap between
-neighboring lambda windows, the effective sample size per lambda window, and the
-estimates from increasing forward and reverse fractions of the data. A bound leg and a
-solvent leg of the same edge, analyzed together by
-`simulation.analyze_binding_free_energy`, give the relative binding free energy.
+neutral ligands, an atom mapping between them and, for the bound leg, the protein. Each
+ligand is an SDF with AshGC partial charges. The protocol uses:
 
-The result gives the free-energy difference of this transformation under this force
-field and protocol, with the sampling diagnostics of each replica.
+- Sage 2.3.0 for the ligands, ff14SB for the protein and TIP3P for the water;
+- hydrogen masses of 1.0 amu (no hydrogen mass repartitioning);
+- an integration step of 2 fs;
+- a set of lambda windows that connects the two ligands.
 
-Limits. The free energy from alchemical sampling depends on the force field, the charges
-and the atom mapping. The atom mapping checks cover element, isotope, aromaticity and
-charge retention, stereochemistry, ring completeness and connectivity of the core. The
-ligands must be neutral and already positioned in the binding site. The protonation of
-the protein is set before the simulation, and the protein starts from the supplied
-conformation and samples the conformations reachable within the simulated time.
-A binding free energy requires both legs of the edge. Overlap between lambda windows,
-the effective sample sizes and the agreement of the forward and reverse estimates
-indicate whether the sampling converged. The request accepts 5 to 41 lambda windows and
-a production length of 0.04 ps to 200,000 ps. Each replica uses an automatic random
-seed; replicas are statistically independent, and a repeated run agrees statistically.
-The CUDA platform runs in double precision; the tests exercise it with a stand-in
-platform, without a GPU. The MBAR error assumes uncorrelated samples. A request with more
-than 10 replicas, more than 41 windows or more than 500 mapped atoms is refused.
-`simulation.analyze_binding_free_energy` refuses a leg with 1 replica.
+Each of the `replicas` independent replicas samples the lambda windows with replica
+exchange. Each replica gives:
+
+- its free-energy difference for the transformation A to B;
+- the error that MBAR reports for it;
+- the overlap between neighboring lambda windows;
+- the effective sample size per lambda window;
+- the estimates from increasing forward and reverse fractions of the data.
+
+Limits.
+
+- The free energy depends on the force field, the charges and the atom mapping.
+- The atom mapping checks cover element, isotope, aromaticity and charge retention,
+  stereochemistry, ring completeness and connectivity of the core.
+- The ligands are neutral and already positioned in the binding site.
+- The protonation of the protein is set before the simulation. The protein starts from the
+  supplied conformation and samples the conformations reachable within the simulated time.
+- A binding free energy requires both legs of the edge.
+- Overlap between lambda windows, the effective sample sizes and the agreement of the
+  forward and reverse estimates indicate whether the sampling converged.
+- The MBAR error assumes uncorrelated samples.
+- Each replica uses an automatic random seed. Replicas are statistically independent, and
+  a repeated run agrees statistically.
+- The CUDA platform runs in double precision. The tests exercise it with a stand-in
+  platform, without a GPU.
+
+The request accepts 5 to 41 lambda windows and a production length of 0.04 ps to
+200,000 ps. The capability refuses more than 10 replicas, more than 41 windows and more
+than 500 mapped atoms. `simulation.analyze_binding_free_energy` refuses a leg with 1
+replica.
 """
 
 from __future__ import annotations

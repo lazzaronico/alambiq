@@ -1,31 +1,35 @@
 """Represent each protein as a vector with a protein language model.
 
-Each protein is run through the chosen model on its own (batch size 1,
-float32, a fixed seed). ESM C 300M gives a vector of 960 values for every
-residue, from its last hidden state after the final normalization. ESM3-small
-gives a vector of 1,536 values for every residue, from its last hidden state
-before the final normalization. The vector
-of a protein is the mean over its residues, excluding the start and end tokens
-of the model. The pooled vectors and the per-residue vectors are both stored,
-with the model, its pinned revision, its license and the versions of the
-packages that ran.
+Returns one vector per protein from a protein language model, and the
+per-residue vectors. The vectors describe each sequence in the space of one
+model, for comparing sequences, clustering proteins or as features of a fitted
+model.
 
-What the result supports: a fixed-length description of each sequence in the
-space of one model, for comparing sequences, clustering proteins, or use as
-features of a fitted model.
+Each protein is run through the model on its own (batch size 1, float32, fixed
+seed). The model gives one vector per residue from its last hidden state. The
+vector of a protein is the mean over its residues, excluding the start and end
+tokens.
 
-Limits. A language-model vector is a learned representation of the sequence.
-Vectors from different models, or from the same model at a different revision,
-layer or pooling, are in different spaces; one record therefore holds the
-vectors of one model and names it. Distances between vectors in this space are
-distances between learned representations of the sequences and have no
-evolutionary time scale. Mean pooling discards the order of the per-residue
-vectors. A protein of more than 1,024 residues (ESM C) or 512 residues
-(ESM3-small), and a request with more than 64 proteins, is refused. The models
-were trained on natural proteins; sequences unlike the training proteins, such
-as designed sequences, can lie in regions of the vector space that the training
-data cover poorly. The model runs on the CPU unless a device is requested;
-results on different devices are not guaranteed to be bit-identical.
+- ESM C 300M: 960 values, taken after the final normalization.
+- ESM3-small: 1,536 values, taken before the final normalization.
+
+The record stores both the pooled and the per-residue vectors, with the model,
+its pinned revision, its license and the package versions.
+
+Limits.
+
+- Vectors from different models, or from the same model at a different
+  revision, layer or pooling, are in different spaces. One record holds the
+  vectors of one model and names it.
+- Distances between vectors compare learned representations and have no
+  evolutionary time scale.
+- Mean pooling discards residue order.
+- A protein longer than 1,024 residues (ESM C) or 512 residues (ESM3-small) is
+  refused. So is a request with more than 64 proteins.
+- The models were trained on natural proteins. Designed sequences can lie in
+  regions that the training data cover poorly.
+- The model runs on the CPU unless a device is requested. Results on different
+  devices can differ numerically.
 """
 
 from __future__ import annotations
@@ -67,20 +71,19 @@ class EmbedRequest:
     """The proteins to embed, the model, and where it runs.
 
     proteins:
-        A path to a protein FASTA of 1 to 64 proteins, each 1 to 1,024
-        residues (512 for ESM3-small), with unique identifiers that use
-        letters, digits, underscore, dot and hyphen. The residues are the 20
-        amino acids and B, X, Z, U and O.
+        A path to a protein FASTA of 1 to 64 proteins. Each protein has 1 to
+        1,024 residues (512 for ESM3-small) and a unique identifier of letters,
+        digits, underscore, dot and hyphen. Residues are the 20 amino acids and
+        B, X, Z, U and O.
     model:
-        The model to embed with: `esmc-300m` or `esm3-small`; default
-        `esmc-300m`. The model is recorded in the result; the model, revision,
-        layer and pooling together define the vector space.
+        `esmc-300m` or `esm3-small`; default `esmc-300m`. The result records
+        the model.
     device:
         `cpu`, `mps` or `cuda`; default `cpu`. An unavailable device is an
-        error; there is no fallback to another device.
+        error.
     threads:
-        Threads of the host CPU used by the engine, applied on every device, 1
-        to 32; default 4.
+        Host CPU threads used by the engine on every device, 1 to 32; default
+        4.
     """
 
     proteins: str
@@ -100,7 +103,7 @@ class Embedded:
 
 @dataclass(frozen=True, slots=True)
 class EmbedResult:
-    """The model, revision, layer and pooling that define the vector space, and the files that store the vectors."""
+    """The model, revision, layer and pooling that define the vector space, and the files with the vectors."""
 
     model: str
     revision: str
@@ -110,7 +113,7 @@ class EmbedResult:
     pooling: str
     proteins: list[Embedded]
     record: str
-    """The pooled vectors and the model name, revision, layer and pooling, in the form that other capabilities read."""
+    """The pooled vectors with the model name, revision, layer and pooling, as other capabilities read them."""
     residue_embeddings: str
     """A NumPy archive with one array of per-residue vectors per protein."""
     device: str

@@ -76,8 +76,8 @@ def inspect_structure(text: str, query: str, model_number: int) -> tuple[list, l
             raise
         raise ModuleNotFoundError(
             "Structure inspection requires the optional dossier extra (Gemmi 0.7.5). "
-            "From the Alambiq repository root, run python -m pip install '.[dossier]' "
-            "in the same Python environment used to run Alambiq, then rerun the campaign.",
+            "Run python -m pip install 'alambiq[dossier]' in the Python environment "
+            "that runs Alambiq.",
             name="gemmi",
         ) from exc
 

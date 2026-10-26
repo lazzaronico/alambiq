@@ -40,8 +40,8 @@ class Step:
     def __post_init__(self) -> None:
         if not self.id.replace("-", "").replace("_", "").isalnum():
             raise ValueError(
-                f"Step id {self.id!r} contains other characters; an id has only letters, "
-                "digits, hyphens and underscores"
+                f"Step id {self.id!r} is not valid; use only letters, digits, hyphens "
+                "and underscores"
             )
 
 
@@ -58,7 +58,7 @@ class Campaign:
         for step in self.steps:
             if step.id in seen:
                 raise ValueError(
-                    f"Step id {step.id!r} appears more than once; ids must be unique"
+                    f"Step id {step.id!r} appears more than once; each id must be unique"
                 )
             seen.add(step.id)
         for step in self.steps:
@@ -70,7 +70,7 @@ class Campaign:
                     )
                 if binding.step == step.id:
                     raise ValueError(
-                        f"Step {step.id!r} binds to itself; a step binds only to other steps"
+                        f"Step {step.id!r} binds to itself; bind to another step"
                     )
 
     def ordered(self) -> tuple[Step, ...]:

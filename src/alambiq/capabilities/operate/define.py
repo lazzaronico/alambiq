@@ -1,50 +1,49 @@
 """Build an operating definition from a template and measured kinetics.
 
-An operating definition is the JSON file that `operation.simulate` reads. Each of its
-rate channels (one reaction in one direction, with a stoichiometry, a capacity and rate
-factors) needs a capacity in M/s at the reference amount of its catalyst and the
-initial volume, and a saturation scale: the concentration at which the saturation
-factor is half of its maximum. A stored `assay.fit` record of the Michaelis-Menten
-model holds a Vmax and a Km for the enzyme concentration that the assay used, and a
-rate basis: the species on which the rate was measured, the substrate, and the molar
-ratio `measured_per_substrate` of the measured species to the substrate. The
-capability converts the Vmax and the Km of the fit into the capacity and the
-saturation scale and writes the definition that `operation.simulate` reads.
+The capability sets the rate values of the channels named in `kinetics` from stored
+`assay.fit` records and writes the operating definition that `operation.simulate`
+reads. It returns the capacity and saturation scale of each channel.
 
-The conversion for each channel named in `kinetics` has these steps.
+An operating definition is a JSON file. Each of its rate channels is one reaction in one
+direction, with a stoichiometry, a capacity and rate factors. A channel needs a capacity
+in M/s at the reference amount of its catalyst and the initial volume. It also needs a
+saturation scale, the concentration at which the saturation factor is half of its
+maximum.
 
-1. Convert the Vmax to the substrate-equivalent rate: divide it by the molar ratio
-   `measured_per_substrate` of the rate basis of the fit.
+Method. A stored Michaelis-Menten `assay.fit` record gives a Vmax and a Km for the
+enzyme concentration of the assay. It also gives a rate basis: the species on which the
+rate was measured, the substrate, and the molar ratio `measured_per_substrate` of the
+measured species to the substrate. For each channel named in `kinetics`:
+
+1. Divide the Vmax by `measured_per_substrate`. The result is the substrate-equivalent
+   rate.
 2. Divide by the absolute value of the stoichiometric coefficient of the substrate in
-   the channel. The result is the rate of the channel, in reaction extent per volume
-   and time, at the enzyme concentration of the assay.
-3. Divide by the enzyme concentration of the assay and by the active fraction of
-   that enzyme. The result is a rate per amount of fully active enzyme.
-4. Multiply by the reference amount of the catalyst divided by the initial volume.
-   The result is the capacity in M/s.
+   the channel. The result is the rate of the channel, in reaction extent per volume and
+   time, at the enzyme concentration of the assay.
+3. Divide by the enzyme concentration of the assay and by the active fraction of that
+   enzyme. The result is a rate per amount of fully active enzyme.
+4. Multiply by the reference amount of the catalyst divided by the initial volume. The
+   result is the capacity in M/s.
 5. Set the saturation scale equal to the Km.
 
-The capacity of the reverse channel and the saturation scales of both channels of
-each pair in `equilibria`, the deactivation of each catalyst in `inactivation` and the
-dependences on temperature and pH given by `temperature_fit` and `ph_fit` are set as
-described for those fields. Every other value of the template is unchanged, except the
-`source` text of each channel whose capacity is set.
+The other values are set as described for their fields: the capacity of the reverse
+channel and the saturation scales of each pair in `equilibria`, the deactivation of
+each catalyst in `inactivation`, and the dependences on temperature and pH from
+`temperature_fit` and `ph_fit`. Every other value of the template is unchanged, except
+the `source` text of each channel whose capacity is set.
 
-Limits. The result assumes 3 conditions: (1) the
-amount of enzyme in the assay, as stated in `kinetics`; (2) the active fraction of
-that enzyme, as stated in `kinetics`; (3) that the temperature, pH and composition
-of the reactor equal those of the assay. A Km that is not above 0 is refused. A change of
-conditions is modeled only for a channel whose `kinetics` entry supplies
-`temperature_fit` or `ph_fit`. Inhibition, reversibility and
-deactivation are taken from the template, except for the reverse channels set by
-`equilibria` and the deactivation set by `inactivation`. Extrapolation is
-tested at the upper end of the concentration range of the fit: the largest
-concentration of the substrate stated in the definition (the initial
-concentration and the feed concentration of each phase) is compared with the
-highest substrate concentration covered by the fit, and a channel whose largest
-stated concentration exceeds it is flagged as an extrapolation. The test
-applies to the concentrations stated in the definition, at the upper end of the
-range of the fit.
+Limits.
+- The result assumes the amount of enzyme in the assay and its active fraction, both as
+  stated in `kinetics`, and that the temperature, pH and composition of the reactor
+  equal those of the assay.
+- A Km that is not above 0 is refused.
+- A change of conditions is modeled only for a channel whose `kinetics` entry supplies
+  `temperature_fit` or `ph_fit`.
+- Inhibition, reversibility and deactivation come from the template, except for the
+  reverse channels set by `equilibria` and the deactivation set by `inactivation`.
+- A channel is flagged as an extrapolation when the largest substrate concentration
+  stated in the definition (the initial concentration and the feed concentration of each
+  phase) exceeds the highest substrate concentration covered by the fit.
 """
 
 from __future__ import annotations
@@ -141,9 +140,8 @@ class ReversiblePair:
         Exactly one: [P]/[S] at equilibrium, or its natural logarithm, such as the
         `ln_k_prime` of `reaction.estimate_thermodynamics`.
     equilibrium_temperature_K:
-        The temperature of the constant. The estimate applies at 298.15 K; the
-        constant is used unchanged if the operation is stated at another
-        temperature.
+        The temperature of the constant. The estimate applies at 298.15 K. The
+        constant is used unchanged when the operation states another temperature.
     """
 
     forward: str
@@ -169,8 +167,8 @@ class Inactivation:
         The temperature of the decay measurement.
     temperature_fit:
         Optional. Path to an Arrhenius fit of decay rate constants measured at
-        several temperatures; its activation energy makes the deactivation depend
-        on the stated temperature.
+        several temperatures. Its activation energy makes the deactivation depend on
+        the stated temperature.
     """
 
     catalyst: str
@@ -190,10 +188,10 @@ class DefineRequest:
     kinetics:
         One entry per channel to set, 1 to 50.
     equilibria:
-        Reversible pairs. The capacity of the reverse channel is derived from the
-        forward kinetics, the Michaelis constant of the product and the
-        equilibrium constant by the Haldane relation, so that the
-        equilibrium ratio [P]/[S] of the rate law equals the equilibrium constant.
+        Reversible pairs. The capacity of the reverse channel follows from the forward
+        kinetics, the Michaelis constant of the product and the equilibrium constant
+        by the Haldane relation. The equilibrium ratio [P]/[S] of the rate law then
+        equals the equilibrium constant.
     inactivation:
         Catalysts whose loss of activity is set from decay fits.
     """

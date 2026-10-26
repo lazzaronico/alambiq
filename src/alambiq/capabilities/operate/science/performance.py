@@ -234,7 +234,7 @@ def _lifetime(model, threshold):
         horizon_s=points[-1]["time_s"],
         points=points,
         crossings=crossings,
-        interpretation="A catalyst is useful while its active amount is at or above the supplied threshold. A transition is bracketed by two adjacent recorded states; a change at a discrete event has the exact event time. Recording more states resolves the behavior between them and further crossings.",
+        interpretation="A catalyst is useful while its active amount is at or above the supplied threshold. Two adjacent recorded states bracket a transition. A change at a discrete event has the exact event time. Recording more states narrows the bracket and can show further crossings.",
     )
 
 
@@ -424,7 +424,7 @@ def summarize_operation(model, request):
             "supplied."
         )
     result["method"] = (
-        "The net target formation is the sum of the signed channel extents, which equals the final amount plus the removed amount minus the initial amount and the fed amount of the target. The selected output combines the chosen final contents, exchanges and disjoint continuous collections. The useful output applies the declared recovery and accepted fractions. The catalyst denominators include the initial active catalyst and all added active catalyst, converted to active sites with the declared active_sites_per_molecule. Channel turnovers and net target equivalents are distinct quantities."
+        "The net target formation is the sum of the signed channel extents. It equals the final amount plus the removed amount minus the initial amount and the fed amount of the target. The selected output combines the chosen final contents, exchanges and disjoint continuous collections. The useful output applies the declared recovery and accepted fractions. The catalyst denominators are the initial active catalyst and all added active catalyst, converted to active sites with the declared active_sites_per_molecule. Channel turnovers and net target equivalents are distinct quantities."
     )
     digest(result)
     return result

@@ -1,42 +1,56 @@
 """Evaluate five predictors of enzyme activity on held-out measurements of a panel.
 
+The result reports how well sequence and reaction similarity predicts held-out activity
+on this panel under the declared split. Two baselines fit no model: the training mean and
+the nearest measured training group by joint similarity.
+
 A panel contains measured activities of enzymes on reactions under stated conditions.
 Each observation has a source, a status (`measured`, `inactive`, `preparation-failed`,
 `untested` or `unreported`) and optional independent and technical replicate
-identifiers. The panel declares, before fitting, which observations are in the training
-set and which are held out, and the novelty of the held-out observations: a new
-sequence, a new reaction, both, or a new pairing only. The capability checks that all
-observations of a group are in one partition, that no sequence-and-reaction pair appears
-in both partitions, and that the declared novelty holds. It then compares five
-predictors on the held-out measurements: the training mean, the nearest measured
-training group (`nearest-reference`), and kernel ridge on sequence (amino-acid 3-mer
-cosine), on the reaction (chirality-aware Morgan fingerprints of the selected
-participants) and on both multiplied together.
+identifiers. Before fitting, the panel declares which observations are in the training
+set and which are held out. It also declares the novelty of the held-out observations: a
+new sequence, a new reaction, both, or a new pairing only. The capability checks three
+conditions:
 
-The result reports how well sequence and reaction similarity predicts held-out
-activity on this panel, under the declared split, compared with two baselines that fit
-no model: the training mean and the nearest measured training group by joint
-similarity.
+- All observations of a group are in one partition.
+- No sequence-and-reaction pair appears in both partitions.
+- The declared novelty holds.
 
-Limits. Errors apply to the numeric measured subset under its conditions, for the
-enzymes and reactions in the panel. A sequence split separates identical sequences and a
-reaction split separates identical equations. Homologous sequences and chemically
-similar reactions can occur on both sides of the split; the record gives, for each
-held-out group, the sequence, reaction and joint similarity to its nearest training
-group. A family- or scaffold-disjoint test requires a partition made outside the
-capability. The fit uses only observations with status `measured` and a finite value.
-Observations with another status are counted and retained in the panel; their values are
-not fitted. An activity that the source omits has status `unreported`. A predictor
-improves on a baseline (the training mean or the nearest measured training group) when
-its held-out mean absolute error is lower than that of the baseline. The request
-supplies the ridge penalty `alpha`. `alpha` must be chosen without the held-out
-observations; choosing it with them biases the held-out errors downward. Each split requires at least
-3 training groups and 2 held-out groups of measured observations. A group is the set of
-observations that share a sequence (by SHA-256 digest), an enzyme form, a reaction (by
-equation identity) and a condition. Its value is the mean of the independent replicate
-means. A panel is refused if it has more than 2,000 groups, if it does not have 1 to 500
-enzymes, 1 to 100 reactions, 1 to 100 conditions, 1 to 100 sources and 1 to 10,000
-observations, or if an enzyme sequence has fewer than 3 or more than 10,000 residues.
+The predictors are:
+
+- the training mean;
+- the nearest measured training group (`nearest-reference`);
+- kernel ridge on sequence (amino-acid 3-mer cosine);
+- kernel ridge on the reaction (chirality-aware Morgan fingerprints of the selected
+  participants);
+- kernel ridge on both kernels multiplied together.
+
+A group is the set of observations that share a sequence (by SHA-256 digest), an enzyme
+form, a reaction (by equation identity) and a condition. Its value is the mean of the
+independent replicate means. The fit uses only observations with status `measured` and
+a finite value. Observations with another status are counted and retained in the panel,
+and their values are not fitted. An activity that the source omits has status
+`unreported`.
+
+The request supplies the ridge penalty `alpha`. Choose `alpha` without the held-out
+observations, because choosing it with them biases the held-out errors downward. A
+predictor improves on a baseline when its held-out mean absolute error is lower than that
+of the baseline.
+
+Limits:
+
+- Errors apply to the numeric measured subset under its conditions, for the enzymes and
+  reactions in the panel.
+- A sequence split separates identical sequences and a reaction split separates identical
+  equations. Homologous sequences and chemically similar reactions can occur on both sides
+  of the split. The record gives, for each held-out group, the sequence, reaction and joint
+  similarity to its nearest training group.
+- A family- or scaffold-disjoint test requires a partition made outside the capability.
+- Each split requires at least 3 training groups and 2 held-out groups of measured
+  observations.
+- A panel is refused if it has more than 2,000 groups. It is also refused unless it has
+  1 to 500 enzymes, 1 to 100 reactions, 1 to 100 conditions, 1 to 100 sources and 1 to
+  10,000 observations, and each enzyme sequence has 3 to 10,000 residues.
 """
 
 from __future__ import annotations
@@ -95,8 +109,8 @@ class PanelRequest:
         1 to 10 splits to evaluate.
     candidate_ids:
         The enzymes to export as a candidate panel for `candidate.fit` and
-        `candidate.select`: 1 to 500 distinct identifiers, each in the panel; the export lists
-        them in the order of the request.
+        `candidate.select`: 1 to 500 distinct identifiers, each in the panel. The export
+        keeps the order of the request.
     """
 
     panel: str

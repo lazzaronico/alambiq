@@ -1,33 +1,39 @@
 """Project proteins from one embedding space to two dimensions and propose
 representatives.
 
-From stored vectors, with no model run, the capability projects the proteins to
-two dimensions (PCA, or a seeded UMAP), finds the nearest neighbor of each
-protein by cosine distance, builds an average-linkage hierarchical clustering,
-and proposes representatives: the medoid first (the protein with the smallest
-mean cosine distance to all proteins), then repeatedly the protein whose cosine
-distance to the nearest already chosen protein is largest; selection stops when
-that distance is 1e-12 or less, so proteins in an identical direction are not
-repeated and fewer representatives than requested can result. Distances and
-representatives are computed from the full vectors.
+Returns a two-dimensional layout of the proteins, the nearest neighbor of each
+protein, and representatives. It reads stored vectors and runs no model. The
+result shows which proteins the model places close together and a subset of
+proteins far apart in the vector space to inspect or test first.
 
-What the result supports: which proteins the model places close together, and a
-subset of proteins far apart in the vector space to inspect or test first.
+The method:
 
-Limits. The result describes the space of one model. A two-dimensional layout
-discards the variance in the other dimensions: PCA axes are the directions of
-greatest variance and can explain a small fraction of it (the explained
-fractions are reported). UMAP preserves local neighbor relations; distances
-between clusters, cluster sizes and gaps are properties of the layout, and the
-distances between the full vectors are the cosine distances. A UMAP layout
-depends on `seed`, `n_neighbors`, `min_dist` and `n_epochs`; a PCA layout is
-deterministic. A cluster seen in a layout is a cluster of the vector space when
-the cosine distances within it are smaller than the cosine distances between it
-and the other proteins. Representatives are chosen to be far apart in the
-vector space; the selection uses the vectors only. Records that differ in
-model, revision, layer, pooling, input tracks or dimension are refused, because
-their vectors do not share a space. A request with more than 500 proteins or
-more than 16 records is refused.
+- The layout is PCA or a seeded UMAP.
+- The nearest neighbor is found by cosine distance.
+- A hierarchical clustering uses average linkage.
+- The first representative is the medoid, the protein with the smallest mean
+  cosine distance to all proteins. Each next one is the protein farthest, by
+  cosine distance, from the nearest chosen protein.
+- Selection stops when that distance is 1e-12 or less. Fewer representatives
+  than requested can result.
+
+Distances and representatives are computed from the full vectors.
+
+Limits.
+
+- The result describes the space of one model. Records that differ in model,
+  revision, layer, pooling, input tracks or dimension are refused.
+- A request with more than 500 proteins or more than 16 records is refused.
+- A two-dimensional layout discards the variance in the other dimensions. PCA
+  axes are the directions of greatest variance, and the explained fractions are
+  reported.
+- UMAP preserves local neighbor relations. Distances between clusters, cluster
+  sizes and gaps are properties of the layout. The cosine distances of the full
+  vectors are the distances of the space.
+- A UMAP layout depends on `seed`, `n_neighbors`, `min_dist` and `n_epochs`. A
+  PCA layout is deterministic.
+- A cluster in a layout is a cluster of the vector space when the cosine
+  distances within it are smaller than those between it and the other proteins.
 """
 
 from __future__ import annotations
@@ -47,19 +53,17 @@ class ExploreRequest:
     embeddings:
         A path to a record stored by `protein.embed`.
     more_embeddings:
-        Paths to further `protein.embed` records to analyze together with it,
-        for more than the 64 proteins that `protein.embed` accepts in one step.
-        At most 15 further records. All records must agree in model, revision,
-        layer, pooling, input tracks and dimension, and protein identifiers
-        must be unique across them.
+        Paths to up to 15 further `protein.embed` records, analyzed together
+        with the first. This allows more than the 64 proteins of one record.
+        All records agree in model, revision, layer, pooling, input tracks and
+        dimension. Protein identifiers are unique across them.
     projection:
         `pca` or `umap`; default `pca`. `umap` needs umap-learn 0.5.12, which
         the `embedding-analysis` extra installs.
     representatives:
-        At most this many representative proteins to propose, 1 to 64; default
-        5. Fewer are proposed when there are fewer proteins or when all
-        remaining proteins have a cosine distance of at most 1e-12 to an already chosen
-        protein.
+        The most representatives to propose, 1 to 64; default 5. Fewer are
+        proposed when there are fewer proteins or when every remaining protein
+        is within a cosine distance of 1e-12 of a chosen one.
     seed:
         UMAP only. Random seed, 0 to 2,147,483,647; default 0.
     n_neighbors:
@@ -102,7 +106,7 @@ class Neighbour:
 
 @dataclass(frozen=True, slots=True)
 class ExploreResult:
-    """The layout, the neighbors, and the proposed representatives (field `recommended`, in order of selection)."""
+    """The layout, the neighbors and the representatives (`recommended`, in order of selection)."""
 
     model: str
     revision: str

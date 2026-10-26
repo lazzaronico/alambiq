@@ -1,38 +1,43 @@
 """Prepare one protein chain for molecular dynamics: hydrogens, solvent, minimization.
 
-One standard-protein chain of a PDB or mmCIF file is selected by its author chain id
-and stripped of its hydrogens. Hydrogens are then added at a stated pH, with residue
-protonation variants that can be overridden in the request. The capability
-parameterizes the chain with Amber ff14SB, places it in explicit TIP3P water with NaCl
-and neutralizing ions or in implicit GBn2 solvent, and minimizes the energy. Optionally
-PDBFixer rebuilds missing heavy atoms of standard residues and applies explicit residue
-substitutions from standard templates. The output is a serialized OpenMM system and
-state, the topology, the prepared structure and a manifest (a JSON file that lists every
-operation performed).
+The result is a minimized system that dynamics can start from: a serialized OpenMM system
+and state, the topology, the prepared structure and a manifest. The manifest is a JSON file
+that lists every operation performed. It records which atoms were removed, which residues
+were protonated in which state and which were rebuilt, and it describes the geometry of the
+result.
 
-The result is a starting point for dynamics, with every decision (which atoms were
-removed, which residues were protonated in which state, which were rebuilt) recorded and
-the geometry of the result described.
+One standard-protein chain of a PDB or mmCIF file is selected by its author chain id. The
+method has these steps:
 
-Limits. Protonation uses the pH-dependent defaults of OpenMM, assigned per residue type
-at the stated pH, and the overrides of the request. The default protonation of a histidine
-in a catalytic site can differ from its actual state; `residue_variants` overrides it.
-Only a single standard protein chain is prepared, as it appears in the selected model:
-cofactors, ligands, metals, other chains and nonstandard residues are refused
-(`require-protein-only`) or explicitly dropped (`selected-chain-only`, with what was
-dropped listed). Completion applies to missing heavy atoms of existing standard
-residues: with `heavy_atom_completion: pdbfixer-standard` the atoms other than the
-backbone atoms N, CA, C and O are rebuilt, and a chain with an incomplete or
-discontinuous backbone is refused. Minimization stops at the stated maximum number of
-iterations or force tolerance; when the tolerance is met first, the root-mean-square of
-the force components at the end point is below it, and the forces before and after are
-reported. A
-substitution is a modeled residue placed from a standard template. The geometry
-diagnostics (peptide planarity, alpha-carbon chirality) describe the prepared
-coordinates and leave them unchanged. A twisted peptide bond or an inverted alpha-carbon in the
-input remains in the prepared system, and dynamics starts from it. A chain of fewer
-than 3 or more than 1,000 residues, or a prepared system of more than 250,000 atoms,
-is refused.
+- The chain is stripped of its hydrogens. Hydrogens are added at a stated pH, with residue
+  protonation variants that the request can override.
+- With `heavy_atom_completion: pdbfixer-standard`, PDBFixer rebuilds missing heavy atoms of
+  standard residues and applies the residue substitutions of the request from standard
+  templates.
+- The chain is parameterized with Amber ff14SB and placed in explicit TIP3P water with NaCl
+  and neutralizing ions, or in implicit GBn2 solvent.
+- The energy is minimized.
+
+Limits.
+
+- Protonation uses the pH-dependent defaults of OpenMM, assigned per residue type at the
+  stated pH, and the overrides of the request. The default protonation of a histidine in a
+  catalytic site can differ from its actual state; `residue_variants` overrides it.
+- Only a single standard protein chain is prepared, as it appears in the selected model.
+  Cofactors, ligands, metals, other chains and nonstandard residues are refused
+  (`require-protein-only`) or dropped and listed (`selected-chain-only`).
+- Completion applies to missing heavy atoms of existing standard residues. With
+  `heavy_atom_completion: pdbfixer-standard`, the atoms other than the backbone atoms N, CA,
+  C and O are rebuilt. A chain with an incomplete or discontinuous backbone is refused.
+- A substitution is a modeled residue placed from a standard template.
+- Minimization stops at the stated maximum number of iterations or the force tolerance. When
+  the tolerance is met first, the root-mean-square of the force components at the end point
+  is below it. The forces before and after are reported.
+- The geometry diagnostics (peptide planarity, alpha-carbon chirality) describe the prepared
+  coordinates and leave them unchanged. A twisted peptide bond or an inverted alpha carbon in
+  the input remains in the prepared system, and dynamics starts from it.
+- A chain of fewer than 3 or more than 1,000 residues, or a prepared system of more than
+  250,000 atoms, is refused.
 """
 
 from __future__ import annotations
@@ -99,7 +104,7 @@ class Mutation:
     residue:
         The author residue number, with an insertion letter if there is one.
     wild_type, mutant:
-        One-letter codes; the wild type is checked against the structure.
+        One-letter codes. The wild type is checked against the structure.
     """
 
     residue: str
@@ -116,7 +121,7 @@ class PrepareRequest:
     chain_id:
         The author chain to prepare.
     structure_format:
-        `pdb` or `mmcif`; by default read from the file extension.
+        `pdb` or `mmcif`. By default it is read from the file extension.
     model_index:
         Which model of an ensemble to use, from 0.
     solvent:
@@ -137,17 +142,17 @@ class PrepareRequest:
         Bounds on the minimization, 1 to 10,000 iterations and a force
         tolerance from 0.01 to 1,000.
     heavy_atom_completion:
-        `pdbfixer-standard` rebuilds missing heavy atoms of standard residues;
+        `pdbfixer-standard` rebuilds missing heavy atoms of standard residues. It is
         required for `substitutions`.
     source_component_policy:
-        `require-protein-only` refuses a file whose chain or file holds anything
-        but standard protein; `selected-chain-only` drops the rest and lists it.
+        `require-protein-only` refuses a file that holds anything but standard protein.
+        `selected-chain-only` drops the rest and lists it.
     residue_variants, substitutions:
         Protonation overrides and explicit residue substitutions.
     platform, platform_properties, seed:
-        The OpenMM platform (`CPU`, `Reference`, `CUDA`, `OpenCL`, with no
-        fallback), its properties (by default one CPU thread, so that the same seed gives the
-        same result), and the seed for completion.
+        The OpenMM platform (`CPU`, `Reference`, `CUDA` or `OpenCL`, with no fallback),
+        its properties and the seed for completion. By default the properties give one CPU
+        thread, so that the same seed gives the same result.
     """
 
     structure: str

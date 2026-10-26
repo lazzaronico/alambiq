@@ -1,40 +1,31 @@
 """Fit measured candidate properties and check the fit on held-out candidates.
 
-A candidate panel is a JSON file (`schema_version` 0.1) that lists 1 to 500
-protein candidates. Each candidate has a unique `sample_id`, a `sequence` of
-1 to 10,000 standard amino acids, the `sequence_sha256` digest of that
-sequence, a `group_id` and a `partition`. The `sample_id` and the `group_id`
-contain no whitespace and have at most 200 characters. A group is a set of
-related candidates that share a `group_id`. The partition is `train`,
-`evaluation` or `pool`; these are the training, evaluation and pool
-partitions. Candidates in the pool partition are unmeasured.
+The result reports the error of a Bayesian ridge regression on the evaluation partition. The stored record holds a prediction with a 95 % predictive interval for every candidate.
 
-The model is Bayesian ridge regression on standardized features, fitted on
-the training partition alone. Features are either the sequence length and the
-20 amino-acid fractions, or supplied pooled embeddings. The stored record
-contains a prediction and a 95 % predictive interval for every candidate,
-including the pool partition. On the evaluation partition the result reports the mean
-absolute error, the root-mean-square error and R squared of the model and of a
-baseline that predicts the training mean, and the coverage of the 95 %
-predictive interval of the model.
+A candidate panel is a JSON file (`schema_version` 0.1) with 1 to 500 protein candidates. Each candidate has:
 
-The partitions are supplied in the candidate panel. The fit refuses a
-candidate panel in which a group or an identical sequence of the evaluation
-partition also appears in another partition, so that no evaluation candidate
-shares a group or a sequence with a training or pool candidate. It also
-refuses measured values for pool candidates, because the pool partition is
-unmeasured.
+- a unique `sample_id`;
+- a `sequence` of 1 to 10,000 standard amino acids, and its digest `sequence_sha256`;
+- a `group_id`, which assigns related candidates to one group;
+- a `partition`: `train`, `evaluation` or `pool`. Pool candidates are unmeasured.
 
-Limits. The model is linear in the chosen features, so candidates with
-identical features cannot be separated; the result counts the sets of such
-candidates (`indistinguishable_groups`) and the stored record lists their
-identifiers. The predictive
-interval assumes Gaussian residuals with constant variance; its coverage is
-measured separately on the evaluation partition and reported. The training
-partition must contain at least 8 measured candidates from at least 3 groups,
-and the evaluation partition at least 4 measured candidates from at least 2
-groups. Below 30 evaluation observations the result carries a warning that the
-estimates of performance and interval coverage rest on a small sample.
+A `sample_id` and a `group_id` have at most 200 characters and no whitespace.
+
+The model is fitted on the training partition alone, on standardized features. The features are the sequence length and the 20 amino-acid fractions, or supplied pooled embeddings. The stored record includes predictions for the pool partition. The result reports these measures on the evaluation partition, for the model and for a baseline that predicts the training mean:
+
+- the mean absolute error;
+- the root-mean-square error;
+- R squared.
+
+It also reports the coverage of the 95 % predictive interval of the model.
+
+The panel supplies the partitions. The fit refuses a panel in which a group or an identical sequence of the evaluation partition also appears in another partition. It also refuses measured values for pool candidates.
+
+Limits. The model is linear in the features, so candidates with identical features cannot be separated. The result counts the sets of such candidates (`indistinguishable_groups`) and the stored record lists their identifiers.
+
+- The predictive interval assumes Gaussian residuals with constant variance. Its coverage is measured on the evaluation partition and reported.
+- The training partition needs at least 8 measured candidates from at least 3 groups. The evaluation partition needs at least 4 measured candidates from at least 2 groups.
+- With fewer than 30 evaluation observations, the result carries a warning that the estimates of performance and interval coverage rest on a small sample.
 """
 
 from __future__ import annotations
@@ -52,22 +43,22 @@ class CandidateFitRequest:
     """The candidate panel, the measurements and the model settings of a candidate fit.
 
     panel:
-        Path to the candidate panel, a JSON file with the fields listed in the capability description.
+        Path to the candidate panel, a JSON file with the fields in the capability description.
     assay:
         Path to a stored `assay.inspect` record that holds the measurements.
     metric, condition_id, unit:
         The measured quantity, the condition and the unit. Only measurements with
-        this metric and condition are fitted; a selected measurement in another
-        unit is an error.
+        this metric and condition are fitted. A selected measurement in another unit
+        is an error.
     observation_basis:
-        `supplied-values` requires exactly one measured record per candidate,
-        with no independent unit assigned; a candidate with no measured record is
-        excluded and the stored record lists the reason. `independent-means` fits
-        the mean over the independent units of each candidate (see
-        `independent_unit` in `assay.inspect`). Default `supplied-values`.
+        `supplied-values` requires exactly one measured record per candidate, with no
+        independent unit assigned. A candidate with no measured record is excluded,
+        and the stored record lists the reason. `independent-means` fits the mean over
+        the independent units of each candidate (see `independent_unit` in
+        `assay.inspect`). Default `supplied-values`.
     features:
         `sequence-composition-v1` uses the sequence length and the 20 amino-acid
-        fractions. `pooled-embeddings` uses the supplied vectors instead. Default
+        fractions. `pooled-embeddings` uses the supplied vectors. Default
         `sequence-composition-v1`.
     embeddings:
         Path to a stored embedding record whose identifiers and sequences match
@@ -91,7 +82,7 @@ class CandidateFitRequest:
 
 @dataclass(frozen=True, slots=True)
 class Performance:
-    """Prediction error on one set of candidates: count, mean absolute error, root mean squared error and R squared."""
+    """Prediction error on one set of candidates: count, mean absolute error, root-mean-square error and R squared."""
 
     n: int
     mae: float
@@ -101,21 +92,21 @@ class Performance:
 
 @dataclass(frozen=True, slots=True)
 class CandidateFitResult:
-    """The fit, its performance on the evaluation partition and the number of sets of candidates it could not separate."""
+    """The fit, its performance on the evaluation partition, and the number of sets of candidates that it cannot separate."""
 
     trained_on: int
     evaluated_on: int
     evaluation_groups: int
     model: Performance
     baseline: Performance
-    """The same measure for a prediction equal to the training mean for every candidate."""
+    """The same measures for a prediction equal to the training mean for every candidate."""
     interval_95_coverage: float
     """Fraction of evaluation values inside their 95 % predictive interval."""
     mean_interval_95_width: float
     excluded: int
     indistinguishable_groups: int
     record: str
-    """Path to the stored fit record, which contains every prediction and coefficient."""
+    """Path to the stored fit record: every prediction and coefficient."""
 
 
 def _performance(values: dict) -> Performance:

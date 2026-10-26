@@ -1,27 +1,33 @@
 """Predict InterPro regions, function keywords and secondary structure for one protein with ESM3-small.
 
-From the sequence alone, the output layers of ESM3-small give three outputs
-(ESM3 calls them tracks): predicted InterPro regions (a family or domain label
-with a start and end), predicted function keywords with their regions, and an
-8-class secondary-structure label for every residue (the labels G, H, I, T, E,
-B, S, C). Region positions are one-based and inclusive. Regions are decoded
-from the output of the model at fixed thresholds that are listed in the
-`decoding` field of the result (`p_none_threshold` 0.05, `interpro_threshold`
-0.1, `keyword_threshold` 0.5, `minimum_span` 5, `merge_gap` 3), and the full
-probability arrays are stored so that other thresholds can be applied.
+Returns three predictions from the sequence alone (ESM3 calls them tracks):
 
-What the result supports: the protein annotation that a protein language model
-predicts from this sequence alone. The predictions are hypotheses to check
-against structure. A Pfam-derived label can be compared with a search with
-`protein.match_profiles`.
+- InterPro regions, each a family or domain label with a start and end.
+- Function keywords with their regions.
+- An 8-class secondary-structure label for every residue (G, H, I, T, E, B, S,
+  C).
 
-Limits. Every label is a model prediction with an uncalibrated confidence: the
-reported maximum probabilities are the model's own. A predicted InterPro region
-is a model prediction of an InterPro match, and its label, start or end can be
-wrong. Predicted InterPro regions come from several InterPro member databases,
-and a search with `protein.match_profiles` covers Pfam 38.2 or supplied
-profiles. The decoding thresholds are choices, and other thresholds give other
-regions. A protein of more than 512 residues is refused.
+The predictions are hypotheses to check against structure. A Pfam-derived label
+can be compared with a search by `protein.match_profiles`.
+
+The method:
+
+- The output layers of ESM3-small give the three tracks.
+- Regions are decoded from the model output at fixed thresholds. The `decoding`
+  field of the result lists them: `p_none_threshold` 0.05, `interpro_threshold`
+  0.1, `keyword_threshold` 0.5, `minimum_span` 5, `merge_gap` 3.
+- Region positions are one-based and inclusive.
+- The full probability arrays are stored, so other thresholds can be applied.
+
+Limits.
+
+- The reported maximum probabilities are the model's own, with an uncalibrated
+  confidence.
+- A predicted InterPro region can have a wrong label, start or end.
+- The regions come from several InterPro member databases. A search with
+  `protein.match_profiles` covers Pfam 38.2 or supplied profiles.
+- Other decoding thresholds give other regions.
+- A protein of more than 512 residues is refused.
 """
 
 from __future__ import annotations
@@ -58,10 +64,10 @@ class TracksRequest:
         A path to a FASTA with one protein of 1 to 512 residues.
     device:
         `cpu`, `mps` or `cuda`; default `cpu`. An unavailable device is an
-        error; there is no fallback to another device.
+        error.
     threads:
-        Threads of the host CPU used by the engine, applied on every device, 1
-        to 32; default 4.
+        Host CPU threads used by the engine on every device, 1 to 32; default
+        4.
     """
 
     protein: str
@@ -82,7 +88,7 @@ class Region:
 
 @dataclass(frozen=True, slots=True)
 class TracksResult:
-    """The predicted outputs (regions and secondary structure), and the model that produced them."""
+    """The predicted regions and secondary structure, and the model that made them."""
 
     protein_id: str
     length: int
@@ -93,7 +99,7 @@ class TracksResult:
     regions: list[Region]
     record: str
     arrays: str
-    """A NumPy archive of the probability arrays from which the labels were decoded."""
+    """A NumPy archive of the probability arrays that the labels were decoded from."""
     model: str
     revision: str
     license: str

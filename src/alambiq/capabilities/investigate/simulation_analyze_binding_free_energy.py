@@ -1,40 +1,52 @@
 """Combine relative free-energy legs into binding differences, cycle closures and checks.
 
-Each directed edge A to B of a ligand series has two legs, one with the ligand bound to
-the protein and one in solvent, each run as independent replicas by
-`simulation.run_relative_free_energy`. The relative binding free energy of an edge is
-the mean of the bound leg minus the mean of the solvent leg, in kcal/mol, with each
-leg's mean taken with equal weight over its replicas. For every reported value the
-result gives the sample standard deviation of the replica estimates, the error that MBAR
-reports within each replica, the overlap between neighboring lambda windows, the
-effective sample size per lambda window, and the difference between the forward and
-reverse estimates at half of the data. Closed cycles of edges are summed, because a
-thermodynamic cycle sums to zero, and a set of measured binding free energies
-(`reference`) can be compared with the calculated differences, edge by edge and cycle by
-cycle. The checks in the request convert these diagnostics into one pass, fail or
-unassessed verdict per diagnostic and per replica, leg, edge or cycle, and one overall
+Returns the relative binding free energy of each edge of a ligand series, the closure of
+each cycle of edges, and a pass, fail or unassessed verdict for each requested check.
+
+Each directed edge A to B has two legs, one bound to the protein and one in solvent. Each
+leg is run as independent replicas by `simulation.run_relative_free_energy`. The relative
+binding free energy of an edge is the mean of the bound leg minus the mean of the solvent
+leg, in kcal/mol. The mean of a leg weights its replicas equally.
+
+Every reported value comes with:
+
+- the sample standard deviation of the replica estimates;
+- the error that MBAR reports within each replica;
+- the overlap between neighboring lambda windows;
+- the effective sample size per lambda window;
+- the difference between the forward and reverse estimates at half of the data.
+
+The edges of a closed cycle are summed, because a thermodynamic cycle sums to zero. A set
+of measured binding free energies (`reference`) is compared with the calculated
+differences, edge by edge and cycle by cycle. The checks in the request turn each
+diagnostic into a verdict for each replica, leg, edge or cycle, and into one overall
 status.
 
-The result gives the calculated relative binding free energies of these edges under
-this method, the reproducibility of the estimates across replicas, and whether the
-sampling met the requested checks.
+Limits.
 
-Limits. The spread across replicas measures the reproducibility of the sampling from
-independent starts. The error of the force field, the charges and the atom mapping is
-additional to the spread, so a reproducible result can differ from the true value. The
-MBAR error assumes uncorrelated samples and understates the error when the samples are
-correlated; it is reported separately from the replica spread. A cycle that closes shows internal
-consistency. Cycle errors assume independent sampling of the edges, which a shared leg
-or a shared starting structure violates. Every ligand must have the same SHA-256 digest
-in every leg, the protein must have the same digest in every bound leg, the method and
-the temperature must be the same throughout, and both legs of an edge must share one
-atom mapping: the capability checks these conditions and refuses a mismatch. The result
-assumes correct protonation of the binding site, correct ligand charge states and the
-absence of slow protein rearrangements. Overlap, effective sample size and the
-forward-reverse difference indicate convergence of the lambda path. The capability
-detects ligand drift in the bound leg only when `structural_diagnostics` is supplied and
-a check on the drift is set. A request with more than 100 edges or more than 100 cycles
-is refused, and so is a leg with fewer than 2 or more than 50 replicas.
+- The spread across replicas measures the reproducibility of the sampling from independent
+  starts. Errors of the force field, the charges and the atom mapping come in addition, so
+  a reproducible result can differ from the true value.
+- The MBAR error assumes uncorrelated samples and understates the error when the samples
+  are correlated. It is reported separately from the replica spread.
+- A cycle that closes shows internal consistency. Cycle errors assume independent sampling
+  of the edges, which a shared leg or a shared starting structure violates.
+- Overlap, effective sample size and the forward-reverse difference indicate convergence
+  of the lambda path.
+- The result assumes correct protonation of the binding site, correct ligand charge states
+  and no slow protein rearrangements.
+- Ligand drift in the bound leg is detected when `structural_diagnostics` is supplied and a
+  check on the drift is set.
+
+The capability refuses a mismatch in these conditions:
+
+- every ligand has the same SHA-256 digest in every leg;
+- the protein has the same digest in every bound leg;
+- the method and the temperature are the same throughout;
+- both legs of an edge share one atom mapping.
+
+It also refuses a request with more than 100 edges or more than 100 cycles, and a leg with
+fewer than 2 or more than 50 replicas.
 """
 
 from __future__ import annotations
@@ -121,7 +133,7 @@ class BindingReference:
 
 @dataclass(frozen=True, slots=True)
 class BindingChecks:
-    """Thresholds that convert diagnostics into a pass or a fail; each threshold is optional.
+    """Thresholds that turn diagnostics into verdicts; each threshold is optional.
 
     maximum_edge_replica_sem_kcal_mol:
         The largest permitted standard error of an edge across replicas.
@@ -134,15 +146,15 @@ class BindingChecks:
         The smallest permitted effective sample size of any lambda window in every replica.
     half_fraction_target, half_fraction_maximum_distance,
     maximum_half_forward_reverse_difference_kcal_mol:
-        Together: at the stored fraction nearest the target (from 0 to 1, within the
-        stated distance of the target) the forward and reverse estimates differ by at
-        most this value.
+        Together: the check reads the stored fraction nearest the target (from 0 to 1),
+        within the stated distance of the target. The forward and reverse estimates there
+        differ by at most this value.
     cycle_absolute_floor_kcal_mol, cycle_replica_sem_multiplier:
         Together: a cycle closes if its closure is within the larger of the floor and
         the multiplier times its replica standard error.
     maximum_ligand_com_drift_angstrom:
         The largest permitted drift of the center of mass of the ligand in a bound
-        replica; requires the structural diagnostics.
+        replica. Requires the structural diagnostics.
     """
 
     maximum_edge_replica_sem_kcal_mol: float | None = None
@@ -340,8 +352,8 @@ def analyze_binding_free_energy(
     unknown = sorted(set(request.structural_diagnostics) - set(bound))
     if unknown:
         raise ValueError(
-            f"structural_diagnostics names replicas that are not bound replicas: {unknown}; "
-            "each key must be the id of a bound replica."
+            f"structural_diagnostics names {unknown}, which are not bound replicas; "
+            "use the id of a bound replica as each key."
         )
     diagnostics = {}
     for replica_id, path in request.structural_diagnostics.items():
@@ -414,8 +426,8 @@ def analyze_binding_free_energy(
     ]
     if assessment and assessment["status"] != "pass":
         ctx.note(
-            f"The checks gave {assessment['status']}; the checks of the result list the rows "
-            "that failed or could not be assessed."
+            f"The checks gave {assessment['status']}; the rows in `checks` that failed or "
+            "could not be assessed say why."
         )
     return BindingResult(
         title=data["title"],

@@ -1,31 +1,37 @@
 """Score single substitutions of a protein with a protein language model.
 
-For each requested position the residue is masked and ESM C 300M is run on the
-sequence. The log-probability that the model assigns to each of the 20
-standard amino acids at that position is recorded. The log-likelihood ratio
-(masked-marginal score, Meier et al., 2021) of a substitution is the
-log-probability of the mutant minus that of the wild type at the same position:
-positive when the model assigns the mutant a higher probability than the residue of the
-protein in that context, negative when it assigns a lower one. The values come
-from the pretrained model without fitting.
+Returns a score for each single substitution at the requested positions. The
+score ranks substitutions by the probability that a protein language model
+assigns to them.
 
-What the result supports: a ranking of substitutions by the probability that a
-protein language model assigns to them. Meier et al., 2021 evaluated the
-log-likelihood ratio against deep mutational scans. The score is in
-natural-log units (nats).
+The method:
 
-Limits. The model was trained on natural sequences, so it favors substitutions
-that natural proteins make; the score applies to the likelihood of a
-substitution in natural sequences. The score is independent of the function to
-be improved, so a variant that is better at an unnatural function can receive a
-lower score. The Spearman correlation of the log-likelihood ratio with measured
-effects is given per dataset in `docs/methods/variant-proposal.md`. The score
-evaluates one position at a time with the rest of the sequence as given, so
-each substitution is scored on its own; the score of a combination of two
-substitutions is not defined. The score is a function of the sequence alone;
-structure, cofactors, temperature and pH are not inputs. The score applies to
-sequences within the training distribution of the model. A sequence of more than
-1,024 residues is refused.
+- For each position, the residue is masked and ESM C 300M runs on the sequence.
+- The model gives a log-probability for each of the 20 standard amino acids at
+  that position.
+- The score of a substitution is the log-likelihood ratio (masked-marginal
+  score, Meier et al., 2021): the log-probability of the mutant minus that of
+  the wild type at the same position. A positive value means the model
+  assigns the mutant a higher probability than the wild type in that context.
+- The unit is the natural logarithm (nats). The values come from the
+  pretrained model without fitting.
+
+Meier et al., 2021 evaluated the log-likelihood ratio against deep mutational
+scans. The Spearman correlation with measured effects is given per dataset in
+`docs/methods/variant-proposal.md`.
+
+Limits.
+
+- The model was trained on natural sequences. The score is the likelihood of a
+  substitution in natural sequences.
+- The score does not depend on the function to be improved. A variant that is
+  better at an unnatural function can receive a lower score.
+- The score evaluates one position at a time with the rest of the sequence as
+  given. The score of a combination of two substitutions is not defined.
+- The score is a function of the sequence alone. Structure, cofactors,
+  temperature and pH are not inputs.
+- The score applies to sequences within the training distribution of the model.
+- A sequence of more than 1,024 residues is refused.
 """
 
 from __future__ import annotations
@@ -45,24 +51,23 @@ CANONICAL = "ACDEFGHIKLMNPQRSTVWY"
 
 @dataclass(frozen=True, slots=True)
 class ScoreRequest:
-    """The protein, the positions to score, and where the model runs.
+    """The protein, the positions to score and where the model runs.
 
     protein:
-        A path to a FASTA with one protein of 1 to 1,024 residues from the 20 standard
-        amino acids.
+        A path to a FASTA with one protein of 1 to 1,024 residues from the 20
+        standard amino acids.
     positions:
-        The one-based positions to score; every position when empty. Each is one
-        model pass. Duplicate positions are merged, and positions are scored in
-        ascending order.
+        The one-based positions to score; every position when empty. Each
+        position is one model pass. Duplicates are merged, and positions are
+        scored in ascending order.
     device:
         `cpu`, `mps` or `cuda`; default `cpu`. An unavailable device is an
-        error; there is no fallback to another device.
+        error.
     threads:
-        Threads of the host CPU used by the engine, applied on every device, 1
-        to 32; default 4.
+        Host CPU threads used by the engine on every device, 1 to 32; default
+        4.
     batch_size:
-        Number of masked copies of the sequence to run at once, 1 to 64;
-        default 8.
+        Masked copies of the sequence to run at once, 1 to 64; default 8.
     """
 
     protein: str
@@ -82,12 +87,12 @@ class PositionScore:
     top_residue: str
     top_log_prob: float
     entropy_bits: float
-    """Entropy of the distribution over the 20 residues at this position; a low value means that the probability is concentrated on few residues."""
+    """Entropy of the distribution over the 20 residues at this position. A low value means few residues carry the probability."""
 
 
 @dataclass(frozen=True, slots=True)
 class ScoreResult:
-    """The scored positions with the log-probability of the wild-type residue, the most probable residue and the entropy, the fraction of positions at which the wild type is most probable, and the stored record."""
+    """The scored positions, the fraction of positions where the wild type is most probable, and the stored record."""
 
     protein_id: str
     length: int
@@ -101,7 +106,7 @@ class ScoreResult:
     """The fraction of scored positions at which the residue of highest probability is the wild type."""
     positions: list[PositionScore]
     record: str
-    """The log-probabilities and log-likelihood ratio of every substitution, in the form that `variant.propose` reads."""
+    """The log-probabilities and log-likelihood ratio of every substitution, as `variant.propose` reads them."""
     device: str
     engine_versions: dict[str, Any]
 
@@ -129,8 +134,8 @@ def score_substitutions(request: ScoreRequest, ctx: StepContext) -> ScoreResult:
     positions = sorted(set(request.positions)) or list(range(1, len(sequence) + 1))
     if any(not 1 <= p <= len(sequence) for p in positions):
         raise ValueError(
-            f"positions: values outside 1 to {len(sequence)} are given; positions "
-            f"must lie between 1 and {len(sequence)}"
+            f"positions must lie between 1 and {len(sequence)}; a given value is "
+            "outside that range"
         )
     for label, value, low, high in (
         ("threads", request.threads, 1, 32),

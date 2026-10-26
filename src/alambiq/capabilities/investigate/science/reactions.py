@@ -37,7 +37,7 @@ def rdkit_version():
 def molecule(smiles):
     Chem = chemistry()
     if not isinstance(smiles, str) or not 1 <= len(smiles) <= 20000:
-        raise ValueError("Supply a nonempty SMILES string of at most 20000 characters")
+        raise ValueError("Supply a SMILES string of 1 to 20000 characters")
     params = Chem.SmilesParserParams()
     params.removeHs = False
     params.parseName = False
@@ -45,10 +45,10 @@ def molecule(smiles):
     mol = Chem.MolFromSmiles(smiles, params)
     if mol is None or not 1 <= mol.GetNumAtoms() <= 2000:
         raise ValueError(
-            "SMILES must describe a valid molecule with 1–2000 explicit atoms"
+            "The SMILES must describe a valid molecule of 1 to 2000 explicit atoms"
         )
     if any(a.GetAtomicNum() == 0 for a in mol.GetAtoms()):
-        raise ValueError("Explicit chemical species require an element for every atom")
+        raise ValueError("Every atom of a species must be an element")
     # Preserve atom order and map numbers; canonical identity gets a separate copy.
     return mol
 
@@ -141,11 +141,11 @@ def validate_request(request):
         "rule-generated",
         "model-predicted",
     }:
-        raise ValueError("Use an explicit supported source kind")
+        raise ValueError("source.kind must be a supported kind, such as researcher-specified or publication")
     for k, v in source.items():
         label(v, f"source.{k}", 3000)
     if "sha256" in source and not re.fullmatch(r"[0-9a-f]{64}", source["sha256"]):
-        raise ValueError("Source sha256 requires 64 lowercase hexadecimal characters")
+        raise ValueError("source.sha256 must be 64 lowercase hexadecimal characters")
     conditions = request["conditions"]
     if (
         not isinstance(conditions, dict)
@@ -258,7 +258,7 @@ def atom_correspondence(participants, diagnostics):
                 {
                     "code": "mapped-atom-identity",
                     "participants": [left[n]["participant"], right[n]["participant"]],
-                    "message": f"Map {n} has differing element/isotope identities on the two sides.",
+                    "message": f"Map {n} has a different element or isotope on the two sides.",
                 }
             )
             inconsistent = True
@@ -333,7 +333,7 @@ def inspect_reaction(request):
                 {
                     "code": "unspecified-stereochemistry",
                     "participants": [p["id"]],
-                    "message": "The supplied species contains unspecified stereogenic atoms or bonds.",
+                    "message": "The species has unspecified stereogenic atoms or bonds.",
                 }
             )
         if p["radical_electrons"]:
@@ -341,7 +341,7 @@ def inspect_reaction(request):
                 {
                     "code": "radical-species",
                     "participants": [p["id"]],
-                    "message": f"The supplied species has {p['radical_electrons']} radical electrons.",
+                    "message": f"The species has {p['radical_electrons']} radical electrons.",
                 }
             )
         if "reference_smiles" in p:
@@ -352,7 +352,7 @@ def inspect_reaction(request):
                     {
                         "code": "reference-structure-mismatch",
                         "participants": [p["id"]],
-                        "message": "The supplied and reference structures describe different explicit species; inspect stereochemistry, charge, isotopes and composition.",
+                        "message": "The structure and its reference are different species. Compare stereochemistry, charge, isotopes and composition.",
                     }
                 )
         for source in p.get("sources", []):
@@ -365,7 +365,7 @@ def inspect_reaction(request):
                 {
                     "code": "source-identity-ambiguous",
                     "participants": sorted({p["id"] for p in rows}),
-                    "message": f"Source {key[0]}:{key[1]} ({key[2]}) is assigned to differing explicit species.",
+                    "message": f"Source {key[0]}:{key[1]} ({key[2]}) is assigned to different species.",
                 }
             )
     residuals = {
@@ -378,7 +378,7 @@ def inspect_reaction(request):
             {
                 "code": "equation-imbalance",
                 "participants": [p["id"] for p in participants],
-                "message": "Products minus reactants has a nonzero element, isotope or charge residual. Inspect the supplied species and stoichiometric participants.",
+                "message": "Products minus reactants leave a nonzero element, isotope or charge residual. Check the species and coefficients.",
             }
         )
     mapping = atom_correspondence(participants, diagnostics)
@@ -387,7 +387,7 @@ def inspect_reaction(request):
             {
                 "code": "atom-correspondence-coverage",
                 "participants": [p["id"] for p in participants],
-                "message": f"Supplied atom correspondence is {mapping['status']}; bond-change reconstruction requires one-to-one complete heavy-atom coverage.",
+                "message": f"The atom maps are {mapping['status']}. Bond changes are reconstructed when the maps cover every heavy atom one to one.",
             }
         )
     equation = defaultdict(Fraction)
@@ -400,7 +400,7 @@ def inspect_reaction(request):
             {
                 "code": "zero-net-transformation",
                 "participants": [p["id"] for p in participants],
-                "message": "Every explicit species cancels across the equation; the net chemical transformation is zero.",
+                "message": "Every species cancels across the equation, so the net transformation is zero.",
             }
         )
     return {
@@ -426,5 +426,5 @@ def inspect_reaction(request):
         },
         "mapping": mapping,
         "diagnostics": diagnostics,
-        "method": "RDKit canonical isomeric SMILES identify explicit species; source SMILES and supplied atom maps are retained separately. Ordinary explicit hydrogens and atom-map labels are removed only from the identity copy. Charge, stereochemistry, isotope labels, disconnected fragments and tautomeric form remain part of identity. All participant roles enter exact rational accounting. Conditions are recorded context; the supplied molecular states determine balance. CIP labels describe assigned priorities in each state.",
+        "method": "A species is identified by its RDKit canonical isomeric SMILES. The source SMILES and the atom maps are retained separately. Explicit hydrogens and atom-map labels are removed from the identity copy only. Charge, stereochemistry, isotope labels, disconnected fragments and tautomeric form are part of the identity. All participants enter the balance, in exact rational arithmetic. Conditions are recorded as context, and the species determine the balance. CIP labels are the priorities that RDKit assigns to each species.",
     }

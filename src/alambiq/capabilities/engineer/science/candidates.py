@@ -362,8 +362,8 @@ def fit_candidates(panel, assay, parameters, *, embeddings=None):
     representation["indistinguishable_candidates"] = aliases
     if aliases:
         diagnostics.append(
-            f"{sum(map(len, aliases))} candidates share identical input features. The "
-            f"number of sets of identical features is {len(aliases)}."
+            f"{sum(map(len, aliases))} candidates share identical input features; "
+            f"number of sets: {len(aliases)}."
         )
     if model.n_iter_ >= MODEL_PARAMETERS["max_iter"]:
         raise ValueError(
@@ -409,9 +409,7 @@ def fit_candidates(panel, assay, parameters, *, embeddings=None):
             "observations."
         )
     if len(evaluation) < 30:
-        diagnostics.append(
-            "Fewer than 30 evaluation observations."
-        )
+        diagnostics.append("Fewer than 30 evaluation observations.")
     if np.ptp(y) == 0:
         diagnostics.append(
             "The training response is constant."

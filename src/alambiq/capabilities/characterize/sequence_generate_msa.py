@@ -1,44 +1,60 @@
 """Build a multiple sequence alignment (MSA) for each protein from UniRef50.
 
-Each protein is searched against the pinned UniRef50 release with iterative
-MMseqs2, and its relatives are written as an A3M (an alignment format in which
-lowercase letters mark insertions relative to the query) with the protein as
-the first row. The other rows are sorted by identifier and then by sequence.
-Each alignment is then judged against depth rules before anything uses it: the
-number of distinct aligned rows (rows with identical match columns count once,
-the query included; at least `minimum_alignment_sequences`; the result field is
-`unique_sequences`), the number of diverse sequences (distinct match-column
-strings of rows other than the query that cover at least
-`minimum_query_coverage` of the protein and are at most 90 % identical to it
-over the columns in which the row has no gap; at least
-`minimum_diverse_sequences`), and the fraction of the protein covered by the
-median row (at least `minimum_query_coverage`). An alignment that meets the
-rules has decision `generated`; one that fails has decision `withheld` and is
-stored for inspection. The value of `minimum_query_coverage` also constrains
-which relatives MMseqs2 retains (see the request field).
+Returns, for each protein, an A3M alignment of its relatives in the pinned
+UniRef50 release, and a decision on its depth. The alignment shows which
+UniRef50 representatives resemble the protein. An alignment with decision
+`generated` meets the depth rules of the request and can be input to structure
+models and co-evolution models.
 
-What the result supports: which UniRef50 representatives resemble each protein,
-aligned to it. An alignment with decision `generated` meets the depth rules of the
-request and can be used as input to structure models and co-evolution models.
+The method:
 
-Limits. The alignment is limited by the database: UniRef50 clusters sequences at
-50 % identity and retains one representative per cluster, so close relatives are
-collapsed, and a protein with few relatives in UniRef50 has a shallow
-alignment. Each protein is aligned on its own (the result lists the proteins as
-`chains`) and rows are unpaired across proteins, so the co-evolutionary signal
-covers residues within one protein. The number of sequences depends on the
-family of the protein: a domain present in many proteins increases the count,
-and a novel protein reduces it. The number of sequences and the number of
-diverse sequences measure alignment depth; the accuracy of a structure or
-co-evolution model on the alignment is determined by running that model.
-Near-identical sequences are retained: the MMseqs2 option that sets a maximum
-identity does not remove hits close to the query (tested on a toy database with
-a hit that differs from the query at 3 or fewer positions), so no such setting
-is offered, and an alignment can contain the UniRef50 representative of the
-query itself. In a test on a toy database, searches with 1 and 4 threads gave
-identical A3M files. The index files of the database total about
-118 GB, and a search loads them before searching. The search timeout is 4 hours
-for each protein. A request with more than 8 proteins is refused.
+- Iterative MMseqs2 searches the database with each protein.
+- The alignment is an A3M, an alignment format in which lowercase letters mark
+  insertions relative to the query. The protein is the first row. The other rows
+  are sorted by identifier and then by sequence.
+- Three depth rules judge each alignment before anything uses it.
+- An alignment that meets the rules has decision `generated`. One that fails
+  has decision `withheld` and is stored for inspection.
+
+The depth rules:
+
+- Distinct aligned rows: at least `minimum_alignment_sequences`. Rows with
+  identical match columns count once, the query included. The result field is
+  `unique_sequences`.
+- Diverse sequences: at least `minimum_diverse_sequences`. A diverse sequence is
+  a distinct match-column string of a row other than the query. It covers at
+  least `minimum_query_coverage` of the protein and is at most 90 % identical
+  to it over the columns in which the row has no gap.
+- Median row coverage: the median row covers at least `minimum_query_coverage`
+  of the protein.
+
+`minimum_query_coverage` also sets which relatives MMseqs2 retains (see the
+request field).
+
+Limits.
+
+- UniRef50 clusters sequences at 50 % identity and keeps one representative per
+  cluster. Close relatives are collapsed, and a protein with few relatives in
+  UniRef50 has a shallow alignment.
+- Each protein is aligned on its own (the result lists the proteins as
+  `chains`). Rows are unpaired across proteins, so the co-evolutionary signal
+  covers residues within one protein.
+- The number of sequences depends on the family of the protein. A domain present
+  in many proteins increases the count, and a novel protein reduces it.
+- The number of sequences and the number of diverse sequences measure alignment
+  depth. The accuracy of a structure or co-evolution model on the alignment is
+  determined by running that model.
+- Near-identical sequences are retained. The MMseqs2 option for a maximum
+  identity did not remove hits close to the query in a test on a toy database,
+  with a hit that differs from the query at 3 or fewer positions. No such
+  setting is offered, and an alignment can contain the UniRef50 representative
+  of the query itself.
+- In a test on a toy database, searches with 1 and 4 threads gave identical A3M
+  files.
+- The index files of the database total about 118 GB. A search loads them
+  before searching.
+- The search timeout is 4 hours for each protein. A request with more than 8
+  proteins is refused.
 """
 
 from __future__ import annotations
@@ -59,7 +75,7 @@ SEARCH_TIMEOUT_SECONDS = 4 * 3600
 
 @dataclass(frozen=True, slots=True)
 class MsaRequest:
-    """The proteins to align and the depth and stringency of the search.
+    """The proteins to align, the search settings and the depth rules.
 
     proteins:
         A path to a FASTA of 1 to 8 proteins, each 10 to 5,000 residues from
@@ -70,31 +86,29 @@ class MsaRequest:
     sensitivity:
         MMseqs2 sensitivity (`-s`), 1 to 7.5 (default 7.5).
     evalue:
-        A relative is retained only if its expectation value is at most this
-        value (above 0 and at most 1,000,000; default 0.001).
+        A relative is retained when its expectation value is at most this value.
+        Above 0 and at most 1,000,000; default 0.001.
     iterations:
         Search iterations, 1 to 5; default 3. Each iteration builds a profile
         from the hits of the previous iteration and finds more distant
         relatives.
     minimum_query_coverage:
-        A relative is retained only if the alignment covers at least this
-        fraction of the protein and at least this fraction of the relative
-        (MMseqs2 `--cov-mode 0`), 0 to 1; default 0.5. The same value is the
-        coverage threshold of the diverse sequences and of the median row (see
-        the module text).
+        A relative is retained when the alignment covers at least this fraction
+        of the protein and of the relative (MMseqs2 `--cov-mode 0`). 0 to 1;
+        default 0.5. The same value is the coverage threshold of the diverse
+        sequences and of the median row.
     maximum_sequences:
-        Maximum number of results per protein that pass the MMseqs2 prefilter
-        (the option `--max-seqs`), 1 to 10,000; default 4096. MMseqs2 decides
-        which relatives are kept when there are more.
+        Most results per protein that pass the MMseqs2 prefilter (`--max-seqs`),
+        1 to 10,000; default 4096. With more, MMseqs2 decides which relatives it
+        keeps.
     minimum_alignment_sequences, minimum_diverse_sequences:
-        The depth that an alignment requires to be not withheld: the number of
-        distinct aligned rows (1 to 10,000; default 32) and the number of
-        diverse sequences (0 to 10,000; default 16). A diverse sequence covers
-        at least `minimum_query_coverage` of the protein and is at most 90 %
-        identical to it over the columns in which the row has no gap.
+        The depth an alignment needs to avoid the decision `withheld`: distinct
+        aligned rows (1 to 10,000; default 32) and diverse sequences (0 to
+        10,000; default 16). A diverse sequence covers at least
+        `minimum_query_coverage` of the protein and is at most 90 % identical to
+        it over the columns in which the row has no gap.
     threads:
-        Threads used by MMseqs2, 1 to 64; default 8. The limits state a test
-        of the effect of the thread count on the A3M.
+        Threads used by MMseqs2, 1 to 64; default 8.
     """
 
     proteins: str
@@ -128,7 +142,7 @@ class Chain:
 
 @dataclass(frozen=True, slots=True)
 class MsaResult:
-    """The alignment of every protein, and the database that was searched."""
+    """The alignment of every protein and the database searched."""
 
     database: str
     database_version: str

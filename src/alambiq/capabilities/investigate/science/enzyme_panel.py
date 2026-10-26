@@ -52,7 +52,7 @@ def numeric(value, name, nonnegative=False):
         or (nonnegative and value < 0)
     ):
         raise ValueError(
-            f"{name} requires a finite {'nonnegative ' if nonnegative else ''}number of magnitude at most 1e12"
+            f"{name} must be a finite {'nonnegative ' if nonnegative else ''}number with magnitude at most 1e12"
         )
 
 
@@ -174,7 +174,7 @@ def validate_panel(panel):
                 numeric(row["reported_sd"], "reported_sd", True)
         elif row["value"] is not None or row["reported_sd"] is not None:
             raise ValueError(
-                "A finite response belongs to a measured observation; other states hold null values"
+                "A finite response belongs to a measured observation; other statuses take null values"
             )
         for key in ("source_locator", "note"):
             label(row[key], key, 4000)
@@ -196,13 +196,13 @@ def validate_panel(panel):
         states = {row["status"] for row in rows}
         if len(states) != 1 and any(r["independent_id"] is None for r in rows):
             raise ValueError(
-                "Resolve conflicting states for an identical enzyme/form/reaction/condition group"
+                "The observations of one enzyme, form, reaction and condition have conflicting statuses; resolve them"
             )
         independent = defaultdict(list)
         if len(rows) > 1:
             if any(r["independent_id"] is None for r in rows):
                 raise ValueError(
-                    "Multiple aggregate rows for a pair require explicit independent replicate identities"
+                    "Several observations of one enzyme, reaction and condition pair need an independent replicate ID each"
                 )
             identities = [(r["independent_id"], r["technical_id"]) for r in rows]
             if len(identities) != len(set(identities)):
@@ -259,7 +259,7 @@ def validate_panel(panel):
         )
     if len(groups) > 2000:
         raise ValueError(
-            "This paired-kernel profile accepts at most 2000 enzyme/reaction/condition groups"
+            "A panel may have at most 2000 groups, a group being one enzyme, form, reaction and condition"
         )
     return enzymes, reactions, observations, groups
 
@@ -277,7 +277,7 @@ def validate_parameters(parameters, enzymes, observations, groups):
         or len(selected) != len(set(selected))
         or set(selected) - enzymes.keys()
     ):
-        raise ValueError("candidate_ids must identify 1–500 distinct supplied enzymes")
+        raise ValueError("candidate_ids must list 1 to 500 distinct enzymes of the panel")
     splits = keyed(parameters["splits"], "splits", 10)
     resolved = []
     for split in splits.values():
@@ -295,7 +295,7 @@ def validate_parameters(parameters, enzymes, observations, groups):
                 or set(ids) - observations.keys()
             ):
                 raise ValueError(
-                    "Split partitions require distinct known observation IDs"
+                    "train and evaluation must list distinct observation IDs of the panel"
                 )
             chosen = set(ids)
             partitions[name] = []
@@ -304,7 +304,7 @@ def validate_parameters(parameters, enzymes, observations, groups):
                 if members & chosen:
                     if not members <= chosen:
                         raise ValueError(
-                            "Every replicate of a pair belongs to the same complete partition"
+                            "All replicates of a group must be in the same partition"
                         )
                     partitions[name].append(group)
         train, evaluation = partitions["train"], partitions["evaluation"]
@@ -314,7 +314,7 @@ def validate_parameters(parameters, enzymes, observations, groups):
         ):
             if required and {g[field] for g in train} & {g[field] for g in evaluation}:
                 raise ValueError(
-                    f"Declared {field} novelty has train/evaluation overlap"
+                    f"The declared novelty does not hold: {field} values overlap between train and evaluation"
                 )
 
         def pair(g):
@@ -322,14 +322,14 @@ def validate_parameters(parameters, enzymes, observations, groups):
 
         if {pair(g) for g in train} & {pair(g) for g in evaluation}:
             raise ValueError(
-                "An identical sequence/reaction pair crosses train/evaluation partitions"
+                "A sequence and reaction pair is in both train and evaluation"
             )
         if (
             sum(g["value"] is not None for g in train) < 3
             or sum(g["value"] is not None for g in evaluation) < 2
         ):
             raise ValueError(
-                "Each split requires at least three measured training groups and two evaluation groups"
+                "Each split requires at least 3 training groups and 2 evaluation groups with measured values"
             )
         resolved.append((split, partitions))
     return resolved
@@ -561,8 +561,8 @@ def analyze_panel(panel, parameters):
             "source": {
                 "panel_id": panel["id"],
                 "panel_sha256": digest(panel),
-                "selection": "Researcher-supplied candidate_ids; exported for a separate downstream analysis",
+                "selection": "The candidate_ids of the request, exported for a separate analysis",
             },
         },
-        "method": "Normalized amino-acid 3-mer count cosine and chirality-aware radius-2 Morgan presence fingerprints (512 bits per reaction side) define sequence and reaction kernels. Selected chemical participants define the fingerprint; all participants enter exact reaction accounting. The joint kernel multiplies both similarities. Kernel ridge uses the supplied alpha and training-mean centering; identical kernel rows share one prediction. Nearest reference maximizes exact squared joint similarity using integer count cross-products; exact ties retain canonical sequence/form/reaction/condition group order. Technical means are averaged equally across independent replicates. Reported source uncertainty is stored with the observations; measured-target regressions use equal group weights. Errors describe the supplied held-out numeric subset. Screen conditions and enzyme preparation are recorded with every observation.",
+        "method": "The sequence kernel is the cosine similarity of normalized amino-acid 3-mer counts. The reaction kernel uses chirality-aware radius-2 Morgan presence fingerprints (512 bits per reaction side) of the selected participants. All participants enter the exact reaction accounting. The joint kernel multiplies both similarities. Kernel ridge uses the alpha of the request and centers on the training mean. Identical kernel rows share one prediction. The nearest reference maximizes the exact squared joint similarity, computed from integer count cross-products. Exact ties follow the canonical order of the groups. Technical means are averaged equally across independent replicates. The reported uncertainty of the source is stored with the observations, and the regressions weight all groups equally. Errors describe the held-out numeric subset. The screen conditions and the enzyme preparation are recorded with every observation.",
     }

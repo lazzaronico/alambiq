@@ -32,9 +32,8 @@ def check_chains(proteins: list[dict[str, Any]], ligand: dict[str, Any] | None) 
     for chain in [*proteins, *([ligand] if ligand else [])]:
         if not IDENTIFIER.fullmatch(chain["id"]) or chain["id"] in identifiers:
             raise ValueError(
-                "Chain ids must be unique and simple: a letter then letters, digits "
-                "or `_`, up to 5 characters (Boltz-2 truncates longer names and then "
-                "cannot find the chain)"
+                "Chain ids must be unique and simple: a letter, then letters, digits "
+                "or `_`, up to 5 characters in all (Boltz-2 truncates longer names)"
             )
         identifiers.add(chain["id"])
     for chain in proteins:

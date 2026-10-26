@@ -194,7 +194,7 @@ def select_candidates(panel, parameters, *, model=None, models=None, embeddings=
         if record.get("evaluation", {}).get("model", {}).get("n", 0) < 4:
             raise ValueError(
                 "The model record has fewer than 4 evaluation observations; selection "
-                "by predictions requires the evaluation of the model."
+                "from predictions requires at least 4."
             )
         for p in record.get("predictions", []):
             identifier = p.get("sample_id")
@@ -209,7 +209,7 @@ def select_candidates(panel, parameters, *, model=None, models=None, embeddings=
                 raise ValueError(
                     "A prediction of the model record has a sample_id, "
                     "sequence_sha256, partition or group_id that differs from the "
-                    "candidate panel."
+                    "candidate panel; refit the model on this panel."
                 )
             finite(p.get("predicted"), "predicted response")
             if finite(p.get("predictive_standard_deviation"), "predictive SD") < 0:

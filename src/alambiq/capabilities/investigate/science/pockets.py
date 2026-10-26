@@ -19,11 +19,11 @@ def _float(row: dict[str, str], key: str) -> float:
         value = float(row[key])
     except (KeyError, TypeError, ValueError) as error:
         raise ValueError(
-            f"P2Rank output field {key!r} is missing or not numeric; a number is required"
+            f"P2Rank output field {key!r} is missing or not a number"
         ) from error
     if not math.isfinite(value):
         raise ValueError(
-            f"P2Rank output field {key!r} is not finite; a finite number is required"
+            f"P2Rank output field {key!r} is not a finite number"
         )
     return value
 
@@ -32,7 +32,7 @@ def _integer(row: dict[str, str], key: str) -> int:
     value = _float(row, key)
     if value != int(value):
         raise ValueError(
-            f"P2Rank output field {key!r} is not an integer; an integer is required"
+            f"P2Rank output field {key!r} is not an integer"
         )
     return int(value)
 
@@ -54,8 +54,7 @@ def parse_pockets(text: str, maximum: int) -> list[dict[str, Any]]:
     missing = required - {key.strip() for key in reader.fieldnames or []}
     if missing:
         raise ValueError(
-            f"The header of the P2Rank predictions table lacks the columns {sorted(missing)}; "
-            "these columns are required"
+            f"The header of the P2Rank predictions table lacks the columns {sorted(missing)}"
         )
     rows = [{str(k).strip(): str(v).strip() for k, v in row.items()} for row in reader]
     pockets = []
@@ -98,7 +97,7 @@ def parse_pockets(text: str, maximum: int) -> list[dict[str, Any]]:
         )
     if any(not p["name"] for p in pockets):
         raise ValueError(
-            "A P2Rank pocket has an empty name; a nonempty name is required"
+            "A P2Rank pocket has an empty name"
         )
     return pockets
 
@@ -118,8 +117,7 @@ def validate_residue_table(text: str) -> int:
     missing = required - {key.strip() for key in reader.fieldnames or []}
     if missing:
         raise ValueError(
-            f"The header of the P2Rank residues table lacks the columns {sorted(missing)}; "
-            "these columns are required"
+            f"The header of the P2Rank residues table lacks the columns {sorted(missing)}"
         )
     count = 0
     for item in reader:
@@ -134,13 +132,12 @@ def validate_residue_table(text: str) -> int:
         if not 0 <= _float(row, "probability") <= 1 or _integer(row, "pocket") < 0:
             raise ValueError(
                 "A row of the P2Rank residues table has a probability outside 0 to 1 or a "
-                "negative pocket rank; a probability from 0 to 1 and a pocket rank of at "
-                "least 0 are required"
+                "negative pocket rank"
             )
         if not row["residue_label"] or not row["residue_name"]:
             raise ValueError(
                 "A row of the P2Rank residues table has an empty residue_label or "
-                "residue_name; both are required"
+                "residue_name"
             )
         count += 1
     return count
@@ -155,8 +152,8 @@ def structure_from_dossier(dossier: dict[str, Any]) -> str:
 
     if not isinstance(dossier, dict) or dossier.get("schema_version") != "0.2":
         raise ValueError(
-            "The record given in protein is not a current protein.inspect record "
-            "(schema_version 0.2); a current record with a structure is required"
+            "The record given in protein is not a protein.inspect record with "
+            "schema_version 0.2 and a structure"
         )
     try:
         _, sequence = parse_fasta(f">query\n{dossier['sequence']}")

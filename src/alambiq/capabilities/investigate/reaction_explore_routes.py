@@ -1,33 +1,39 @@
 """Search for routes from feedstocks to a target with reaction operators supplied in the request.
 
-Each operator is a mapped SMARTS (reactants to products; every template atom appears on
-both sides with the same map number) with a source, the catalyst or processing that it
-needs, and optionally enzyme citations for an exact set of reactants and products. The
-DORAnet package applies the operators to the feedstocks, generation by generation,
-within the bounds given in the request. The capability retains only equations that
-balance with every coproduct retained. It then follows finite inventories through the
-reaction network. A route step is one application of an operator at the extent given by
-`extent_per_step`; it consumes the amounts that it needs. A route is a sequence of route
-steps that ends with at least the target amount and returns the feedstocks named in
-`recover_feedstocks` to their starting amounts.
+The result lists the routes found within the bounds of the request, at most `max_routes`.
+Each route step carries its equation, its catalyst requirement and its enzyme citations.
 
-The result gives the routes found within the bounds (at most `max_routes`), with the
-equation, the catalyst requirement and the enzyme citations of each route step. The
-target status is one of: `inventory-route-found` (a route exists), `network-reachable`
-(the target is a species of the network, but the trace of inventories finds no sequence
-of route steps that ends with the target amount and restores the feedstocks named in
-`recover_feedstocks`), or `unreached`.
+Each operator is a mapped SMARTS (reactants to products, with every template atom on both
+sides under the same map number). It has a source, the catalyst or processing it needs,
+and optionally enzyme citations for an exact set of reactants and products. The DORAnet
+package applies the operators to the feedstocks, generation by generation, within the
+bounds of the request. Only equations that balance with every coproduct are retained.
+The capability then follows finite inventories through the reaction network.
 
-Limits. A route is a result of a search over the supplied operators; each of its
-reactions is an application of a supplied operator, and `reaction.estimate_thermodynamics`
-estimates the transformed Gibbs energy of a route. A target that the
-search does not reach is unreached for these operators within these bounds. A bound
-listed in `limits_reached` means that candidates were discarded or not examined once the
-bound was reached; raising it can add routes. Target matching is exact on the explicit
-species, so a different protonation state or stereoisomer is a different target. An
-enzyme citation attaches to exactly the reactant and product sets it was reported for.
-`reaction.estimate_thermodynamics` estimates the transformed Gibbs energy of a route. A
-request with more than 30 feedstocks or more than 20 operators is refused.
+A route step is one application of an operator at the extent `extent_per_step`. It
+consumes the amounts that it needs. A route is a sequence of route steps. It ends with at
+least the target amount and returns the feedstocks named in `recover_feedstocks` to their
+starting amounts.
+
+The target status is one of:
+
+- `inventory-route-found`: a route exists.
+- `network-reachable`: the target is a species of the network, but no sequence of route
+  steps ends with the target amount and restores the recovered feedstocks.
+- `unreached`: the target is not reached by these operators within these bounds.
+
+Limits:
+
+- Each reaction of a route is an application of a supplied operator.
+- A bound listed in `limits_reached` was reached. Candidates were then discarded or not
+  examined, and raising the bound can add routes.
+- Target matching is exact on the explicit species. A different protonation state or
+  stereoisomer is a different target.
+- An enzyme citation attaches to exactly the reactant and product sets it was reported
+  for.
+- A request with more than 30 feedstocks or more than 20 operators is refused.
+
+`reaction.estimate_thermodynamics` estimates the transformed Gibbs energy of a route.
 """
 
 from __future__ import annotations
@@ -246,7 +252,7 @@ class RoutesResult:
     molecules: list[Molecule]
     rejected_reactions: int
     limits_reached: list[str]
-    """The bounds the search reached. A listed bound means that candidates were discarded or not examined once the bound was reached."""
+    """The bounds the search reached. Candidates were discarded or not examined once a listed bound was reached."""
     recipes_evaluated: int
     route_states_visited: int
     record: str

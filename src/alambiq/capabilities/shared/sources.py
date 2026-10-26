@@ -21,7 +21,7 @@ MAX_BYTES = 20_000_000
 
 def read_input(spec: dict) -> str:
     if not isinstance(spec, dict) or ("text" in spec) == ("path" in spec):
-        raise ValueError("Each input requires exactly one of text/path")
+        raise ValueError("Each input requires exactly one of text and path")
     if not spec.keys() <= {
         "text",
         "path",
@@ -42,14 +42,14 @@ def read_input(spec: dict) -> str:
     if "path" in spec:
         path = Path(spec["path"])
         if not path.is_file() or path.stat().st_size > MAX_BYTES:
-            raise ValueError("Input must be a regular file no larger than 20 MB")
+            raise ValueError("The input must be a regular file of at most 20 MB")
         content = path.read_bytes()
     else:
         content = spec["text"].encode("utf-8")
     if len(content) > MAX_BYTES or (
         "sha256" in spec and hashlib.sha256(content).hexdigest() != spec["sha256"]
     ):
-        raise ValueError("Input size or SHA-256 mismatch")
+        raise ValueError("The input exceeds 20 MB, or its SHA-256 digest differs from sha256")
     return content.decode("utf-8")
 
 

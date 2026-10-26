@@ -1,32 +1,38 @@
 """Map a free-energy surface along one or two torsions with metadynamics.
 
-Well-tempered metadynamics adds Gaussian potential terms (hills) to the potential along
-a periodic torsion, or along a pair of torsions, at the values that the simulation
-visits. The simulation has three phases. Adaptation: hills are deposited, and the
-implied surface is recorded at 1/4, 1/2, 3/4 and the end of the phase. Frozen
-equilibration: the bias is held constant. Production: sampling under the fixed bias,
-recording each torsion and the bias energy at every report. Because the bias is fixed in
-production, each frame can be reweighted by exp(+bias/kT). The free-energy surface
-estimate is -kT ln of the weighted histogram of the torsions. The result is that
-reweighted surface, with the effective sample size, the fraction of bins visited and the
-difference between its two halves.
+Returns the free-energy surface along the chosen torsions, reweighted from the production
+frames of one trajectory, with the effective sample size, the fraction of bins visited and
+the difference between its two halves.
 
-The result gives the free energy along the chosen torsions as estimated from this
-trajectory, with indicators of the sampling quality.
+Well-tempered metadynamics adds Gaussian potential terms (hills) to the potential along a
+periodic torsion, or along a pair of torsions, at the values that the simulation visits.
+The simulation has three phases:
 
-Limits. Only the torsions named in the request are biased, so the surface applies when
-those torsions capture the slow motion of the system. Any other slow motion (a ring
-pucker, a loop, solvent reorganization, a second torsion that couples to the first) is
-unbiased and can change the surface without changing these diagnostics. A barrier along
-an unbiased coordinate keeps its full height, and the simulation can fail to cross it.
-The surface is an estimate from one trajectory: the half-to-half difference is a
-consistency check between the two halves of that trajectory. The result reports the
-effective sample size and the effective sample fraction (the effective sample size
-divided by the number of frames). When the fraction is below 0.1, the frames with the
-largest weights dominate the surface estimate, which has a large error, and a note is
-issued. Free energies are relative: the lowest bin is set to zero, and regions never
-visited are blank (unsampled). The torsion atoms must form a bonded path in the
-topology, and CUDA simulations require DisablePmeStream=true.
+- Adaptation: hills are deposited, and the implied surface is recorded at 1/4, 1/2, 3/4
+  and the end of the phase.
+- Frozen equilibration: the bias is held constant.
+- Production: sampling under the fixed bias, recording each torsion and the bias energy at
+  every report.
+
+Because the bias is fixed in production, each frame is reweighted by exp(+bias/kT). The
+free-energy surface is -kT ln of the weighted histogram of the torsions. Free energies are
+relative: the lowest bin is set to zero, and regions never visited are blank.
+
+Limits.
+
+- Only the torsions named in the request are biased, so the surface applies when those
+  torsions capture the slow motion of the system. Any other slow motion (a ring pucker, a
+  loop, solvent reorganization, a second torsion that couples to the first) is unbiased and
+  can change the surface without changing these diagnostics.
+- A barrier along an unbiased coordinate keeps its full height, and the simulation can fail
+  to cross it.
+- The surface is an estimate from one trajectory. The half-to-half difference checks the
+  consistency of its two halves.
+- The effective sample fraction is the effective sample size divided by the number of
+  frames. Below 0.1, the frames with the largest weights dominate the surface, which has a
+  large error, and a note is issued.
+- The torsion atoms must form a bonded path in the topology.
+- CUDA simulations require DisablePmeStream=true.
 """
 
 from __future__ import annotations

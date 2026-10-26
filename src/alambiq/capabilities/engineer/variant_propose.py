@@ -1,54 +1,26 @@
 """Propose single substitutions of a protein to test, ranked by language-model score, predicted stability, or both.
 
-Each substitution has up to three scores. The first is the
-log-likelihood ratio (`llr`) assigned by a protein language model
-(`protein.score_substitutions`); a higher value means that the model assigns
-the mutant residue a higher probability than the wild-type residue. The second
-is the predicted change in folding free energy (`protein.predict_stability_change`);
-a lower value means a more stabilizing substitution. The third, available when an
-alignment of homologs is supplied, is the number of homologs that carry the mutant
-residue at that position. The homolog count is reported and can restrict the
-proposals (`homolog_only`). The ranking
-criterion (`ranking`) is the language-model score (`llr`), the predicted
-stability (`stability`), or the mean of the two percentile ranks of a
-substitution among the substitutions that pass the filters (`combined`; 0 is the
-best rank, and tied values share their mean rank).
+The result lists at most `count` substitutions with their scores, in rank order. The order is deterministic for the supplied records.
 
-Five filters are available: a lower bound on the language-model score, an upper
-bound on the predicted destabilization, a restriction to residues present in the
-homologs, a cap per position, and the positions to consider or to exclude. The
-result counts the substitutions removed under the name of the reason:
-`position-not-selected`, `position-excluded`, `below-minimum-llr`,
-`no-stability-prediction`, `destabilizing`, `not-seen-in-homologs` and
-`position-cap`. The count for `position-cap` includes only the substitutions
-skipped before `count` proposals were chosen.
+Each substitution has up to three scores:
 
-The proposals are also returned in the request form of
-`protein.predict_stability_change` (`stability_request`), so that a binding
-connects the two capabilities: propose by language-model score, predict the
-stability of the proposals, then propose again with `ranking` set to `combined`.
+- The log-likelihood ratio (`llr`) from a protein language model (`protein.score_substitutions`). A higher value means that the model gives the mutant residue a higher probability than the wild-type residue.
+- The predicted change in folding free energy (`protein.predict_stability_change`). A lower value is more stabilizing.
+- The number of homologs that carry the mutant residue at that position. It requires an alignment of homologs and is reported; `homolog_only` also restricts the proposals to residues that homologs carry.
 
-The result lists at most `count` substitutions with their scores, ranked
-deterministically from the supplied records. Ties in the ranking criterion are
-ordered by language-model score (higher first) when `ranking` is not `llr`, then
-by position and by mutant residue.
+`ranking` sets the criterion: `llr`, `stability` or `combined`. The combined rank is the mean of the two percentile ranks of a substitution among the substitutions that pass the filters. A rank of 0 is the best, and tied values share their mean rank. When `ranking` is not `llr`, ties are ordered by `llr` (higher first). Remaining ties are ordered by position and mutant residue.
 
-Limits. The scores are predictions, and how well they rank real variants depends on
-the protein and on the property measured. The retrospective benchmark of this
-capability (`docs/methods/variant-proposal.md`) states, for each reference dataset,
-how the language-model score and two baselines (a random ranking and the BLOSUM62
-score of the substitution) ranked its measured variants. The stability
-prediction has its own benchmark (`docs/methods/embeddings-and-prediction.md`).
-The benchmark results apply to the reference datasets. The combined rank is the
-unweighted mean of the two percentile ranks; its values are percentile ranks and
-the weights are set to be equal. Single substitutions are scored one at a time;
-each score applies to the substitution alone. The language-model score reflects
-the probability of a substitution among natural proteins; the stability score
-reflects the predicted change in folding free energy. In the benchmark the
-language-model score correlates positively with the measurements for single
-substitutions of 3 natural-enzyme datasets and negatively for an engineered
-transaminase lineage.
-Homolog counts describe the supplied alignment, including its redundancy.
+The filters are a minimum `llr`, a maximum predicted destabilization, a restriction to residues that homologs carry, a cap per position, and the positions to consider or exclude. The result counts the substitutions removed under each reason: `position-not-selected`, `position-excluded`, `below-minimum-llr`, `no-stability-prediction`, `destabilizing`, `not-seen-in-homologs` and `position-cap`. The count for `position-cap` includes only the substitutions skipped before `count` proposals were chosen.
+
+The proposals are also returned as a request for `protein.predict_stability_change` (`stability_request`). A binding connects the two capabilities. The sequence is: propose by `llr`, predict the stability of the proposals, then propose again with `ranking` set to `combined`.
+
+Limits. The scores are predictions. How well they rank real variants depends on the protein and on the property measured.
+
+- The benchmark in `docs/methods/variant-proposal.md` compares `llr` with a random ranking and with the BLOSUM62 score of the substitution on reference datasets. The results apply to those datasets. The correlation of `llr` with the measurements is positive for single substitutions of 3 natural enzymes and negative for an engineered transaminase lineage.
+- The stability prediction has its own benchmark in `docs/methods/embeddings-and-prediction.md`.
+- Each score applies to one substitution scored on its own. The `llr` reflects the probability of a substitution among natural proteins. The stability score reflects the predicted change in folding free energy.
+- The combined rank gives the two percentile ranks equal weight.
+- Homolog counts describe the supplied alignment, including its redundancy.
 """
 
 from __future__ import annotations
@@ -69,41 +41,38 @@ class ProposeRequest:
         Path to a stored `protein.score_substitutions` record.
     stability:
         Optional. Path to a stored `protein.predict_stability_change` record for the
-        same sequence. A substitution that is absent from this record is excluded when
-        `ranking` is `stability` or `combined`; when `ranking` is `llr`, it is ranked
-        by its language-model score. The `maximum_ddg_kcal_mol` filter does not
-        apply to a substitution that is absent from this record.
+        same sequence. With `ranking` set to `stability` or `combined`, a substitution
+        absent from the record is excluded. With `llr`, it is ranked by its `llr`, and
+        `maximum_ddg_kcal_mol` does not apply to it.
     homologs:
         Optional. Path to an alignment of homologs whose first row is the sequence
         that is changed (the wild type of `scores`).
     homologs_format:
-        `fasta` for aligned FASTA with `-` gaps, or `a3m`, where lowercase letters are
-        insertions that are ignored. Default `fasta`.
+        `fasta` (aligned, with `-` for gaps) or `a3m` (lowercase letters are insertions
+        and are ignored). Default `fasta`.
     ranking:
-        `llr` (log-likelihood ratio) ranks by the language-model score, `stability` by
-        the predicted change, `combined` by the mean of the two percentile ranks.
-        Default `llr`.
+        `llr` ranks by the language-model score, `stability` by the predicted change,
+        `combined` by the mean of the two percentile ranks. Default `llr`.
     count:
         Number of substitutions to propose, 1 to 2,000. Default 20.
     positions:
         Consider only these one-based positions; all when empty.
     exclude_positions:
-        No substitution is proposed at these positions, for example the catalytic
-        residues.
+        One-based positions with no proposals, for example the catalytic residues.
     homolog_only:
         Propose only residues that at least one homolog has at that position.
         Requires `homologs`.
     max_per_position:
-        At most this many proposals at any one position, at least 1. Without
-        `max_per_position`, the number per position is not limited.
+        At most this many proposals at any one position (1 or more). Not limited when
+        not set.
     minimum_llr:
         Exclude substitutions whose log-likelihood ratio is below this value.
     maximum_ddg_kcal_mol:
-        Exclude substitutions whose predicted destabilization exceeds this value, in
-        kcal/mol.
+        Exclude substitutions whose predicted destabilization exceeds this value
+        (kcal/mol).
     author_offset:
         The residue number in the structure minus the sequence position, used to write
-        the stability request; 0 when the structure is numbered like the sequence
+        `stability_request`. Default 0, for a structure numbered like the sequence
         (position 1 is residue 1).
     """
 
@@ -132,9 +101,9 @@ class Proposal:
     wild_type: str
     mutant: str
     llr: float
-    """Log-likelihood ratio, in nats: positive when the model prefers the mutant."""
+    """Log-likelihood ratio (nats). Positive when the model prefers the mutant."""
     ddg_kcal_mol: float | None
-    """Predicted folding free-energy change; positive values are destabilizing."""
+    """Predicted change in folding free energy; positive values are destabilizing."""
     llr_rank: float
     """Percentile rank among the substitutions by language-model score; 0 is the best rank."""
     stability_rank: float | None
@@ -164,7 +133,7 @@ class ProposeResult:
     """Number of substitutions removed under each reason."""
     proposals: list[Proposal]
     stability_request: list[StabilityQuery]
-    """The proposals in the request form of `protein.predict_stability_change`, for chaining the two capabilities."""
+    """The proposals as a request for `protein.predict_stability_change`, for binding to it."""
     score_model: str
     stability_model: str | None
     record: str
@@ -192,8 +161,7 @@ def propose(request: ProposeRequest, ctx: StepContext) -> ProposeResult:
         )
     if request.homolog_only and request.homologs is None:
         raise ValueError(
-            "homolog_only is set but homologs is not; homolog_only requires an "
-            "alignment of homologs in homologs."
+            "homolog_only requires an alignment of homologs; set homologs."
         )
     scores = ctx.read_json(request.scores)
     if "rows" not in scores or "sequence" not in scores:

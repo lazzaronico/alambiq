@@ -142,7 +142,7 @@ def _verify_tree(
     records, listed = [], set()
     for path in sorted(base.rglob("*")):
         if path.is_symlink():
-            raise ResourceMissing(f"Resource {name}: {path} is a link, and links are not accepted")
+            raise ResourceMissing(f"Resource {name}: {path} is a link; links are not accepted")
         if path.is_dir():
             continue
         if not path.is_file():
