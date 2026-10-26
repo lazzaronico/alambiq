@@ -1,10 +1,7 @@
 # Alambiq
 
 Alambiq is software that runs computational methods for biotechnology as capabilities.
-A campaign, written in YAML or Python, lists steps, and each step runs one capability.
-A capability that runs scientific software does so in a pinned engine environment, and one
-that needs models or databases declares them as pinned resources. A report is one HTML file;
-`alambiq run --report PATH` writes it. The terms are defined in
+A campaign lists steps, and each step runs one capability. The terms are defined in
 [Concepts](https://github.com/lazzaronico/alambiq/blob/main/docs/concepts.md).
 
 Version `0.1.1`. The code, documentation and configuration written for
