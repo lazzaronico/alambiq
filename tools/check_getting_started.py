@@ -66,7 +66,7 @@ def main() -> int:
             problems.append("the first run wrote no report.html")
         elif re.search(r"(src|href)=[\"']https?://", report.read_text()):
             problems.append("report.html loads something from the network")
-        if "0.1.0" not in joined:
+        if not re.search(r"\b\d+\.\d+\.\d+\b", joined):
             problems.append("--version did not print a version")
         listed = [
             ln for ln in joined.splitlines() if re.match(r"^[a-z]+\.[a-z_]+\s", ln)

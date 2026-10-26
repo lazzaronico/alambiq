@@ -7,7 +7,7 @@ that needs models or databases declares them as pinned resources. A report is on
 `alambiq run --report PATH` writes it. The terms are defined in
 [Concepts](https://github.com/lazzaronico/alambiq/blob/main/docs/concepts.md).
 
-Version `0.1.0`. The code, documentation and configuration written for
+Version `0.1.1`. The code, documentation and configuration written for
 Alambiq are [Apache-2.0](https://github.com/lazzaronico/alambiq/blob/main/LICENSE). Optional software, models and datasets are licensed
 under their own terms ([LICENSING.md](https://github.com/lazzaronico/alambiq/blob/main/LICENSING.md)).
 

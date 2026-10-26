@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.1
+
+- The `alambiq` command stops the temporary Prefect server when it ends, including after a
+  termination request, a hang-up or a server that did not finish starting.
+- The package description is "Capabilities for biotechnology R&D, run from YAML or Python".
+- The notes of `assay.inspect` use the singular for one reading, and the solver line of an
+  `assay.fit` report has no backticks.
+- Pinned versions of `hydra-core`, `requests`, `filelock` and `torch` in the Boltz-2 Apple GPU,
+  Boltz-2 CUDA and ThermoMPNN environments are updated and verified; the Docker images of
+  Boltz-2 and ThermoMPNN are rebuilt and tested.
+
 ## 0.1.0
 
 Alambiq is organized around capabilities that have declared request and result types.
