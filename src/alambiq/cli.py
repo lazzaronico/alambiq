@@ -18,6 +18,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import signal
 import sys
 from pathlib import Path
 
@@ -271,5 +272,42 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
 
+def _stop_temporary_server() -> None:
+    """Stop the temporary Prefect server that this process started, if it started one.
+
+    Prefect starts the server as a child process and stops it only when Python exits
+    normally, so a program ended by a signal, or one whose server did not finish starting,
+    would leave it running.
+    """
+    module = sys.modules.get("prefect.server.api.server")
+    servers = getattr(getattr(module, "SubprocessASGIServer", None), "_instances", {})
+    for server in list(servers.values()):
+        try:
+            server.stop()
+        except Exception:  # noqa: BLE001 - leaving must not hide the real outcome
+            pass
+
+
+def entry(argv: list[str] | None = None) -> int:
+    """Run `main` as a program: the temporary server ends with the program.
+
+    A hang-up (a closed terminal or a dropped SSH connection) or a termination request
+    ends the program as an exit, which stops the server; an interrupt already does. Only
+    a kill that cannot be caught leaves the server running.
+    """
+
+    def leave(number: int, frame: object) -> None:
+        raise SystemExit(128 + number)
+
+    for name in ("SIGTERM", "SIGHUP"):
+        number = getattr(signal, name, None)
+        if number is not None:
+            signal.signal(number, leave)
+    try:
+        return main(argv)
+    finally:
+        _stop_temporary_server()
+
+
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(entry())

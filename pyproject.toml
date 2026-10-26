@@ -31,7 +31,7 @@ Issues = "https://github.com/lazzaronico/alambiq/issues"
 Changelog = "https://github.com/lazzaronico/alambiq/blob/main/CHANGELOG.md"
 
 [project.scripts]
-alambiq = "alambiq.__main__:main"
+alambiq = "alambiq.cli:entry"
 
 [project.optional-dependencies]
 chemistry = ["rdkit==2026.3.1"]

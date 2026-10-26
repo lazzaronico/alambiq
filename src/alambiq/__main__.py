@@ -1,4 +1,4 @@
-from alambiq.cli import main
+from alambiq.cli import entry
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(entry())
