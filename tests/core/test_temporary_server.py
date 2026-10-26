@@ -28,7 +28,7 @@ CAMPAIGN = ROOT / "examples/kinetics-from-measurements/campaign.yaml"
 
 def servers_of(parent: int) -> list[int]:
     listing = subprocess.run(
-        ["ps", "-axo", "pid=,ppid=,command="], capture_output=True, text=True
+        ["ps", "-axww", "-o", "pid=,ppid=,command="], capture_output=True, text=True
     ).stdout
     found = []
     for line in listing.splitlines():
