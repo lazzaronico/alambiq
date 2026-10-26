@@ -4,7 +4,7 @@ Alambiq is software that runs computational methods for biotechnology as capabil
 A campaign lists steps, and each step runs one capability. The terms are defined in
 [Concepts](https://github.com/lazzaronico/alambiq/blob/main/docs/concepts.md).
 
-Version `0.1.1`. Alambiq is [Apache-2.0](https://github.com/lazzaronico/alambiq/blob/main/LICENSE). Optional software, models and datasets
+Version `0.1.2`. Alambiq is [Apache-2.0](https://github.com/lazzaronico/alambiq/blob/main/LICENSE). Optional software, models and datasets
 keep their own licenses ([LICENSING.md](https://github.com/lazzaronico/alambiq/blob/main/LICENSING.md)).
 
 ## Capabilities

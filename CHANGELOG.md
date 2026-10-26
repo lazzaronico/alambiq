@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.2
+
+- The package description is "Alambiq is software that runs computational methods for
+  biotechnology as capabilities. A campaign lists steps, and each step runs one capability."
+- The README, the documentation pages, the example READMEs and the text that `alambiq capability show`
+  prints open with the core idea and use shorter sentences.
+- Some notes and error messages of the capabilities are reworded. The message for a missing
+  `dossier` extra gives the PyPI install command.
+
 ## 0.1.1
 
 - The `alambiq` command stops the temporary Prefect server when it ends, including after a

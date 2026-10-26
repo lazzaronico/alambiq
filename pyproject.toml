@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "alambiq"
-version = "0.1.1"
+version = "0.1.2"
 description = "Alambiq is software that runs computational methods for biotechnology as capabilities. A campaign lists steps, and each step runs one capability."
 readme = "README.md"
 license = "Apache-2.0"
