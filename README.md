@@ -1,3 +1,8 @@
+<table>
+<tr>
+<td><img src="https://raw.githubusercontent.com/lazzaronico/alambiq/main/docs/images/mascot.webp" width="180" alt="Albi, the Alambiq mascot: a robot shaped like an alembic flask"></td>
+<td>
+
 # Alambiq
 
 Alambiq is software that runs computational methods for biotechnology as capabilities.
@@ -6,6 +11,10 @@ A campaign lists steps, and each step runs one capability. The terms are defined
 
 Version `0.1.2`. Alambiq is [Apache-2.0](https://github.com/lazzaronico/alambiq/blob/main/LICENSE). Optional software, models and datasets
 keep their own licenses ([LICENSING.md](https://github.com/lazzaronico/alambiq/blob/main/LICENSING.md)).
+
+</td>
+</tr>
+</table>
 
 ## Capabilities
 
