@@ -1,4 +1,7 @@
-<img src="https://raw.githubusercontent.com/lazzaronico/alambiq/main/docs/images/mascot.webp" align="left" width="190" alt="Albi, the Alambiq mascot: a robot shaped like an alembic flask">
+<table>
+<tr>
+<td width="200"><img src="https://raw.githubusercontent.com/lazzaronico/alambiq/main/docs/images/mascot.webp" width="180" alt="Albi, the Alambiq mascot: a robot shaped like an alembic flask"></td>
+<td valign="middle">
 
 # Alambiq
 
@@ -9,7 +12,9 @@ A campaign lists steps, and each step runs one capability. The terms are defined
 Version `0.1.2`. Alambiq is [Apache-2.0](https://github.com/lazzaronico/alambiq/blob/main/LICENSE). Optional software, models and datasets
 keep their own licenses ([LICENSING.md](https://github.com/lazzaronico/alambiq/blob/main/LICENSING.md)).
 
-<br clear="left">
+</td>
+</tr>
+</table>
 
 ## Capabilities
 
