@@ -1,0 +1,8 @@
+name: alambiq-admet
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+      - admet-ai==2.0.1

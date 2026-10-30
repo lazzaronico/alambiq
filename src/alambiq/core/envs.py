@@ -285,6 +285,11 @@ ENVIRONMENTS: dict[str, EnvSpec] = {
         recipe="environments/molecular-properties/README.md",
         imports=("pyscf", "rdkit", "pyberny", "numpy"),
     ),
+    "admet": EnvSpec(
+        name="admet",
+        recipe="environments/admet/README.md",
+        imports=("admet-ai", "chemprop", "torch", "rdkit", "numpy"),
+    ),
 }
 
 

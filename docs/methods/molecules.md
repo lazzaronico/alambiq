@@ -1,11 +1,17 @@
 # Molecules
 
-`molecule.compute_quantum_properties` computes the electronic properties of one small
-molecule with density-functional theory: frontier orbital energies, thermochemistry, vertical
-excitations, and the dipole moment with atomic charges. The molecule is a SMILES. It can be
-charged, in a spin state above the singlet, and in water.
+Two capabilities cover small molecules given as SMILES. `molecule.compute_quantum_properties`
+computes the electronic properties of one molecule with density-functional theory.
+`molecule.predict_admet` estimates absorption, distribution, metabolism, excretion and
+toxicity endpoints of thousands of molecules with trained models.
 
-## Method
+## Quantum-chemical properties
+
+`molecule.compute_quantum_properties` computes frontier orbital energies, thermochemistry,
+vertical excitations, and the dipole moment with atomic charges. The molecule can be charged,
+in a spin state above the singlet, and in water.
+
+### Method
 
 RDKit embeds 10 conformers from the request's `seed` and keeps the one of lowest MMFF94
 energy. PySCF optimizes it with PyBerny at the functional and basis of the request, on an
@@ -32,7 +38,7 @@ above 10 % of S(S+1) adds a note. The charge is the formal charge of the SMILES.
 the SMILES requires a multiplicity above 1, and a multiplicity that the electron count cannot
 have is refused.
 
-## Water
+### Water
 
 With `solvent` set to `water`, the optimization and every property use the IEF-PCM
 polarizable continuum with a relative permittivity of 78.3553. The result adds the
@@ -60,7 +66,7 @@ their solvation are absent. Use the polarization energy to compare the
 electrostatic response of molecules and to relax a geometry or an excited state in water. A
 hydration free energy needs a method that includes the cavity and dispersion terms.
 
-## Checks
+### Checks
 
 Water at B3LYP/6-31G* has an energy of -76.40895 hartree, the value of Gaussian with
 Cartesian d functions, a zero-point energy of 13.28 kcal/mol and a heat capacity at constant
@@ -69,7 +75,7 @@ numbers of methane (12), benzene (12), carbon dioxide (2) and acetic acid (1), t
 expectation values of the hydroxyl radical, methyl radical and triplet oxygen, and the refusal
 of impossible spin states and of molecules above the size limit.
 
-## Limits and run time
+### Limits and run time
 
 - A molecule of 1 to 12 heavy atoms from H, C, N, O, F, P, S, Cl and Br is accepted.
 - The geometry is the lowest-energy conformer of 10, which need not be the global minimum.
@@ -94,3 +100,52 @@ with the optimization steps that a molecule needs.
 | phenol | 7 | 4 | 20 s | 73 s | 53 s | 150 s |
 | acetanilide | 10 | 23 | 229 s | 236 s | 134 s | 606 s |
 | paracetamol | 11 | 24 | 317 s | 328 s | 167 s | 822 s |
+
+## ADMET estimates
+
+`molecule.predict_admet` returns 52 estimates for each of 1 to 10,000 molecules: 11
+physicochemical descriptors that RDKit computes (molecular weight, logP, hydrogen bond
+acceptors and donors, the Lipinski count, QED, stereo centers, TPSA, and the PAINS, BRENK
+and NIH alert counts) and 41 endpoints that ADMET-AI predicts. Of the predicted endpoints, 31
+are classifications, whose estimate is a probability from 0 to 1, and 10 are regressions in
+the units of the endpoint table. They cover absorption (intestinal absorption, bioavailability,
+solubility, lipophilicity, hydration free energy, permeability and P-glycoprotein
+inhibition), distribution (blood-brain barrier, plasma protein binding and volume of
+distribution), metabolism (five CYP inhibition endpoints and three substrate endpoints),
+excretion (half life and two clearances) and toxicity (hERG, ClinTox, Ames mutagenicity, DILI,
+carcinogenicity, acute toxicity LD50, skin reaction and the 12 Tox21 assays).
+
+ADMET-AI 2.0.1 (MIT) predicts each endpoint with the mean of 5 Chemprop message-passing
+networks. The networks were trained on datasets of the Therapeutics Data Commons, from 278
+molecules (carcinogenicity) to 13,130 (CYP2D6 inhibition). The result holds an endpoint table
+with the kind, units, species and training size of each endpoint and the metrics that
+ADMET-AI reports for it: AUROC and AUPRC for classifications, R squared and the mean absolute
+error for regressions. With `drugbank_percentiles`, each estimate is also placed among the
+values of about 2,800 approved drugs from DrugBank, which ADMET-AI ships.
+
+Equivalent SMILES of one molecule are predicted once. A SMILES that RDKit cannot read refuses
+the whole request and the message names the positions.
+
+### Checks
+
+The ADMET-AI package stores its own predictions for 2,845 approved drugs. The tests run the
+capability on the first 20 of them and require every endpoint to agree within 0.001; the
+largest difference observed over the first 200 is 3e-5. The test also checks the RDKit
+descriptors of aspirin and that every classification output lies between 0 and 1.
+
+### Limits and run time
+
+- The training sets are public datasets of mostly drug-like molecules. A metabolite, a sugar
+  or a small industrial chemical can lie outside what the networks have seen, and the models
+  give no warning when it does.
+- The reported metrics are those of ADMET-AI's own table, not a test of this capability on
+  other data. They differ by endpoint: the reported AUROC ranges from 0.63 for CYP2C9
+  substrate to 0.99 for intestinal absorption, and the reported R squared of half life
+  (-2.39) and volume of distribution (-1.21) is negative, which means that the estimate
+  is a poorer predictor than the mean of the test values.
+- A salt, a mixture or an unusual protonation state is predicted as written, because
+  ADMET-AI does not standardize molecules.
+- The hydration free energy is a model trained on FreeSolv, with a reported mean absolute error
+  of 0.78 kcal/mol; it is an estimate, not a simulation.
+- The engine takes about 25 s for 2,845 molecules, including the loading of the models, on an
+  Apple M-series laptop. The environment is set by `ALAMBIQ_ENV_ADMET`.

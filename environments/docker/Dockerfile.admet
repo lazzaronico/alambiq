@@ -1,0 +1,14 @@
+# Share the native ADMET-AI recipe and the ordinary core runtime.
+ARG BASE_IMAGE=alambiq:core
+ARG ENGINE_BASE=python:3.11-slim-bookworm
+FROM ${ENGINE_BASE} AS engine
+USER root
+COPY --from=mambaorg/micromamba:2.5.0 /bin/micromamba /usr/local/bin/micromamba
+COPY environments/admet/environment.yaml /tmp/admet.yaml
+RUN micromamba create --yes --root-prefix /tmp/mamba --prefix /opt/admet \
+    --file /tmp/admet.yaml
+
+FROM ${BASE_IMAGE} AS runtime
+COPY --from=engine /opt/admet /opt/admet
+ENV ALAMBIQ_ENV_ADMET=/opt/admet/bin/python
+USER 1000:1000

@@ -86,6 +86,7 @@ recipe.
 | `ALAMBIQ_ENV_OPENFE` | `simulation.run_relative_free_energy`, `structure.prepare_relative_binding_inputs` | [binding-free-energy](../environments/binding-free-energy/README.md) |
 | `ALAMBIQ_ENV_PYMBAR` | `simulation.analyze_reaction_free_energy` | [binding-free-energy](../environments/binding-free-energy/README.md) or [reaction-free-energy](../environments/reaction-free-energy/README.md) |
 | `ALAMBIQ_ENV_MOLECULAR_PROPERTIES` | `molecule.compute_quantum_properties` | [molecular-properties](../environments/molecular-properties/README.md) |
+| `ALAMBIQ_ENV_ADMET` | `molecule.predict_admet` | [admet](../environments/admet/README.md) |
 | `ALAMBIQ_ENV_QMMM` | `simulation.evaluate_qmmm_state`, `simulation.run_qmmm_dynamics` | [qmmm](../environments/qmmm/README.md) |
 
 Create the MMseqs2 environment with the pinned release, conda package version `18.8cc5c`

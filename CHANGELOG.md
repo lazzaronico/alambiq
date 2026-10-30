@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- `molecule.predict_admet` estimates 52 physicochemical and ADMET endpoints for 1 to 10,000
+  molecules given as SMILES with ADMET-AI 2.0.1, with the units and the reported metrics of each
+  endpoint and, on request, the percentile among DrugBank approved drugs. The engine environment
+  is `ALAMBIQ_ENV_ADMET`.
 - `molecule.compute_quantum_properties` computes the frontier orbital energies, thermochemistry,
   vertical excitations, Mulliken charges and dipole moment of a small molecule given as SMILES
   with density-functional theory. The molecule can be charged, in a higher spin state, and in

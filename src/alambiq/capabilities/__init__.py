@@ -30,6 +30,7 @@ MODULES = (
     "alambiq.capabilities.characterize.enzyme_retrieve_candidates",
     "alambiq.capabilities.characterize.enzyme_characterize_candidates",
     "alambiq.capabilities.investigate.molecule_compute_quantum_properties",
+    "alambiq.capabilities.investigate.molecule_predict_admet",
     "alambiq.capabilities.investigate.reaction_inspect",
     "alambiq.capabilities.investigate.reaction_estimate_thermodynamics",
     "alambiq.capabilities.investigate.reaction_explore_routes",
