@@ -1,0 +1,36 @@
+{
+  "repeats": 1,
+  "production_ns": 0.5,
+  "equilibration_ns": 0.1,
+  "platform": "CUDA (NVIDIA GB10)",
+  "molecules": [
+    {
+      "molecule": "methane",
+      "smiles": "C",
+      "hydration_free_energy_kcal_mol": 2.59,
+      "uncertainty_kcal_mol": null,
+      "repeats_kcal_mol": [
+        2.59
+      ],
+      "minimum_adjacent_overlap": 0.071,
+      "seconds": 9165,
+      "experiment_kcal_mol": 2.0,
+      "experiment_uncertainty_kcal_mol": 0.2,
+      "difference_kcal_mol": 0.59
+    },
+    {
+      "molecule": "benzene",
+      "smiles": "c1ccccc1",
+      "hydration_free_energy_kcal_mol": -1.85,
+      "uncertainty_kcal_mol": null,
+      "repeats_kcal_mol": [
+        -1.85
+      ],
+      "minimum_adjacent_overlap": 0.071,
+      "seconds": 7911,
+      "experiment_kcal_mol": -0.9,
+      "experiment_uncertainty_kcal_mol": 0.2,
+      "difference_kcal_mol": -0.95
+    }
+  ]
+}

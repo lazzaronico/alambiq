@@ -1,0 +1,37 @@
+{
+  "test_file_rows": 531,
+  "sequences_run": 531,
+  "truncated": 147,
+  "measured_share_between_60_and_80_c": 0.303,
+  "mean": {
+    "pearson": 0.887,
+    "spearman": 0.879,
+    "rmse_c": 8.04,
+    "mae_c": 6.42,
+    "share_between_60_and_80_c": 0.279
+  },
+  "replicas": [
+    {
+      "pearson": 0.878,
+      "spearman": 0.863,
+      "rmse_c": 8.21,
+      "mae_c": 6.43,
+      "share_between_60_and_80_c": 0.247
+    },
+    {
+      "pearson": 0.884,
+      "spearman": 0.864,
+      "rmse_c": 8.2,
+      "mae_c": 6.61,
+      "share_between_60_and_80_c": 0.337
+    },
+    {
+      "pearson": 0.858,
+      "spearman": 0.836,
+      "rmse_c": 8.95,
+      "mae_c": 7.04,
+      "share_between_60_and_80_c": 0.258
+    }
+  ],
+  "median_spread_c": 2.22
+}

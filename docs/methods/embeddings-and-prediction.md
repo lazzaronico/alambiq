@@ -136,7 +136,20 @@ degrees Celsius adds a note.
 The authors report a Pearson correlation of 0.78 between predicted and measured melting
 temperatures on their test set, and observe that the predictions are bimodal: concentrated
 below 60 degrees Celsius and above 80 degrees Celsius. Use the values to rank proteins that
-differ widely, for instance homologs from organisms that grow at different temperatures. No test of the model on the variants of one protein is
+differ widely, for instance homologs from organisms that grow at different temperatures.
+
+`tools/validate_melting_temperature.py` runs the capability on the regression test file that
+the authors release (531 sequences with a measured melting temperature, 147 of them longer than
+510 residues; [melting-temperature-validation.json](melting-temperature-validation.json)). The
+mean of the three replicas has a Pearson correlation of 0.89 and a Spearman correlation of 0.88
+with the measured values, a root-mean-square error of 8.0 degrees Celsius and a mean absolute
+error of 6.4 degrees Celsius. The replicas alone have Pearson correlations of 0.86 to 0.88. The
+correlation is higher than the 0.78 that the authors report, and this check does not
+explain the difference. On this file, 28 % of the predictions lie between 60 and 80 degrees
+Celsius, against 30 % of the measured values, so the bimodality that the authors describe does
+not show in this share. The median spread between the replicas is 2.2 degrees Celsius. The test
+sequences come from the same data source as the training sequences, split by sequence
+cluster, so the result describes the organisms of that source and not other proteins. No test of the model on the variants of one protein is
 part of this capability, so a difference between a variant and its wild type is not validated.
 
 The reference code of the authors leaves the network in training mode, which keeps the 0.3

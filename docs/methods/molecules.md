@@ -54,14 +54,15 @@ with the hydration free energies of FreeSolv for six molecules at B3LYP/6-31G*
 
 | Molecule | Polarization energy (kcal/mol) | Experiment (kcal/mol) | Difference (kcal/mol) |
 |---|---:|---:|---:|
-| water | -6.53 | -6.32 | -0.21 |
-| methanol | -4.50 | -5.11 | +0.61 |
-| ethanol | -4.37 | -5.01 | +0.64 |
-| acetone | -4.94 | -3.85 | -1.09 |
-| methane | -0.30 | 1.99 | -2.29 |
-| benzene | -2.48 | -0.86 | -1.62 |
+| methanol | -4.50 | -5.10 | +0.60 |
+| ethanol | -4.37 | -5.00 | +0.63 |
+| acetone | -4.94 | -3.80 | -1.14 |
+| phenol | -6.11 | -6.60 | +0.49 |
+| methane | -0.30 | 2.00 | -2.30 |
+| benzene | -2.48 | -0.90 | -1.58 |
 
-Polar molecules come within about 1 kcal/mol of the experimental value. Nonpolar molecules
+Polar molecules come within about 1 kcal/mol of the experimental value (acetone, the largest
+difference, is 1.1). Nonpolar molecules
 do not: benzene differs by 1.6 kcal/mol, and methane has a negative polarization energy
 against a positive hydration free energy, because the cavity and dispersion terms that decide
 their solvation are absent. Use the polarization energy to compare the
@@ -181,8 +182,21 @@ zwitterions are refused.
 
 ### Accuracy
 
-The accuracy of the capability against measured hydration free energies is being checked; this
-section holds the result when the check completes.
+`tools/validate_hydration_free_energy.py` runs the capability on small molecules and compares
+the result with the FreeSolv database (Mobley and Guthrie, 2014). The run so far covers two
+molecules, with 1 repeat of 0.5 ns of solvent production and 0.1 ns of equilibration, on an
+NVIDIA GB10 ([hydration-free-energy-validation.json](hydration-free-energy-validation.json)):
+
+| Molecule | Calculated (kcal/mol) | Experiment (kcal/mol) | Difference (kcal/mol) | Time |
+|---|---:|---:|---:|---:|
+| methane | 2.59 | 2.00 | +0.59 | 2.5 h |
+| benzene | -1.85 | -0.90 | -0.95 | 2.2 h |
+
+Both values are within 1 kcal/mol of experiment. Two molecules with one repeat each do not
+measure the accuracy of the method, and the repeat spread is not available with one repeat. Two
+more runs (ethanol and phenol) were still running when this was written. Each run took more
+than 2 hours while two runs shared the GPU, so a set large enough to measure an error of the
+method needs the default settings on several GPUs or a longer schedule than this check used.
 
 ### Platforms
 
