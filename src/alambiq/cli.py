@@ -181,14 +181,22 @@ def _resource(args: argparse.Namespace) -> int:
             )
             return 1
         if not args.yes:
+            built = record.get("source_files", [])
             hosts = sorted(
                 {u.split("/")[2] for u in record.get("sources", [])}
                 | {f["url"].split("/")[2] for f in downloaded}
+                | {s["url"].split("/")[2] for s in built}
             )
+            if built:
+                amount = (
+                    f"download {_megabytes(sum(s['bytes'] for s in built))} from "
+                    f"{', '.join(hosts)} and build {_megabytes(size)}"
+                )
+            else:
+                amount = f"download {_megabytes(size)} from {', '.join(hosts)}"
             print(
-                f"Would download {_megabytes(size)} ({record['license']}) from "
-                f"{', '.join(hosts)} into {resources.location(args.name)}. "
-                "Run again with --yes to proceed."
+                f"Would {amount} ({record['license']}) into "
+                f"{resources.location(args.name)}. Run again with --yes to proceed."
             )
             return 2
         print(f"provisioned: {resources.provision(args.name)}")

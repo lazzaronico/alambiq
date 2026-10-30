@@ -33,6 +33,15 @@ def render(result) -> str:
         else ""
     )
     unsure = sorted(scored, key=lambda p: -p.entropy_bits)[:10]
+    variants = (
+        table(
+            ["Variant", "Log-likelihood ratio (nats)"],
+            [[v.variant, v.llr] for v in result.variant_scores],
+            numeric={1},
+        )
+        if result.variant_scores
+        else ""
+    )
     return "".join(
         [
             f"<p>{esc(result.protein_id)}: {result.length} residues, "
@@ -62,5 +71,6 @@ def render(result) -> str:
             ),
             f'<p class="sub">The table lists the {len(unsure)} positions with the '
             "highest entropy.</p>",
+            variants,
         ]
     )

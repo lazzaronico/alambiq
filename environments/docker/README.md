@@ -28,6 +28,7 @@ verification file with the image sizes, the test counts and the skipped tests is
 | ThermoMPNN | `Dockerfile.thermompnn` | `ALAMBIQ_ENV_THERMOMPNN` | 47 passed |
 | pymbar | `Dockerfile.reaction-free-energy` | `ALAMBIQ_ENV_PYMBAR` | 32 passed, 2 skipped |
 | QM/MM | `Dockerfile.qmmm` | `ALAMBIQ_ENV_QMMM` | 65 passed, 20 skipped |
+| Molecular properties | `Dockerfile.molecular-properties` | `ALAMBIQ_ENV_MOLECULAR_PROPERTIES` | not built yet; the recipe is the native one |
 | OpenMM (CUDA 13) | `Dockerfile.openmm` | `ALAMBIQ_ENV_OPENMM` | 165 passed; the GB3 ensemble example (protein GB3, PDB 1P7E) with 3 replicas of 20 ps on the GPU |
 | OpenFF complex preparation | `Dockerfile.complex` | `ALAMBIQ_ENV_OPENFF` | 72 passed, 2 skipped |
 | ESM C and ESM3 | `Dockerfile.models` | `ALAMBIQ_ENV_ESM` | 93 passed |

@@ -4,17 +4,23 @@
   "provider": "UniProt Consortium",
   "license": "CC-BY-4.0",
   "description": "UniProtKB/Swiss-Prot release 2026_03 as an MMseqs2 sequence database with a precomputed index, and a table of the EC numbers, Gene Ontology terms and subcellular locations of its entries.",
-  "build": "Built locally from https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz and uniprot_sprot.dat.gz (release 2026_03 of 02-Sep-2026). The database: gunzip -c uniprot_sprot.fasta.gz > uniprot_sprot.fasta, then, with MMseqs2 18-8cc5c, mmseqs createdb uniprot_sprot.fasta swissprot-db and mmseqs createindex swissprot-db tmp. The table: python -m alambiq.engines.swissprot_annotations uniprot_sprot.dat.gz annotations.tsv. Place the files in one directory with no other files.",
+  "build": "Fetched and built by `alambiq resource provision swissprot-2026_03 --yes` in the mmseqs environment: it downloads uniprot_sprot.fasta.gz and uniprot_sprot.dat.gz (release 2026_03 of 02-Sep-2026) from the source_files addresses, checks each against its size and MD5 digest, builds the MMseqs2 database and index with MMseqs2 18-8cc5c (mmseqs createdb swissprot-db, mmseqs createindex), writes the annotation table (python -m alambiq.engines.swissprot_annotations uniprot_sprot.dat.gz annotations.tsv), and verifies the result against this record. UniProt replaces the files at current_release when it publishes a new release, and the download then fails its digest check. Not redistributed.",
+  "fetch": {
+    "environment": "mmseqs",
+    "entry": "swissprot_build:run"
+  },
   "source_files": [
     {
       "name": "uniprot_sprot.fasta.gz",
       "bytes": 93801562,
-      "md5": "bc9d398533e6df582b563c6c03093bd0"
+      "md5": "bc9d398533e6df582b563c6c03093bd0",
+      "url": "https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz"
     },
     {
       "name": "uniprot_sprot.dat.gz",
       "bytes": 700301138,
-      "md5": "a31b5d0756f0a8f94164bf20b703812c"
+      "md5": "a31b5d0756f0a8f94164bf20b703812c",
+      "url": "https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.dat.gz"
     }
   ],
   "files": [

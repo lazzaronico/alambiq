@@ -2,8 +2,9 @@
 
 A homolog search finds proteins related to a protein of interest. `protein.search` finds
 homologs in a panel, `sequence.generate_msa` builds an alignment, and
-`sequence.inspect_msa` reads one, and `protein.annotate_function` lists the annotations of
-the closest reviewed relatives. `enzyme.retrieve_candidates` and
+`sequence.inspect_msa` reads one, `protein.annotate_function` lists the annotations of the
+closest reviewed relatives, and `protein.call_substitutions` names the substitutions that
+separate a variant from its closest reference. `enzyme.retrieve_candidates` and
 `enzyme.characterize_candidates` rank candidates for a function against references.
 
 ## Searching a panel
@@ -46,6 +47,10 @@ A protein with no hit that meets the thresholds is returned without annotations.
 the first term of each location sentence of an entry, and Gene Ontology terms are listed as
 the entries carry them, whatever their evidence code.
 
+The database is the reviewed part of UniProtKB, about 575,000 entries, 3.1 GB once built.
+Obtain it with `alambiq resource provision swissprot-2026_03 --yes`; the command downloads 794
+MB from UniProt and builds the database, and runs only on request.
+
 ### Transfer within Swiss-Prot
 
 `tools/validate_annotation_transfer.py` annotates 1,000 randomly sampled Swiss-Prot
@@ -69,6 +74,59 @@ The sample is drawn from the database that is searched. Close relatives of every
 protein are in it, as they are for most proteins a user annotates, and the numbers apply to
 proteins that have a relative in Swiss-Prot at the stated identity. Intervals are wide for the
 groups with fewer than 100 proteins.
+
+### Families with a reviewed relative
+
+Swiss-Prot covers the families of reviewed proteins, which the literature has studied
+unevenly. `tools/measure_annotation_coverage.py` draws 2,000 UniRef50 representatives at
+random (seed 1), one per cluster of proteins that are at least 50 % identical, and
+annotates them from Swiss-Prot. The sample is over families, not over proteins: a family that many
+proteins share counts once. The result is in
+[annotation-coverage.json](annotation-coverage.json).
+
+| Thresholds | Families with a source | EC number | Molecular function | Location |
+| --- | --- | --- | --- | --- |
+| Defaults: identity 0.4, coverage 0.8, expectation value 1e-5 | 10.8% | 5.4% | 9.3% | 8.0% |
+| Identity 0.3, coverage 0.5, expectation value 1e-3, sensitivity 7.5 | 29.1% | 14.8% | 25.7% | 22.4% |
+
+A protein of a well-studied organism has a reviewed relative more often than a random family
+does. Looser thresholds add annotations from more distant relatives, which the accuracy table
+above shows to be less reliable.
+
+## Calling substitutions against a reference
+
+`protein.call_substitutions` names the differences between a variant and its closest
+reference. The reference is the sequence with the fewest differences from the variant among
+the best-scoring alignments, in a supplied FASTA or in the pinned UniProtKB/Swiss-Prot
+release. A difference is a substitution in standard notation (`Q21W`, reference residue,
+position, variant residue), an insertion after a reference position, or a deletion of
+reference residues. Positions are numbers of the reference.
+
+A variant that equals its reference has no differences. A variant with no reference that meets
+the thresholds is returned without one. The alignment is local, so a difference at the first
+or last residues can fall outside it. Those residues are counted at the end of the variant and
+of the reference, and the variant is not marked identical.
+
+### Planted edits in Swiss-Prot proteins
+
+`tools/validate_substitution_calls.py` plants edits in 600 randomly sampled Swiss-Prot
+proteins (seed 1), in three equal groups, and calls each against the database that
+holds the original entry. The results are in
+[substitution-calls-validation.json](substitution-calls-validation.json). The first run of the
+script gave:
+
+| Planted edit | Proteins | Closest reference is the original or an identical entry | Aligned region reproduced exactly | Residues left outside the alignment at an end | Exact planted substitutions |
+| --- | --- | --- | --- | --- | --- |
+| 1 to 5 substitutions | 200 | 199 (+1 equally close) | 199 | 4 | 195 |
+| Insertion of 2 residues | 200 | 200 | 200 | 1 | - |
+| Deletion of 3 residues | 200 | 200 | 200 | 5 | - |
+
+In the substitution group, 4 of the 5 proteins without an exact set have a substituted first or
+last residue that the alignment leaves out, and the fifth has an equally close entry as the
+closest reference. The aligned region is reproduced exactly in every protein whose closest
+reference is the original or an identical entry. The database holds the original entry, so the
+test measures the alignment and the reading of its differences, not the choice of a reference
+among relatives.
 
 ## Building an alignment
 

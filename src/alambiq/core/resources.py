@@ -324,10 +324,12 @@ def _provision_by_fetch(name: str, record: dict[str, Any]) -> Path:
     """Fetch a resource with the downloader of the tool that uses it, then verify it.
 
     Some models are obtained by the tool's own routine, which unpacks archives and names
-    files its own way. The record says which environment and engine entry to run
-    (`fetch.environment`, `fetch.entry`). The files are fetched into a staging directory
-    beside the final place, moved into place, and verified against the record; a directory
-    that does not verify is removed, so nothing unverified is left where a run would find it.
+    files its own way, and some databases are built from source files. The record says which
+    environment and engine entry to run (`fetch.environment`, `fetch.entry`) and lists the
+    source files that a build downloads (`source_files`). The files are fetched into a
+    staging directory beside the final place, moved into place, and verified against the
+    record; a directory that does not verify is removed, so nothing unverified is left where
+    a run would find it.
     """
     import shutil
 
@@ -343,7 +345,7 @@ def _provision_by_fetch(name: str, record: dict[str, Any]) -> Path:
         envs.run_in_environment(
             fetch["environment"],
             fetch["entry"],
-            {"target": str(staging)},
+            {"target": str(staging), "sources": record.get("source_files", [])},
             timeout=6 * 3600,
         )
         (staging / "resource-lock.json").write_bytes(

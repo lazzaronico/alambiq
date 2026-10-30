@@ -1,0 +1,48 @@
+{
+  "functional": "b3lyp",
+  "basis": "6-31G*",
+  "molecules": [
+    {
+      "molecule": "water",
+      "smiles": "O",
+      "polarization_kcal_mol": -6.53,
+      "experiment_kcal_mol": -6.32,
+      "difference_kcal_mol": -0.21
+    },
+    {
+      "molecule": "methanol",
+      "smiles": "CO",
+      "polarization_kcal_mol": -4.5,
+      "experiment_kcal_mol": -5.11,
+      "difference_kcal_mol": 0.61
+    },
+    {
+      "molecule": "ethanol",
+      "smiles": "CCO",
+      "polarization_kcal_mol": -4.37,
+      "experiment_kcal_mol": -5.01,
+      "difference_kcal_mol": 0.64
+    },
+    {
+      "molecule": "acetone",
+      "smiles": "CC(C)=O",
+      "polarization_kcal_mol": -4.94,
+      "experiment_kcal_mol": -3.85,
+      "difference_kcal_mol": -1.09
+    },
+    {
+      "molecule": "methane",
+      "smiles": "C",
+      "polarization_kcal_mol": -0.3,
+      "experiment_kcal_mol": 1.99,
+      "difference_kcal_mol": -2.29
+    },
+    {
+      "molecule": "benzene",
+      "smiles": "c1ccccc1",
+      "polarization_kcal_mol": -2.48,
+      "experiment_kcal_mol": -0.86,
+      "difference_kcal_mol": -1.62
+    }
+  ]
+}

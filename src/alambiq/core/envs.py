@@ -280,6 +280,11 @@ ENVIRONMENTS: dict[str, EnvSpec] = {
         recipe="environments/qmmm/README.md",
         imports=("pyscf", "openmm", "numpy"),
     ),
+    "molecular_properties": EnvSpec(
+        name="molecular_properties",
+        recipe="environments/molecular-properties/README.md",
+        imports=("pyscf", "rdkit", "pyberny", "numpy"),
+    ),
 }
 
 

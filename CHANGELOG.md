@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+- `molecule.compute_quantum_properties` computes the frontier orbital energies, thermochemistry,
+  vertical excitations, Mulliken charges and dipole moment of a small molecule given as SMILES
+  with density-functional theory. The molecule can be charged, in a higher spin state, and in
+  water (IEF-PCM). The engine environment is `ALAMBIQ_ENV_MOLECULAR_PROPERTIES`.
+- `protein.call_substitutions` names the substitutions, insertions and deletions that separate a
+  variant from its closest reference in a supplied FASTA or in Swiss-Prot.
+- `protein.score_substitutions` (version 1.1) scores variants of several substitutions, written
+  `K183N:T209K`, as the sum of the scores of their substitutions.
+- `alambiq resource provision swissprot-2026_03 --yes` downloads the two UniProt files of the
+  Swiss-Prot resource, checks them against their recorded size and MD5 digest, and builds the
+  database and the annotation table. Without `--yes` it states the download and the build and
+  does nothing.
 - `protein.annotate_function` lists the EC numbers, Gene Ontology terms and subcellular
   locations that the closest reviewed relatives of a protein in UniProtKB/Swiss-Prot carry,
   with the support and identity of each. The Swiss-Prot resource is built locally.

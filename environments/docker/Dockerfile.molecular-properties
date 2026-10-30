@@ -1,0 +1,14 @@
+# Share the native molecular-properties recipe and the ordinary core runtime.
+ARG BASE_IMAGE=alambiq:core
+ARG ENGINE_BASE=python:3.11-slim-bookworm
+FROM ${ENGINE_BASE} AS engine
+USER root
+COPY --from=mambaorg/micromamba:2.5.0 /bin/micromamba /usr/local/bin/micromamba
+COPY environments/molecular-properties/environment.yaml /tmp/molecular-properties.yaml
+RUN micromamba create --yes --root-prefix /tmp/mamba --prefix /opt/molecular-properties \
+    --file /tmp/molecular-properties.yaml
+
+FROM ${BASE_IMAGE} AS runtime
+COPY --from=engine /opt/molecular-properties /opt/molecular-properties
+ENV ALAMBIQ_ENV_MOLECULAR_PROPERTIES=/opt/molecular-properties/bin/python
+USER 1000:1000

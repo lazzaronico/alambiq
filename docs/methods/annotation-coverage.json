@@ -1,0 +1,27 @@
+{
+  "sample": 2000,
+  "seed": 1,
+  "settings": {
+    "default thresholds": {
+      "parameters": {},
+      "proteins": 1998,
+      "with_a_source": 216,
+      "with_ec": 108,
+      "with_go_function": 186,
+      "with_location": 159
+    },
+    "looser thresholds": {
+      "parameters": {
+        "min_identity": 0.3,
+        "min_coverage": 0.5,
+        "max_evalue": 0.001,
+        "sensitivity": 7.5
+      },
+      "proteins": 1998,
+      "with_a_source": 581,
+      "with_ec": 296,
+      "with_go_function": 513,
+      "with_location": 448
+    }
+  }
+}

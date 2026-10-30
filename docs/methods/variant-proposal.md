@@ -23,8 +23,10 @@ colleagues, 2021). A positive value means that the model assigns the mutant a hi
 probability than the residue the protein has.
 
 The score evaluates one position at a time, with the rest of the sequence as given. It
-applies to single substitutions. The model was trained on natural sequences, so the score
-ranks substitutions by their fit to natural variation.
+applies to single substitutions. A variant of several substitutions, written
+`K183N:T209K`, is scored as the sum of the scores of its substitutions, each computed on
+the wild type; the sum ignores interactions between positions. The model was trained on
+natural sequences, so the score ranks substitutions by their fit to natural variation.
 
 `protein.predict_stability_change` takes a backbone and predicts, for each substitution
 named in the request, the change in folding free energy. A positive value is

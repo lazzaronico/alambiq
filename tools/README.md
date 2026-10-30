@@ -41,9 +41,22 @@ those of `check_installed_package.py` and `benchmark_variant_proposal.py`.
   transaminase data are read from the Git history of this repository at the commit given
   by `--transaminase-commit` (default `39f0515`). `--only` restricts the run to the listed
   dataset ids.
+- `validate_substitution_calls.py`: reproduces the test in
+  [Planted edits in Swiss-Prot proteins](../docs/methods/search-and-alignment.md#planted-edits-in-swiss-prot-proteins).
+  It requires `--fasta`, `--out` (the file in the repository is
+  `docs/methods/substitution-calls-validation.json`), `ALAMBIQ_ENV_MMSEQS` and the installed
+  resource `swissprot-2026_03`.
+- `measure_annotation_coverage.py`: reproduces the measurement in
+  [Families with a reviewed relative](../docs/methods/search-and-alignment.md#families-with-a-reviewed-relative).
+  It requires `--out` (the file in the repository is `docs/methods/annotation-coverage.json`),
+  `ALAMBIQ_ENV_MMSEQS`, `mmseqs` on the path and the installed resources `uniref50-2026_02` and
+  `swissprot-2026_03`.
 - `validate_annotation_transfer.py`: reproduces the test in
   [Transfer within Swiss-Prot](../docs/methods/search-and-alignment.md#transfer-within-swiss-prot).
   It requires `--fasta` (the `uniprot_sprot.fasta` file that the Swiss-Prot resource was built
   from), `--out` (the JSON file to write; the file in the repository is
   `docs/methods/annotation-transfer-validation.json`), the environment variable
   `ALAMBIQ_ENV_MMSEQS` and the installed resource `swissprot-2026_03`.
+- `validate_solvent_polarization.py`: reproduces the table in
+  [Water](../docs/methods/molecules.md#water). It requires `--out` (the file in the repository
+  is `docs/methods/solvent-polarization.json`) and `ALAMBIQ_ENV_MOLECULAR_PROPERTIES`.

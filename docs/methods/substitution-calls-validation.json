@@ -1,0 +1,73 @@
+{
+  "sample": 600,
+  "seed": 1,
+  "groups": {
+    "substitutions": {
+      "n": 200,
+      "reference": 199,
+      "tied": 1,
+      "region": 199,
+      "ends_outside": 4,
+      "exact": 195
+    },
+    "insertion": {
+      "n": 200,
+      "reference": 200,
+      "tied": 0,
+      "region": 200,
+      "ends_outside": 1,
+      "exact": 0
+    },
+    "deletion": {
+      "n": 200,
+      "reference": 200,
+      "tied": 0,
+      "region": 200,
+      "ends_outside": 5,
+      "exact": 0
+    }
+  },
+  "failures": [
+    {
+      "kind": "substitutions",
+      "original": "B2U2D8",
+      "found": "A7ZMA0",
+      "planted": [
+        [
+          36,
+          "E",
+          "I"
+        ],
+        [
+          101,
+          "L",
+          "D"
+        ],
+        [
+          118,
+          "A",
+          "E"
+        ],
+        [
+          142,
+          "W",
+          "F"
+        ],
+        [
+          183,
+          "V",
+          "C"
+        ]
+      ],
+      "notation": "E36I:L101D:A118E:W142F:I183C",
+      "unaligned_variant": [
+        0,
+        0
+      ],
+      "unaligned_reference": [
+        0,
+        0
+      ]
+    }
+  ]
+}

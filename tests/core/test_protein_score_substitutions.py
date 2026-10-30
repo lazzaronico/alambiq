@@ -210,3 +210,102 @@ class TestRefusals:
             {"protein": fasta(tmp_path), "positions": [1], "device": "cuda"}, tmp_path
         )
         assert "CUDA is unavailable" in outcome.steps["score"].error
+
+
+class TestVariants:
+    @pytest.fixture(scope="class")
+    def scored(self, tmp_path_factory):
+        tmp = tmp_path_factory.mktemp("variants")
+        return run_ok(
+            {
+                "protein": fasta(tmp),
+                "variants": ["I3V", "K6N:T7A", "I3V:K6N:T7A", "Q2L:I3V"],
+                "batch_size": 16,
+                "threads": 4,
+            },
+            tmp,
+        )
+
+    def test_the_score_of_a_variant_is_the_sum_of_its_substitutions(self, scored):
+        rows = {r["variant"]: r["llr"] for r in table(scored)["rows"]}
+        scores = {
+            v["variant"]: v["llr"] for v in scored.outputs("score")["variant_scores"]
+        }
+        assert scores["I3V"] == pytest.approx(rows["I3V"])
+        assert scores["K6N:T7A"] == pytest.approx(rows["K6N"] + rows["T7A"])
+        assert scores["I3V:K6N:T7A"] == pytest.approx(
+            rows["I3V"] + rows["K6N"] + rows["T7A"]
+        )
+
+    def test_a_substitution_in_two_variants_has_one_score(self, scored):
+        scores = {
+            v["variant"]: v["llr"] for v in scored.outputs("score")["variant_scores"]
+        }
+        shared = scores["Q2L:I3V"] - scores["I3V"]
+        rows = {r["variant"]: r["llr"] for r in table(scored)["rows"]}
+        assert shared == pytest.approx(rows["Q2L"])
+
+    def test_variants_are_returned_in_the_order_of_the_request(self, scored):
+        names = [v["variant"] for v in scored.outputs("score")["variant_scores"]]
+        assert names == ["I3V", "K6N:T7A", "I3V:K6N:T7A", "Q2L:I3V"]
+        assert scored.outputs("score")["variant_scores"][1]["substitutions"] == [
+            "K6N",
+            "T7A",
+        ]
+
+    def test_only_the_positions_of_the_variants_are_scored_without_positions(
+        self, scored
+    ):
+        assert table(scored)["positions"] == [2, 3, 6, 7]
+        assert scored.outputs("score")["positions_scored"] == 4
+
+    def test_given_positions_are_scored_in_addition(self, tmp_path):
+        outcome = run_ok(
+            {"protein": fasta(tmp_path), "positions": [10], "variants": ["I3V"]},
+            tmp_path,
+        )
+        assert table(outcome)["positions"] == [3, 10]
+
+    def test_the_record_lists_the_variants(self, scored):
+        record = table(scored)
+        assert [v["variant"] for v in record["variants"]] == [
+            "I3V",
+            "K6N:T7A",
+            "I3V:K6N:T7A",
+            "Q2L:I3V",
+        ]
+
+    def test_the_report_lists_the_variant_scores(self, scored):
+        from alambiq.capabilities.characterize.protein_score_substitutions_report import (
+            render,
+        )
+
+        html = render(scored.steps["score"].result)
+        assert "K6N:T7A" in html
+        assert "Log-likelihood ratio" in html
+
+    def test_a_request_without_variants_has_no_variant_scores(self, tmp_path):
+        outcome = run_ok({"protein": fasta(tmp_path), "positions": [3]}, tmp_path)
+        assert outcome.outputs("score")["variant_scores"] == []
+
+    @pytest.mark.parametrize(
+        ("variants", "message"),
+        [
+            (["A3V"], "position 3 is I in the sequence, not A"),
+            (["I3I"], "must be one of the 20 amino acids and differ"),
+            (["I3V:I3L"], "two substitutions are at one position"),
+            (["I300V"], "outside the sequence"),
+            (["I3"], "is not a substitution"),
+        ],
+    )
+    def test_an_inconsistent_variant_is_refused_before_a_model_runs(
+        self, tmp_path, variants, message
+    ):
+        outcome = run({"protein": fasta(tmp_path), "variants": variants}, tmp_path)
+        assert message in outcome.steps["score"].error
+
+    def test_more_than_a_thousand_variants_are_refused(self, tmp_path):
+        outcome = run(
+            {"protein": fasta(tmp_path), "variants": ["I3V"] * 1001}, tmp_path
+        )
+        assert "At most 1000 variants" in outcome.steps["score"].error

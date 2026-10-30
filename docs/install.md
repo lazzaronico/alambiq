@@ -75,7 +75,7 @@ recipe.
 
 | Variable | Used by | Recipe |
 | --- | --- | --- |
-| `ALAMBIQ_ENV_MMSEQS` | `protein.search`, `protein.match_profiles`, `protein.annotate_function`, `sequence.generate_msa`, `enzyme.*` | below |
+| `ALAMBIQ_ENV_MMSEQS` | `protein.search`, `protein.match_profiles`, `protein.annotate_function`, `protein.call_substitutions`, `sequence.generate_msa`, `enzyme.*` | below |
 | `ALAMBIQ_ENV_ESM` | `protein.embed`, `protein.predict_tracks`, `protein.complete`, `protein.score_substitutions` | [protein-representations](../environments/protein-representations/README.md) |
 | `ALAMBIQ_ENV_THERMOMPNN` | `protein.predict_stability_change` | [thermompnn](../environments/thermompnn/README.md) |
 | `ALAMBIQ_ENV_P2RANK` | `structure.detect_binding_pockets` | [p2rank](../environments/p2rank/README.md) |
@@ -85,6 +85,7 @@ recipe.
 | `ALAMBIQ_ENV_OPENFF` | `structure.prepare_predicted_complex_for_dynamics`, `structure.prepare_protein_ligand_system`, `structure.prepare_finite_environment` | [openff-complex-preparation](../environments/openff-complex-preparation/README.md) |
 | `ALAMBIQ_ENV_OPENFE` | `simulation.run_relative_free_energy`, `structure.prepare_relative_binding_inputs` | [binding-free-energy](../environments/binding-free-energy/README.md) |
 | `ALAMBIQ_ENV_PYMBAR` | `simulation.analyze_reaction_free_energy` | [binding-free-energy](../environments/binding-free-energy/README.md) or [reaction-free-energy](../environments/reaction-free-energy/README.md) |
+| `ALAMBIQ_ENV_MOLECULAR_PROPERTIES` | `molecule.compute_quantum_properties` | [molecular-properties](../environments/molecular-properties/README.md) |
 | `ALAMBIQ_ENV_QMMM` | `simulation.evaluate_qmmm_state`, `simulation.run_qmmm_dynamics` | [qmmm](../environments/qmmm/README.md) |
 
 Create the MMseqs2 environment with the pinned release, conda package version `18.8cc5c`
@@ -104,9 +105,9 @@ its engine environment changes.
 ## Resources
 
 A resource is a model or a sequence database. Each file is pinned by its SHA-256 digest
-and verified before use. Install resources before a run, with `alambiq resource provision`
-or, for a locally built database, with the commands in the `build` field of its
-specification.
+and verified before use. No resource ships with the package, which carries only the
+record of each one, and a run never downloads anything. Install the resources a campaign
+reads before it runs, with `alambiq resource provision`.
 
 ```bash
 alambiq resource list
@@ -120,14 +121,19 @@ alambiq resource provision thermompnn --yes
   specification has a `build` field, how the resource is obtained.
 - `verify` checks the installed files against the digests.
 - `provision` downloads the files of a resource, or fetches them with the downloader named
-  in the specification, and verifies them. It refuses a resource that is built locally.
+  in the specification, and verifies them. It refuses a resource that is built locally from
+  commands in its `build` field.
 
 `provision` downloads a resource only when its specification in `src/alambiq/resources/`
 lists a download URL for every file or a `fetch` method, and only with `--yes`. Without
-`--yes` it prints the size, the license and the hosts and downloads nothing. UniRef50,
-Swiss-Prot and Pfam are built locally with the commands in the `build` field of their
-specifications.
-Boltz-2 is fetched by Boltz's downloader inside the Boltz environment.
+`--yes` it prints what it would download, what it would build, the license and the hosts, and
+does nothing. Boltz-2 is fetched by Boltz's downloader inside the Boltz environment.
+Swiss-Prot is fetched and built in the mmseqs environment: `provision` downloads the two
+UniProt files, checks their size and MD5 digest, builds the MMseqs2 database and the
+annotation table, and verifies the result against the record. UniProt replaces the files at
+its `current_release` address when it publishes a new release, and the download then fails
+its check. UniRef50 and Pfam are built locally with the commands in the `build` field of
+their specifications.
 
 Resources are stored in `~/.alambiq/resources`, or in `ALAMBIQ_RESOURCE_HOME`. Set
 `ALAMBIQ_RESOURCE_<NAME>` (the resource name in capitals, punctuation as underscores) to

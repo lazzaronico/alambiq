@@ -1,0 +1,8 @@
+name: alambiq-molecular-properties
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pyscf=2.14.0
+  - rdkit
+  - pyberny
