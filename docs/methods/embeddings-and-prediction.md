@@ -1,6 +1,6 @@
 # Embeddings and learned predictions
 
-A protein is represented as a vector from a language model. Four capabilities use these
+A protein is represented as a vector from a language model. Five capabilities use these
 models:
 
 - `protein.embed` produces vectors.
@@ -8,6 +8,8 @@ models:
   representatives from stored vectors and runs no model.
 - `protein.complete` proposes new residues.
 - `protein.predict_stability_change` predicts the stability effect of substitutions.
+- `protein.predict_melting_temperature` estimates the melting temperature of a protein from
+  its sequence.
 
 The last two produce hypotheses.
 
@@ -110,3 +112,39 @@ fixed on 2026-10-04 before any prediction, failed
 The midpoint in that benchmark is derived from the activity measured after a 30 min heat
 challenge between 30 and 50 °C (pNPG readout), so the result applies to one enzyme and one
 functional endpoint.
+
+## Melting temperature
+
+`protein.predict_melting_temperature` returns, for each protein of a FASTA, the melting
+temperature in degrees Celsius that each of the three replicas of TemBERTure Tm predicts, with
+their mean and standard deviation. The input is the sequence alone. Ligands, metals, the pH and
+the oligomeric state are not inputs.
+
+TemBERTure Tm is the ProtBERT-BFD protein language model with an adapter and a regression head.
+The authors trained it on melting temperatures of the Meltome Atlas (13 organisms), with
+the data split by clusters of sequences at 50 % identity. The weights are the pinned
+resource `temberture-tm`; `alambiq resource provision temberture-tm --yes` downloads them
+(about 1.7 GB: the ProtBERT-BFD model from Hugging Face and the adapters from GitHub).
+
+The model reads one residue per token and at most 512 tokens, which is the first 510 residues.
+A longer protein is marked `truncated` and the result carries a note. A protein of 10 to 5,000
+residues from the 20 amino acids and X is accepted. The estimate is the mean of the replicas,
+and the spread between them is the indicator of reliability to read first: the authors report
+that the replicas, which differ in their random seeds, vary markedly. A spread above 15
+degrees Celsius adds a note.
+
+The authors report a Pearson correlation of 0.78 between predicted and measured melting
+temperatures on their test set, and observe that the predictions are bimodal: concentrated
+below 60 degrees Celsius and above 80 degrees Celsius. Use the values to rank proteins that
+differ widely, for instance homologs from organisms that grow at different temperatures. No test of the model on the variants of one protein is
+part of this capability, so a difference between a variant and its wild type is not validated.
+
+The reference code of the authors leaves the network in training mode, which keeps the 0.3
+dropout of the regression head active, so that its predictions vary from call to call. The
+capability evaluates the network in evaluation mode, so that its predictions are deterministic.
+The two agree on average: for the example enzyme of the repository, the evaluation-mode value of the
+first replica is 77.9 degrees Celsius and two training-mode calls gave 77.7 and 72.4. The
+authors' repository pins Adapters 0.1.1 and PyTorch 1.10.2; the capability runs their files in
+Adapters 1.3.0 and PyTorch 2.15.0. The tests check that the model loads, that a protein gives
+the same values alone and in a batch, that residues beyond the 510th do not change the result,
+and that a repeated run reproduces the values.

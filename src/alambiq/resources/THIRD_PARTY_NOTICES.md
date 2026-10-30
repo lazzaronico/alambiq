@@ -23,6 +23,12 @@ digests, and states its license. A record describes a resource; the resource fil
 - `thermompnn.json`: Kuhlman-Lab ThermoMPNN, MIT with third-party notices for the code it
   includes (ProteinMPNN, graph protein-design components, LightAttention); the individual
   notices and upstream URLs are in the record.
+- `temberture-tm.json`: the three TemBERTure Tm adapters with their heads (ibmm-unibe-ch,
+  MIT, with the license file of the repository) and the ProtBERT-BFD base model
+  (Rostlab, from the ProtTrans work). The Hugging Face model card of ProtBERT-BFD states no
+  license; the ProtTrans repository that introduced the model is MIT licensed, and this
+  record applies that license to the weights. The record needs a decision if the weights
+  are redistributed.
 - `boltz2-2.2.1.json`: Boltz 2.2.1 code and weights, MIT.
 - `p2rank-2.5.1.json`: P2Rank 2.5.1, MIT.
 - `pfam-38.2-profiles.json`: Pfam 38.2 profiles, CC0 1.0.

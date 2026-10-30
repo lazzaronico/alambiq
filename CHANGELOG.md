@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- `protein.predict_melting_temperature` estimates the melting temperature of proteins from their
+  sequences with the three replicas of TemBERTure Tm, and returns the mean and the spread of the
+  replicas. The model is the pinned resource `temberture-tm` (about 1.7 GB), which
+  `alambiq resource provision temberture-tm --yes` downloads. The engine environment is
+  `ALAMBIQ_ENV_THERMOSTABILITY`.
+- `molecule.compute_hydration_free_energy` computes the hydration free energy of a neutral small
+  molecule given as SMILES with the OpenFE absolute solvation protocol (Sage 2.3.0, AshGC
+  charges, TIP3P), with repeats, MBAR errors and the overlap between lambda windows. It runs in
+  the OpenFE environment, on CUDA by default.
 - `molecule.predict_admet` estimates 52 physicochemical and ADMET endpoints for 1 to 10,000
   molecules given as SMILES with ADMET-AI 2.0.1, with the units and the reported metrics of each
   endpoint and, on request, the percentile among DrugBank approved drugs. The engine environment

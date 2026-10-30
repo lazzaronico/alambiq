@@ -1,0 +1,22 @@
+# Build the core image with Python 3.11. The model weights are a pinned resource
+# provisioned outside the image; this layer holds the inference runtime.
+ARG BASE_IMAGE=alambiq:core
+# The engine is built in a separate stage that starts from the same Python as the core image,
+# so rebuilding the core image reuses the cached engine stage.
+ARG ENGINE_BASE=python:3.11-slim-bookworm
+FROM ${ENGINE_BASE} AS engine
+USER root
+COPY --from=ghcr.io/astral-sh/uv:0.9.10 /uv /usr/local/bin/uv
+COPY environments/thermostability/environment.yaml /tmp/thermostability.yaml
+# The PyPI Linux wheel of torch requires the CUDA packages and the engine runs on CPU, so the
+# CPU wheel index is added and the best matching version is taken across both indexes.
+RUN python -c 'import sys; assert sys.version_info[:2] == (3, 11)' \
+    && pip install --no-cache-dir pyyaml \
+    && python -c 'import yaml; from pathlib import Path; data=yaml.safe_load(Path("/tmp/thermostability.yaml").read_text()); requirements=next(d["pip"] for d in data["dependencies"] if isinstance(d, dict)); Path("/tmp/thermostability.txt").write_text("\n".join(requirements)+"\n")' \
+    && uv venv --python /usr/local/bin/python /opt/thermostability \
+    && uv pip install --python /opt/thermostability/bin/python --extra-index-url https://download.pytorch.org/whl/cpu --index-strategy unsafe-best-match -r /tmp/thermostability.txt
+
+FROM ${BASE_IMAGE} AS runtime
+COPY --from=engine /opt/thermostability /opt/thermostability
+ENV ALAMBIQ_ENV_THERMOSTABILITY=/opt/thermostability/bin/python
+USER 1000:1000

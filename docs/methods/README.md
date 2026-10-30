@@ -37,4 +37,5 @@ result, units and limits of one capability.
   selection among candidates.
 - [Molecules](molecules.md): orbital energies, thermochemistry, excitations, charges and
   dipole moments of a small molecule by density-functional theory, in the gas phase or in
-  water, and ADMET estimates of many molecules from trained models.
+  water, ADMET estimates of many molecules from trained models, and hydration free energies
+  by alchemical simulation.

@@ -78,12 +78,13 @@ recipe.
 | `ALAMBIQ_ENV_MMSEQS` | `protein.search`, `protein.match_profiles`, `protein.annotate_function`, `protein.call_substitutions`, `sequence.generate_msa`, `enzyme.*` | below |
 | `ALAMBIQ_ENV_ESM` | `protein.embed`, `protein.predict_tracks`, `protein.complete`, `protein.score_substitutions` | [protein-representations](../environments/protein-representations/README.md) |
 | `ALAMBIQ_ENV_THERMOMPNN` | `protein.predict_stability_change` | [thermompnn](../environments/thermompnn/README.md) |
+| `ALAMBIQ_ENV_THERMOSTABILITY` | `protein.predict_melting_temperature` | [thermostability](../environments/thermostability/README.md) |
 | `ALAMBIQ_ENV_P2RANK` | `structure.detect_binding_pockets` | [p2rank](../environments/p2rank/README.md) |
 | `ALAMBIQ_ENV_OPENMM` | `structure.prepare_protein_system`, `simulation.run_molecular_dynamics`, `simulation.run_metadynamics` | [openmm](../environments/openmm/README.md) |
 | `ALAMBIQ_ENV_BOLTZ` | `structure.predict_biomolecular_complex` (CPU and CUDA) | [boltz2](../environments/boltz2/README.md) |
 | `ALAMBIQ_ENV_BOLTZ_MPS` | `structure.predict_biomolecular_complex` (Apple GPU) | [boltz2-mps](../environments/boltz2-mps/manifest.yaml) |
 | `ALAMBIQ_ENV_OPENFF` | `structure.prepare_predicted_complex_for_dynamics`, `structure.prepare_protein_ligand_system`, `structure.prepare_finite_environment` | [openff-complex-preparation](../environments/openff-complex-preparation/README.md) |
-| `ALAMBIQ_ENV_OPENFE` | `simulation.run_relative_free_energy`, `structure.prepare_relative_binding_inputs` | [binding-free-energy](../environments/binding-free-energy/README.md) |
+| `ALAMBIQ_ENV_OPENFE` | `simulation.run_relative_free_energy`, `structure.prepare_relative_binding_inputs`, `molecule.compute_hydration_free_energy` | [binding-free-energy](../environments/binding-free-energy/README.md) |
 | `ALAMBIQ_ENV_PYMBAR` | `simulation.analyze_reaction_free_energy` | [binding-free-energy](../environments/binding-free-energy/README.md) or [reaction-free-energy](../environments/reaction-free-energy/README.md) |
 | `ALAMBIQ_ENV_MOLECULAR_PROPERTIES` | `molecule.compute_quantum_properties` | [molecular-properties](../environments/molecular-properties/README.md) |
 | `ALAMBIQ_ENV_ADMET` | `molecule.predict_admet` | [admet](../environments/admet/README.md) |

@@ -60,3 +60,8 @@ those of `check_installed_package.py` and `benchmark_variant_proposal.py`.
 - `validate_solvent_polarization.py`: reproduces the table in
   [Water](../docs/methods/molecules.md#water). It requires `--out` (the file in the repository
   is `docs/methods/solvent-polarization.json`) and `ALAMBIQ_ENV_MOLECULAR_PROPERTIES`.
+- `validate_hydration_free_energy.py`: reproduces the table in
+  [Hydration free energy](../docs/methods/molecules.md#hydration-free-energy). It requires
+  `--out` (the file in the repository is `docs/methods/hydration-free-energy-validation.json`),
+  `ALAMBIQ_ENV_OPENFE` and a CUDA host; `--freesolv` adds the experimental values from a local
+  copy of the FreeSolv database.

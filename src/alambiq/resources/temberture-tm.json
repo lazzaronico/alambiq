@@ -1,0 +1,116 @@
+{
+  "logical_id": "model.temberture-tm",
+  "version": "3c17a7a2d2a8365b187f5dec4eb1ed5db6d37f41+6c5c8a55a52ff08a664dfd584aa1773f125a0487",
+  "provider": "ibmm-unibe-ch (TemBERTure adapters at commit 3c17a7a) and Rostlab (ProtBERT-BFD at commit 6c5c8a5)",
+  "license": "MIT-with-third-party-notices",
+  "files": [
+    {
+      "path": "LICENSE.md",
+      "bytes": 1105,
+      "sha256": "a16fedf8d5801034eed15faed74bfa22828d88dd8d5021a86c98e84b8442b80a",
+      "url": "https://raw.githubusercontent.com/ibmm-unibe-ch/TemBERTure/3c17a7a2d2a8365b187f5dec4eb1ed5db6d37f41/LICENSE.md"
+    },
+    {
+      "path": "adapters/replica1/AdapterBERT_adapter/adapter_config.json",
+      "bytes": 1078,
+      "sha256": "af55b99488fc1598c4013fef39704342aded9d677edfdf4d8a2cdbebca4bf10e",
+      "url": "https://raw.githubusercontent.com/ibmm-unibe-ch/TemBERTure/3c17a7a2d2a8365b187f5dec4eb1ed5db6d37f41/temBERTure/temBERTure_TM/replica1/AdapterBERT_adapter/adapter_config.json"
+    },
+    {
+      "path": "adapters/replica1/AdapterBERT_adapter/pytorch_adapter.bin",
+      "bytes": 15903649,
+      "sha256": "e1bbe2d5384bd9514a6e3886af57a0d6a42875561cc516b6a32399ee69151a3c",
+      "url": "https://raw.githubusercontent.com/ibmm-unibe-ch/TemBERTure/3c17a7a2d2a8365b187f5dec4eb1ed5db6d37f41/temBERTure/temBERTure_TM/replica1/AdapterBERT_adapter/pytorch_adapter.bin"
+    },
+    {
+      "path": "adapters/replica1/AdapterBERT_head_adapter/head_config.json",
+      "bytes": 426,
+      "sha256": "3b6b1fbabfe04ca29a4d629c8b399cd8fec2ddd3e14657805bc9a8c55e649260",
+      "url": "https://raw.githubusercontent.com/ibmm-unibe-ch/TemBERTure/3c17a7a2d2a8365b187f5dec4eb1ed5db6d37f41/temBERTure/temBERTure_TM/replica1/AdapterBERT_head_adapter/head_config.json"
+    },
+    {
+      "path": "adapters/replica1/AdapterBERT_head_adapter/pytorch_model_head.bin",
+      "bytes": 4204257,
+      "sha256": "86e1d40d354a3d689ad374ae009d7339a538f7f17e90569b39be59f2194ba697",
+      "url": "https://raw.githubusercontent.com/ibmm-unibe-ch/TemBERTure/3c17a7a2d2a8365b187f5dec4eb1ed5db6d37f41/temBERTure/temBERTure_TM/replica1/AdapterBERT_head_adapter/pytorch_model_head.bin"
+    },
+    {
+      "path": "adapters/replica2/AdapterBERT_adapter/adapter_config.json",
+      "bytes": 1078,
+      "sha256": "af55b99488fc1598c4013fef39704342aded9d677edfdf4d8a2cdbebca4bf10e",
+      "url": "https://raw.githubusercontent.com/ibmm-unibe-ch/TemBERTure/3c17a7a2d2a8365b187f5dec4eb1ed5db6d37f41/temBERTure/temBERTure_TM/replica2/AdapterBERT_adapter/adapter_config.json"
+    },
+    {
+      "path": "adapters/replica2/AdapterBERT_adapter/pytorch_adapter.bin",
+      "bytes": 15903649,
+      "sha256": "5906e3eb1cf9b36688d46fe8d121dfcc6d451cc006440acf489657fb70a61764",
+      "url": "https://raw.githubusercontent.com/ibmm-unibe-ch/TemBERTure/3c17a7a2d2a8365b187f5dec4eb1ed5db6d37f41/temBERTure/temBERTure_TM/replica2/AdapterBERT_adapter/pytorch_adapter.bin"
+    },
+    {
+      "path": "adapters/replica2/AdapterBERT_head_adapter/head_config.json",
+      "bytes": 426,
+      "sha256": "3b6b1fbabfe04ca29a4d629c8b399cd8fec2ddd3e14657805bc9a8c55e649260",
+      "url": "https://raw.githubusercontent.com/ibmm-unibe-ch/TemBERTure/3c17a7a2d2a8365b187f5dec4eb1ed5db6d37f41/temBERTure/temBERTure_TM/replica2/AdapterBERT_head_adapter/head_config.json"
+    },
+    {
+      "path": "adapters/replica2/AdapterBERT_head_adapter/pytorch_model_head.bin",
+      "bytes": 4204257,
+      "sha256": "36e852ab769166dde9dd58f134671a1e02dbee10236e96bad6d0863814505bb5",
+      "url": "https://raw.githubusercontent.com/ibmm-unibe-ch/TemBERTure/3c17a7a2d2a8365b187f5dec4eb1ed5db6d37f41/temBERTure/temBERTure_TM/replica2/AdapterBERT_head_adapter/pytorch_model_head.bin"
+    },
+    {
+      "path": "adapters/replica3/AdapterBERT_adapter/adapter_config.json",
+      "bytes": 1078,
+      "sha256": "af55b99488fc1598c4013fef39704342aded9d677edfdf4d8a2cdbebca4bf10e",
+      "url": "https://raw.githubusercontent.com/ibmm-unibe-ch/TemBERTure/3c17a7a2d2a8365b187f5dec4eb1ed5db6d37f41/temBERTure/temBERTure_TM/replica3/AdapterBERT_adapter/adapter_config.json"
+    },
+    {
+      "path": "adapters/replica3/AdapterBERT_adapter/pytorch_adapter.bin",
+      "bytes": 15903649,
+      "sha256": "a6966eec6d83e7e52de05510f622ad79cc0c0df51283d63c71191b1b276e4a69",
+      "url": "https://raw.githubusercontent.com/ibmm-unibe-ch/TemBERTure/3c17a7a2d2a8365b187f5dec4eb1ed5db6d37f41/temBERTure/temBERTure_TM/replica3/AdapterBERT_adapter/pytorch_adapter.bin"
+    },
+    {
+      "path": "adapters/replica3/AdapterBERT_head_adapter/head_config.json",
+      "bytes": 426,
+      "sha256": "3b6b1fbabfe04ca29a4d629c8b399cd8fec2ddd3e14657805bc9a8c55e649260",
+      "url": "https://raw.githubusercontent.com/ibmm-unibe-ch/TemBERTure/3c17a7a2d2a8365b187f5dec4eb1ed5db6d37f41/temBERTure/temBERTure_TM/replica3/AdapterBERT_head_adapter/head_config.json"
+    },
+    {
+      "path": "adapters/replica3/AdapterBERT_head_adapter/pytorch_model_head.bin",
+      "bytes": 4204257,
+      "sha256": "dc0f919dc5cc0910dc8564bb220b0b202068b78338546e3a98b8bf56120d8ce0",
+      "url": "https://raw.githubusercontent.com/ibmm-unibe-ch/TemBERTure/3c17a7a2d2a8365b187f5dec4eb1ed5db6d37f41/temBERTure/temBERTure_TM/replica3/AdapterBERT_head_adapter/pytorch_model_head.bin"
+    },
+    {
+      "path": "prot_bert_bfd/config.json",
+      "bytes": 361,
+      "sha256": "44c1e1229d520841e5b29f1dd2292595219061daf0c5f5dacb4f68d1272d69a3",
+      "url": "https://huggingface.co/Rostlab/prot_bert_bfd/resolve/6c5c8a55a52ff08a664dfd584aa1773f125a0487/config.json"
+    },
+    {
+      "path": "prot_bert_bfd/pytorch_model.bin",
+      "bytes": 1684058277,
+      "sha256": "89a5b439bde4df5e6b09a7e568066a66eabacb69cbca6cbae59e98f9756db804",
+      "url": "https://huggingface.co/Rostlab/prot_bert_bfd/resolve/6c5c8a55a52ff08a664dfd584aa1773f125a0487/pytorch_model.bin"
+    },
+    {
+      "path": "prot_bert_bfd/vocab.txt",
+      "bytes": 81,
+      "sha256": "7ea18f4fe3a796c1146f9830d50334a251f368db96bdd0606e78846ca3a30607",
+      "url": "https://huggingface.co/Rostlab/prot_bert_bfd/resolve/6c5c8a55a52ff08a664dfd584aa1773f125a0487/vocab.txt"
+    },
+    {
+      "path": "prot_bert_bfd/special_tokens_map.json",
+      "bytes": 112,
+      "sha256": "303df45a03609e4ead04bc3dc1536d0ab19b5358db685b6f3da123d05ec200e3",
+      "url": "https://huggingface.co/Rostlab/prot_bert_bfd/resolve/6c5c8a55a52ff08a664dfd584aa1773f125a0487/special_tokens_map.json"
+    },
+    {
+      "path": "prot_bert_bfd/tokenizer_config.json",
+      "bytes": 86,
+      "sha256": "73f5e97ab29042bac49dc96f7b8a7a790994509bbd2fe3e9cd4f59affc46c2ce",
+      "url": "https://huggingface.co/Rostlab/prot_bert_bfd/resolve/6c5c8a55a52ff08a664dfd584aa1773f125a0487/tokenizer_config.json"
+    }
+  ]
+}

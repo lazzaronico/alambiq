@@ -1,9 +1,11 @@
 # Molecules
 
-Two capabilities cover small molecules given as SMILES. `molecule.compute_quantum_properties`
+Three capabilities cover small molecules given as SMILES. `molecule.compute_quantum_properties`
 computes the electronic properties of one molecule with density-functional theory.
 `molecule.predict_admet` estimates absorption, distribution, metabolism, excretion and
 toxicity endpoints of thousands of molecules with trained models.
+`molecule.compute_hydration_free_energy` computes the free energy of transferring one
+molecule from the gas phase into water by alchemical simulation.
 
 ## Quantum-chemical properties
 
@@ -149,3 +151,45 @@ descriptors of aspirin and that every classification output lies between 0 and 1
   of 0.78 kcal/mol; it is an estimate, not a simulation.
 - The engine takes about 25 s for 2,845 molecules, including the loading of the models, on an
   Apple M-series laptop. The environment is set by `ALAMBIQ_ENV_ADMET`.
+
+## Hydration free energy
+
+`molecule.compute_hydration_free_energy` returns the hydration free energy of one neutral
+molecule with the OpenFE absolute solvation protocol. A negative value means that the molecule
+prefers water. The free energy is from the gas phase to water at the same concentration.
+
+RDKit embeds the molecule from its SMILES and relaxes it with MMFF94. The molecule has AshGC
+partial charges, the graph-network model of the OpenFF project that reproduces AM1-BCC charges,
+and Sage 2.3.0 parameters; the water is TIP3P in a dodecahedral box with 1.5 nm of padding. In
+water and in vacuum, 14 lambda windows decouple the molecule from its surroundings, with the
+electrostatics first and the Lennard-Jones interactions after, and Hamiltonian replica exchange
+samples them. MBAR gives the free energy of each leg, and the hydration free energy of a repeat
+is the vacuum value minus the solvent value. The result is the mean of `repeats` independent
+repeats. Its uncertainty is the spread between the repeats, with the legs combined as OpenFE
+combines them, and the result also gives the MBAR error, the smallest overlap between
+neighboring windows and the smallest effective sample size of each leg.
+
+The solvent leg samples `production_ns` after `equilibration_ns`; the vacuum leg samples
+one fifth and half of those lengths, the ratios of the OpenFE defaults. The defaults
+are 10 ns and 1 ns with 3 repeats, which takes hours on a GPU: a run of methane with 0.05 ns
+of production and 0.05 ns of equilibration took 160 s on an NVIDIA GB10. A run shorter than 5 ns of
+production or with fewer than 3 repeats carries a note, as does an overlap below 0.03.
+
+The molecule must be neutral, closed-shell and one connected species from H, C, N, O, F, P,
+S, Cl, Br and I, with at most 50 heavy atoms and specified stereochemistry. Ions, salts and
+zwitterions are refused.
+
+### Accuracy
+
+The accuracy of the capability against measured hydration free energies is being checked; this
+section holds the result when the check completes.
+
+### Platforms
+
+The capability runs on CUDA by default and the OpenFE environment (`ALAMBIQ_ENV_OPENFE`) is the
+one of `simulation.run_relative_free_energy`. On the CPU of an Apple M-series laptop, the solvent
+leg of one run of methane stopped with a numerical failure (NaN energies) in the first
+replica-exchange iteration, with both short and default non-alchemical equilibration. The same
+molecule completed on CUDA. The CPU platform is therefore available but not verified. A box of 2,661 water atoms ran at 64
+ns per day on that CPU with a 2 fs step, so a default run would take days. On the CPU, the vacuum leg runs on one thread, as OpenFE sets it, because a tiny system
+runs about ten times slower with eight threads.
