@@ -165,11 +165,24 @@ class TestChecks:
             ("max_msa_seqs", 0),
             ("num_subsampled_msa", 8193),
             ("threads", 0),
+            ("affinity_sampling_steps", 1),
+            ("affinity_samples", 21),
         ],
     )
     def test_settings_outside_their_limits_are_refused_by_name(self, name, value):
         with pytest.raises(ValueError, match=f"{name} must be an integer from"):
             boltz.check_settings(**{name: value})
+
+    def test_affinity_without_a_ligand_is_refused(self):
+        boltz.check_affinity(True, {"id": "L", "smiles": ALANINATE})
+        boltz.check_affinity(False, None)
+        with pytest.raises(ValueError, match="affinity needs a ligand"):
+            boltz.check_affinity(True, None)
+
+    def test_the_affinity_pass_adds_to_the_ceiling(self):
+        base = boltz.timeout_seconds("gpu", 1, 200, 3)
+        assert boltz.timeout_seconds("gpu", 1, 200, 3, 5, 200) == 6 * base
+        assert boltz.timeout_seconds("gpu", 1, 200, 3, 5, 400) == 11 * base
 
     def test_a_longer_run_gets_a_longer_ceiling_and_the_cpu_more_than_a_gpu(self):
         base = boltz.timeout_seconds("gpu", 1, 200, 3)
@@ -179,6 +192,83 @@ class TestChecks:
         assert boltz.timeout_seconds("cpu", 1, 200, 3) > base
         # Fewer steps than normal never shrink the ceiling below the base.
         assert boltz.timeout_seconds("gpu", 1, 2, 1) == base
+
+
+class TestAffinityInputsAndOutputs:
+    """What the engine hands Boltz for affinity and how it reads the answer."""
+
+    def cfg(self, **changes):
+        return {
+            "proteins": [{"id": "A", "sequence": SEQUENCE, "msa": None}],
+            "ligand": {"id": "L", "smiles": ALANINATE},
+            "model_root": "/models",
+            "sampling_steps": 200,
+            "diffusion_samples": 1,
+            "recycling_steps": 3,
+            "accelerator": "cpu",
+            "seed": 0,
+            "affinity": True,
+            "affinity_sampling_steps": 50,
+            "affinity_samples": 2,
+            "affinity_mw_correction": True,
+            **changes,
+        }
+
+    def test_the_input_names_the_ligand_as_the_binder(self):
+        from alambiq.engines import boltz_predict
+
+        document = boltz_predict._document(self.cfg())
+        assert document["properties"] == [{"affinity": {"binder": "L"}}]
+        assert "properties" not in boltz_predict._document(self.cfg(affinity=False))
+
+    def test_the_command_carries_the_affinity_settings_only_when_asked(self):
+        from alambiq.engines import boltz_predict
+
+        command = boltz_predict._command(self.cfg(), Path("in.yaml"), Path("out"))
+        joined = " ".join(command)
+        assert "--sampling_steps_affinity 50" in joined
+        assert "--diffusion_samples_affinity 2" in joined
+        assert "--affinity_mw_correction" in command
+        plain = boltz_predict._command(self.cfg(affinity=False), Path("in.yaml"), Path("out"))
+        assert not any("affinity" in part for part in plain)
+
+    def test_the_affinity_file_is_read_with_both_models(self, tmp_path):
+        from alambiq.engines import boltz_predict
+
+        path = tmp_path / "affinity_input.json"
+        path.write_text(
+            json.dumps(
+                {
+                    "affinity_pred_value": -1.5,
+                    "affinity_probability_binary": 0.8,
+                    "affinity_pred_value1": -1.2,
+                    "affinity_probability_binary1": 0.7,
+                    "affinity_pred_value2": -1.8,
+                    "affinity_probability_binary2": 0.9,
+                }
+            )
+        )
+        found = boltz_predict._affinity(path)
+        assert found["log10_ic50_um"] == -1.5 and found["binder_probability"] == 0.8
+        assert [m["log10_ic50_um"] for m in found["models"]] == [-1.2, -1.8]
+
+    def test_a_probability_outside_zero_to_one_is_refused(self, tmp_path):
+        from alambiq.engines import boltz_predict
+
+        path = tmp_path / "affinity_input.json"
+        path.write_text(
+            json.dumps({"affinity_pred_value": 0.1, "affinity_probability_binary": 1.2})
+        )
+        with pytest.raises(ValueError, match="outside 0 to 1"):
+            boltz_predict._affinity(path)
+
+    def test_a_ligand_above_128_atoms_is_refused_before_the_run(self):
+        pytest.importorskip("rdkit")
+        from alambiq.engines import boltz_predict
+
+        assert boltz_predict._affinity_atoms(ALANINATE) == 6
+        with pytest.raises(ValueError, match="at most 128 atoms"):
+            boltz_predict._affinity_atoms("C" * 129)
 
 
 class TestLigandChemistryOnSyntheticPoses:
@@ -554,6 +644,31 @@ class TestSeedsAndAlignments:
 
         assert digest(first) == digest(again)
         assert digest(first) != digest(other)
+
+    def test_affinity_returns_an_ensemble_and_two_models_with_probabilities(
+        self, tmp_path
+    ):
+        os.environ["ALAMBIQ_ENV_BOLTZ"] = ENV
+        outcome = run(
+            request(affinity=True, affinity_sampling_steps=2, affinity_samples=1),
+            tmp_path,
+        )
+        out = ok(outcome)
+        # Boltz neutralizes the alaninate for affinity, and the result says so.
+        assert out["ligand"]["formal_charge"] == 0
+        assert "standardized the ligand" in " ".join(outcome.steps["fold"].notes)
+        affinity = out["affinity"]
+        assert len(affinity["models"]) == 2
+        for estimate in [affinity, *affinity["models"]]:
+            assert 0.0 <= estimate["binder_probability"] <= 1.0
+            assert isinstance(estimate["log10_ic50_um"], float)
+        assert affinity["ligand_atoms"] == 6 and affinity["samples"] == 1
+        written = json.loads(Path(affinity["file"]).read_text())
+        assert written["affinity_pred_value"] == pytest.approx(affinity["log10_ic50_um"])
+        import yaml
+
+        given = yaml.safe_load(Path(out["input_yaml"]).read_text())
+        assert given["properties"] == [{"affinity": {"binder": "L"}}]
 
     def test_a_protein_alone_runs_without_ligand_files(self, tmp_path):
         os.environ["ALAMBIQ_ENV_BOLTZ"] = ENV

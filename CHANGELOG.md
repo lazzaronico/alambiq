@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- `structure.predict_biomolecular_complex` (version 1.1) estimates binding affinity with
+  `affinity: true`: Boltz-2's log10 IC50 in µM and binder probability, for the ensemble and
+  each of its two models.
+
 ## 0.1.2
 
 - The package description is "Alambiq is software that runs computational methods for

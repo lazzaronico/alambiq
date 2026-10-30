@@ -90,11 +90,89 @@ def _command(cfg: dict[str, Any], input_path: Path, out: Path) -> list[str]:
             "--num_subsampled_msa",
             str(cfg["num_subsampled_msa"]),
         ]
+    if cfg.get("affinity"):
+        command += [
+            "--sampling_steps_affinity",
+            str(cfg["affinity_sampling_steps"]),
+            "--diffusion_samples_affinity",
+            str(cfg["affinity_samples"]),
+        ]
+        if cfg.get("affinity_mw_correction"):
+            command.append("--affinity_mw_correction")
     # One to eight inputs gain nothing from data-loader workers, and in a container with the
     # default 64 MB of shared memory the workers can deadlock the whole prediction, so none are
     # started.
     command += ["--num_workers", "0"]
     return command
+
+
+def _document(cfg: dict[str, Any]) -> dict[str, Any]:
+    """Boltz's input: the chains, the ligand and, with affinity, the binder to score."""
+    entities: list[dict[str, Any]] = [
+        {
+            "protein": {
+                "id": p["id"],
+                "sequence": p["sequence"],
+                "msa": p["msa"] or "empty",
+            }
+        }
+        for p in cfg["proteins"]
+    ]
+    if cfg.get("ligand"):
+        entities.append({"ligand": cfg["ligand"]})
+    document: dict[str, Any] = {"version": 1, "sequences": entities}
+    if cfg.get("affinity"):
+        document["properties"] = [{"affinity": {"binder": cfg["ligand"]["id"]}}]
+    return document
+
+
+AFFINITY_ATOMS = 128
+AFFINITY_ADVISED_ATOMS = 56
+
+
+def _affinity_atoms(smiles: str) -> int:
+    """The ligand's atoms as Boltz counts them for affinity: RDKit RemoveHs keeps the rest."""
+    from rdkit import Chem
+
+    molecule = Chem.MolFromSmiles(smiles)
+    if molecule is None:
+        raise ValueError("RDKit cannot read the ligand SMILES")
+    count = Chem.RemoveHs(molecule).GetNumAtoms()
+    if count > AFFINITY_ATOMS:
+        raise ValueError(
+            f"The ligand has {count} atoms; Boltz-2 estimates affinity for ligands of at "
+            f"most {AFFINITY_ATOMS} atoms"
+        )
+    return count
+
+
+def _affinity(path: Path) -> dict[str, Any]:
+    """The ensemble estimate and the estimates of its two models."""
+    values = json.loads(path.read_text(encoding="utf-8"))
+    found: dict[str, Any] = {
+        "log10_ic50_um": _finite(values["affinity_pred_value"], "affinity_pred_value"),
+        "binder_probability": _finite(
+            values["affinity_probability_binary"], "affinity_probability_binary"
+        ),
+        "models": [],
+    }
+    for index in (1, 2):
+        if f"affinity_pred_value{index}" in values:
+            found["models"].append(
+                {
+                    "log10_ic50_um": _finite(
+                        values[f"affinity_pred_value{index}"],
+                        f"affinity_pred_value{index}",
+                    ),
+                    "binder_probability": _finite(
+                        values[f"affinity_probability_binary{index}"],
+                        f"affinity_probability_binary{index}",
+                    ),
+                }
+            )
+    if not 0.0 <= found["binder_probability"] <= 1.0:
+        raise ValueError("The Boltz binder probability lies outside 0 to 1")
+    return found
 
 
 def _check_device(accelerator: str) -> None:
@@ -110,8 +188,13 @@ def _check_device(accelerator: str) -> None:
         )
 
 
-def _chemistry(native: Path, ligand: dict[str, Any]) -> dict[str, Any]:
-    """The ligand's graph as Boltz processed it, checked against the input SMILES."""
+def _chemistry(
+    native: Path, ligand: dict[str, Any], processed_smiles: str | None = None
+) -> dict[str, Any]:
+    """The ligand's graph as Boltz processed it, checked against the SMILES Boltz was to use.
+
+    That is the input SMILES, or with affinity the SMILES after Boltz's standardization.
+    """
     from rdkit import Chem
 
     data = native.read_bytes()
@@ -121,7 +204,7 @@ def _chemistry(native: Path, ligand: dict[str, Any]) -> dict[str, Any]:
         raise ValueError("Unexpected Boltz extra-molecule identities; only LIG1 is expected")
     molecule = Chem.Mol(molecules["LIG1"])
     Chem.SanitizeMol(molecule)
-    expected = Chem.MolFromSmiles(ligand["smiles"])
+    expected = Chem.MolFromSmiles(processed_smiles or ligand["smiles"])
     canonical = Chem.MolToSmiles(molecule)
     if expected is None or canonical != Chem.MolToSmiles(Chem.RemoveHs(expected)):
         raise ValueError("The ligand processed by Boltz differs from the input SMILES")
@@ -148,6 +231,9 @@ def _chemistry(native: Path, ligand: dict[str, Any]) -> dict[str, Any]:
         "chain_id": ligand["id"],
         "component_id": "LIG1",
         "input_smiles": ligand["smiles"],
+        "standardized": processed_smiles is not None
+        and Chem.MolToSmiles(Chem.RemoveHs(Chem.MolFromSmiles(ligand["smiles"])))
+        != canonical,
         "canonical_isomeric_smiles": canonical,
         "formal_charge": Chem.GetFormalCharge(molecule),
         "atoms": atoms,
@@ -233,21 +319,18 @@ def run(cfg: dict[str, Any]) -> dict[str, Any]:
     out = Path(cfg["output"])
     out.mkdir(parents=True, exist_ok=False)
     _check_device(cfg["accelerator"])
-    entities: list[dict[str, Any]] = [
-        {
-            "protein": {
-                "id": p["id"],
-                "sequence": p["sequence"],
-                "msa": p["msa"] or "empty",
-            }
-        }
-        for p in cfg["proteins"]
-    ]
-    if cfg.get("ligand"):
-        entities.append({"ligand": cfg["ligand"]})
+    processed_smiles = None
+    affinity_atoms = None
+    if cfg.get("affinity"):
+        # For affinity, Boltz parses the ligand after the ChEMBL standardization
+        # (largest fragment, neutralization) of its own `standardize`.
+        from boltz.data.parse.schema import standardize
+
+        processed_smiles = standardize(cfg["ligand"]["smiles"])
+        affinity_atoms = _affinity_atoms(processed_smiles)
     input_path = out.parent / "input.yaml"
     input_path.write_text(
-        yaml.safe_dump({"version": 1, "sequences": entities}, sort_keys=False),
+        yaml.safe_dump(_document(cfg), sort_keys=False),
         encoding="utf-8",
     )
     environment = {
@@ -295,6 +378,7 @@ def run(cfg: dict[str, Any]) -> dict[str, Any]:
         chemistry = _chemistry(
             out / "boltz_results_input" / "processed" / "mols" / "input.pkl",
             cfg["ligand"],
+            processed_smiles,
         )
     samples = []
     for position, (structure, confidence_path) in enumerate(
@@ -328,11 +412,22 @@ def run(cfg: dict[str, Any]) -> dict[str, Any]:
             sample["ligand_sdf"] = str(sdf)
             sample["ligand_pose"] = _positioned(chemistry, structure, sdf)
         samples.append(sample)
+    affinity = None
+    if cfg.get("affinity"):
+        affinity_path = predictions / "affinity_input.json"
+        if not affinity_path.is_file():
+            raise ValueError("Boltz wrote no affinity file although affinity was requested")
+        affinity = {
+            **_affinity(affinity_path),
+            "file": str(affinity_path),
+            "ligand_atoms": affinity_atoms,
+        }
     import torch
 
     return {
         "samples": samples,
         "chemistry": chemistry,
+        "affinity": affinity,
         "input_yaml": str(input_path),
         "log": str(log),
         "accelerator": cfg["accelerator"],

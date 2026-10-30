@@ -41,6 +41,15 @@ The stereochemistry of each ligand pose is computed from its coordinates and rep
 sample whose ligand pose differs in stereochemistry from the supplied SMILES is flagged in
 the notes and kept in the result.
 
+With `affinity`, the capability also returns Boltz-2's estimate of how strongly the ligand
+binds: the log10 of an IC50 in µM (lower is stronger; 0 is 1 µM) and the probability that the
+ligand binds, for the ensemble of two models and for each model. Boltz standardizes the ligand
+first with the ChEMBL structure pipeline (largest fragment, neutralization); the structures
+and the estimate then refer to the standardized molecule, and a changed molecule is named in
+the notes. Following the Boltz documentation, the probability separates binders from decoys
+and the IC50 value compares active molecules. The ligand has at most 128 atoms (heavy atoms
+and the hydrogens that RDKit keeps); above 56 atoms the result carries a note.
+
 The capability verifies the pinned model files before a run; a missing file fails the step.
 It runs on the device named by `accelerator`. On Apple silicon, GPU execution
 (`accelerator: mps`) requires a patched Boltz in a separate engine environment.

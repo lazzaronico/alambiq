@@ -24,6 +24,14 @@ The method:
   is the position of the ligand in one sample.
 - The capability computes the stereochemistry of each pose from its coordinates
   and reports whether it matches the canonical SMILES of the processed ligand.
+- With `affinity`, Boltz first standardizes the ligand with the ChEMBL structure
+  pipeline (largest fragment, neutralization); the structures and the estimate
+  refer to the standardized molecule, and a changed molecule carries a note.
+  The affinity module of Boltz-2 then estimates the binding of the ligand to
+  the protein chains from the highest-ranked sample. It returns the
+  log10 of an IC50 in µM (lower values mean stronger binding: 0 is 1 µM) and
+  the probability that the ligand binds, from an ensemble of two models and
+  from each model.
 
 Limits.
 
@@ -39,6 +47,12 @@ Limits.
   same seed returned the same first sample, and a different seed returned a
   different one.
 - A request whose chains together have more than 2,000 residues is refused.
+- Affinity is estimated for one small-molecule ligand and protein chains, for a
+  ligand of at most 128 atoms (heavy atoms and the hydrogens that RDKit keeps).
+  Boltz advises against ligands much larger than 56 atoms; such a ligand
+  carries a note.
+- Following the Boltz documentation, the binder probability separates binders
+  from decoys, and the IC50 value compares molecules that are active.
 - The model files total 6.2 GB (rounded) and are not distributed with Alambiq.
   A step compares the size of each file with the record. It recomputes the
   SHA-256 when no receipt of an earlier verification matches the size and
@@ -131,6 +145,15 @@ class PredictRequest:
         Used when any chain has an alignment. For each chain, the most alignment
         rows read, 1 to 32,768 (default 8192), and the rows subsampled for the
         model, 1 to 8,192 (default 1024).
+    affinity:
+        Whether to estimate the binding affinity of the ligand; requires a
+        ligand. Default false.
+    affinity_sampling_steps, affinity_samples:
+        Diffusion steps (2 to 1,000; default 200) and samples (1 to 20; default
+        5) of the affinity pass, the Boltz defaults.
+    affinity_mw_correction:
+        Whether Boltz adds its molecular-weight correction to the affinity
+        value. Default false.
     """
 
     proteins: list[ProteinChain]
@@ -143,6 +166,39 @@ class PredictRequest:
     threads: int = 8
     max_msa_seqs: int = 8192
     num_subsampled_msa: int = 1024
+    affinity: bool = False
+    affinity_sampling_steps: int = 200
+    affinity_samples: int = 5
+    affinity_mw_correction: bool = False
+
+
+@dataclass(frozen=True, slots=True)
+class AffinityEstimate:
+    """One estimate of binding affinity."""
+
+    log10_ic50_um: float
+    """The log10 of the IC50 in µM; lower values mean stronger binding."""
+    binder_probability: float
+    """The probability that the ligand binds, from 0 to 1."""
+
+
+@dataclass(frozen=True, slots=True)
+class Affinity:
+    """The affinity of the ligand estimated by Boltz-2, and the settings of the pass."""
+
+    log10_ic50_um: float
+    """The ensemble estimate: the log10 of the IC50 in µM."""
+    binder_probability: float
+    """The ensemble probability that the ligand binds."""
+    models: list[AffinityEstimate]
+    """The estimates of the two models of the ensemble."""
+    sampling_steps: int
+    samples: int
+    mw_correction: bool
+    ligand_atoms: int
+    """Atoms of the ligand as Boltz counts them for affinity."""
+    file: str
+    """The JSON file that Boltz wrote."""
 
 
 @dataclass(frozen=True, slots=True)
@@ -202,6 +258,8 @@ class PredictResult:
     samples: list[Sample]
     ligand_chemistry: str | None
     """A JSON file with the graph and atom names of the processed ligand."""
+    affinity: Affinity | None
+    """The affinity estimate; None unless `affinity` was requested."""
     input_yaml: str
     log: str
     accelerator: str
@@ -218,7 +276,7 @@ def environment_for(request: PredictRequest) -> str:
 
 @capability(
     "structure.predict_biomolecular_complex",
-    version="1.0",
+    version="1.1",
     family="characterize",
     summary="Predict the structure of protein chains and an optional ligand with Boltz-2",
     render=render,
@@ -231,6 +289,7 @@ def predict_biomolecular_complex(
 ) -> PredictResult:
     """Write Boltz's inputs, run it, and collect and check the structures."""
     from alambiq.capabilities.characterize.science.boltz import (
+        check_affinity,
         check_chains,
         check_settings,
         normalize_a3m,
@@ -247,6 +306,7 @@ def predict_biomolecular_complex(
         for p in request.proteins
     ]
     check_chains(proteins, ligand)
+    check_affinity(request.affinity, ligand)
     check_settings(
         seed=request.seed,
         sampling_steps=request.sampling_steps,
@@ -255,6 +315,8 @@ def predict_biomolecular_complex(
         max_msa_seqs=request.max_msa_seqs,
         num_subsampled_msa=request.num_subsampled_msa,
         threads=request.threads,
+        affinity_sampling_steps=request.affinity_sampling_steps,
+        affinity_samples=request.affinity_samples,
     )
     workdir = ctx.workdir / "boltz"
     workdir.mkdir()
@@ -288,6 +350,14 @@ def predict_biomolecular_complex(
             "recycling passes)."
         )
     root = resources.verify(MODEL)
+    ceiling = timeout_seconds(
+        request.accelerator,
+        request.diffusion_samples,
+        request.sampling_steps,
+        request.recycling_steps,
+        request.affinity_samples if request.affinity else 0,
+        request.affinity_sampling_steps,
+    )
     found = ctx.run_in_environment(
         environment_for(request),
         "boltz_predict:run",
@@ -303,21 +373,14 @@ def predict_biomolecular_complex(
             "threads": request.threads,
             "max_msa_seqs": request.max_msa_seqs,
             "num_subsampled_msa": request.num_subsampled_msa,
-            "timeout": timeout_seconds(
-                request.accelerator,
-                request.diffusion_samples,
-                request.sampling_steps,
-                request.recycling_steps,
-            ),
+            "affinity": request.affinity,
+            "affinity_sampling_steps": request.affinity_sampling_steps,
+            "affinity_samples": request.affinity_samples,
+            "affinity_mw_correction": request.affinity_mw_correction,
+            "timeout": ceiling,
             "output": str(workdir / "output"),
         },
-        timeout=timeout_seconds(
-            request.accelerator,
-            request.diffusion_samples,
-            request.sampling_steps,
-            request.recycling_steps,
-        )
-        + 600,
+        timeout=ceiling + 600,
     )
 
     def keep(path: str, media: str) -> str:
@@ -356,6 +419,30 @@ def predict_biomolecular_complex(
             )
         )
     chemistry = found["chemistry"]
+    estimate = found.get("affinity")
+    affinity = None
+    if chemistry and chemistry.get("standardized"):
+        ctx.note(
+            f"For affinity, Boltz standardized the ligand {chemistry['input_smiles']} to "
+            f"{chemistry['canonical_isomeric_smiles']}; the poses and the affinity refer to "
+            "the standardized molecule."
+        )
+    if estimate is not None:
+        if estimate["ligand_atoms"] > 56:
+            ctx.note(
+                f"The ligand has {estimate['ligand_atoms']} atoms; Boltz advises against "
+                "affinity for ligands much larger than 56 atoms."
+            )
+        affinity = Affinity(
+            log10_ic50_um=estimate["log10_ic50_um"],
+            binder_probability=estimate["binder_probability"],
+            models=[AffinityEstimate(**m) for m in estimate["models"]],
+            sampling_steps=request.affinity_sampling_steps,
+            samples=request.affinity_samples,
+            mw_correction=request.affinity_mw_correction,
+            ligand_atoms=estimate["ligand_atoms"],
+            file=keep(estimate["file"], "application/json"),
+        )
     flipped = [s.index for s in samples if s.ligand_stereochemistry_matches is False]
     if flipped:
         ctx.note(
@@ -376,6 +463,7 @@ def predict_biomolecular_complex(
         else None,
         samples=samples,
         ligand_chemistry=ctx.keep_json(chemistry) if chemistry else None,
+        affinity=affinity,
         input_yaml=keep(found["input_yaml"], "application/yaml"),
         log=keep(found["log"], "text/plain"),
         accelerator=found["accelerator"],

@@ -20,6 +20,8 @@ LIMITS = {
     "max_msa_seqs": (1, 32768),
     "num_subsampled_msa": (1, 8192),
     "threads": (1, 64),
+    "affinity_sampling_steps": (2, 1000),
+    "affinity_samples": (1, 20),
 }
 
 
@@ -53,6 +55,12 @@ def check_chains(proteins: list[dict[str, Any]], ligand: dict[str, Any] | None) 
         raise ValueError(
             "A ligand needs a SMILES of 1–4000 characters with no whitespace"
         )
+
+
+def check_affinity(affinity: bool, ligand: dict[str, Any] | None) -> None:
+    """Affinity is estimated for the one ligand of the request."""
+    if affinity and ligand is None:
+        raise ValueError("affinity needs a ligand; supply one ligand by SMILES")
 
 
 def check_settings(**values: int) -> None:
@@ -100,13 +108,20 @@ def normalize_a3m(text: str, query: str) -> tuple[str, int]:
 
 
 def timeout_seconds(
-    accelerator: str, diffusion_samples: int, sampling_steps: int, recycling_steps: int
+    accelerator: str,
+    diffusion_samples: int,
+    sampling_steps: int,
+    recycling_steps: int,
+    affinity_samples: int = 0,
+    affinity_sampling_steps: int = 200,
 ) -> int:
-    """The time ceiling for one run."""
+    """The time ceiling for one run, with the affinity pass when one is requested."""
     base = 14_400 if accelerator == "cpu" else 3_600
-    return int(
+    structure = (
         base
         * diffusion_samples
         * max(1, sampling_steps / 200)
         * max(1, recycling_steps / 3)
     )
+    affinity = base * affinity_samples * max(1, affinity_sampling_steps / 200)
+    return int(structure + affinity)
