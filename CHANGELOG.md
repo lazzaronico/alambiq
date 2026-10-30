@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- `protein.annotate_function` lists the EC numbers, Gene Ontology terms and subcellular
+  locations that the closest reviewed relatives of a protein in UniProtKB/Swiss-Prot carry,
+  with the support and identity of each. The Swiss-Prot resource is built locally.
 - `structure.predict_biomolecular_complex` (version 1.1) estimates binding affinity with
   `affinity: true`: Boltz-2's log10 IC50 in µM and binder probability, for the ensemble and
   each of its two models.

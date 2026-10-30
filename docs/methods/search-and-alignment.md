@@ -2,7 +2,8 @@
 
 A homolog search finds proteins related to a protein of interest. `protein.search` finds
 homologs in a panel, `sequence.generate_msa` builds an alignment, and
-`sequence.inspect_msa` reads one. `enzyme.retrieve_candidates` and
+`sequence.inspect_msa` reads one, and `protein.annotate_function` lists the annotations of
+the closest reviewed relatives. `enzyme.retrieve_candidates` and
 `enzyme.characterize_candidates` rank candidates for a function against references.
 
 ## Searching a panel
@@ -23,6 +24,51 @@ homologs, each with weaker evidence of homology. The MMseqs2 `sensitivity` of
 `sequence.generate_msa` and `protein.match_profiles` is from 1 to 7.5 inclusive. A value
 outside this interval is refused. The default of `protein.search` is 5.7, the default of
 MMseqs2.
+
+## Annotating function by homology
+
+`protein.annotate_function` lists the annotations that the closest reviewed relatives of a
+protein carry. It searches the pinned UniProtKB/Swiss-Prot release with each protein and keeps
+the strongest hits that meet the thresholds as the sources of the protein. The defaults are
+an identity of at least 0.4, a coverage of the protein of at least 0.8, an expectation value
+of at most 1e-5 and at most 5 sources.
+
+Each Enzyme Commission (EC) number, Gene Ontology term and subcellular location of a source
+is listed with its support, the highest identity among the sources that carry it and their
+accessions. Read a term with the identity of its sources: homologous proteins can differ in
+function, more so at lower identity.
+
+`exclude_identical` drops the entry that matches the protein over both full sequences at
+100 % identity. Use it to annotate a Swiss-Prot protein from its relatives, for example to
+check how well transfer works at a given identity.
+
+A protein with no hit that meets the thresholds is returned without annotations. A location is
+the first term of each location sentence of an entry, and Gene Ontology terms are listed as
+the entries carry them, whatever their evidence code.
+
+### Transfer within Swiss-Prot
+
+`tools/validate_annotation_transfer.py` annotates 1,000 randomly sampled Swiss-Prot
+enzymes (seed 1) with `exclude_identical`, so that no protein is annotated from its own
+entry. It compares the top transferred EC number with the EC numbers of the entry, and the top
+transferred location with its locations. The results are in
+[annotation-transfer-validation.json](annotation-transfer-validation.json). The first run of
+the script gave the numbers below, grouped by the identity of the strongest source; 51
+of the 1,000 proteins had no source.
+
+| Identity of the strongest source | Proteins | Top EC number exact (95 % interval) | Top EC number, first three levels | Top location in the entry (proteins with a location) |
+| --- | --- | --- | --- | --- |
+| 0.4 to 0.5 | 39 | 79.5% (64% to 89%) | 89.7% | 78.9% (19) |
+| 0.5 to 0.6 | 68 | 94.1% (86% to 98%) | 100.0% | 92.5% (40) |
+| 0.6 to 0.7 | 91 | 96.7% (91% to 99%) | 98.9% | 94.1% (51) |
+| 0.7 to 0.8 | 104 | 99.0% (95% to 100%) | 100.0% | 98.4% (62) |
+| 0.8 to 0.9 | 138 | 94.9% (90% to 98%) | 98.6% | 96.5% (86) |
+| 0.9 to 1.0 | 509 | 99.4% (98% to 100%) | 99.8% | 98.8% (332) |
+
+The sample is drawn from the database that is searched. Close relatives of every sampled
+protein are in it, as they are for most proteins a user annotates, and the numbers apply to
+proteins that have a relative in Swiss-Prot at the stated identity. Intervals are wide for the
+groups with fewer than 100 proteins.
 
 ## Building an alignment
 

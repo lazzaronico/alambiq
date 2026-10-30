@@ -41,3 +41,9 @@ those of `check_installed_package.py` and `benchmark_variant_proposal.py`.
   transaminase data are read from the Git history of this repository at the commit given
   by `--transaminase-commit` (default `39f0515`). `--only` restricts the run to the listed
   dataset ids.
+- `validate_annotation_transfer.py`: reproduces the test in
+  [Transfer within Swiss-Prot](../docs/methods/search-and-alignment.md#transfer-within-swiss-prot).
+  It requires `--fasta` (the `uniprot_sprot.fasta` file that the Swiss-Prot resource was built
+  from), `--out` (the JSON file to write; the file in the repository is
+  `docs/methods/annotation-transfer-validation.json`), the environment variable
+  `ALAMBIQ_ENV_MMSEQS` and the installed resource `swissprot-2026_03`.

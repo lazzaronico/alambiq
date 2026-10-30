@@ -18,6 +18,7 @@ MODULES = (
     "alambiq.capabilities.characterize.genome_inspect_context",
     "alambiq.capabilities.characterize.protein_match_profiles",
     "alambiq.capabilities.characterize.sequence_generate_msa",
+    "alambiq.capabilities.characterize.protein_annotate_function",
     "alambiq.capabilities.characterize.protein_embed",
     "alambiq.capabilities.characterize.protein_score_substitutions",
     "alambiq.capabilities.characterize.protein_predict_tracks",

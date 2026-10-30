@@ -1,0 +1,82 @@
+{
+  "logical_id": "swissprot-2026_03-v1",
+  "version": "2026_03",
+  "provider": "UniProt Consortium",
+  "license": "CC-BY-4.0",
+  "description": "UniProtKB/Swiss-Prot release 2026_03 as an MMseqs2 sequence database with a precomputed index, and a table of the EC numbers, Gene Ontology terms and subcellular locations of its entries.",
+  "build": "Built locally from https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz and uniprot_sprot.dat.gz (release 2026_03 of 02-Sep-2026). The database: gunzip -c uniprot_sprot.fasta.gz > uniprot_sprot.fasta, then, with MMseqs2 18-8cc5c, mmseqs createdb uniprot_sprot.fasta swissprot-db and mmseqs createindex swissprot-db tmp. The table: python -m alambiq.engines.swissprot_annotations uniprot_sprot.dat.gz annotations.tsv. Place the files in one directory with no other files.",
+  "source_files": [
+    {
+      "name": "uniprot_sprot.fasta.gz",
+      "bytes": 93801562,
+      "md5": "bc9d398533e6df582b563c6c03093bd0"
+    },
+    {
+      "name": "uniprot_sprot.dat.gz",
+      "bytes": 700301138,
+      "md5": "a31b5d0756f0a8f94164bf20b703812c"
+    }
+  ],
+  "files": [
+    {
+      "path": "annotations.tsv",
+      "bytes": 190123821,
+      "sha256": "c2b36b1971eb2b0f86d2e80258e943c4be59b6fb731fa1cd0729f67aa39e34fe"
+    },
+    {
+      "path": "swissprot-db",
+      "bytes": 210169339,
+      "sha256": "fa1e73f7a733274ff80abac0cf661e149a8f848e56d41cf0ea16aae0c0a0b77b"
+    },
+    {
+      "path": "swissprot-db.dbtype",
+      "bytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    {
+      "path": "swissprot-db.idx",
+      "bytes": 2620227584,
+      "sha256": "b03c0747ace9db4a6422d3201eceb1d0d36fde1399e87ed4e7338d154aa54da4"
+    },
+    {
+      "path": "swissprot-db.idx.dbtype",
+      "bytes": 4,
+      "sha256": "9f076b7eb7fdc0311cd3208cdbbebbf8014dd3a05e35191c96947b358a362b40"
+    },
+    {
+      "path": "swissprot-db.idx.index",
+      "bytes": 399,
+      "sha256": "f9e6dcc8b92cf0e109543b8a695004baf5a88ed97c5d579d14c8b3e3077bb2e2"
+    },
+    {
+      "path": "swissprot-db.index",
+      "bytes": 11640442,
+      "sha256": "1373fc908fbdf7a4c51e2ea7239e01765f94169fd4da4dba17b2f129147443f1"
+    },
+    {
+      "path": "swissprot-db.lookup",
+      "bytes": 9124554,
+      "sha256": "19cdd048e330f5dadafaa3da37f9b901d7e387f55f119ca0a330f35d6ef6a4bc"
+    },
+    {
+      "path": "swissprot-db.source",
+      "bytes": 22,
+      "sha256": "f9cab6fe690a534362ee23f4dd0798eee2199361c317d8bd129c83d6e776eb35"
+    },
+    {
+      "path": "swissprot-db_h",
+      "bytes": 75411973,
+      "sha256": "963cb32bc09c3b22686944310ab8618a9d05f1e8a331733415bd8ec45f0ae85f"
+    },
+    {
+      "path": "swissprot-db_h.dbtype",
+      "bytes": 4,
+      "sha256": "42f4aeb81c1ef81f771f3de8abca9dcf66901c575530e7672e4b1146474ae650"
+    },
+    {
+      "path": "swissprot-db_h.index",
+      "bytes": 11237571,
+      "sha256": "198d2f0722ab0f078decb087a6e0c360cb6efb68bbe1d3e645d672a57a32c378"
+    }
+  ]
+}

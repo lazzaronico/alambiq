@@ -326,7 +326,7 @@ def execute(
     root.mkdir(parents=True, exist_ok=True)
     store = Store(root / "artifacts")
     cache = None if fresh else Cache(root / "cache")
-    workdir = root / "work"
+    workdir = (root / "work").resolve()
     workdir.mkdir(parents=True, exist_ok=True)
     started, clock = records.now(), time.monotonic()
     steps = _campaign_flow(campaign, store, cache, workdir)

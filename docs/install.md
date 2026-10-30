@@ -75,7 +75,7 @@ recipe.
 
 | Variable | Used by | Recipe |
 | --- | --- | --- |
-| `ALAMBIQ_ENV_MMSEQS` | `protein.search`, `protein.match_profiles`, `sequence.generate_msa`, `enzyme.*` | below |
+| `ALAMBIQ_ENV_MMSEQS` | `protein.search`, `protein.match_profiles`, `protein.annotate_function`, `sequence.generate_msa`, `enzyme.*` | below |
 | `ALAMBIQ_ENV_ESM` | `protein.embed`, `protein.predict_tracks`, `protein.complete`, `protein.score_substitutions` | [protein-representations](../environments/protein-representations/README.md) |
 | `ALAMBIQ_ENV_THERMOMPNN` | `protein.predict_stability_change` | [thermompnn](../environments/thermompnn/README.md) |
 | `ALAMBIQ_ENV_P2RANK` | `structure.detect_binding_pockets` | [p2rank](../environments/p2rank/README.md) |
@@ -124,8 +124,9 @@ alambiq resource provision thermompnn --yes
 
 `provision` downloads a resource only when its specification in `src/alambiq/resources/`
 lists a download URL for every file or a `fetch` method, and only with `--yes`. Without
-`--yes` it prints the size, the license and the hosts and downloads nothing. UniRef50 and
-Pfam are built locally with the commands in the `build` field of their specifications.
+`--yes` it prints the size, the license and the hosts and downloads nothing. UniRef50,
+Swiss-Prot and Pfam are built locally with the commands in the `build` field of their
+specifications.
 Boltz-2 is fetched by Boltz's downloader inside the Boltz environment.
 
 Resources are stored in `~/.alambiq/resources`, or in `ALAMBIQ_RESOURCE_HOME`. Set

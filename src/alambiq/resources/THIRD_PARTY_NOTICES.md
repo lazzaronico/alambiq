@@ -28,6 +28,8 @@ digests, and states its license. A record describes a resource; the resource fil
 - `pfam-38.2-profiles.json`: Pfam 38.2 profiles, CC0 1.0.
 - `uniref50-2026_02.json`: UniRef50 release 2026_02, UniProt Consortium, CC BY 4.0.
   Redistribution requires attribution.
+- `swissprot-2026_03.json`: UniProtKB/Swiss-Prot release 2026_03, UniProt Consortium,
+  CC BY 4.0. Redistribution requires attribution.
 
 ## Examples
 

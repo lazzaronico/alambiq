@@ -88,8 +88,9 @@ publication permissions that apply to it.
   notices of the data and dependencies when redistributing optional resources.
 - MMseqs2 release 18-8cc5c is MIT-licensed, copyright the MMseqs2 Development Team
   ([upstream license](https://github.com/soedinglab/MMseqs2/blob/18-8cc5c/LICENSE.md)).
-  The UniProt and Pfam databases have separate terms. The `build` field of the UniRef50
-  and Pfam resource specifications states the MMseqs2 release used to build each database.
+  The UniProt and Pfam databases have separate terms: UniRef50 and UniProtKB/Swiss-Prot are
+  CC BY 4.0, with attribution. The `build` field of the UniRef50, Swiss-Prot and Pfam resource
+  specifications states the MMseqs2 release used to build each database.
 - Example source material, whose particular sources and transformations each example
   records:
   - UniProt-derived material: CC BY 4.0, with attribution.

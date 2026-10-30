@@ -19,7 +19,8 @@ result, units and limits of one capability.
 - [Proteins](proteins.md): protein inspection, family membership by profile, predicted
   tracks, and genomic context.
 - [Search and alignment](search-and-alignment.md): panel search, alignment construction and
-  reading, and ranking of candidates against references with controls.
+  reading, annotation of function by homology, and ranking of candidates against references
+  with controls.
 - [Embeddings and learned predictions](embeddings-and-prediction.md): embedding vectors and
   their spaces, panel layout, residue proposals, and prediction of the stability effect of
   substitutions.
