@@ -529,4 +529,5 @@ def test_an_input_name_too_long_for_the_file_system_is_reported_as_a_missing_fil
     with pytest.raises(FileNotFoundError) as caught:
         context.resolve("MKV" * 200)
     assert "no input file at MKVMKV" in str(caught.value)
-    assert len(str(caught.value)) < 200
+    assert "names the path of an existing file" in str(caught.value)
+    assert len(str(caught.value)) < 400

@@ -34,7 +34,11 @@ class StepContext:
         except OSError:  # a name too long for the file system is not a file
             found = False
         if not found:
-            raise FileNotFoundError(f"{self.step_id}: no input file at {shown}")
+            raise FileNotFoundError(
+                f"{self.step_id}: no input file at {shown}; this field names the path of "
+                "an existing file, so write the data (for example a FASTA) to a file first "
+                "and give its path"
+            )
         return located
 
     def read_text(self, path: str | Path) -> str:
