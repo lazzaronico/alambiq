@@ -182,21 +182,23 @@ zwitterions are refused.
 
 ### Accuracy
 
-`tools/validate_hydration_free_energy.py` runs the capability on small molecules and compares
-the result with the FreeSolv database (Mobley and Guthrie, 2014). The run so far covers two
-molecules, with 1 repeat of 0.5 ns of solvent production and 0.1 ns of equilibration, on an
-NVIDIA GB10 ([hydration-free-energy-validation.json](hydration-free-energy-validation.json)):
+`tools/validate_hydration_free_energy.py` runs the capability on four small molecules and compares
+the result with the FreeSolv database (Mobley and Guthrie, 2014). Each run used 1 repeat, 0.5 ns
+of solvent production and 0.1 ns of equilibration, on an NVIDIA GB10 with two runs sharing the
+GPU ([hydration-free-energy-validation.json](hydration-free-energy-validation.json)):
 
 | Molecule | Calculated (kcal/mol) | Experiment (kcal/mol) | Difference (kcal/mol) | Time |
 |---|---:|---:|---:|---:|
 | methane | 2.59 | 2.00 | +0.59 | 2.5 h |
+| ethanol | -4.18 | -5.00 | +0.82 | 2.4 h |
 | benzene | -1.85 | -0.90 | -0.95 | 2.2 h |
+| phenol | -6.95 | -6.60 | -0.35 | 2.6 h |
 
-Both values are within 1 kcal/mol of experiment. Two molecules with one repeat each do not
-measure the accuracy of the method, and the repeat spread is not available with one repeat. Two
-more runs (ethanol and phenol) were still running when this was written. Each run took more
-than 2 hours while two runs shared the GPU, so a set large enough to measure an error of the
-method needs the default settings on several GPUs or a longer schedule than this check used.
+All four values are within 1 kcal/mol of experiment; the mean absolute difference is 0.68 and the
+root-mean-square difference 0.72 kcal/mol. Four molecules with one repeat each do not measure
+the accuracy of the method, and the spread between repeats is not available with one repeat. The
+molecules are small and rigid, and the check does not reach larger or flexible ones. A set large
+enough to measure an error of the method needs the default settings on several GPUs.
 
 ### Platforms
 

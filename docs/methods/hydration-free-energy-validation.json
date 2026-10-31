@@ -19,6 +19,20 @@
       "difference_kcal_mol": 0.59
     },
     {
+      "molecule": "ethanol",
+      "smiles": "CCO",
+      "hydration_free_energy_kcal_mol": -4.18,
+      "uncertainty_kcal_mol": null,
+      "repeats_kcal_mol": [
+        -4.18
+      ],
+      "minimum_adjacent_overlap": 0.071,
+      "seconds": 8751,
+      "experiment_kcal_mol": -5.0,
+      "experiment_uncertainty_kcal_mol": 0.6,
+      "difference_kcal_mol": 0.82
+    },
+    {
       "molecule": "benzene",
       "smiles": "c1ccccc1",
       "hydration_free_energy_kcal_mol": -1.85,
@@ -31,6 +45,20 @@
       "experiment_kcal_mol": -0.9,
       "experiment_uncertainty_kcal_mol": 0.2,
       "difference_kcal_mol": -0.95
+    },
+    {
+      "molecule": "phenol",
+      "smiles": "Oc1ccccc1",
+      "hydration_free_energy_kcal_mol": -6.95,
+      "uncertainty_kcal_mol": null,
+      "repeats_kcal_mol": [
+        -6.95
+      ],
+      "minimum_adjacent_overlap": 0.071,
+      "seconds": 9357,
+      "experiment_kcal_mol": -6.6,
+      "experiment_uncertainty_kcal_mol": 0.2,
+      "difference_kcal_mol": -0.35
     }
   ]
 }
