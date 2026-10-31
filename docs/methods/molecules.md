@@ -78,6 +78,13 @@ numbers of methane (12), benzene (12), carbon dioxide (2) and acetic acid (1), t
 expectation values of the hydroxyl radical, methyl radical and triplet oxygen, and the refusal
 of impossible spin states and of molecules above the size limit.
 
+An outside check of the heat capacity: for 10 molecules of the QM9 dataset (the `cv` label, in
+cal/(mol K)), the capability at its default level (B3LYP/6-31G*) gave values that differ from the
+label by a root-mean-square difference of 0.54 cal/(mol K) and a mean absolute difference of
+0.29, on labels from 24 to 36. The molecules were the first 10 of the BioMol-LLM-Bench task
+`MOL_Thermo`, and a language-model agent ran the capability; the check is small and does not
+cover other properties.
+
 ### Limits and run time
 
 - A molecule of 1 to 12 heavy atoms from H, C, N, O, F, P, S, Cl and Br is accepted.
