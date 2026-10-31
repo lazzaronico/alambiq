@@ -81,6 +81,16 @@ class TestCoercion:
     def test_float_accepts_integers(self):
         assert make(ratio=2).ratio == pytest.approx(2.0)
 
+    def test_a_list_given_for_text_or_a_path_is_named_and_one_value_is_asked_for(self):
+        with pytest.raises(RequestError) as caught:
+            make(name=["protein.fasta"], count=1)
+        assert (
+            "found a list ['protein.fasta']; expected text (one value, not a list)"
+            in str(caught.value)
+        )
+        with pytest.raises(RequestError, match="expected a path .one value, not a list"):
+            make(where=["a.txt"])
+
     def test_bool_requires_a_boolean(self):
         with pytest.raises(RequestError, match="expected true or false"):
             make(flag="yes")

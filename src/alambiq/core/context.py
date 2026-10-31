@@ -23,13 +23,18 @@ class StepContext:
 
     def resolve(self, path: str | Path) -> Path:
         """Find an input file, relative to the campaign that named it."""
-        candidate = Path(path)
-        if candidate.is_absolute():
-            located = candidate
-        else:
-            located = (self.base / candidate).resolve()
-        if not located.is_file():
-            raise FileNotFoundError(f"{self.step_id}: no input file at {path}")
+        shown = str(path) if len(str(path)) <= 80 else str(path)[:77] + "..."
+        try:
+            candidate = Path(path)
+            if candidate.is_absolute():
+                located = candidate
+            else:
+                located = (self.base / candidate).resolve()
+            found = located.is_file()
+        except OSError:  # a name too long for the file system is not a file
+            found = False
+        if not found:
+            raise FileNotFoundError(f"{self.step_id}: no input file at {shown}")
         return located
 
     def read_text(self, path: str | Path) -> str:

@@ -515,3 +515,18 @@ class TestRegistry:
         )
         assert run.outputs("a")["total"] == 10
         assert run.outputs("b")["total"] == 3
+
+
+def test_an_input_name_too_long_for_the_file_system_is_reported_as_a_missing_file(
+    tmp_path,
+):
+    from alambiq.core.context import StepContext
+    from alambiq.core.store import Store
+
+    context = StepContext(
+        step_id="s", store=Store(tmp_path / "store"), workdir=tmp_path, base=tmp_path
+    )
+    with pytest.raises(FileNotFoundError) as caught:
+        context.resolve("MKV" * 200)
+    assert "no input file at MKVMKV" in str(caught.value)
+    assert len(str(caught.value)) < 200

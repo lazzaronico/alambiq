@@ -24,7 +24,16 @@ def _fail(where: str, message: str) -> None:
 def _found(value: Any) -> str:
     """The value as an error message states it, shortened when it is long."""
     text = repr(value)
-    return text if len(text) <= 60 else text[:57] + "..."
+    text = text if len(text) <= 60 else text[:57] + "..."
+    kind = {list: "a list", tuple: "a list", dict: "a mapping"}.get(type(value))
+    return f"{kind} {text}" if kind else text
+
+
+def _single(expected: str, value: Any) -> str:
+    """What a field wants, with a reminder that it is one value when a list was given."""
+    if isinstance(value, (list, tuple)):
+        return f"{expected} (one value, not a list)"
+    return expected
 
 
 def _optional(annotation: Any) -> tuple[Any, bool]:
@@ -58,7 +67,7 @@ def coerce(value: Any, annotation: Any, where: str) -> Any:
 
     if annotation is Path:
         if not isinstance(value, (str, Path)):
-            _fail(where, f"found {_found(value)}; expected a path")
+            _fail(where, f"found {_found(value)}; expected {_single('a path', value)}")
         return Path(value)
 
     if annotation is bool:
@@ -79,7 +88,7 @@ def coerce(value: Any, annotation: Any, where: str) -> Any:
 
     if annotation is str:
         if not isinstance(value, str):
-            _fail(where, f"found {_found(value)}; expected text")
+            _fail(where, f"found {_found(value)}; expected {_single('text', value)}")
         return value
 
     if origin in (list, tuple):
