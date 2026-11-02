@@ -56,17 +56,18 @@ def render(result) -> str:
             (f"Model {i}", m) for i, m in enumerate(result.affinity.models, start=1)
         ]
         affinity = table(
-            ["Affinity", "log10 IC50 (µM)", "IC50 (µM)", "Binder probability"],
+            ["Affinity", "log10 IC50 (µM)", "IC50 (µM)", "pIC50", "Binder probability"],
             [
                 [
                     name,
                     round(e.log10_ic50_um, 3),
                     float(f"{10 ** e.log10_ic50_um:.3g}"),
+                    round(e.pic50, 3),
                     round(e.binder_probability, 3),
                 ]
                 for name, e in estimates
             ],
-            numeric={1, 2, 3},
+            numeric={1, 2, 3, 4},
         )
     best = max(result.samples, key=lambda s: s.confidence_score, default=None)
     view = (

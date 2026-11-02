@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- The affinity of `structure.predict_biomolecular_complex` also gives pIC50 (6 minus the log10 of the
+  IC50 in µM) for the ensemble and for each model.
 - `protein.predict_melting_temperature` estimates the melting temperature of proteins from their
   sequences with the three replicas of TemBERTure Tm, and returns the mean and the spread of the
   replicas. The model is the pinned resource `temberture-tm` (about 1.7 GB), which

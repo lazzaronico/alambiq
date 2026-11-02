@@ -662,6 +662,7 @@ class TestSeedsAndAlignments:
         for estimate in [affinity, *affinity["models"]]:
             assert 0.0 <= estimate["binder_probability"] <= 1.0
             assert isinstance(estimate["log10_ic50_um"], float)
+            assert estimate["pic50"] == pytest.approx(6.0 - estimate["log10_ic50_um"])
         assert affinity["ligand_atoms"] == 6 and affinity["samples"] == 1
         written = json.loads(Path(affinity["file"]).read_text())
         assert written["affinity_pred_value"] == pytest.approx(affinity["log10_ic50_um"])

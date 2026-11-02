@@ -180,6 +180,8 @@ class AffinityEstimate:
     """The log10 of the IC50 in µM; lower values mean stronger binding."""
     binder_probability: float
     """The probability that the ligand binds, from 0 to 1."""
+    pic50: float
+    """The negative log10 of the IC50 in M, which is 6 minus `log10_ic50_um`; higher values mean stronger binding."""
 
 
 @dataclass(frozen=True, slots=True)
@@ -190,6 +192,8 @@ class Affinity:
     """The ensemble estimate: the log10 of the IC50 in µM."""
     binder_probability: float
     """The ensemble probability that the ligand binds."""
+    pic50: float
+    """The ensemble estimate as pIC50, the negative log10 of the IC50 in M: 6 minus `log10_ic50_um`."""
     models: list[AffinityEstimate]
     """The estimates of the two models of the ensemble."""
     sampling_steps: int
@@ -436,7 +440,11 @@ def predict_biomolecular_complex(
         affinity = Affinity(
             log10_ic50_um=estimate["log10_ic50_um"],
             binder_probability=estimate["binder_probability"],
-            models=[AffinityEstimate(**m) for m in estimate["models"]],
+            pic50=6.0 - estimate["log10_ic50_um"],
+            models=[
+                AffinityEstimate(**m, pic50=6.0 - m["log10_ic50_um"])
+                for m in estimate["models"]
+            ],
             sampling_steps=request.affinity_sampling_steps,
             samples=request.affinity_samples,
             mw_correction=request.affinity_mw_correction,

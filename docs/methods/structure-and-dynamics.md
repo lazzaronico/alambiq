@@ -42,8 +42,9 @@ sample whose ligand pose differs in stereochemistry from the supplied SMILES is 
 the notes and kept in the result.
 
 With `affinity`, the capability also returns Boltz-2's estimate of how strongly the ligand
-binds: the log10 of an IC50 in µM (lower is stronger; 0 is 1 µM) and the probability that the
-ligand binds, for the ensemble of two models and for each model. Boltz standardizes the ligand
+binds: the log10 of an IC50 in µM (lower is stronger; 0 is 1 µM), the same estimate as pIC50
+(6 minus that value; higher is stronger) and the probability that the ligand binds, for the
+ensemble of two models and for each model. Boltz standardizes the ligand
 first with the ChEMBL structure pipeline (largest fragment, neutralization); the structures
 and the estimate then refer to the standardized molecule, and a changed molecule is named in
 the notes. Following the Boltz documentation, the probability separates binders from decoys
