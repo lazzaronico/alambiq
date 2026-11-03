@@ -6,6 +6,8 @@ Pure functions. Boltz runs in its own environment, outside this module.
 from __future__ import annotations
 
 import re
+import string
+from collections.abc import Sequence
 from typing import Any
 
 AMINO_ACIDS = set("ACDEFGHIKLMNPQRSTVWYX")
@@ -23,6 +25,21 @@ LIMITS = {
     "affinity_sampling_steps": (2, 1000),
     "affinity_samples": (1, 20),
 }
+
+
+def assign_ids(
+    chain_ids: Sequence[str | None], ligand_id: str | None, has_ligand: bool
+) -> tuple[list[str], str | None]:
+    """Name the chains and the ligand that the request left unnamed.
+
+    A name given in the request is kept. The others take the next unused capital
+    letter in order, the chains first and then the ligand.
+    """
+    taken = {name for name in [*chain_ids, ligand_id] if name}
+    free = (letter for letter in string.ascii_uppercase if letter not in taken)
+    chains = [name or next(free) for name in chain_ids]
+    ligand = (ligand_id or next(free)) if has_ligand else None
+    return chains, ligand
 
 
 def check_chains(proteins: list[dict[str, Any]], ligand: dict[str, Any] | None) -> None:

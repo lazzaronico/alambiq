@@ -41,6 +41,12 @@ The stereochemistry of each ligand pose is computed from its coordinates and rep
 sample whose ligand pose differs in stereochemistry from the supplied SMILES is flagged in
 the notes and kept in the result.
 
+Each chain and the ligand may carry a name; one without a name takes the next unused capital
+letter (the chains first, then the ligand). The confidence scores are the model's estimates of
+the accuracy of a structure and are not binding affinities. An affinity exists only for a
+request with a ligand: two protein chains, such as an antibody and its antigen, return a structure
+and its confidence and no affinity.
+
 With `affinity`, the capability also returns Boltz-2's estimate of how strongly the ligand
 binds: the log10 of an IC50 in µM (lower is stronger; 0 is 1 µM), the same estimate as pIC50
 (6 minus that value; higher is stronger) and the probability that the ligand binds, for the

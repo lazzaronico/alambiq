@@ -74,6 +74,25 @@ class TestAlignmentNormalisation:
             boltz.normalize_a3m(text, self.QUERY)
 
 
+class TestDefaultNames:
+    def test_unnamed_chains_and_ligand_take_the_next_capital_letters(self):
+        assert boltz.assign_ids([None, None], None, True) == (["A", "B"], "C")
+
+    def test_names_in_the_request_are_kept_and_not_reused(self):
+        assert boltz.assign_ids(["A", None, "heavy"], "B", True) == (["A", "C", "heavy"], "B")
+        assert boltz.assign_ids([None, "A"], None, True) == (["B", "A"], "C")
+
+    def test_no_ligand_gives_no_name(self):
+        assert boltz.assign_ids([None], None, False) == (["A"], None)
+
+    def test_the_names_pass_the_chain_check(self):
+        chains, ligand = boltz.assign_ids([None, None], None, True)
+        boltz.check_chains(
+            [{"id": name, "sequence": SEQUENCE, "msa": None} for name in chains],
+            {"id": ligand, "smiles": ALANINATE},
+        )
+
+
 class TestChecks:
     def chain(self, **changes):
         return {"id": "A", "sequence": SEQUENCE, "msa": None, **changes}

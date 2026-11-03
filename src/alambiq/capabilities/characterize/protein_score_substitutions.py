@@ -38,6 +38,10 @@ Limits.
 - The score is a function of the sequence alone. Structure, cofactors,
   temperature and pH are not inputs.
 - The score applies to sequences within the training distribution of the model.
+- The request names the wild-type sequence and the substitutions to score. A sequence that
+  already carries mutations is read as the wild type, and the scores are changes relative to it.
+- The score is a log-likelihood ratio in nats. It has no calibration to the scale of a measured
+  fitness, so its values are not predictions of an assay readout.
 - A sequence of more than 1,024 residues is refused.
 """
 

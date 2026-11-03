@@ -7,8 +7,10 @@ a simulation.
 
 The input:
 
-- 1 to 8 protein chains by sequence, each with an optional A3M alignment.
-- An optional ligand by SMILES, a line notation for a molecule.
+- 1 to 8 protein chains by sequence, each with an optional A3M alignment and an
+  optional name. A chain without a name takes the next unused capital letter.
+- An optional ligand by SMILES, a line notation for a molecule, with an optional
+  name that follows the same rule.
 
 The method:
 
@@ -29,14 +31,19 @@ The method:
   refer to the standardized molecule, and a changed molecule carries a note.
   The affinity module of Boltz-2 then estimates the binding of the ligand to
   the protein chains from the highest-ranked sample. It returns the
-  log10 of an IC50 in µM (lower values mean stronger binding: 0 is 1 µM) and
-  the probability that the ligand binds, from an ensemble of two models and
+  log10 of an IC50 in µM (lower values mean stronger binding: 0 is 1 µM), the
+  same estimate as pIC50 (higher values mean stronger binding), and the
+  probability that the ligand binds, from an ensemble of two models and
   from each model.
 
 Limits.
 
 - The confidence scores are the model's estimates of its own accuracy. They
-  rank the samples of one prediction and are uncalibrated.
+  rank the samples of one prediction and are uncalibrated. They are not binding
+  affinities.
+- A binding affinity exists only with a ligand. A request for two protein
+  chains, such as an antibody and its antigen, returns a structure and its
+  confidence, and no affinity.
 - A chain without an alignment runs in single-sequence mode, in which the model
   is less accurate.
 - A prediction with fewer than 50 diffusion steps or fewer than 2 recycling
@@ -79,12 +86,13 @@ MODEL = "boltz2-2.2.1"
 class ProteinChain:
     """One protein chain.
 
-    id:
-        A name for the chain, unique among the chains and the ligand: a letter,
-        then letters, digits or `_`, up to 5 characters in all.
     sequence:
         The amino-acid sequence, 1 to 2,000 letters from the 20 amino acids
         and X (X for an unknown residue).
+    id:
+        A name for the chain, unique among the chains and the ligand: a letter,
+        then letters, digits or `_`, up to 5 characters in all. Without it, the
+        chain takes the next unused capital letter (A, B, and so on).
     msa:
         A path to an A3M alignment for this chain. Its first row is the
         ungapped sequence itself. Every row covers the same number of query
@@ -92,8 +100,8 @@ class ProteinChain:
         single-sequence mode.
     """
 
-    id: str
     sequence: str
+    id: str | None = None
     msa: str | None = None
 
 
@@ -101,16 +109,17 @@ class ProteinChain:
 class Ligand:
     """One small-molecule ligand.
 
-    id:
-        A name for the ligand, in the form of a chain `id` and distinct from the
-        chain names.
     smiles:
         The ligand as SMILES, 1 to 4,000 characters, with no whitespace. The
         SMILES must specify the intended stereochemistry and charges.
+    id:
+        A name for the ligand, in the form of a chain `id` and distinct from the
+        chain names. Without it, the ligand takes the next unused capital letter
+        after the chains.
     """
 
-    id: str
     smiles: str
+    id: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -118,10 +127,10 @@ class PredictRequest:
     """The chains, the ligand and the Boltz-2 settings.
 
     proteins:
-        1 to 8 chains (each with an id, a sequence and optionally an alignment
-        path), at most 2,000 residues in all chains together.
+        1 to 8 chains (each with a sequence and optionally a name and an
+        alignment path), at most 2,000 residues in all chains together.
     ligand:
-        Zero or one ligand, given by an id and a SMILES.
+        Zero or one ligand, given by a SMILES and optionally a name.
     sampling_steps:
         Diffusion steps per sample, 2 to 1,000. The default, 200, is the
         standard setting of the model. A value below 50 adds a note.
@@ -293,6 +302,7 @@ def predict_biomolecular_complex(
 ) -> PredictResult:
     """Write Boltz's inputs, run it, and collect and check the structures."""
     from alambiq.capabilities.characterize.science.boltz import (
+        assign_ids,
         check_affinity,
         check_chains,
         check_settings,
@@ -300,14 +310,17 @@ def predict_biomolecular_complex(
         timeout_seconds,
     )
 
+    chain_ids, ligand_id = assign_ids(
+        [p.id for p in request.proteins],
+        request.ligand.id if request.ligand else None,
+        request.ligand is not None,
+    )
     ligand = (
-        {"id": request.ligand.id, "smiles": request.ligand.smiles}
-        if request.ligand
-        else None
+        {"id": ligand_id, "smiles": request.ligand.smiles} if request.ligand else None
     )
     proteins = [
-        {"id": p.id, "sequence": p.sequence.upper(), "msa": p.msa}
-        for p in request.proteins
+        {"id": name, "sequence": p.sequence.upper(), "msa": p.msa}
+        for name, p in zip(chain_ids, request.proteins, strict=True)
     ]
     check_chains(proteins, ligand)
     check_affinity(request.affinity, ligand)

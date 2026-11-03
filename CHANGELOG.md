@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- The chains and the ligand of `structure.predict_biomolecular_complex` need no `id`: a chain or
+  ligand without one takes the next unused capital letter. The fields `sequence` (chain) and `smiles`
+  (ligand) now come first in the request schema.
+- `protein.score_substitutions` states in its limits that the request names the wild-type sequence
+  and that the scores are log-likelihood ratios without a calibration to an assay scale.
 - The affinity of `structure.predict_biomolecular_complex` also gives pIC50 (6 minus the log10 of the
   IC50 in µM) for the ensemble and for each model.
 - `protein.predict_melting_temperature` estimates the melting temperature of proteins from their
