@@ -18,7 +18,8 @@ alambiq env check openfe
 ```
 
 `ALAMBIQ_ENV_OPENFE` is the engine environment of
-`structure.prepare_relative_binding_inputs` and `simulation.run_relative_free_energy`. The
+`structure.prepare_relative_binding_inputs`, `simulation.run_relative_free_energy`,
+`structure.prepare_mutation_inputs` and `simulation.run_mutation_free_energy`. The
 second capability runs one leg, bound or solvent. The command
 `alambiq capability show simulation.run_relative_free_energy` lists its request, including
 `platform` (`CPU` or `CUDA`) and `threads`. On the Mac CPU run recorded below, the bound

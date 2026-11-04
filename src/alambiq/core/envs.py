@@ -267,6 +267,7 @@ ENVIRONMENTS: dict[str, EnvSpec] = {
             "pymbar",
             "openff-toolkit",
             "rdkit",
+            "pdbfixer",
             "numpy",
         ),
     ),

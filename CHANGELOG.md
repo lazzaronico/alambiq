@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- `structure.prepare_mutation_inputs`, `simulation.run_mutation_free_energy` and
+  `simulation.analyze_stability_change` estimate the change in the folding free energy of a single
+  amino-acid substitution. The folded protein and a capped tripeptide are each transformed from the
+  wild-type to the mutant residue with the hybrid-topology factory of OpenFE and replica exchange,
+  and the two legs are subtracted. They run in the OpenFE engine environment (`ALAMBIQ_ENV_OPENFE`).
 - `structure.fetch` downloads a structure file from the RCSB Protein Data Bank or the AlphaFold
   Protein Structure Database, in mmCIF or PDB format, and stores it with its URL, retrieval time,
   size and SHA-256. It connects to the network only when `allow_network` is true.

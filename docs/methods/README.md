@@ -32,6 +32,9 @@ result, units and limits of one capability.
 - [Binding free energy and QM/MM](binding-and-qmmm.md): relative binding free energies from
   OpenFE legs and their diagnostics, and construction, sampling and analysis of a QM/MM
   reaction from a modeled enzyme to a free-energy profile.
+- [Free energy of an amino-acid substitution](stability-free-energy.md): the change in
+  folding free energy of a substitution from alchemical legs in the folded protein and a
+  capped tripeptide, with replica diagnostics.
 - [Proposing variants](variant-proposal.md): substitution scoring with a language model,
   ranking with stability and homolog evidence, a benchmark on measured variants, and
   selection among candidates.
