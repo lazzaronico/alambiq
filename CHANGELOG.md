@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+- `structure.fetch` downloads a structure file from the RCSB Protein Data Bank or the AlphaFold
+  Protein Structure Database, in mmCIF or PDB format, and stores it with its URL, retrieval time,
+  size and SHA-256. It connects to the network only when `allow_network` is true.
+- `simulation.cluster_trajectory` clusters the frames of a trajectory by pairwise RMSD with the
+  method of Daura et al. (1999), reports the size and center frame of each cluster, assigns every
+  frame to a cluster, and writes the center structures of the largest clusters as PDB files. It
+  needs the `trajectory` extra.
+- `structure.check` reports, for one model of a PDB or mmCIF file, the heavy atoms missing from
+  standard residues, alternate locations, atoms of zero occupancy, nonstandard amino acids,
+  chain breaks, cis and twisted peptide bonds, alpha carbons off the L arrangement, close
+  contacts, and the ligands, metal ions, waters and hydrogens. It runs in the core with the
+  `dossier` extra.
 - The chains and the ligand of `structure.predict_biomolecular_complex` need no `id`: a chain or
   ligand without one takes the next unused capital letter. The fields `sequence` (chain) and `smiles`
   (ligand) now come first in the request schema.

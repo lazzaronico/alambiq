@@ -13,6 +13,7 @@ from alambiq.core import registry
 
 MODULES = (
     "alambiq.capabilities.characterize.protein_inspect",
+    "alambiq.capabilities.characterize.structure_fetch",
     "alambiq.capabilities.characterize.protein_search",
     "alambiq.capabilities.characterize.sequence_inspect_msa",
     "alambiq.capabilities.characterize.genome_inspect_context",
@@ -38,10 +39,12 @@ MODULES = (
     "alambiq.capabilities.investigate.reaction_explore_routes",
     "alambiq.capabilities.investigate.reaction_analyze_enzyme_panel",
     "alambiq.capabilities.investigate.structure_compare",
+    "alambiq.capabilities.investigate.structure_check",
     "alambiq.capabilities.investigate.structure_prepare_protein_system",
     "alambiq.capabilities.investigate.simulation_run_molecular_dynamics",
     "alambiq.capabilities.investigate.simulation_run_metadynamics",
     "alambiq.capabilities.investigate.simulation_inspect_trajectory",
+    "alambiq.capabilities.investigate.simulation_cluster_trajectory",
     "alambiq.capabilities.investigate.simulation_compare_replica_structures",
     "alambiq.capabilities.investigate.simulation_compare_scalar_couplings",
     "alambiq.capabilities.investigate.simulation_analyze_binding_free_energy",

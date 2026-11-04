@@ -3,13 +3,42 @@
 These capabilities compare and predict structures, prepare a system, run molecular dynamics
 and inspect trajectories.
 
-`structure.compare` (which reads stored `protein.inspect` records),
+`structure.compare` (which reads stored `protein.inspect` records), `structure.fetch`,
+`structure.check`,
 `structure.detect_binding_pockets` and `structure.predict_biomolecular_complex` are
 independent of the others. `structure.prepare_protein_system` and
 `structure.prepare_predicted_complex_for_dynamics` write a system that
 `simulation.run_molecular_dynamics` or `simulation.run_metadynamics` reads.
-`simulation.inspect_trajectory` reads a trajectory. `simulation.compare_scalar_couplings`
+`simulation.inspect_trajectory` and `simulation.cluster_trajectory` read a trajectory.
+`simulation.compare_scalar_couplings`
 and `simulation.compare_replica_structures` read the results for several replicas.
+
+## Fetching a structure
+
+`structure.fetch` downloads one structure file: a deposited entry from the RCSB Protein Data Bank
+(by PDB entry identifier) or a predicted model from the AlphaFold Protein Structure Database (by
+UniProt accession), in mmCIF or PDB format. Its result is the stored file with the URL, the time
+of retrieval, the size and the SHA-256, so a later run can identify the exact file used. The step
+connects to the network only when the request sets `allow_network: true`, which keeps a campaign
+without that setting offline. The AlphaFold route reads the file URL from the prediction listing,
+and the result records that URL, which carries the model version. `base_url` names a mirror that
+serves the same paths. The archives revise entries and models over time; the SHA-256 identifies
+the file that a result used. Terms of use and citation requirements belong to the archive.
+
+## Checking a structure
+
+`structure.check` reads one model of a PDB or mmCIF file and reports what is missing, doubled,
+broken or crowded: heavy atoms absent from a standard residue, alternate locations, atoms of
+zero occupancy, nonstandard amino acids, chain breaks, cis and twisted peptide bonds, alpha
+carbons off the L arrangement, close contacts between heavy atoms, and the ligands, metal ions,
+waters and hydrogens. The capability changes nothing. The thresholds (the C–N distance of a
+break, the deviation of omega, the contact distance) are request fields, and each finding
+carries its measured value, so a reader can apply a different threshold to the same file.
+
+The report is a first look before `structure.prepare_protein_system`, which refuses ligands,
+metals, other chains and nonstandard residues or drops them, and rebuilds missing heavy atoms
+only when asked. A flagged residue can be real: a cis proline, a strained loop or a region of
+lower resolution. Contacts with symmetry mates are not searched.
 
 ## Comparing and finding sites
 
@@ -161,6 +190,24 @@ coordinates unless `periodic_observables` is set. The periodic image check cover
 The fit uses alpha carbons only, so the RMSD reports backbone motion. Motion of side chains
 or of a ligand appears in the named distances, angles and contacts. A rise in RMSD shows
 that the structure moved away from the reference.
+
+## Trajectory clustering
+
+`simulation.cluster_trajectory` groups the frames of a trajectory by structural similarity. The
+RMSD between two frames is computed over the selected atoms (alpha carbons, backbone or protein
+heavy atoms) after the best rigid superposition of the pair. Clustering follows Daura et al.
+(1999): the frame with the most neighbors within `rmsd_cutoff_angstrom` is the center of the
+first cluster, its neighbors are its members, and the procedure repeats on the remaining frames.
+The result gives the size and share of each cluster, the center frame, and the mean and maximum
+RMSD of the members to the center. The center structures of the largest clusters are written as
+PDB files, for example as starting structures of a docking or QM/MM calculation, and a table
+assigns every frame read to a cluster.
+
+The count and the sizes depend on the atom selection and on the cutoff; a cutoff that leaves
+most frames in clusters of 1 is reported in a note. The populations count saved frames of one
+trajectory and describe the time sampled. At most 5,000 frames are clustered, and `first_frame`
+and `stride` thin a longer trajectory. A molecule that crosses the periodic box edge is broken
+across it in the stored coordinates unless `imaging: whole-molecules` is set.
 
 ## Comparison with experiment and with other replicas
 

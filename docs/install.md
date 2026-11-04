@@ -56,10 +56,10 @@ the extras and the capabilities that import their packages.
 | `chemistry` | RDKit | `reaction.*` (including molecular drawings), `simulation.run_relative_free_energy`, `structure.prepare_reactive_coordinates` |
 | `routes` | DORAnet, RDKit | `reaction.explore_routes` |
 | `thermodynamics` | eQuilibrator and its cache, RDKit | `reaction.estimate_thermodynamics` |
-| `dossier` | Gemmi | reading structure files, for example in `protein.inspect`, `structure.compare` and `structure.detect_binding_pockets` |
+| `dossier` | Gemmi | reading structure files, for example in `protein.inspect`, `structure.check`, `structure.compare` and `structure.detect_binding_pockets` |
 | `construct` | Pydna, Biopython | `construct.*` |
 | `coding-design` | DNA Chisel, Biopython | `dna.optimize_coding` |
-| `trajectory` | MDTraj | `simulation.inspect_trajectory`, `simulation.compare_scalar_couplings`, `protein.inspect` (coordinate annotations) |
+| `trajectory` | MDTraj | `simulation.cluster_trajectory`, `simulation.inspect_trajectory`, `simulation.compare_scalar_couplings`, `protein.inspect` (coordinate annotations) |
 | `openmm`, `protein-repair` | OpenMM; OpenMM and PDBFixer | tests of the OpenMM-based engines, which import OpenMM in the Python environment of the core |
 | `embedding-analysis` | scikit-learn, UMAP | `protein.explore_embeddings` |
 
