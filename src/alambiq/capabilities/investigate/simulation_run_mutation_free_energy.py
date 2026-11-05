@@ -27,12 +27,13 @@ Limits.
 
 - The free energy depends on the force field, the template conformation of the new side chain
   and the sampling. The spread between replicas measures the reproducibility of the sampling from
-  independent runs, and the MBAR error assumes uncorrelated samples.
+  one preparation, and the spread across independent preparations is larger. The MBAR error
+  assumes uncorrelated samples and is smaller than both.
 - The protonation states are fixed at preparation.
 - On CUDA, `precision` selects mixed or double precision. Double precision runs several times
   slower than mixed precision.
 - The legs run as sampled: a short run reports small overlap and large spreads, and the notes
-  say when the length is below the length this check expects.
+  say when the production length is below 2,500 ps per window.
 - The capability refuses more than 10 replicas, more than 41 lambda windows and a leg
   whose files differ from those that were prepared.
 """
@@ -60,14 +61,17 @@ class MutationLegRequest:
     temperature_kelvin, pressure_bar:
         The temperature, 250 to 400 K, and the pressure, 0.1 to 100 bar; default 300 K, 1 bar.
     replicas:
-        The number of independent replicas, 1 to 10; default 3. A leg that
-        `simulation.analyze_stability_change` combines with a replica spread needs at least 2.
+        The number of replicas, 1 to 10; default 1. The replicas of a leg start from the prepared
+        coordinates and differ in the random velocities and exchange moves. An uncertainty needs
+        independent preparations (several runs of `structure.prepare_mutation_inputs` with different
+        seeds), each with its own run of this capability.
     lambda_windows:
         The number of lambda windows, 5 to 41; default 12.
     equilibration_ps, production_ps, time_per_iteration_ps:
         The equilibration length, the production length and the length of one replica-exchange
         iteration. The iteration length is a whole number of 2 fs steps; the other two lengths
-        are whole numbers of iterations. Defaults 50 ps, 1,000 ps and 1 ps.
+        are whole numbers of iterations. Defaults 50 ps, 2,500 ps and 1 ps. The lengths are per
+        lambda window.
     platform:
         `CPU` or `CUDA`; no fallback. Default `CPU`.
     precision:
@@ -89,10 +93,10 @@ class MutationLegRequest:
     inputs: str
     temperature_kelvin: float = 300.0
     pressure_bar: float = 1.0
-    replicas: int = 3
+    replicas: int = 1
     lambda_windows: int = 12
     equilibration_ps: float = 50.0
-    production_ps: float = 1000.0
+    production_ps: float = 2500.0
     time_per_iteration_ps: float = 1.0
     platform: Literal["CPU", "CUDA"] = "CPU"
     precision: Literal["mixed", "double"] = "mixed"
@@ -175,10 +179,11 @@ def run_mutation_free_energy(request: MutationLegRequest, ctx: StepContext) -> M
             bundle.extractall(leg_directory, filter="data")
     except tarfile.TarError as exc:
         raise ValueError(f"inputs is {request.inputs!r}, which is not a leg archive: {exc}") from exc
-    if request.production_ps < 1000 or request.replicas < 3:
+    if request.production_ps < 2500:
         ctx.note(
-            f"{request.replicas} replica(s) of {request.production_ps:g} ps are below the 3 replicas "
-            "and 1000 ps of production that this check expects for a converged free energy."
+            f"{request.production_ps:g} ps of production per window is below 2500 ps. For one substitution, the "
+            "convergence record of this method area shows a spread of 1.3 kcal/mol across independent "
+            "preparations at 1000 ps and 0.3 kcal/mol at 2500 ps."
         )
     output = ctx.workdir / "mutation-leg"
     found = ctx.run_in_environment(

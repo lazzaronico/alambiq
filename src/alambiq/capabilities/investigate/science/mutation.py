@@ -136,3 +136,31 @@ def leg_statistics(leg: dict[str, Any]) -> dict[str, Any]:
             for r, v, e, o in zip(replicas, values, errors, overlaps, strict=True)
         ],
     }
+
+
+def combine_preparations(records: list[dict[str, Any]]) -> dict[str, Any]:
+    """The legs of independent preparations of one kind, combined.
+
+    Each record is one preparation with one or more replicas. The mean of a leg is the mean of the
+    preparation means; the spread across preparations needs 2 or more.
+    """
+    import statistics
+
+    parts = [leg_statistics(r) for r in records]
+    means = [p["mean"] for p in parts]
+    replicas = sum(p["replicas"] for p in parts)
+    within = [p["sd"] for p in parts if p["sd"] is not None]
+    gaps = [p["forward_reverse_gap"] for p in parts if p["forward_reverse_gap"] is not None]
+    return {
+        "preparations": len(parts),
+        "replicas": replicas,
+        "mean": statistics.fmean(means),
+        "preparation_sd": statistics.stdev(means) if len(means) > 1 else None,
+        "replica_sd": max(within) if within else None,
+        "mbar_rms": math.sqrt(statistics.fmean(p["mbar_rms"] ** 2 for p in parts)),
+        "mbar_error": math.sqrt(sum(p["mbar_rms"] ** 2 / p["replicas"] for p in parts)) / len(parts),
+        "minimum_overlap": min(p["minimum_overlap"] for p in parts),
+        "minimum_effective_samples": min(p["minimum_effective_samples"] for p in parts),
+        "forward_reverse_gap": max(gaps) if gaps else None,
+        "by_preparation": parts,
+    }

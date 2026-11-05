@@ -157,11 +157,16 @@ def leg(name, estimates, errors=None, mutant="VAL", temperature=300.0, **kwargs)
 def analyze(tmp_path, folded, reference, checks=None):
     from alambiq.api import run as execute
 
-    paths = {}
-    for name, record in (("folded", folded), ("reference", reference)):
-        paths[name] = tmp_path / f"{name}.json"
-        paths[name].write_text(json.dumps(record))
-    params = {"folded": str(paths["folded"]), "reference": str(paths["reference"])}
+    def paths(name, records):
+        records = records if isinstance(records, list) else [records]
+        out = []
+        for i, record in enumerate(records):
+            path = tmp_path / f"{name}{i}.json"
+            path.write_text(json.dumps(record))
+            out.append(str(path))
+        return out
+
+    params = {"folded": paths("folded", folded), "reference": paths("reference", reference)}
     if checks is not None:
         params["checks"] = checks
     return execute(
@@ -177,66 +182,81 @@ def analysis(tmp_path, folded, reference, checks=None):
 
 
 class TestStabilityAnalysis:
-    FOLDED = [-9.0, -9.5, -10.0]
-    REFERENCE = [-9.8, -10.0, -10.2]
+    # Three independent preparations of each leg, one replica each.
+    FOLDED = [leg("folded", [v]) for v in (-9.0, -9.5, -10.0)]
+    REFERENCE = [leg("reference", [v]) for v in (-9.8, -10.0, -10.2)]
 
     def test_the_change_in_folding_free_energy_is_the_difference_of_the_leg_means(self, tmp_path):
-        out, _ = analysis(tmp_path, leg("folded", self.FOLDED), leg("reference", self.REFERENCE))
+        out, _ = analysis(tmp_path, self.FOLDED, self.REFERENCE)
         assert out["ddg_fold_kcal_mol"] == pytest.approx(-9.5 - (-10.0))
         assert out["mutation"] == "ILE>VAL" and out["temperature_kelvin"] == 300.0
 
-    def test_the_standard_error_combines_the_spread_of_the_replicas_of_both_legs(self, tmp_path):
-        out, _ = analysis(tmp_path, leg("folded", self.FOLDED), leg("reference", self.REFERENCE))
-        # Sample standard deviations 0.5 and 0.2 with 3 replicas each.
-        assert out["replica_standard_error_kcal_mol"] == pytest.approx(math.sqrt(0.5**2 / 3 + 0.2**2 / 3))
+    def test_the_standard_error_combines_the_spread_across_the_preparations_of_both_legs(self, tmp_path):
+        out, _ = analysis(tmp_path, self.FOLDED, self.REFERENCE)
+        # Sample standard deviations 0.5 and 0.2 of the preparation means, 3 preparations each.
+        assert out["preparation_standard_error_kcal_mol"] == pytest.approx(math.sqrt(0.5**2 / 3 + 0.2**2 / 3))
 
-    def test_the_mbar_error_combines_the_root_mean_squares_of_the_replica_errors(self, tmp_path):
-        folded = leg("folded", self.FOLDED, errors=[0.1, 0.2, 0.3])
-        out, _ = analysis(tmp_path, folded, leg("reference", self.REFERENCE, errors=[0.4] * 3))
-        rms_folded = math.sqrt((0.01 + 0.04 + 0.09) / 3)
-        assert out["mbar_error_kcal_mol"] == pytest.approx(math.sqrt(rms_folded**2 / 3 + 0.4**2 / 3))
+    def test_the_mean_of_a_leg_weights_its_preparations_equally(self, tmp_path):
+        two_replicas = leg("folded", [-9.0, -11.0])  # preparation mean -10
+        one_replica = leg("folded", [-8.0])  # preparation mean -8
+        out, _ = analysis(tmp_path, [two_replicas, one_replica], self.REFERENCE)
+        assert out["legs"][0]["mean_delta_g_kcal_mol"] == pytest.approx(-9.0)
+        assert out["legs"][0]["preparations"] == 2 and out["legs"][0]["replicas"] == 3
+        assert out["legs"][0]["preparation_sd_kcal_mol"] == pytest.approx(math.sqrt(2))
 
-    def test_a_single_replica_has_no_replica_standard_error(self, tmp_path):
-        out, outcome = analysis(tmp_path, leg("folded", [-9.0]), leg("reference", [-10.0]))
-        assert out["replica_standard_error_kcal_mol"] is None
-        assert out["ddg_fold_kcal_mol"] == pytest.approx(1.0)
-        assert "replicas" in " ".join(outcome.steps["stab"].notes)
+    def test_the_mbar_error_combines_the_replica_errors_of_the_preparation_means(self, tmp_path):
+        folded = [leg("folded", [-9.0, -9.2], errors=[0.1, 0.3]), leg("folded", [-9.4], errors=[0.2])]
+        out, _ = analysis(tmp_path, folded, self.REFERENCE)
+        # Error of the mean of a preparation: sqrt(sum of squared errors) / replicas; of the leg: sqrt(sum of squares) / preparations.
+        first = math.sqrt(0.1**2 + 0.3**2) / 2
+        leg_error = math.sqrt(first**2 + 0.2**2) / 2
+        reference_error = math.sqrt(3 * 0.1**2) / 3
+        assert out["mbar_error_kcal_mol"] == pytest.approx(math.sqrt(leg_error**2 + reference_error**2))
+
+    def test_a_single_preparation_has_no_preparation_standard_error_and_the_notes_say_why(self, tmp_path):
+        folded, reference = leg("folded", [-9.0, -9.4, -9.2]), leg("reference", [-10.0, -10.2, -9.8])
+        out, outcome = analysis(tmp_path, folded, reference)
+        assert out["preparation_standard_error_kcal_mol"] is None
+        assert out["ddg_fold_kcal_mol"] == pytest.approx(-9.2 - (-10.0))
+        assert out["legs"][0]["replica_sd_kcal_mol"] == pytest.approx(0.2)
+        assert "share their starting coordinates" in " ".join(outcome.steps["stab"].notes)
 
     def test_each_leg_reports_its_diagnostics(self, tmp_path):
-        folded = leg("folded", self.FOLDED, overlap=0.05, effective=20.0, forward=-9.2, reverse=-9.9)
-        out, _ = analysis(tmp_path, folded, leg("reference", self.REFERENCE))
+        folded = [leg("folded", [-9.0, -9.5], overlap=0.05, effective=20.0, forward=-9.2, reverse=-9.9)]
+        out, _ = analysis(tmp_path, folded, self.REFERENCE)
         summary = {x["leg"]: x for x in out["legs"]}
         assert summary["folded"]["minimum_adjacent_overlap"] == pytest.approx(0.05)
         assert summary["folded"]["minimum_effective_samples"] == 20.0
         assert summary["folded"]["forward_reverse_gap_kcal_mol"] == pytest.approx(0.7)
         assert summary["reference"]["forward_reverse_gap_kcal_mol"] is None
-        assert summary["folded"]["replica_sd_kcal_mol"] == pytest.approx(0.5)
+        assert summary["folded"]["replica_sd_kcal_mol"] == pytest.approx(math.sqrt(0.5**2 / 2))
 
     def test_checks_become_verdicts_and_the_overall_status(self, tmp_path):
-        folded = leg("folded", self.FOLDED, overlap=0.05, forward=-9.2, reverse=-9.9)
+        folded = [leg("folded", [-9.0, -10.0], overlap=0.05, forward=-9.2, reverse=-9.9) for _ in range(2)]
         checks = {
             "minimum_adjacent_overlap": 0.03,
             "maximum_replica_sd_kcal_mol": 0.4,
             "maximum_forward_reverse_gap_kcal_mol": 1.0,
-            "maximum_replica_standard_error_kcal_mol": 1.0,
+            "maximum_preparation_standard_error_kcal_mol": 1.0,
         }
-        out, _ = analysis(tmp_path, folded, leg("reference", self.REFERENCE), checks)
+        out, _ = analysis(tmp_path, folded, self.REFERENCE, checks)
         by = {(v["diagnostic"], v["subject"]): v["status"] for v in out["verdicts"]}
         assert by[("minimum_adjacent_overlap", "folded")] == "pass"
         assert by[("replica_sd_kcal_mol", "folded")] == "fail"
-        assert by[("replica_sd_kcal_mol", "reference")] == "pass"
+        assert by[("replica_sd_kcal_mol", "reference")] == "unassessed"
         assert by[("forward_reverse_gap_kcal_mol", "folded")] == "pass"
         assert by[("forward_reverse_gap_kcal_mol", "reference")] == "unassessed"
-        assert by[("replica_standard_error_kcal_mol", "cycle")] == "pass"
+        # Two preparations with equal means have no spread: the standard error of the cycle is that of the reference alone.
+        assert by[("preparation_standard_error_kcal_mol", "cycle")] == "pass"
         assert out["status"] == "fail"
 
     def test_without_checks_the_status_is_unassessed(self, tmp_path):
-        out, _ = analysis(tmp_path, leg("folded", self.FOLDED), leg("reference", self.REFERENCE))
+        out, _ = analysis(tmp_path, self.FOLDED, self.REFERENCE)
         assert out["verdicts"] == [] and out["status"] == "unassessed"
 
     def test_all_passing_checks_give_pass(self, tmp_path):
-        both = {"minimum_adjacent_overlap": 0.03, "maximum_replica_sd_kcal_mol": 1.0}
-        out, _ = analysis(tmp_path, leg("folded", self.FOLDED), leg("reference", self.REFERENCE), both)
+        both = {"minimum_adjacent_overlap": 0.03, "maximum_preparation_standard_error_kcal_mol": 1.0}
+        out, _ = analysis(tmp_path, self.FOLDED, self.REFERENCE, both)
         assert out["status"] == "pass"
 
     @pytest.mark.parametrize(
@@ -245,6 +265,7 @@ class TestStabilityAnalysis:
             (leg("reference", [-9.0]), leg("reference", [-10.0]), "names the leg 'reference'"),
             (leg("folded", [-9.0]), leg("folded", [-10.0]), "names the leg 'folded'"),
             (leg("folded", [-9.0], mutant="ALA"), leg("reference", [-10.0]), "different substitutions"),
+            ([leg("folded", [-9.0]), leg("folded", [-9.5], mutant="ALA")], leg("reference", [-10.0]), "different substitutions"),
             (leg("folded", [-9.0], temperature=310.0), leg("reference", [-10.0]), "differ in temperature"),
         ],
     )
@@ -253,11 +274,15 @@ class TestStabilityAnalysis:
         assert not outcome.ok
         assert message in outcome.steps["stab"].error
 
-    def test_a_leg_without_replicas_is_refused(self, tmp_path):
+    def test_a_record_without_replicas_is_refused(self, tmp_path):
         empty = leg("folded", [-9.0])
         empty["replicas"] = []
         outcome = analyze(tmp_path, empty, leg("reference", [-10.0]))
         assert "no replicas" in outcome.steps["stab"].error
+
+    def test_an_empty_list_of_records_is_refused(self, tmp_path):
+        outcome = analyze(tmp_path, [], leg("reference", [-10.0]))
+        assert "1 to 50 are required" in outcome.steps["stab"].error
 
 
 # ------------------------------------------------------------------------------ atom mapping
@@ -538,7 +563,7 @@ class TestNullSubstitution:
             {
                 "id": "stab",
                 "capability": "simulation.analyze_stability_change",
-                "bind": {"folded": "folded.leg_record", "reference": "reference.leg_record"},
+                "bind": {"folded.0": "folded.leg_record", "reference.0": "reference.leg_record"},
                 "params": {"checks": {"minimum_adjacent_overlap": 0.1}},
             },
         ]
@@ -571,14 +596,16 @@ class TestNullSubstitution:
         assert out["mutation"] == "ILE>ILE"
         assert outcome.outputs("prep")["mutation"] == "ILE4ILE"
         assert out["status"] == "pass"
+        assert out["preparation_standard_error_kcal_mol"] is None
 
     def test_the_run_states_its_platform_and_the_versions(self, outcome):
         out = outcome.outputs("folded")
         assert out["platform"] == "CPU" and out["precision"] == "native"
         assert {"openmm", "openfe", "openmmtools"} <= set(out["versions"])
 
-    def test_a_short_run_says_so(self, outcome):
-        assert "below the 3 replicas" in " ".join(outcome.steps["folded"].notes)
+    def test_a_short_run_says_so_and_cites_the_convergence_record(self, outcome):
+        note = " ".join(outcome.steps["folded"].notes)
+        assert "below 2500 ps" in note and "1.3 kcal/mol across independent preparations" in note
 
     def test_native_records_are_kept_when_asked_for(self, outcome):
         path = outcome.outputs("folded")["native_records"]

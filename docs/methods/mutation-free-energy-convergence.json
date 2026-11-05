@@ -1,0 +1,163 @@
+{
+  "substitution": "Ile4Val in Trp-cage (PDB 1L2Y, model 1)",
+  "convention": "\u0394\u0394G(fold) = \u0394G(folded leg) - \u0394G(capped tripeptide leg); positive destabilizes the folded state",
+  "reference_leg": "Ace-Leu2-Tyr3-Ile4-Gln5-Trp6-NMe built from the neighboring residues (residues 2 to 6)",
+  "method": {
+    "software": {
+      "openmm": "8.4",
+      "openfe": "1.12.0",
+      "openmmtools": "0.26.0",
+      "pymbar": "4.2.0"
+    },
+    "hardware": "NVIDIA GB10, CUDA, mixed precision unless stated",
+    "force_field": "Amber14 ff14SB, TIP3P, 0.15 M NaCl, dodecahedral box (padding 1.0 nm folded, 1.2 nm tripeptide)",
+    "sampling": "12 lambda windows, replica exchange, 1 ps per iteration, 2 fs steps, 50 ps equilibration, Langevin 1/ps, Monte Carlo barostat at 1 bar and 300 K",
+    "error": "analytical MBAR error of the openmmtools analyzer",
+    "independence": "each run is an independent preparation (fresh ion and water placement) with one replica",
+    "construction": "prototype of the engine of the substitution capabilities: the same hybrid topology factory, mapping rule, system settings and sampler"
+  },
+  "runs": {
+    "1000_ps_per_window": {
+      "preparations": [
+        {
+          "id": "len1000_rep1",
+          "folded": {
+            "delta_g_kcal_mol": -10.685,
+            "mbar_error_kcal_mol": 0.104,
+            "min_neighbor_overlap": 0.1174
+          },
+          "tripeptide": {
+            "delta_g_kcal_mol": -10.578,
+            "mbar_error_kcal_mol": 0.063,
+            "min_neighbor_overlap": 0.1097
+          },
+          "ddg_fold_kcal_mol": -0.107
+        },
+        {
+          "id": "len1000_rep2",
+          "folded": {
+            "delta_g_kcal_mol": -10.876,
+            "mbar_error_kcal_mol": 0.088,
+            "min_neighbor_overlap": 0.1154
+          },
+          "tripeptide": {
+            "delta_g_kcal_mol": -9.788,
+            "mbar_error_kcal_mol": 0.064,
+            "min_neighbor_overlap": 0.1045
+          },
+          "ddg_fold_kcal_mol": -1.088
+        },
+        {
+          "id": "len1000_rep3",
+          "folded": {
+            "delta_g_kcal_mol": -9.336,
+            "mbar_error_kcal_mol": 0.057,
+            "min_neighbor_overlap": 0.0996
+          },
+          "tripeptide": {
+            "delta_g_kcal_mol": -10.878,
+            "mbar_error_kcal_mol": 0.081,
+            "min_neighbor_overlap": 0.1205
+          },
+          "ddg_fold_kcal_mol": 1.542
+        }
+      ],
+      "ddg_fold_mean_kcal_mol": 0.116,
+      "ddg_fold_sd_across_preparations_kcal_mol": 1.329,
+      "folded_leg_sd_kcal_mol": 0.839,
+      "tripeptide_leg_sd_kcal_mol": 0.563,
+      "median_mbar_error_per_leg_kcal_mol": 0.073
+    },
+    "2500_ps_per_window": {
+      "preparations": [
+        {
+          "id": "len2500_rep1",
+          "folded": {
+            "delta_g_kcal_mol": -9.804,
+            "mbar_error_kcal_mol": 0.04,
+            "min_neighbor_overlap": 0.1022
+          },
+          "tripeptide": {
+            "delta_g_kcal_mol": -9.961,
+            "mbar_error_kcal_mol": 0.037,
+            "min_neighbor_overlap": 0.107
+          },
+          "ddg_fold_kcal_mol": 0.157
+        },
+        {
+          "id": "len2500_rep2",
+          "folded": {
+            "delta_g_kcal_mol": -10.735,
+            "mbar_error_kcal_mol": 0.054,
+            "min_neighbor_overlap": 0.1199
+          },
+          "tripeptide": {
+            "delta_g_kcal_mol": -10.467,
+            "mbar_error_kcal_mol": 0.043,
+            "min_neighbor_overlap": 0.1097
+          },
+          "ddg_fold_kcal_mol": -0.268
+        },
+        {
+          "id": "len2500_rep3",
+          "folded": {
+            "delta_g_kcal_mol": -9.707,
+            "mbar_error_kcal_mol": 0.04,
+            "min_neighbor_overlap": 0.1015
+          },
+          "tripeptide": {
+            "delta_g_kcal_mol": -9.903,
+            "mbar_error_kcal_mol": 0.039,
+            "min_neighbor_overlap": 0.1036
+          },
+          "ddg_fold_kcal_mol": 0.196
+        }
+      ],
+      "ddg_fold_mean_kcal_mol": 0.028,
+      "ddg_fold_sd_across_preparations_kcal_mol": 0.257,
+      "folded_leg_sd_kcal_mol": 0.568,
+      "tripeptide_leg_sd_kcal_mol": 0.31,
+      "median_mbar_error_per_leg_kcal_mol": 0.04
+    }
+  },
+  "precision_comparison": {
+    "leg": "capped tripeptide",
+    "production_ps_per_window": 500,
+    "mixed": [
+      {
+        "delta_g_kcal_mol": -9.663,
+        "mbar_error_kcal_mol": 0.1,
+        "min_neighbor_overlap": 0.1036
+      },
+      {
+        "delta_g_kcal_mol": -9.594,
+        "mbar_error_kcal_mol": 0.076,
+        "min_neighbor_overlap": 0.1035
+      }
+    ],
+    "double": [
+      {
+        "delta_g_kcal_mol": -9.654,
+        "mbar_error_kcal_mol": 0.082,
+        "min_neighbor_overlap": 0.105
+      },
+      {
+        "delta_g_kcal_mol": -9.959,
+        "mbar_error_kcal_mol": 0.105,
+        "min_neighbor_overlap": 0.1048
+      }
+    ],
+    "difference_of_means_kcal_mol": -0.178,
+    "standard_error_of_difference_kcal_mol": 0.156
+  },
+  "throughput_folded_leg_alone": {
+    "mixed_aggregate_ns_per_day": [
+      665.5,
+      681.1
+    ],
+    "double_aggregate_ns_per_day": 60.6,
+    "atoms_mixed": 3100,
+    "atoms_double": 3392
+  },
+  "throughput_note": "Throughputs are aggregate over the 12 replicas; runs that shared the GPU with other jobs are slower and are not listed."
+}

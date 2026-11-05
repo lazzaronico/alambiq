@@ -7,21 +7,23 @@ from alambiq.report.page import esc, table
 
 def render(result) -> str:
     se = (
-        "not available (a leg has one replica)"
-        if result.replica_standard_error_kcal_mol is None
-        else f"{result.replica_standard_error_kcal_mol:.2f} kcal/mol"
+        "not available (a leg has one preparation)"
+        if result.preparation_standard_error_kcal_mol is None
+        else f"{result.preparation_standard_error_kcal_mol:.2f} kcal/mol"
     )
     parts = [
         f"<p>{esc(result.mutation)}: ΔΔG(fold) <strong>{result.ddg_fold_kcal_mol:+.2f} kcal/mol</strong>. "
-        f"Standard error from the replica spread: {se}; from MBAR: {result.mbar_error_kcal_mol:.2f} kcal/mol. "
+        f"Standard error from the spread across preparations: {se}; from MBAR: {result.mbar_error_kcal_mol:.2f} kcal/mol. "
         f"{esc(result.convention)}.</p>",
         table(
-            ["Leg", "Replicas", "Mean ΔG", "Replica sd", "MBAR error (rms)", "Min overlap", "Min effective samples", "Forward-reverse gap"],
+            ["Leg", "Preparations", "Replicas", "Mean ΔG", "Preparation sd", "Replica sd", "MBAR error (rms)", "Min overlap", "Min effective samples", "Forward-reverse gap"],
             [
                 [
                     leg.leg,
+                    leg.preparations,
                     leg.replicas,
                     leg.mean_delta_g_kcal_mol,
+                    leg.preparation_sd_kcal_mol,
                     leg.replica_sd_kcal_mol,
                     leg.mbar_error_rms_kcal_mol,
                     leg.minimum_adjacent_overlap,
@@ -30,7 +32,7 @@ def render(result) -> str:
                 ]
                 for leg in result.legs
             ],
-            numeric={1, 2, 3, 4, 5, 6, 7},
+            numeric={1, 2, 3, 4, 5, 6, 7, 8, 9},
         ),
     ]
     if result.verdicts:
