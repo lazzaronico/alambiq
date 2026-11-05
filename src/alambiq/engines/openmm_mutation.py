@@ -16,6 +16,7 @@ from __future__ import annotations
 import hashlib
 import importlib.metadata
 import json
+import math
 import os
 import random
 import time
@@ -378,6 +379,33 @@ def solvate(
     return modeller
 
 
+RELAX_ITERATIONS = 2000
+RELAX_TOLERANCE_KJ_MOL_NM = 10.0
+
+
+def relax(topology, positions):
+    """Positions after an energy minimization of the solvated wild type on the CPU.
+
+    Solvent placement leaves contacts of up to 2e5 kJ/mol/nm between water and ions, which
+    the 100 steps of the sampler do not remove in a large box and which turn into NaN. The
+    minimizer sums forces on several threads, so the relaxed coordinates agree between runs
+    to about 0.01 nm; the solvent placement itself is fixed by the seed.
+    """
+    import openmm
+    from openmm import unit
+
+    context = openmm.Context(
+        create_system(topology),
+        openmm.VerletIntegrator(0.001),
+        openmm.Platform.getPlatformByName("CPU"),
+    )
+    context.setPositions(positions)
+    openmm.LocalEnergyMinimizer.minimize(
+        context, RELAX_TOLERANCE_KJ_MOL_NM * unit.kilojoule_per_mole / unit.nanometer, RELAX_ITERATIONS
+    )
+    return context.getState(getPositions=True).getPositions()
+
+
 def create_system(topology):
     from openmm import app, unit
 
@@ -433,6 +461,7 @@ def build_leg(
     variants = variants_for(bare.topology, residue_variants)
     mutant_solute = None if identity else mutate(bare, target, new_name, seed, ph, variants)
     wild = solvate(bare, padding_nm, ionic_strength_molar, seed, ph, variants)
+    wild.positions = relax(wild.topology, wild.positions)
     old_topology, old_positions = wild.topology, wild.positions
     old_atoms = residue_atoms(old_topology, target)
     if identity:
@@ -659,6 +688,11 @@ def run_replica(record, wild, mutant, cfg: dict[str, Any], directory: Path) -> d
         effective = analyzer.mbar.compute_effective_sample_number().tolist()
         free_energy = float(analysis.free_energy.m)
         error = float(analysis.free_energy_error.m)
+        if not (math.isfinite(free_energy) and math.isfinite(error)):
+            raise ValueError(
+                f"The free energy of the leg is not finite ({free_energy}, error {error}); "
+                "the sampling did not produce usable energies"
+            )
         overlap = np.asarray(analysis.free_energy_overlaps["matrix"]).tolist()
         fractional = analysis.forward_and_reverse_free_energies
         forward_reverse = None

@@ -463,16 +463,24 @@ class TestPreparation:
 
         assert outcome.outputs("prep")["structure_sha256"] == hashlib.sha256(pdb_file.read_bytes()).hexdigest()
 
-    def test_the_same_seed_places_the_solvent_in_the_same_way(self, pdb_file, tmp_path):
-        def digest(name):
+    def test_the_same_seed_gives_the_same_atoms_in_the_same_order(self, pdb_file, tmp_path):
+        def atoms(name):
             outcome = execute([prepare_step(pdb_file, seed=5)], tmp_path, name)
             assert outcome.ok
             with tarfile.open(outcome.outputs("prep")["folded_inputs"]) as bundle:
-                import hashlib
+                lines = bundle.extractfile("wild_type.pdb").read().decode().splitlines()
+            return [
+                (line[12:26], tuple(float(line[i : i + 8]) for i in (30, 38, 46)))
+                for line in lines
+                if line.startswith(("ATOM", "HETATM"))
+            ]
 
-                return hashlib.sha256(bundle.extractfile("wild_type.pdb").read()).hexdigest()
-
-        assert digest("one") == digest("two")
+        one, two = atoms("one"), atoms("two")
+        assert [name for name, _ in one] == [name for name, _ in two]
+        moved = [max(abs(a - b) for a, b in zip(p, q, strict=True)) for (_, p), (_, q) in zip(one, two, strict=True)]
+        # The relaxation sums forces on several threads, so the coordinates of the solvent
+        # differ between runs; the seed fixes the atoms, their order and the box.
+        assert sorted(moved)[len(moved) // 2] < 0.5
 
     def test_another_seed_places_it_differently(self, pdb_file, tmp_path):
         import hashlib
@@ -514,6 +522,38 @@ def engine_call(function: str, cfg: dict) -> dict:
     if done.returncode:
         raise ValueError(done.stderr.strip().splitlines()[-1])
     return json.loads(next(line for line in done.stdout.splitlines() if line.startswith("RESULT"))[6:])
+
+
+@needs_engine
+class TestRelaxation:
+    SCRIPT = (
+        "import sys, json\n"
+        f"sys.path.insert(0, {str(ENGINES)!r})\n"
+        "import numpy as np, openmm\n"
+        "from openmm import app, unit\n"
+        "import openmm_mutation as m\n"
+        "modeller = app.Modeller(app.Topology(), [] * unit.nanometer)\n"
+        "modeller.addSolvent(m._forcefield(), model='tip3p', boxSize=openmm.Vec3(2.2, 2.2, 2.2) * unit.nanometer)\n"
+        "positions = np.array(modeller.positions.value_in_unit(unit.nanometer))\n"
+        "waters = [r for r in modeller.topology.residues() if r.name == 'HOH']\n"
+        "first, second = [{a.name: a.index for a in w.atoms()} for w in waters[:2]]\n"
+        "positions[second['O']] = positions[first['O']] + 0.02\n"
+        "def worst(topology, xyz):\n"
+        "    context = openmm.Context(m.create_system(topology), openmm.VerletIntegrator(0.001), openmm.Platform.getPlatformByName('CPU'))\n"
+        "    context.setPositions(xyz)\n"
+        "    forces = context.getState(getForces=True).getForces(asNumpy=True).value_in_unit(unit.kilojoule_per_mole / unit.nanometer)\n"
+        "    return float(np.linalg.norm(forces, axis=1).max())\n"
+        "before = worst(modeller.topology, positions * unit.nanometer)\n"
+        "relaxed = m.relax(modeller.topology, positions * unit.nanometer)\n"
+        "print('RESULT' + json.dumps([before, worst(modeller.topology, relaxed)]))\n"
+    )
+
+    def test_two_overlapping_waters_are_pulled_apart_before_the_sampler_starts(self):
+        done = subprocess.run([ENV, "-c", self.SCRIPT], capture_output=True, text=True, timeout=900)
+        assert done.returncode == 0, done.stderr[-500:]
+        before, after = json.loads(next(line for line in done.stdout.splitlines() if line.startswith("RESULT"))[6:])
+        assert before > 1e5
+        assert after < 1e4
 
 
 @needs_engine

@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- `structure.prepare_mutation_inputs` minimizes the solvated wild type before it builds the two
+  states. Without it a 38,000-atom system started with forces of 2e5 kJ/mol/nm between water and ions
+  and the sampler stopped with NaN. `simulation.run_mutation_free_energy` now refuses a leg whose free
+  energy is not finite, with a message that says so.
 - `structure.prepare_protein_system` and `structure.prepare_mutation_inputs` take an optional
   `protonated_structure`, the output of `structure.assign_protonation`, and use its residue names
   as the protonation of the chain. The mutant state of `structure.prepare_mutation_inputs` is now

@@ -29,7 +29,11 @@ side chain with the standard template of the new residue. The backbone atoms N, 
 that follow from CA by bonds to atoms of the same name and element in both side chains, are mapped between
 the two states. The hydrogens of each mapped atom map in name order. The remaining atoms are present in one
 state only. Both states carry the same net charge. A request seeds the random placement of ions and
-orientations, so the same seed gives the same system.
+orientations, so the same seed gives the same atoms in the same order. The solvated wild type is then
+minimized on the CPU (2,000 iterations) before the states are built, since the placement leaves contacts
+between water and ions that a short minimization inside the sampler does not remove in a large box.
+The minimization sums forces on several threads, so the coordinates of the solvent differ slightly
+between runs.
 
 The substitutable residues are Ala, Val, Ile, Leu, Met, Phe, Trp, Tyr, Ser, Thr, Asn, Gln and Cys. The
 residue needs two residues on each side. The new side chain starts in one conformation, the template, and
