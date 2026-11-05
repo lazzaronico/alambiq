@@ -18,6 +18,9 @@ it under the Artistic License, which the Open Source Initiative has approved.
 `tools/scan_licenses.py` lists each installed dependency whose license is not classed as
 allowed; `--all` lists every dependency.
 
+The protonation environment installs PDB2PQR (BSD 3-Clause) and PROPKA (LGPL 2.1), which run
+as a separate process; its [README](environments/protonation/README.md) lists the licenses.
+
 Ligand preparation uses the OpenFF Sage 2.3.0 force field with AshGC charges. The scientific
 software of each engine environment is the software named in its package inventories
 (`locks/*.packages.json`).

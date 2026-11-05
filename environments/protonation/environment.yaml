@@ -1,0 +1,9 @@
+name: alambiq-protonation
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - pdb2pqr==3.7.1
+      - propka==3.5.1

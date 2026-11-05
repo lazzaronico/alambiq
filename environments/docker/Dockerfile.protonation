@@ -1,0 +1,19 @@
+# Build the core image with Python 3.11. The protonation environment is pure Python.
+ARG BASE_IMAGE=alambiq:core
+# The engine is built in a separate stage that starts from the same Python as the core image,
+# so rebuilding the core image reuses the cached engine stage.
+ARG ENGINE_BASE=python:3.11-slim-bookworm
+FROM ${ENGINE_BASE} AS engine
+USER root
+COPY --from=ghcr.io/astral-sh/uv:0.9.10 /uv /usr/local/bin/uv
+COPY environments/protonation/environment.yaml /tmp/protonation.yaml
+RUN python -c 'import sys; assert sys.version_info[:2] == (3, 11)' \
+    && pip install --no-cache-dir pyyaml \
+    && python -c 'import yaml; from pathlib import Path; data=yaml.safe_load(Path("/tmp/protonation.yaml").read_text()); requirements=next(d["pip"] for d in data["dependencies"] if isinstance(d, dict)); Path("/tmp/protonation.txt").write_text("\n".join(requirements)+"\n")' \
+    && uv venv --python /usr/local/bin/python /opt/protonation \
+    && uv pip install --python /opt/protonation/bin/python -r /tmp/protonation.txt
+
+FROM ${BASE_IMAGE} AS runtime
+COPY --from=engine /opt/protonation /opt/protonation
+ENV ALAMBIQ_ENV_PROTONATION=/opt/protonation/bin/python
+USER 1000:1000

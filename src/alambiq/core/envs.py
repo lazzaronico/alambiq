@@ -291,6 +291,11 @@ ENVIRONMENTS: dict[str, EnvSpec] = {
         recipe="environments/thermostability/README.md",
         imports=("torch", "transformers", "adapters", "numpy"),
     ),
+    "protonation": EnvSpec(
+        name="protonation",
+        recipe="environments/protonation/README.md",
+        imports=("pdb2pqr", "propka", "numpy"),
+    ),
     "admet": EnvSpec(
         name="admet",
         recipe="environments/admet/README.md",

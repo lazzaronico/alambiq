@@ -79,6 +79,7 @@ recipe.
 | `ALAMBIQ_ENV_ESM` | `protein.embed`, `protein.predict_tracks`, `protein.complete`, `protein.score_substitutions` | [protein-representations](../environments/protein-representations/README.md) |
 | `ALAMBIQ_ENV_THERMOMPNN` | `protein.predict_stability_change` | [thermompnn](../environments/thermompnn/README.md) |
 | `ALAMBIQ_ENV_THERMOSTABILITY` | `protein.predict_melting_temperature` | [thermostability](../environments/thermostability/README.md) |
+| `ALAMBIQ_ENV_PROTONATION` | `structure.assign_protonation` | [protonation](../environments/protonation/README.md) |
 | `ALAMBIQ_ENV_P2RANK` | `structure.detect_binding_pockets` | [p2rank](../environments/p2rank/README.md) |
 | `ALAMBIQ_ENV_OPENMM` | `structure.prepare_protein_system`, `simulation.run_molecular_dynamics`, `simulation.run_metadynamics` | [openmm](../environments/openmm/README.md) |
 | `ALAMBIQ_ENV_BOLTZ` | `structure.predict_biomolecular_complex` (CPU and CUDA) | [boltz2](../environments/boltz2/README.md) |

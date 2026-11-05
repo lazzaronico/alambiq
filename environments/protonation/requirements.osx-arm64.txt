@@ -1,0 +1,11 @@
+# Observed environment; Python 3.11.14, Apple Silicon. Other platforms need separate commissioning.
+certifi==2026.10.23
+charset-normalizer==3.5.2
+docutils==0.17.1
+idna==3.20
+mmcif-pdbx==2.1.0
+numpy==2.4.6
+pdb2pqr==3.7.1
+propka==3.5.1
+requests==2.34.2
+urllib3==2.8.0

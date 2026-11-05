@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- `structure.assign_protonation` protonates a protein at a pH with PROPKA 3.5 and PDB2PQR 3.7, in
+  Amber residue names. It reports the pKa of every titratable group, the histidine tautomers, the
+  asparagine, glutamine and histidine side chains that the hydrogen-bond optimization turned by
+  180 degrees, and the heavy atoms it rebuilt. It runs in a protonation engine environment
+  (`ALAMBIQ_ENV_PROTONATION`).
 - `structure.prepare_mutation_inputs`, `simulation.run_mutation_free_energy` and
   `simulation.analyze_stability_change` estimate the change in the folding free energy of a single
   amino-acid substitution. The folded protein and a capped tripeptide are each transformed from the

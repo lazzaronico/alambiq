@@ -4,7 +4,7 @@ These capabilities compare and predict structures, prepare a system, run molecul
 and inspect trajectories.
 
 `structure.compare` (which reads stored `protein.inspect` records), `structure.fetch`,
-`structure.check`,
+`structure.check`, `structure.assign_protonation`,
 `structure.detect_binding_pockets` and `structure.predict_biomolecular_complex` are
 independent of the others. `structure.prepare_protein_system` and
 `structure.prepare_predicted_complex_for_dynamics` write a system that
@@ -39,6 +39,27 @@ The report is a first look before `structure.prepare_protein_system`, which refu
 metals, other chains and nonstandard residues or drops them, and rebuilds missing heavy atoms
 only when asked. A flagged residue can be real: a cis proline, a strained loop or a region of
 lower resolution. Contacts with symmetry mates are not searched.
+
+## Protonating a structure
+
+`structure.assign_protonation` sets the protonation states of a protein at a pH and places its
+hydrogen atoms. PROPKA 3.5 predicts a pKa for each aspartate, glutamate, arginine, lysine,
+histidine, cysteine and tyrosine and for the chain termini. PDB2PQR 3.7 protonates each group
+whose pKa is above the pH, names the residue as Amber does (`ASH`, `GLH`, `LYN`, `HIP`, `CYX`),
+adds the hydrogens and removes bumps. It then optimizes the hydrogen-bond network. The
+optimization picks the tautomer of each neutral histidine and may turn the amide of an
+asparagine or glutamine, or the ring of a histidine, by 180 degrees. The two positions of such
+a group cannot be told apart in an X-ray map, since oxygen and nitrogen scatter alike, so the
+file's orientation is one of two equally supported by the density. The result lists the
+residues that turned, the heavy atoms that were rebuilt, and the pKa of every group with the pKa
+that PROPKA takes for the group free in water.
+
+The pKa values are empirical estimates from one structure. A group whose state matters, such as
+the histidine of an active site, is worth reading in the list. The state assigned at one pH
+holds throughout a simulation that follows; a simulation with fixed protonation does not
+titrate. `structure.prepare_protein_system` chooses variants with OpenMM Modeller from the pH and the
+standard pKa of each residue type, without regard to the environment of the residue in the
+structure; this capability gives a structure-based estimate for the same decision.
 
 ## Comparing and finding sites
 
