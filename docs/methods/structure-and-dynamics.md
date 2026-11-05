@@ -59,7 +59,12 @@ the histidine of an active site, is worth reading in the list. The state assigne
 holds throughout a simulation that follows; a simulation with fixed protonation does not
 titrate. `structure.prepare_protein_system` chooses variants with OpenMM Modeller from the pH and the
 standard pKa of each residue type, without regard to the environment of the residue in the
-structure; this capability gives a structure-based estimate for the same decision.
+structure; this capability gives a structure-based estimate for the same decision. Both `structure.prepare_protein_system` and
+`structure.prepare_mutation_inputs` take the protonated structure as `protonated_structure`: its
+residue names become the protonation of the titratable residues of the chain, so that a campaign
+makes the decision once. A `residue_variants` entry of `structure.prepare_protein_system` still
+overrides it. The numbers of the residues in the protonated structure must be those of the
+structure it was made from.
 
 ## Comparing and finding sites
 

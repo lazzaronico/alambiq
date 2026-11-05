@@ -10,7 +10,8 @@ The method:
 - The chain is read from the first model. Other chains and heteroatoms are dropped and listed.
   The terminal OXT is added when it is missing; a chain with any other heavy atom missing, or
   with gaps in the sequence, is refused.
-- Hydrogens are added at the stated pH. The wild-type system is solvated in a dodecahedral
+- Hydrogens are added at the stated pH, or in the protonation states of a protonated structure
+  from `structure.assign_protonation` when the request gives one. The wild-type system is solvated in a dodecahedral
   TIP3P box with sodium and chloride ions at the ionic strength, neutralized, with ff14SB
   (Amber14) parameters. The random placement of ions and water orientations is seeded.
 - The mutant state is the wild-type system with the side chain of the residue replaced by the
@@ -65,6 +66,11 @@ class MutationRequest:
         The new residue, as a one-letter or three-letter code.
     ph:
         The pH for the protonation of the residues, 0 to 14; default 7.
+    protonated_structure:
+        Optional. The protonated structure of `structure.assign_protonation`, made from this
+        structure. Its residue names (`HID`, `ASH`, `LYN`, `CYX`) fix the protonation of each
+        titratable residue of the chain in both states and both legs; the pH then decides only
+        what the file leaves open. Without it Modeller assigns the protonation from the pH.
     folded_padding_nm, reference_padding_nm:
         The margin of the water box around the protein and around the tripeptide, 1 to 3 nm;
         default 1.0 and 1.2.
@@ -84,6 +90,7 @@ class MutationRequest:
     residue_number: int
     to: str
     ph: float = 7.0
+    protonated_structure: str | None = None
     folded_padding_nm: float = 1.0
     reference_padding_nm: float = 1.2
     ionic_strength_molar: float = 0.15
@@ -172,6 +179,16 @@ def prepare_mutation_inputs(request: MutationRequest, ctx: StepContext) -> Mutat
         seed=request.seed,
         timeout_seconds=request.timeout_seconds,
     )
+    variants = []
+    if request.protonated_structure is not None:
+        from alambiq.capabilities.investigate.science.protonation import variants_from_structure
+
+        variants = [
+            {"residue_number": number, "variant": variant}
+            for number, variant in sorted(
+                variants_from_structure(ctx.resolve(request.protonated_structure), request.chain_id).items()
+            )
+        ]
     output = ctx.workdir / "mutation"
     found = ctx.run_in_environment(
         "openfe",
@@ -182,6 +199,7 @@ def prepare_mutation_inputs(request: MutationRequest, ctx: StepContext) -> Mutat
             "residue_number": request.residue_number,
             "to": target,
             "ph": request.ph,
+            "residue_variants": variants,
             "folded_padding_nm": request.folded_padding_nm,
             "reference_padding_nm": request.reference_padding_nm,
             "ionic_strength_molar": request.ionic_strength_molar,

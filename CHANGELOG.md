@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- `structure.prepare_protein_system` and `structure.prepare_mutation_inputs` take an optional
+  `protonated_structure`, the output of `structure.assign_protonation`, and use its residue names
+  as the protonation of the chain. The mutant state of `structure.prepare_mutation_inputs` is now
+  protonated at the stated pH (it used pH 7 for every request).
 - `structure.assign_protonation` protonates a protein at a pH with PROPKA 3.5 and PDB2PQR 3.7, in
   Amber residue names. It reports the pKa of every titratable group, the histidine tautomers, the
   asparagine, glutamine and histidine side chains that the hydrogen-bond optimization turned by

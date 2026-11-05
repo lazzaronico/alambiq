@@ -257,7 +257,15 @@ def seed_random(seed: int) -> None:
         pass
 
 
-def mutate(modeller, index: int, new_name: str, seed: int):
+def variants_for(topology, rows: dict[int, str]) -> list[str | None]:
+    """The protonation variant of each residue of a solute, by residue number; None leaves it to the pH."""
+    return [
+        rows.get(int(residue.id)) if _canonical(residue.name) in STANDARD else None
+        for residue in topology.residues()
+    ]
+
+
+def mutate(modeller, index: int, new_name: str, seed: int, ph: float, variants: list[str | None]):
     """The same solute with the residue replaced by `new_name` (PDBFixer template), protonated alike."""
     import io
 
@@ -278,7 +286,9 @@ def mutate(modeller, index: int, new_name: str, seed: int):
     fixer.addMissingAtoms()
     mutant = app.Modeller(fixer.topology, fixer.positions)
     seed_random(seed)
-    mutant.addHydrogens(_forcefield(), pH=7.0)
+    states = list(variants)
+    states[index] = None
+    mutant.addHydrogens(_forcefield(), pH=ph, variants=states)
     return mutant
 
 
@@ -349,12 +359,14 @@ def graft(old_topology, old_positions, target: int, new_atoms, new_positions, ne
     return topology, unit.Quantity(np.array(new_positions_list), unit.nanometer), old_to_new, core
 
 
-def solvate(modeller, padding_nm: float, ionic_strength_molar: float, seed: int, ph: float):
+def solvate(
+    modeller, padding_nm: float, ionic_strength_molar: float, seed: int, ph: float, variants: list[str | None]
+):
     from openmm import unit
 
     forcefield = _forcefield()
     seed_random(seed)
-    modeller.addHydrogens(forcefield, pH=ph)
+    modeller.addHydrogens(forcefield, pH=ph, variants=variants)
     modeller.addSolvent(
         forcefield,
         model="tip3p",
@@ -412,13 +424,15 @@ def build_leg(
     directory: Path,
     leg: str,
     numbers: list[int],
+    residue_variants: dict[int, str],
 ) -> dict[str, Any]:
     """Solvate the wild type, build the mutant state, write both states and the mapping."""
     from openmm import unit
 
     bare = solute
-    mutant_solute = None if identity else mutate(bare, target, new_name, seed)
-    wild = solvate(bare, padding_nm, ionic_strength_molar, seed, ph)
+    variants = variants_for(bare.topology, residue_variants)
+    mutant_solute = None if identity else mutate(bare, target, new_name, seed, ph, variants)
+    wild = solvate(bare, padding_nm, ionic_strength_molar, seed, ph, variants)
     old_topology, old_positions = wild.topology, wild.positions
     old_atoms = residue_atoms(old_topology, target)
     if identity:
@@ -451,6 +465,8 @@ def build_leg(
         "mutant_residue": new_residue_name,
         "target_index": target,
         "solute_residue_numbers": numbers,
+        "ph": ph,
+        "residue_variants": {str(n): v for n, v in sorted(residue_variants.items()) if n in numbers},
         "atoms": systems[0].getNumParticles(),
         "core_atoms": len(plan["core"]),
         "wild_type_unique_atoms": plan["old_unique"],
@@ -487,11 +503,12 @@ def prepare(cfg: dict[str, Any]) -> dict[str, Any]:
     _check_disulfide(modeller, index)
     _heavy_neighbors_ok(modeller, index)
     numbers = [int(r.id) for r in modeller.topology.residues()]
+    residue_variants = {int(row["residue_number"]): row["variant"] for row in cfg.get("residue_variants", [])}
     legs = {}
     folded = build_leg(
         modeller, index, cfg["to"], identity=cfg["identity_check"], padding_nm=cfg["folded_padding_nm"],
         ionic_strength_molar=cfg["ionic_strength_molar"], seed=cfg["seed"], ph=cfg["ph"], directory=output / "folded",
-        leg="folded", numbers=numbers,
+        leg="folded", numbers=numbers, residue_variants=residue_variants,
     )
     legs["folded"] = folded
     modeller, dropped_unused = read_chain(cfg["structure"], cfg["chain_id"])
@@ -501,6 +518,7 @@ def prepare(cfg: dict[str, Any]) -> dict[str, Any]:
         piece, local, cfg["to"], identity=cfg["identity_check"], padding_nm=cfg["reference_padding_nm"],
         ionic_strength_molar=cfg["ionic_strength_molar"], seed=cfg["seed"], ph=cfg["ph"], directory=output / "reference",
         leg="reference", numbers=[int(r.id) for r in piece.topology.residues()],
+        residue_variants=residue_variants,
     )
     return {
         "legs": legs,

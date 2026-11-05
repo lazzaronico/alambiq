@@ -190,6 +190,14 @@ def pdb_of(name: str, tmp_path: Path) -> Path:
     return path
 
 
+def protein_only(name: str, tmp_path: Path) -> Path:
+    """The amino acid atoms of a fixture as one chain, as the preparation capabilities read it."""
+    lines = [line for line in pdb_of(name, tmp_path).read_text().splitlines() if line.startswith("ATOM")]
+    path = tmp_path / f"{name}-protein.pdb"
+    path.write_text("\n".join(lines) + "\nEND\n")
+    return path
+
+
 def protonate(tmp_path: Path, name: str, **params) -> dict:
     from alambiq.api import run as execute
 
@@ -311,3 +319,162 @@ class TestUseInOpenMM:
         )
         assert done.returncode == 0, done.stderr[-500:]
         assert int(done.stdout.split()[-1]) == out["atoms"]
+
+
+class TestVariantsFromAProtonatedStructure:
+    def text(self, rows):
+        lines = [atom(i, "CA", name, number, (float(i), 0, 0), chain=chain) for i, (chain, number, name) in enumerate(rows, 1)]
+        return "\n".join(lines) + "\nEND\n"
+
+    def test_titratable_residues_of_the_chain_give_their_variant_by_number(self, tmp_path):
+        from alambiq.capabilities.investigate.science.protonation import variants_from_structure
+
+        path = tmp_path / "p.pdb"
+        path.write_text(self.text([("A", 3, "HIP"), ("A", 4, "LEU"), ("A", 5, "ASH"), ("B", 3, "HID")]))
+        assert variants_from_structure(path, "A") == {3: "HIP", 5: "ASH"}
+
+    def test_a_chain_that_is_absent_is_refused(self, tmp_path):
+        from alambiq.capabilities.investigate.science.protonation import variants_from_structure
+
+        path = tmp_path / "p.pdb"
+        path.write_text(self.text([("A", 3, "HIP")]))
+        with pytest.raises(ValueError, match="no chain 'Z'"):
+            variants_from_structure(path, "Z")
+
+    def test_an_insertion_code_is_refused(self, tmp_path):
+        from alambiq.capabilities.investigate.science.protonation import variants_from_structure
+
+        path = tmp_path / "p.pdb"
+        path.write_text(atom(1, "CA", "HIP", 3, (0, 0, 0), insertion="A") + "\nEND\n")
+        with pytest.raises(ValueError, match="insertion code"):
+            variants_from_structure(path, "A")
+
+
+OPENMM_ENV = os.environ.get("ALAMBIQ_ENV_OPENMM", "")
+
+
+def variants_of(manifest_path: str) -> dict:
+    import json
+
+    manifest = json.loads(Path(manifest_path).read_text())
+
+    def find(node):
+        if isinstance(node, dict):
+            if "residue_variants" in node:
+                return node["residue_variants"]
+            for value in node.values():
+                found = find(value)
+                if found is not None:
+                    return found
+        return None
+
+    return find(manifest)
+
+
+@pytest.mark.skipif(
+    not (ENV and OPENMM_ENV),
+    reason="needs ALAMBIQ_ENV_PROTONATION and ALAMBIQ_ENV_OPENMM (with PDBFixer for the terminal atom)",
+)
+class TestProteinSystemUsesTheProtonation:
+    def prepare(self, tmp_path, **params):
+        from alambiq.api import run as execute
+
+        outcome = execute(
+            {
+                "id": "c",
+                "steps": [
+                    {
+                        "id": "p",
+                        "capability": "structure.prepare_protein_system",
+                        "params": {
+                            "structure": str(protein_only("181L", tmp_path)),
+                            "chain_id": "A",
+                            "padding_nm": 1.0,
+                            "heavy_atom_completion": "pdbfixer-standard",
+                            "minimization_max_iterations": 20,
+                            **params,
+                        },
+                    }
+                ],
+            },
+            run_dir=tmp_path / "run",
+        )
+        assert outcome.ok, [s.error for s in outcome.steps.values() if s.error]
+        return outcome.outputs("p")
+
+    def test_the_states_of_the_file_become_the_variants_of_the_system(self, tmp_path):
+        (tmp_path / "pq").mkdir()
+        protonated = protonate(tmp_path / "pq", "181L", ph=5.0)["protonated_structure"]
+        out = self.prepare(tmp_path, protonated_structure=protonated)
+        assert variants_of(out["manifest"])[30] == "HIP"
+
+    def test_a_variant_named_in_the_request_wins_over_the_file(self, tmp_path):
+        (tmp_path / "pq").mkdir()
+        protonated = protonate(tmp_path / "pq", "181L", ph=5.0)["protonated_structure"]
+        out = self.prepare(
+            tmp_path,
+            protonated_structure=protonated,
+            residue_variants=[{"residue": "31", "variant": "HIE"}],
+        )
+        assert variants_of(out["manifest"])[30] == "HIE"
+
+
+OPENFE_ENV = os.environ.get("ALAMBIQ_ENV_OPENFE", "")
+
+
+@pytest.mark.skipif(not (ENV and OPENFE_ENV), reason="needs ALAMBIQ_ENV_PROTONATION and ALAMBIQ_ENV_OPENFE")
+class TestMutationInputsUseTheProtonation:
+    def legs(self, tmp_path, **params):
+        import json
+        import tarfile
+
+        from alambiq.api import run as execute
+
+        outcome = execute(
+            {
+                "id": "c",
+                "steps": [
+                    {
+                        "id": "p",
+                        "capability": "structure.prepare_mutation_inputs",
+                        "params": {
+                            "structure": str(protein_only("181L", tmp_path)),
+                            "chain_id": "A",
+                            "residue_number": 84,
+                            "to": "ALA",
+                            "reference_padding_nm": 1.0,
+                            "folded_padding_nm": 1.0,
+                            **params,
+                        },
+                    }
+                ],
+            },
+            run_dir=tmp_path / "run",
+        )
+        assert outcome.ok, [s.error for s in outcome.steps.values() if s.error]
+        out = outcome.outputs("p")
+        with tarfile.open(out["folded_inputs"]) as bundle:
+            record = json.load(bundle.extractfile("leg.json"))
+            wild_type = bundle.extractfile("wild_type.pdb").read().decode()
+        return record, wild_type
+
+    @staticmethod
+    def ring_hydrogens(pdb_text: str, number: int) -> set[str]:
+        """OpenMM writes every histidine as HIS; the state shows in the hydrogens HD1 and HE2."""
+        return {
+            line[12:16].strip()
+            for line in pdb_text.splitlines()
+            if line.startswith("ATOM") and int(line[22:26]) == number and line[12:16].strip() in ("HD1", "HE2")
+        }
+
+    def test_a_histidine_takes_the_state_of_the_protonated_structure(self, tmp_path):
+        (tmp_path / "pq").mkdir()
+        protonated = protonate(tmp_path / "pq", "181L", ph=5.0)["protonated_structure"]
+        record, wild = self.legs(tmp_path, protonated_structure=protonated)
+        assert record["residue_variants"]["31"] == "HIP"
+        assert self.ring_hydrogens(wild, 31) == {"HD1", "HE2"}
+
+    def test_without_it_the_histidine_is_neutral_at_ph_7(self, tmp_path):
+        record, wild = self.legs(tmp_path)
+        assert record["residue_variants"] == {}
+        assert len(self.ring_hydrogens(wild, 31)) == 1

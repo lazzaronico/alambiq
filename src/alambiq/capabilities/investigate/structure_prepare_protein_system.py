@@ -147,6 +147,10 @@ class PrepareRequest:
     source_component_policy:
         `require-protein-only` refuses a file that holds anything but standard protein.
         `selected-chain-only` drops the rest and lists it.
+    protonated_structure:
+        Optional. The protonated structure of `structure.assign_protonation`, made from this
+        structure. Its residue names (`HID`, `ASH`, `LYN`, `CYX`) become the protonation of the
+        titratable residues of the chain, except where `residue_variants` names the residue.
     residue_variants, substitutions:
         Protonation overrides and explicit residue substitutions.
     platform, platform_properties, seed:
@@ -173,6 +177,7 @@ class PrepareRequest:
     source_component_policy: Literal["require-protein-only", "selected-chain-only"] = (
         "require-protein-only"
     )
+    protonated_structure: str | None = None
     residue_variants: list[ResidueVariant] = field(default_factory=list)
     substitutions: list[Mutation] = field(default_factory=list)
     platform: Literal["CPU", "Reference", "CUDA", "OpenCL"] = "CPU"
@@ -296,6 +301,17 @@ def prepare_protein_system(request: PrepareRequest, ctx: StepContext) -> Prepare
         variants.append(
             {"residue_id": number, "insertion_code": insertion, "variant": item.variant}
         )
+    if request.protonated_structure is not None:
+        from alambiq.capabilities.investigate.science.protonation import variants_from_structure
+
+        imposed = variants_from_structure(
+            ctx.resolve(request.protonated_structure), request.chain_id
+        )
+        for number, variant in sorted(imposed.items()):
+            if (str(number), "") not in seen:
+                variants.append(
+                    {"residue_id": str(number), "insertion_code": "", "variant": variant}
+                )
     seen = set()
     for item in request.substitutions:
         number, insertion = parse_residue(item.residue)

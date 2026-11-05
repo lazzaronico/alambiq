@@ -35,3 +35,33 @@ def split_disulfides(rows: list[dict]) -> tuple[list[dict], list[str]]:
 
 def describe_residue(chain: str, number: int, name: str) -> str:
     return f"{chain}:{name}{number}"
+
+
+VARIANT_NAMES = frozenset({"ASP", "ASH", "GLU", "GLH", "LYS", "LYN", "CYS", "CYX", "HID", "HIE", "HIP"})
+"""The residue names in which a protonated structure states a protonation, as OpenMM reads them."""
+
+
+def variants_from_structure(path: str | Path, chain_id: str) -> dict[int, str]:
+    """The protonation variant of each titratable residue of one chain, by residue number.
+
+    The file is the protonated structure of `structure.assign_protonation`, whose residue
+    names (`HID`, `ASH`, `LYN`, `CYX`) state the protonation, and whose numbers are those of
+    the structure that was protonated.
+    """
+    found: dict[int, str] = {}
+    chain_seen = False
+    for line in Path(path).read_text().splitlines():
+        if line[:6].strip() != "ATOM" or line[21] != chain_id:
+            continue
+        chain_seen = True
+        if line[26].strip():
+            raise ValueError(
+                f"The protonated structure has an insertion code at residue {line[22:27].strip()}; "
+                "residue numbers must be plain integers"
+            )
+        name = line[17:20].strip()
+        if name in VARIANT_NAMES:
+            found[int(line[22:26])] = name
+    if not chain_seen:
+        raise ValueError(f"The protonated structure {str(path)!r} has no chain {chain_id!r}")
+    return found
