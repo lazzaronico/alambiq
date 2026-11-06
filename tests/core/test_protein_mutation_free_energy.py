@@ -557,6 +557,48 @@ class TestRelaxation:
 
 
 @needs_engine
+class TestBoxWidth:
+    SCRIPT = (
+        "import sys, json\n"
+        f"sys.path.insert(0, {str(ENGINES)!r})\n"
+        "import openmm_mutation as m\n"
+        "modeller, _ = m.read_chain(sys.argv[1], 'A')\n"
+        "modeller = m.complete_terminal_atoms(modeller)\n"
+        "index = m.residue_index(modeller.topology, 4)\n"
+        "piece, local = m.fragment(modeller, index)\n"
+        "solvated, padding = m.solvate(piece, 0.3, 0.15, 1, 7.0, m.variants_for(piece.topology, {}))\n"
+        "print('RESULT' + json.dumps([padding, min(m.box_widths(solvated.topology.getPeriodicBoxVectors())), m.MIN_BOX_WIDTH_NM]))\n"
+    )
+
+    def test_a_padding_that_gives_a_narrow_box_is_widened_until_the_cutoff_fits(self, pdb_file):
+        done = subprocess.run([ENV, "-c", self.SCRIPT, str(pdb_file)], capture_output=True, text=True, timeout=900)
+        assert done.returncode == 0, done.stderr[-500:]
+        padding, width, minimum = json.loads(next(line for line in done.stdout.splitlines() if line.startswith("RESULT"))[6:])
+        assert padding > 0.3
+        assert width >= minimum
+
+    def test_the_widths_of_a_cubic_box_are_its_edges(self):
+        done = subprocess.run(
+            [
+                ENV,
+                "-c",
+                "import sys, json\n"
+                f"sys.path.insert(0, {str(ENGINES)!r})\n"
+                "import openmm_mutation as m\n"
+                "from openmm import Vec3, unit\n"
+                "v = [Vec3(2, 0, 0) * unit.nanometer, Vec3(0, 3, 0) * unit.nanometer, Vec3(0, 0, 4) * unit.nanometer]\n"
+                "print('RESULT' + json.dumps(m.box_widths(v)))\n",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+        assert done.returncode == 0, done.stderr[-500:]
+        widths = json.loads(next(line for line in done.stdout.splitlines() if line.startswith("RESULT"))[6:])
+        assert widths == pytest.approx([2.0, 3.0, 4.0])
+
+
+@needs_engine
 class TestEngineChecks:
     def cfg(self, pdb_file, tmp_path, **changes):
         return {

@@ -73,7 +73,8 @@ class MutationRequest:
         what the file leaves open. Without it Modeller assigns the protonation from the pH.
     folded_padding_nm, reference_padding_nm:
         The margin of the water box around the protein and around the tripeptide, 1 to 3 nm;
-        default 1.0 and 1.2.
+        default 1.0 and 1.2. The margin grows when the box would be narrower than twice the
+        nonbonded cutoff plus 0.1 nm; the padding in the result is the one used.
     ionic_strength_molar:
         The salt concentration, 0 to 1 M; default 0.15.
     seed:

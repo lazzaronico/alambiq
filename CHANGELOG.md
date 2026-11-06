@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- `structure.prepare_mutation_inputs` widens the water margin of a leg when a compact solute would
+  give a box narrower than twice the nonbonded cutoff, which OpenMM refuses; the result reports the
+  padding used.
 - `structure.prepare_mutation_inputs` minimizes the solvated wild type before it builds the two
   states. Without it a 38,000-atom system started with forces of 2e5 kJ/mol/nm between water and ions
   and the sampler stopped with NaN. `simulation.run_mutation_free_energy` now refuses a leg whose free

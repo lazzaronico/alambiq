@@ -360,23 +360,53 @@ def graft(old_topology, old_positions, target: int, new_atoms, new_positions, ne
     return topology, unit.Quantity(np.array(new_positions_list), unit.nanometer), old_to_new, core
 
 
+MIN_BOX_WIDTH_NM = 2 * CUTOFF_NM + 0.1
+DODECAHEDRON_FACE_RATIO = 0.5**0.5
+"""The nonbonded cutoff must not exceed half of the width of the box between two faces."""
+
+
+def box_widths(vectors) -> list[float]:
+    """The distance between each pair of opposite faces of a periodic box, in nm."""
+    import numpy as np
+    from openmm import unit
+
+    a, b, c = (np.array([x.value_in_unit(unit.nanometer) for x in v]) for v in vectors)
+    volume = abs(float(np.dot(a, np.cross(b, c))))
+    return [volume / float(np.linalg.norm(np.cross(u, v))) for u, v in ((b, c), (c, a), (a, b))]
+
+
 def solvate(
     modeller, padding_nm: float, ionic_strength_molar: float, seed: int, ph: float, variants: list[str | None]
 ):
-    from openmm import unit
+    """The solute with hydrogens in a water box; the padding grows until the box is wide enough.
+
+    Returns the solvated system and the padding that was used. A compact solute with the stated
+    padding can give a box narrower than twice the cutoff, which OpenMM refuses.
+    """
+    from openmm import app, unit
 
     forcefield = _forcefield()
     seed_random(seed)
     modeller.addHydrogens(forcefield, pH=ph, variants=variants)
-    modeller.addSolvent(
-        forcefield,
-        model="tip3p",
-        padding=padding_nm * unit.nanometer,
-        ionicStrength=ionic_strength_molar * unit.molar,
-        neutralize=True,
-        boxShape="dodecahedron",
-    )
-    return modeller
+    padding = padding_nm
+    for _ in range(6):
+        trial = app.Modeller(modeller.topology, modeller.positions)
+        seed_random(seed)
+        trial.addSolvent(
+            forcefield,
+            model="tip3p",
+            padding=padding * unit.nanometer,
+            ionicStrength=ionic_strength_molar * unit.molar,
+            neutralize=True,
+            boxShape="dodecahedron",
+        )
+        width = min(box_widths(trial.topology.getPeriodicBoxVectors()))
+        if width >= MIN_BOX_WIDTH_NM:
+            return trial, padding
+        # The edge of the box grows by about 1 nm per nm of padding, and the faces of the
+        # dodecahedron that are closest lie 1/sqrt(2) of the edge apart.
+        padding = round(padding + (MIN_BOX_WIDTH_NM - width) / DODECAHEDRON_FACE_RATIO * 1.05, 3)
+    raise ValueError(f"No water box of at least {MIN_BOX_WIDTH_NM:.2f} nm between faces was found for this solute")
 
 
 RELAX_ITERATIONS = 2000
@@ -460,7 +490,7 @@ def build_leg(
     bare = solute
     variants = variants_for(bare.topology, residue_variants)
     mutant_solute = None if identity else mutate(bare, target, new_name, seed, ph, variants)
-    wild = solvate(bare, padding_nm, ionic_strength_molar, seed, ph, variants)
+    wild, padding_nm = solvate(bare, padding_nm, ionic_strength_molar, seed, ph, variants)
     wild.positions = relax(wild.topology, wild.positions)
     old_topology, old_positions = wild.topology, wild.positions
     old_atoms = residue_atoms(old_topology, target)
