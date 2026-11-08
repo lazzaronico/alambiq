@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- `protein.call_substitutions` 1.1 returns `reference_file` for each variant, a FASTA file with the sequence of its closest reference. The file is the `protein` and `notation` the variant of a request to `protein.score_substitutions`, so a variant known only by its sequence can be scored without retyping the reference.
 - `structure.prepare_predicted_complex_for_dynamics` and `structure.prepare_protein_ligand_system` use the
   periodic box of the coordinate file. A prmtop stores one box angle, so a rhombic dodecahedron read from it
   was another lattice than the one the solvent was placed in: waters lay on their own periodic images, the

@@ -193,6 +193,13 @@ class TestAgainstAPanel:
         assert (out["matched"], out["unmatched"]) == (3, 1)
         assert any("stranger" in n for n in outcome.steps["call"].notes)
 
+    def test_the_reference_file_holds_the_reference_sequence(self, outcome, calls):
+        for name in ("edited", "point", "same"):
+            lines = Path(calls[name]["reference_file"]).read_text().split("\n")
+            assert lines[0] == ">REF1"
+            assert lines[1] == REF
+        assert calls["stranger"]["reference_file"] is None
+
     def test_the_source_and_settings_are_recorded(self, outcome):
         record = json.loads(Path(outcome.outputs("call")["record"]).read_text())
         assert record["source"] == "references 2 sequences"

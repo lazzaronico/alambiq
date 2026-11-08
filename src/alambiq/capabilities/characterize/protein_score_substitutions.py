@@ -40,6 +40,10 @@ Limits.
 - The score applies to sequences within the training distribution of the model.
 - The request names the wild-type sequence and the substitutions to score. A sequence that
   already carries mutations is read as the wild type, and the scores are changes relative to it.
+- A variant known only by its sequence has no named wild type. `protein.call_substitutions` finds
+  its closest reference protein, names the substitutions that separate them and writes the
+  reference sequence to a FASTA file (`reference_file`); give that file as `protein` and the
+  notation of the substitutions as the variant.
 - The score is a log-likelihood ratio in nats. It has no calibration to the scale of a measured
   fitness, so its values are not predictions of an assay readout.
 - A sequence of more than 1,024 residues is refused.

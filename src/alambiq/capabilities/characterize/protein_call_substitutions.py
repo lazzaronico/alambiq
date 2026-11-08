@@ -1,8 +1,9 @@
 """Name the substitutions that separate a variant from its closest reference protein.
 
 Returns, for each variant, the closest reference in a supplied FASTA or in UniProtKB/
-Swiss-Prot and the differences between them: substitutions in standard notation, insertions
-and deletions. Positions are residue numbers of the reference. A variant that equals its
+Swiss-Prot, a FASTA file with the sequence of that reference (`reference_file`) and the
+differences between them: substitutions in standard notation, insertions and deletions.
+Positions are residue numbers of the reference. A variant that equals its
 reference over its whole length has no differences.
 
 The method:
@@ -135,6 +136,10 @@ class VariantCall:
     """The identifier of the closest reference; None when no reference qualifies."""
     reference_name: str
     """The recommended name of a Swiss-Prot reference; empty for a supplied reference."""
+    reference_file: str | None
+    """A FASTA file with the sequence of the closest reference, named by its identifier; None
+    when no reference qualifies. `notation` is read on this sequence, so the file is the
+    `protein` and `notation` the variant of a request to `protein.score_substitutions`."""
     identity: float | None
     coverage: float | None
     """The fraction of the variant that the alignment covers."""
@@ -193,7 +198,7 @@ def _check(request: CallRequest) -> None:
 
 @capability(
     "protein.call_substitutions",
-    version="1.0",
+    version="1.1",
     family="characterize",
     summary="Name the substitutions that separate a variant from its closest reference protein",
     render=render,
@@ -263,6 +268,7 @@ def call_substitutions(request: CallRequest, ctx: StepContext) -> CallResult:
                     length=len(sequence),
                     reference=None,
                     reference_name="",
+                    reference_file=None,
                     identity=None,
                     coverage=None,
                     target_coverage=None,
@@ -299,6 +305,9 @@ def call_substitutions(request: CallRequest, ctx: StepContext) -> CallResult:
             )
         compared.sort(key=lambda item: item[:3])
         distance, _, _, best, differences = compared[0]
+        closest_file = ctx.keep_text(
+            f">{best['target']}\n{best['reference_sequence']}\n", "text/x-fasta"
+        )
         none_different = not (
             differences["substitutions"]
             or differences["insertions"]
@@ -310,6 +319,7 @@ def call_substitutions(request: CallRequest, ctx: StepContext) -> CallResult:
                 length=len(sequence),
                 reference=best["target"],
                 reference_name=best["name"],
+                reference_file=str(closest_file.path),
                 identity=best["identity"],
                 coverage=best["coverage"],
                 target_coverage=best["target_coverage"],

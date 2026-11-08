@@ -102,6 +102,8 @@ release. A difference is a substitution in standard notation (`Q21W`, reference 
 position, variant residue), an insertion after a reference position, or a deletion of
 reference residues. Positions are numbers of the reference.
 
+Each call also returns `reference_file`, a FASTA file with the sequence of the closest reference. As the `protein` of a request to `protein.score_substitutions`, with `notation` as the variant, it scores a variant that is known only by its sequence.
+
 A variant that equals its reference has no differences. A variant with no reference that meets
 the thresholds is returned without one. The alignment is local, so a difference at the first
 or last residues can fall outside it. Those residues are counted at the end of the variant and

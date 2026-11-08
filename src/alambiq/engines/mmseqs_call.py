@@ -44,6 +44,7 @@ COLUMNS = (
     "tlen",
     "qaln",
     "taln",
+    "tseq",
 )
 
 
@@ -146,6 +147,7 @@ def run(request: dict[str, Any]) -> dict[str, Any]:
                 "reference_length": int(row["tlen"]),
                 "variant_aligned": row["qaln"],
                 "reference_aligned": row["taln"],
+                "reference_sequence": row["tseq"],
             }
         )
     for found in hits.values():
