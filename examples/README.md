@@ -34,6 +34,9 @@ Protein, variant and structure examples:
 - [pockets-and-complex](pockets-and-complex/README.md): predicted ligand-binding pockets of
   hemoglobin alpha (needs P2Rank) and a second campaign that predicts a protein-ligand
   complex (needs Boltz-2).
+- [t4-lysozyme-benzene](t4-lysozyme-benzene/README.md): the chain from a protein sequence to
+  10 ns of dynamics of its ligand complex, and the ligand pose measured against 181L. Needs
+  P2Rank, Boltz-2, OpenFF and OpenMM, and a GPU.
 - [variant-to-construct](variant-to-construct/README.md): an assembled DNA construct design
   for one chosen variant.
 - [ensemble-vs-nmr](ensemble-vs-nmr/README.md): a simulated ensemble compared with measured

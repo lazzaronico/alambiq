@@ -1,0 +1,72 @@
+# From a protein to dynamics: T4 lysozyme L99A and benzene (PDB 181L).
+# Needs the P2Rank, Boltz-2, OpenFF and OpenMM environments and the MDTraj and RDKit extras;
+# see README.md.
+id: t4-lysozyme-benzene
+steps:
+  - id: dossier
+    capability: protein.inspect
+    params:
+      fasta: t4l.fasta
+      structure: 181L.cif
+
+  - id: pockets
+    capability: structure.detect_binding_pockets
+    bind:
+      protein: dossier.record
+    params:
+      structure_kind: experimental
+
+  - id: complex
+    capability: structure.predict_biomolecular_complex
+    params:
+      proteins:
+        - id: T4L
+          sequence: MNIFEMLRIDEGLRLKIYKDTEGYYTIGIGHLLTKSPSLNAAKSELDKAIGRNTNGVITKDEAEKLFNQDVDAAVRGILRNAKLKPVYDSLDAVRRAAAINMVFQMGETGVAGFTNSLRMLQQKRWDEAAVNLAKSRWYNQTPNRAKRVITTFRTGTWDAYK
+      ligand:
+        id: BNZ
+        smiles: c1ccccc1
+      seed: 1
+      accelerator: gpu
+
+  - id: system
+    capability: structure.prepare_predicted_complex_for_dynamics
+    bind:
+      structure: complex.samples.0.structure
+      ligand_pose: complex.samples.0.ligand_pose
+      ligand_chemistry: complex.ligand_chemistry
+
+  - id: dynamics
+    capability: simulation.run_molecular_dynamics
+    bind:
+      system: system.system_xml
+      state: system.state_xml
+      topology: system.topology_pdb
+    params:
+      ensemble: npt
+      platform: CUDA
+      production_ps: 10000
+      report_interval: 5000
+
+  - id: pose
+    capability: simulation.measure_ligand_pose
+    bind:
+      topology: system.topology_pdb
+      trajectory: dynamics.trajectory
+      state_data: dynamics.state_data
+    params:
+      reference_structure: 181L.pdb
+      ligand: {chain_id: "1", residue_number: 163, residue_name: LIG}
+      reference_ligand: {chain_id: A, residue_number: 400, residue_name: BNZ}
+      chain_map: {A: "1"}
+      smiles: c1ccccc1
+      imaging: whole-molecules
+
+  - id: contacts
+    capability: simulation.inspect_trajectory
+    bind:
+      topology: system.topology_pdb
+      trajectory: dynamics.trajectory
+      state_data: dynamics.state_data
+    params:
+      ligand_contacts: {ligand_residue_index: 162, cutoff_angstrom: 4.0, periodic: true}
+      imaging: whole-molecules

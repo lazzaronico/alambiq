@@ -27,6 +27,8 @@ from it, is subject to the license and attribution terms stated below.
   eQuilibrator packages named in the report of that example. They are outside the example
   directory, and their terms are stated in
   [LICENSING.md](../LICENSING.md#terms-of-optional-software-models-and-data).
+- **t4-lysozyme-benzene**: PDB entry 181L (CC0), the structure of T4 lysozyme L99A with
+  benzene, and its sequence; Morton and Matthews, doi:10.1021/bi00027a007.
 - **variant-to-construct**: pUC19 (INSDC record M77789.2, no use restriction under the
   INSDC data-use policy) and the mature hen egg-white lysozyme sequence (UniProtKB P00698,
   CC BY 4.0) with the S100R substitution.
