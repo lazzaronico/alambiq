@@ -293,6 +293,35 @@ class TestRequestFields:
         )
 
 
+class TestChainNames:
+    def renamed(self, files, tmp_path):
+        topology, trajectory, reference = files
+        text = Path(reference).read_text().splitlines()
+        edited = [
+            line[:21] + "X" + line[22:] if line.startswith(("ATOM", "HETATM")) and line[21] == "A" else line
+            for line in text
+        ]
+        path = tmp_path / "renamed_reference.pdb"
+        path.write_text("\n".join(edited) + "\n")
+        return topology, trajectory, str(path)
+
+    def test_chains_named_differently_in_the_two_files_are_refused_without_a_map(
+        self, benzene, tmp_path
+    ):
+        _, _, files = benzene
+        outcome = run(request(self.renamed(files, tmp_path)), tmp_path)
+        assert not outcome.ok
+        assert "chain X (topology chain X)" in outcome.steps["pose"].error
+
+    def test_a_chain_map_pairs_them_and_gives_the_same_numbers(self, benzene, tmp_path):
+        _, _, files = benzene
+        out = ok(run(request(self.renamed(files, tmp_path), chain_map={"X": "A"}), tmp_path))
+        plain = ok(run(request(files), tmp_path, "plain"))
+        assert np.load(out["arrays"])["rmsd_angstrom"] == pytest.approx(
+            np.load(plain["arrays"])["rmsd_angstrom"], abs=1e-9
+        )
+
+
 class TestToluene:
     def test_the_rmsd_is_the_smaller_of_the_two_pairings(self, tmp_path):
         atoms = np.vstack([ring(), [[2.9, 0.0, 0.0]]])

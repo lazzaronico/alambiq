@@ -210,6 +210,7 @@ def measure_pose(
     threshold_angstrom: float,
     imaging: str,
     chunk_frames: int,
+    chain_map: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     """Stream the trajectory once and measure the ligand pose of every frame."""
     import mdtraj as md
@@ -255,14 +256,22 @@ def measure_pose(
         key = (_chain(atom.residue), atom.residue.resSeq, atom.residue.name, atom.name)
         index[key] = -1 if key in index else atom.index
     fit = []
+    chains = chain_map or {}
     for i in pocket:
         atom = ref_top.atom(i)
-        key = (_chain(atom.residue), atom.residue.resSeq, atom.residue.name, atom.name)
+        chain = _chain(atom.residue)
+        key = (
+            chains.get(chain, chain),
+            atom.residue.resSeq,
+            atom.residue.name,
+            atom.name,
+        )
         found = index.get(key)
         if found is None or found < 0:
             raise ValueError(
                 f"The reference alpha carbon {atom.residue.name}{atom.residue.resSeq} of "
-                f"chain {key[0]} matches {0 if found is None else 'more than one'} atoms "
+                f"chain {chain} (topology chain {key[0]}) matches "
+                f"{0 if found is None else 'more than one'} atoms "
                 "of the topology; the pocket must match by exact chain, number and name"
             )
         fit.append(found)

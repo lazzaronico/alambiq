@@ -46,7 +46,7 @@ The capability refuses a trajectory with more than 100,000 frames.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Literal
 
 from alambiq.capabilities.investigate.simulation_measure_ligand_pose_report import (
@@ -91,6 +91,10 @@ class PoseRequest:
     smiles:
         The ligand as SMILES, with no whitespace. It gives the bond orders, so that equivalent
         atoms are known, and must match the heavy atoms of the ligand in both files.
+    chain_map:
+        Chain ids of the reference structure that differ from the chain ids of the topology,
+        as {reference chain: topology chain}. A chain that is not listed must have the same
+        id in both files. A chain without a letter is named by its zero-based index.
     state_data:
         Optional. The CSV of state data of the same simulation, which gives the time of each
         frame. It has either one row per frame or one additional row at the start of
@@ -116,6 +120,7 @@ class PoseRequest:
     ligand: ResidueSelector
     reference_ligand: ResidueSelector
     smiles: str
+    chain_map: dict[str, str] = field(default_factory=dict)
     state_data: str | None = None
     fit_cutoff_angstrom: float = 10.0
     threshold_angstrom: float = 2.0
@@ -225,6 +230,7 @@ def measure_ligand_pose(request: PoseRequest, ctx: StepContext) -> PoseResult:
         threshold_angstrom=request.threshold_angstrom,
         imaging=request.imaging,
         chunk_frames=request.chunk_frames,
+        chain_map=request.chain_map,
     )
     count = found["frames"]
     time = (
