@@ -443,6 +443,38 @@ class TestRefusals:
 
 
 @pytestmark_engine
+class TestRhombicDodecahedron:
+    """The solvent sits in the box of the coordinate file.
+
+    A prmtop stores one box angle, so reading the box from it gives another lattice than the
+    one the waters and ions were placed in. Waters then lie on their own periodic images and
+    the energy before minimization is astronomical, and the minimizer cannot recover.
+    """
+
+    @pytest.fixture(scope="class")
+    def out(self, complex_files, tmp_path_factory):
+        os.environ["ALAMBIQ_ENV_OPENFF"] = ENV
+        outcome = run(
+            request(
+                complex_files,
+                protein_sequences=[SEQUENCE],
+                ligand_formal_charge=-1,
+                box_shape="dodecahedron",
+            ),
+            tmp_path_factory.mktemp("dodecahedron"),
+        )
+        assert outcome.ok, [s.error for s in outcome.steps.values() if s.error]
+        return outcome.outputs("prep")
+
+    def test_the_energy_before_minimization_is_that_of_a_solvated_system(self, out):
+        assert out["potential_energy_before_kj_mol"] < 1e7
+
+    def test_minimization_leaves_forces_that_dynamics_can_start_from(self, out):
+        assert out["max_force_after_kj_mol_nm"] < 1e5
+        assert out["potential_energy_after_kj_mol"] < 0
+
+
+@pytestmark_engine
 class TestPreparedComplex:
     @pytest.fixture(scope="class")
     def outcome(self, complex_files, tmp_path_factory):

@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- `structure.prepare_predicted_complex_for_dynamics` and `structure.prepare_protein_ligand_system` use the
+  periodic box of the coordinate file. A prmtop stores one box angle, so a rhombic dodecahedron read from it
+  was another lattice than the one the solvent was placed in: waters lay on their own periodic images, the
+  energy before minimization was about 1e13 to 1e23 kJ/mol, and dynamics on a CUDA platform stopped with a NaN
+  coordinate. The complex preparation now also refuses a minimized start whose largest force exceeds 1e5
+  kJ/mol/nm.
 - `simulation.measure_ligand_pose` measures the heavy-atom RMSD of a ligand to a reference pose in
   every frame of a trajectory, after fitting the protein by the pocket alpha carbons, with the
   smallest RMSD over the symmetric atom pairings, the centroid shift and the fraction of frames

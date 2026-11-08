@@ -210,8 +210,7 @@ def run(cfg: dict[str, Any]) -> dict[str, Any]:
         )
         structure.save(str(out / "complex.prmtop"), overwrite=False)
         structure.save(str(out / "complex.inpcrd"), format="rst7", overwrite=False)
-    prmtop = app.AmberPrmtopFile(str(out / "complex.prmtop"))
-    inpcrd = app.AmberInpcrdFile(str(out / "complex.inpcrd"))
+    prmtop, inpcrd = complex_prep.load_amber(out)
     system = prmtop.createSystem(
         nonbondedMethod=app.PME if periodic else app.NoCutoff,
         nonbondedCutoff=0.9 * unit.nanometer,

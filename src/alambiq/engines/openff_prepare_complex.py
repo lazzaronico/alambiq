@@ -41,6 +41,7 @@ CHARGE_MODEL = "openff-gnn-am1bcc-1.0.0.pt"
 CHARGE_MODEL_SHA256 = "7981e7f5b0b1e424c9e10a40d9e7606d96dcd3dd2b095cb4eeff6829f92238ee"
 SALT_WATER_MOLAR = 55.4
 SOLVENT = {"HOH", "WAT"}
+MAX_FORCE_KJ_MOL_NM = 1e5
 SODIUM = {"NA", "Na+"}
 CHLORIDE = {"CL", "Cl-"}
 ALLOWED_ELEMENTS = {"H", "C", "N", "O", "F", "P", "S", "Cl", "Br", "I"}
@@ -355,13 +356,29 @@ def export_parameters(model: Any, ff: Any, directory: Path) -> None:
     structure.save(str(directory / "complex.inpcrd"), format="rst7", overwrite=False)
 
 
+def load_amber(directory: Path):
+    """The Amber topology and coordinates, with the periodic box that the coordinates fit.
+
+    A prmtop stores one box angle, so a rhombic dodecahedron or truncated octahedron read from
+    it is another lattice than the one the solvent was placed in. The coordinate file stores
+    all three angles; its box is the one the waters and ions were placed in, and the system
+    takes it.
+    """
+    from openmm import app
+
+    prmtop = app.AmberPrmtopFile(str(directory / "complex.prmtop"))
+    inpcrd = app.AmberInpcrdFile(str(directory / "complex.inpcrd"))
+    if inpcrd.boxVectors is not None:
+        prmtop.topology.setPeriodicBoxVectors(inpcrd.boxVectors)
+    return prmtop, inpcrd
+
+
 def build_and_minimize(directory: Path, cfg: dict[str, Any]) -> dict[str, Any]:
     import numpy as np
     import openmm
     from openmm import app, unit
 
-    prmtop = app.AmberPrmtopFile(str(directory / "complex.prmtop"))
-    inpcrd = app.AmberInpcrdFile(str(directory / "complex.inpcrd"))
+    prmtop, inpcrd = load_amber(directory)
     system = prmtop.createSystem(
         nonbondedMethod=app.PME,
         nonbondedCutoff=0.9 * unit.nanometer,
@@ -395,6 +412,16 @@ def build_and_minimize(directory: Path, cfg: dict[str, Any]) -> dict[str, Any]:
         raise ValueError(
             f"Minimization increased the potential energy from {initial:.6f} to "
             f"{minimized:.6f} kJ/mol"
+        )
+    forces = state.getForces(asNumpy=True).value_in_unit(
+        unit.kilojoule_per_mole / unit.nanometer
+    )
+    peak = float(np.abs(forces).max())
+    if not peak <= MAX_FORCE_KJ_MOL_NM:
+        raise ValueError(
+            f"Minimization left a force of {peak:.3g} kJ/mol/nm on one atom, above "
+            f"{MAX_FORCE_KJ_MOL_NM:g}; dynamics from this start would not run. Raise "
+            "minimize_iterations or check the prepared structure"
         )
     (directory / "system.xml").write_text(openmm.XmlSerializer.serialize(system))
     (directory / "state.xml").write_text(openmm.XmlSerializer.serialize(state))
