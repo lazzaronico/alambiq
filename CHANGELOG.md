@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- `docs/concepts.md` states when the version of a capability changes and what a saved campaign
+  does after a capability changes.
 - `structure.prepare_mutation_inputs` widens the water margin of a leg when a compact solute would
   give a box narrower than twice the nonbonded cutoff, which OpenMM refuses; the result reports the
   padding used.

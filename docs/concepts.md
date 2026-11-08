@@ -10,6 +10,14 @@ Each capability has one family: characterize, investigate, engineer, measure or 
 
 `alambiq capability list` prints every capability with its family and a one-line summary. `alambiq capability show assay.fit` prints the request, the result, and the method and limits documented in the function.
 
+Each capability has a version of the form `major.minor`, stated in its declaration. The version is part of the reuse key. The minor number increases when a change can alter the result for an unchanged request, or adds fields to the result. The major number increases when a request field is removed or renamed, or when its meaning or unit changes. A change with no effect on results, such as documentation or a refactor, leaves the version unchanged. A run record keeps the version that produced each step.
+
+A saved campaign meets a changed capability as follows:
+
+- A field that the request no longer has is refused before any step runs. The message names the field and lists the fields the capability accepts.
+- A field added with a default leaves the campaign valid, and the field takes its default.
+- The resolved request of a step contains every field, so a step whose capability gained a field, or whose version rose, is computed again once in an existing run directory. Steps of other capabilities are reused.
+
 ## Campaigns and steps
 
 A campaign is an identifier and a list of steps, written in YAML or Python. A step is one use of a capability in a campaign. It has an id, a capability, parameters (`params`) and bindings (`bind`). A binding assigns an output of one step to a field of the request of another.

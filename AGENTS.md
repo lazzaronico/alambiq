@@ -34,6 +34,8 @@ Alambiq is open-source software for biotechnology R&D, organized as capabilities
   their own engine.
 - Preserve domain-specific types; do not introduce one type for every biological
   entity.
+- Set the version of a capability by the rule in `docs/concepts.md` and name each version
+  change in `CHANGELOG.md`.
 - Add a dependency or an abstraction only for a need stated in the change description.
   Remove superseded code. Shared viewers and exports are part of the report file and
   must not require an externally hosted service.
