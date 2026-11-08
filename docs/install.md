@@ -53,13 +53,13 @@ the extras and the capabilities that import their packages.
 | Extra | Adds | Used by |
 | --- | --- | --- |
 | `quantitative` | NumPy, SciPy, scikit-learn | `assay.*`, `operation.*`, `candidate.*`, `dna.optimize_coding`, `protein.explore_embeddings`, `protein.inspect`, `reaction.analyze_enzyme_panel`, `reaction.estimate_thermodynamics`, `simulation.analyze_binding_free_energy`, `simulation.compare_replica_structures`, `simulation.compare_scalar_couplings`, `simulation.inspect_trajectory`, `simulation.run_metadynamics`, `simulation.run_qmmm_dynamics`, `simulation.run_relative_free_energy`, `structure.prepare_reactive_coordinates`, `structure.prepare_relative_binding_inputs` |
-| `chemistry` | RDKit | `reaction.*` (including molecular drawings), `simulation.run_relative_free_energy`, `structure.prepare_reactive_coordinates` |
+| `chemistry` | RDKit | `reaction.*` (including molecular drawings), `simulation.measure_ligand_pose` (with `trajectory`), `simulation.run_relative_free_energy`, `structure.prepare_reactive_coordinates` |
 | `routes` | DORAnet, RDKit | `reaction.explore_routes` |
 | `thermodynamics` | eQuilibrator and its cache, RDKit | `reaction.estimate_thermodynamics` |
 | `dossier` | Gemmi | reading structure files, for example in `protein.inspect`, `structure.check`, `structure.compare` and `structure.detect_binding_pockets` |
 | `construct` | Pydna, Biopython | `construct.*` |
 | `coding-design` | DNA Chisel, Biopython | `dna.optimize_coding` |
-| `trajectory` | MDTraj | `simulation.cluster_trajectory`, `simulation.inspect_trajectory`, `simulation.compare_scalar_couplings`, `protein.inspect` (coordinate annotations) |
+| `trajectory` | MDTraj | `simulation.cluster_trajectory`, `simulation.inspect_trajectory`, `simulation.measure_ligand_pose` (with `chemistry`), `simulation.compare_scalar_couplings`, `protein.inspect` (coordinate annotations) |
 | `openmm`, `protein-repair` | OpenMM; OpenMM and PDBFixer | tests of the OpenMM-based engines, which import OpenMM in the Python environment of the core |
 | `embedding-analysis` | scikit-learn, UMAP | `protein.explore_embeddings` |
 

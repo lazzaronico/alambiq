@@ -45,6 +45,7 @@ MODULES = (
     "alambiq.capabilities.investigate.simulation_run_molecular_dynamics",
     "alambiq.capabilities.investigate.simulation_run_metadynamics",
     "alambiq.capabilities.investigate.simulation_inspect_trajectory",
+    "alambiq.capabilities.investigate.simulation_measure_ligand_pose",
     "alambiq.capabilities.investigate.simulation_cluster_trajectory",
     "alambiq.capabilities.investigate.simulation_compare_replica_structures",
     "alambiq.capabilities.investigate.simulation_compare_scalar_couplings",

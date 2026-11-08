@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- `simulation.measure_ligand_pose` measures the heavy-atom RMSD of a ligand to a reference pose in
+  every frame of a trajectory, after fitting the protein by the pocket alpha carbons, with the
+  smallest RMSD over the symmetric atom pairings, the centroid shift and the fraction of frames
+  within a threshold.
 - `docs/concepts.md` states when the version of a capability changes and what a saved campaign
   does after a capability changes.
 - `structure.prepare_mutation_inputs` widens the water margin of a leg when a compact solute would

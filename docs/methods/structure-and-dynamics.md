@@ -9,7 +9,8 @@ and inspect trajectories.
 independent of the others. `structure.prepare_protein_system` and
 `structure.prepare_predicted_complex_for_dynamics` write a system that
 `simulation.run_molecular_dynamics` or `simulation.run_metadynamics` reads.
-`simulation.inspect_trajectory` and `simulation.cluster_trajectory` read a trajectory.
+`simulation.inspect_trajectory`, `simulation.measure_ligand_pose` and
+`simulation.cluster_trajectory` read a trajectory.
 `simulation.compare_scalar_couplings`
 and `simulation.compare_replica_structures` read the results for several replicas.
 
@@ -216,6 +217,27 @@ coordinates unless `periodic_observables` is set. The periodic image check cover
 The fit uses alpha carbons only, so the RMSD reports backbone motion. Motion of side chains
 or of a ligand appears in the named distances, angles and contacts. A rise in RMSD shows
 that the structure moved away from the reference.
+
+## Measuring a ligand pose
+
+`simulation.measure_ligand_pose` reads the trajectory once and reports, for every frame, how
+far the ligand lies from its pose in a reference structure.
+
+- The protein is fitted to the reference by the alpha carbons of the residues that have an atom
+  within `fit_cutoff_angstrom` of the reference ligand.
+- The ligand RMSD is in Å, over heavy atoms, and the ligand is not fitted again after the
+  protein fit. The atoms of the two files are paired by the molecular graph that `smiles`
+  describes, and the smallest RMSD over the pairings that the symmetry of the molecule allows
+  is reported. A benzene turned by 60 degrees about its ring normal has an RMSD of 0.
+- The centroid shift is the distance between the centroids of the ligand and of the reference
+  ligand. A ligand that turns in place has a small centroid shift and a nonzero RMSD.
+- The summary gives the fraction of frames within `threshold_angstrom` of the reference pose and
+  the first frame beyond it. `state_data` gives the time of each frame.
+
+The reference is a PDB with the ligand in the pose of interest. With a deposited complex as the
+reference, the first frame measures the prepared prediction against the experimental pose and
+the later frames measure the dynamics. `imaging: whole-molecules` is set when a molecule crossed
+the box edge, as for `simulation.inspect_trajectory`.
 
 ## Trajectory clustering
 
