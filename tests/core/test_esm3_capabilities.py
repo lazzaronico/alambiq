@@ -258,15 +258,20 @@ class TestTracks:
         assert "threads must be an integer from 1 to 32" in outcome.steps["s"].error
 
     def test_an_unavailable_device_is_an_error_not_a_fallback(self, tmp_path):
+        from .engine_cuda import engine_has_cuda
+
         outcome = run(
             "protein.predict_tracks",
             {"protein": fasta(tmp_path, {"p": UBIQUITIN}), "device": "cuda"},
             tmp_path,
         )
-        assert (
-            "CUDA is unavailable; no implicit device fallback"
-            in outcome.steps["s"].error
-        )
+        if engine_has_cuda(ENV):
+            assert outcome.ok, outcome.steps["s"].error
+        else:
+            assert (
+                "CUDA is unavailable; no implicit device fallback"
+                in outcome.steps["s"].error
+            )
 
 
 # --- completion -------------------------------------------------------------

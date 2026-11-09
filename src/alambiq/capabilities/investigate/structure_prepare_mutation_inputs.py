@@ -182,7 +182,9 @@ def prepare_mutation_inputs(request: MutationRequest, ctx: StepContext) -> Mutat
     )
     variants = []
     if request.protonated_structure is not None:
-        from alambiq.capabilities.investigate.science.protonation import variants_from_structure
+        from alambiq.capabilities.investigate.science.protonation import (
+            variants_from_structure,
+        )
 
         variants = [
             {"residue_number": number, "variant": variant}

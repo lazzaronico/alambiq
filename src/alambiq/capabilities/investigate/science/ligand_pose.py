@@ -95,7 +95,7 @@ def ligand_graph(elements: list[str], xyz_angstrom, smiles: str, where: str):
     lines = [
         f"HETATM{i:5d} {element:<2s}{i % 100:02d} LIG A   1    "
         f"{x:8.3f}{y:8.3f}{z:8.3f}  1.00  0.00          {element:>2s}"
-        for i, (element, (x, y, z)) in enumerate(zip(elements, xyz_angstrom), 1)
+        for i, (element, (x, y, z)) in enumerate(zip(elements, xyz_angstrom, strict=True), 1)
     ]
     pose = Chem.MolFromPDBBlock(
         "\n".join(lines) + "\nEND\n", removeHs=False, proximityBonding=True

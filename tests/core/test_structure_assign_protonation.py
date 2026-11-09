@@ -327,14 +327,18 @@ class TestVariantsFromAProtonatedStructure:
         return "\n".join(lines) + "\nEND\n"
 
     def test_titratable_residues_of_the_chain_give_their_variant_by_number(self, tmp_path):
-        from alambiq.capabilities.investigate.science.protonation import variants_from_structure
+        from alambiq.capabilities.investigate.science.protonation import (
+            variants_from_structure,
+        )
 
         path = tmp_path / "p.pdb"
         path.write_text(self.text([("A", 3, "HIP"), ("A", 4, "LEU"), ("A", 5, "ASH"), ("B", 3, "HID")]))
         assert variants_from_structure(path, "A") == {3: "HIP", 5: "ASH"}
 
     def test_a_chain_that_is_absent_is_refused(self, tmp_path):
-        from alambiq.capabilities.investigate.science.protonation import variants_from_structure
+        from alambiq.capabilities.investigate.science.protonation import (
+            variants_from_structure,
+        )
 
         path = tmp_path / "p.pdb"
         path.write_text(self.text([("A", 3, "HIP")]))
@@ -342,7 +346,9 @@ class TestVariantsFromAProtonatedStructure:
             variants_from_structure(path, "Z")
 
     def test_an_insertion_code_is_refused(self, tmp_path):
-        from alambiq.capabilities.investigate.science.protonation import variants_from_structure
+        from alambiq.capabilities.investigate.science.protonation import (
+            variants_from_structure,
+        )
 
         path = tmp_path / "p.pdb"
         path.write_text(atom(1, "CA", "HIP", 3, (0, 0, 0), insertion="A") + "\nEND\n")

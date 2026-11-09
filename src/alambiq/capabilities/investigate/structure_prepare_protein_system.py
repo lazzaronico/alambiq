@@ -302,7 +302,9 @@ def prepare_protein_system(request: PrepareRequest, ctx: StepContext) -> Prepare
             {"residue_id": number, "insertion_code": insertion, "variant": item.variant}
         )
     if request.protonated_structure is not None:
-        from alambiq.capabilities.investigate.science.protonation import variants_from_structure
+        from alambiq.capabilities.investigate.science.protonation import (
+            variants_from_structure,
+        )
 
         imposed = variants_from_structure(
             ctx.resolve(request.protonated_structure), request.chain_id

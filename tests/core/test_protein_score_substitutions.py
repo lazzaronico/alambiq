@@ -206,10 +206,15 @@ class TestRefusals:
         assert "canonical residues" in outcome.steps["score"].error
 
     def test_a_device_that_is_not_there_is_an_error_not_a_fallback(self, tmp_path):
+        from .engine_cuda import engine_has_cuda
+
         outcome = run(
             {"protein": fasta(tmp_path), "positions": [1], "device": "cuda"}, tmp_path
         )
-        assert "CUDA is unavailable" in outcome.steps["score"].error
+        if engine_has_cuda(ENV):
+            assert outcome.ok, outcome.steps["score"].error
+        else:
+            assert "CUDA is unavailable" in outcome.steps["score"].error
 
 
 class TestVariants:
