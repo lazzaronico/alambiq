@@ -54,6 +54,12 @@ def point_mutant() -> str:
     return "".join(residues)
 
 
+needs_mmseqs = pytest.mark.skipif(
+    not (MMSEQS or shutil.which("mmseqs")),
+    reason="set ALAMBIQ_ENV_MMSEQS or put mmseqs on PATH to run",
+)
+
+
 @pytest.fixture
 def engine(monkeypatch):
     monkeypatch.setenv("ALAMBIQ_ENV_MMSEQS", MMSEQS or sys.executable)
@@ -143,6 +149,7 @@ class TestRefusals:
         assert "reference tiny" in message
 
 
+@needs_mmseqs
 class TestAgainstAPanel:
     @pytest.fixture
     def outcome(self, tmp_path, engine, variants, panel):
@@ -284,6 +291,7 @@ class TestAgainstSwissProt:
         assert outcome.outputs("call")["source"] == "database swissprot-2026_03-v1"
 
 
+@needs_mmseqs
 class TestThresholds:
     def test_a_stricter_identity_removes_the_distant_variant(
         self, tmp_path, engine, variants, panel
@@ -302,6 +310,7 @@ class TestThresholds:
         assert calls["edited"]["reference"] is None
 
 
+@needs_mmseqs
 class TestTheClosestReference:
     @pytest.fixture
     def outcome(self, tmp_path, engine):

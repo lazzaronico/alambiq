@@ -146,6 +146,11 @@ class TestTitrationTable:
 
 
 class TestRequestChecks:
+    @pytest.fixture(autouse=True)
+    def interpreter(self, monkeypatch):
+        """The request is refused before the engine starts, so any interpreter serves."""
+        monkeypatch.setenv("ALAMBIQ_ENV_PROTONATION", ENV or sys.executable)
+
     def run(self, tmp_path, params, text="ATOM\n", name="a.pdb"):
         from alambiq.api import run as execute
 
