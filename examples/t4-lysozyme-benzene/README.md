@@ -66,8 +66,12 @@ the same (Ala99 0.998, Val111 0.94, Leu118 0.90, Val87 0.77, Leu84 0.72).
 - The RMSD states how far the atoms lie from the pose in 181L over the trajectory. It does not
   state a binding free energy or a residence time.
 - The numbers above are one prediction sample (seed 1) and one 10 ns trajectory of one
-  starting structure. Another seed or trajectory gives other values: an earlier run of this
-  campaign with seed 1 had a mean RMSD of 0.79 Å and a maximum of 1.60 Å.
+  starting structure. Another seed or trajectory gives other values. Two runs with seed 1
+  gave different trajectories (mean RMSD 0.79 and 0.80 Å, maximum 1.60 and 1.89 Å). The
+  Boltz-2 prediction, the solvated coordinates and the force-field file of `system` are
+  identical between such runs; the minimized structure that `system` writes differs, and the
+  trajectory grows from that difference. A seed fixes the random choices, and reruns agree
+  statistically, not frame by frame.
 - 181L, or a close homologue, may be among the training data of Boltz-2, so a prediction that
   agrees with 181L does not show that the model predicts new complexes.
 - The 10 ns of dynamics start from the predicted pose. They show that the pose is stable in
