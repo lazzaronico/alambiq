@@ -272,3 +272,34 @@ def test_short_implicit_solvent_ensemble_compares_all_225_couplings(tmp_path):
     assert out["frames_per_replica"] == 100
     assert out["atom_naming"] == "iupac-beta-methylene"
     assert 0.4 < out["mae_hz"] < out["rmse_hz"] < 1.5
+
+
+@needs("gemmi", "mdtraj")
+def test_t4_lysozyme_campaign_is_valid_and_its_chain_binds_the_dossier(tmp_path):
+    import yaml
+
+    from alambiq.api import run, validate
+
+    path = EXAMPLES / "t4-lysozyme-benzene" / "campaign.yaml"
+    assert validate(path) == []
+    campaign = yaml.safe_load(path.read_text())
+    steps = {s["id"]: s for s in campaign["steps"]}
+    assert list(steps) == [
+        "dossier", "pockets", "complex", "system", "dynamics", "pose", "contacts"
+    ]
+    # The protein of the complex is the sequence of the dossier, and the analysis reads
+    # the trajectory and the topology of the preparation.
+    assert steps["complex"]["bind"] == {"proteins.0.sequence": "dossier.sequence"}
+    assert steps["pockets"]["bind"] == {"protein": "dossier.record"}
+    for step in ("pose", "contacts"):
+        assert steps[step]["bind"]["trajectory"] == "dynamics.trajectory"
+        assert steps[step]["bind"]["topology"] == "system.topology_pdb"
+    # The dossier runs without an engine: its sequence is the one in t4l.fasta.
+    first = {"id": "t4", "steps": [dict(steps["dossier"])]}
+    first["steps"][0]["params"] = {
+        key: str(path.parent / value) for key, value in steps["dossier"]["params"].items()
+    }
+    outcome = run(first, run_dir=tmp_path / "run")
+    assert outcome.ok
+    fasta = (path.parent / "t4l.fasta").read_text().split("\n", 1)[1].replace("\n", "")
+    assert outcome.outputs("dossier")["sequence"] == fasta

@@ -117,6 +117,7 @@ class TestReferenceFeatures:
         )
         assert outcome.outputs("look")["identifier"] == "P99999"
         assert outcome.outputs("look")["sequence_length"] == len(self.REF)
+        assert outcome.outputs("look")["sequence"] == self.REF
 
     def test_attribution_travels_with_the_record(self, tmp_path):
         outcome = run_ok(

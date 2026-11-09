@@ -4,11 +4,13 @@
 the deposited structure 181L, when the complex predicted from the sequence is simulated in
 water?
 
-The campaign has 7 steps:
+The campaign has 7 steps in two branches. The sequence read by `dossier` is bound into the
+prediction of `complex`, which leads through `system` and `dynamics` to the two measurements.
+`pockets` is a second branch that reads the deposited structure.
 
 | Step | Capability | Role |
 | --- | --- | --- |
-| `dossier` | `protein.inspect` | reads the sequence and the deposited structure 181L |
+| `dossier` | `protein.inspect` | reads the sequence and the deposited structure 181L; its `sequence` is the input of `complex` |
 | `pockets` | `structure.detect_binding_pockets` | predicts the pockets of the deposited structure (P2Rank) |
 | `complex` | `structure.predict_biomolecular_complex` | predicts the complex of the sequence with benzene (Boltz-2, one sample, seed 1) |
 | `system` | `structure.prepare_predicted_complex_for_dynamics` | solvates the predicted complex in a rhombic dodecahedron of water, assigns the force fields (OpenFF) and minimizes |
@@ -27,24 +29,25 @@ campaign is written for a machine with a CUDA GPU. On a Mac, set `accelerator: m
 `complex` and `platform: CPU` in `dynamics`, and shorten `production_ps`; 10 ns on a CPU takes
 days. The test suite does not run it.
 
-**Run on one NVIDIA GB10 (the DGX Spark).** Wall time per step: `dossier` 0.04 s,
-`pockets` 3 s, `complex` 75 s, `system` 155 s, `dynamics` 4,846 s (81 min), `pose` 14 s,
-`contacts` 14 s. The run directory holds 572 MB.
+**Run on one NVIDIA GB10 (the DGX Spark).** Wall time per step: `dossier` 0.05 s,
+`pockets` 3 s, `complex` 45 s, `system` 100 s, `dynamics` 2,158 s (36 min), `pose` 14 s,
+`contacts` 14 s; 2,320 s for the campaign. Another run of the same campaign took 75 s for
+`complex` and 4,846 s (81 min) for `dynamics`. The run directory holds about 570 MB.
 
 **What to look at.**
 
-- **`complex`**: the confidence of the predicted complex (complex pLDDT 0.98, ipTM 0.97). The
+- **`complex`**: the confidence of the predicted complex (complex pLDDT 0.978, ipTM 0.973). The
   prediction is a model, and `pose` compares what dynamics makes of it with the experiment.
 - **`pose`**: the 1,000 saved frames span about 10 ns. The heavy-atom RMSD of benzene to the
-  pose in 181L has a mean of 0.79 Å (median 0.79 Å, maximum 1.60 Å), and the RMSD of all 1,000
+  pose in 181L has a mean of 0.80 Å (median 0.80 Å, maximum 1.89 Å), and the RMSD of all 1,000
   frames lies below the 2 Å threshold. The 6 heavy atoms have 12 symmetry-equivalent
-  pairings, and the RMSD is the smallest over them. The mean RMSD of the 54 fit atoms is 0.52 Å.
-- **`contacts`**: the residues with the highest contact fraction are Ala99 (0.999), Val111
-  (0.94), Leu118 (0.87), Val87 (0.81) and Leu84 (0.70). Ala99 is the residue that replaces
+  pairings, and the RMSD is the smallest over them. The mean RMSD of the 54 fit atoms is 0.55 Å.
+- **`contacts`**: the residues with the highest contact fraction are Ala99 (0.998), Val111
+  (0.96), Leu118 (0.86), Val87 (0.79) and Leu84 (0.71). Ala99 is the residue that replaces
   leucine in the L99A cavity.
 - **`pockets`**: P2Rank ranks the cavity second (score 4.18, probability 0.17), not first. Its
-  residues include Leu84, Val87, Leu91, Ala99, Val111, Leu118, Leu121 and Phe153, which
-  are the residues of the `contacts` table with a contact fraction above 0.4.
+  residues include Leu84, Val87, Leu91, Ala99, Val111, Leu118, Leu121 and Phe153, and each
+  has a contact fraction above 0.3 in `contacts`.
 
 Change a downstream parameter, for example `threshold_angstrom` of `pose`, and rerun with the
 same `--run-dir`. Only `pose` is computed again; the other steps are reused. With a threshold
@@ -52,12 +55,23 @@ of 1 Å, `pose` ran again in 3.6 s, 877 of the 1,000 frames lay within the thres
 first frame beyond it was frame 12; `dossier`, `pockets`, `complex`, `system`, `dynamics` and
 `contacts` were reused.
 
+Change `seed` of `complex` and rerun with the same `--run-dir`. `dossier` and `pockets` are
+reused, and `complex` and every step after it are computed again. With seed 2 the confidence
+was ipTM 0.972, the RMSD of benzene had a mean of 0.77 Å and a maximum of 1.49 Å, all 1,000
+frames lay below 2 Å, and the order of the five residues with the highest contact fraction was
+the same (Ala99 0.998, Val111 0.94, Leu118 0.90, Val87 0.77, Leu84 0.72).
+
 **Limits.**
 
 - The RMSD states how far the atoms lie from the pose in 181L over the trajectory. It does not
   state a binding free energy or a residence time.
 - The numbers above are one prediction sample (seed 1) and one 10 ns trajectory of one
-  starting structure. Another seed or trajectory gives other values.
+  starting structure. Another seed or trajectory gives other values: an earlier run of this
+  campaign with seed 1 had a mean RMSD of 0.79 Å and a maximum of 1.60 Å.
+- 181L, or a close homologue, may be among the training data of Boltz-2, so a prediction that
+  agrees with 181L does not show that the model predicts new complexes.
+- The 10 ns of dynamics start from the predicted pose. They show that the pose is stable in
+  this force field, and the stability is not evidence that the pose is the true one.
 - The simulation covers 10 ns. A ligand that leaves the cavity on a longer time scale is not
   represented.
 - The pose in 181L is one experimental structure of the complex, at the resolution of the

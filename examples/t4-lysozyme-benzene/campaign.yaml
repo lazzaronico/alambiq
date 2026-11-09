@@ -18,10 +18,11 @@ steps:
 
   - id: complex
     capability: structure.predict_biomolecular_complex
+    bind:
+      proteins.0.sequence: dossier.sequence
     params:
       proteins:
         - id: T4L
-          sequence: MNIFEMLRIDEGLRLKIYKDTEGYYTIGIGHLLTKSPSLNAAKSELDKAIGRNTNGVITKDEAEKLFNQDVDAAVRGILRNAKLKPVYDSLDAVRRAAAINMVFQMGETGVAGFTNSLRMLQQKRWDEAAVNLAKSRWYNQTPNRAKRVITTFRTGTWDAYK
       ligand:
         id: BNZ
         smiles: c1ccccc1

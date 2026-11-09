@@ -115,6 +115,8 @@ class InspectResult:
     """Counts of mapped features, chains and residues, the chain mappings, the pLDDT summary, optional secondary-structure and surface-area summaries, and the stored records."""
 
     identifier: str
+    sequence: str
+    """The query sequence, so that a later step can bind it as a protein."""
     sequence_length: int
     sequence_sha256: str
     reference_features: int
@@ -169,7 +171,7 @@ def _confidence_summary(record: dict[str, Any] | None) -> ConfidenceSummary | No
 
 @capability(
     "protein.inspect",
-    version="1.0",
+    version="1.1",
     family="characterize",
     summary="Map a UniProt entry and a structure onto one query sequence",
     render=render,
@@ -261,6 +263,7 @@ def inspect(request: InspectRequest, ctx: StepContext) -> InspectResult:
 
     return InspectResult(
         identifier=dossier["identifier"],
+        sequence=dossier["sequence"],
         sequence_length=len(dossier["sequence"]),
         sequence_sha256=dossier["sequence_sha256"],
         reference_features=len(features),
