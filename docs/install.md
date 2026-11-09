@@ -163,7 +163,7 @@ All steps of a campaign run on the machine that starts the run. On a cluster, ru
 campaign in a single-node job.
 
 The core is tested on macOS (Apple silicon) and Linux x86_64. CI installs the wheel with
-every pip-installable extra and runs the tests on ubuntu-latest (Linux x86_64) and macos-14
+every pip-installable extra and runs the tests on ubuntu-latest (Linux x86_64) and macos-15
 (Apple silicon) with Python 3.11 and 3.13.
 
 The verification files in the directories under `environments/` record runs on two
