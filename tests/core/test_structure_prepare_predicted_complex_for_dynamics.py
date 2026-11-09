@@ -501,6 +501,21 @@ class TestPreparedComplex:
                 residues[(line[21], line[22:27])] = line[17:20].strip()
         return Counter(residues.values())
 
+    def test_the_ligand_residue_is_the_one_the_topology_holds(self, out):
+        residues = []
+        for line in Path(out["topology_pdb"]).read_text().splitlines():
+            if line.startswith(("ATOM", "HETATM")):
+                key = (line[21], line[22:27], line[17:20].strip())
+                if not residues or residues[-1] != key:
+                    residues.append(key)
+        chain, number, name = next(r for r in residues if r[2] == "LIG")
+        assert out["ligand_residue"] == {
+            "chain_id": chain.strip(),
+            "residue_number": int(number),
+            "residue_name": "LIG",
+        }
+        assert residues[out["ligand_residue_index"]][2] == "LIG"
+
     def test_the_composition_is_what_the_topology_shows(self, out):
         counts = self.topology_counts(out)
         atoms = [

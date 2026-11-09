@@ -294,6 +294,14 @@ def test_t4_lysozyme_campaign_is_valid_and_its_chain_binds_the_dossier(tmp_path)
     for step in ("pose", "contacts"):
         assert steps[step]["bind"]["trajectory"] == "dynamics.trajectory"
         assert steps[step]["bind"]["topology"] == "system.topology_pdb"
+    # The ligand is named by the preparation and not typed again.
+    assert steps["pose"]["bind"]["ligand"] == "system.ligand_residue"
+    assert "ligand" not in steps["pose"]["params"]
+    assert (
+        steps["contacts"]["bind"]["ligand_contacts.ligand_residue_index"]
+        == "system.ligand_residue_index"
+    )
+    assert "ligand_residue_index" not in steps["contacts"]["params"]["ligand_contacts"]
     # The dossier runs without an engine: its sequence is the one in t4l.fasta.
     first = {"id": "t4", "steps": [dict(steps["dossier"])]}
     first["steps"][0]["params"] = {

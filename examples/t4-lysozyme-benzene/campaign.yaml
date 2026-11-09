@@ -54,9 +54,9 @@ steps:
       topology: system.topology_pdb
       trajectory: dynamics.trajectory
       state_data: dynamics.state_data
+      ligand: system.ligand_residue
     params:
       reference_structure: 181L.pdb
-      ligand: {chain_id: "1", residue_number: 163, residue_name: LIG}
       reference_ligand: {chain_id: A, residue_number: 400, residue_name: BNZ}
       chain_map: {A: "1"}
       smiles: c1ccccc1
@@ -68,6 +68,7 @@ steps:
       topology: system.topology_pdb
       trajectory: dynamics.trajectory
       state_data: dynamics.state_data
+      ligand_contacts.ligand_residue_index: system.ligand_residue_index
     params:
-      ligand_contacts: {ligand_residue_index: 162, cutoff_angstrom: 4.0, periodic: true}
+      ligand_contacts: {cutoff_angstrom: 4.0, periodic: true}
       imaging: whole-molecules

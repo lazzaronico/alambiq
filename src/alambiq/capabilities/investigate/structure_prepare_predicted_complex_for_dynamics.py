@@ -110,6 +110,15 @@ class ComplexRequest:
 
 
 @dataclass(frozen=True, slots=True)
+class LigandResidue:
+    """The residue of the ligand in `topology_pdb`, as a selector of a later step."""
+
+    chain_id: str
+    residue_number: int
+    residue_name: str
+
+
+@dataclass(frozen=True, slots=True)
 class ComplexResult:
     """The prepared complex's composition, charges, energies and files."""
 
@@ -135,6 +144,10 @@ class ComplexResult:
     system_xml: str
     state_xml: str
     topology_pdb: str
+    ligand_residue: LigandResidue
+    """The ligand in `topology_pdb`; `simulation.measure_ligand_pose` takes it as `ligand`."""
+    ligand_residue_index: int
+    """The zero-based index of that residue; `simulation.inspect_trajectory` takes it as `ligand_residue_index`."""
     protein_pdb: str
     amber_topology: str
     """The Amber topology of the periodic system. `structure.prepare_finite_environment` reads it."""
@@ -154,7 +167,7 @@ def _source_digest(sdf_text: str) -> str | None:
 
 @capability(
     "structure.prepare_predicted_complex_for_dynamics",
-    version="1.0",
+    version="1.1",
     family="investigate",
     summary="Parameterize, solvate and minimize a predicted protein-ligand complex",
     render=render,
@@ -166,6 +179,7 @@ def prepare_predicted_complex(
     """Read and check the prediction, then build and minimize the system."""
     from alambiq.capabilities.investigate.science.predicted_complex import (
         find_disulfides,
+        ligand_residue,
         read_prediction,
         write_protein_pdb,
     )
@@ -236,6 +250,7 @@ def prepare_predicted_complex(
             "(SG-SG distance of at most 2.5 Å)."
         )
     output = work / "output"
+    ligand = ligand_residue(output / "topology.pdb")
     return ComplexResult(
         protein_chains=len(chains),
         protein_residues=sum(len(r) for _, r in chains),
@@ -260,6 +275,10 @@ def prepare_predicted_complex(
         system_xml=str(ctx.keep(output / "system.xml", "application/xml").path),
         state_xml=str(ctx.keep(output / "state.xml", "application/xml").path),
         topology_pdb=str(ctx.keep(output / "topology.pdb", "chemical/x-pdb").path),
+        ligand_residue=LigandResidue(
+            ligand["chain_id"], ligand["residue_number"], ligand["residue_name"]
+        ),
+        ligand_residue_index=ligand["residue_index"],
         protein_pdb=str(ctx.keep(protein, "chemical/x-pdb").path),
         amber_topology=str(
             ctx.keep(output / "complex.prmtop", "application/octet-stream").path

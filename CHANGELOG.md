@@ -3,6 +3,7 @@
 ## Unreleased
 
 - `protein.inspect` 1.1 returns `sequence`, the query sequence, so that a binding can pass it to a later step (for example `proteins.0.sequence: dossier.sequence` in a complex prediction).
+- `structure.prepare_predicted_complex_for_dynamics` 1.1 returns `ligand_residue` (chain, residue number and name of the ligand in `topology_pdb`) and `ligand_residue_index` (its zero-based index). `simulation.measure_ligand_pose` takes the first as `ligand` and `simulation.inspect_trajectory` the second as `ligand_residue_index`, so a campaign names the ligand once. The T4 lysozyme example binds both.
 - `protein.call_substitutions` 1.1 returns `reference_file` for each variant, a FASTA file with the sequence of its closest reference. The file is the `protein` and `notation` the variant of a request to `protein.score_substitutions`, so a variant known only by its sequence can be scored without retyping the reference.
 - `structure.prepare_predicted_complex_for_dynamics` and `structure.prepare_protein_ligand_system` use the
   periodic box of the coordinate file. A prmtop stores one box angle, so a rhombic dodecahedron read from it

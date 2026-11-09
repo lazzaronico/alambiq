@@ -272,3 +272,47 @@ def write_protein_pdb(
         lines.append("TER")
     lines.append("END")
     output.write_text("\n".join(lines) + "\n", encoding="ascii")
+
+
+def ligand_residue(topology_pdb: Path, residue_name: str = "LIG") -> dict[str, Any]:
+    """The residue of the ligand in a written topology: chain, number, name and index.
+
+    The index counts residues from 0 in file order, as a trajectory reader does. A chain whose
+    id column is blank is named by its zero-based index. Exactly one residue must have the
+    name.
+    """
+    residues: list[tuple[str, int, str, str]] = []
+    chain_index = -1
+    last_chain: str | None = None
+    ended = True
+    found: list[tuple[int, str, int]] = []
+    for line in Path(topology_pdb).read_text().splitlines():
+        if line.startswith("TER"):
+            ended = True
+            continue
+        if not line.startswith(("ATOM", "HETATM")):
+            continue
+        name = line[17:20].strip()
+        chain = line[21:22]
+        number = int(line[22:26])
+        insertion = line[26:27]
+        if ended or chain != last_chain:
+            chain_index += 1
+        ended = False
+        last_chain = chain
+        key = (chain, number, name, insertion)
+        if not residues or residues[-1] != key:
+            residues.append(key)
+            if name == residue_name:
+                found.append((len(residues) - 1, chain.strip() or str(chain_index), number))
+    if len(found) != 1:
+        raise ValueError(
+            f"The topology has {len(found)} residues named {residue_name}; exactly one is required"
+        )
+    index, chain_id, number = found[0]
+    return {
+        "chain_id": chain_id,
+        "residue_number": number,
+        "residue_name": residue_name,
+        "residue_index": index,
+    }
