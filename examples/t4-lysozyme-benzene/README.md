@@ -29,21 +29,21 @@ campaign is written for a machine with a CUDA GPU. On a Mac, set `accelerator: m
 `complex` and `platform: CPU` in `dynamics`, and shorten `production_ps`; 10 ns on a CPU takes
 days. The test suite does not run it.
 
-**Run on one NVIDIA GB10 (the DGX Spark).** Wall time per step: `dossier` 0.05 s,
-`pockets` 3 s, `complex` 45 s, `system` 100 s, `dynamics` 2,158 s (36 min), `pose` 14 s,
-`contacts` 14 s; 2,320 s for the campaign. Another run of the same campaign took 75 s for
-`complex` and 4,846 s (81 min) for `dynamics`. The run directory holds about 570 MB.
+**Run on one NVIDIA GB10 (the DGX Spark).** Wall time per step: `dossier` 0.04 s,
+`pockets` 3 s, `complex` 44 s, `system` 91 s, `dynamics` 2,150 s (36 min), `pose` 15 s,
+`contacts` 14 s; 2,306 s for the campaign. An earlier run took 75 s for `complex` and
+4,846 s (81 min) for `dynamics`. The run directory holds about 570 MB.
 
 **What to look at.**
 
 - **`complex`**: the confidence of the predicted complex (complex pLDDT 0.978, ipTM 0.973). The
   prediction is a model, and `pose` compares what dynamics makes of it with the experiment.
 - **`pose`**: the 1,000 saved frames span about 10 ns. The heavy-atom RMSD of benzene to the
-  pose in 181L has a mean of 0.80 Å (median 0.80 Å, maximum 1.89 Å), and the RMSD of all 1,000
+  pose in 181L has a mean of 0.82 Å (median 0.81 Å, maximum 1.60 Å), and the RMSD of all 1,000
   frames lies below the 2 Å threshold. The 6 heavy atoms have 12 symmetry-equivalent
-  pairings, and the RMSD is the smallest over them. The mean RMSD of the 54 fit atoms is 0.55 Å.
-- **`contacts`**: the residues with the highest contact fraction are Ala99 (0.998), Val111
-  (0.96), Leu118 (0.86), Val87 (0.79) and Leu84 (0.71). Ala99 is the residue that replaces
+  pairings, and the RMSD is the smallest over them. The mean RMSD of the 54 fit atoms is 0.58 Å.
+- **`contacts`**: the residues with the highest contact fraction are Ala99 (0.999), Val111
+  (0.90), Leu118 (0.88), Val87 (0.79) and Leu84 (0.73). Ala99 is the residue that replaces
   leucine in the L99A cavity.
 - **`pockets`**: P2Rank ranks the cavity second (score 4.18, probability 0.17), not first. Its
   residues include Leu84, Val87, Leu91, Ala99, Val111, Leu118, Leu121 and Phe153, and each
@@ -57,17 +57,17 @@ first frame beyond it was frame 12; `dossier`, `pockets`, `complex`, `system`, `
 
 Change `seed` of `complex` and rerun with the same `--run-dir`. `dossier` and `pockets` are
 reused, and `complex` and every step after it are computed again. With seed 2 the confidence
-was ipTM 0.972, the RMSD of benzene had a mean of 0.77 Å and a maximum of 1.49 Å, all 1,000
+was ipTM 0.972, the RMSD of benzene had a mean of 0.84 Å and a maximum of 1.73 Å, all 1,000
 frames lay below 2 Å, and the order of the five residues with the highest contact fraction was
-the same (Ala99 0.998, Val111 0.94, Leu118 0.90, Val87 0.77, Leu84 0.72).
+the same (Ala99 0.998, Val111 0.94, Leu118 0.91, Val87 0.81, Leu84 0.75).
 
 **Limits.**
 
 - The RMSD states how far the atoms lie from the pose in 181L over the trajectory. It does not
   state a binding free energy or a residence time.
 - The numbers above are one prediction sample (seed 1) and one 10 ns trajectory of one
-  starting structure. Another seed or trajectory gives other values. Two runs with seed 1
-  gave different trajectories (mean RMSD 0.79 and 0.80 Å, maximum 1.60 and 1.89 Å). The
+  starting structure. Another seed or trajectory gives other values. Three runs with seed 1
+  gave different trajectories (mean RMSD 0.79, 0.80 and 0.82 Å, maximum 1.60, 1.89 and 1.60 Å). The
   Boltz-2 prediction, the solvated coordinates and the force-field file of `system` are
   identical between such runs; the minimized structure that `system` writes differs, and the
   trajectory grows from that difference. A seed fixes the random choices, and reruns agree
