@@ -37,6 +37,10 @@ Protein, variant and structure examples:
 - [t4-lysozyme-benzene](t4-lysozyme-benzene/README.md): the chain from a protein sequence to
   10 ns of dynamics of its ligand complex, and the ligand pose measured against 181L. Needs
   P2Rank, Boltz-2, OpenFF and OpenMM, and a GPU.
+- [tbsadh-sequence-to-reactor](tbsadh-sequence-to-reactor/README.md): one enzyme, TbSADH, from its
+  sequence to a simulated reactor: the predicted tetramer with its substrate measured against
+  the catalytic site of 1YKF, and the fits of measured progress curves. Needs P2Rank, Boltz-2
+  and a GPU for the molecular branch only.
 - [variant-to-construct](variant-to-construct/README.md): an assembled DNA construct design
   for one chosen variant.
 - [ensemble-vs-nmr](ensemble-vs-nmr/README.md): a simulated ensemble compared with measured

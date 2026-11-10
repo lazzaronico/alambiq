@@ -1,0 +1,7 @@
+id: tbsadh-alignment
+steps:
+  - id: alignment
+    capability: sequence.generate_msa
+    params:
+      proteins: P14941.fasta
+      threads: 8

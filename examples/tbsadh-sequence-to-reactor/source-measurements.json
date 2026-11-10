@@ -1,0 +1,43 @@
+{
+  "citation": "Qiang Chen et al. (2023), Active and stable alcohol dehydrogenase-assembled hydrogels via synergistic bridging of triazoles and metal ions, Nature Communications, doi:10.1038/s41467-023-37921-y",
+  "doi": "10.1038/s41467-023-37921-y",
+  "license": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source_url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-023-37921-y/MediaObjects/41467_2023_37921_MOESM3_ESM.xlsx",
+  "source_sha256": "8111e240897330bb7fa36bc68d6007c33e6023507ac23c73bfd8e050fad72d8c",
+  "sheet": "Fig. 3",
+  "panel": "Fig3d1",
+  "quantity": "acetophenone conversion measured from substrate depletion",
+  "unit": "%",
+  "times_s": [60, 120, 180, 240, 300, 360, 420, 480],
+  "fit_times_s": [60, 120, 180, 240],
+  "evaluation_times_s": [300, 360, 420, 480],
+  "preparations": {
+    "free-TbSADH": {
+      "raw_cells": "D27:K29",
+      "raw_rows": [[6.4, 10.3, 16.4, 19.6, 23.3, 27.5, 29.3, 31.1], [5.1, 6.8, 7.3, 10.4, 17.1, 18.9, 24.8, 28.2], [7.6, 13.7, 18.7, 22.7, 23.7, 28.7, 31.8, 34.5]],
+      "source_mean_cells": "D30:K30",
+      "source_mean": [6.366666666666667, 10.266666666666667, 14.133333333333333, 17.566666666666666, 21.36666666666667, 25.03333333333333, 28.633333333333336, 31.266666666666666],
+      "source_error_cells": "D31:K31",
+      "source_error_label": "SEM",
+      "source_error": [1.0208928554075638, 2.8170118131728765, 4.922284925610149, 5.223238671765078, 3.021405118299873, 4.364503280888794, 2.8963578661637945, 2.574662868977003]
+    },
+    "EAG-TbSADH": {
+      "raw_cells": "D33:K35",
+      "raw_rows": [[26.3, 45.6, 62.3, 76.6, 86.7, 92.4, 94.8, 96.6], [28, 50.3, 71.5, 79.2, 90.5, 93.7, 96.2, 96.7], [24.5, 36.5, 50.3, 67.5, 74.7, 88.7, 93.3, 96.2]],
+      "source_mean_cells": "D36:K36",
+      "source_mean": [26.266666666666666, 44.13333333333333, 61.366666666666674, 74.43333333333334, 83.96666666666665, 91.60000000000001, 94.76666666666667, 96.5],
+      "source_error_cells": "D37:K37",
+      "source_error_label": "SEM",
+      "source_error": [1.4290634073484012, 5.728486323240649, 8.679989759338522, 5.0161959912090985, 6.733663358248778, 2.1181753153756344, 1.184154644555443, 0.21602468994692736]
+    }
+  },
+  "processing": [
+    "Selected raw triplicates, source means and source error cells are transcribed at their original units and cell identities.",
+    "Model observations are recomputed arithmetic means divided by 100 to give conversion fractions.",
+    "The first four times fit each preparation; the remaining four evaluate later-time predictions.",
+    "The selected source error values equal population standard deviations. D31 and D37 contain STDEVP formulas despite the SEM label. Sample SD is calculated separately.",
+    "Longitudinal pairing and independence of the three raw rows remain unspecified by their cell positions. The example uses descriptive sensitivity.",
+    "Default assay conditions are 5 mM acetophenone, 10% isopropanol, 1 mM NADP+, 1 mg/mL TbSADH content, 500 microlitres, 50 mM PBS, pH 7.4 and 30 degrees C. The two effective rate laws condition on this fixed assay context."
+  ]
+}

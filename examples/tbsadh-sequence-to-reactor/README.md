@@ -1,0 +1,95 @@
+# TbSADH: from the sequence to a simulated reactor
+
+**Question.** Does the predicted complex of the alcohol dehydrogenase TbSADH with its
+substrate acetophenone place the substrate in the catalytic site of the deposited structure,
+and what does the measured progress of the same reaction predict for a reactor?
+
+One campaign follows one enzyme, the secondary alcohol dehydrogenase of *Thermoanaerobacter
+brockii* (UniProt P14941, 352 residues, a homotetramer with a catalytic zinc and one NADP in
+each subunit), and one substrate, acetophenone. The campaign has 10 steps in two branches.
+
+| Step | Capability | Role |
+| --- | --- | --- |
+| `dossier` | `protein.inspect` | reads the sequence and the deposited structure 1YKF; its `sequence` is the input of `complex` |
+| `pockets` | `structure.detect_binding_pockets` | predicts the pockets of the deposited tetramer (P2Rank) |
+| `complex` | `structure.predict_biomolecular_complex` | predicts the tetramer with acetophenone (Boltz-2, seed 1), each chain with the alignment `P14941.a3m` |
+| `predicted` | `protein.inspect` | reads the predicted structure against the same sequence |
+| `agreement` | `structure.compare` | superposes chain A of the prediction on chain A of 1YKF |
+| `free-first-order`, `free-saturation`, `hydrogel-first-order`, `hydrogel-saturation` | `operation.fit` | fit an effective first-order law and a saturation law to the progress of acetophenone reduction by free and hydrogel-assembled TbSADH |
+| `reactor` | `operation.simulate` | simulates the fitted hydrogel operation |
+
+The molecular branch and the laboratory branch share the enzyme and the substrate. No number
+passes between them: the fits of the progress curves do not read the structure.
+
+```bash
+alambiq run examples/tbsadh-sequence-to-reactor/campaign.yaml --report report.html
+python examples/tbsadh-sequence-to-reactor/measure_site.py --run-dir <run directory>
+```
+
+**Needs.** The `dossier` and `quantitative` extras. The molecular branch needs the P2Rank and
+Boltz-2 environments and their resources (`ALAMBIQ_ENV_P2RANK`, `ALAMBIQ_ENV_BOLTZ`; see
+[install](../../docs/install.md)) and a CUDA GPU for the prediction of the tetramer (1,408
+residues). The laboratory branch needs no engine. `measure_site.py` needs `gemmi` and `numpy`.
+The test suite runs the dossier, the laboratory branch and `measure_site.py`, and does not run
+the prediction.
+
+**The alignment.** `P14941.a3m` is the result of `sequence.generate_msa` for `P14941.fasta`
+(`msa.yaml`; UniRef50 release 2026_02, three iterations, 4,158 rows, of which 4,055 are diverse
+sequences). The database is 138 GB and its search ran on a Mac in 646 s. The file is stored here
+as an input of the campaign, and the four chains name it, so the campaign does not need the
+database. Without an alignment, Boltz-2 predicted the tetramer with an ipTM of 0.17 and a
+complex pLDDT of 0.45.
+
+**Run on one NVIDIA GB10 (the DGX Spark).** Wall time per step: `dossier` 0.1 s, `pockets` 3 s,
+`complex` 1,072 s, `predicted` 0.1 s, `agreement` 0.3 s, the four fits 5.5, 20.5, 8.5 and 28.2 s,
+`reactor` 0.01 s; 1,104 s for the campaign.
+
+**What to look at.**
+
+- **`pockets`**: P2Rank ranks four pockets with probabilities from 0.90 to 0.96 (scores 37.7,
+  35.5, 30.4 and 24.3), and a fifth with 0.51. Each
+  of the first four contains query positions 37, 59 and 150, the Cys37, His59 and Asp150 that
+  bind the catalytic zinc.
+- **`complex`**: ipTM 0.959, complex pLDDT 0.96, ligand ipTM 0.876; one acetophenone is placed
+  in the tetramer.
+- **`agreement`**: chain A of the prediction superposes on chain A of 1YKF with an alpha-carbon
+  RMSD of 0.45 Å over 352 residues.
+- **`measure_site.py`**: the predicted tetramer superposes on the deposited tetramer with an
+  alpha-carbon RMSD of 0.67 Å over 1,408 residues (the predicted chains A, B, C and D
+  correspond to the deposited chains C, D, B and A). The carbonyl oxygen of the substrate lies
+  1.89 Å from the catalytic zinc of that subunit and 44 to 47 Å from the others, and its
+  carbonyl carbon lies 3.58 Å from C4 of the nicotinamide of the NADP of that subunit, the carbon
+  that receives the hydride, and 40 to 45 Å from the others. The prediction contains neither the
+  zinc nor the NADP. The centroid of the substrate lies 7.6 Å from the centre of the P2Rank
+  pocket of that subunit and more than 30 Å from the others.
+- **Laboratory branch**: the numbers of
+  [operation-from-progress-curves](../operation-from-progress-curves/README.md): the standardized
+  RMSE of the hydrogel saturation fit is 1.00 on the fitted points and 1.85 on the evaluation
+  points, and the simulation ends at 480 s with 0.224 mM acetophenone and 4.776 mM converted
+  substrate.
+
+**Rerun.** A second campaign in a separate run directory wrote the same predicted structure
+(byte for byte), the same confidences, the same fits and reactor simulation and the same
+distances in `measure_site.py`, with the same step keys.
+
+**Limits.**
+
+- The prediction states where Boltz-2 places the substrate in a tetramer without cofactor or
+  zinc. TbSADH, or a close homologue with a substrate, may be among the training data of
+  Boltz-2, so the agreement with 1YKF does not show that the model predicts new complexes. It
+  checks the chain on a known answer.
+- 1YKF holds NADP and zinc and no substrate. The distances state where the predicted substrate
+  lies relative to them, and not that this is the productive binding mode.
+- The prediction is one sample (seed 1) with one alignment. The campaign runs the prediction
+  once, and the number of rows of the alignment depends on the database release.
+- The fits describe one assay at fixed conditions (5 mM substrate, 1 mg/mL enzyme, pH 7.4,
+  30 °C) with four fitted points for each saturation fit; see the limits of
+  [operation-from-progress-curves](../operation-from-progress-curves/README.md).
+
+**Data.** `1YKF.cif` is the deposited structure of TbSADH with NADP (RCSB PDB 1YKF, CC0;
+Korkhin et al., J. Mol. Biol. 1998). `P14941.fasta` is the UniProt sequence P14941 (CC BY 4.0;
+the identifier of the header is reduced to the accession, because the alignment capability
+accepts letters, digits, underscore, dot and hyphen). The deposited sequence and the UniProt
+sequence are identical. The progress curves and the definition files are those of
+[operation-from-progress-curves](../operation-from-progress-curves/README.md) (Chen et al.,
+*Nature Communications* 2023, doi:10.1038/s41467-023-37921-y, Fig. 3d1 source data, CC BY 4.0).

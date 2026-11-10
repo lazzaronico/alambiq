@@ -213,6 +213,26 @@ class TestChecks:
         assert boltz.timeout_seconds("gpu", 1, 2, 1) == base
 
 
+class TestIdenticalChains:
+    chains = [
+        {"id": "A", "sequence": SEQUENCE},
+        {"id": "B", "sequence": SEQUENCE},
+        {"id": "C", "sequence": SEQUENCE[::-1]},
+    ]
+
+    def test_identical_chains_with_one_alignment_pass(self):
+        boltz.check_identical_chains(self.chains, ["x", "x", "y"])
+        boltz.check_identical_chains(self.chains, [None, None, "y"])
+
+    def test_identical_chains_with_different_alignments_are_refused_by_name(self):
+        with pytest.raises(ValueError, match="Chains A and B have the same sequence"):
+            boltz.check_identical_chains(self.chains, ["x", "y", None])
+
+    def test_identical_chains_with_and_without_an_alignment_are_refused(self):
+        with pytest.raises(ValueError, match="Chains A and B"):
+            boltz.check_identical_chains(self.chains, ["x", None, None])
+
+
 class TestAffinityInputsAndOutputs:
     """What the engine hands Boltz for affinity and how it reads the answer."""
 
@@ -809,3 +829,31 @@ class TestSaltLigandsRun:
         assert out["ligand"]["atoms"] > 0
         if affinity:
             assert out["affinity"]["ligand_atoms"] == 6
+
+
+@pytestmark_engine
+class TestHomodimerWithAlignment:
+    def test_two_identical_chains_name_one_alignment_file_and_the_run_completes(
+        self, tmp_path
+    ):
+        os.environ["ALAMBIQ_ENV_BOLTZ"] = ENV
+        a3m = tmp_path / "chain.a3m"
+        a3m.write_text(f">query\n{SEQUENCE}\n", encoding="utf-8")
+        out = ok(
+            run(
+                request(
+                    proteins=[
+                        {"id": "A", "sequence": SEQUENCE, "msa": str(a3m)},
+                        {"id": "B", "sequence": SEQUENCE, "msa": str(a3m)},
+                    ],
+                    ligand=None,
+                ),
+                tmp_path,
+            )
+        )
+        import yaml
+
+        given = yaml.safe_load(Path(out["input_yaml"]).read_text())
+        paths = {e["protein"]["msa"] for e in given["sequences"]}
+        assert len(paths) == 1
+        assert [c["id"] for c in out["chains"]] == ["A", "B"]

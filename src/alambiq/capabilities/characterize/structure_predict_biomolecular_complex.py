@@ -26,6 +26,9 @@ The method:
   is the position of the ligand in one sample.
 - The capability computes the stereochemistry of each pose from its coordinates
   and reports whether it matches the canonical SMILES of the processed ligand.
+- Chains of one sequence (copies of one protein, as in a homotetramer) share one alignment:
+  an identical alignment is written once, and identical chains with different alignments
+  are refused.
 - A ligand SMILES with several components (a salt, written with a `.`) is reduced to its
   largest component before the run; the ligand summary lists the others in
   `other_components` and a note says so.
@@ -294,7 +297,7 @@ def environment_for(request: PredictRequest) -> str:
 
 @capability(
     "structure.predict_biomolecular_complex",
-    version="1.2",
+    version="1.3",
     family="characterize",
     summary="Predict the structure of protein chains and an optional ligand with Boltz-2",
     render=render,
@@ -310,6 +313,7 @@ def predict_biomolecular_complex(
         assign_ids,
         check_affinity,
         check_chains,
+        check_identical_chains,
         check_settings,
         normalize_a3m,
         timeout_seconds,
@@ -343,16 +347,30 @@ def predict_biomolecular_complex(
     workdir = ctx.workdir / "boltz"
     workdir.mkdir()
     chains, prepared = [], []
-    for index, protein in enumerate(proteins):
-        rows = None
-        path = None
+    texts: list[str | None] = []
+    rows_of: list[int | None] = []
+    for protein in proteins:
+        text, rows = None, None
         if protein["msa"] is not None:
             text, rows = normalize_a3m(
                 ctx.read_text(protein["msa"]), protein["sequence"]
             )
-            file = workdir / f"chain-{index:02d}.a3m"
-            file.write_text(text, encoding="utf-8")
-            path = str(file)
+        texts.append(text)
+        rows_of.append(rows)
+    check_identical_chains(proteins, texts)
+    # Boltz-2 takes chains of one sequence as copies of one protein, and the copies must
+    # name one alignment file: identical alignments are written once.
+    files: dict[str, str] = {}
+    for index, (protein, text, rows) in enumerate(
+        zip(proteins, texts, rows_of, strict=True)
+    ):
+        path = None
+        if text is not None:
+            if text not in files:
+                file = workdir / f"chain-{index:02d}.a3m"
+                file.write_text(text, encoding="utf-8")
+                files[text] = str(file)
+            path = files[text]
         prepared.append({**protein, "msa": path})
         chains.append(
             ChainSummary(

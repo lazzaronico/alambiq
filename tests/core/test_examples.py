@@ -311,3 +311,88 @@ def test_t4_lysozyme_campaign_is_valid_and_its_chain_binds_the_dossier(tmp_path)
     assert outcome.ok
     fasta = (path.parent / "t4l.fasta").read_text().split("\n", 1)[1].replace("\n", "")
     assert outcome.outputs("dossier")["sequence"] == fasta
+
+
+def load_script(path: Path):
+    from importlib.util import module_from_spec, spec_from_file_location
+
+    spec = spec_from_file_location(path.stem, path)
+    module = module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+@needs("gemmi", "numpy")
+def test_tbsadh_campaign_is_valid_and_one_enzyme_runs_through_both_branches(tmp_path):
+    import yaml
+
+    from alambiq.api import run, validate
+
+    folder = EXAMPLES / "tbsadh-sequence-to-reactor"
+    path = folder / "campaign.yaml"
+    assert validate(path) == []
+    campaign = yaml.safe_load(path.read_text())
+    steps = {s["id"]: s for s in campaign["steps"]}
+    assert list(steps) == [
+        "dossier", "pockets", "complex", "predicted", "agreement",
+        "free-first-order", "free-saturation", "hydrogel-first-order",
+        "hydrogel-saturation", "reactor",
+    ]
+    # All four chains of the tetramer take the sequence of the dossier and share one alignment.
+    assert steps["complex"]["bind"] == {
+        f"proteins.{i}.sequence": "dossier.sequence" for i in range(4)
+    }
+    assert {p["msa"] for p in steps["complex"]["params"]["proteins"]} == {"P14941.a3m"}
+    assert steps["pockets"]["bind"] == {"protein": "dossier.record"}
+    assert steps["agreement"]["bind"] == {
+        "reference": "dossier.record", "mobile": "predicted.record"
+    }
+    for name in ("P14941.fasta", "P14941.a3m", "1YKF.cif", "measure_site.py"):
+        assert (folder / name).is_file(), name
+    # The sequence of the deposited structure is the one of UniProt P14941.
+    fasta = (folder / "P14941.fasta").read_text().split("\n", 1)[1].replace("\n", "")
+    assert len(fasta) == 352
+    first = {"id": "tbsadh", "steps": [dict(steps["dossier"])]}
+    first["steps"][0]["params"] = {
+        key: str(folder / value) for key, value in steps["dossier"]["params"].items()
+    }
+    outcome = run(first, run_dir=tmp_path / "dossier")
+    assert outcome.ok
+    assert outcome.outputs("dossier")["sequence"] == fasta
+
+
+@quantitative
+def test_tbsadh_laboratory_branch_gives_the_published_fits(tmp_path):
+    import yaml
+
+    from alambiq.api import run
+
+    folder = EXAMPLES / "tbsadh-sequence-to-reactor"
+    campaign = yaml.safe_load((folder / "campaign.yaml").read_text())
+    lab = [s for s in campaign["steps"] if s["id"].startswith(("free-", "hydrogel-", "reactor"))]
+    for step in lab:
+        if "definition" in step.get("params", {}):
+            step["params"]["definition"] = str(folder / step["params"]["definition"])
+    outcome = run({"id": "tbsadh-lab", "steps": lab}, run_dir=tmp_path / "lab")
+    assert outcome.ok
+    out = outcome.outputs("hydrogel-saturation")
+    assert (out["fit_error"], out["evaluation_error"]) == pytest.approx(
+        (0.997, 1.853), abs=2e-3
+    )
+    final = outcome.outputs("reactor")["final_concentrations_M"]
+    assert final["acetophenone"] + final["converted-substrate"] == pytest.approx(5e-3)
+
+
+@needs("gemmi", "numpy")
+def test_the_site_measurement_finds_the_chain_assignment_that_fits(tmp_path):
+    script = load_script(EXAMPLES / "tbsadh-sequence-to-reactor" / "measure_site.py")
+    deposited = EXAMPLES / "tbsadh-sequence-to-reactor" / "1YKF.cif"
+    reference = script.read(deposited)
+    renamed = script.read(deposited)
+    new = {"A": "C", "B": "D", "C": "B", "D": "A"}
+    for chain in renamed[0]:
+        chain.name = new.get(chain.name, chain.name)
+    fit = script.fit_chains(renamed, reference)
+    assert fit["rmsd_angstrom"] < 1e-3
+    assert fit["residues"] == 1408
+    assert fit["assignment"] == {renamed_name: kept for kept, renamed_name in new.items()}

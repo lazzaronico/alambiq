@@ -42,6 +42,25 @@ def assign_ids(
     return chains, ligand
 
 
+def check_identical_chains(proteins: list[dict[str, Any]], alignments: list[str | None]) -> None:
+    """Refuse identical chains with different alignments, which Boltz-2 refuses too.
+
+    Boltz-2 reads chains of one sequence as copies of one protein, so they share one
+    alignment. `alignments` holds each chain's normalised A3M text, or None for none.
+    """
+    first: dict[str, int] = {}
+    for index, chain in enumerate(proteins):
+        sequence = chain["sequence"].upper()
+        if sequence not in first:
+            first[sequence] = index
+        elif alignments[index] != alignments[first[sequence]]:
+            other = proteins[first[sequence]]["id"]
+            raise ValueError(
+                f"Chains {other} and {chain['id']} have the same sequence and different "
+                "alignments; give identical chains the same alignment (or none)"
+            )
+
+
 def check_chains(proteins: list[dict[str, Any]], ligand: dict[str, Any] | None) -> None:
     """Refuse chains Boltz would misread or that exceed what this capability runs."""
     if not 1 <= len(proteins) <= MAX_CHAINS:

@@ -1,0 +1,80 @@
+# One enzyme, from its sequence to a simulated reactor: TbSADH (UniProt P14941) and
+# acetophenone. The molecular branch needs the P2Rank and Boltz-2 environments and a GPU for
+# the prediction; the laboratory branch needs the `quantitative` extra only. See README.md.
+id: tbsadh-sequence-to-reactor
+steps:
+  # Molecular branch: the deposited structure and the predicted complex.
+  - id: dossier
+    capability: protein.inspect
+    params:
+      fasta: P14941.fasta
+      structure: 1YKF.cif
+
+  - id: pockets
+    capability: structure.detect_binding_pockets
+    bind:
+      protein: dossier.record
+    params:
+      structure_kind: experimental
+
+  - id: complex
+    capability: structure.predict_biomolecular_complex
+    bind:
+      proteins.0.sequence: dossier.sequence
+      proteins.1.sequence: dossier.sequence
+      proteins.2.sequence: dossier.sequence
+      proteins.3.sequence: dossier.sequence
+    params:
+      proteins:
+        - {id: A, msa: P14941.a3m}
+        - {id: B, msa: P14941.a3m}
+        - {id: C, msa: P14941.a3m}
+        - {id: D, msa: P14941.a3m}
+      ligand:
+        id: ACP
+        smiles: CC(=O)c1ccccc1
+      seed: 1
+      accelerator: gpu
+
+  - id: predicted
+    capability: protein.inspect
+    bind:
+      structure: complex.samples.0.structure
+    params:
+      fasta: P14941.fasta
+
+  - id: agreement
+    capability: structure.compare
+    bind:
+      reference: dossier.record
+      mobile: predicted.record
+    params:
+      reference_chain: A
+      mobile_chain: A
+
+  # Laboratory branch: the progress of acetophenone reduction by the same enzyme, free and
+  # assembled in a hydrogel (Chen et al., 2023), and the fitted operation.
+  - id: free-first-order
+    capability: operation.fit
+    params:
+      definition: free-TbSADH-first-order.json
+
+  - id: free-saturation
+    capability: operation.fit
+    params:
+      definition: free-TbSADH-saturation.json
+
+  - id: hydrogel-first-order
+    capability: operation.fit
+    params:
+      definition: EAG-TbSADH-first-order.json
+
+  - id: hydrogel-saturation
+    capability: operation.fit
+    params:
+      definition: EAG-TbSADH-saturation.json
+
+  - id: reactor
+    capability: operation.simulate
+    bind:
+      definition: hydrogel-saturation.operations.EAG-TbSADH

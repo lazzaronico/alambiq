@@ -1,0 +1,214 @@
+{
+  "id": "EAG-TbSADH-first-order",
+  "experiments": [
+    {
+      "id": "EAG-TbSADH",
+      "volume_L": 0.0005,
+      "conditions": "TbSADH acetophenone depletion: source default assay 5 mM AP, 10% IPA, 1 mM NADP+, 1 mg/mL enzyme content, 50 mM PBS pH 7.4, 30 C. Effective fixed-condition first-order progress model; converted-substrate is a depletion-equivalent accounting pool.",
+      "species": [
+        {
+          "id": "acetophenone",
+          "initial_M": 0.005,
+          "pools": {
+            "substrate-equivalent": 1
+          }
+        },
+        {
+          "id": "converted-substrate",
+          "initial_M": 0,
+          "pools": {
+            "substrate-equivalent": 1
+          }
+        }
+      ],
+      "catalysts": [],
+      "channels": [
+        {
+          "id": "depletion",
+          "reaction_id": "acetophenone-depletion-equivalents",
+          "stoichiometry": {
+            "acetophenone": -1,
+            "converted-substrate": 1
+          },
+          "capacity_M_s": 1e-05,
+          "factors": [
+            {
+              "species": "acetophenone",
+              "kind": "mass-action",
+              "scale_M": 0.005
+            }
+          ],
+          "source": "Qiang Chen et al. (2023), Active and stable alcohol dehydrogenase-assembled hydrogels via synergistic bridging of triazoles and metal ions, Nature Communications, doi:10.1038/s41467-023-37921-y; effective law fitted to early mean substrate-depletion observations in this preparation."
+        }
+      ],
+      "phases": [
+        {
+          "end_s": 480,
+          "dilution_per_s": 0,
+          "feed_M": {},
+          "active_channels": [
+            "depletion"
+          ]
+        }
+      ],
+      "events": [],
+      "times_s": [
+        0,
+        60,
+        120,
+        180,
+        240,
+        300,
+        360,
+        420,
+        480
+      ]
+    }
+  ],
+  "parameters": [
+    {
+      "id": "capacity",
+      "unit": "M/s",
+      "lower": 1e-10,
+      "upper": 0.01,
+      "scale": 1e-05,
+      "targets": [
+        {
+          "experiment_id": "EAG-TbSADH",
+          "path": [
+            "channels",
+            "depletion",
+            "capacity_M_s"
+          ]
+        }
+      ]
+    }
+  ],
+  "starts": [
+    {
+      "capacity": 1e-06
+    },
+    {
+      "capacity": 1e-05
+    },
+    {
+      "capacity": 0.0001
+    }
+  ],
+  "observations": [
+    {
+      "id": "EAG-TbSADH-60s-mean",
+      "experiment_id": "EAG-TbSADH",
+      "time_s": 60,
+      "state": "after",
+      "quantity": "conversion",
+      "target": "acetophenone",
+      "unit": "fraction",
+      "reference_M": 0.005,
+      "value": 0.26266666666666666,
+      "scale": 0.01,
+      "partition": "fit",
+      "source": "Qiang Chen et al. (2023), Active and stable alcohol dehydrogenase-assembled hydrogels via synergistic bridging of triazoles and metal ions, Nature Communications, doi:10.1038/s41467-023-37921-y; workbook 8111e240897330bb7fa36bc68d6007c33e6023507ac23c73bfd8e050fad72d8c; Fig. 3 D33:K35, column D; mean of [26.3, 28, 24.5] percent. Source error 1.4290634073484012 percent is population SD; separately calculated sample SD 1.7502380790433436 percent. Equal one-percentage-point numerical residual scale."
+    },
+    {
+      "id": "EAG-TbSADH-120s-mean",
+      "experiment_id": "EAG-TbSADH",
+      "time_s": 120,
+      "state": "after",
+      "quantity": "conversion",
+      "target": "acetophenone",
+      "unit": "fraction",
+      "reference_M": 0.005,
+      "value": 0.44133333333333336,
+      "scale": 0.01,
+      "partition": "fit",
+      "source": "Qiang Chen et al. (2023), Active and stable alcohol dehydrogenase-assembled hydrogels via synergistic bridging of triazoles and metal ions, Nature Communications, doi:10.1038/s41467-023-37921-y; workbook 8111e240897330bb7fa36bc68d6007c33e6023507ac23c73bfd8e050fad72d8c; Fig. 3 D33:K35, column E; mean of [45.6, 50.3, 36.5] percent. Source error 5.728486323240649 percent is population SD; separately calculated sample SD 7.0159342452258855 percent. Equal one-percentage-point numerical residual scale."
+    },
+    {
+      "id": "EAG-TbSADH-180s-mean",
+      "experiment_id": "EAG-TbSADH",
+      "time_s": 180,
+      "state": "after",
+      "quantity": "conversion",
+      "target": "acetophenone",
+      "unit": "fraction",
+      "reference_M": 0.005,
+      "value": 0.6136666666666667,
+      "scale": 0.01,
+      "partition": "fit",
+      "source": "Qiang Chen et al. (2023), Active and stable alcohol dehydrogenase-assembled hydrogels via synergistic bridging of triazoles and metal ions, Nature Communications, doi:10.1038/s41467-023-37921-y; workbook 8111e240897330bb7fa36bc68d6007c33e6023507ac23c73bfd8e050fad72d8c; Fig. 3 D33:K35, column F; mean of [62.3, 71.5, 50.3] percent. Source error 8.679989759338522 percent is population SD; separately calculated sample SD 10.630772941481412 percent. Equal one-percentage-point numerical residual scale."
+    },
+    {
+      "id": "EAG-TbSADH-240s-mean",
+      "experiment_id": "EAG-TbSADH",
+      "time_s": 240,
+      "state": "after",
+      "quantity": "conversion",
+      "target": "acetophenone",
+      "unit": "fraction",
+      "reference_M": 0.005,
+      "value": 0.7443333333333334,
+      "scale": 0.01,
+      "partition": "fit",
+      "source": "Qiang Chen et al. (2023), Active and stable alcohol dehydrogenase-assembled hydrogels via synergistic bridging of triazoles and metal ions, Nature Communications, doi:10.1038/s41467-023-37921-y; workbook 8111e240897330bb7fa36bc68d6007c33e6023507ac23c73bfd8e050fad72d8c; Fig. 3 D33:K35, column G; mean of [76.6, 79.2, 67.5] percent. Source error 5.0161959912090985 percent is population SD; separately calculated sample SD 6.143560314128391 percent. Equal one-percentage-point numerical residual scale."
+    },
+    {
+      "id": "EAG-TbSADH-300s-mean",
+      "experiment_id": "EAG-TbSADH",
+      "time_s": 300,
+      "state": "after",
+      "quantity": "conversion",
+      "target": "acetophenone",
+      "unit": "fraction",
+      "reference_M": 0.005,
+      "value": 0.8396666666666667,
+      "scale": 0.01,
+      "partition": "evaluation",
+      "source": "Qiang Chen et al. (2023), Active and stable alcohol dehydrogenase-assembled hydrogels via synergistic bridging of triazoles and metal ions, Nature Communications, doi:10.1038/s41467-023-37921-y; workbook 8111e240897330bb7fa36bc68d6007c33e6023507ac23c73bfd8e050fad72d8c; Fig. 3 D33:K35, column H; mean of [86.7, 90.5, 74.7] percent. Source error 6.733663358248778 percent is population SD; separately calculated sample SD 8.247019663692654 percent. Equal one-percentage-point numerical residual scale."
+    },
+    {
+      "id": "EAG-TbSADH-360s-mean",
+      "experiment_id": "EAG-TbSADH",
+      "time_s": 360,
+      "state": "after",
+      "quantity": "conversion",
+      "target": "acetophenone",
+      "unit": "fraction",
+      "reference_M": 0.005,
+      "value": 0.916,
+      "scale": 0.01,
+      "partition": "evaluation",
+      "source": "Qiang Chen et al. (2023), Active and stable alcohol dehydrogenase-assembled hydrogels via synergistic bridging of triazoles and metal ions, Nature Communications, doi:10.1038/s41467-023-37921-y; workbook 8111e240897330bb7fa36bc68d6007c33e6023507ac23c73bfd8e050fad72d8c; Fig. 3 D33:K35, column I; mean of [92.4, 93.7, 88.7] percent. Source error 2.1181753153756344 percent is population SD; separately calculated sample SD 2.5942243542145698 percent. Equal one-percentage-point numerical residual scale."
+    },
+    {
+      "id": "EAG-TbSADH-420s-mean",
+      "experiment_id": "EAG-TbSADH",
+      "time_s": 420,
+      "state": "after",
+      "quantity": "conversion",
+      "target": "acetophenone",
+      "unit": "fraction",
+      "reference_M": 0.005,
+      "value": 0.9476666666666667,
+      "scale": 0.01,
+      "partition": "evaluation",
+      "source": "Qiang Chen et al. (2023), Active and stable alcohol dehydrogenase-assembled hydrogels via synergistic bridging of triazoles and metal ions, Nature Communications, doi:10.1038/s41467-023-37921-y; workbook 8111e240897330bb7fa36bc68d6007c33e6023507ac23c73bfd8e050fad72d8c; Fig. 3 D33:K35, column J; mean of [94.8, 96.2, 93.3] percent. Source error 1.184154644555443 percent is population SD; separately calculated sample SD 1.4502873278538089 percent. Equal one-percentage-point numerical residual scale."
+    },
+    {
+      "id": "EAG-TbSADH-480s-mean",
+      "experiment_id": "EAG-TbSADH",
+      "time_s": 480,
+      "state": "after",
+      "quantity": "conversion",
+      "target": "acetophenone",
+      "unit": "fraction",
+      "reference_M": 0.005,
+      "value": 0.965,
+      "scale": 0.01,
+      "partition": "evaluation",
+      "source": "Qiang Chen et al. (2023), Active and stable alcohol dehydrogenase-assembled hydrogels via synergistic bridging of triazoles and metal ions, Nature Communications, doi:10.1038/s41467-023-37921-y; workbook 8111e240897330bb7fa36bc68d6007c33e6023507ac23c73bfd8e050fad72d8c; Fig. 3 D33:K35, column K; mean of [96.6, 96.7, 96.2] percent. Source error 0.21602468994692736 percent is population SD; separately calculated sample SD 0.2645751311064575 percent. Equal one-percentage-point numerical residual scale."
+    }
+  ],
+  "uncertainty": "descriptive",
+  "max_nfev": 300
+}
