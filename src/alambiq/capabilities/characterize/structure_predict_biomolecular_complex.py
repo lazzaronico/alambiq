@@ -26,8 +26,11 @@ The method:
   is the position of the ligand in one sample.
 - The capability computes the stereochemistry of each pose from its coordinates
   and reports whether it matches the canonical SMILES of the processed ligand.
+- A ligand SMILES with several components (a salt, written with a `.`) is reduced to its
+  largest component before the run; the ligand summary lists the others in
+  `other_components` and a note says so.
 - With `affinity`, Boltz first standardizes the ligand with the ChEMBL structure
-  pipeline (largest fragment, neutralization); the structures and the estimate
+  pipeline (neutralization, after the reduction to the largest component); the structures and the estimate
   refer to the standardized molecule, and a changed molecule carries a note.
   The affinity module of Boltz-2 then estimates the binding of the ligand to
   the protein chains from the highest-ranked sample. It returns the
@@ -69,7 +72,7 @@ Limits.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Literal
 
 from alambiq.capabilities.characterize.structure_predict_biomolecular_complex_report import (
@@ -234,6 +237,8 @@ class LigandSummary:
     formal_charge: int
     atoms: int
     """Heavy atoms and the hydrogens of the processed molecule."""
+    other_components: list[str] = field(default_factory=list)
+    """The other components of a SMILES with several (a salt), as SMILES; none are modeled."""
 
 
 @dataclass(frozen=True, slots=True)
@@ -289,7 +294,7 @@ def environment_for(request: PredictRequest) -> str:
 
 @capability(
     "structure.predict_biomolecular_complex",
-    version="1.1",
+    version="1.2",
     family="characterize",
     summary="Predict the structure of protein chains and an optional ligand with Boltz-2",
     render=render,
@@ -438,6 +443,12 @@ def predict_biomolecular_complex(
     chemistry = found["chemistry"]
     estimate = found.get("affinity")
     affinity = None
+    if chemistry and chemistry.get("other_components"):
+        ctx.note(
+            f"The ligand SMILES has {len(chemistry['other_components']) + 1} components. "
+            f"The largest, {chemistry['canonical_isomeric_smiles']}, was modeled; "
+            f"{', '.join(chemistry['other_components'])} is not part of the prediction."
+        )
     if chemistry and chemistry.get("standardized"):
         ctx.note(
             f"For affinity, Boltz standardized the ligand {chemistry['input_smiles']} to "
@@ -479,6 +490,7 @@ def predict_biomolecular_complex(
             canonical_smiles=chemistry["canonical_isomeric_smiles"],
             formal_charge=chemistry["formal_charge"],
             atoms=len(chemistry["atoms"]),
+            other_components=chemistry["other_components"],
         )
         if chemistry
         else None,

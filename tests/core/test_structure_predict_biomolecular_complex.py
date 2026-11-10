@@ -290,6 +290,53 @@ class TestAffinityInputsAndOutputs:
             boltz_predict._affinity_atoms("C" * 129)
 
 
+class TestSaltLigands:
+    """A SMILES with several components runs as its largest component.
+
+    Boltz applies RDKit's largest-fragment chooser to a molecule it has not sanitized, and
+    RDKit raises a failed precondition for any SMILES with a `.` in it. The engine reduces the
+    SMILES first and the result names what was left out.
+    """
+
+    PHOSPHATE = "N#CCC(C1CCCC1)n1cc(-c2ncnc3[nH]ccc23)cn1.O=P(O)(O)O"
+    DRUG = "N#CCC(C1CCCC1)n1cc(-c2ncnc3[nH]ccc23)cn1"
+
+    def test_the_largest_component_is_kept_and_the_others_are_listed(self):
+        pytest.importorskip("rdkit")
+        from alambiq.engines import boltz_predict
+
+        assert boltz_predict._largest_component(self.PHOSPHATE) == (
+            self.DRUG,
+            ["O=P(O)(O)O"],
+        )
+        assert boltz_predict._largest_component(f"[Na+].{ALANINATE}") == (
+            ALANINATE,
+            ["[Na+]"],
+        )
+
+    def test_a_single_component_is_returned_as_written(self):
+        pytest.importorskip("rdkit")
+        from alambiq.engines import boltz_predict
+
+        assert boltz_predict._largest_component(ALANINATE) == (ALANINATE, [])
+
+    def test_two_copies_of_the_counter_ion_are_both_listed(self):
+        pytest.importorskip("rdkit")
+        from alambiq.engines import boltz_predict
+
+        assert boltz_predict._largest_component("[Cl-].[Cl-].C[NH3+]")[1] == [
+            "[Cl-]",
+            "[Cl-]",
+        ]
+
+    def test_an_unreadable_smiles_is_refused(self):
+        pytest.importorskip("rdkit")
+        from alambiq.engines import boltz_predict
+
+        with pytest.raises(ValueError, match="cannot read"):
+            boltz_predict._largest_component("C(C")
+
+
 class TestLigandChemistryOnSyntheticPoses:
     """The engine's ligand export, with poses built by hand so the answers are known.
 
@@ -739,3 +786,26 @@ class TestAppleGpu:
         out = ok(run(request(accelerator="mps", ligand=None), tmp_path))
         assert out["accelerator"] == "mps"
         assert 0.0 <= out["samples"][0]["confidence_score"] <= 1.0
+
+
+@pytestmark_engine
+class TestSaltLigandsRun:
+    @pytest.mark.parametrize("affinity", [False, True])
+    def test_a_salt_runs_as_its_largest_component_and_the_result_says_so(
+        self, tmp_path, affinity
+    ):
+        os.environ["ALAMBIQ_ENV_BOLTZ"] = ENV
+        salt = f"{ALANINATE}.[Na+]"
+        extra = (
+            {"affinity": True, "affinity_sampling_steps": 2, "affinity_samples": 1}
+            if affinity
+            else {}
+        )
+        outcome = run(request(ligand={"id": "L", "smiles": salt}, **extra), tmp_path)
+        out = ok(outcome)
+        assert out["ligand"]["input_smiles"] == salt
+        assert out["ligand"]["other_components"] == ["[Na+]"]
+        assert "2 components" in " ".join(outcome.steps["fold"].notes)
+        assert out["ligand"]["atoms"] > 0
+        if affinity:
+            assert out["affinity"]["ligand_atoms"] == 6

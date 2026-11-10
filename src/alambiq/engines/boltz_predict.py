@@ -126,6 +126,30 @@ def _document(cfg: dict[str, Any]) -> dict[str, Any]:
     return document
 
 
+def _largest_component(smiles: str) -> tuple[str, list[str]]:
+    """The largest component of a ligand SMILES, and the SMILES of the others.
+
+    A salt such as a phosphate or a sulfonate of the drug is written with a `.` between its
+    components. The binder is the largest of them, which RDKit's `LargestFragmentChooser`
+    picks by heavy atoms. Boltz applies the same chooser to a molecule it has not sanitized,
+    and RDKit refuses that with a failed precondition, so a SMILES with several components
+    never reaches it.
+    """
+    from rdkit import Chem
+    from rdkit.Chem.MolStandardize import rdMolStandardize
+
+    molecule = Chem.MolFromSmiles(smiles)
+    if molecule is None:
+        raise ValueError("RDKit cannot read the ligand SMILES")
+    fragments = Chem.GetMolFrags(molecule, asMols=True)
+    if len(fragments) == 1:
+        return smiles, []
+    kept = Chem.MolToSmiles(rdMolStandardize.LargestFragmentChooser().choose(molecule))
+    others = [Chem.MolToSmiles(fragment) for fragment in fragments]
+    others.remove(kept)
+    return kept, others
+
+
 AFFINITY_ATOMS = 128
 AFFINITY_ADVISED_ATOMS = 56
 
@@ -319,6 +343,12 @@ def run(cfg: dict[str, Any]) -> dict[str, Any]:
     out = Path(cfg["output"])
     out.mkdir(parents=True, exist_ok=False)
     _check_device(cfg["accelerator"])
+    submitted_smiles = cfg["ligand"]["smiles"] if cfg.get("ligand") else None
+    other_components: list[str] = []
+    if submitted_smiles is not None:
+        modeled, other_components = _largest_component(submitted_smiles)
+        if other_components:
+            cfg = {**cfg, "ligand": {**cfg["ligand"], "smiles": modeled}}
     processed_smiles = None
     affinity_atoms = None
     if cfg.get("affinity"):
@@ -380,6 +410,8 @@ def run(cfg: dict[str, Any]) -> dict[str, Any]:
             cfg["ligand"],
             processed_smiles,
         )
+        chemistry["input_smiles"] = submitted_smiles
+        chemistry["other_components"] = other_components
     samples = []
     for position, (structure, confidence_path) in enumerate(
         zip(structures, confidences, strict=True)
