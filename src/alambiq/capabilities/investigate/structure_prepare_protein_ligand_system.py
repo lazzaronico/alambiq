@@ -127,7 +127,8 @@ class SystemRequest:
     seed:
         The seed for the random choices in completing and solvating, 1 to 2^31 - 1.
     threads:
-        CPU threads, 1 to 64.
+        CPU threads, 1 to 64. With one thread the same request gives the same minimized
+        structure; with more, the forces are summed in an order that varies from run to run.
     """
 
     protein: str
@@ -141,7 +142,7 @@ class SystemRequest:
     minimizer_tolerance_kj_mol_nm: float = 10.0
     minimization_max_iterations: int = 5000
     seed: int = 1
-    threads: int = 4
+    threads: int = 1
 
 
 @dataclass(frozen=True, slots=True)
@@ -201,7 +202,7 @@ def _protein_chains(path: Path) -> set[str]:
 
 @capability(
     "structure.prepare_protein_ligand_system",
-    version="1.0",
+    version="1.1",
     family="investigate",
     summary="Parameterize a modeled protein with ligands, relax it around held atoms, and solvate",
     render=render,

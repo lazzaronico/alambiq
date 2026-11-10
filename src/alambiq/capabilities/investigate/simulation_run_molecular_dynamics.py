@@ -106,8 +106,8 @@ class DynamicsRequest:
         frames and rows of the state data.
     platform, platform_properties, seed:
         The OpenMM platform (`CPU`, `Reference`, `CUDA`, `OpenCL`; no fallback), its
-        properties (1 CPU thread by default, the setting under which a seed reproduces
-        a trajectory), and the seed for velocities and the thermostat.
+        properties (1 CPU thread with deterministic forces by default, the setting under
+        which a seed reproduces a trajectory), and the seed for velocities and the thermostat.
     """
 
     system: str
@@ -176,7 +176,7 @@ class DynamicsResult:
 
 @capability(
     "simulation.run_molecular_dynamics",
-    version="1.0",
+    version="1.1",
     family="investigate",
     summary="Run molecular dynamics on a prepared system with staged equilibration",
     render=render,

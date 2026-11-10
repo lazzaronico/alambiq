@@ -109,8 +109,8 @@ class MetadynamicsRequest:
     temperature_kelvin, friction_per_ps, timestep_fs, pressure_bar, barostat_interval:
         The settings of the thermostat, the timestep and (for `npt`) the barostat.
     platform, platform_properties, seed:
-        The OpenMM platform, its properties (1 CPU thread by default) and the random
-        seed.
+        The OpenMM platform, its properties (1 CPU thread with deterministic forces by
+        default) and the random seed.
     """
 
     system: str
@@ -170,7 +170,7 @@ class MetadynamicsResult:
 
 @capability(
     "simulation.run_metadynamics",
-    version="1.0",
+    version="1.1",
     family="investigate",
     summary="Map a free-energy surface along one or two torsions with metadynamics",
     render=render,

@@ -216,7 +216,7 @@ class PrepareResult:
 
 @capability(
     "structure.prepare_protein_system",
-    version="1.0",
+    version="1.1",
     family="investigate",
     summary="Prepare a protein chain for molecular dynamics: hydrogens, solvent, minimization",
     render=render,

@@ -391,7 +391,7 @@ def build_and_minimize(directory: Path, cfg: dict[str, Any]) -> dict[str, Any]:
         system,
         openmm.VerletIntegrator(1.0 * unit.femtosecond),
         platform,
-        {"Threads": str(cfg["threads"])},
+        {"Threads": str(cfg["threads"]), "DeterministicForces": "true"},
     )
     simulation.context.setPositions(inpcrd.positions)
     # Added hydrogens and waters need not satisfy the constraints, and projecting onto

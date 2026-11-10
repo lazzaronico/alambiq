@@ -93,7 +93,10 @@ class ComplexRequest:
     seed:
         The seed for the random choices in completing and solvating, 1 to 2^31 - 1.
     threads:
-        CPU threads for the minimization, 1 to 64.
+        CPU threads for the minimization, 1 to 64. With one thread the same request
+        gives the same minimized structure; with more, the forces are summed in an order
+        that varies from run to run and the structure differs in the last digits and
+        beyond.
     """
 
     structure: str
@@ -106,7 +109,7 @@ class ComplexRequest:
     box_shape: Literal["dodecahedron", "octahedron", "cube"] = "dodecahedron"
     minimize_iterations: int = 5000
     seed: int = 1
-    threads: int = 4
+    threads: int = 1
 
 
 @dataclass(frozen=True, slots=True)
@@ -167,7 +170,7 @@ def _source_digest(sdf_text: str) -> str | None:
 
 @capability(
     "structure.prepare_predicted_complex_for_dynamics",
-    version="1.1",
+    version="1.2",
     family="investigate",
     summary="Parameterize, solvate and minimize a predicted protein-ligand complex",
     render=render,

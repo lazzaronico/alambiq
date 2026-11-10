@@ -44,7 +44,7 @@ def _minimise(
             candidate,
             openmm.VerletIntegrator(0.001),
             openmm.Platform.getPlatformByName("CPU"),
-            {"Threads": str(cfg["threads"])},
+            {"Threads": str(cfg["threads"]), "DeterministicForces": "true"},
         )
         context.setPositions(coordinates)
         value = context.getState(getEnergy=True).getPotentialEnergy()
@@ -65,7 +65,7 @@ def _minimise(
         working,
         openmm.VerletIntegrator(0.001),
         openmm.Platform.getPlatformByName("CPU"),
-        {"Threads": str(cfg["threads"])},
+        {"Threads": str(cfg["threads"]), "DeterministicForces": "true"},
     )
     context.setPositions(positions)
     openmm.LocalEnergyMinimizer.minimize(
@@ -239,7 +239,7 @@ def run(cfg: dict[str, Any]) -> dict[str, Any]:
         system,
         openmm.VerletIntegrator(0.001),
         openmm.Platform.getPlatformByName("CPU"),
-        {"Threads": str(cfg["threads"])},
+        {"Threads": str(cfg["threads"]), "DeterministicForces": "true"},
     )
     context.setPositions(final * unit.nanometer)
     state = context.getState(

@@ -475,6 +475,38 @@ class TestRhombicDodecahedron:
 
 
 @pytestmark_engine
+class TestRerun:
+    """The same request gives the same minimized structure.
+
+    The CPU platform sums the reciprocal-space forces of PME in an order that varies from
+    call to call unless one thread and deterministic forces are set; the minimizer then
+    ends at a different structure each time, and the trajectory grows from it.
+    """
+
+    def test_two_runs_write_the_same_state_and_topology(
+        self, complex_files, tmp_path_factory
+    ):
+        os.environ["ALAMBIQ_ENV_OPENFF"] = ENV
+        files = []
+        for name in ("first", "second"):
+            outcome = run(
+                request(
+                    complex_files,
+                    protein_sequences=[SEQUENCE],
+                    ligand_formal_charge=-1,
+                    box_shape="dodecahedron",
+                ),
+                tmp_path_factory.mktemp(name),
+            )
+            assert outcome.ok, [s.error for s in outcome.steps.values() if s.error]
+            out = outcome.outputs("prep")
+            files.append(
+                tuple(Path(out[key]).read_bytes() for key in ("state_xml", "topology_pdb"))
+            )
+        assert files[0] == files[1]
+
+
+@pytestmark_engine
 class TestPreparedComplex:
     @pytest.fixture(scope="class")
     def outcome(self, complex_files, tmp_path_factory):

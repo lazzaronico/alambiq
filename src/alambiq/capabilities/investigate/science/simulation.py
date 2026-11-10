@@ -12,16 +12,18 @@ from alambiq.capabilities.shared.sequences import parse_residue  # noqa: F401
 def platform_properties(platform: str, supplied: dict[str, str]) -> dict[str, str]:
     """The properties to give an OpenMM platform: yours, or reproducible defaults.
 
-    The CPU platform defaults to one thread, because with more the order of
-    floating-point sums varies from run to run and the same seed gives a
-    different trajectory (checked, not assumed). CUDA defaults to mixed
-    precision with deterministic forces, OpenCL to mixed precision, and the
-    reference platform takes none.
+    The CPU platform defaults to one thread with deterministic forces. One thread
+    alone is not enough: the reciprocal-space part of PME sums in an order that
+    varies from call to call unless `DeterministicForces` is set (checked on a
+    100,000-atom system: twelve evaluations at the same positions gave twelve
+    different force arrays, and one after the setting). More threads vary the order
+    in any case. CUDA defaults to mixed precision with deterministic forces, OpenCL
+    to mixed precision, and the reference platform takes none.
     """
     if supplied:
         return dict(supplied)
     if platform == "CPU":
-        return {"Threads": "1"}
+        return {"Threads": "1", "DeterministicForces": "true"}
     if platform == "CUDA":
         return {"Precision": "mixed", "DeterministicForces": "true"}
     if platform == "OpenCL":
