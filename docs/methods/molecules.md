@@ -218,3 +218,12 @@ replica-exchange iteration, with both short and default non-alchemical equilibra
 molecule completed on CUDA. The CPU platform is therefore available but not verified. A box of 2,661 water atoms ran at 64
 ns per day on that CPU with a 2 fs step, so a default run would take days. On the CPU, the vacuum leg runs on one thread, as OpenFE sets it, because a tiny system
 runs about ten times slower with eight threads.
+
+## References
+
+- Mobley DL, Guthrie JP. FreeSolv: a database of experimental and calculated hydration free
+  energies, with input files. J Comput Aided Mol Des 28, 711-720 (2014).
+  [doi:10.1007/s10822-014-9747-x](https://doi.org/10.1007/s10822-014-9747-x)
+
+The references of the methods named on this page are listed in the README of the engine
+environment of each capability.

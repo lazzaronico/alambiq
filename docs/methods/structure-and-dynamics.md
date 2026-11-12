@@ -328,3 +328,6 @@ within the available frames.
 - Daura X, Gademann K, Jaun B, Seebach D, van Gunsteren WF, Mark AE. Peptide folding: when
   simulation meets experiment. Angew Chem Int Ed 38, 236-240 (1999).
   [doi:10.1002/(SICI)1521-3773(19990115)38:1/2<236::AID-ANIE236>3.0.CO;2-M](https://doi.org/10.1002/(SICI)1521-3773(19990115)38:1/2%3C236::AID-ANIE236%3E3.0.CO;2-M)
+- Halgren TA. Merck molecular force field. I. Basis, form, scope, parameterization, and
+  performance of MMFF94. J Comput Chem 17, 490-519 (1996).
+  [doi:10.1002/(SICI)1096-987X(199604)17:5/6<490::AID-JCC1>3.0.CO;2-P](https://doi.org/10.1002/(SICI)1096-987X(199604)17:5/6%3C490::AID-JCC1%3E3.0.CO;2-P)

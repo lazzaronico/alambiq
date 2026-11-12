@@ -12,8 +12,10 @@ on exactly one ring position. The method has these steps:
 - The protein is the named chain with heterogens and water removed and hydrogens added at the
   stated pH. If the request allows it, missing terminal residues are modeled. The capability
   checks that every deposited heavy atom is at its deposited position.
-- Each congener is placed by superposing its ring on the deposited ring in each of the 12
-  symmetry-related orientations and relaxing the substituents with the ring held fixed.
+- Each congener is embedded in three dimensions with ETKDG (Riniker and Landrum, 2015) from
+  its `embedding_seed` and its geometry is optimized with MMFF94 (Halgren, 1996). It is
+  placed by superposing its ring on the deposited ring in each of the 12 symmetry-related
+  orientations, and the substituents are relaxed with MMFF94 with the ring held fixed.
 - The orientation with the lowest clash score is kept. The clash score is the summed squared
   shortfall below 2.2 angstrom between substituent atoms and protein heavy atoms.
 - The first substituted congener fixes the deposited ring atom on which its substituent lies.

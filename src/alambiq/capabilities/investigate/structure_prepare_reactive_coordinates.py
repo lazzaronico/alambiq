@@ -25,7 +25,7 @@ The anchor residues of a terminus are the observed residues next to the gap
   qualifies.
 - The substrate takes the coordinates of the deposited ligand through the declared atom
   mapping. It is transferred to the target by aligning an analogue in the active site.
-- A force field adds hydrogens to the substrate with every heavy atom held fixed.
+- MMFF94 (Halgren, 1996) adds hydrogens to the substrate with every heavy atom held fixed.
 - Histidine protonation states are declared in the request.
 - Waters closer than the declared exclusion distance to a modeled atom are removed.
 
@@ -38,8 +38,8 @@ Limits.
 - The protonation of histidines is as declared. The preparation capability that reads this
   result sets the protonation of the other ionizable groups (for example
   `structure.prepare_protein_ligand_system`).
-- The hydrogens of the substrate come from the geometry of a force field with all heavy
-  atoms held fixed. Other capabilities do relaxation, parameterization and dynamics.
+- The hydrogens of the substrate come from the geometry of MMFF94 with all heavy atoms
+  held fixed. Other capabilities do relaxation, parameterization and dynamics.
 - Only canonical protein residues with all their heavy atoms are accepted, except the
   terminal oxygen.
 - A request with more than 4,000 residues or more than 64 modeled terminal residues is
