@@ -1,101 +1,95 @@
 # Changelog
 
-## Unreleased
+## 1.0.0
 
-- The Swiss-Prot resource is fetched from the versioned release archive `previous_releases/release-2026_03/knowledgebase/uniprot_sprot-only2026_03.tar.gz` and no longer from `current_release`, which UniProt replaces with each release (the earlier addresses already served release 2026_04). A source in a resource record can list `members`; each is extracted by file name and checked against its own size and MD5 digest before the build. The files of the record and the resource digests are unchanged. The Boltz-2 resource is fetched from the pinned Hugging Face revision of its record (`source_files`: address, size and SHA-256 digest of each file) and no longer by Boltz's own downloader, which reads the main branch and the Boltz gateway; a file whose size or digest differs from the record is refused, and Boltz's function only unpacks the molecule library. The build text of the UniRef50 record names the versioned directory of release 2026_02.
-- `structure.predict_biomolecular_complex` 1.4 takes `cofactors`: components named by their Chemical Component Dictionary code (for example `NAP` and `ZN`) with a number of copies. Each copy is a chain of the prediction, listed in the result, and the ligand is placed with the cofactors present. A request without cofactors gives the input it gave before.
-- `structure.measure_ligand_site` 1.2 takes `own_targets` (atoms of the mobile structure itself, for example the cofactor and the metal of a prediction) and returns `own_measurements` and `own_contacts`, the nearest heavy atom of the mobile structure outside the ligand to each ligand atom.
-- `structure.measure_ligand_site` 1.1 returns `contacts`, the nearest heavy atom of the reference to each ligand atom (waters excluded), so that a ligand that overlaps a cofactor or the protein is visible. 1.0 was not released.
-- `structure.measure_ligand_site` superposes a structure that holds a ligand, for example a predicted complex, on a reference over all protein chains and measures the distance from the ligand to chosen atoms of the reference (a catalytic metal, the reactive carbon of a cofactor). Chains are paired by the assignment with the smallest alpha-carbon RMSD, or by `chain_map`. Assignments that fit within `equivalent_fit_angstrom` of the smallest RMSD are equivalent fits, and the result gives the range of each nearest distance over them. The result lists the ligand atoms with the atoms they are bonded to, the distance to every reference residue that has the target atom, and the ligand in the reference frame as an mmCIF file. The TbSADH example uses it in place of a script.
-- `structure.predict_biomolecular_complex` 1.3 runs a protein of identical chains (a homo-oligomer) with an alignment. It wrote one copy of the alignment per chain, and Boltz-2 refuses chains of one sequence that name different alignment files (`All proteins with the same sequence must share the same MSA!`), so such a request could not run. Identical alignments are now written once, and identical chains with different alignments are refused before the run, with the chains named.
-- `structure.predict_biomolecular_complex` 1.2 runs a ligand SMILES with several components (a salt, written with a `.`) as its largest component. Before, any such SMILES stopped with an RDKit failed precondition (`getNumImplicitHs() called without preceding call to calcImplicitValence()`), raised by Boltz's own standardization, which gives an unsanitized molecule to RDKit's largest-fragment chooser; this happened with RDKit 2026.03.5 in the pinned environment as well. The result lists the other components in `ligand.other_components`, `ligand.input_smiles` keeps the SMILES as written, and a note names what was left out.
-- `structure.prepare_predicted_complex_for_dynamics` 1.2, `structure.prepare_protein_ligand_system` 1.1 and `structure.prepare_protein_system` 1.1 give the same minimized structure for the same request. The CPU platform sums the reciprocal-space forces of PME in an order that varies from call to call, even with `Threads` set to 1 (the PME kernel does not read that property); the minimizer then ended at a different structure on every run (on a 100,000-atom system, twelve force evaluations at one set of positions gave twelve different arrays). The preparation now sets `DeterministicForces`, and `threads` defaults to 1; with more threads the structure still differs from run to run. `simulation.run_molecular_dynamics` 1.1 and `simulation.run_metadynamics` 1.1 add `DeterministicForces` to the CPU defaults for the same reason. A capability version change changes the reuse key, so saved campaigns recompute these steps.
-- `protein.inspect` 1.1 returns `sequence`, the query sequence, so that a binding can pass it to a later step (for example `proteins.0.sequence: dossier.sequence` in a complex prediction).
-- `structure.prepare_predicted_complex_for_dynamics` 1.1 returns `ligand_residue` (chain, residue number and name of the ligand in `topology_pdb`) and `ligand_residue_index` (its zero-based index). `simulation.measure_ligand_pose` takes the first as `ligand` and `simulation.inspect_trajectory` the second as `ligand_residue_index`, so a campaign names the ligand once. The T4 lysozyme example binds both.
-- `protein.call_substitutions` 1.1 returns `reference_file` for each variant, a FASTA file with the sequence of its closest reference. The file is the `protein` and `notation` the variant of a request to `protein.score_substitutions`, so a variant known only by its sequence can be scored without retyping the reference.
-- `structure.prepare_predicted_complex_for_dynamics` and `structure.prepare_protein_ligand_system` use the
-  periodic box of the coordinate file. A prmtop stores one box angle, so a rhombic dodecahedron read from it
-  was another lattice than the one the solvent was placed in: waters lay on their own periodic images, the
-  energy before minimization was about 1e13 to 1e23 kJ/mol, and dynamics on a CUDA platform stopped with a NaN
-  coordinate. The complex preparation now also refuses a minimized start whose largest force exceeds 1e5
-  kJ/mol/nm.
-- `simulation.measure_ligand_pose` measures the heavy-atom RMSD of a ligand to a reference pose in
-  every frame of a trajectory, after fitting the protein by the pocket alpha carbons, with the
-  smallest RMSD over the symmetric atom pairings, the centroid shift and the fraction of frames
-  within a threshold.
-- `docs/concepts.md` states when the version of a capability changes and what a saved campaign
-  does after a capability changes.
-- `structure.prepare_mutation_inputs` widens the water margin of a leg when a compact solute would
-  give a box narrower than twice the nonbonded cutoff, which OpenMM refuses; the result reports the
-  padding used.
-- `structure.prepare_mutation_inputs` minimizes the solvated wild type before it builds the two
-  states. Without it a 38,000-atom system started with forces of 2e5 kJ/mol/nm between water and ions
-  and the sampler stopped with NaN. `simulation.run_mutation_free_energy` now refuses a leg whose free
-  energy is not finite, with a message that says so.
-- `structure.prepare_protein_system` and `structure.prepare_mutation_inputs` take an optional
-  `protonated_structure`, the output of `structure.assign_protonation`, and use its residue names
-  as the protonation of the chain. The mutant state of `structure.prepare_mutation_inputs` is now
-  protonated at the stated pH (it used pH 7 for every request).
-- `structure.assign_protonation` protonates a protein at a pH with PROPKA 3.5 and PDB2PQR 3.7, in
-  Amber residue names. It reports the pKa of every titratable group, the histidine tautomers, the
-  asparagine, glutamine and histidine side chains that the hydrogen-bond optimization turned by
-  180 degrees, and the heavy atoms it rebuilt. It runs in a protonation engine environment
-  (`ALAMBIQ_ENV_PROTONATION`).
+Alambiq 1.0.0 is the first stable release. The catalog holds 69 capabilities in five families
+(investigate 33, characterize 19, operate 8, engineer 6, measure 3), run from one request format in a
+campaign written in YAML or Python. Each capability declares its request, its result and its limits, carries
+its own version (the rule is in [Concepts](docs/concepts.md)), and has tests that run every request field.
+The version of a capability is part of the reuse key of a step, so a campaign saved with an earlier
+capability version recomputes the steps whose capability changed.
+
+### New in 1.0.0 since 0.1.2
+
+Structures and complexes
+
+- `structure.predict_biomolecular_complex` predicts a complex with Boltz-2 and, with `affinity: true`, estimates
+  the binding affinity (Boltz-2 log10 IC50 in µM, pIC50 and binder probability, for the ensemble and for each
+  model). It takes `cofactors`, components named by their Chemical Component Dictionary code (for example `NAP`
+  and `ZN`) with a number of copies; each copy is a chain of the prediction, listed in the result. Chains and the
+  ligand need no `id` (the next unused capital letter is taken). A ligand written as a salt runs as its largest
+  component, and the result lists the others. A protein of identical chains runs with one shared alignment, and
+  identical chains that name different alignments are refused before the run.
+- `structure.measure_ligand_site` superposes a structure that holds a ligand, for example a predicted complex,
+  on a reference over all protein chains and measures the distance from the ligand to chosen atoms of the
+  reference (a catalytic metal, the reactive carbon of a cofactor). Chains are paired by the assignment with the
+  smallest alpha-carbon RMSD, or by `chain_map`; assignments within `equivalent_fit_angstrom` of the smallest are
+  equivalent fits, and the result gives the range of each nearest distance over them. It returns the nearest
+  reference atom to each ligand atom (`contacts`, so that a ligand that overlaps a cofactor is visible), and, for
+  `own_targets`, distances to atoms of the mobile structure itself (`own_measurements`, `own_contacts`).
+- `structure.fetch` downloads a structure from the RCSB Protein Data Bank or the AlphaFold Protein Structure
+  Database, in mmCIF or PDB format, and stores it with its URL, retrieval time, size and SHA-256. It connects to
+  the network only when `allow_network` is true.
+- `structure.check` reports the heavy atoms missing from standard residues, alternate locations, atoms of zero
+  occupancy, nonstandard amino acids, chain breaks, cis and twisted peptide bonds, alpha carbons off the L
+  arrangement, close contacts, and the ligands, metal ions, waters and hydrogens of one model.
+- `structure.assign_protonation` protonates a protein at a pH with PROPKA 3.5 and PDB2PQR 3.7, in Amber residue
+  names, and reports the pKa of every titratable group, the histidine tautomers and the side chains that the
+  hydrogen-bond optimization turned. It runs in the protonation environment (`ALAMBIQ_ENV_PROTONATION`).
+- `protein.inspect` returns the query `sequence`, so that a binding can pass it to a later step.
+
+Dynamics and free energy
+
+- `structure.prepare_predicted_complex_for_dynamics`, `structure.prepare_protein_ligand_system` and
+  `structure.prepare_protein_system` give the same minimized structure for the same request: the CPU sums the
+  reciprocal-space forces of PME in an order that varies from call to call, so the preparation sets
+  `DeterministicForces` and `threads` defaults to 1 (with more threads the structure still differs from run to
+  run). `simulation.run_molecular_dynamics` and `simulation.run_metadynamics` add `DeterministicForces` to
+  their CPU defaults. With these defaults two complete 10 ns campaigns of the T4 lysozyme example wrote the same
+  prepared system and the same 1,000 frames.
+- The complex preparations use the periodic box of the coordinate file (a prmtop stores one box angle, which put
+  a rhombic dodecahedron on another lattice and stopped dynamics on CUDA with a NaN coordinate), and refuse a
+  minimized start whose largest force exceeds 1e5 kJ/mol/nm. `structure.prepare_predicted_complex_for_dynamics`
+  returns `ligand_residue` and `ligand_residue_index`, which `simulation.measure_ligand_pose` and
+  `simulation.inspect_trajectory` take, so a campaign names the ligand once.
+- `simulation.measure_ligand_pose` measures the heavy-atom RMSD of a ligand to a reference pose in every frame
+  of a trajectory (pocket-fitted, symmetry-aware), with the centroid shift and the fraction of frames within a
+  threshold. `simulation.cluster_trajectory` clusters frames by pairwise RMSD with the method of Daura et al.
+  (1999) and writes the center structures of the largest clusters.
 - `structure.prepare_mutation_inputs`, `simulation.run_mutation_free_energy` and
-  `simulation.analyze_stability_change` estimate the change in the folding free energy of a single
-  amino-acid substitution. The folded protein and a capped tripeptide are each transformed from the
-  wild-type to the mutant residue with the hybrid-topology factory of OpenFE and replica exchange,
-  and the two legs are subtracted. They run in the OpenFE engine environment (`ALAMBIQ_ENV_OPENFE`).
-- `structure.fetch` downloads a structure file from the RCSB Protein Data Bank or the AlphaFold
-  Protein Structure Database, in mmCIF or PDB format, and stores it with its URL, retrieval time,
-  size and SHA-256. It connects to the network only when `allow_network` is true.
-- `simulation.cluster_trajectory` clusters the frames of a trajectory by pairwise RMSD with the
-  method of Daura et al. (1999), reports the size and center frame of each cluster, assigns every
-  frame to a cluster, and writes the center structures of the largest clusters as PDB files. It
-  needs the `trajectory` extra.
-- `structure.check` reports, for one model of a PDB or mmCIF file, the heavy atoms missing from
-  standard residues, alternate locations, atoms of zero occupancy, nonstandard amino acids,
-  chain breaks, cis and twisted peptide bonds, alpha carbons off the L arrangement, close
-  contacts, and the ligands, metal ions, waters and hydrogens. It runs in the core with the
-  `dossier` extra.
-- The chains and the ligand of `structure.predict_biomolecular_complex` need no `id`: a chain or
-  ligand without one takes the next unused capital letter. The fields `sequence` (chain) and `smiles`
-  (ligand) now come first in the request schema.
-- `protein.score_substitutions` states in its limits that the request names the wild-type sequence
-  and that the scores are log-likelihood ratios without a calibration to an assay scale.
-- The affinity of `structure.predict_biomolecular_complex` also gives pIC50 (6 minus the log10 of the
-  IC50 in µM) for the ensemble and for each model.
-- `protein.predict_melting_temperature` estimates the melting temperature of proteins from their
-  sequences with the three replicas of TemBERTure Tm, and returns the mean and the spread of the
-  replicas. The model is the pinned resource `temberture-tm` (about 1.7 GB), which
-  `alambiq resource provision temberture-tm --yes` downloads. The engine environment is
-  `ALAMBIQ_ENV_THERMOSTABILITY`.
-- `molecule.compute_hydration_free_energy` computes the hydration free energy of a neutral small
-  molecule given as SMILES with the OpenFE absolute solvation protocol (Sage 2.3.0, AshGC
-  charges, TIP3P), with repeats, MBAR errors and the overlap between lambda windows. It runs in
-  the OpenFE environment, on CUDA by default.
-- `molecule.predict_admet` estimates 52 physicochemical and ADMET endpoints for 1 to 10,000
-  molecules given as SMILES with ADMET-AI 2.0.1, with the units and the reported metrics of each
-  endpoint and, on request, the percentile among DrugBank approved drugs. The engine environment
-  is `ALAMBIQ_ENV_ADMET`.
-- `molecule.compute_quantum_properties` computes the frontier orbital energies, thermochemistry,
-  vertical excitations, Mulliken charges and dipole moment of a small molecule given as SMILES
-  with density-functional theory. The molecule can be charged, in a higher spin state, and in
-  water (IEF-PCM). The engine environment is `ALAMBIQ_ENV_MOLECULAR_PROPERTIES`.
-- `protein.call_substitutions` names the substitutions, insertions and deletions that separate a
-  variant from its closest reference in a supplied FASTA or in Swiss-Prot.
-- `protein.score_substitutions` (version 1.1) scores variants of several substitutions, written
-  `K183N:T209K`, as the sum of the scores of their substitutions.
-- `alambiq resource provision swissprot-2026_03 --yes` downloads the two UniProt files of the
-  Swiss-Prot resource, checks them against their recorded size and MD5 digest, and builds the
-  database and the annotation table. Without `--yes` it states the download and the build and
-  does nothing.
-- `protein.annotate_function` lists the EC numbers, Gene Ontology terms and subcellular
-  locations that the closest reviewed relatives of a protein in UniProtKB/Swiss-Prot carry,
-  with the support and identity of each. The Swiss-Prot resource is built locally.
-- `structure.predict_biomolecular_complex` (version 1.1) estimates binding affinity with
-  `affinity: true`: Boltz-2's log10 IC50 in µM and binder probability, for the ensemble and
-  each of its two models.
+  `simulation.analyze_stability_change` estimate the change in the folding free energy of a single substitution
+  (the folded protein and a capped tripeptide are each transformed with the OpenFE hybrid-topology factory and
+  replica exchange, and the two legs are subtracted). The preparation widens the water margin of a compact
+  solute, minimizes the wild type, takes the protonation from `structure.assign_protonation` and protonates the
+  mutant at the stated pH; a leg whose free energy is not finite is refused.
+- `molecule.compute_hydration_free_energy` computes the hydration free energy of a neutral small molecule with
+  the OpenFE absolute solvation protocol (Sage 2.3.0, AshGC charges, TIP3P), with repeats, MBAR errors and the
+  overlap between lambda windows. It runs in the OpenFE environment, on CUDA by default.
+
+Proteins, sequences and molecules
+
+- `protein.predict_melting_temperature` (three TemBERTure Tm replicas, mean and spread), `protein.annotate_function`
+  (EC numbers, GO terms and subcellular locations of the closest reviewed Swiss-Prot relatives, with support and
+  identity), `protein.call_substitutions` (substitutions, insertions and deletions against the closest reference,
+  with a `reference_file` for scoring) and `protein.score_substitutions` (variants of several substitutions, as
+  the sum of their scores; the limits state that the scores are uncalibrated log-likelihood ratios).
+- `molecule.predict_admet` estimates 52 physicochemical and ADMET endpoints for up to 10,000 molecules with
+  ADMET-AI 2.0.1. `molecule.compute_quantum_properties` computes frontier orbital energies, thermochemistry,
+  vertical excitations, Mulliken charges and the dipole moment of a small molecule with density-functional
+  theory, charged, in a higher spin state and in water (IEF-PCM).
+
+Resources, environments and documentation
+
+- Pinned resources fail closed: a file whose size or digest differs from its record is refused. Their fetch paths
+  are versioned. The Swiss-Prot resource is fetched from the release archive
+  `previous_releases/release-2026_03/knowledgebase/uniprot_sprot-only2026_03.tar.gz` (the addresses under
+  `current_release` serve the newest release); each member is extracted by file name and checked against its
+  own size and MD5 digest. The Boltz-2 resource is fetched from the pinned Hugging Face revision of its record
+  (address, size and SHA-256 digest of each file), and Boltz's own function only unpacks the molecule library.
+  `alambiq resource provision NAME --yes` states what it downloads before it does.
+- The capability text, the environment READMEs and the methods pages cite the publications of the upstream
+  methods, and `LICENSING.md` states the licenses of the optional packages `doranet`, `pydna` and `dnachisel`.
+  The source is formatted with `ruff format`.
 
 ## 0.1.2
 
