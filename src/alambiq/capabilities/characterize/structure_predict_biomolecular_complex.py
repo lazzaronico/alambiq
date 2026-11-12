@@ -66,6 +66,8 @@ Limits.
   same seed returned the same first sample, and a different seed returned a
   different one.
 - A request whose chains together have more than 2,000 residues is refused.
+- `structure.prepare_predicted_complex_for_dynamics` refuses metals and cofactors, so a
+  prediction with cofactors serves the analysis of the structure and not that preparation.
 - Affinity is estimated for one small-molecule ligand and protein chains, for a
   ligand of at most 128 atoms (heavy atoms and the hydrogens that RDKit keeps).
   Boltz advises against ligands much larger than 56 atoms; such a ligand
