@@ -250,17 +250,39 @@ def ligand_atoms(residue) -> list[dict]:
     return out
 
 
-def nearest_contacts(reference, moved: dict) -> list[dict]:
+def target_atoms(structure, target: dict, where: str) -> list[tuple[str, int, Any]]:
+    """Every atom of `structure` named by `target`: (chain, residue number, position)."""
+    np = _numpy()
+    found = []
+    for chain in structure[0]:
+        for residue in chain:
+            if residue.name != target["residue_name"]:
+                continue
+            atom = residue.find_atom(target["atom"], "*")
+            if atom is not None:
+                found.append((chain.name, residue.seqid.num, np.array(atom.pos.tolist())))
+    if not found:
+        raise ValueError(
+            f"The {where} has no atom {target['atom']} in a residue named "
+            f"{target['residue_name']} (target {target['label']})"
+        )
+    return found
+
+
+def nearest_contacts(
+    reference, moved: dict, exclude: tuple[str, int] | None = None
+) -> list[dict]:
     """For each ligand atom, the nearest heavy atom of the reference, waters excluded.
 
-    `moved` maps ligand atom names to positions in the reference frame. The rows run from the
-    closest pair to the farthest.
+    `moved` maps ligand atom names to positions in the frame of `reference`. `exclude` is a
+    (chain, residue number) that does not count, the ligand when `reference` holds it. The rows
+    run from the closest pair to the farthest.
     """
     np = _numpy()
     owners, points = [], []
     for chain in reference[0]:
         for residue in chain:
-            if residue.is_water():
+            if residue.is_water() or (chain.name, residue.seqid.num) == exclude:
                 continue
             for atom in _heavy(residue):
                 owners.append((chain.name, residue.seqid.num, residue.name, atom.name))
@@ -295,8 +317,12 @@ def measure_site(
     targets: list[dict],
     chain_map: dict[str, str] | None = None,
     tolerance: float = 0.1,
+    own_targets: list[dict] | None = None,
 ) -> tuple[dict, Any]:
     """The fit, the ligand in the reference frame, and the distances to the targets.
+
+    `own_targets` name atoms of the mobile structure itself, for example the cofactor of a
+    prediction; their distances do not depend on the fit.
 
     Returns the record and the mobile structure moved into the reference frame.
     """
@@ -309,6 +335,12 @@ def measure_site(
     labels = [t["label"] for t in targets]
     if len(set(labels)) != len(labels):
         raise ValueError("The labels of the targets are not distinct")
+    own_targets = own_targets or []
+    if len(own_targets) > MAX_TARGETS:
+        raise ValueError(f"own_targets lists at most {MAX_TARGETS} atoms of the mobile structure")
+    own_labels = [t["label"] for t in own_targets]
+    if len(set(own_labels)) != len(own_labels):
+        raise ValueError("The labels of the own targets are not distinct")
     fit = fit_chains(mobile, reference, chain_map, tolerance)
     chain_name, residue = find_ligand(
         mobile,
@@ -320,23 +352,40 @@ def measure_site(
     if not atoms:
         raise ValueError("The ligand has no heavy atoms")
     positions = {a.name: np.array(a.pos.tolist()) for a in atoms}
+    own_measurements = []
+    for target in own_targets:
+        found = target_atoms(mobile, target, "mobile structure")
+        named = target.get("ligand_atom")
+        if named is not None and named not in positions:
+            raise ValueError(
+                f"The ligand has no atom {named}; its atoms are {sorted(positions)}"
+            )
+        instances = []
+        for chain_id, number, point in found:
+            distances = {n: float(np.linalg.norm(v - point)) for n, v in positions.items()}
+            name = named or min(distances, key=distances.get)
+            instances.append(
+                {
+                    "chain_id": chain_id,
+                    "residue_number": number,
+                    "ligand_atom": name,
+                    "distance_angstrom": distances[name],
+                }
+            )
+        instances.sort(key=lambda row: (row["distance_angstrom"], row["chain_id"]))
+        own_measurements.append(
+            {
+                "label": target["label"],
+                "residue_name": target["residue_name"],
+                "atom": target["atom"],
+                "ligand_atom_requested": named,
+                "nearest": instances[0],
+                "instances": instances,
+            }
+        )
     sites = []
     for target in targets:
-        found = []
-        for chain in reference[0]:
-            for ref in chain:
-                if ref.name != target["residue_name"]:
-                    continue
-                atom = ref.find_atom(target["atom"], "*")
-                if atom is not None:
-                    found.append(
-                        (chain.name, ref.seqid.num, np.array(atom.pos.tolist()))
-                    )
-        if not found:
-            raise ValueError(
-                f"The reference has no atom {target['atom']} in a residue named "
-                f"{target['residue_name']} (target {target['label']})"
-            )
+        found = target_atoms(reference, target, "reference")
         named = target.get("ligand_atom")
         if named is not None and named not in positions:
             raise ValueError(
@@ -409,6 +458,10 @@ def measure_site(
         },
         "measurements": measurements,
         "contacts": nearest_contacts(reference, moved),
+        "own_measurements": own_measurements,
+        "own_contacts": nearest_contacts(
+            mobile, positions, exclude=(chain_name, residue.seqid.num)
+        ),
         "gemmi_version": gemmi.__version__,
     }
     transform = gemmi.Transform()

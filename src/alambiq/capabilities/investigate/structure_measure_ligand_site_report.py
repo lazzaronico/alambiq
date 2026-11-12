@@ -52,6 +52,29 @@ def render(result) -> str:
                 numeric={1, 3},
             )
         )
+    for m in result.own_measurements:
+        subject = (
+            f"atom {esc(m.ligand_atom_requested)}"
+            if m.ligand_atom_requested
+            else "the nearest ligand atom"
+        )
+        parts.append(
+            f"<h4>{esc(m.label)} (in the mobile structure)</h4><p>Distance of {subject} to "
+            f"{esc(m.atom)} of {esc(m.residue_name)}: "
+            f"<strong>{m.nearest.distance_angstrom:.2f} Å</strong> "
+            f"({esc(m.nearest.ligand_atom)} to chain {esc(m.nearest.chain_id)} "
+            f"{m.nearest.residue_number}).</p>"
+        )
+        parts.append(
+            table(
+                ["Chain", "Residue", "Ligand atom", "Distance (Å)"],
+                [
+                    [i.chain_id, i.residue_number, i.ligand_atom, i.distance_angstrom]
+                    for i in m.instances
+                ],
+                numeric={1, 3},
+            )
+        )
     parts.append("<p>The nearest heavy atom of the reference to each ligand atom:</p>")
     parts.append(
         table(
@@ -64,6 +87,22 @@ def render(result) -> str:
                     c.distance_angstrom,
                 ]
                 for c in result.contacts
+            ],
+            numeric={3},
+        )
+    )
+    parts.append("<p>The nearest heavy atom of the mobile structure outside the ligand:</p>")
+    parts.append(
+        table(
+            ["Ligand atom", "Atom", "Residue", "Distance (Å)"],
+            [
+                [
+                    c.ligand_atom,
+                    c.atom,
+                    f"{c.residue_name} {c.residue_number} chain {c.chain_id}",
+                    c.distance_angstrom,
+                ]
+                for c in result.own_contacts
             ],
             numeric={3},
         )

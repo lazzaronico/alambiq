@@ -70,6 +70,10 @@ steps:
       targets:
         - {label: catalytic-zinc, residue_name: ZN, atom: ZN, ligand_atom: O9}
         - {label: hydride-acceptor, residue_name: NAP, atom: C4N, ligand_atom: C10}
+      # The same atoms in the prediction itself, which holds the NADP and the zinc.
+      own_targets:
+        - {label: predicted-zinc, residue_name: ZN, atom: ZN, ligand_atom: O9}
+        - {label: predicted-hydride-acceptor, residue_name: NAP, atom: C4N, ligand_atom: C10}
 
   # Laboratory branch: the progress of acetophenone reduction by the same enzyme, free and
   # assembled in a hydrogel (Chen et al., 2023), and the fitted operation.

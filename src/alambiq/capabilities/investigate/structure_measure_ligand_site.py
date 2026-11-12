@@ -44,6 +44,12 @@ Limits.
   that wrote it, so the names change with the program; `ligand.atoms` lists each atom with the
   atoms it is bonded to (bonds read from distances), which identifies an atom by its
   chemistry.
+- `own_targets` measure the ligand against atoms of the mobile structure itself, for example
+  the cofactor and the metal that a prediction holds, and `own_contacts` gives the nearest heavy
+  atom of the mobile structure outside the ligand to each ligand atom. They describe the
+  prediction by itself; `targets` and `contacts` compare it with the reference, and a
+  cofactor that the prediction places differently from the deposited one gives different
+  numbers in the two.
 - `contacts` gives, for each ligand atom, the nearest heavy atom of the whole reference, so a
   ligand placed on the cofactor or inside the protein shows as a short distance. A metal that
   the ligand coordinates is the nearest atom of that ligand atom at the coordination distance.
@@ -122,6 +128,10 @@ class SiteRequest:
         0 to 5 Å. Chain assignments whose RMSD lies within this of the smallest are
         equivalent fits: the result gives the range of every nearest distance over them.
         Default 0.1.
+    own_targets:
+        0 to 20 atoms of the mobile structure itself, for example the NADP and the zinc that a
+        prediction holds. The ligand is measured against them as against `targets`, and the
+        fit does not enter. Default none.
     """
 
     reference: str
@@ -130,6 +140,7 @@ class SiteRequest:
     targets: list[SiteTarget]
     chain_map: dict[str, str] = field(default_factory=dict)
     equivalent_fit_angstrom: float = 0.1
+    own_targets: list[SiteTarget] = field(default_factory=list)
 
 
 @dataclass(frozen=True, slots=True)
@@ -193,6 +204,19 @@ class SiteContact:
 
 
 @dataclass(frozen=True, slots=True)
+class OwnMeasurement:
+    """One own target, with the distance to every residue of the mobile structure that has the atom."""
+
+    label: str
+    residue_name: str
+    atom: str
+    ligand_atom_requested: str | None
+    nearest: SiteDistance
+    instances: list[SiteDistance]
+    """Every residue with the atom, from the nearest to the farthest."""
+
+
+@dataclass(frozen=True, slots=True)
 class SiteMeasurement:
     """One target, with the distance to every reference residue that has the atom."""
 
@@ -219,6 +243,11 @@ class SiteResult:
     """For each ligand atom, the nearest heavy atom of the reference (any residue, waters
     excluded) in the chosen fit, from the closest pair to the farthest. A distance far below
     the sum of the van der Waals radii shows that the ligand overlaps the reference."""
+    own_measurements: list[OwnMeasurement]
+    """The distances to `own_targets`, in the mobile structure."""
+    own_contacts: list[SiteContact]
+    """For each ligand atom, the nearest heavy atom of the mobile structure outside the ligand
+    (waters excluded), from the closest pair to the farthest."""
     fitted_structure: str
     """The mobile structure in the reference frame, as an mmCIF file."""
     record: str
@@ -227,7 +256,7 @@ class SiteResult:
 
 @capability(
     "structure.measure_ligand_site",
-    version="1.1",
+    version="1.2",
     family="investigate",
     summary="Superpose a predicted complex on a reference and measure its ligand to reference atoms",
     render=render,
@@ -261,6 +290,15 @@ def measure_ligand_site(request: SiteRequest, ctx: StepContext) -> SiteResult:
         ],
         chain_map=request.chain_map or None,
         tolerance=request.equivalent_fit_angstrom,
+        own_targets=[
+            {
+                "label": t.label,
+                "residue_name": t.residue_name,
+                "atom": t.atom,
+                "ligand_atom": t.ligand_atom,
+            }
+            for t in request.own_targets
+        ],
     )
     fit = record["fit"]
     if fit["mobile_residues"] and fit["fitted_residues"] / fit["mobile_residues"] < 0.5:
@@ -310,6 +348,18 @@ def measure_ligand_site(request: SiteRequest, ctx: StepContext) -> SiteResult:
             for m in record["measurements"]
         ],
         contacts=[SiteContact(**c) for c in record["contacts"]],
+        own_measurements=[
+            OwnMeasurement(
+                label=m["label"],
+                residue_name=m["residue_name"],
+                atom=m["atom"],
+                ligand_atom_requested=m["ligand_atom_requested"],
+                nearest=SiteDistance(**m["nearest"]),
+                instances=[SiteDistance(**i) for i in m["instances"]],
+            )
+            for m in record["own_measurements"]
+        ],
+        own_contacts=[SiteContact(**c) for c in record["own_contacts"]],
         fitted_structure=str(
             ctx.keep_text(structure_text(placed), "chemical/x-mmcif").path
         ),

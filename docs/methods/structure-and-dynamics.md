@@ -87,6 +87,10 @@ distances place the ligand relative to atoms that the prediction does not contai
 not show that the pose is the productive binding mode. The result also gives, for each
 ligand atom, the nearest heavy atom of the whole reference (waters excluded), so that a ligand
 placed on a cofactor or inside the protein shows as a distance far below the contact distance.
+A prediction that holds the cofactor and the metal can also be measured against itself:
+`own_targets` name atoms of the mobile structure, and `own_contacts` gives the nearest atom of
+the mobile structure outside the ligand to each ligand atom, so the pose is checked against the
+cofactor that the prediction placed as well as against the one in the deposited structure.
 
 `structure.detect_binding_pockets` runs P2Rank on a structure and ranks surface pockets by
 the P2Rank score, the output of a model trained on known ligand-binding sites. A pocket is a

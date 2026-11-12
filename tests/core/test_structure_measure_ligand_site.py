@@ -272,6 +272,112 @@ class TestContacts:
         assert distances == sorted(distances)
 
 
+class TestOwnTargets:
+    """Atoms of the mobile structure itself, measured without the fit."""
+
+    COFACTOR = ("FE", "FE", "B", 7, (4.0, 1.0, 2.0), "FE")
+
+    def pair(self, tmp_path):
+        reference = write(tmp_path, "reference.pdb", pdb({"A": CHAIN_1}, []))
+        moved = dict(zip(LIGAND, move(LIGAND.values()), strict=True))
+        cofactor = (*self.COFACTOR[:4], tuple(move([self.COFACTOR[4]])[0]), "FE")
+        mobile = write(
+            tmp_path,
+            "mobile.pdb",
+            pdb({"A": move(CHAIN_1)}, [cofactor, *ligand_rows(moved)]),
+        )
+        return reference, mobile
+
+    def test_the_distance_to_an_atom_of_the_mobile_structure_is_the_one_built(
+        self, tmp_path
+    ):
+        reference, mobile = self.pair(tmp_path)
+        found = ok(
+            run(
+                request(
+                    reference,
+                    mobile,
+                    [{"label": "any", "residue_name": "ALA", "atom": "CA"}],
+                    own_targets=[
+                        {
+                            "label": "iron",
+                            "residue_name": "FE",
+                            "atom": "FE",
+                            "ligand_atom": "C2",
+                        }
+                    ],
+                ),
+                tmp_path,
+            )
+        )
+        measured = found["own_measurements"][0]
+        assert measured["label"] == "iron"
+        assert measured["nearest"]["chain_id"] == "B"
+        assert measured["nearest"]["residue_number"] == 7
+        assert measured["nearest"]["ligand_atom"] == "C2"
+        assert measured["nearest"]["distance_angstrom"] == pytest.approx(
+            distance(LIGAND["C2"], self.COFACTOR[4]), abs=TOLERANCE
+        )
+
+    def test_the_nearest_atom_of_the_mobile_structure_excludes_the_ligand_itself(
+        self, tmp_path
+    ):
+        reference, mobile = self.pair(tmp_path)
+        found = ok(
+            run(
+                request(
+                    reference,
+                    mobile,
+                    [{"label": "any", "residue_name": "ALA", "atom": "CA"}],
+                ),
+                tmp_path,
+            )
+        )
+        contacts = {c["ligand_atom"]: c for c in found["own_contacts"]}
+        assert set(contacts) == set(LIGAND)
+        heavy = {("CA", "ALA", n + 1): p for n, p in enumerate(CHAIN_1)}
+        heavy[("FE", "FE", 7)] = self.COFACTOR[4]
+        for name, position in LIGAND.items():
+            (atom, residue, number), expected = min(
+                heavy.items(), key=lambda item: distance(item[1], position)
+            )
+            assert contacts[name]["atom"] == atom
+            assert contacts[name]["residue_number"] == number
+            assert contacts[name]["distance_angstrom"] == pytest.approx(
+                distance(expected, position), abs=TOLERANCE
+            )
+        assert all(c["residue_name"] != "LIG" for c in found["own_contacts"])
+        assert found["own_measurements"] == []
+
+    def test_a_target_the_mobile_structure_does_not_have_is_refused(self, tmp_path):
+        reference, mobile = self.pair(tmp_path)
+        outcome = run(
+            request(
+                reference,
+                mobile,
+                [{"label": "any", "residue_name": "ALA", "atom": "CA"}],
+                own_targets=[{"label": "x", "residue_name": "ZN", "atom": "ZN"}],
+            ),
+            tmp_path,
+        )
+        assert not outcome.ok
+        assert "mobile structure has no atom ZN" in next(iter(outcome.steps.values())).error
+
+    def test_two_own_targets_with_one_label_are_refused(self, tmp_path):
+        reference, mobile = self.pair(tmp_path)
+        target = {"label": "x", "residue_name": "FE", "atom": "FE"}
+        outcome = run(
+            request(
+                reference,
+                mobile,
+                [{"label": "any", "residue_name": "ALA", "atom": "CA"}],
+                own_targets=[target, target],
+            ),
+            tmp_path,
+        )
+        assert not outcome.ok
+
+
 class TestChainAssignment:
     def swapped(self, tmp_path):
         """The mobile structure names its two different chains the other way round."""
