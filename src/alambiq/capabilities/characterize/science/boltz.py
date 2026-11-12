@@ -14,6 +14,8 @@ AMINO_ACIDS = set("ACDEFGHIKLMNPQRSTVWYX")
 MAX_CHAINS = 8
 MAX_RESIDUES = 2000
 IDENTIFIER = re.compile(r"[A-Za-z][A-Za-z0-9_]{0,4}")
+COMPONENT_CODE = re.compile(r"[A-Z0-9]{1,5}")
+MAX_COFACTOR_COPIES = 16
 LIMITS = {
     "seed": (0, 2**32 - 1),
     "sampling_steps": (2, 1000),
@@ -40,6 +42,44 @@ def assign_ids(
     chains = [name or next(free) for name in chain_ids]
     ligand = (ligand_id or next(free)) if has_ligand else None
     return chains, ligand
+
+
+def assign_cofactor_ids(
+    taken: Sequence[str | None], cofactors: Sequence[tuple[str, int]]
+) -> list[list[str]]:
+    """Name the copies of each cofactor with the next unused capital letters.
+
+    `taken` holds the names of the chains and the ligand; `cofactors` holds (code, copies).
+    """
+    used = {name for name in taken if name}
+    free = (letter for letter in string.ascii_uppercase if letter not in used)
+    named: list[list[str]] = []
+    for _, copies in cofactors:
+        ids = []
+        for _ in range(copies):
+            try:
+                ids.append(next(free))
+            except StopIteration:
+                raise ValueError(
+                    "The chains, the ligand and the cofactors need more than the 26 "
+                    "capital letters that name them; reduce the copies"
+                ) from None
+        named.append(ids)
+    return named
+
+
+def check_cofactors(cofactors: Sequence[tuple[str, int]]) -> None:
+    """Refuse a cofactor that is not a component code, or whose copies are out of range."""
+    for code, copies in cofactors:
+        if not COMPONENT_CODE.fullmatch(code):
+            raise ValueError(
+                f"A cofactor is named by its component code, 1 to 5 capital letters or "
+                f"digits (for example NAP or ZN), not {code!r}"
+            )
+        if not 1 <= copies <= MAX_COFACTOR_COPIES:
+            raise ValueError(
+                f"Cofactor {code}: copies must be an integer from 1 to {MAX_COFACTOR_COPIES}"
+            )
 
 
 def check_identical_chains(proteins: list[dict[str, Any]], alignments: list[str | None]) -> None:

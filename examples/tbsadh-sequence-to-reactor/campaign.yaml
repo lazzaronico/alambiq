@@ -30,6 +30,10 @@ steps:
         - {id: B, msa: P14941.a3m}
         - {id: C, msa: P14941.a3m}
         - {id: D, msa: P14941.a3m}
+      # One NADP and one catalytic zinc per subunit: the substrate is placed with them present.
+      cofactors:
+        - {ccd: NAP, copies: 4}
+        - {ccd: ZN, copies: 4}
       ligand:
         id: ACP
         smiles: CC(=O)c1ccccc1

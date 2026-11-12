@@ -94,10 +94,16 @@ surface feature, and the score orders the pockets of one structure.
 
 ## Predicting a complex
 
-`structure.predict_biomolecular_complex` runs Boltz-2 on 1 to 8 protein chains and at most 1
-ligand. It returns sampled structures with the confidence values of the model, which rank
+`structure.predict_biomolecular_complex` runs Boltz-2 on 1 to 8 protein chains, at most 1
+ligand and optional cofactors. It returns sampled structures with the confidence values of the model, which rank
 the samples against each other. A co-folded ligand pose is a hypothesis about the ligand
 position.
+
+A cofactor or ion is named by its code in the Chemical Component Dictionary (`NAP`, `ZN`)
+with a number of copies, for example one per subunit of a tetramer. Each copy is a chain of
+its own, and the ligand is placed with the cofactors present. Without them the model places a
+ligand where the cofactor would be, which `structure.measure_ligand_site` shows as an overlap
+with the cofactor of a deposited structure.
 
 A chain without an alignment runs in single-sequence mode, in which the model is less
 accurate. A run with fewer than 50 diffusion steps per sample or fewer than 2 recycling

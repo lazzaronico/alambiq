@@ -11,6 +11,12 @@ The input:
   optional name. A chain without a name takes the next unused capital letter.
 - An optional ligand by SMILES, a line notation for a molecule, with an optional
   name that follows the same rule.
+- Optional cofactors by their code in the Chemical Component Dictionary (for example `NAP`
+  and `ZN`), each with a number of copies. Every copy is a chain of its own and takes the next
+  unused capital letter after the chains and the ligand; the result lists the chains of each
+  cofactor. A cofactor is part of the complex, so the ligand is placed with the cofactor
+  present. The affinity, the ligand pose and the stereochemistry refer to the SMILES ligand
+  only.
 
 The method:
 
@@ -129,6 +135,23 @@ class Ligand:
 
 
 @dataclass(frozen=True, slots=True)
+class Cofactor:
+    """A cofactor or ion, given by its component code and a number of copies.
+
+    ccd:
+        The code of the component in the Chemical Component Dictionary, 1 to 5 capital
+        letters or digits, for example `NAP` (NADP) or `ZN` (zinc ion).
+    copies:
+        The number of copies, 1 to 16; default 1. A homotetramer with one cofactor per
+        subunit takes 4. Each copy is a chain of its own, named with the next unused
+        capital letter after the chains and the ligand.
+    """
+
+    ccd: str
+    copies: int = 1
+
+
+@dataclass(frozen=True, slots=True)
 class PredictRequest:
     """The chains, the ligand and the Boltz-2 settings.
 
@@ -137,6 +160,10 @@ class PredictRequest:
         alignment path), at most 2,000 residues in all chains together.
     ligand:
         Zero or one ligand, given by a SMILES and optionally a name.
+    cofactors:
+        Components that are part of the complex and are named by their code in the
+        Chemical Component Dictionary, for example the cofactor and the metal of an
+        enzyme. They shape the pocket in which the ligand is placed. Default none.
     sampling_steps:
         Diffusion steps per sample, 2 to 1,000. The default, 200, is the
         standard setting of the model. A value below 50 adds a note.
@@ -173,6 +200,7 @@ class PredictRequest:
 
     proteins: list[ProteinChain]
     ligand: Ligand | None = None
+    cofactors: list[Cofactor] = field(default_factory=list)
     sampling_steps: int = 200
     diffusion_samples: int = 1
     recycling_steps: int = 3
@@ -271,6 +299,14 @@ class Sample:
 
 
 @dataclass(frozen=True, slots=True)
+class CofactorSummary:
+    """A cofactor of the prediction and the chains that hold its copies."""
+
+    ccd: str
+    chain_ids: list[str]
+
+
+@dataclass(frozen=True, slots=True)
 class PredictResult:
     """The sampled structures, and the settings, versions and files of the prediction."""
 
@@ -289,6 +325,8 @@ class PredictResult:
     model: str
     versions: dict[str, str]
     seconds: float
+    cofactors: list[CofactorSummary] = field(default_factory=list)
+    """The cofactors of the request with the chains that hold their copies."""
 
 
 def environment_for(request: PredictRequest) -> str:
@@ -297,7 +335,7 @@ def environment_for(request: PredictRequest) -> str:
 
 @capability(
     "structure.predict_biomolecular_complex",
-    version="1.3",
+    version="1.4",
     family="characterize",
     summary="Predict the structure of protein chains and an optional ligand with Boltz-2",
     render=render,
@@ -310,9 +348,11 @@ def predict_biomolecular_complex(
 ) -> PredictResult:
     """Write Boltz's inputs, run it, and collect and check the structures."""
     from alambiq.capabilities.characterize.science.boltz import (
+        assign_cofactor_ids,
         assign_ids,
         check_affinity,
         check_chains,
+        check_cofactors,
         check_identical_chains,
         check_settings,
         normalize_a3m,
@@ -332,6 +372,13 @@ def predict_biomolecular_complex(
         for name, p in zip(chain_ids, request.proteins, strict=True)
     ]
     check_chains(proteins, ligand)
+    codes = [(c.ccd.upper(), c.copies) for c in request.cofactors]
+    check_cofactors(codes)
+    cofactor_ids = assign_cofactor_ids([*chain_ids, ligand_id], codes)
+    cofactors = [
+        {"ccd": code, "ids": ids}
+        for (code, _), ids in zip(codes, cofactor_ids, strict=True)
+    ]
     check_affinity(request.affinity, ligand)
     check_settings(
         seed=request.seed,
@@ -404,6 +451,7 @@ def predict_biomolecular_complex(
         {
             "proteins": prepared,
             "ligand": ligand,
+            "cofactors": cofactors,
             "model_root": str(root),
             "sampling_steps": request.sampling_steps,
             "diffusion_samples": request.diffusion_samples,
@@ -515,6 +563,7 @@ def predict_biomolecular_complex(
         samples=samples,
         ligand_chemistry=ctx.keep_json(chemistry) if chemistry else None,
         affinity=affinity,
+        cofactors=[CofactorSummary(ccd=c["ccd"], chain_ids=c["ids"]) for c in cofactors],
         input_yaml=keep(found["input_yaml"], "application/yaml"),
         log=keep(found["log"], "text/plain"),
         accelerator=found["accelerator"],

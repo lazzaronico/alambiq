@@ -107,7 +107,7 @@ def _command(cfg: dict[str, Any], input_path: Path, out: Path) -> list[str]:
 
 
 def _document(cfg: dict[str, Any]) -> dict[str, Any]:
-    """Boltz's input: the chains, the ligand and, with affinity, the binder to score."""
+    """Boltz's input: the chains, the cofactors, the ligand and, with affinity, the binder to score."""
     entities: list[dict[str, Any]] = [
         {
             "protein": {
@@ -118,6 +118,11 @@ def _document(cfg: dict[str, Any]) -> dict[str, Any]:
         }
         for p in cfg["proteins"]
     ]
+    for cofactor in cfg.get("cofactors") or []:
+        ids = cofactor["ids"]
+        entities.append(
+            {"ligand": {"id": ids if len(ids) > 1 else ids[0], "ccd": cofactor["ccd"]}}
+        )
     if cfg.get("ligand"):
         entities.append({"ligand": cfg["ligand"]})
     document: dict[str, Any] = {"version": 1, "sequences": entities}

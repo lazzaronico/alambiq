@@ -213,6 +213,73 @@ class TestChecks:
         assert boltz.timeout_seconds("gpu", 1, 2, 1) == base
 
 
+class TestCofactors:
+    def test_the_copies_take_the_next_unused_capital_letters(self):
+        assert boltz.assign_cofactor_ids(["A", "B", "L"], [("NAP", 2), ("ZN", 1)]) == [
+            ["C", "D"],
+            ["E"],
+        ]
+
+    def test_letters_the_request_already_uses_are_not_reused(self):
+        assert boltz.assign_cofactor_ids(["A", "C", "heavy", None], [("ZN", 3)]) == [
+            ["B", "D", "E"]
+        ]
+
+    @pytest.mark.parametrize("code", ["nap", "", "TOOLONG", "N-P", "Z N"])
+    def test_a_code_that_is_not_a_component_code_is_refused(self, code):
+        with pytest.raises(ValueError, match="component code"):
+            boltz.check_cofactors([(code, 1)])
+
+    @pytest.mark.parametrize("copies", [0, 17, -1])
+    def test_copies_outside_their_range_are_refused(self, copies):
+        with pytest.raises(ValueError, match="copies must be"):
+            boltz.check_cofactors([("ZN", copies)])
+
+    def test_more_copies_than_free_letters_are_refused(self):
+        with pytest.raises(ValueError, match="26 capital letters"):
+            boltz.assign_cofactor_ids(["A"], [("ZN", 16), ("NAP", 16)])
+
+    def test_the_input_names_each_cofactor_with_its_chains(self):
+        from alambiq.engines import boltz_predict
+
+        document = boltz_predict._document(
+            {
+                "proteins": [{"id": "A", "sequence": SEQUENCE, "msa": None}],
+                "ligand": {"id": "L", "smiles": ALANINATE},
+                "cofactors": [
+                    {"ccd": "NAP", "ids": ["B", "C"]},
+                    {"ccd": "ZN", "ids": ["D"]},
+                ],
+                "affinity": False,
+            }
+        )
+        assert [list(e) for e in document["sequences"]] == [
+            ["protein"],
+            ["ligand"],
+            ["ligand"],
+            ["ligand"],
+        ]
+        assert document["sequences"][1] == {"ligand": {"id": ["B", "C"], "ccd": "NAP"}}
+        assert document["sequences"][2] == {"ligand": {"id": "D", "ccd": "ZN"}}
+        assert document["sequences"][3] == {"ligand": {"id": "L", "smiles": ALANINATE}}
+
+    def test_a_request_without_cofactors_has_the_input_it_had_before(self):
+        from alambiq.engines import boltz_predict
+
+        cfg = {
+            "proteins": [{"id": "A", "sequence": SEQUENCE, "msa": None}],
+            "ligand": {"id": "L", "smiles": ALANINATE},
+            "affinity": False,
+        }
+        assert boltz_predict._document(cfg) == boltz_predict._document(
+            {**cfg, "cofactors": []}
+        )
+        assert [list(e) for e in boltz_predict._document(cfg)["sequences"]] == [
+            ["protein"],
+            ["ligand"],
+        ]
+
+
 class TestIdenticalChains:
     chains = [
         {"id": "A", "sequence": SEQUENCE},
@@ -529,6 +596,46 @@ def request(**changes):
         **TINY,
         **changes,
     }
+
+
+@pytestmark_engine
+class TestCofactorsRun:
+    def test_the_cofactor_chains_are_in_the_structure_and_listed_in_the_result(
+        self, tmp_path
+    ):
+        import gemmi
+
+        os.environ["ALAMBIQ_ENV_BOLTZ"] = ENV
+        found = ok(
+            run(
+                request(cofactors=[{"ccd": "ZN", "copies": 2}, {"ccd": "NAP"}]),
+                tmp_path,
+            )
+        )
+        assert [(c["ccd"], c["chain_ids"]) for c in found["cofactors"]] == [
+            ("ZN", ["B", "C"]),
+            ("NAP", ["D"]),
+        ]
+        structure = gemmi.read_structure(
+            found["samples"][0]["structure"], format=gemmi.CoorFormat.Mmcif
+        )
+        held = {c.name: [r.name for r in c] for c in structure[0]}
+        assert held["B"] == ["ZN"] and held["C"] == ["ZN"]
+        assert held["D"] == ["NAP"]
+        assert held["L"] == ["LIG1"]
+        import yaml
+
+        given = yaml.safe_load(Path(found["input_yaml"]).read_text())
+        ligands = [e["ligand"] for e in given["sequences"] if "ligand" in e]
+        assert {"id": ["B", "C"], "ccd": "ZN"} in ligands
+        assert {"id": "D", "ccd": "NAP"} in ligands
+
+    def test_a_cofactor_code_is_refused_by_the_capability_before_the_run(self, tmp_path):
+        out = run(
+            request(cofactors=[{"ccd": "not a code"}], ligand=None), tmp_path
+        )
+        assert not out.ok
+        assert "component code" in next(iter(out.steps.values())).error
 
 
 @pytestmark_engine

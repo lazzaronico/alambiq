@@ -50,6 +50,11 @@ def render(result) -> str:
         else f"<p>Ligand {esc(result.ligand.id)}: {esc(result.ligand.canonical_smiles)} "
         f"(charge {result.ligand.formal_charge:+d}).</p>"
     )
+    if result.cofactors:
+        ligand += "<p>Cofactors: " + "; ".join(
+            f"{esc(c.ccd)} in chain {', '.join(esc(i) for i in c.chain_ids)}"
+            for c in result.cofactors
+        ) + ".</p>"
     affinity = ""
     if result.affinity is not None:
         estimates = [("Ensemble", result.affinity)] + [
