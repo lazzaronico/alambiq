@@ -8,6 +8,7 @@ import io
 import json
 import shutil
 import sys
+import tarfile
 from pathlib import Path
 
 import pytest
@@ -116,13 +117,11 @@ class TestDownload:
                 source["url"], tmp_path / "a.gz", source["bytes"], source["md5"], opener
             )
 
-    def test_a_different_digest_is_refused_and_names_the_release_cause(
+    def test_a_different_digest_is_refused_and_says_the_record_pins_one_release(
         self, tmp_path, files
     ):
         source = sources(files)[0]
-        with pytest.raises(
-            RuntimeError, match="replaces the files at `current_release`"
-        ):
+        with pytest.raises(RuntimeError, match="the file at this address is not it"):
             build.download(
                 source["url"],
                 tmp_path / "a.gz",
@@ -154,6 +153,81 @@ class TestDownload:
                 source["md5"],
                 serving(files),
             )
+
+
+def archive(files: dict[str, bytes], prefix: str = "") -> bytes:
+    """A gzip-compressed tar archive that holds the files under a directory prefix."""
+    buffer = io.BytesIO()
+    with tarfile.open(fileobj=buffer, mode="w:gz") as tar:
+        for name, data in files.items():
+            info = tarfile.TarInfo(prefix + name)
+            info.size = len(data)
+            tar.addfile(info, io.BytesIO(data))
+    return buffer.getvalue()
+
+
+def archive_source(files: dict[str, bytes], prefix: str = "") -> tuple[dict, dict]:
+    """The record entry of an archive that holds the files, and what the server returns."""
+    data = archive(files, prefix)
+    entry = {
+        "name": "release.tar.gz",
+        "url": "https://example.org/release.tar.gz",
+        "bytes": len(data),
+        "md5": hashlib.md5(data).hexdigest(),  # noqa: S324
+        "members": [
+            {"name": n, "bytes": len(d), "md5": hashlib.md5(d).hexdigest()}  # noqa: S324
+            for n, d in files.items()
+        ],
+    }
+    return entry, {"release.tar.gz": data}
+
+
+class TestExtractMembers:
+    def test_members_are_found_by_file_name_wherever_they_sit_in_the_archive(
+        self, tmp_path, files
+    ):
+        entry, served = archive_source(files, prefix="knowledgebase/")
+        (tmp_path / "release.tar.gz").write_bytes(served["release.tar.gz"])
+        out = tmp_path / "out"
+        out.mkdir()
+        build.extract_members(tmp_path / "release.tar.gz", entry["members"], out)
+        assert {p.name: p.read_bytes() for p in out.iterdir()} == files
+
+    def test_a_member_that_differs_from_its_record_is_refused(self, tmp_path, files):
+        entry, served = archive_source(files)
+        entry["members"][0]["md5"] = "0" * 32
+        (tmp_path / "release.tar.gz").write_bytes(served["release.tar.gz"])
+        with pytest.raises(
+            RuntimeError, match="does not hold the file that the record"
+        ):
+            build.extract_members(
+                tmp_path / "release.tar.gz", entry["members"], tmp_path
+            )
+
+    def test_a_missing_member_is_refused_and_the_archive_contents_are_named(
+        self, tmp_path, files
+    ):
+        entry, served = archive_source({"other.txt": b"x"})
+        entry["members"] = [
+            {"name": "uniprot_sprot.dat.gz", "bytes": 1, "md5": "0" * 32}
+        ]
+        (tmp_path / "release.tar.gz").write_bytes(served["release.tar.gz"])
+        with pytest.raises(
+            RuntimeError,
+            match="holds no member named uniprot_sprot.dat.gz; it holds other.txt",
+        ):
+            build.extract_members(
+                tmp_path / "release.tar.gz", entry["members"], tmp_path
+            )
+
+    def test_only_the_listed_members_are_written(self, tmp_path, files):
+        entry, served = archive_source({**files, "uniprot_sprot.xml.gz": b"unlisted"})
+        entry["members"] = entry["members"][:2]
+        (tmp_path / "release.tar.gz").write_bytes(served["release.tar.gz"])
+        out = tmp_path / "out"
+        out.mkdir()
+        build.extract_members(tmp_path / "release.tar.gz", entry["members"], out)
+        assert sorted(p.name for p in out.iterdir()) == sorted(files)
 
 
 class TestBuild:
@@ -227,6 +301,42 @@ class TestBuild:
     def test_a_record_without_both_source_files_is_refused(self, tmp_path, files):
         with pytest.raises(RuntimeError, match="lists no source file"):
             build.run({"target": str(tmp_path / "t"), "sources": sources(files)[:1]})
+
+    def test_a_release_archive_builds_the_same_resource_as_the_separate_files(
+        self, tmp_path, files
+    ):
+        entry, served = archive_source(files, prefix="knowledgebase/")
+        digests = []
+        for label, request, opener in (
+            ("archive", {"sources": [entry]}, serving(served)),
+            ("files", {"sources": sources(files)}, serving(files)),
+        ):
+            target = tmp_path / label
+            build.run({"target": str(target), "threads": 2, **request}, opener=opener)
+            digests.append(
+                {
+                    p.name: hashlib.sha256(p.read_bytes()).hexdigest()
+                    for p in sorted(target.iterdir())
+                }
+            )
+        assert digests[0] == digests[1]
+        assert not [p for p in tmp_path.iterdir() if p.name.startswith(".work-")]
+
+    def test_an_archive_with_a_different_member_leaves_nothing_in_the_target(
+        self, tmp_path, files
+    ):
+        entry, served = archive_source(files)
+        entry["members"][1]["md5"] = "0" * 32
+        target = tmp_path / "staging"
+        with pytest.raises(
+            RuntimeError, match="does not hold the file that the record"
+        ):
+            build.run(
+                {"target": str(target), "sources": [entry], "threads": 2},
+                opener=serving(served),
+            )
+        assert not [p for p in tmp_path.iterdir() if p.name.startswith(".work-")]
+        assert not list(target.iterdir())
 
 
 class TestProvisioning:
@@ -314,10 +424,11 @@ def test_the_swissprot_record_is_fetched_by_the_build_entry():
         ).read_text()
     )
     assert record["fetch"] == {"environment": "mmseqs", "entry": "swissprot_build:run"}
-    assert {s["name"] for s in record["source_files"]} == {
+    (archive,) = record["source_files"]
+    assert {m["name"] for m in archive["members"]} == {
         "uniprot_sprot.fasta.gz",
         "uniprot_sprot.dat.gz",
     }
-    assert all(
-        s["url"].startswith("https://ftp.uniprot.org/") for s in record["source_files"]
+    assert archive["url"].startswith(
+        "https://ftp.uniprot.org/pub/databases/uniprot/previous_releases/release-2026_03/"
     )

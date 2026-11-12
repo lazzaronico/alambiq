@@ -131,12 +131,12 @@ alambiq resource provision thermompnn --yes
 lists a download URL for every file or a `fetch` method, and only with `--yes`. Without
 `--yes` it prints what it would download, what it would build, the license and the hosts, and
 does nothing. Boltz-2 is fetched by Boltz's downloader inside the Boltz environment.
-Swiss-Prot is fetched and built in the mmseqs environment: `provision` downloads the two
-UniProt files, checks their size and MD5 digest, builds the MMseqs2 database and the
-annotation table, and verifies the result against the record. UniProt replaces the files at
-its `current_release` address when it publishes a new release, and the download then fails
-its check. UniRef50 and Pfam are built locally with the commands in the `build` field of
-their specifications.
+Swiss-Prot is fetched and built in the mmseqs environment: `provision` downloads the release
+archive (1.7 GB) from the versioned directory of the UniProt FTP site, checks its size and MD5
+digest, extracts the two UniProt files and checks each against the digest in the record,
+builds the MMseqs2 database and the annotation table, and verifies the result against the
+record. An archive whose files differ from those of the record is refused. UniRef50 and Pfam
+are built locally with the commands in the `build` field of their specifications.
 
 Resources are stored in `~/.alambiq/resources`, or in `ALAMBIQ_RESOURCE_HOME`. Set
 `ALAMBIQ_RESOURCE_<NAME>` (the resource name in capitals, punctuation as underscores) to

@@ -5,10 +5,12 @@ Runs inside the mmseqs environment. Imports the standard library and its sibling
 staging directory; the caller checks every file of the staging directory against the pinned
 record before the directory is put in place.
 
-Each source file is downloaded over HTTPS and checked against the recorded size and MD5
-digest. The FASTA file becomes an MMseqs2 database with its index, and the flat file becomes
-the annotation table. Downloads and intermediate files are removed, so the target holds the
-files of the record and nothing else.
+Each source is downloaded over HTTPS and checked against the recorded size and MD5 digest.
+A source that is an archive lists its `members`; each member is extracted by file name and
+checked against its own recorded size and MD5 digest, so a release archive is accepted only if
+it holds the files that the record was built from. The FASTA file becomes an MMseqs2 database
+with its index, and the flat file becomes the annotation table. Downloads and intermediate
+files are removed, so the target holds the files of the record and nothing else.
 """
 
 from __future__ import annotations
@@ -19,6 +21,7 @@ import os
 import shutil
 import subprocess
 import sys
+import tarfile
 import tempfile
 from pathlib import Path
 from typing import Any
@@ -56,8 +59,52 @@ def download(url: str, destination: Path, size: int, md5: str, opener=urlopen) -
         raise RuntimeError(
             f"{destination.name} downloaded from {url} does not match its record "
             f"(size {count} of {size} bytes, MD5 {digest.hexdigest()} against {md5}). "
-            "UniProt replaces the files at `current_release` when it publishes a new "
-            "release, and this record pins one release"
+            "The record pins one release, and the file at this address is not it"
+        )
+
+
+def extract_members(
+    archive: Path, members: list[dict[str, Any]], destination: Path
+) -> None:
+    """Extract the listed members of a tar archive by file name, each checked against its record.
+
+    A member is found by the last component of its path inside the archive. Nothing else is
+    extracted, and a member whose size or MD5 digest differs from the record is refused.
+    """
+    wanted = {member["name"]: member for member in members}
+    found: set[str] = set()
+    seen: list[str] = []
+    with tarfile.open(archive, "r:*") as tar:
+        for info in tar:
+            if not info.isfile():
+                continue
+            name = Path(info.name).name
+            seen.append(name)
+            if name not in wanted or name in found:
+                continue
+            member = wanted[name]
+            digest = hashlib.md5()  # noqa: S324 - UniProt publishes MD5 digests of its files
+            count = 0
+            source = tar.extractfile(info)
+            assert source is not None
+            with source, (destination / name).open("wb") as out:
+                while chunk := source.read(CHUNK):
+                    count += len(chunk)
+                    digest.update(chunk)
+                    out.write(chunk)
+            if count != member["bytes"] or digest.hexdigest() != member["md5"]:
+                raise RuntimeError(
+                    f"{name} in {archive.name} does not match its record "
+                    f"(size {count} of {member['bytes']} bytes, MD5 {digest.hexdigest()} "
+                    f"against {member['md5']}). The archive does not hold the file that the "
+                    "record was built from"
+                )
+            found.add(name)
+    missing = sorted(set(wanted) - found)
+    if missing:
+        raise RuntimeError(
+            f"{archive.name} holds no member named {', '.join(missing)}; "
+            f"it holds {', '.join(seen[:20]) or 'no files'}"
         )
 
 
@@ -87,7 +134,16 @@ def run(request: dict[str, Any], opener=urlopen) -> dict[str, Any]:
         )
     target = Path(request["target"])
     sources = {s["name"]: s for s in request["sources"]}
-    missing = [n for n in (FASTA, FLAT_FILE) if n not in sources]
+    provided = {
+        name
+        for source in sources.values()
+        for name in (
+            [m["name"] for m in source["members"]]
+            if "members" in source
+            else [source["name"]]
+        )
+    }
+    missing = [n for n in (FASTA, FLAT_FILE) if n not in provided]
     if missing:
         raise RuntimeError("the record lists no source file " + ", ".join(missing))
     threads = int(request.get("threads") or min(8, os.cpu_count() or 1))
@@ -102,6 +158,9 @@ def run(request: dict[str, Any], opener=urlopen) -> dict[str, Any]:
                 source["md5"],
                 opener,
             )
+            if "members" in source:
+                extract_members(work / source["name"], source["members"], work)
+                (work / source["name"]).unlink()
         fasta = work / "uniprot_sprot.fasta"
         with gzip.open(work / FASTA, "rb") as compressed, fasta.open("wb") as out:
             shutil.copyfileobj(compressed, out, CHUNK)
