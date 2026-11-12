@@ -1,8 +1,9 @@
 # TbSADH: from the sequence to a simulated reactor
 
-**Question.** Does the predicted complex of the alcohol dehydrogenase TbSADH with its
-substrate acetophenone place the substrate in the catalytic site of the deposited structure,
-and what does the measured progress of the same reaction predict for a reactor?
+**Question.** Where does the predicted complex of the alcohol dehydrogenase TbSADH with its
+substrate acetophenone place the substrate relative to the catalytic zinc and the NADP of the
+deposited structure, and what does the measured progress of the same reaction predict for a
+reactor?
 
 One campaign follows one enzyme, the secondary alcohol dehydrogenase of *Thermoanaerobacter
 brockii* (UniProt P14941, 352 residues, a homotetramer with a catalytic zinc and one NADP in
@@ -66,7 +67,12 @@ complex pLDDT of 0.45.
     deposited chains fit within 0.1 Å of the smallest RMSD (0.666 to 0.674 Å). They place the
     substrate in different subunit sites, and the nearest distance of O9 to a zinc ranges from
     1.89 to 2.89 Å over them and that of C10 to C4 from 3.58 to 3.69 Å.
-  - The prediction contains neither the zinc nor the NADP.
+  - The prediction contains neither the zinc nor the NADP, and the substrate overlaps the NADP
+    of the deposited structure: every ligand atom has a heavy atom of the NADP of that subunit
+    or of Trp110 as its nearest atom of the reference, at 0.85 to 2.7 Å for nine ligand atoms
+    (the carbonyl oxygen is 1.06 Å from O7N and the carbonyl carbon 0.95 Å from O7N, atoms of the
+    carboxamide of the nicotinamide). The distances to the zinc and to C4 therefore describe a
+    substrate placed where the cofactor would be.
 - **Laboratory branch**: the numbers of
   [operation-from-progress-curves](../operation-from-progress-curves/README.md): the standardized
   RMSE of the hydrogel saturation fit is 1.00 on the fitted points and 1.85 on the evaluation
@@ -84,7 +90,8 @@ distances and chain assignments of `site`, with the same step keys.
   Boltz-2, so the agreement with 1YKF does not show that the model predicts new complexes. It
   checks the chain on a known answer.
 - 1YKF holds NADP and zinc and no substrate. The distances state where the predicted substrate
-  lies relative to them, and not that this is the productive binding mode.
+  lies relative to them. Because the prediction has no cofactor, the substrate overlaps the
+  NADP of the deposited structure and the pose is not a binding mode.
 - The distances of `site` depend on which of the equivalent chain assignments is used, as
   stated above; the campaign reports the one with the smallest RMSD and the range over all of
   them.

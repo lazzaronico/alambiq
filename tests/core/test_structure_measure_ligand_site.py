@@ -229,6 +229,49 @@ class TestSingleChain:
             assert atoms[name] == pytest.approx(list(xyz), abs=1e-2)
 
 
+class TestContacts:
+    def test_the_nearest_reference_atom_of_every_ligand_atom_waters_excluded(
+        self, tmp_path
+    ):
+        water = ("O", "HOH", "A", 200, (3.3, 2.0, 2.0), "O")
+        zinc = ("ZN", "ZN", "A", 100, ZINC, "ZN")
+        reference = write(tmp_path, "reference.pdb", pdb({"A": CHAIN_1}, [zinc, water]))
+        moved = dict(zip(LIGAND, move(LIGAND.values()), strict=True))
+        mobile = write(
+            tmp_path,
+            "mobile.pdb",
+            pdb({"A": move(CHAIN_1)}, ligand_rows(moved)),
+        )
+        found = ok(
+            run(
+                request(
+                    reference,
+                    mobile,
+                    [{"label": "z", "residue_name": "ZN", "atom": "ZN"}],
+                ),
+                tmp_path,
+            )
+        )
+        heavy = {("CA", "ALA", n + 1): p for n, p in enumerate(CHAIN_1)}
+        heavy[("ZN", "ZN", 100)] = ZINC
+        contacts = {c["ligand_atom"]: c for c in found["contacts"]}
+        assert set(contacts) == set(LIGAND)
+        for name, position in LIGAND.items():
+            (atom, residue, number), expected = min(
+                heavy.items(), key=lambda item: distance(item[1], position)
+            )
+            assert contacts[name]["atom"] == atom
+            assert contacts[name]["residue_name"] == residue
+            assert contacts[name]["residue_number"] == number
+            assert contacts[name]["distance_angstrom"] == pytest.approx(
+                distance(expected, position), abs=TOLERANCE
+            )
+        # the water lies 0.3 Å from O1 and is not a contact
+        assert all(c["residue_name"] != "HOH" for c in found["contacts"])
+        distances = [c["distance_angstrom"] for c in found["contacts"]]
+        assert distances == sorted(distances)
+
+
 class TestChainAssignment:
     def swapped(self, tmp_path):
         """The mobile structure names its two different chains the other way round."""

@@ -84,7 +84,9 @@ predicted chains carry names unrelated to those of the crystal. When several ass
 within a tolerance (a nearly symmetric oligomer), the ligand lies in a different subunit
 site in each, and the result gives the range of every nearest distance over them. The
 distances place the ligand relative to atoms that the prediction does not contain; they do
-not show that the pose is the productive binding mode.
+not show that the pose is the productive binding mode. The result also gives, for each
+ligand atom, the nearest heavy atom of the whole reference (waters excluded), so that a ligand
+placed on a cofactor or inside the protein shows as a distance far below the contact distance.
 
 `structure.detect_binding_pockets` runs P2Rank on a structure and ranks surface pockets by
 the P2Rank score, the output of a model trained on known ligand-binding sites. A pocket is a

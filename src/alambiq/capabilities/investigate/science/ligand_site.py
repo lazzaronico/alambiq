@@ -250,6 +250,43 @@ def ligand_atoms(residue) -> list[dict]:
     return out
 
 
+def nearest_contacts(reference, moved: dict) -> list[dict]:
+    """For each ligand atom, the nearest heavy atom of the reference, waters excluded.
+
+    `moved` maps ligand atom names to positions in the reference frame. The rows run from the
+    closest pair to the farthest.
+    """
+    np = _numpy()
+    owners, points = [], []
+    for chain in reference[0]:
+        for residue in chain:
+            if residue.is_water():
+                continue
+            for atom in _heavy(residue):
+                owners.append((chain.name, residue.seqid.num, residue.name, atom.name))
+                points.append(atom.pos.tolist())
+    if not points:
+        return []
+    coordinates = np.array(points)
+    rows = []
+    for name, position in moved.items():
+        distances = np.linalg.norm(coordinates - position, axis=1)
+        index = int(np.argmin(distances))
+        chain_id, number, residue_name, atom_name = owners[index]
+        rows.append(
+            {
+                "ligand_atom": name,
+                "chain_id": chain_id,
+                "residue_number": number,
+                "residue_name": residue_name,
+                "atom": atom_name,
+                "distance_angstrom": float(distances[index]),
+            }
+        )
+    rows.sort(key=lambda row: (row["distance_angstrom"], row["ligand_atom"]))
+    return rows
+
+
 def measure_site(
     mobile,
     reference,
@@ -371,6 +408,7 @@ def measure_site(
             "centroid_angstrom": [float(x) for x in centroid],
         },
         "measurements": measurements,
+        "contacts": nearest_contacts(reference, moved),
         "gemmi_version": gemmi.__version__,
     }
     transform = gemmi.Transform()

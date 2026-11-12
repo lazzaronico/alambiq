@@ -52,6 +52,22 @@ def render(result) -> str:
                 numeric={1, 3},
             )
         )
+    parts.append("<p>The nearest heavy atom of the reference to each ligand atom:</p>")
+    parts.append(
+        table(
+            ["Ligand atom", "Reference atom", "Residue", "Distance (Å)"],
+            [
+                [
+                    c.ligand_atom,
+                    c.atom,
+                    f"{c.residue_name} {c.residue_number} chain {c.chain_id}",
+                    c.distance_angstrom,
+                ]
+                for c in result.contacts
+            ],
+            numeric={3},
+        )
+    )
     parts.append("<p>Ligand atoms and the atoms they are bonded to:</p>")
     parts.append(
         table(

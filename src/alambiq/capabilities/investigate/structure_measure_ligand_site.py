@@ -44,6 +44,9 @@ Limits.
   that wrote it, so the names change with the program; `ligand.atoms` lists each atom with the
   atoms it is bonded to (bonds read from distances), which identifies an atom by its
   chemistry.
+- `contacts` gives, for each ligand atom, the nearest heavy atom of the whole reference, so a
+  ligand placed on the cofactor or inside the protein shows as a short distance. A metal that
+  the ligand coordinates is the nearest atom of that ligand atom at the coordination distance.
 - Bonds of the ligand come from distances between heavy atoms (covalent radii plus 0.45 Å).
 """
 
@@ -178,6 +181,18 @@ class SiteDistance:
 
 
 @dataclass(frozen=True, slots=True)
+class SiteContact:
+    """The reference atom nearest to one ligand atom."""
+
+    ligand_atom: str
+    chain_id: str
+    residue_number: int
+    residue_name: str
+    atom: str
+    distance_angstrom: float
+
+
+@dataclass(frozen=True, slots=True)
 class SiteMeasurement:
     """One target, with the distance to every reference residue that has the atom."""
 
@@ -200,6 +215,10 @@ class SiteResult:
     fit: SiteFit
     ligand: LigandSummary
     measurements: list[SiteMeasurement]
+    contacts: list[SiteContact]
+    """For each ligand atom, the nearest heavy atom of the reference (any residue, waters
+    excluded) in the chosen fit, from the closest pair to the farthest. A distance far below
+    the sum of the van der Waals radii shows that the ligand overlaps the reference."""
     fitted_structure: str
     """The mobile structure in the reference frame, as an mmCIF file."""
     record: str
@@ -208,7 +227,7 @@ class SiteResult:
 
 @capability(
     "structure.measure_ligand_site",
-    version="1.0",
+    version="1.1",
     family="investigate",
     summary="Superpose a predicted complex on a reference and measure its ligand to reference atoms",
     render=render,
@@ -290,6 +309,7 @@ def measure_ligand_site(request: SiteRequest, ctx: StepContext) -> SiteResult:
             )
             for m in record["measurements"]
         ],
+        contacts=[SiteContact(**c) for c in record["contacts"]],
         fitted_structure=str(
             ctx.keep_text(structure_text(placed), "chemical/x-mmcif").path
         ),
