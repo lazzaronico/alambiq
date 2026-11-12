@@ -405,38 +405,165 @@ class TestFetchedByTheToolsOwnDownloader:
         with pytest.raises(RuntimeError, match="no network"):
             resources.provision("toy")
         assert not resources.location("toy").exists()
-        assert not [
-            p for p in resources.location("toy").parent.iterdir() if p.exists()
+        assert not [p for p in resources.location("toy").parent.iterdir() if p.exists()]
+
+
+class TestBoltzDownloader:
+    """The engine fetches the three files from the pinned revision, then Boltz unpacks them."""
+
+    FILES = {
+        "boltz2_conf.ckpt": b"structure weights",
+        "boltz2_aff.ckpt": b"affinity weights",
+        "mols.tar": b"molecule library",
+    }
+
+    @pytest.fixture
+    def engine(self, monkeypatch):
+        import importlib.util
+        import sys
+        import types
+
+        def download_boltz2(cache):
+            for name in self.FILES:
+                assert (cache / name).is_file(), f"Boltz would have to fetch {name}"
+            (cache / "mols").mkdir()
+
+        package = types.ModuleType("boltz")
+        main = types.ModuleType("boltz.main")
+        main.download_boltz2 = download_boltz2
+        package.main = main
+        monkeypatch.setitem(sys.modules, "boltz", package)
+        monkeypatch.setitem(sys.modules, "boltz.main", main)
+        source = (
+            Path(resources.__file__).resolve().parents[1] / "engines/boltz_download.py"
+        )
+        spec = importlib.util.spec_from_file_location(
+            "boltz_download_under_test", source
+        )
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
+
+    def sources(self):
+        return [
+            {
+                "name": name,
+                "url": f"https://example.org/pinned/{name}",
+                "bytes": len(data),
+                "sha256": hashlib.sha256(data).hexdigest(),
+            }
+            for name, data in self.FILES.items()
         ]
 
+    @staticmethod
+    def serving(files, requested=None, redirect=None):
+        import io
 
-def test_the_boltz_downloader_engine_calls_boltzs_own_function(tmp_path, monkeypatch):
-    """With a stand-in `boltz.main`, the engine fetches into the target and checks the set."""
-    import importlib.util
-    import sys
-    import types
+        class Response:
+            def __init__(self, data, url):
+                self.stream, self.url = io.BytesIO(data), url
 
-    def download_boltz2(cache):
-        (cache / "mols").mkdir()
-        for name in ("mols.tar", "boltz2_conf.ckpt", "boltz2_aff.ckpt"):
-            (cache / name).write_bytes(b"x")
+            def __enter__(self):
+                return self
 
-    package = types.ModuleType("boltz")
-    main = types.ModuleType("boltz.main")
-    main.download_boltz2 = download_boltz2
-    package.main = main
-    monkeypatch.setitem(sys.modules, "boltz", package)
-    monkeypatch.setitem(sys.modules, "boltz.main", main)
-    source = Path(resources.__file__).resolve().parents[1] / "engines/boltz_download.py"
-    spec = importlib.util.spec_from_file_location("boltz_download_under_test", source)
-    engine = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(engine)
-    out = engine.run({"target": str(tmp_path / "cache")})
-    assert out["fetched"] == ["boltz2_aff.ckpt", "boltz2_conf.ckpt", "mols", "mols.tar"]
+            def __exit__(self, *exc):
+                return False
 
-    main.download_boltz2 = lambda cache: (cache / "mols.tar").write_bytes(b"x")
-    with pytest.raises(RuntimeError, match="boltz2_conf.ckpt"):
-        engine.run({"target": str(tmp_path / "partial")})
+            def read(self, count=-1):
+                return self.stream.read(count)
+
+            def geturl(self):
+                return self.url
+
+        def opener(request, timeout=0):
+            if requested is not None:
+                requested.append(request.full_url)
+            name = request.full_url.rsplit("/", 1)[1]
+            return Response(files[name], redirect or request.full_url)
+
+        return opener
+
+    def test_each_file_comes_from_its_pinned_address_and_boltz_only_unpacks(
+        self, engine, tmp_path
+    ):
+        requested = []
+        out = engine.run(
+            {"target": str(tmp_path / "cache"), "sources": self.sources()},
+            opener=self.serving(self.FILES, requested),
+        )
+        assert sorted(requested) == sorted(
+            f"https://example.org/pinned/{name}" for name in self.FILES
+        )
+        assert out["fetched"] == [
+            "boltz2_aff.ckpt",
+            "boltz2_conf.ckpt",
+            "mols",
+            "mols.tar",
+        ]
+        for name, data in self.FILES.items():
+            assert (tmp_path / "cache" / name).read_bytes() == data
+
+    def test_a_file_that_differs_from_the_record_is_refused(self, engine, tmp_path):
+        served = {**self.FILES, "boltz2_aff.ckpt": b"other weights!!"}
+        with pytest.raises(
+            RuntimeError, match="the file at this address is not the pinned"
+        ):
+            engine.run(
+                {"target": str(tmp_path / "cache"), "sources": self.sources()},
+                opener=self.serving(served),
+            )
+
+    def test_a_file_of_the_right_size_with_another_digest_is_refused(
+        self, engine, tmp_path
+    ):
+        served = {**self.FILES, "mols.tar": b"molecule librarz"}
+        with pytest.raises(RuntimeError, match="does not match its record"):
+            engine.run(
+                {"target": str(tmp_path / "cache"), "sources": self.sources()},
+                opener=self.serving(served),
+            )
+
+    def test_a_record_without_an_address_for_every_file_is_refused(
+        self, engine, tmp_path
+    ):
+        with pytest.raises(RuntimeError, match="lists no source address for mols.tar"):
+            engine.run(
+                {"target": str(tmp_path / "cache"), "sources": self.sources()[:2]},
+                opener=self.serving(self.FILES),
+            )
+
+    def test_an_address_that_is_not_https_is_refused(self, engine, tmp_path):
+        sources = self.sources()
+        sources[0]["url"] = "http://example.org/pinned/boltz2_conf.ckpt"
+        with pytest.raises(RuntimeError, match="not an HTTPS address"):
+            engine.run(
+                {"target": str(tmp_path / "cache"), "sources": sources},
+                opener=self.serving(self.FILES),
+            )
+
+    def test_a_redirect_to_a_plain_address_is_refused(self, engine, tmp_path):
+        with pytest.raises(
+            RuntimeError, match="redirected to an address that is not HTTPS"
+        ):
+            engine.run(
+                {"target": str(tmp_path / "cache"), "sources": self.sources()},
+                opener=self.serving(self.FILES, redirect="http://elsewhere.org/x"),
+            )
+
+    def test_the_record_pins_every_address_to_the_revision_and_its_own_digests(self):
+        record = resources.spec("boltz2-2.2.1")
+        revision = record["source_revision"].rsplit("@", 1)[1]
+        listed = {f["path"]: f for f in record["files"]}
+        sources = {s["name"]: s for s in record["source_files"]}
+        assert set(sources) == {"boltz2_conf.ckpt", "boltz2_aff.ckpt", "mols.tar"}
+        for name, source in sources.items():
+            assert source["url"] == (
+                f"https://huggingface.co/boltz-community/boltz-2/resolve/{revision}/{name}"
+            )
+            assert (source["bytes"], source["sha256"]) == (
+                listed[name]["bytes"],
+                listed[name]["sha256"],
+            )
 
 
 class TestReadOnlyStore:

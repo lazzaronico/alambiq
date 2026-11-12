@@ -49,17 +49,18 @@ alambiq resource show boltz2-2.2.1
 alambiq resource verify boltz2-2.2.1
 ```
 
-Provision the model files (6.20 GB in 3 files, from the sources that
-`alambiq resource show boltz2-2.2.1` lists):
+Provision the model files (6.20 GB in 3 files, from the pinned revision of the Hugging Face
+repository that the record of the resource names):
 
 ```bash
 alambiq resource provision boltz2-2.2.1 --yes
 ```
 
 The command requires `--yes`; without it, the command reports what it would download and
-stops. It runs the downloader of Boltz in the Boltz environment into a staging folder, then
-verifies every file against the pinned checksums before it moves the folder into the
-resource store. To use existing files, point `ALAMBIQ_RESOURCE_BOLTZ2_2_1` at the folder
+stops. It downloads the three files from the pinned revision in the Boltz environment into a
+staging folder and refuses a file whose size or SHA-256 digest differs from the record, lets
+Boltz unpack the molecule library, then verifies every file against the pinned checksums
+before it moves the folder into the resource store. To use existing files, point `ALAMBIQ_RESOURCE_BOLTZ2_2_1` at the folder
 and run `alambiq resource verify boltz2-2.2.1`. The Alambiq core extras and the OpenMM
 environment are separate from the Boltz environment.
 

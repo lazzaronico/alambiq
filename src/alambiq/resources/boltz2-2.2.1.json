@@ -6,12 +6,27 @@
   "source_revision": "huggingface:boltz-community/boltz-2@6fdef46d763fee7fbb83ca5501ccceff43b85607",
   "content_address": "27b7a5c169d62d9b06d7b1db549f7a45795a47ec0f0062fcebf082a1c26299be",
   "description": "Boltz-2 structure and affinity checkpoints with the chemical-component cache (mols) that Boltz reads at prediction time.",
-  "sources": [
-    "https://huggingface.co/boltz-community/boltz-2/resolve/main/mols.tar",
-    "https://model-gateway.boltz.bio/boltz2_aff.ckpt",
-    "https://model-gateway.boltz.bio/boltz2_conf.ckpt"
+  "source_files": [
+    {
+      "name": "boltz2_conf.ckpt",
+      "bytes": 2286561469,
+      "sha256": "090e82ac8c92f5e943fa1b39e7410a44027bea7243c0bbb3caa67a77fc1428e1",
+      "url": "https://huggingface.co/boltz-community/boltz-2/resolve/6fdef46d763fee7fbb83ca5501ccceff43b85607/boltz2_conf.ckpt"
+    },
+    {
+      "name": "boltz2_aff.ckpt",
+      "bytes": 2062139170,
+      "sha256": "dcc5cd3722b1c9eaa34267e4ae32f55cbbf1963f4c19319381ccfa30fdd2ca9e",
+      "url": "https://huggingface.co/boltz-community/boltz-2/resolve/6fdef46d763fee7fbb83ca5501ccceff43b85607/boltz2_aff.ckpt"
+    },
+    {
+      "name": "mols.tar",
+      "bytes": 1855662080,
+      "sha256": "39e076d96dbec6b4e86982bbda16f3a53a2a60c9bdc17828d88f6f9a0c7d1fd7",
+      "url": "https://huggingface.co/boltz-community/boltz-2/resolve/6fdef46d763fee7fbb83ca5501ccceff43b85607/mols.tar"
+    }
   ],
-  "build": "Fetched by Boltz's own downloader from the sources listed, which also unpacks mols.tar into the directory mols/ beside it. `alambiq resource provision` runs it in the Boltz environment and verifies the result against this record. The downloader reads the main branch of the Hugging Face repository and the Boltz gateway, which can serve other files later, and the check then fails. The same three files at the recorded source revision are at https://huggingface.co/boltz-community/boltz-2/resolve/6fdef46d763fee7fbb83ca5501ccceff43b85607/ (boltz2_aff.ckpt, boltz2_conf.ckpt, mols.tar); their sizes and SHA-256 digests there are those of this record. Not redistributed. The directory is named by the content address of an earlier lock of the same files, stated here.",
+  "build": "Fetched by `alambiq resource provision` in the Boltz environment: the engine downloads the three files from the pinned revision of the Hugging Face repository (source_revision above) and checks each against the size and SHA-256 digest of this record, then runs Boltz's own function on the directory, which unpacks mols.tar into the directory mols/ beside it. The result is verified against this record. Boltz's own downloader, which reads the main branch and the Boltz gateway, is not used. Not redistributed. The directory is named by the content address of an earlier lock of the same files, stated here.",
   "fetch": {"environment": "boltz", "entry": "boltz_download:run"},
   "files": [
     {
