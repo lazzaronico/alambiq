@@ -99,3 +99,18 @@ but declares the tag `manylinux2014_sbsa` in its metadata. `pip check` reports t
 unsupported on Linux ARM64. The prediction on the GPU completed with this report present
 (see the [Spark Boltz verification file](verification.linux-aarch64.json)). The wheel
 metadata is unchanged.
+
+## References
+
+- Passaro S, et al. Boltz-2: Towards Accurate and Efficient Binding Affinity Prediction.
+  bioRxiv (2025).
+  [doi:10.1101/2025.06.14.659707](https://doi.org/10.1101/2025.06.14.659707)
+- Wohlwend J, et al. Boltz-1: Democratizing Biomolecular Interaction Modeling. bioRxiv (2024).
+  [doi:10.1101/2024.11.19.624167](https://doi.org/10.1101/2024.11.19.624167)
+- Bento AP, et al. An open source chemical structure curation pipeline using RDKit. J
+  Cheminform 12, 51 (2020).
+  [doi:10.1186/s13321-020-00456-1](https://doi.org/10.1186/s13321-020-00456-1)
+
+The first two are the papers that the Boltz project asks users of the code and the models to
+cite. The third is the ChEMBL structure pipeline, which Boltz applies to the ligand before
+the affinity estimate. Both environments, `boltz2` and `boltz2-mps`, run Boltz 2.2.1.

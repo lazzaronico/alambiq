@@ -128,3 +128,21 @@ runtime exception, and the package inventories in `locks/` list the license of e
 package. AmberTools and FFTW are not installed in the recorded preparation environment. The
 verification files of installations that included AmberTools describe the earlier
 preparations.
+
+## References
+
+- Eastman P, et al. OpenMM 8: molecular dynamics simulation with machine learning
+  potentials. J Phys Chem B 128, 109-116 (2024).
+  [doi:10.1021/acs.jpcb.3c06662](https://doi.org/10.1021/acs.jpcb.3c06662)
+- Maier JA, et al. ff14SB: improving the accuracy of protein side chain and backbone
+  parameters from ff99SB. J Chem Theory Comput 11, 3696-3713 (2015).
+  [doi:10.1021/acs.jctc.5b00255](https://doi.org/10.1021/acs.jctc.5b00255)
+- Jorgensen WL, Chandrasekhar J, Madura JD, Impey RW, Klein ML. Comparison of simple
+  potential functions for simulating liquid water. J Chem Phys 79, 926-935 (1983).
+  [doi:10.1063/1.445869](https://doi.org/10.1063/1.445869)
+- Wang L, et al. Developing and benchmarking Sage 2.3.0 with the AshGC neural network charge
+  model. J Chem Theory Comput 22, 4507-4531 (2026).
+  [doi:10.1021/acs.jctc.6c00169](https://doi.org/10.1021/acs.jctc.6c00169)
+- Mobley DL, et al. Escaping atom types in force fields using direct chemical perception. J
+  Chem Theory Comput 14, 6076-6092 (2018).
+  [doi:10.1021/acs.jctc.8b00640](https://doi.org/10.1021/acs.jctc.8b00640)

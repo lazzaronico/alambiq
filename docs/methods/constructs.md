@@ -38,7 +38,8 @@ the codons without changing the protein.
 fixed. It removes the motifs listed in the request and brings the GC content within
 stated bounds. Motifs are literal ACGT strings, checked on both strands including
 overlapping matches. An enzyme site is entered as its recognition sequence. GC bounds apply
-to the whole sequence or to every window of a stated length.
+to the whole sequence or to every window of a stated length. The search uses DNA Chisel
+(Zulkower and Rosser 2020).
 
 The capability re-checks every constraint on the output of the search before reporting a
 result: the translation, the terminal codons, each motif on both strands and the GC
@@ -63,7 +64,8 @@ and the joining of the two by Gibson assembly with an overlap of 25 to 60 bases
 (default 35). It reports the complete circular product: its sequence, its annotated
 GenBank file, the primers, and the features retained or removed. The coding sequence of
 the product is translated and compared with the expected protein. An assembly that does
-not yield exactly one unique circular product fails.
+not yield exactly one unique circular product fails. The steps run in pydna (Pereira et al.
+2015) with Biopython (Cock et al. 2009).
 
 There are two input forms. A plain coding insert is one complete coding sequence, and any
 tag or linker is present in both that sequence and the expected protein. An annotated
@@ -89,3 +91,16 @@ the request.
 
 The assembly is simulated from the supplied vector and insert sequences, the named enzyme
 and the designed primers. The product sequence is the simulated result of these inputs.
+
+## References
+
+- Pereira F, Azevedo F, Carvalho Â, Ribeiro GF, Budde MW, Johansson B. Pydna: a simulation
+  and documentation tool for DNA assembly strategies using python. BMC Bioinformatics 16,
+  142 (2015). [doi:10.1186/s12859-015-0544-x](https://doi.org/10.1186/s12859-015-0544-x)
+- Cock PJA, Antao T, Chang JT, Chapman BA, Cox CJ, Dalke A, Friedberg I, Hamelryck T, Kauff
+  F, Wilczynski B, de Hoon MJL. Biopython: freely available Python tools for computational
+  molecular biology and bioinformatics. Bioinformatics 25, 1422-1423 (2009).
+  [doi:10.1093/bioinformatics/btp163](https://doi.org/10.1093/bioinformatics/btp163)
+- Zulkower V, Rosser S. DNA Chisel, a versatile sequence optimizer. Bioinformatics 36,
+  4508-4509 (2020).
+  [doi:10.1093/bioinformatics/btaa558](https://doi.org/10.1093/bioinformatics/btaa558)

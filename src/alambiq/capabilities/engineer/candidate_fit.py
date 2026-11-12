@@ -11,7 +11,7 @@ A candidate panel is a JSON file (`schema_version` 0.1) with 1 to 500 protein ca
 
 A `sample_id` and a `group_id` have at most 200 characters and no whitespace.
 
-The model is fitted on the training partition alone, on standardized features. The features are the sequence length and the 20 amino-acid fractions, or supplied pooled embeddings. The stored record includes predictions for the pool partition. The result reports these measures on the evaluation partition, for the model and for a baseline that predicts the training mean:
+The model is fitted on the training partition alone, on standardized features. It is Bayesian ridge regression (MacKay, 1992; Tipping, 2001) as implemented in scikit-learn (Pedregosa et al., 2011). The features are the sequence length and the 20 amino-acid fractions, or supplied pooled embeddings. The stored record includes predictions for the pool partition. The result reports these measures on the evaluation partition, for the model and for a baseline that predicts the training mean:
 
 - the mean absolute error;
 - the root-mean-square error;

@@ -60,7 +60,9 @@ conditions:
 - `ph_bell`: a bell-shaped profile over pH; reports two pKa values, the optimum pH and
   the activity at the optimum.
 
-The researcher chooses the model from the relation the experiment expresses.
+The researcher chooses the model from the relation the experiment expresses. The
+coefficients are estimated by nonlinear least squares with SciPy `least_squares`
+(Virtanen et al. 2020).
 
 Every model requires at least 4 included observations at 3 distinct values of the
 independent quantity. Included observations are those not listed in `exclude`. Under
@@ -172,3 +174,9 @@ message and no required Vmax in three cases:
 - the accepted fraction is 0;
 - the target exceeds the accepted product at full conversion (conversion above 1);
 - the conversion is exactly 1 and Km is positive (infinite time).
+
+## References
+
+- Virtanen P, et al. SciPy 1.0: fundamental algorithms for scientific computing in Python.
+  Nat Methods 17, 261-272 (2020).
+  [doi:10.1038/s41592-019-0686-2](https://doi.org/10.1038/s41592-019-0686-2)

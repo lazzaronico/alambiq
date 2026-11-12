@@ -5,11 +5,12 @@ leg, with the sampling diagnostics of each replica. A bound leg and a solvent le
 same edge, analyzed together by `simulation.analyze_binding_free_energy`, give the relative
 binding free energy.
 
-The capability applies the OpenFE relative hybrid topology protocol to two positioned
-neutral ligands, an atom mapping between them and, for the bound leg, the protein. Each
-ligand is an SDF with AshGC partial charges. The protocol uses:
+The capability applies the OpenFE (Alibay et al., 2026) relative hybrid topology protocol to
+two positioned neutral ligands, an atom mapping between them and, for the bound leg, the
+protein. Each ligand is an SDF with AshGC partial charges. The protocol uses:
 
-- Sage 2.3.0 for the ligands, ff14SB for the protein and TIP3P for the water;
+- Sage 2.3.0 (Wang et al., 2026) for the ligands, ff14SB (Maier et al., 2015) for the protein
+  and TIP3P (Jorgensen et al., 1983) for the water;
 - hydrogen masses of 1.0 amu (no hydrogen mass repartitioning);
 - an integration step of 2 fs;
 - a set of lambda windows that connects the two ligands.
@@ -18,7 +19,7 @@ Each of the `replicas` independent replicas samples the lambda windows with repl
 exchange. Each replica gives:
 
 - its free-energy difference for the transformation A to B;
-- the error that MBAR reports for it;
+- the error that MBAR (Shirts and Chodera, 2008) reports for it;
 - the overlap between neighboring lambda windows;
 - the effective sample size per lambda window;
 - the estimates from increasing forward and reverse fractions of the data.

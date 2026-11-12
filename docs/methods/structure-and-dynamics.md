@@ -309,3 +309,22 @@ Agreement among replicas applies to the sampled time; replicas can all remain in
 region. A checkpoint is an initial portion of every replica (a number of frames per replica)
 on which the precision is judged again. The checkpoints show how the precision changes
 within the available frames.
+
+## References
+
+- McGibbon RT, et al. MDTraj: a modern open library for the analysis of molecular dynamics
+  trajectories. Biophys J 109, 1528-1532 (2015).
+  [doi:10.1016/j.bpj.2015.08.015](https://doi.org/10.1016/j.bpj.2015.08.015)
+- Karplus M. Vicinal proton coupling in nuclear magnetic resonance. J Am Chem Soc 85,
+  2870-2871 (1963). [doi:10.1021/ja00901a059](https://doi.org/10.1021/ja00901a059)
+- Tejero R, Snyder D, Mao B, Aramini JM, Montelione GT. PDBStat: a universal restraint
+  converter and restraint analysis software package for protein NMR. J Biomol NMR 56,
+  337-351 (2013). [doi:10.1007/s10858-013-9753-7](https://doi.org/10.1007/s10858-013-9753-7)
+- Vehtari A, Gelman A, Simpson D, Carpenter B, Bürkner PC. Rank-normalization, folding, and
+  localization: an improved R-hat for assessing convergence of MCMC. Bayesian Anal 16,
+  667-718 (2021). [doi:10.1214/20-BA1221](https://doi.org/10.1214/20-BA1221)
+- Geyer CJ. Practical Markov chain Monte Carlo. Stat Sci 7, 473-483 (1992).
+  [doi:10.1214/ss/1177011137](https://doi.org/10.1214/ss/1177011137)
+- Daura X, Gademann K, Jaun B, Seebach D, van Gunsteren WF, Mark AE. Peptide folding: when
+  simulation meets experiment. Angew Chem Int Ed 38, 236-240 (1999).
+  [doi:10.1002/(SICI)1521-3773(19990115)38:1/2<236::AID-ANIE236>3.0.CO;2-M](https://doi.org/10.1002/(SICI)1521-3773(19990115)38:1/2%3C236::AID-ANIE236%3E3.0.CO;2-M)

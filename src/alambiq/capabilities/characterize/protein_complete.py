@@ -1,7 +1,7 @@
 """Propose new residues for chosen regions of a protein, with ESM3-small.
 
 Returns proposals for the residues in the requested regions, sampled from
-ESM3-small and conditioned on the residues outside the regions. The proposals
+ESM3-small (Hayes et al., 2025) and conditioned on the residues outside the regions. The proposals
 are hypotheses to test experimentally, for example as the starting set of a
 library.
 

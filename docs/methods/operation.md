@@ -279,7 +279,8 @@ from one experiment are correlated in time. Overlapping collection windows, and 
 species measured in one collected fraction, share measurement errors, which departs from
 the same assumption.
 
-The optimizer is bounded trust-region least squares on scaled parameters. It runs from
+The optimizer is bounded trust-region least squares on scaled parameters (SciPy
+`least_squares`, method `trf`; Virtanen et al. 2020; Branch et al. 1999). It runs from
 every supplied start and reports the converged start with the lowest objective. A
 converged start gives a local solution, and different starts or bounds can give a
 different result. The fit fails if no start converges.
@@ -386,3 +387,12 @@ geometry do not limit the process.
 The intervals of a fit assume independent residuals, which the residuals of progress
 curves violate when they are correlated in time. An ensemble range describes the supplied
 members. A cost comparison describes the listed consumables.
+
+## References
+
+- Virtanen P, et al. SciPy 1.0: fundamental algorithms for scientific computing in Python.
+  Nat Methods 17, 261-272 (2020).
+  [doi:10.1038/s41592-019-0686-2](https://doi.org/10.1038/s41592-019-0686-2)
+- Branch MA, Coleman TF, Li Y. A subspace, interior, and conjugate gradient method for
+  large-scale bound-constrained minimization problems. SIAM J Sci Comput 21, 1-23 (1999).
+  [doi:10.1137/S1064827595289108](https://doi.org/10.1137/S1064827595289108)

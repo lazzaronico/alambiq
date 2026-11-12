@@ -103,3 +103,9 @@ The [verification file](verification.linux-aarch64.json) records runs with `stru
 `experimental` (15 pockets) and `predicted` (2 pockets), the integrity check of 12 stored
 artifacts per run, and browser checks of the report without network requests. The saved
 Boltz prediction of the `predicted` run was produced on a Mac.
+
+## References
+
+- Krivák R, Hoksza D. P2Rank: machine learning based tool for rapid and accurate prediction
+  of ligand binding sites from protein structure. J Cheminform 10, 39 (2018).
+  [doi:10.1186/s13321-018-0285-8](https://doi.org/10.1186/s13321-018-0285-8)

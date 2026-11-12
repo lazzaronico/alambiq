@@ -161,3 +161,14 @@ authors' repository pins Adapters 0.1.1 and PyTorch 1.10.2; the capability runs 
 Adapters 1.3.0 and PyTorch 2.15.0. The tests check that the model loads, that a protein gives
 the same values alone and in a batch, that residues beyond the 510th do not change the result,
 and that a repeated run reproduces the values.
+
+## References
+
+- McInnes L, Healy J, Melville J. UMAP: uniform manifold approximation and projection for
+  dimension reduction. arXiv:1802.03426 (2018).
+  [doi:10.48550/arXiv.1802.03426](https://doi.org/10.48550/arXiv.1802.03426)
+- McInnes L, Healy J, Saul N, Großberger L. UMAP: uniform manifold approximation and
+  projection. J Open Source Softw 3, 861 (2018) (the umap-learn software).
+  [doi:10.21105/joss.00861](https://doi.org/10.21105/joss.00861)
+- The references for ESM C 300M and ESM3-small are listed in the
+  [protein representations environment](../../environments/protein-representations/README.md#references).

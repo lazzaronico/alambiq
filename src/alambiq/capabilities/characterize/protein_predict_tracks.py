@@ -12,7 +12,7 @@ can be compared with a search by `protein.match_profiles`.
 
 The method:
 
-- The output layers of ESM3-small give the three tracks.
+- The output layers of ESM3-small (Hayes et al., 2025) give the three tracks.
 - Regions are decoded from the model output at fixed thresholds. The `decoding`
   field of the result lists them: `p_none_threshold` 0.05, `interpro_threshold`
   0.1, `keyword_threshold` 0.5, `minimum_span` 5, `merge_gap` 3.

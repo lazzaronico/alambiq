@@ -20,11 +20,12 @@ residues and, if declared, the declared sequences. The method has these steps:
 - Two cysteine sulfur atoms at most 2.5 angstrom apart form a disulfide bond. A pair from
   2.5 to 3.5 angstrom apart is refused as ambiguous.
 - The ligand pose must be the one the SMILES specifies, including its handedness.
-- The ligand receives hydrogens, Sage 2.3.0 parameters and AshGC partial charges.
-- The protein receives Amber ff14SB parameters, the terminal oxygen and hydrogens, and the
-  epsilon tautomer (HIE) for every histidine.
-- The complex is solvated in a TIP3P box with neutralizing ions and salt. The system uses
-  PME and constrained hydrogen bonds, and is minimized.
+- The ligand receives hydrogens, Sage 2.3.0 parameters and AshGC partial charges
+  (Wang et al., 2026).
+- The protein receives Amber ff14SB (Maier et al., 2015) parameters, the terminal oxygen and
+  hydrogens, and the epsilon tautomer (HIE) for every histidine.
+- The complex is solvated in a TIP3P box (Jorgensen et al., 1983) with neutralizing ions and
+  salt. The system uses PME and constrained hydrogen bonds, and is minimized.
 
 Limits.
 

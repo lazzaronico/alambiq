@@ -22,6 +22,9 @@ Method. The `model` field selects one of five models:
 - `ph_bell`: ymax / (1 + 10^(pKa1 - pH) + 10^(pH - pKa2)), a bell-shaped activity
   profile over pH (x is the pH), with the coefficients `ymax`, `pKa1` and `pKa2`.
 
+The coefficients are estimated by nonlinear least squares with `scipy.optimize.least_squares`
+(SciPy; Virtanen et al. 2020).
+
 Coefficients can be bounded or held fixed at supplied values. Measurements listed in
 `exclude` are omitted from the fit. Their measured values can be compared with the
 predictions to assess the error on held-out measurements.

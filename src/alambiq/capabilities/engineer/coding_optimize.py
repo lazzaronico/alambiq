@@ -2,7 +2,7 @@
 
 The result gives the status, the number of changed codons and the constraint states before and after recoding. The recoded sequence is returned as FASTA (`dna_fasta`) and is stored in the record.
 
-The solver is DNA Chisel. It changes synonymous codons only and leaves the first and last codon unchanged. It removes the named motifs and holds the GC content within the stated bounds. Every constraint is then re-checked on the output of the solver:
+The solver is DNA Chisel (Zulkower and Rosser 2020). It changes synonymous codons only and leaves the first and last codon unchanged. It removes the named motifs and holds the GC content within the stated bounds. Every constraint is then re-checked on the output of the solver:
 
 - the translation under genetic code 11;
 - the terminal codons;

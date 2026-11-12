@@ -8,6 +8,8 @@ The capability models three steps:
 - amplification of the insert with designed primers;
 - joining of the two by Gibson overlap.
 
+The steps run in pydna (Pereira et al. 2015). Biopython (Cock et al. 2009) supplies the restriction enzymes and the sequence features.
+
 Limits. Melting temperatures come from the nearest-neighbor model `pydna.tm.tm_default` of pydna 5.5.16. They describe the duplex of the annealing footprint with the template.
 
 - The assembly is refused unless it yields exactly one circular sequence after duplicates are removed.

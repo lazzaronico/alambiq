@@ -16,10 +16,10 @@ in a spin state above the singlet, and in water.
 ### Method
 
 RDKit embeds 10 conformers from the request's `seed` and keeps the one of lowest MMFF94
-energy. PySCF optimizes it with PyBerny at the functional and basis of the request, on an
-integration grid of level 4, and the optimization must converge: a geometry that has not
-converged returns no properties. The basis functions are Cartesian, the convention of
-Gaussian for the Pople bases. The functionals are B3LYP, PBE0, PBE and CAM-B3LYP; the bases
+energy. PySCF (Sun et al., 2026) optimizes it with PyBerny at the functional and basis of the
+request, on an integration grid of level 4, and the optimization must converge: a geometry
+that has not converged returns no properties. The basis functions are Cartesian, the
+convention of Gaussian for the Pople bases. The functionals are B3LYP, PBE0, PBE and CAM-B3LYP; the bases
 are 6-31G*, 6-31G(2df,p), def2-SVP and def2-TZVP.
 
 The properties come from the optimized geometry:
@@ -125,9 +125,10 @@ distribution), metabolism (five CYP inhibition endpoints and three substrate end
 excretion (half life and two clearances) and toxicity (hERG, ClinTox, Ames mutagenicity, DILI,
 carcinogenicity, acute toxicity LD50, skin reaction and the 12 Tox21 assays).
 
-ADMET-AI 2.0.1 (MIT) predicts each endpoint with the mean of 5 Chemprop message-passing
-networks. The networks were trained on datasets of the Therapeutics Data Commons, from 278
-molecules (carcinogenicity) to 13,130 (CYP2D6 inhibition). The result holds an endpoint table
+ADMET-AI 2.0.1 (MIT; Swanson et al., 2024) predicts each endpoint with the mean of 5 Chemprop
+message-passing networks (Yang et al., 2019; Graff et al., 2026). The networks were trained on datasets of the
+Therapeutics Data Commons, from 278 molecules (carcinogenicity) to 13,130 (CYP2D6
+inhibition). The result holds an endpoint table
 with the kind, units, species and training size of each endpoint and the metrics that
 ADMET-AI reports for it: AUROC and AUPRC for classifications, R squared and the mean absolute
 error for regressions. With `drugbank_percentiles`, each estimate is also placed among the

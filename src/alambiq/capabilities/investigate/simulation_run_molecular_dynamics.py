@@ -5,7 +5,7 @@ phase, the readiness verdict, and the platform and versions used.
 
 A serialized system, OpenMM state file and topology, such as those written by
 `structure.prepare_protein_system`, are run through these phases. The request sets their
-lengths in picoseconds.
+lengths in picoseconds. The dynamics run in OpenMM (Eastman et al., 2024).
 
 1. Optional minimization.
 2. Velocities drawn at the target temperature, or taken from the state file.
@@ -38,8 +38,9 @@ Other limits:
   replicas.
 - A simulation samples the ensemble that its thermostat and barostat settings define.
 - The force field is that of the supplied system. For a system from
-  `structure.prepare_protein_system` it is Amber ff14SB with TIP3P water (explicit solvent)
-  or GBn2 (implicit solvent), and the limits of that force field apply.
+  `structure.prepare_protein_system` it is Amber ff14SB (Maier et al., 2015) with TIP3P water
+  (Jorgensen et al., 1983) (explicit solvent) or GBn2 (Nguyen et al., 2013) (implicit
+  solvent), and the limits of that force field apply.
 - Timesteps above 1 fs require constrained hydrogen bonds.
 - On one CPU thread, the default, the same seed gives the same trajectory for the
   implicit-solvent system in `tests/core/test_simulation_run_molecular_dynamics.py`. With

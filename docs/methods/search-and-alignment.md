@@ -243,3 +243,16 @@ Alignment-based transfer applies to candidates that align to the reference witho
 insertions, fusions or rearranged domains. At low identity or with such differences,
 profile or structure comparison (`protein.match_profiles`, `structure.compare`) is
 needed.
+
+## References
+
+- Steinegger M, Söding J. MMseqs2 enables sensitive protein sequence searching for the
+  analysis of massive data sets. Nat Biotechnol 35, 1026-1028 (2017).
+  [doi:10.1038/nbt.3988](https://doi.org/10.1038/nbt.3988)
+- The UniProt Consortium. UniProt: the Universal Protein Knowledgebase in 2025. Nucleic
+  Acids Res 53, D609-D617 (2025).
+  [doi:10.1093/nar/gkae1010](https://doi.org/10.1093/nar/gkae1010) (UniProtKB/Swiss-Prot and
+  UniRef50)
+- Suzek BE, et al. UniRef clusters: a comprehensive and scalable alternative for improving
+  sequence similarity searches. Bioinformatics 31, 926-932 (2015).
+  [doi:10.1093/bioinformatics/btu739](https://doi.org/10.1093/bioinformatics/btu739)

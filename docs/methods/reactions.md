@@ -32,7 +32,7 @@ ionic strength, as supplied) are recorded as context and do not change the balan
 ## Thermodynamics
 
 `reaction.estimate_thermodynamics` estimates the transformed Gibbs energy of a reaction with
-the component-contribution model of eQuilibrator. The standard energies ΔG′° are at 298.15 K
+the component-contribution model of eQuilibrator (Noor et al. 2013; Beber et al. 2022). The standard energies ΔG′° are at 298.15 K
 for the stated pH, pMg and ionic strength. The estimate is corrected to the stated
 activities: ΔG′ = ΔG′° + RT ln Q, where Q is the reaction quotient at those activities. For
 each reaction and for a weighted route, the capability reports ΔG′°, ΔG′, ln K′ and a model
@@ -57,7 +57,7 @@ catalysts, which the estimate does not include.
 ## Route search
 
 `reaction.explore_routes` applies the supplied mapped reaction operators to the supplied
-feedstocks, one generation at a time. A generation is one round of expansion. The capability
+feedstocks, one generation at a time. A generation is one round of expansion, run by DORAnet (Zhang et al. 2025). The capability
 then traces finite amounts of each species through the resulting reaction graph, in
 increments (the extent per step) set in the request. The result depends on the supplied
 operators. Every generated equation is checked for balance, and no equation with a residual
@@ -93,8 +93,8 @@ reactions or both are new.
 The capability compares five predictors: the training mean, the nearest measured reference,
 and three kernel ridge regressions (a sequence-only model, a reaction-only model and a joint
 model). The sequence kernel is the cosine similarity of normalized amino-acid 3-mer counts.
-The reaction kernel uses chirality-aware radius-2 Morgan presence fingerprints of the
-selected reaction participants (512 bits per reaction side). The joint kernel multiplies both
+The reaction kernel uses chirality-aware radius-2 Morgan presence fingerprints
+(Rogers and Hahn 2010) of the selected reaction participants (512 bits per reaction side). The joint kernel multiplies both
 similarities. The nearest measured reference is the one with the highest joint similarity.
 The request supplies the ridge penalty `alpha`, which must be chosen without the held-out
 observations.
@@ -118,3 +118,17 @@ effect of the conditions is confounded with the effect of the substrates. A reac
 model gives every enzyme the same prediction on one reaction. The rank correlation of a
 predictor is reported as unavailable when its predictions or the observed values are
 constant, as for the reaction-only model on a held-out set of one reaction.
+
+## References
+
+- Noor E, Haraldsdóttir HS, Milo R, Fleming RMT. Consistent estimation of Gibbs energy using
+  component contributions. PLoS Comput Biol 9, e1003098 (2013).
+  [doi:10.1371/journal.pcbi.1003098](https://doi.org/10.1371/journal.pcbi.1003098)
+- Beber ME, Gollub MG, Mozaffari D, Shebek KM, Flamholz AI, Milo R, Noor E. eQuilibrator
+  3.0: a database solution for thermodynamic constant estimation. Nucleic Acids Res 50,
+  D603-D609 (2022). [doi:10.1093/nar/gkab1106](https://doi.org/10.1093/nar/gkab1106)
+- Zhang Q, Sprague WW, Kozarekar SS, Pate SC, Uekert T, Broadbelt LJ. Discovery of hybrid
+  chemical synthesis pathways with DORAnet. Digital Discovery 4, 3109-3125 (2025).
+  [doi:10.1039/d5dd00229j](https://doi.org/10.1039/d5dd00229j)
+- Rogers D, Hahn M. Extended-connectivity fingerprints. J Chem Inf Model 50, 742-754 (2010).
+  [doi:10.1021/ci100050t](https://doi.org/10.1021/ci100050t)

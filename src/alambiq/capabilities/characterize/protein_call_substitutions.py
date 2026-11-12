@@ -1,14 +1,14 @@
 """Name the substitutions that separate a variant from its closest reference protein.
 
 Returns, for each variant, the closest reference in a supplied FASTA or in UniProtKB/
-Swiss-Prot, a FASTA file with the sequence of that reference (`reference_file`) and the
+Swiss-Prot (UniProt Consortium, 2025), a FASTA file with the sequence of that reference (`reference_file`) and the
 differences between them: substitutions in standard notation, insertions and deletions.
 Positions are residue numbers of the reference. A variant that equals its
 reference over its whole length has no differences.
 
 The method:
 
-- MMseqs2 aligns each variant to the references; up to 2,000 candidates per variant pass its
+- MMseqs2 (Steinegger and Söding, 2017) aligns each variant to the references; up to 2,000 candidates per variant pass its
   prefilter, and the 20 with the highest bit score that meet the thresholds are compared.
 - The closest reference is the one with the fewest differences from the variant: substitutions,
   inserted and deleted residues, and the residues that the alignment leaves out at the ends of

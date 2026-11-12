@@ -12,10 +12,10 @@ reports:
 
 - the mean over replicas (the mean of the replica means);
 - its standard error, computed from the spread of the replica means;
-- the split R-hat, which is 1 when the halves agree. Each replica is split into two halves.
-  R-hat is the square root of the ratio of the pooled variance estimate to the mean
-  within-half variance;
-- the effective sample size;
+- the split R-hat (Vehtari et al., 2021), which is 1 when the halves agree. Each replica is
+  split into two halves. R-hat is the square root of the ratio of the pooled variance
+  estimate to the mean within-half variance;
+- the effective sample size (initial monotone sequence estimator; Geyer, 1992);
 - the drift between the halves of each replica;
 - the block-averaged errors.
 

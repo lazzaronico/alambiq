@@ -10,8 +10,8 @@ seed). The model gives one vector per residue from its last hidden state. The
 vector of a protein is the mean over its residues, excluding the start and end
 tokens.
 
-- ESM C 300M: 960 values, taken after the final normalization.
-- ESM3-small: 1,536 values, taken before the final normalization.
+- ESM C 300M (Candido et al., 2026): 960 values, taken after the final normalization.
+- ESM3-small (Hayes et al., 2025): 1,536 values, taken before the final normalization.
 
 The record stores both the pooled and the per-residue vectors, with the model,
 its pinned revision, its license and the package versions.

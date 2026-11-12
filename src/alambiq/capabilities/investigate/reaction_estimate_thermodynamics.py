@@ -5,8 +5,8 @@ For each reaction, the result gives the standard transformed Gibbs energy ΔG′
 standard deviation. The sign of ΔG′ indicates whether the equation, as written, runs
 forward or backward at those conditions and activities.
 
-The standard energy comes from eQuilibrator's component-contribution model, for a
-stated pH, pMg and ionic strength. The energy at the stated activities is
+The standard energy comes from eQuilibrator's component-contribution model (Noor et al.
+2013; Beber et al. 2022), for a stated pH, pMg and ionic strength. The energy at the stated activities is
 ΔG′ = ΔG′° + RT ln Q. Each compound is identified by an accession and has an activity.
 Water has unit activity. The pH fixes the proton activity, so the request gives the
 proton activity as null.

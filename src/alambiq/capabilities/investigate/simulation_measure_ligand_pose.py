@@ -6,8 +6,8 @@ and that of the reference ligand, and the RMSD of the fit atoms. The summary sta
 many frames lie within a threshold of the reference pose and the first frame beyond it.
 
 A trajectory from `simulation.run_molecular_dynamics`, with its topology, is read once from
-start to end. The reference is a PDB with the ligand in the pose of interest, for example
-the deposited complex, or the structure a prediction gave.
+start to end with MDTraj (McGibbon et al., 2015). The reference is a PDB with the ligand in
+the pose of interest, for example the deposited complex, or the structure a prediction gave.
 
 The method:
 

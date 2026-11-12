@@ -8,7 +8,7 @@ proteins far apart in the vector space to inspect or test first.
 
 The method:
 
-- The layout is PCA or a seeded UMAP.
+- The layout is PCA or a seeded UMAP (McInnes et al., 2018).
 - The nearest neighbor is found by cosine distance.
 - A hierarchical clustering uses average linkage.
 - The first representative is the medoid, the protein with the smallest mean

@@ -179,3 +179,21 @@ terms). The
 [method guide](../../docs/methods/binding-and-qmmm.md#evaluating-and-sampling-qmmm) describes
 the quantum region, the classical partition, the Gaussian embedding, the convergence
 settings and the recorded units.
+
+## References
+
+- Sun Q, et al. The Python simulations of chemistry framework: 10 years of an open-source
+  quantum chemistry project. J Chem Phys 165, 102502 (2026).
+  [doi:10.1063/5.0337441](https://doi.org/10.1063/5.0337441)
+- Lehtola S, Steigemann C, Oliveira MJT, Marques MAL. Recent developments in libxc: a
+  comprehensive library of functionals for density functional theory. SoftwareX 7, 1-5
+  (2018). [doi:10.1016/j.softx.2017.11.002](https://doi.org/10.1016/j.softx.2017.11.002)
+- Perdew JP, Burke K, Ernzerhof M. Generalized gradient approximation made simple. Phys Rev
+  Lett 77, 3865-3868 (1996).
+  [doi:10.1103/PhysRevLett.77.3865](https://doi.org/10.1103/PhysRevLett.77.3865)
+- Hariharan PC, Pople JA. The influence of polarization functions on molecular orbital
+  hydrogenation energies. Theor Chim Acta 28, 213-222 (1973).
+  [doi:10.1007/BF00533485](https://doi.org/10.1007/BF00533485)
+- Eastman P, et al. OpenMM 8: molecular dynamics simulation with machine learning
+  potentials. J Phys Chem B 128, 109-116 (2024).
+  [doi:10.1021/acs.jpcb.3c06662](https://doi.org/10.1021/acs.jpcb.3c06662)

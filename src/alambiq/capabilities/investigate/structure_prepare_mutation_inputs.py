@@ -10,10 +10,11 @@ The method:
 - The chain is read from the first model. Other chains and heteroatoms are dropped and listed.
   The terminal OXT is added when it is missing; a chain with any other heavy atom missing, or
   with gaps in the sequence, is refused.
-- Hydrogens are added at the stated pH, or in the protonation states of a protonated structure
-  from `structure.assign_protonation` when the request gives one. The wild-type system is solvated in a dodecahedral
-  TIP3P box with sodium and chloride ions at the ionic strength, neutralized, with ff14SB
-  (Amber14) parameters. The random placement of ions and water orientations is seeded.
+- Hydrogens are added at the stated pH, or in the protonation states of a protonated
+  structure from `structure.assign_protonation` when the request gives one. The wild-type
+  system is solvated in a dodecahedral TIP3P box (Jorgensen et al., 1983) with sodium and
+  chloride ions at the ionic strength, neutralized, with ff14SB (Amber14; Maier et al.,
+  2015) parameters. The random placement of ions and water orientations is seeded.
 - The mutant state is the wild-type system with the side chain of the residue replaced by the
   standard template of the new residue (a PDBFixer template, one rotamer), protonated in the
   same way. Atoms of the backbone N, CA, C and O, and the atoms that follow from CA by bonds

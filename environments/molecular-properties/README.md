@@ -38,3 +38,15 @@ It records PySCF 2.14.0, RDKit 2026.9.1, PyBerny 0.7.0, NumPy 2.5.4 and SciPy 1.
 Water at B3LYP/6-31G* in this environment has an energy of -76.40895 hartree, an ideal-gas heat
 capacity at constant volume of 5.997 cal/(mol K) at 298.15 K and a harmonic zero-point energy of
 13.28 kcal/mol. The tests of `molecule.compute_quantum_properties` check these values.
+
+## References
+
+- Sun Q, et al. The Python simulations of chemistry framework: 10 years of an open-source
+  quantum chemistry project. J Chem Phys 165, 102502 (2026).
+  [doi:10.1063/5.0337441](https://doi.org/10.1063/5.0337441)
+- Lehtola S, Steigemann C, Oliveira MJT, Marques MAL. Recent developments in libxc — A
+  comprehensive library of functionals for density functional theory. SoftwareX 7, 1-5
+  (2018). [doi:10.1016/j.softx.2017.11.002](https://doi.org/10.1016/j.softx.2017.11.002)
+
+The PySCF project asks for the first paper, and for the second when a calculation uses
+Libxc for the density functionals, as the recorded installation does.

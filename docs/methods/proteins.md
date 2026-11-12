@@ -90,3 +90,14 @@ ends at the assembly edge, which can differ from the end of the chromosome or pl
 window of a circular contig ends at the origin and does not continue across it. The
 proteins of the displayed features that are in the supplied `proteins` FASTA are written to
 a FASTA file, which `protein.search` and `sequence.generate_msa` accept as input.
+
+## References
+
+- Mistry J, et al. Pfam: the protein families database in 2021. Nucleic Acids Res 49,
+  D412-D419 (2021). [doi:10.1093/nar/gkaa913](https://doi.org/10.1093/nar/gkaa913)
+- Steinegger M, Söding J. MMseqs2 enables sensitive protein sequence searching for the
+  analysis of massive data sets. Nat Biotechnol 35, 1026-1028 (2017).
+  [doi:10.1038/nbt.3988](https://doi.org/10.1038/nbt.3988)
+- Hayes T, et al. Simulating 500 million years of evolution with a language model.
+  Science 387, 850-858 (2025).
+  [doi:10.1126/science.ads0018](https://doi.org/10.1126/science.ads0018)

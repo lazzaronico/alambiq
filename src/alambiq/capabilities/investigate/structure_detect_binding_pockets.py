@@ -6,9 +6,9 @@ surface points and atoms in it, a center in angstroms and the residues that P2Ra
 to it. For a protein inspected with `protein.inspect`, the residues are also mapped to
 positions in the query sequence, by exact author chain and residue number.
 
-P2Rank scores each point of the solvent-accessible surface with a model trained on known
-ligand-binding sites, using features of the local chemistry. It clusters the high-scoring
-points into pockets and ranks the pockets.
+P2Rank (Krivák and Hoksza, 2018) scores each point of the solvent-accessible surface with a
+model trained on known ligand-binding sites, using features of the local chemistry. It
+clusters the high-scoring points into pockets and ranks the pockets.
 
 The request states the kind of structure, because each kind uses a different model:
 

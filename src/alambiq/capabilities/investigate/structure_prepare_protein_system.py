@@ -7,15 +7,16 @@ were protonated in which state and which were rebuilt, and it describes the geom
 result.
 
 One standard-protein chain of a PDB or mmCIF file is selected by its author chain id. The
-method has these steps:
+method, implemented with OpenMM (Eastman et al., 2024) and PDBFixer, has these steps:
 
 - The chain is stripped of its hydrogens. Hydrogens are added at a stated pH, with residue
   protonation variants that the request can override.
 - With `heavy_atom_completion: pdbfixer-standard`, PDBFixer rebuilds missing heavy atoms of
   standard residues and applies the residue substitutions of the request from standard
   templates.
-- The chain is parameterized with Amber ff14SB and placed in explicit TIP3P water with NaCl
-  and neutralizing ions, or in implicit GBn2 solvent.
+- The chain is parameterized with Amber ff14SB (Maier et al., 2015) and placed in explicit
+  TIP3P water (Jorgensen et al., 1983) with NaCl and neutralizing ions, or in implicit GBn2
+  solvent (Nguyen et al., 2013).
 - The energy is minimized.
 
 Limits.

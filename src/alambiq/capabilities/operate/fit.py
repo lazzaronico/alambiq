@@ -13,7 +13,8 @@ constant is shared across operating definitions, exchanges or both reaction dire
 Fields that no parameter targets keep their supplied values.
 
 Method.
-- The optimizer is bounded trust-region least squares on scaled parameters. It starts
+- The optimizer is bounded trust-region least squares on scaled parameters (the `trf`
+  method of SciPy `least_squares`; Virtanen et al. 2020; Branch et al. 1999). It starts
   from every supplied start and minimizes the sum of squared standardized residuals.
 - Each residual evaluation integrates every operating definition that has `fit`
   observations. `max_nfev` (1 to 2000) limits the residual evaluations of each start.

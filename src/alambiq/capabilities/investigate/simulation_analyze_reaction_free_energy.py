@@ -5,12 +5,14 @@ between the product bins and the reactant bins, the height of the transition bin
 reference bin, and the diagnostics of the sampling. A classical one-way flux through a
 dividing surface gives a rate and an activation free energy when requested.
 
-Each umbrella window is a QM/MM simulation (`simulation.run_qmmm_dynamics`) with a harmonic
-bias on the same distance-difference coordinate, centered at its own value. A replica is a
-complete set of windows run with independent seeds. For each replica the capability:
+Each umbrella window (Torrie and Valleau, 1977) is a QM/MM simulation
+(`simulation.run_qmmm_dynamics`) with a harmonic bias on the same distance-difference
+coordinate, centered at its own value. A replica is a complete set of windows run with
+independent seeds. For each replica the capability:
 
 - decorrelates the samples of each window;
-- combines the windows with MBAR against the unbiased thermodynamic state;
+- combines the windows with MBAR (Shirts and Chodera, 2008) against the unbiased
+  thermodynamic state;
 - takes the density of the coordinate in the bins of the request, which gives the
   potential of mean force and its asymptotic uncertainty, referenced to a bin in the
   reactant bins;

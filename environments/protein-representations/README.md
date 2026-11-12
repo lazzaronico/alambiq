@@ -95,3 +95,12 @@ downloaded resource. The maximum difference between the pooled vectors and those
 original environment is 0. The selection and export controls of the report were exercised in
 a browser. For a 142-residue sequence, the CPU and MPS embeddings differ by at most 2.22e-6
 per value.
+
+## References
+
+- Hayes T, et al. Simulating 500 million years of evolution with a language model (ESM3).
+  Science 387, 850-858 (2025).
+  [doi:10.1126/science.ads0018](https://doi.org/10.1126/science.ads0018)
+- Candido S, et al. Language modeling materializes a world model of protein biology (ESM C).
+  bioRxiv preprint, posted 4 June 2026.
+  [doi:10.64898/2026.06.03.729735](https://doi.org/10.64898/2026.06.03.729735)

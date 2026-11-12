@@ -8,7 +8,8 @@ models and co-evolution models.
 
 The method:
 
-- Iterative MMseqs2 searches the database with each protein.
+- Iterative MMseqs2 (Steinegger and Söding, 2017) searches the database (UniRef50: Suzek
+  et al., 2015; UniProt Consortium, 2025) with each protein.
 - The alignment is an A3M, an alignment format in which lowercase letters mark
   insertions relative to the query. The protein is the first row. The other rows
   are sorted by identifier and then by sequence.

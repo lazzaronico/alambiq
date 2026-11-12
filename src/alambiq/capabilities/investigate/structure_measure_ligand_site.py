@@ -11,7 +11,8 @@ The method:
 - Both files are mmCIF or PDB, read by content. The first model is used. Chain ids are the
   author chain ids (`auth_asym_id` of an mmCIF).
 - Residues correspond when they have the same author residue number and residue name in paired
-  chains. Alpha carbons of the paired residues enter the fit with equal weights.
+  chains. Alpha carbons of the paired residues enter the fit with equal weights. The fit is the
+  least-squares rotation of Kabsch (1976, 1978), computed by singular value decomposition.
 - Chains are paired by the assignment of mobile protein chains to reference protein chains with
   the smallest alpha-carbon RMSD, which is searched over all assignments (at most 6 chains), or
   taken from `chain_map`. A prediction of a homo-oligomer names its chains in no relation to
@@ -54,6 +55,13 @@ Limits.
   ligand placed on the cofactor or inside the protein shows as a short distance. A metal that
   the ligand coordinates is the nearest atom of that ligand atom at the coordination distance.
 - Bonds of the ligand come from distances between heavy atoms (covalent radii plus 0.45 Å).
+
+References.
+
+- Kabsch W. A solution for the best rotation to relate two sets of vectors. Acta Crystallogr A
+  32, 922-923 (1976). https://doi.org/10.1107/S0567739476001873
+- Kabsch W. A discussion of the solution for the best rotation to relate two sets of vectors.
+  Acta Crystallogr A 34, 827-828 (1978). https://doi.org/10.1107/S0567739478001680
 """
 
 from __future__ import annotations

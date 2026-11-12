@@ -139,3 +139,9 @@ and select one candidate at a time.
   activity and stability. Within a front it orders candidates by the sum of their
   objectives scaled to 0 to 1, which weights the objectives equally. A different weighting
   selects different candidates within a front.
+
+## References
+
+- Meier J, Rao R, Verkuil R, Liu J, Sercu T, Rives A. Language models enable zero-shot
+  prediction of the effects of mutations on protein function. bioRxiv (2021).
+  [doi:10.1101/2021.07.09.450648](https://doi.org/10.1101/2021.07.09.450648)

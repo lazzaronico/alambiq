@@ -6,7 +6,7 @@ Each route step carries its equation, its catalyst requirement and its enzyme ci
 Each operator is a mapped SMARTS (reactants to products, with every template atom on both
 sides under the same map number). It has a source, the catalyst or processing it needs,
 and optionally enzyme citations for an exact set of reactants and products. The DORAnet
-package applies the operators to the feedstocks, generation by generation, within the
+package (Zhang et al. 2025) applies the operators to the feedstocks, generation by generation, within the
 bounds of the request. Only equations that balance with every coproduct are retained.
 The capability then follows finite inventories through the reaction network.
 

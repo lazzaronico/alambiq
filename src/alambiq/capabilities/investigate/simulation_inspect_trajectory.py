@@ -4,11 +4,11 @@ Returns the alpha-carbon RMSD and radius of gyration of every frame, the per-res
 alpha-carbon fluctuation, and the distances, angles and contacts that the request selects.
 It also returns the state-data averages of temperature, potential energy and volume.
 
-A trajectory from `simulation.run_molecular_dynamics`, with its topology and state data,
-is read once from start to end. Every frame is fitted onto a reference by the protein alpha
-carbons. The reference is the first saved frame unless a structure is supplied. Distances,
-angles and contacts are measured between atoms selected by exact identity (chain, residue
-number, residue name and atom name).
+A trajectory from `simulation.run_molecular_dynamics`, with its topology and state data, is
+read once from start to end with MDTraj (McGibbon et al., 2015). Every frame is fitted onto
+a reference by the protein alpha carbons. The reference is the first saved frame unless a
+structure is supplied. Distances, angles and contacts are measured between atoms selected by
+exact identity (chain, residue number, residue name and atom name).
 
 Two checks are optional:
 

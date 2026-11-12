@@ -11,8 +11,9 @@ The method:
 
 - RDKit embeds 10 conformers (ETKDG, from the request's `seed`), relaxes each with the MMFF94
   force field, and keeps the one of lowest force-field energy.
-- PySCF optimizes that geometry with the request's functional and basis, with PyBerny, on a
-  numerical grid of level 4. The optimization must converge; a geometry that has not converged
+- PySCF (Sun et al., 2026) optimizes that geometry with the request's functional and basis,
+  with PyBerny, on a numerical grid of level 4. The functionals come from Libxc (Lehtola et
+  al., 2018). The optimization must converge; a geometry that has not converged
   returns no properties.
 - At the optimized geometry, the orbital energies come from the Kohn-Sham calculation. The
   thermochemistry comes from the analytic Hessian, the harmonic oscillator and rigid rotor

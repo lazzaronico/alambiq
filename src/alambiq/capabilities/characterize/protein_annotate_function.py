@@ -7,7 +7,8 @@ each source is given, so that the reader can judge how far a term applies to the
 
 The method:
 
-- MMseqs2 searches the pinned Swiss-Prot release with each protein.
+- MMseqs2 (Steinegger and Söding, 2017) searches the pinned Swiss-Prot release (UniProt
+  Consortium, 2025) with each protein.
 - A hit meets the thresholds when its identity, its coverage of the protein and its
   expectation value pass the request. The strongest hits by bit score, at most `max_hits`,
   are the sources of the protein.

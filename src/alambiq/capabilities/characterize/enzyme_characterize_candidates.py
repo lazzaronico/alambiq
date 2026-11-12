@@ -13,7 +13,7 @@ residues, in the request field `features`.
 
 The method:
 
-- MMseqs2 aligns each protein to the reference. The reference is part of the set
+- MMseqs2 (Steinegger and Söding, 2017) aligns each protein to the reference. The reference is part of the set
   and is aligned to itself.
 - The named residues are read from the alignment.
 - Each protein receives the first applicable decision below. The thresholds are

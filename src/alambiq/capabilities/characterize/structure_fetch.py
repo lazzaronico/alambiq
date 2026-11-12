@@ -1,8 +1,9 @@
 """Download one structure file from the RCSB Protein Data Bank or the AlphaFold Protein Structure Database.
 
 Returns the file with the URL it came from, the time of retrieval, its size and its SHA-256.
-The file is a deposited structure (RCSB, by PDB entry identifier) or a predicted model
-(AlphaFold DB, by UniProt accession), in mmCIF or PDB format.
+The file is a deposited structure (RCSB, by PDB entry identifier; Berman et al., 2000) or a
+predicted model (AlphaFold DB, by UniProt accession; Jumper et al., 2021; Bertoni et al.,
+2026), in mmCIF or PDB format.
 
 The method:
 
@@ -25,6 +26,16 @@ Limits.
 - A URL must use https, or http on the loopback address for a mirror on the same machine.
 - A response of more than `max_megabytes` is refused.
 - Terms of use and citation requirements belong to the archive that serves the file.
+
+References.
+
+- Berman HM, Westbrook J, Feng Z, Gilliland G, Bhat TN, Weissig H, Shindyalov IN, Bourne PE.
+  The Protein Data Bank. Nucleic Acids Res 28, 235-242 (2000). https://doi.org/10.1093/nar/28.1.235
+- Jumper J, et al. Highly accurate protein structure prediction with AlphaFold. Nature 596,
+  583-589 (2021). https://doi.org/10.1038/s41586-021-03819-2
+- Bertoni D, et al. AlphaFold Protein Structure Database 2025: a redesigned interface and
+  updated structural coverage. Nucleic Acids Res 54, D358-D362 (2026).
+  https://doi.org/10.1093/nar/gkaf1226
 """
 
 from __future__ import annotations

@@ -8,7 +8,7 @@ returned.
 
 The method:
 
-- MMseqs2 (`easy-search`) runs the search in its own engine environment.
+- MMseqs2 (Steinegger and Söding, 2017; `easy-search`) runs the search in its own engine environment.
 - The capability selects the hits that meet the thresholds of the request.
 - At most 300 results per query pass the MMseqs2 prefilter (its default
   `--max-seqs`). A protein set with more relatives yields at most 300 hits.

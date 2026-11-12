@@ -1,9 +1,9 @@
 """Inspect one protein: its sequence, a UniProt entry and a structure.
 
 Returns one stored record, numbered as the query sequence. The record holds the
-query, the features of the UniProt entry, the chains and residues of the
-structure, and the mapping state of each. Anything that does not map is stored
-and marked withheld, with the reason.
+query, the features of the UniProt entry (UniProt Consortium, 2025), the chains and
+residues of the structure, and the mapping state of each. Anything that does not map is
+stored and marked withheld, with the reason.
 
 The mapping:
 
@@ -36,7 +36,14 @@ Limits.
   ModelCIF.
 - The result records the version of MDTraj that computed the annotations. The
   version is not enforced.
-- Any use of `structure` requires the `dossier` extra (gemmi 0.7.5).
+- Any use of `structure` requires the `dossier` extra (gemmi 0.7.5; Wojdyr, 2022).
+
+References.
+
+- The UniProt Consortium. UniProt: the Universal Protein Knowledgebase in 2025. Nucleic Acids
+  Res 53, D609-D617 (2025). https://doi.org/10.1093/nar/gkae1010
+- Wojdyr M. GEMMI: A library for structural biology. J Open Source Softw 7, 4200 (2022).
+  https://doi.org/10.21105/joss.04200
 """
 
 from __future__ import annotations

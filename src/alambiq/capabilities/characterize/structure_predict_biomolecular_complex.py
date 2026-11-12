@@ -20,7 +20,8 @@ The input:
 
 The method:
 
-- Boltz-2 samples structures by diffusion. Each is written as an mmCIF file.
+- Boltz-2 (Passaro et al., 2025; Boltz-1, Wohlwend et al., 2024) samples structures by
+  diffusion. Each is written as an mmCIF file.
 - The confidence estimates are the overall confidence score, predicted TM
   scores, the mean predicted local distance difference test (pLDDT) and the
   predicted distance errors.
@@ -39,7 +40,8 @@ The method:
   largest component before the run; the ligand summary lists the others in
   `other_components` and a note says so.
 - With `affinity`, Boltz first standardizes the ligand with the ChEMBL structure
-  pipeline (neutralization, after the reduction to the largest component); the structures and the estimate
+  pipeline (Bento et al., 2020; neutralization, after the reduction to the largest
+  component); the structures and the estimate
   refer to the standardized molecule, and a changed molecule carries a note.
   The affinity module of Boltz-2 then estimates the binding of the ligand to
   the protein chains from the highest-ranked sample. It returns the

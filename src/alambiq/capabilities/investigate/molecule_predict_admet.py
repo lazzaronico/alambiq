@@ -10,10 +10,11 @@ The method:
 
 - RDKit reads every SMILES. A request that holds a SMILES that RDKit cannot read is refused and
   names the positions.
-- ADMET-AI 2.0.1 (MIT) predicts each endpoint with an ensemble of 5 Chemprop message-passing
-  networks that were trained on a dataset of the Therapeutics Data Commons. The estimate is the
-  mean of the 5 networks. A classification endpoint is a probability from 0 to 1, and a
-  regression endpoint has the units of the endpoint table.
+- ADMET-AI 2.0.1 (MIT; Swanson et al., 2024) predicts each endpoint with an ensemble of 5
+  Chemprop message-passing networks (Yang et al., 2019; Graff et al., 2026) that were trained
+  on a dataset of the Therapeutics Data Commons. The estimate is the mean of the 5 networks.
+  A classification endpoint is a probability from 0 to 1, and a regression endpoint has the
+  units of the endpoint table.
 - The 11 descriptors (molecular weight, logP, hydrogen bond acceptors and donors, Lipinski
   count, QED, stereo centers, TPSA and the PAINS, BRENK and NIH alert counts) are computed, not
   predicted.

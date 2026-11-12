@@ -8,7 +8,8 @@ from `structure.prepare_finite_environment` or from another preparation that mee
 system conditions under Limits) is divided into a quantum region and a classical remainder.
 The request lists the atoms of the quantum region.
 
-- The quantum region is solved with PySCF as closed-shell PBE in the 6-31G** basis, in the
+- The quantum region is solved with PySCF (Sun et al., 2026) as closed-shell PBE
+  (Perdew et al., 1996) in the 6-31G** basis (Hariharan and Pople, 1973), in the
   field of the charges of the classical atoms. These enter as Gaussian-smeared point
   charges of the radius given in the request.
 - A covalent bond that joins the quantum region to the classical remainder is capped with

@@ -7,7 +7,7 @@ controls.
 
 The method:
 
-- MMseqs2 aligns every reference against every reference and candidate,
+- MMseqs2 (Steinegger and Söding, 2017) aligns every reference against every reference and candidate,
   exhaustively, with every alignment retained.
 - The score of a protein is the highest bit score of its alignments to a
   different reference.

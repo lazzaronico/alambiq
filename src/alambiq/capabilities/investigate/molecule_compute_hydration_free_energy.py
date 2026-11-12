@@ -3,19 +3,21 @@
 Returns the free energy of transferring one neutral molecule from the gas phase into water,
 with its spread over independent repeats and the sampling diagnostics of each leg.
 
-The method applies the OpenFE absolute solvation protocol (version 1.12.0):
+The method applies the OpenFE (Alibay et al., 2026) absolute solvation protocol (version
+1.12.0):
 
 - RDKit embeds the molecule from its SMILES and relaxes it with MMFF94. A molecule with
   explicit stereochemistry keeps it.
 - The molecule has AshGC partial charges (the graph-network model of the OpenFF project that
-  reproduces AM1-BCC charges) and Sage 2.3.0 parameters. TIP3P water fills a dodecahedral box
+  reproduces AM1-BCC charges) and Sage 2.3.0 parameters (Wang et al., 2026). TIP3P water
+  (Jorgensen et al., 1983) fills a dodecahedral box
   with 1.5 nm of padding.
 - In water and in vacuum, the molecule is decoupled from its surroundings along 14 lambda
   windows: electrostatics first, then Lennard-Jones interactions. Hamiltonian replica exchange
   samples the windows, with a 4 fs step and hydrogen masses of 3 amu.
-- MBAR gives the decoupling free energy of each leg. The hydration free energy of a repeat is
-  the vacuum decoupling free energy minus the solvent decoupling free energy. A negative value
-  means that the molecule prefers water.
+- MBAR (Shirts and Chodera, 2008) gives the decoupling free energy of each leg. The
+  hydration free energy of a repeat is the vacuum decoupling free energy minus the solvent
+  decoupling free energy. A negative value means that the molecule prefers water.
 - The solvent leg samples `production_ns` of production after `equilibration_ns` of
   equilibration; the vacuum leg samples one fifth of the production length after half of the
   equilibration length, the ratios of the OpenFE defaults (10 ns and 1 ns in the solvent).

@@ -162,3 +162,30 @@ each package; the package inventories list the licenses.
 Runs made with GAFF/AM1-BCC parameters or with Sage 2.2.1 used different force-field
 parameters and charge models. Their results apply to those parameters and charge models. All
 verification files in this directory record the Sage 2.3.0/AshGC force-field set.
+
+## References
+
+- Alibay I, et al. The Open Free Energy library, version 1.12.0. Zenodo (2026).
+  [doi:10.5281/zenodo.21047548](https://doi.org/10.5281/zenodo.21047548) (all versions:
+  [doi:10.5281/zenodo.8344247](https://doi.org/10.5281/zenodo.8344247)).
+- Shirts MR, Chodera JD. Statistically optimal analysis of samples from multiple equilibrium
+  states. J Chem Phys 129, 124105 (2008).
+  [doi:10.1063/1.2978177](https://doi.org/10.1063/1.2978177)
+- Liu S, et al. Lead optimization mapper: automating free energy calculations for lead
+  optimization. J Comput Aided Mol Des 27, 755-770 (2013).
+  [doi:10.1007/s10822-013-9678-y](https://doi.org/10.1007/s10822-013-9678-y)
+- Eastman P, et al. OpenMM 8: molecular dynamics simulation with machine learning
+  potentials. J Phys Chem B 128, 109-116 (2024).
+  [doi:10.1021/acs.jpcb.3c06662](https://doi.org/10.1021/acs.jpcb.3c06662)
+- Maier JA, et al. ff14SB: improving the accuracy of protein side chain and backbone
+  parameters from ff99SB. J Chem Theory Comput 11, 3696-3713 (2015).
+  [doi:10.1021/acs.jctc.5b00255](https://doi.org/10.1021/acs.jctc.5b00255)
+- Jorgensen WL, Chandrasekhar J, Madura JD, Impey RW, Klein ML. Comparison of simple
+  potential functions for simulating liquid water. J Chem Phys 79, 926-935 (1983).
+  [doi:10.1063/1.445869](https://doi.org/10.1063/1.445869)
+- Wang L, et al. Developing and benchmarking Sage 2.3.0 with the AshGC neural network charge
+  model. J Chem Theory Comput 22, 4507-4531 (2026).
+  [doi:10.1021/acs.jctc.6c00169](https://doi.org/10.1021/acs.jctc.6c00169)
+- Mobley DL, et al. Escaping atom types in force fields using direct chemical perception. J
+  Chem Theory Comput 14, 6076-6092 (2018).
+  [doi:10.1021/acs.jctc.8b00640](https://doi.org/10.1021/acs.jctc.8b00640)

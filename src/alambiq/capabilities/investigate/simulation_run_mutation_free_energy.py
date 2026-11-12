@@ -7,16 +7,18 @@ the reference leg of the same substitution, analyzed together by
 
 The capability builds the hybrid-topology system of the two states of the leg that
 `structure.prepare_mutation_inputs` wrote and samples it. The hybrid system is the one that
-OpenFE builds for relative free-energy calculations: atoms mapped between the states follow the
-parameters of the wild type at lambda 0 and those of the mutant at lambda 1; atoms present in one
-state only are decoupled with soft-core terms. The settings are:
+OpenFE (Alibay et al., 2026) builds for relative free-energy calculations: atoms mapped
+between the states follow the parameters of the wild type at lambda 0 and those of the
+mutant at lambda 1; atoms present in one state only are decoupled with soft-core terms. The
+settings are:
 
-- ff14SB (Amber14) with TIP3P, particle mesh Ewald with a 0.9 nm cutoff, bonds to hydrogen
-  constrained, a 2 fs integration step;
+- ff14SB (Amber14; Maier et al., 2015) with TIP3P (Jorgensen et al., 1983), particle mesh
+  Ewald with a 0.9 nm cutoff, bonds to hydrogen constrained, a 2 fs integration step;
 - Langevin dynamics at 1 ps^-1 and a Monte Carlo barostat at the stated temperature and pressure;
 - replica exchange over `lambda_windows` windows, one replica per window, one exchange
   attempt after each iteration of `time_per_iteration_ps`;
-- MBAR analysis of the decorrelated samples, with a bootstrap estimate of the error (`bootstraps` samples).
+- MBAR (Shirts and Chodera, 2008) analysis of the decorrelated samples, with a bootstrap
+  estimate of the error (`bootstraps` samples).
 
 Each of the `replicas` independent replicas starts from the prepared coordinates and runs the
 whole set of lambda windows. Each reports its free-energy difference, the MBAR error, the

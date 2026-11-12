@@ -80,3 +80,12 @@ environment.
 The [analysis guide](../../docs/methods/binding-and-qmmm.md#reaction-free-energy) defines the
 harmonic coefficient convention, the density and basin observables, the decorrelation and
 the uncertainty. PyMBAR is licensed under MIT. Alambiq is licensed under Apache-2.0.
+
+## References
+
+- Shirts MR, Chodera JD. Statistically optimal analysis of samples from multiple equilibrium
+  states. J Chem Phys 129, 124105 (2008).
+  [doi:10.1063/1.2978177](https://doi.org/10.1063/1.2978177)
+- Torrie GM, Valleau JP. Nonphysical sampling distributions in Monte Carlo free-energy
+  estimation: umbrella sampling. J Comput Phys 23, 187-199 (1977).
+  [doi:10.1016/0021-9991(77)90121-8](https://doi.org/10.1016/0021-9991(77)90121-8)

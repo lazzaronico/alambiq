@@ -4,8 +4,9 @@ Returns a seeded trajectory of the system, started from the supplied positions, 
 energy components at each reporting interval.
 
 The system is divided as in `simulation.evaluate_qmmm_state`: a quantum region solved with
-closed-shell PBE/6-31G** in PySCF, in the field of the Gaussian-smeared charges of the
-classical atoms, and a classical remainder with an optional external potential.
+closed-shell PBE (Perdew et al., 1996) with the 6-31G** basis (Hariharan and Pople, 1973) in
+PySCF (Sun et al., 2026), in the field of the Gaussian-smeared charges of the classical
+atoms, and a classical remainder with an optional external potential.
 
 A Langevin thermostat propagates every atom, with the temperature, friction, timestep and
 seed given in the request. An electronic calculation runs at each new geometry, starting
@@ -32,9 +33,8 @@ Limits.
   which uses half-step velocities.
 - The instantaneous temperature of a system with N degrees of freedom has a relative
   standard deviation of sqrt(2/N), which is 26 % for 30 degrees of freedom.
-- The capability runs on the OpenMM Reference platform on the CPU. The system has no cell
-  and only the terms listed in `simulation.evaluate_qmmm_state`.
-"""
+- The capability runs on the OpenMM (Eastman et al., 2024) Reference platform on the CPU.
+  The system has no cell and only the terms listed in `simulation.evaluate_qmmm_state`."""
 
 from __future__ import annotations
 

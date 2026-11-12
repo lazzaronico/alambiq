@@ -224,3 +224,21 @@ Silicon and on the Spark host, throughput on the GB10 with CUDA mixed precision,
 CPU and CUDA forces at fixed states, and the GB3 example at 2 temperatures. See
 [structure and dynamics](../../docs/methods/structure-and-dynamics.md) for the preparation
 defaults and the scientific scope.
+
+## References
+
+- Eastman P, et al. OpenMM 8: molecular dynamics simulation with machine learning
+  potentials. J Phys Chem B 128, 109-116 (2024).
+  [doi:10.1021/acs.jpcb.3c06662](https://doi.org/10.1021/acs.jpcb.3c06662)
+- Maier JA, et al. ff14SB: improving the accuracy of protein side chain and backbone
+  parameters from ff99SB. J Chem Theory Comput 11, 3696-3713 (2015).
+  [doi:10.1021/acs.jctc.5b00255](https://doi.org/10.1021/acs.jctc.5b00255)
+- Jorgensen WL, Chandrasekhar J, Madura JD, Impey RW, Klein ML. Comparison of simple
+  potential functions for simulating liquid water. J Chem Phys 79, 926-935 (1983).
+  [doi:10.1063/1.445869](https://doi.org/10.1063/1.445869)
+- Nguyen H, Roe DR, Simmerling C. Improved generalized Born solvent model parameters for
+  protein simulations. J Chem Theory Comput 9, 2020-2034 (2013).
+  [doi:10.1021/ct3010485](https://doi.org/10.1021/ct3010485)
+- Barducci A, Bussi G, Parrinello M. Well-tempered metadynamics: a smoothly converging and
+  tunable free-energy method. Phys Rev Lett 100, 020603 (2008).
+  [doi:10.1103/PhysRevLett.100.020603](https://doi.org/10.1103/PhysRevLett.100.020603)

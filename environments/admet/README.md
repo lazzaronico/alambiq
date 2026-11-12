@@ -24,3 +24,18 @@ pandas 3.1.0.
 The package holds the predictions that ADMET-AI made for 2,845 approved drugs. Run on the first
 200 of them in this environment, the engine reproduces every endpoint to within 3e-5. The
 tests of `molecule.predict_admet` repeat this check.
+
+## References
+
+- Swanson K, et al. ADMET-AI: a machine learning ADMET platform for evaluation of large-scale
+  chemical libraries. Bioinformatics 40, btae416 (2024).
+  [doi:10.1093/bioinformatics/btae416](https://doi.org/10.1093/bioinformatics/btae416)
+- Graff DE, et al. Chemprop v2: An Efficient, Modular Machine Learning Package for Chemical
+  Property Prediction. J Chem Inf Model 66, 28-33 (2026).
+  [doi:10.1021/acs.jcim.5c02332](https://doi.org/10.1021/acs.jcim.5c02332)
+- Yang K, et al. Analyzing Learned Molecular Representations for Property Prediction. J Chem
+  Inf Model 59, 3370-3388 (2019).
+  [doi:10.1021/acs.jcim.9b00237](https://doi.org/10.1021/acs.jcim.9b00237)
+
+The ADMET-AI paper describes version 1 of the package. Version 2, installed here, is built on
+Chemprop 2 and its models were retrained, so its predictions differ from those of version 1.

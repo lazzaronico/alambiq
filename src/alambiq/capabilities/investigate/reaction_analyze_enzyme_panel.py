@@ -22,7 +22,7 @@ The predictors are:
 - the nearest measured training group (`nearest-reference`);
 - kernel ridge on sequence (amino-acid 3-mer cosine);
 - kernel ridge on the reaction (chirality-aware Morgan fingerprints of the selected
-  participants);
+  participants; Rogers and Hahn 2010);
 - kernel ridge on both kernels multiplied together.
 
 A group is the set of observations that share a sequence (by SHA-256 digest), an enzyme

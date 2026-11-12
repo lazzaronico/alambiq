@@ -4,12 +4,13 @@ Returns, for each measured coupling, the calculated mean, its error, its residua
 the measurement and the error reported for the measurement. It also returns the
 root-mean-square and mean absolute residuals.
 
-Each measured coupling names its two coupled atoms and the Karplus coefficients that
-convert a dihedral angle into a coupling, J(theta) = A cos^2(theta) + B cos(theta) + C in
+Each measured coupling names its two coupled atoms and the Karplus coefficients (Karplus, 1963)
+that convert a dihedral angle into a coupling, J(theta) = A cos^2(theta) + B cos(theta) + C in
 hertz. For every frame of every replica:
 
-- the dihedral of the unique three-bond path between the two atoms is computed, with the
-  minimum-image convention when the trajectory has a periodic cell;
+- the dihedral of the unique three-bond path between the two atoms is computed with MDTraj
+  (McGibbon et al., 2015), with the minimum-image convention when the trajectory has a
+  periodic cell;
 - the dihedral is converted into a coupling.
 
 A replica consists of 1 to 10 trajectory segments that follow one another and are joined
@@ -17,10 +18,10 @@ end to end. Every frame has equal weight within a replica, and replicas have equ
 in the mean. The standard error is the sample standard deviation of the replica means
 divided by the square root of the number of replicas.
 
-When sampling checks are set, the split R-hat and effective sample size of each coupling
-are also judged. The atoms HB2 and HB3 of beta-methylene groups can be assigned by
-geometry (the IUPAC convention) instead of by the labels of the topology, which differ
-between force fields.
+When sampling checks are set, the split R-hat (Vehtari et al., 2021) and effective sample
+size of each coupling are also judged. The atoms HB2 and HB3 of beta-methylene groups can be
+assigned by geometry (the IUPAC convention; Tejero et al., 2013) instead of by the labels of
+the topology, which differ between force fields.
 
 Limits.
 

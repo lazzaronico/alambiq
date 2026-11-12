@@ -130,3 +130,12 @@ Selection uses the supplied predictions and constraints (the eligibility list, t
 group and the budget against per-candidate costs). Synthesis feasibility, expression,
 toxicity and laboratory capacity enter through the eligibility list and the costs that
 the researcher supplies. A named candidate is a proposal for the researcher to decide on.
+
+## References
+
+- MacKay DJC. Bayesian interpolation. Neural Comput 4, 415-447 (1992).
+  [doi:10.1162/neco.1992.4.3.415](https://doi.org/10.1162/neco.1992.4.3.415)
+- Tipping ME. Sparse Bayesian learning and the relevance vector machine. J Mach Learn Res 1,
+  211-244 (2001). <https://jmlr.org/papers/v1/tipping01a.html>
+- Pedregosa F, et al. Scikit-learn: machine learning in Python. J Mach Learn Res 12,
+  2825-2830 (2011). <https://jmlr.org/papers/v12/pedregosa11a.html>

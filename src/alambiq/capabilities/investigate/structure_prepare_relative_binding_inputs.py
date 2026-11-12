@@ -19,11 +19,11 @@ on exactly one ring position. The method has these steps:
 - The first substituted congener fixes the deposited ring atom on which its substituent lies.
   For every later congener, only the orientations that place the substituent on that ring
   atom are considered.
-- Each congener receives AshGC partial charges and is written as an SDF that
-  `simulation.run_relative_free_energy` accepts.
-- For each listed edge, the LOMAP mapper of OpenFE proposes an atom mapping without element
-  changes. The mapping with the smallest summed squared distance between mapped atoms is
-  chosen.
+- Each congener receives AshGC partial charges (Wang et al., 2026) and is written as an SDF
+  that `simulation.run_relative_free_energy` accepts.
+- For each listed edge, the LOMAP mapper (Liu et al., 2013) of OpenFE (Alibay et al., 2026)
+  proposes an atom mapping without element changes. The mapping with the smallest summed
+  squared distance between mapped atoms is chosen.
 
 Limits.
 

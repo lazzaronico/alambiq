@@ -4,8 +4,9 @@ Returns the free-energy surface along the chosen torsions, reweighted from the p
 frames of one trajectory, with the effective sample size, the fraction of bins visited and
 the difference between its two halves.
 
-Well-tempered metadynamics adds Gaussian potential terms (hills) to the potential along a
-periodic torsion, or along a pair of torsions, at the values that the simulation visits.
+Well-tempered metadynamics (Barducci et al., 2008) adds Gaussian potential terms (hills) to
+the potential along a periodic torsion, or along a pair of torsions, at the values that the
+simulation visits. The metadynamics implementation is that of OpenMM (Eastman et al., 2024).
 The simulation has three phases:
 
 - Adaptation: hills are deposited, and the implied surface is recorded at 1/4, 1/2, 3/4

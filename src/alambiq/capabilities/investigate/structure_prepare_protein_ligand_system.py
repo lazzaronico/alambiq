@@ -10,14 +10,15 @@ The inputs are a protein with the heavy atoms that it contains (for example the 
 `structure.prepare_reactive_coordinates` writes) and the ligands placed in it. Heavy atoms
 in residues not listed in `modeled_residues` are observed atoms. The method has these steps:
 
-- The protein receives Amber ff14SB parameters, completed terminal oxygens and hydrogens,
-  and the histidine tautomers named in the file.
-- Each ligand receives Sage 2.3.0 parameters and AshGC charges.
+- The protein receives Amber ff14SB (Maier et al., 2015) parameters, completed terminal
+  oxygens and hydrogens, and the histidine tautomers named in the file.
+- Each ligand receives Sage 2.3.0 parameters and AshGC charges (Wang et al., 2026).
 - The unsolvated model is relaxed in vacuum. Every observed heavy atom, the ligands and any
   retained crystal waters are held at their positions. The residues in `modeled_residues`
   are tied by springs to their placed positions.
-- With `solvent: tip3p`, a TIP3P box with neutralizing ions and salt is built around the
-  relaxed model. The solvent and hydrogens are minimized with all solute heavy atoms held.
+- With `solvent: tip3p`, a TIP3P box (Jorgensen et al., 1983) with neutralizing ions and
+  salt is built around the relaxed model. The solvent and hydrogens are minimized with all
+  solute heavy atoms held.
 
 The observed heavy atoms, the ligands and the retained crystal waters keep their supplied
 positions. The residues in `modeled_residues` move within their position restraint. The
