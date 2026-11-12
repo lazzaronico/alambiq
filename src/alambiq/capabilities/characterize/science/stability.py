@@ -37,7 +37,9 @@ def normalize_structure(
             "2–1024 canonical residues is required"
         )
     if not chain_id.strip():
-        raise ValueError("chain_id is empty; one exact author chain identifier is required")
+        raise ValueError(
+            "chain_id is empty; one exact author chain identifier is required"
+        )
     structure = (
         gemmi.read_pdb_string(structure_text)
         if structure_format == "pdb"

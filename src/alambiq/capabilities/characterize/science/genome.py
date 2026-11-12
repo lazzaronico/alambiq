@@ -284,9 +284,7 @@ def inspect_context(gff, proteins, parameters, *, candidates=None):
                 key=lambda f: (f["start"], f["end"], f["key"]),
             )
             if len(visible) > 250:
-                raise ValueError(
-                    "Neighborhood exceeds 250 features; reduce flank_bp"
-                )
+                raise ValueError("Neighborhood exceeds 250 features; reduce flank_bp")
             visible_count += len(visible)
             if len(windows) >= 100 or visible_count > 5000:
                 raise ValueError(

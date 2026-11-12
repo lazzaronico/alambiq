@@ -34,7 +34,9 @@ def render(result) -> str:
         else f"The precision was met from {first.frames_per_replica} frames "
         f"({first.simulated_ps_per_replica:g} ps) per replica to the end."
     )
-    verdict = "met" if result.precision_passed else "was not met by at least one observable"
+    verdict = (
+        "met" if result.precision_passed else "was not met by at least one observable"
+    )
     agreement = (
         ""
         if result.agrees_with_reference is None

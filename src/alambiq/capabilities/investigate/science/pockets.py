@@ -22,18 +22,14 @@ def _float(row: dict[str, str], key: str) -> float:
             f"P2Rank output field {key!r} is missing or not a number"
         ) from error
     if not math.isfinite(value):
-        raise ValueError(
-            f"P2Rank output field {key!r} is not a finite number"
-        )
+        raise ValueError(f"P2Rank output field {key!r} is not a finite number")
     return value
 
 
 def _integer(row: dict[str, str], key: str) -> int:
     value = _float(row, key)
     if value != int(value):
-        raise ValueError(
-            f"P2Rank output field {key!r} is not an integer"
-        )
+        raise ValueError(f"P2Rank output field {key!r} is not an integer")
     return int(value)
 
 
@@ -96,9 +92,7 @@ def parse_pockets(text: str, maximum: int) -> list[dict[str, Any]]:
             "ranks must be consecutive integers starting at 1"
         )
     if any(not p["name"] for p in pockets):
-        raise ValueError(
-            "A P2Rank pocket has an empty name"
-        )
+        raise ValueError("A P2Rank pocket has an empty name")
     return pockets
 
 

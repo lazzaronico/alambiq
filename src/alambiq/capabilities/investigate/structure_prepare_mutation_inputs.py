@@ -161,7 +161,9 @@ def _summary(record: dict) -> LegSummary:
     render=render,
     environment="openfe",
 )
-def prepare_mutation_inputs(request: MutationRequest, ctx: StepContext) -> MutationInputs:
+def prepare_mutation_inputs(
+    request: MutationRequest, ctx: StepContext
+) -> MutationInputs:
     """Check the request, build both legs, and bundle each as one archive."""
     from alambiq.capabilities.investigate.science.mutation import (
         check_preparation,
@@ -190,7 +192,9 @@ def prepare_mutation_inputs(request: MutationRequest, ctx: StepContext) -> Mutat
         variants = [
             {"residue_number": number, "variant": variant}
             for number, variant in sorted(
-                variants_from_structure(ctx.resolve(request.protonated_structure), request.chain_id).items()
+                variants_from_structure(
+                    ctx.resolve(request.protonated_structure), request.chain_id
+                ).items()
             )
         ]
     output = ctx.workdir / "mutation"

@@ -158,7 +158,9 @@ class TestPca:
             {"embeddings": write(tmp_path, "s.json", record(spread, dimension=6))},
             tmp_path,
         )
-        assert "The two principal components explain" in " ".join(outcome.steps["explore"].notes)
+        assert "The two principal components explain" in " ".join(
+            outcome.steps["explore"].notes
+        )
 
     def test_a_tiny_panel_is_flagged(self, tmp_path):
         outcome = run_ok(

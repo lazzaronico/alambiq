@@ -511,8 +511,14 @@ class TestFromARoute:
         params["route_compounds"] = [
             {"smiles": "O", "accession": "kegg:C00001", "activity": 1}
         ]
-        assert "exactly one of the two groups" in run(params, tmp_path).steps["thermo"].error
+        assert (
+            "exactly one of the two groups"
+            in run(params, tmp_path).steps["thermo"].error
+        )
 
     def test_neither_way_is_refused(self, tmp_path):
         params = {k: atp()[k] for k in ("id", "conditions", "assumption_note")}
-        assert "exactly one of the two groups" in run(params, tmp_path).steps["thermo"].error
+        assert (
+            "exactly one of the two groups"
+            in run(params, tmp_path).steps["thermo"].error
+        )

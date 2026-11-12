@@ -29,9 +29,13 @@ HEAD = (
 )
 SELECT_FIT = {"metric": "activity", "condition_id": "standard", "unit": "umol/min/mg"}
 
-needs_sklearn = pytest.mark.skipif(not find_spec("sklearn"), reason="needs scikit-learn")
+needs_sklearn = pytest.mark.skipif(
+    not find_spec("sklearn"), reason="needs scikit-learn"
+)
 needs_scipy = pytest.mark.skipif(not find_spec("scipy"), reason="needs scipy")
-needs_pydna = pytest.mark.skipif(not find_spec("pydna"), reason="needs the construct extra")
+needs_pydna = pytest.mark.skipif(
+    not find_spec("pydna"), reason="needs the construct extra"
+)
 needs_chisel = pytest.mark.skipif(not find_spec("dnachisel"), reason="needs dnachisel")
 
 
@@ -145,7 +149,10 @@ class TestCandidateFitOptions:
         outcome = run_ok(
             [
                 fit_step(
-                    panel, assay, features="pooled-embeddings", embeddings=str(embeddings)
+                    panel,
+                    assay,
+                    features="pooled-embeddings",
+                    embeddings=str(embeddings),
                 )
             ],
             tmp_path,
@@ -173,7 +180,9 @@ class TestCandidateFitOptions:
         panel = write_panel(tmp_path, candidates)
         assay = write_assay(tmp_path, candidates)
         embeddings = write_embeddings(tmp_path, candidates, alanine_vector)
-        missing = run([fit_step(panel, assay, features="pooled-embeddings")], tmp_path, "a")
+        missing = run(
+            [fit_step(panel, assay, features="pooled-embeddings")], tmp_path, "a"
+        )
         assert missing.steps["model"].status == "failed"
         assert "embeddings" in missing.steps["model"].error
         extra = run([fit_step(panel, assay, embeddings=str(embeddings))], tmp_path, "b")
@@ -232,7 +241,13 @@ def select_step(panel: Path, **params) -> dict:
     return {
         "id": "pick",
         "capability": "candidate.select",
-        "params": {"panel": str(panel), "count": 2, "seed": 3, "strategy": "random", **params},
+        "params": {
+            "panel": str(panel),
+            "count": 2,
+            "seed": 3,
+            "strategy": "random",
+            **params,
+        },
     }
 
 
@@ -280,8 +295,11 @@ class TestCandidateSelectOptions:
         self, panel, tmp_path, seed
     ):
         vectors = {
-            "t1": [0.5, 0.5], "t2": [0.6, 0.4],
-            "p1": [1.0, 0.0], "p2": [0.99, 0.1], "p3": [0.0, 1.0],
+            "t1": [0.5, 0.5],
+            "t2": [0.6, 0.4],
+            "p1": [1.0, 0.0],
+            "p2": [0.99, 0.1],
+            "p3": [0.0, 1.0],
         }
         embeddings = write_embeddings(
             tmp_path, selection_panel(), lambda c: vectors[c["sample_id"]]
@@ -312,8 +330,11 @@ class TestCandidateSelectOptions:
         embeddings = write_embeddings(tmp_path, selection_panel(), lambda c: [1.0, 1.0])
         outcome = run([select_step(panel, embeddings=str(embeddings))], tmp_path)
         assert outcome.steps["pick"].status == "failed"
-        assert "are accepted only with the strategies diverse" in outcome.steps["pick"].error or (
-            "are accepted only with the strategies diverse" in outcome.steps["pick"].error
+        assert "are accepted only with the strategies diverse" in outcome.steps[
+            "pick"
+        ].error or (
+            "are accepted only with the strategies diverse"
+            in outcome.steps["pick"].error
         )
 
 
@@ -341,17 +362,36 @@ def cassette_text() -> str:
     from Bio.SeqRecord import SeqRecord
 
     prefix, suffix = "GACCTAGACGGTACGCTTTAGCGTC", "GCTGACTGACGTATCCTACGGTCA"
-    record = SeqRecord(Seq(prefix + PROTEIN_DNA + suffix), id="cassette", name="cassette")
-    record.annotations = {"molecule_type": "DNA", "topology": "linear", "date": "01-JAN-2000"}
+    record = SeqRecord(
+        Seq(prefix + PROTEIN_DNA + suffix), id="cassette", name="cassette"
+    )
+    record.annotations = {
+        "molecule_type": "DNA",
+        "topology": "linear",
+        "date": "01-JAN-2000",
+    }
     end = len(prefix) + len(PROTEIN_DNA)
     record.features = [
-        SeqFeature(SimpleLocation(0, len(prefix), strand=1), type="misc_feature",
-                   qualifiers={"label": ["upstream context"]}),
-        SeqFeature(SimpleLocation(len(prefix), end, strand=1), type="CDS",
-                   qualifiers={"label": ["test CDS"], "codon_start": ["1"],
-                               "transl_table": ["11"], "translation": [PROTEIN]}),
-        SeqFeature(SimpleLocation(end, len(record.seq), strand=1), type="misc_feature",
-                   qualifiers={"label": ["downstream context"]}),
+        SeqFeature(
+            SimpleLocation(0, len(prefix), strand=1),
+            type="misc_feature",
+            qualifiers={"label": ["upstream context"]},
+        ),
+        SeqFeature(
+            SimpleLocation(len(prefix), end, strand=1),
+            type="CDS",
+            qualifiers={
+                "label": ["test CDS"],
+                "codon_start": ["1"],
+                "transl_table": ["11"],
+                "translation": [PROTEIN],
+            },
+        ),
+        SeqFeature(
+            SimpleLocation(end, len(record.seq), strand=1),
+            type="misc_feature",
+            qualifiers={"label": ["downstream context"]},
+        ),
     ]
     stream = io.StringIO()
     SeqIO.write(record, stream, "genbank")
@@ -362,13 +402,15 @@ def cassette_text() -> str:
 class TestAssembleOptions:
     def labels(self, outcome) -> list[str]:
         return [
-            f["qualifiers"].get("label", [""])[0] for f in stored(outcome, "build")["features"]
+            f["qualifiers"].get("label", [""])[0]
+            for f in stored(outcome, "build")["features"]
         ]
 
     def span(self, outcome, label: str) -> tuple[int, int]:
         """One-based, inclusive start and end of the named feature in the product."""
         (feature,) = [
-            f for f in stored(outcome, "build")["features"]
+            f
+            for f in stored(outcome, "build")["features"]
             if f["qualifiers"].get("label", [""])[0] == label
         ]
         (part,) = feature["parts"]
@@ -378,7 +420,8 @@ class TestAssembleOptions:
         path = tmp_path / "cassette.gb"
         path.write_text(cassette_text())
         outcome = run_ok(
-            [assemble_step(tmp_path, insert=str(path), annotated_cassette=True)], tmp_path
+            [assemble_step(tmp_path, insert=str(path), annotated_cassette=True)],
+            tmp_path,
         )
         # The whole cassette, flanks included, is placed into the vector: the
         # vector, a 25 base upstream flank, the 63 base coding sequence and a
@@ -396,13 +439,21 @@ class TestAssembleOptions:
         path = tmp_path / "cassette.gb"
         path.write_text(cassette_text())
         with_flag = run_ok(
-            [assemble_step(tmp_path, insert=str(path), annotated_cassette=True)], tmp_path, "a"
+            [assemble_step(tmp_path, insert=str(path), annotated_cassette=True)],
+            tmp_path,
+            "a",
         )
         step = assemble_step(tmp_path, insert=str(path))
         step["preset"] = "blunt-cassette"
         with_preset = run_ok([step], tmp_path, "b")
-        assert with_preset.outputs("build")["length"] == with_flag.outputs("build")["length"]
-        assert with_preset.outputs("build")["sequence_sha256"] == with_flag.outputs("build")["sequence_sha256"]
+        assert (
+            with_preset.outputs("build")["length"]
+            == with_flag.outputs("build")["length"]
+        )
+        assert (
+            with_preset.outputs("build")["sequence_sha256"]
+            == with_flag.outputs("build")["sequence_sha256"]
+        )
 
     def test_features_named_for_a_plain_insert_appear_in_the_product(self, tmp_path):
         features = [{"label": "my coding region", "start": 1, "end": 63}]
@@ -413,24 +464,38 @@ class TestAssembleOptions:
         # Annotated at the insert's own coordinates, which start right after the vector.
         assert self.span(outcome, "my coding region") == (vector + 1, vector + 63)
         plain = run_ok([assemble_step(tmp_path)], tmp_path, "plain")
-        assert outcome.outputs("build")["features"] == plain.outputs("build")["features"] + 1
+        assert (
+            outcome.outputs("build")["features"]
+            == plain.outputs("build")["features"] + 1
+        )
         assert "my coding region" not in self.labels(plain)
 
     @pytest.mark.parametrize("overlap", [25, 35, 60])
     def test_each_primer_tail_is_as_long_as_the_overlap(self, overlap, tmp_path):
-        outcome = run_ok([assemble_step(tmp_path, overlap=overlap)], tmp_path, f"o{overlap}")
-        tails = [len(p["sequence"]) - len(p["footprint"]) for p in outcome.outputs("build")["primers"]]
+        outcome = run_ok(
+            [assemble_step(tmp_path, overlap=overlap)], tmp_path, f"o{overlap}"
+        )
+        tails = [
+            len(p["sequence"]) - len(p["footprint"])
+            for p in outcome.outputs("build")["primers"]
+        ]
         assert tails == [overlap, overlap]
 
     def test_a_higher_minimum_lengthens_the_annealing_footprints(self, tmp_path):
         default = run_ok([assemble_step(tmp_path)], tmp_path, "d")
         longer = run_ok([assemble_step(tmp_path, primer_min=25)], tmp_path, "l")
-        assert min(len(p["footprint"]) for p in default.outputs("build")["primers"]) < 25
-        assert min(len(p["footprint"]) for p in longer.outputs("build")["primers"]) >= 25
+        assert (
+            min(len(p["footprint"]) for p in default.outputs("build")["primers"]) < 25
+        )
+        assert (
+            min(len(p["footprint"]) for p in longer.outputs("build")["primers"]) >= 25
+        )
 
     @pytest.mark.parametrize("target", [65.0, 70.0])
     def test_footprint_melting_temperatures_follow_the_target(self, target, tmp_path):
-        outcome = run_ok([assemble_step(tmp_path, target_tm=target)], tmp_path, f"t{target}")
+        outcome = run_ok(
+            [assemble_step(tmp_path, target_tm=target)], tmp_path, f"t{target}"
+        )
         for primer in outcome.outputs("build")["primers"]:
             assert primer["footprint_tm_degC"] == pytest.approx(target, abs=1.0)
 
@@ -451,19 +516,31 @@ class TestRecodingWindow:
         from Bio.Seq import Seq
 
         rng = random.Random(5)
-        codons = [a + b + c for a in "ACGT" for b in "ACGT" for c in "ACGT"
-                  if str(Seq(a + b + c).translate()) != "*"]
+        codons = [
+            a + b + c
+            for a in "ACGT"
+            for b in "ACGT"
+            for c in "ACGT"
+            if str(Seq(a + b + c).translate()) != "*"
+        ]
         dna = "ATG" + "".join(rng.choice(codons) for _ in range(498)) + "TAA"
         protein = str(Seq(dna).translate(table=11, cds=True))
-        coding, expected = fasta(tmp_path, "c.fa", "c", dna), fasta(tmp_path, "c.faa", "c", protein)
+        coding, expected = (
+            fasta(tmp_path, "c.fa", "c", dna),
+            fasta(tmp_path, "c.faa", "c", protein),
+        )
         outcome = run_ok(
             [
                 {
                     "id": "design",
                     "capability": "dna.optimize_coding",
                     "params": {
-                        "coding_dna": coding, "expected_protein": expected, "seed": 7,
-                        "gc_min": 0.4, "gc_max": 0.6, "gc_window": 60,
+                        "coding_dna": coding,
+                        "expected_protein": expected,
+                        "seed": 7,
+                        "gc_min": 0.4,
+                        "gc_max": 0.6,
+                        "gc_window": 60,
                     },
                 }
             ],
@@ -497,7 +574,10 @@ class TestOperationSolvers:
                 {
                     "id": "s",
                     "capability": "operation.simulate",
-                    "params": {"definition": str(FIXTURES / "first-order.json"), "solver": solver},
+                    "params": {
+                        "definition": str(FIXTURES / "first-order.json"),
+                        "solver": solver,
+                    },
                 }
             ],
             tmp_path,
@@ -512,7 +592,10 @@ class TestOperationSolvers:
                 {
                     "id": "f",
                     "capability": "operation.fit",
-                    "params": {"definition": str(FIXTURES / "first-order-fit.json"), "solver": "DOP853"},
+                    "params": {
+                        "definition": str(FIXTURES / "first-order-fit.json"),
+                        "solver": "DOP853",
+                    },
                 }
             ],
             tmp_path,
@@ -526,7 +609,10 @@ class TestOperationSolvers:
                 {
                     "id": "s",
                     "capability": "operation.simulate",
-                    "params": {"definition": str(FIXTURES / "first-order.json"), "solver": "LSODA"},
+                    "params": {
+                        "definition": str(FIXTURES / "first-order.json"),
+                        "solver": "LSODA",
+                    },
                 }
             ],
             tmp_path,

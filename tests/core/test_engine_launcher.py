@@ -73,7 +73,9 @@ class TestCheckReadsInstalledNames:
         # PyYAML is imported as yaml; the check names packages as they are installed.
         monkeypatch.setenv("ALAMBIQ_ENV_MMSEQS", sys.executable)
         spec = envs.EnvSpec(
-            name="mmseqs", recipe="docs/install.md", imports=("PyYAML", "no-such-package")
+            name="mmseqs",
+            recipe="docs/install.md",
+            imports=("PyYAML", "no-such-package"),
         )
         report = spec.check()
         assert report["versions"]["PyYAML"]
@@ -94,9 +96,7 @@ class TestBoundary:
     def test_a_failing_module_reports_the_engine_output(self, tmp_path, monkeypatch):
         monkeypatch.setenv("ALAMBIQ_ENV_MMSEQS", sys.executable)
         with pytest.raises(RuntimeError) as caught:
-            envs.run_in_environment(
-                "mmseqs", "echo_probe:fail", {}, workdir=tmp_path
-            )
+            envs.run_in_environment("mmseqs", "echo_probe:fail", {}, workdir=tmp_path)
         # The engine's own message survives, so a failure is readable without
         # re-running it.
         assert "deliberate engine failure" in str(caught.value)
@@ -104,7 +104,9 @@ class TestBoundary:
     def test_an_unknown_entry_point_fails_clearly(self, tmp_path, monkeypatch):
         monkeypatch.setenv("ALAMBIQ_ENV_MMSEQS", sys.executable)
         with pytest.raises(RuntimeError, match="no_such_module"):
-            envs.run_in_environment("mmseqs", "no_such_module:run", {}, workdir=tmp_path)
+            envs.run_in_environment(
+                "mmseqs", "no_such_module:run", {}, workdir=tmp_path
+            )
 
 
 @pytest.fixture(scope="module")
@@ -248,7 +250,9 @@ class TestRealSearch:
         )
         assert outcome.ok
         assert outcome.outputs("find")["hits"] == []
-        assert "No panel sequence met the thresholds" in " ".join(outcome.steps["find"].notes)
+        assert "No panel sequence met the thresholds" in " ".join(
+            outcome.steps["find"].notes
+        )
 
     def test_the_search_runs_in_an_interpreter_without_alambiq(
         self, bare_python, panel, tmp_path, monkeypatch
@@ -310,7 +314,6 @@ class TestRealSearch:
         low, high = found(1.0), found(7.5)
         assert "identical" in low
         assert low <= high
-
 
     @pytest.mark.parametrize("sensitivity", [0.0, 0.9, 7.6, 8.0, float("nan")])
     def test_a_sensitivity_outside_1_to_7_5_is_refused_before_the_search(

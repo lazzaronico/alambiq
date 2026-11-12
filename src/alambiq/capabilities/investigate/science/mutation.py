@@ -48,15 +48,23 @@ def check_preparation(
         ("timeout_seconds", timeout_seconds, 60, 1_000_000),
     ):
         if not isinstance(value, int) or not low <= value <= high:
-            raise ValueError(f"{name} requires an integer in [{low}, {high}]; got {value!r}")
+            raise ValueError(
+                f"{name} requires an integer in [{low}, {high}]; got {value!r}"
+            )
     for name, value, low, high in (
         ("ph", ph, 0.0, 14.0),
         ("folded_padding_nm", folded_padding_nm, 1.0, 3.0),
         ("reference_padding_nm", reference_padding_nm, 1.0, 3.0),
         ("ionic_strength_molar", ionic_strength_molar, 0.0, 1.0),
     ):
-        if not (isinstance(value, (int, float)) and math.isfinite(value) and low <= value <= high):
-            raise ValueError(f"{name} requires a finite value in [{low}, {high}]; got {value!r}")
+        if not (
+            isinstance(value, (int, float))
+            and math.isfinite(value)
+            and low <= value <= high
+        ):
+            raise ValueError(
+                f"{name} requires a finite value in [{low}, {high}]; got {value!r}"
+            )
 
 
 def _whole(value: float, unit: float) -> bool:
@@ -87,7 +95,9 @@ def check_sampling(
         ("timeout_seconds", timeout_seconds, 60, 10_000_000),
     ):
         if not isinstance(value, int) or not low <= value <= high:
-            raise ValueError(f"{name} requires an integer in [{low}, {high}]; got {value!r}")
+            raise ValueError(
+                f"{name} requires an integer in [{low}, {high}]; got {value!r}"
+            )
     for name, value, low, high in (
         ("temperature_kelvin", temperature_kelvin, 250.0, 400.0),
         ("pressure_bar", pressure_bar, 0.1, 100.0),
@@ -95,15 +105,26 @@ def check_sampling(
         ("production_ps", production_ps, 0.04, 1e6),
         ("time_per_iteration_ps", time_per_iteration_ps, TIMESTEP_PS, 100.0),
     ):
-        if not (isinstance(value, (int, float)) and math.isfinite(value) and low <= value <= high):
-            raise ValueError(f"{name} requires a finite value in [{low:g}, {high:g}]; got {value!r}")
+        if not (
+            isinstance(value, (int, float))
+            and math.isfinite(value)
+            and low <= value <= high
+        ):
+            raise ValueError(
+                f"{name} requires a finite value in [{low:g}, {high:g}]; got {value!r}"
+            )
     if not _whole(time_per_iteration_ps, TIMESTEP_PS):
         raise ValueError(
             f"time_per_iteration_ps is {time_per_iteration_ps}; it must be a whole number of 2 fs steps"
         )
-    for name, value in (("production_ps", production_ps), ("equilibration_ps", equilibration_ps)):
+    for name, value in (
+        ("production_ps", production_ps),
+        ("equilibration_ps", equilibration_ps),
+    ):
         if not _whole(value, time_per_iteration_ps):
-            raise ValueError(f"{name} is {value}; it must be a whole number of iterations of {time_per_iteration_ps} ps")
+            raise ValueError(
+                f"{name} is {value}; it must be a whole number of iterations of {time_per_iteration_ps} ps"
+            )
 
 
 def leg_statistics(leg: dict[str, Any]) -> dict[str, Any]:
@@ -116,20 +137,29 @@ def leg_statistics(leg: dict[str, Any]) -> dict[str, Any]:
     overlaps = []
     for r in replicas:
         matrix = r["overlap_matrix"]
-        overlaps.append(min(min(matrix[i][i + 1], matrix[i + 1][i]) for i in range(len(matrix) - 1)))
+        overlaps.append(
+            min(min(matrix[i][i + 1], matrix[i + 1][i]) for i in range(len(matrix) - 1))
+        )
     gaps = []
     for r in replicas:
         series = r.get("forward_reverse")
         if series:
-            half = min(range(len(series["fractions"])), key=lambda i: abs(series["fractions"][i] - 0.5))
-            gaps.append(abs(series["forward_kcal_mol"][half] - series["reverse_kcal_mol"][half]))
+            half = min(
+                range(len(series["fractions"])),
+                key=lambda i: abs(series["fractions"][i] - 0.5),
+            )
+            gaps.append(
+                abs(series["forward_kcal_mol"][half] - series["reverse_kcal_mol"][half])
+            )
     return {
         "replicas": len(replicas),
         "mean": statistics.fmean(values),
         "sd": statistics.stdev(values) if len(values) > 1 else None,
         "mbar_rms": math.sqrt(statistics.fmean(e * e for e in errors)),
         "minimum_overlap": min(overlaps),
-        "minimum_effective_samples": float(min(min(r["effective_samples"]) for r in replicas)),
+        "minimum_effective_samples": float(
+            min(min(r["effective_samples"]) for r in replicas)
+        ),
         "forward_reverse_gap": max(gaps) if gaps else None,
         "by_replica": [
             {"id": r["id"], "delta_g": v, "error": e, "overlap": o}
@@ -150,7 +180,9 @@ def combine_preparations(records: list[dict[str, Any]]) -> dict[str, Any]:
     means = [p["mean"] for p in parts]
     replicas = sum(p["replicas"] for p in parts)
     within = [p["sd"] for p in parts if p["sd"] is not None]
-    gaps = [p["forward_reverse_gap"] for p in parts if p["forward_reverse_gap"] is not None]
+    gaps = [
+        p["forward_reverse_gap"] for p in parts if p["forward_reverse_gap"] is not None
+    ]
     return {
         "preparations": len(parts),
         "replicas": replicas,
@@ -158,7 +190,8 @@ def combine_preparations(records: list[dict[str, Any]]) -> dict[str, Any]:
         "preparation_sd": statistics.stdev(means) if len(means) > 1 else None,
         "replica_sd": max(within) if within else None,
         "mbar_rms": math.sqrt(statistics.fmean(p["mbar_rms"] ** 2 for p in parts)),
-        "mbar_error": math.sqrt(sum(p["mbar_rms"] ** 2 / p["replicas"] for p in parts)) / len(parts),
+        "mbar_error": math.sqrt(sum(p["mbar_rms"] ** 2 / p["replicas"] for p in parts))
+        / len(parts),
         "minimum_overlap": min(p["minimum_overlap"] for p in parts),
         "minimum_effective_samples": min(p["minimum_effective_samples"] for p in parts),
         "forward_reverse_gap": max(gaps) if gaps else None,

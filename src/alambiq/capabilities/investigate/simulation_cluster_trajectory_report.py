@@ -12,7 +12,14 @@ def render(result) -> str:
         f"{result.atoms_compared} atoms with an RMSD cutoff of {result.rmsd_cutoff_angstrom:g} Å: "
         f"<strong>{result.cluster_count} clusters</strong>, {result.singleton_count} of 1 frame.</p>",
         table(
-            ["Cluster", "Frames", "Share", "Center frame", "Mean RMSD (Å)", "Max RMSD (Å)"],
+            [
+                "Cluster",
+                "Frames",
+                "Share",
+                "Center frame",
+                "Mean RMSD (Å)",
+                "Max RMSD (Å)",
+            ],
             [
                 [
                     c.index,

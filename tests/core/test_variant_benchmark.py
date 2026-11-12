@@ -139,7 +139,10 @@ class TestStoredResults:
             by[k] > 0.3
             for k in ("bslipa-t50", "glucokinase-activity", "glucokinase-abundance")
         )
-        assert "The results apply to the proteins and properties of the datasets in the table" in text
+        assert (
+            "The results apply to the proteins and properties of the datasets in the table"
+            in text
+        )
 
 
 ENV = os.environ.get("ALAMBIQ_ENV_ESM", "")

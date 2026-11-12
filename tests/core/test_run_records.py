@@ -44,7 +44,10 @@ class TestRunRecord:
         outcome = run_example(tmp_path / "run")
         record = json.loads((tmp_path / "run/run.json").read_text())
         assert record == outcome.record
-        assert record["campaign"]["id"] == "kinetics-from-measurements" and record["ok"] is True
+        assert (
+            record["campaign"]["id"] == "kinetics-from-measurements"
+            and record["ok"] is True
+        )
         assert [s["id"] for s in record["steps"]] == ["intake", "fit"]
         intake, fit = record["steps"]
         assert (intake["capability"], fit["capability"]) == (
@@ -123,7 +126,9 @@ class TestHistory:
         again = run_example(tmp_path / "run")
         rows = history(tmp_path / "run")
         assert [(r["computed"], r["reused"]) for r in rows] == [(2, 0), (0, 2)]
-        assert all(r["campaign"] == "kinetics-from-measurements" and r["ok"] for r in rows)
+        assert all(
+            r["campaign"] == "kinetics-from-measurements" and r["ok"] for r in rows
+        )
         assert rows[0]["started"] <= rows[1]["started"]
         assert all(s.reused for s in again.steps.values())
 

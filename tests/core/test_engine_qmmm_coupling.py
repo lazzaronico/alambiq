@@ -8,8 +8,7 @@ from unittest.mock import patch
 
 spec = importlib.util.spec_from_file_location(
     "qmmm_coupling",
-    Path(__file__).resolve().parents[2]
-    / "src/alambiq/engines/qmmm_coupling.py",
+    Path(__file__).resolve().parents[2] / "src/alambiq/engines/qmmm_coupling.py",
 )
 coupling = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(coupling)

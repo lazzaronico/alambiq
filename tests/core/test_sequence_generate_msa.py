@@ -274,9 +274,7 @@ class TestToyDatabase:
         assert outcome.outputs("inspect")["columns"] == 150
         assert outcome.outputs("inspect")["query_id"] == "query"
 
-    def test_the_report_states_the_database(
-        self, outcome, tmp_path
-    ):
+    def test_the_report_states_the_database(self, outcome, tmp_path):
         page = outcome.report(tmp_path / "report.html").read_text()
         assert "UniRef50 2026_02" in page
 
@@ -381,9 +379,7 @@ class TestSearchSettings:
         )
         assert rows(one) == rows(four)
 
-    def test_each_chain_is_aligned_on_its_own(
-        self, tmp_path, monkeypatch, engine
-    ):
+    def test_each_chain_is_aligned_on_its_own(self, tmp_path, monkeypatch, engine):
         other = protein(2, 120)
         entries = {
             **relatives(40),

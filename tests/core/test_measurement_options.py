@@ -45,7 +45,9 @@ def conditions(xs: list[float]) -> dict:
 
 
 def condition_values(xs: list[float]) -> dict:
-    return {f"c{i}": {"substrate": {"value": x, "unit": "mM"}} for i, x in enumerate(xs)}
+    return {
+        f"c{i}": {"substrate": {"value": x, "unit": "mM"}} for i, x in enumerate(xs)
+    }
 
 
 def write_table(tmp_path: Path, rows: list[str], name: str = "rates.csv") -> Path:
@@ -211,7 +213,9 @@ class TestPredictions:
             assert by_x[x]["y"] == pytest.approx(curve(x), rel=1e-3)
         # The data end at 30, so only 100 lies outside what was measured.
         assert [by_x[x]["extrapolation"] for x in self.ASKED] == [False, False, True]
-        assert any("outside the measured range" in n for n in outcome.steps["fit"].notes)
+        assert any(
+            "outside the measured range" in n for n in outcome.steps["fit"].notes
+        )
 
     def test_a_new_measurement_is_less_certain_than_the_curve(self, tmp_path):
         table = write_table(tmp_path, plain_rows(noise=0.02))
@@ -259,7 +263,10 @@ class TestExclude:
         table = write_table(tmp_path, plain_rows())
         outcome = run_campaign([intake(table), fit_step(exclude=["nope"])], tmp_path)
         assert outcome.steps["fit"].status == "failed"
-        assert "not in the series of the sample and the metric" in outcome.steps["fit"].error
+        assert (
+            "not in the series of the sample and the metric"
+            in outcome.steps["fit"].error
+        )
 
 
 class TestOtherFitOptions:
@@ -271,7 +278,9 @@ class TestOtherFitOptions:
         ]
         table = write_table(tmp_path, rows)
         outcome = run_ok([intake(table, xs), fit_step(model="linear")], tmp_path)
-        assert coefficient(outcome, "intercept")["value"] == pytest.approx(4.0, abs=1e-6)
+        assert coefficient(outcome, "intercept")["value"] == pytest.approx(
+            4.0, abs=1e-6
+        )
         assert coefficient(outcome, "slope")["value"] == pytest.approx(3.0, abs=1e-6)
 
     def test_restricting_the_conditions_fits_only_those(self, tmp_path):
@@ -475,7 +484,10 @@ class TestInspectOptions:
 
     def test_a_misnamed_header_points_to_the_columns_option(self, tmp_path):
         path = tmp_path / "misnamed.csv"
-        path.write_text(HEAD.replace("sample_id", "sample") + "".join(plain_rows()).replace("enzyme", "enzyme"))
+        path.write_text(
+            HEAD.replace("sample_id", "sample")
+            + "".join(plain_rows()).replace("enzyme", "enzyme")
+        )
         outcome = run_campaign([intake(path)], tmp_path)
         error = outcome.steps["intake"].error
         assert "sample" in error and "columns" in error
@@ -496,9 +508,15 @@ class TestInspectOptions:
     def test_a_json_table_reads_like_the_csv_one(self, tmp_path):
         records = [
             {
-                "measurement_id": f"m{i}", "sample_id": "enzyme", "condition_id": f"c{i}",
-                "metric": "initial-rate", "value": curve(x), "unit": "uM/min",
-                "independent_id": None, "technical_id": None, "role": "sample",
+                "measurement_id": f"m{i}",
+                "sample_id": "enzyme",
+                "condition_id": f"c{i}",
+                "metric": "initial-rate",
+                "value": curve(x),
+                "unit": "uM/min",
+                "independent_id": None,
+                "technical_id": None,
+                "role": "sample",
             }
             for i, x in enumerate(XS)
         ]

@@ -212,7 +212,9 @@ def line_chart(
     ]
     if title:
         out.append(f"<title>{escape(title)}</title>")
-    out.append('<g class="grid" stroke="currentColor" stroke-opacity="0.15" stroke-width="1">')
+    out.append(
+        '<g class="grid" stroke="currentColor" stroke-opacity="0.15" stroke-width="1">'
+    )
     for t in ax.ticks:
         px = ax.at(t)
         out.append(

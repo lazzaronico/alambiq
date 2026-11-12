@@ -55,7 +55,9 @@ def record(outcome) -> dict:
 class TestColumnStatistics:
     @pytest.fixture
     def outcome(self, tmp_path):
-        return run_ok(step(alignment=write_fasta(tmp_path, ROWS), format="fasta"), tmp_path)
+        return run_ok(
+            step(alignment=write_fasta(tmp_path, ROWS), format="fasta"), tmp_path
+        )
 
     def test_the_shape_of_the_alignment(self, outcome):
         out = outcome.outputs("msa")
@@ -96,13 +98,17 @@ class TestColumnStatistics:
 
     def test_the_averages_follow_from_the_columns(self, outcome):
         out = outcome.outputs("msa")
-        assert out["mean_entropy_bits"] == pytest.approx((2 * entropy(4, 1) + entropy(3, 2)) / 6)
+        assert out["mean_entropy_bits"] == pytest.approx(
+            (2 * entropy(4, 1) + entropy(3, 2)) / 6
+        )
         assert out["mean_gap_fraction"] == pytest.approx(0.2 / 6)
 
 
 class TestRedundancy:
     def test_an_exact_repeat_is_flagged_and_counted(self, tmp_path):
-        outcome = run_ok(step(alignment=write_fasta(tmp_path, ROWS), format="fasta"), tmp_path)
+        outcome = run_ok(
+            step(alignment=write_fasta(tmp_path, ROWS), format="fasta"), tmp_path
+        )
         out = outcome.outputs("msa")
         # r1 repeats the query's match columns.
         assert (out["unique_rows"], out["duplicate_rows"]) == (4, 1)
@@ -111,7 +117,8 @@ class TestRedundancy:
 
     def test_a_single_row_is_noted(self, tmp_path):
         outcome = run_ok(
-            step(alignment=write_fasta(tmp_path, {"q": "ACDEFG"}), format="fasta"), tmp_path
+            step(alignment=write_fasta(tmp_path, {"q": "ACDEFG"}), format="fasta"),
+            tmp_path,
         )
         assert any("has one row" in n for n in outcome.steps["msa"].notes)
 
@@ -136,16 +143,22 @@ class TestA3M:
         assert outcome.steps["msa"].status == "failed"
         assert "ungapped uppercase query" in outcome.steps["msa"].error
 
-    def test_the_refusal_of_a_bad_first_row_names_the_format_and_the_row(self, tmp_path):
+    def test_the_refusal_of_a_bad_first_row_names_the_format_and_the_row(
+        self, tmp_path
+    ):
         path = tmp_path / "bad.a3m"
         path.write_text(">q\nAC-EFG\n>r\nACDEFG\n")
-        error = run(step(alignment=str(path), format="a3m"), tmp_path).steps["msa"].error
+        error = (
+            run(step(alignment=str(path), format="a3m"), tmp_path).steps["msa"].error
+        )
         assert "first row 'q' of the A3M input" in error
 
 
 class TestAlignedFastaFirstRow:
     @pytest.mark.parametrize("query", ["AC-EFG", "ACdEFG"])
-    def test_a_first_row_with_gaps_or_lowercase_letters_is_refused(self, tmp_path, query):
+    def test_a_first_row_with_gaps_or_lowercase_letters_is_refused(
+        self, tmp_path, query
+    ):
         path = write_fasta(tmp_path, {"q": query, "r": "ACDEFG"})
         outcome = run(step(alignment=path, format="fasta"), tmp_path)
         assert outcome.steps["msa"].status == "failed"
@@ -153,7 +166,9 @@ class TestAlignedFastaFirstRow:
         assert "first row 'q' of the aligned FASTA input" in error
         assert "ungapped uppercase query" in error
 
-    def test_gaps_and_lowercase_letters_after_the_first_row_are_accepted(self, tmp_path):
+    def test_gaps_and_lowercase_letters_after_the_first_row_are_accepted(
+        self, tmp_path
+    ):
         path = write_fasta(tmp_path, {"q": "ACDEFG", "r": "AC-eFG"})
         assert run(step(alignment=path, format="fasta"), tmp_path).ok
 
@@ -185,7 +200,14 @@ class TestFullSequences:
             "q": {"sequence": "MMMACDEFGKKK", "start": 4},
             "r": {"sequence": "MMMACDEFGKKK", "start": 5},
         }
-        outcome = run(step(alignment=write_fasta(tmp_path, rows), format="fasta", full_sequences=wrong), tmp_path)
+        outcome = run(
+            step(
+                alignment=write_fasta(tmp_path, rows),
+                format="fasta",
+                full_sequences=wrong,
+            ),
+            tmp_path,
+        )
         assert outcome.steps["msa"].status == "failed"
         assert "full-protein interval" in outcome.steps["msa"].error
 
@@ -206,7 +228,10 @@ class TestFullSequences:
 class TestRefusals:
     def test_rows_of_different_widths_are_refused(self, tmp_path):
         outcome = run(
-            step(alignment=write_fasta(tmp_path, {"q": "ACDEFG", "r": "ACDE"}), format="fasta"),
+            step(
+                alignment=write_fasta(tmp_path, {"q": "ACDEFG", "r": "ACDE"}),
+                format="fasta",
+            ),
             tmp_path,
         )
         assert "same match-column count" in outcome.steps["msa"].error
@@ -219,7 +244,10 @@ class TestRefusals:
 
     def test_a_dot_is_not_a_gap_in_aligned_fasta(self, tmp_path):
         outcome = run(
-            step(alignment=write_fasta(tmp_path, {"q": "ACDEFG", "r": "AC.EFG"}), format="fasta"),
+            step(
+                alignment=write_fasta(tmp_path, {"q": "ACDEFG", "r": "AC.EFG"}),
+                format="fasta",
+            ),
             tmp_path,
         )
         assert "dots require A3M" in outcome.steps["msa"].error
@@ -228,17 +256,24 @@ class TestRefusals:
         outcome = run(
             step(alignment=write_fasta(tmp_path, ROWS), format="stockholm"), tmp_path
         )
-        assert "'fasta'" in outcome.steps["msa"].error and "'a3m'" in outcome.steps["msa"].error
+        assert (
+            "'fasta'" in outcome.steps["msa"].error
+            and "'a3m'" in outcome.steps["msa"].error
+        )
 
     def test_more_than_two_hundred_rows_are_refused(self, tmp_path):
         rows = {f"r{i}": "ACDEFG" for i in range(201)}
-        outcome = run(step(alignment=write_fasta(tmp_path, rows), format="fasta"), tmp_path)
+        outcome = run(
+            step(alignment=write_fasta(tmp_path, rows), format="fasta"), tmp_path
+        )
         assert "1–200 alignment rows" in outcome.steps["msa"].error
 
 
 class TestPresentation:
     def test_the_report_names_the_conserved_positions(self, tmp_path):
-        outcome = run_ok(step(alignment=write_fasta(tmp_path, ROWS), format="fasta"), tmp_path)
+        outcome = run_ok(
+            step(alignment=write_fasta(tmp_path, ROWS), format="fasta"), tmp_path
+        )
         page = outcome.report(tmp_path / "report.html").read_text()
         assert "2 query positions are identical in every row" in page
         assert "Consensus residue" in page

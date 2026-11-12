@@ -38,7 +38,9 @@ CONFIDENCE_FIELDS = (
 def _index(path: Path) -> int:
     match = re.search(r"_model_([0-9]+)\.", path.name)
     if match is None:
-        raise ValueError(f"The name of the Boltz output file {path.name} has no model index")
+        raise ValueError(
+            f"The name of the Boltz output file {path.name} has no model index"
+        )
     return int(match.group(1))
 
 
@@ -48,7 +50,9 @@ def _finite(value: Any, field: str) -> float:
         or not isinstance(value, int | float)
         or not math.isfinite(value)
     ):
-        raise ValueError(f"Boltz output {field!r} is {value!r}; a finite number is required")
+        raise ValueError(
+            f"Boltz output {field!r} is {value!r}; a finite number is required"
+        )
     return float(value)
 
 
@@ -212,9 +216,7 @@ def _check_device(accelerator: str) -> None:
             "CUDA is unavailable; set accelerator to cpu to run on the CPU"
         )
     if accelerator == "mps" and not torch.backends.mps.is_available():
-        raise ValueError(
-            "MPS is unavailable; set accelerator to cpu to run on the CPU"
-        )
+        raise ValueError("MPS is unavailable; set accelerator to cpu to run on the CPU")
 
 
 def _chemistry(
@@ -230,7 +232,9 @@ def _chemistry(
     # Boltz wrote this file moments ago in this run's private output directory.
     molecules = pickle.loads(data)
     if not isinstance(molecules, dict) or set(molecules) != {"LIG1"}:
-        raise ValueError("Unexpected Boltz extra-molecule identities; only LIG1 is expected")
+        raise ValueError(
+            "Unexpected Boltz extra-molecule identities; only LIG1 is expected"
+        )
     molecule = Chem.Mol(molecules["LIG1"])
     Chem.SanitizeMol(molecule)
     expected = Chem.MolFromSmiles(processed_smiles or ligand["smiles"])
@@ -294,7 +298,9 @@ def _positioned(chemistry: dict[str, Any], model: Path, output: Path) -> dict[st
     if len(selected) != len(expected) or {r["label_atom_id"] for r in selected} != set(
         expected
     ):
-        raise ValueError("The atom names of the predicted ligand differ from the atom names of the input ligand")
+        raise ValueError(
+            "The atom names of the predicted ligand differ from the atom names of the input ligand"
+        )
     molecule = Chem.MolFromMolBlock(chemistry["molblock"], removeHs=False)
     molecule.RemoveAllConformers()
     conformer = Chem.Conformer(len(expected))
@@ -328,7 +334,9 @@ def _positioned(chemistry: dict[str, Any], model: Path, output: Path) -> dict[st
         writer.write(molecule)
     restored = Chem.SDMolSupplier(str(output), removeHs=False)[0]
     if restored is None or _graph(restored) != _graph(molecule):
-        raise ValueError("The bonds of the ligand differ between the prediction and the SDF file")
+        raise ValueError(
+            "The bonds of the ligand differ between the prediction and the SDF file"
+        )
     # RDKit reads handedness from the coordinates, so this is the pose's, not the input's.
     perceived = Chem.MolToSmiles(restored)
     return {
@@ -453,7 +461,9 @@ def run(cfg: dict[str, Any]) -> dict[str, Any]:
     if cfg.get("affinity"):
         affinity_path = predictions / "affinity_input.json"
         if not affinity_path.is_file():
-            raise ValueError("Boltz wrote no affinity file although affinity was requested")
+            raise ValueError(
+                "Boltz wrote no affinity file although affinity was requested"
+            )
         affinity = {
             **_affinity(affinity_path),
             "file": str(affinity_path),

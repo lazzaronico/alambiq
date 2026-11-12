@@ -394,9 +394,7 @@ def fit(request: FitRequest, ctx: StepContext) -> FitResult:
     predictions = _predictions(fitted) if request.prediction_x else []
 
     if not found:
-        ctx.note(
-            "The solver returned no parameter estimates."
-        )
+        ctx.note("The solver returned no parameter estimates.")
     for message in fitted.get("diagnostics") or []:
         ctx.note(message)
     for parameter in found:

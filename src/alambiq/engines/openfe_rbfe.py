@@ -222,7 +222,9 @@ def run(cfg: dict[str, Any]) -> dict[str, Any]:
             )
     result.to_json(output / "native-result.json")
     if not result.ok():
-        raise RuntimeError("The OpenFE protocol failed; the native records are retained")
+        raise RuntimeError(
+            "The OpenFE protocol failed; the native records are retained"
+        )
     if p["platform"] == "CUDA" and precision["platform_selections"] != p["replicas"]:
         raise RuntimeError("Each repeat must select double precision on CUDA")
     gathered = protocol.gather([result])

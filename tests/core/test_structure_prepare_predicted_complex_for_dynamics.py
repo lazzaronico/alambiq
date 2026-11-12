@@ -501,7 +501,9 @@ class TestRerun:
             assert outcome.ok, [s.error for s in outcome.steps.values() if s.error]
             out = outcome.outputs("prep")
             files.append(
-                tuple(Path(out[key]).read_bytes() for key in ("state_xml", "topology_pdb"))
+                tuple(
+                    Path(out[key]).read_bytes() for key in ("state_xml", "topology_pdb")
+                )
             )
         assert files[0] == files[1]
 

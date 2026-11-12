@@ -43,7 +43,12 @@ def render(result) -> str:
             )
         parts.append(
             table(
-                ["Route", "Steps", "Operators in order", "Target amount (feedstock units)"],
+                [
+                    "Route",
+                    "Steps",
+                    "Operators in order",
+                    "Target amount (feedstock units)",
+                ],
                 rows,
                 numeric={1, 3},
             )

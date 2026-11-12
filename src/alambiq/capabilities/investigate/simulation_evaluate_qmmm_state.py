@@ -226,7 +226,9 @@ def evaluate_qmmm_state(request: QmmmRequest, ctx: StepContext) -> QmmmResult:
     )
     electronic = found["electronic"]
     if request.quantum.link is not None:
-        ctx.note("The quantum region cuts a covalent bond and is capped with a hydrogen.")
+        ctx.note(
+            "The quantum region cuts a covalent bond and is capped with a hydrogen."
+        )
     seconds = electronic["elapsed_seconds"]
     return QmmmResult(
         electronic_energy_kj_mol=found["electronic_energy_kj_mol"],

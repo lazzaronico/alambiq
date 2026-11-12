@@ -333,7 +333,10 @@ class TestOperationalPrediction:
     def test_the_report_draws_a_band_around_the_nominal_prediction(self, tmp_path):
         outcome = propagated(tmp_path, samples=30)
         page = outcome.report(tmp_path / "r.html").read_text()
-        assert "Predicted S with the uncertainty of the fit" in page and "Nominal prediction" in page
+        assert (
+            "Predicted S with the uncertainty of the fit" in page
+            and "Nominal prediction" in page
+        )
 
 
 class TestBootstrap:
@@ -438,7 +441,9 @@ class TestRefusals:
         self.fails(tmp_path, "strictly between 0 and 1", quantiles=[0.0, 0.5])
 
     def test_an_unknown_species_is_named(self, tmp_path):
-        self.fails(tmp_path, "species that the template does not declare: Q", species=["Q"])
+        self.fails(
+            tmp_path, "species that the template does not declare: Q", species=["Q"]
+        )
 
     def test_only_a_michaelis_menten_fit_can_be_propagated(self, tmp_path):
         self.fails(

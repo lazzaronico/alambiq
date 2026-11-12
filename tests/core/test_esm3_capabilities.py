@@ -441,7 +441,10 @@ class TestCompleteRefusals:
         ("changes", "message"),
         [
             ({"regions": []}, "at least one region"),
-            ({"regions": [{"start": 1, "end": 76}]}, "at least one residue outside the regions"),
+            (
+                {"regions": [{"start": 1, "end": 76}]},
+                "at least one residue outside the regions",
+            ),
             (
                 {"regions": [{"start": 2, "end": 9}, {"start": 8, "end": 12}]},
                 "must not overlap",

@@ -67,7 +67,11 @@ ASIDE = re.compile(r"\s—\s|\w—\w")
 
 def markdown_files() -> list[str]:
     listed = subprocess.run(
-        ["git", "ls-files", "*.md"], cwd=ROOT, capture_output=True, text=True, check=True
+        ["git", "ls-files", "*.md"],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=True,
     ).stdout.split()
     skipped = ("tests/", "src/")
     return [f for f in listed if not f.startswith(skipped) and (ROOT / f).is_file()]
@@ -84,7 +88,9 @@ def prose(text: str) -> list[tuple[int, str]]:
             continue
         line = re.sub(r"!\[", "[", line)  # Markdown image syntax
         line = re.sub(r"`[^`]*`", " ", line)
-        line = re.sub(r'"[^"]{1,40}"', " ", line)  # a quoted word or phrase is a mention
+        line = re.sub(
+            r'"[^"]{1,40}"', " ", line
+        )  # a quoted word or phrase is a mention
         line = re.sub(r"\]\([^)]*\)", "]", line)
         line = re.sub(r"https?://\S+", " ", line)
         line = re.sub(r"<[^>]+>", " ", line)
@@ -149,7 +155,9 @@ def capability_texts() -> list[tuple[str, str]]:
         ):
             texts.append((f"{capability.id} ({kind})", inspect.getdoc(type_) or ""))
             for field in dataclasses.fields(type_):
-                nested = inspect.getdoc(field.type) if inspect.isclass(field.type) else ""
+                nested = (
+                    inspect.getdoc(field.type) if inspect.isclass(field.type) else ""
+                )
                 if nested and dataclasses.is_dataclass(field.type):
                     texts.append((f"{capability.id} ({kind}.{field.name})", nested))
     return texts
@@ -195,7 +203,9 @@ def run_time_strings() -> list[tuple[str, int, str]]:
         docstrings = {
             id(node.body[0].value)
             for node in ast.walk(tree)
-            if isinstance(node, (ast.Module, ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef))
+            if isinstance(
+                node, (ast.Module, ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef)
+            )
             and node.body
             and isinstance(node.body[0], ast.Expr)
             and isinstance(node.body[0].value, ast.Constant)

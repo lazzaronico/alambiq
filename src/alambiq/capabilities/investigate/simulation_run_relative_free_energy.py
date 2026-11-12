@@ -186,7 +186,11 @@ def _read_ligand(path: str):
 
     rows = list(Chem.SDMolSupplier(path, removeHs=False))
     if len(rows) != 1 or rows[0] is None:
-        found = f"{len(rows)} entries" if len(rows) != 1 else "one entry that cannot be read"
+        found = (
+            f"{len(rows)} entries"
+            if len(rows) != 1
+            else "one entry that cannot be read"
+        )
         raise ValueError(
             f"{path} holds {found}; each ligand SDF must contain exactly one molecule"
         )
@@ -236,7 +240,9 @@ def run_relative_free_energy(
             "a named directed edge with two distinct ligand identities is required"
         )
     if request.phase == "bound" and request.protein is None:
-        raise ValueError("phase is bound and protein is not set; the bound phase needs a protein")
+        raise ValueError(
+            "phase is bound and protein is not set; the bound phase needs a protein"
+        )
     if request.phase == "solvent" and request.protein is not None:
         raise ValueError(
             "phase is solvent and protein is set; the solvent phase takes ligands only, "

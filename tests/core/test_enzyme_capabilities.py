@@ -66,7 +66,12 @@ CANDIDATES = {
 }
 FEATURES = [
     {"position": 30, "residue": R1[29], "role": "nucleophile", "citation": "Test 2020"},
-    {"position": 75, "residue": R1[74], "role": "proton donor", "citation": "Test 2020"},
+    {
+        "position": 75,
+        "residue": R1[74],
+        "role": "proton donor",
+        "citation": "Test 2020",
+    },
 ]
 
 
@@ -91,8 +96,12 @@ def retrieve_step(tmp_path: Path, **params) -> dict:
         "id": "retrieve",
         "capability": "enzyme.retrieve_candidates",
         "params": {
-            "references": write_fasta(tmp_path, "refs.faa", params.pop("references", REFERENCES)),
-            "candidates": write_fasta(tmp_path, "cand.faa", params.pop("candidates", CANDIDATES)),
+            "references": write_fasta(
+                tmp_path, "refs.faa", params.pop("references", REFERENCES)
+            ),
+            "candidates": write_fasta(
+                tmp_path, "cand.faa", params.pop("candidates", CANDIDATES)
+            ),
             "positive_controls": ["R1", "R2"],
             "negative_controls": ["N1"],
             **params,
@@ -126,6 +135,7 @@ needs_mmseqs = pytest.mark.skipif(
     reason="set ALAMBIQ_ENV_MMSEQS or put mmseqs on PATH to run the search",
 )
 
+
 @needs_mmseqs
 class TestRetrieval:
     @pytest.fixture
@@ -134,7 +144,9 @@ class TestRetrieval:
 
     def test_every_protein_is_ranked_once(self, outcome):
         ranked = outcome.outputs("retrieve")["ranked"]
-        assert sorted(r["identifier"] for r in ranked) == sorted(REFERENCES | CANDIDATES)
+        assert sorted(r["identifier"] for r in ranked) == sorted(
+            REFERENCES | CANDIDATES
+        )
         assert [r["rank"] for r in ranked] == list(range(1, len(ranked) + 1))
 
     def test_a_near_copy_of_a_reference_ranks_above_everything_unrelated(self, outcome):
@@ -168,7 +180,9 @@ class TestRetrieval:
         )
         assert out["hard_negative_margin_bits"] > 0
 
-    def test_the_length_only_baseline_cannot_separate_equal_length_proteins(self, outcome):
+    def test_the_length_only_baseline_cannot_separate_equal_length_proteins(
+        self, outcome
+    ):
         out = outcome.outputs("retrieve")
         # Every control is 120 residues, so length ties every comparison.
         assert out["length_only_baseline_auroc"] == 0.5
@@ -179,7 +193,11 @@ class TestRetrieval:
     ):
         candidates = {**CANDIDATES, "decoy": change(R1, 7)}
         outcome = run_ok(
-            [retrieve_step(tmp_path, candidates=candidates, negative_controls=["decoy"])],
+            [
+                retrieve_step(
+                    tmp_path, candidates=candidates, negative_controls=["decoy"]
+                )
+            ],
             tmp_path,
         )
         out = outcome.outputs("retrieve")
@@ -191,14 +209,18 @@ class TestRetrieval:
         assert "as high as the lowest positive" in notes
         assert "no better than protein length" in notes
 
-    def test_a_positive_control_below_the_bit_threshold_is_not_recovered(self, tmp_path):
+    def test_a_positive_control_below_the_bit_threshold_is_not_recovered(
+        self, tmp_path
+    ):
         outcome = run_ok([retrieve_step(tmp_path, positive_min_bits=10_000)], tmp_path)
         assert outcome.outputs("retrieve")["positive_control_recall"] == 0.0
         assert "of the positive controls reached 10000 bits" in " ".join(
             outcome.steps["retrieve"].notes
         )
 
-    def test_a_strict_evalue_leaves_unrelated_proteins_without_any_alignment(self, tmp_path):
+    def test_a_strict_evalue_leaves_unrelated_proteins_without_any_alignment(
+        self, tmp_path
+    ):
         outcome = run_ok([retrieve_step(tmp_path, evalue=1e-5)], tmp_path)
         by_id = {r["identifier"]: r for r in outcome.outputs("retrieve")["ranked"]}
         for name in ("far", "N1"):
@@ -224,7 +246,10 @@ class TestRetrievalRefusals:
             ({"positive_controls": []}, "name at least one positive"),
             ({"negative_controls": []}, "name at least one positive"),
             ({"positive_controls": ["R1", "R1"]}, "named twice"),
-            ({"candidates": {"bad/id": R1[:20], "N1": R1[:20]}}, "must use only letters"),
+            (
+                {"candidates": {"bad/id": R1[:20], "N1": R1[:20]}},
+                "must use only letters",
+            ),
             ({"candidates": {"X1": "MK*V", "N1": R1[:20]}}, "uppercase amino-acid"),
             ({"sensitivity": 0}, "sensitivity must be between 1 and 7.5"),
             ({"sensitivity": 0.9}, "sensitivity must be between 1 and 7.5"),
@@ -248,15 +273,22 @@ class TestCharacterization:
 
     @pytest.fixture
     def decisions(self, outcome):
-        return {a["identifier"]: a for a in outcome.outputs("characterize")["assessments"]}
+        return {
+            a["identifier"]: a for a in outcome.outputs("characterize")["assessments"]
+        }
 
     def test_a_near_copy_that_keeps_both_features_advances(self, decisions):
         close = decisions["close"]
         assert close["decision"] == "advance"
         assert close["reason_codes"] == ["retrieval-and-literature-features-compatible"]
-        assert (close["mapped_feature_fraction"], close["conserved_feature_fraction"]) == (1.0, 1.0)
+        assert (
+            close["mapped_feature_fraction"],
+            close["conserved_feature_fraction"],
+        ) == (1.0, 1.0)
 
-    def test_a_substituted_feature_residue_is_rejected_as_not_conserved(self, decisions):
+    def test_a_substituted_feature_residue_is_rejected_as_not_conserved(
+        self, decisions
+    ):
         mutated = decisions["mutated"]
         assert mutated["decision"] == "reject"
         assert mutated["reason_codes"] == ["literature-features-not-conserved"]
@@ -266,7 +298,9 @@ class TestCharacterization:
         assert first["observed_residue"] == "W" and first["conserved"] is False
         assert mutated["residues"][1]["conserved"] is True
 
-    def test_a_fragment_covering_too_little_of_the_reference_is_withheld(self, decisions):
+    def test_a_fragment_covering_too_little_of_the_reference_is_withheld(
+        self, decisions
+    ):
         partial = decisions["partial"]
         assert partial["decision"] == "withhold"
         assert partial["reason_codes"] == ["reference-coverage-outside-applicability"]
@@ -274,7 +308,9 @@ class TestCharacterization:
         # Both features lie inside the first 90 residues, so both mapped.
         assert partial["mapped_feature_fraction"] == 1.0
 
-    def test_a_feature_in_a_deletion_is_unmapped_and_the_protein_withheld(self, decisions):
+    def test_a_feature_in_a_deletion_is_unmapped_and_the_protein_withheld(
+        self, decisions
+    ):
         gapped = decisions["gapped"]
         assert gapped["decision"] == "withhold"
         assert gapped["reason_codes"] == ["literature-features-not-fully-mapped"]
@@ -283,7 +319,9 @@ class TestCharacterization:
         assert (deleted["reference_position"], deleted["target_position"]) == (75, None)
         assert deleted["observed_residue"] is None
 
-    def test_a_position_after_a_deletion_is_renumbered_in_the_candidate(self, decisions):
+    def test_a_position_after_a_deletion_is_renumbered_in_the_candidate(
+        self, decisions
+    ):
         # Feature 30 is before the deletion, so it keeps its number.
         assert decisions["gapped"]["residues"][0]["target_position"] == 30
 
@@ -310,10 +348,16 @@ class TestCharacterization:
 
     def test_a_looser_policy_changes_the_decision_it_governs(self, tmp_path):
         outcome = run_ok(
-            [retrieve_step(tmp_path), characterize_step(minimum_conserved_feature_fraction=0.5)],
+            [
+                retrieve_step(tmp_path),
+                characterize_step(minimum_conserved_feature_fraction=0.5),
+            ],
             tmp_path,
         )
-        decisions = {a["identifier"]: a["decision"] for a in outcome.outputs("characterize")["assessments"]}
+        decisions = {
+            a["identifier"]: a["decision"]
+            for a in outcome.outputs("characterize")["assessments"]
+        }
         # Half the features are conserved, which now meets the bar.
         assert decisions["mutated"] == "advance"
 
@@ -321,10 +365,15 @@ class TestCharacterization:
         self, tmp_path
     ):
         outcome = run_ok(
-            [retrieve_step(tmp_path), characterize_step(minimum_mapped_feature_fraction=0.5)],
+            [
+                retrieve_step(tmp_path),
+                characterize_step(minimum_mapped_feature_fraction=0.5),
+            ],
             tmp_path,
         )
-        gapped = {a["identifier"]: a for a in outcome.outputs("characterize")["assessments"]}["gapped"]
+        gapped = {
+            a["identifier"]: a for a in outcome.outputs("characterize")["assessments"]
+        }["gapped"]
         # Half the features are now allowed to be unmapped, but an unmapped
         # feature is not a conserved one, and the default requires all conserved.
         assert gapped["decision"] == "reject"
@@ -336,7 +385,9 @@ class TestCharacterization:
         outcome = run_ok(
             [retrieve_step(tmp_path), characterize_step(evalue=1e-5)], tmp_path
         )
-        far = {a["identifier"]: a for a in outcome.outputs("characterize")["assessments"]}["far"]
+        far = {
+            a["identifier"]: a for a in outcome.outputs("characterize")["assessments"]
+        }["far"]
         assert far["reason_codes"] == ["no-reference-alignment"]
         assert (far["identity"], far["query_coverage"]) == (0.0, 0.0)
         assert all(r["target_position"] is None for r in far["residues"])
@@ -373,14 +424,34 @@ class TestCharacterizationRefusals:
         [
             ({"reference_id": "close"}, "must be one of the references"),
             (
-                {"features": [{"position": 30, "residue": "W", "role": "x", "citation": "y"}]},
+                {
+                    "features": [
+                        {"position": 30, "residue": "W", "role": "x", "citation": "y"}
+                    ]
+                },
                 "not W",
             ),
-            ({"features": [{"position": 500, "residue": "A", "role": "x", "citation": "y"}]}, "no residue"),
+            (
+                {
+                    "features": [
+                        {"position": 500, "residue": "A", "role": "x", "citation": "y"}
+                    ]
+                },
+                "no residue",
+            ),
             ({"features": FEATURES + FEATURES[:1]}, "must be unique"),
             ({"features": []}, "at least one reference feature"),
             (
-                {"features": [{"position": 30, "residue": R1[29], "role": "x", "citation": " "}]},
+                {
+                    "features": [
+                        {
+                            "position": 30,
+                            "residue": R1[29],
+                            "role": "x",
+                            "citation": " ",
+                        }
+                    ]
+                },
                 "needs a role and the citation",
             ),
             ({"minimum_query_coverage": 1.5}, "between 0 and 1"),
@@ -390,7 +461,9 @@ class TestCharacterizationRefusals:
             ({"evalue": 0}, "evalue must be positive"),
         ],
     )
-    def test_a_request_that_cannot_be_trusted_is_refused(self, tmp_path, params, message):
+    def test_a_request_that_cannot_be_trusted_is_refused(
+        self, tmp_path, params, message
+    ):
         outcome = run([retrieve_step(tmp_path), characterize_step(**params)], tmp_path)
         assert outcome.steps["characterize"].status == "failed"
         assert message in outcome.steps["characterize"].error

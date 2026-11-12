@@ -43,7 +43,14 @@ def render(result) -> str:
     shift = result.centroid_shift
     rows = [
         ["RMSD (Å)", stats.first, stats.last, stats.mean, stats.median, stats.maximum],
-        ["Centroid shift (Å)", shift.first, shift.last, shift.mean, shift.median, shift.maximum],
+        [
+            "Centroid shift (Å)",
+            shift.first,
+            shift.last,
+            shift.mean,
+            shift.median,
+            shift.maximum,
+        ],
     ]
     return "".join(
         [

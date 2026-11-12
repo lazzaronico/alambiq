@@ -16,7 +16,18 @@ def render(result) -> str:
         f"Standard error from the spread across preparations: {se}; from MBAR: {result.mbar_error_kcal_mol:.2f} kcal/mol. "
         f"{esc(result.convention)}.</p>",
         table(
-            ["Leg", "Preparations", "Replicas", "Mean ΔG", "Preparation sd", "Replica sd", "MBAR error (rms)", "Min overlap", "Min effective samples", "Forward-reverse gap"],
+            [
+                "Leg",
+                "Preparations",
+                "Replicas",
+                "Mean ΔG",
+                "Preparation sd",
+                "Replica sd",
+                "MBAR error (rms)",
+                "Min overlap",
+                "Min effective samples",
+                "Forward-reverse gap",
+            ],
             [
                 [
                     leg.leg,
@@ -40,7 +51,10 @@ def render(result) -> str:
             f"<p>Checks: <strong>{esc(result.status)}</strong>.</p>"
             + table(
                 ["Diagnostic", "Subject", "Value", "Limit", "Status"],
-                [[v.diagnostic, v.subject, v.value, v.limit, v.status] for v in result.verdicts],
+                [
+                    [v.diagnostic, v.subject, v.value, v.limit, v.status]
+                    for v in result.verdicts
+                ],
                 numeric={2, 3},
             )
         )

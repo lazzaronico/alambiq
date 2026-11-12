@@ -88,7 +88,9 @@ class TestCoercion:
             "found a list ['protein.fasta']; expected text (one value, not a list)"
             in str(caught.value)
         )
-        with pytest.raises(RequestError, match="expected a path .one value, not a list"):
+        with pytest.raises(
+            RequestError, match="expected a path .one value, not a list"
+        ):
             make(where=["a.txt"])
 
     def test_bool_requires_a_boolean(self):

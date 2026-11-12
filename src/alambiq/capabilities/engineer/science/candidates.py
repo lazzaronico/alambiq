@@ -411,9 +411,7 @@ def fit_candidates(panel, assay, parameters, *, embeddings=None):
     if len(evaluation) < 30:
         diagnostics.append("Fewer than 30 evaluation observations.")
     if np.ptp(y) == 0:
-        diagnostics.append(
-            "The training response is constant."
-        )
+        diagnostics.append("The training response is constant.")
     predictions = []
     for i, c in enumerate(candidates):
         distance = np.sqrt(np.mean((scaled[train] - scaled[i]) ** 2, axis=1))

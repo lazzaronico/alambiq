@@ -49,7 +49,9 @@ def read_input(spec: dict) -> str:
     if len(content) > MAX_BYTES or (
         "sha256" in spec and hashlib.sha256(content).hexdigest() != spec["sha256"]
     ):
-        raise ValueError("The input exceeds 20 MB, or its SHA-256 digest differs from sha256")
+        raise ValueError(
+            "The input exceeds 20 MB, or its SHA-256 digest differs from sha256"
+        )
     return content.decode("utf-8")
 
 

@@ -218,7 +218,11 @@ def measure_ligand_pose(request: PoseRequest, ctx: StepContext) -> PoseResult:
     )
     if not request.smiles or any(c.isspace() for c in request.smiles):
         raise ValueError("smiles is a ligand SMILES with no whitespace")
-    rows = parse_state_data(ctx.read_text(request.state_data)) if request.state_data else None
+    rows = (
+        parse_state_data(ctx.read_text(request.state_data))
+        if request.state_data
+        else None
+    )
     found = measure_pose(
         ctx.resolve(request.topology),
         ctx.resolve(request.trajectory),

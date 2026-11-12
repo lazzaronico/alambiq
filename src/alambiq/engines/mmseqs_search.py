@@ -70,7 +70,9 @@ def run(request: dict[str, Any]) -> dict[str, Any]:
     query = _read_fasta(query_path)
     panel = _read_fasta(panel_path)
     if len(query) != 1:
-        raise ValueError(f"The query FASTA holds {len(query)} sequences; exactly 1 is required")
+        raise ValueError(
+            f"The query FASTA holds {len(query)} sequences; exactly 1 is required"
+        )
     if not panel:
         raise ValueError("The panel FASTA holds no sequences; at least 1 is required")
 

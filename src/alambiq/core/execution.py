@@ -84,7 +84,9 @@ def _assign(data: dict[str, Any], target: str, value: Any) -> None:
         fresh = [] if following.isdigit() else {}
         if isinstance(cursor, list):
             if not part.isdigit() or int(part) > len(cursor):
-                raise RuntimeError(f"Cannot bind into {target!r}: the list has no item {part}")
+                raise RuntimeError(
+                    f"Cannot bind into {target!r}: the list has no item {part}"
+                )
             if int(part) == len(cursor):
                 cursor.append(fresh)
             cursor = cursor[int(part)]
@@ -97,7 +99,9 @@ def _assign(data: dict[str, Any], target: str, value: Any) -> None:
     last = parts[-1]
     if isinstance(cursor, list):
         if not last.isdigit() or int(last) > len(cursor):
-            raise RuntimeError(f"Cannot bind into {target!r}: the list has no item {last}")
+            raise RuntimeError(
+                f"Cannot bind into {target!r}: the list has no item {last}"
+            )
         if int(last) == len(cursor):
             cursor.append(value)
         else:

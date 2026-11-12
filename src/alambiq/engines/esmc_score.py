@@ -65,7 +65,9 @@ def run(request: dict[str, Any]) -> dict[str, Any]:
         + [tokenizer.eos_token_id]
     )
     if ids.tolist() != expected:
-        raise ValueError("The tokenizer output does not contain exactly 1 token per residue")
+        raise ValueError(
+            "The tokenizer output does not contain exactly 1 token per residue"
+        )
     canonical_ids = torch.tensor(
         tokenizer.convert_tokens_to_ids(list(CANONICAL)), device=device
     )

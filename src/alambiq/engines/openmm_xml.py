@@ -25,8 +25,10 @@ _DATA_TYPES = frozenset(
 
 class _DataTree(ET.TreeBuilder):
     def doctype(self, *args):
-        raise ValueError("A document type declaration is present; serialized OpenMM inputs must be "
-            "self-contained XML data")
+        raise ValueError(
+            "A document type declaration is present; serialized OpenMM inputs must be "
+            "self-contained XML data"
+        )
 
 
 def deserialize_data(text, expected_type, deserialize):

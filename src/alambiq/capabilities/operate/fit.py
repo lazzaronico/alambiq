@@ -148,9 +148,7 @@ def fit(request: OperationFitRequest, ctx: StepContext) -> OperationFitResult:
         for p in record["request"]["parameters"]
     ]
     if bounds:
-        ctx.note(
-            f"These parameters finished at a bound: {', '.join(sorted(bounds))}."
-        )
+        ctx.note(f"These parameters finished at a bound: {', '.join(sorted(bounds))}.")
     if diagnostics["rank"] < len(parameters):
         ctx.note(
             f"The fit determines {diagnostics['rank']} of {len(parameters)} "

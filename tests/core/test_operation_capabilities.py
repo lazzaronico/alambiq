@@ -123,7 +123,10 @@ class TestFitSimulateCompare:
         again = run_ok(campaign, tmp_path)
         assert again.steps["fit"].reused and again.steps["fitted"].reused
         assert not again.steps["against-measurements"].reused
-        assert max(g["rmse"] for g in again.outputs("against-measurements")["errors"]) > 1e-5
+        assert (
+            max(g["rmse"] for g in again.outputs("against-measurements")["errors"])
+            > 1e-5
+        )
 
     def test_measurements_for_another_operation_are_refused(self, tmp_path):
         from alambiq.api import run
@@ -207,7 +210,9 @@ class TestSummarize:
         # 1 mg active / 50 kDa, one site per molecule.
         sites = 1e-3 / 50000
         assert enzyme["supplied_active_site_mol"] == pytest.approx(sites)
-        assert enzyme["product_per_active_site"] == pytest.approx(formed / sites, rel=1e-6)
+        assert enzyme["product_per_active_site"] == pytest.approx(
+            formed / sites, rel=1e-6
+        )
         (lifetime,) = out["lifetimes"]
         assert lifetime["status"] == "above_at_all_recorded_states"
 
@@ -232,7 +237,9 @@ class TestResources:
         assert a["cost_per_useful_mmol"]["base"] == pytest.approx(0.75)
         assert b["cost_per_useful_mmol"]["base"] == pytest.approx(0.75)
         (pair,) = out["pairs"]
-        assert pair["difference_per_useful_mmol"]["base"] == pytest.approx(0.0, abs=1e-12)
+        assert pair["difference_per_useful_mmol"]["base"] == pytest.approx(
+            0.0, abs=1e-12
+        )
         enzyme = next(c for c in pair["crossovers"] if c["resource"] == "enzyme")
         assert enzyme["price"] == pytest.approx(2.0)
         assert enzyme["inside_declared_range"] is True
@@ -304,7 +311,12 @@ class TestBalance:
                         "accepted_fraction": 1,
                         "assumption_note": "Synthetic batch for a known answer.",
                         "sensitivity": [
-                            {"id": "too-much", "overrides": {"target_product": {"value": 2, "unit": "g"}}}
+                            {
+                                "id": "too-much",
+                                "overrides": {
+                                    "target_product": {"value": 2, "unit": "g"}
+                                },
+                            }
                         ],
                     },
                 },

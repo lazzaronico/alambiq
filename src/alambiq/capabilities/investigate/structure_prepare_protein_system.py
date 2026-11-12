@@ -313,7 +313,11 @@ def prepare_protein_system(request: PrepareRequest, ctx: StepContext) -> Prepare
         for number, variant in sorted(imposed.items()):
             if (str(number), "") not in seen:
                 variants.append(
-                    {"residue_id": str(number), "insertion_code": "", "variant": variant}
+                    {
+                        "residue_id": str(number),
+                        "insertion_code": "",
+                        "variant": variant,
+                    }
                 )
     seen = set()
     for item in request.substitutions:

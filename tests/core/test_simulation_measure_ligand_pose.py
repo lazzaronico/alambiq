@@ -65,7 +65,11 @@ def rotation(axis, degrees):
 def ring(radius=RING):
     return np.array(
         [
-            [radius * math.cos(math.radians(60 * k)), radius * math.sin(math.radians(60 * k)), 0]
+            [
+                radius * math.cos(math.radians(60 * k)),
+                radius * math.sin(math.radians(60 * k)),
+                0,
+            ]
             for k in range(6)
         ]
     )
@@ -159,7 +163,11 @@ def request(files, smiles=BENZENE, **changes):
         "trajectory": trajectory,
         "reference_structure": reference,
         "ligand": {"chain_id": "B", "residue_number": 1, "residue_name": "BNZ"},
-        "reference_ligand": {"chain_id": "B", "residue_number": 1, "residue_name": "BNZ"},
+        "reference_ligand": {
+            "chain_id": "B",
+            "residue_number": 1,
+            "residue_name": "BNZ",
+        },
         "smiles": smiles,
         **changes,
     }
@@ -246,7 +254,9 @@ class TestRequestFields:
         ]
         expected = sum(d <= cutoff for d in distance)
         assert 3 <= expected <= 10
-        out = ok(run(request(files, fit_cutoff_angstrom=cutoff), tmp_path, f"c{cutoff}"))
+        out = ok(
+            run(request(files, fit_cutoff_angstrom=cutoff), tmp_path, f"c{cutoff}")
+        )
         assert out["fit_atoms"] == expected
         assert out["fit_cutoff_angstrom"] == cutoff
 
@@ -298,7 +308,9 @@ class TestChainNames:
         topology, trajectory, reference = files
         text = Path(reference).read_text().splitlines()
         edited = [
-            line[:21] + "X" + line[22:] if line.startswith(("ATOM", "HETATM")) and line[21] == "A" else line
+            line[:21] + "X" + line[22:]
+            if line.startswith(("ATOM", "HETATM")) and line[21] == "A"
+            else line
             for line in text
         ]
         path = tmp_path / "renamed_reference.pdb"
@@ -315,7 +327,9 @@ class TestChainNames:
 
     def test_a_chain_map_pairs_them_and_gives_the_same_numbers(self, benzene, tmp_path):
         _, _, files = benzene
-        out = ok(run(request(self.renamed(files, tmp_path), chain_map={"X": "A"}), tmp_path))
+        out = ok(
+            run(request(self.renamed(files, tmp_path), chain_map={"X": "A"}), tmp_path)
+        )
         plain = ok(run(request(files), tmp_path, "plain"))
         assert np.load(out["arrays"])["rmsd_angstrom"] == pytest.approx(
             np.load(plain["arrays"])["rmsd_angstrom"], abs=1e-9
@@ -331,7 +345,9 @@ class TestToluene:
         selector = {"chain_id": "B", "residue_number": 1, "residue_name": "TOL"}
         out = ok(
             run(
-                request(files, smiles=TOLUENE, ligand=selector, reference_ligand=selector),
+                request(
+                    files, smiles=TOLUENE, ligand=selector, reference_ligand=selector
+                ),
                 tmp_path,
             )
         )
@@ -364,12 +380,16 @@ class TestImaging:
 
     def test_a_ligand_a_box_away_is_far_as_stored(self, periodic, tmp_path):
         out = ok(run(request(periodic, imaging="as-stored"), tmp_path))
-        assert np.load(out["arrays"])["rmsd_angstrom"][1] == pytest.approx(CELL, abs=0.05)
+        assert np.load(out["arrays"])["rmsd_angstrom"][1] == pytest.approx(
+            CELL, abs=0.05
+        )
 
     def test_whole_molecule_imaging_puts_it_back(self, periodic, tmp_path):
         out = ok(run(request(periodic, imaging="whole-molecules"), tmp_path))
         assert out["imaging"] == "whole-molecules"
-        assert np.load(out["arrays"])["rmsd_angstrom"] == pytest.approx([0.0, 0.0], abs=2e-3)
+        assert np.load(out["arrays"])["rmsd_angstrom"] == pytest.approx(
+            [0.0, 0.0], abs=2e-3
+        )
 
     def test_whole_molecule_imaging_needs_a_cell(self, benzene, tmp_path):
         _, _, files = benzene
@@ -381,14 +401,14 @@ class TestImaging:
         rng = np.random.default_rng(1)
         boxes = np.tile(np.diag([30.0, 30.0, 30.0]), (5, 1, 1))
         anchor = rng.uniform(0, 30, size=(5, 3))
-        ligand = anchor + rng.uniform(-12, 12, size=(5, 3)) + np.array([30.0, -30.0, 0.0])
+        ligand = (
+            anchor + rng.uniform(-12, 12, size=(5, 3)) + np.array([30.0, -30.0, 0.0])
+        )
         shift = ligand_pose.nearest_image_shift(ligand, anchor, boxes)
         moved = ligand + shift
         for f in range(5):
             best = min(
-                np.linalg.norm(
-                    ligand[f] + np.array([i, j, k]) * 30.0 - anchor[f]
-                )
+                np.linalg.norm(ligand[f] + np.array([i, j, k]) * 30.0 - anchor[f])
                 for i in (-1, 0, 1)
                 for j in (-1, 0, 1)
                 for k in (-1, 0, 1)
@@ -434,8 +454,14 @@ class TestRefusals:
     @pytest.mark.parametrize(
         ("change", "message"),
         [
-            ({"fit_cutoff_angstrom": 3.9}, "fit_cutoff_angstrom must be from 4 to 1000"),
-            ({"fit_cutoff_angstrom": 1000.1}, "fit_cutoff_angstrom must be from 4 to 1000"),
+            (
+                {"fit_cutoff_angstrom": 3.9},
+                "fit_cutoff_angstrom must be from 4 to 1000",
+            ),
+            (
+                {"fit_cutoff_angstrom": 1000.1},
+                "fit_cutoff_angstrom must be from 4 to 1000",
+            ),
             ({"threshold_angstrom": 0.05}, "threshold_angstrom must be from 0.1 to 20"),
             ({"threshold_angstrom": 20.5}, "threshold_angstrom must be from 0.1 to 20"),
             ({"chunk_frames": 0}, "chunk_frames must be an integer from 1 to 64"),

@@ -82,7 +82,9 @@ def check_cofactors(cofactors: Sequence[tuple[str, int]]) -> None:
             )
 
 
-def check_identical_chains(proteins: list[dict[str, Any]], alignments: list[str | None]) -> None:
+def check_identical_chains(
+    proteins: list[dict[str, Any]], alignments: list[str | None]
+) -> None:
     """Refuse identical chains with different alignments, which Boltz-2 refuses too.
 
     Boltz-2 reads chains of one sequence as copies of one protein, so they share one

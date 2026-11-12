@@ -7,7 +7,9 @@ import pytest
 from alambiq.capabilities.investigate.science.predicted_complex import ligand_residue
 
 
-def atom(serial: int, name: str, residue: str, chain: str, number: int, hetero: bool = False) -> str:
+def atom(
+    serial: int, name: str, residue: str, chain: str, number: int, hetero: bool = False
+) -> str:
     kind = "HETATM" if hetero else "ATOM  "
     return f"{kind}{serial:5d} {name:<4s} {residue:>3s} {chain}{number:4d}    0.000   0.000   0.000  1.00  0.00"
 
@@ -51,7 +53,11 @@ def test_a_blank_chain_column_is_named_by_the_zero_based_chain_index(tmp_path):
         ],
     )
     found = ligand_residue(path)
-    assert (found["chain_id"], found["residue_number"], found["residue_index"]) == ("1", 2, 1)
+    assert (found["chain_id"], found["residue_number"], found["residue_index"]) == (
+        "1",
+        2,
+        1,
+    )
 
 
 def test_a_topology_without_the_ligand_or_with_two_is_refused(tmp_path):

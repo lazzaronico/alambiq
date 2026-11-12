@@ -30,10 +30,14 @@ def residue_vectors(hidden, token_ids, sequence, tokenizer):
         + [tokenizer.eos_token_id]
     )
     if list(token_ids) != expected or hidden.shape[0] != len(expected):
-        raise ValueError("The tokenizer output does not contain exactly 1 token per residue")
+        raise ValueError(
+            "The tokenizer output does not contain exactly 1 token per residue"
+        )
     vectors = np.asarray(hidden[1:-1], dtype=np.float32)
     if vectors.ndim != 2 or not np.isfinite(vectors).all():
-        raise ValueError("The residue embeddings have an unexpected shape or non-finite values")
+        raise ValueError(
+            "The residue embeddings have an unexpected shape or non-finite values"
+        )
     return vectors
 
 
@@ -48,7 +52,9 @@ def run(request: dict[str, Any]) -> dict[str, Any]:
     threads = int(request["threads"])
     for name, sequence in sequences.items():
         if not RESIDUES.fullmatch(sequence):
-            raise ValueError(f"{name}: found {len(sequence)} characters; expected 1–1024 ungapped protein residues")
+            raise ValueError(
+                f"{name}: found {len(sequence)} characters; expected 1–1024 ungapped protein residues"
+            )
     if device == "mps" and not torch.backends.mps.is_available():
         raise ValueError("MPS is unavailable; no implicit device fallback")
     if device == "cuda" and not torch.cuda.is_available():
@@ -78,7 +84,9 @@ def run(request: dict[str, Any]) -> dict[str, Any]:
         hidden = result.last_hidden_state[0].float().cpu().numpy()
         vectors = residue_vectors(hidden, token_ids, sequence, tokenizer)
         if vectors.shape[1] != DIMENSION:
-            raise ValueError(f"ESM C 300M vectors have {DIMENSION} dimensions; found {vectors.shape[1]}")
+            raise ValueError(
+                f"ESM C 300M vectors have {DIMENSION} dimensions; found {vectors.shape[1]}"
+            )
         matrices[f"protein_{index}"] = vectors
         pooled[name] = vectors.mean(axis=0).tolist()
     np.savez_compressed(request["residues_output"], **matrices)

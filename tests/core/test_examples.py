@@ -285,7 +285,13 @@ def test_t4_lysozyme_campaign_is_valid_and_its_chain_binds_the_dossier(tmp_path)
     campaign = yaml.safe_load(path.read_text())
     steps = {s["id"]: s for s in campaign["steps"]}
     assert list(steps) == [
-        "dossier", "pockets", "complex", "system", "dynamics", "pose", "contacts"
+        "dossier",
+        "pockets",
+        "complex",
+        "system",
+        "dynamics",
+        "pose",
+        "contacts",
     ]
     # The protein of the complex is the sequence of the dossier, and the analysis reads
     # the trajectory and the topology of the preparation.
@@ -305,7 +311,8 @@ def test_t4_lysozyme_campaign_is_valid_and_its_chain_binds_the_dossier(tmp_path)
     # The dossier runs without an engine: its sequence is the one in t4l.fasta.
     first = {"id": "t4", "steps": [dict(steps["dossier"])]}
     first["steps"][0]["params"] = {
-        key: str(path.parent / value) for key, value in steps["dossier"]["params"].items()
+        key: str(path.parent / value)
+        for key, value in steps["dossier"]["params"].items()
     }
     outcome = run(first, run_dir=tmp_path / "run")
     assert outcome.ok
@@ -325,9 +332,17 @@ def test_tbsadh_campaign_is_valid_and_one_enzyme_runs_through_both_branches(tmp_
     campaign = yaml.safe_load(path.read_text())
     steps = {s["id"]: s for s in campaign["steps"]}
     assert list(steps) == [
-        "dossier", "pockets", "complex", "predicted", "agreement", "site",
-        "free-first-order", "free-saturation", "hydrogel-first-order",
-        "hydrogel-saturation", "reactor",
+        "dossier",
+        "pockets",
+        "complex",
+        "predicted",
+        "agreement",
+        "site",
+        "free-first-order",
+        "free-saturation",
+        "hydrogel-first-order",
+        "hydrogel-saturation",
+        "reactor",
     ]
     # All four chains of the tetramer take the sequence of the dossier and share one alignment.
     assert steps["complex"]["bind"] == {
@@ -336,7 +351,8 @@ def test_tbsadh_campaign_is_valid_and_one_enzyme_runs_through_both_branches(tmp_
     assert {p["msa"] for p in steps["complex"]["params"]["proteins"]} == {"P14941.a3m"}
     assert steps["pockets"]["bind"] == {"protein": "dossier.record"}
     assert steps["agreement"]["bind"] == {
-        "reference": "dossier.record", "mobile": "predicted.record"
+        "reference": "dossier.record",
+        "mobile": "predicted.record",
     }
     # The site measurement reads the predicted structure and names its ligand from the prediction.
     assert steps["site"]["bind"] == {
@@ -366,7 +382,11 @@ def test_tbsadh_laboratory_branch_gives_the_published_fits(tmp_path):
 
     folder = EXAMPLES / "tbsadh-sequence-to-reactor"
     campaign = yaml.safe_load((folder / "campaign.yaml").read_text())
-    lab = [s for s in campaign["steps"] if s["id"].startswith(("free-", "hydrogel-", "reactor"))]
+    lab = [
+        s
+        for s in campaign["steps"]
+        if s["id"].startswith(("free-", "hydrogel-", "reactor"))
+    ]
     for step in lab:
         if "definition" in step.get("params", {}):
             step["params"]["definition"] = str(folder / step["params"]["definition"])
@@ -393,4 +413,6 @@ def test_the_site_measurement_finds_the_chain_assignment_that_fits():
     fit = ligand_site.fit_chains(renamed, reference)
     assert fit["rmsd_angstrom"] < 1e-3
     assert fit["fitted_residues"] == 1408
-    assert fit["chain_assignment"] == {renamed_name: kept for kept, renamed_name in new.items()}
+    assert fit["chain_assignment"] == {
+        renamed_name: kept for kept, renamed_name in new.items()
+    }

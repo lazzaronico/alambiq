@@ -11,7 +11,9 @@ def _residue(chain: str, number: int, name: str, insertion: str = "") -> str:
     return f"{chain}:{name}{number}{insertion}"
 
 
-def _section(title: str, headers: list[str], rows: list[list], numeric: set[int] | None = None) -> str:
+def _section(
+    title: str, headers: list[str], rows: list[list], numeric: set[int] | None = None
+) -> str:
     if not rows:
         return f"<h3>{esc(title)}</h3><p>None found.</p>"
     more = (
@@ -19,11 +21,17 @@ def _section(title: str, headers: list[str], rows: list[list], numeric: set[int]
         if len(rows) > SHOWN
         else ""
     )
-    return f"<h3>{esc(title)} ({len(rows)})</h3>" + table(headers, rows[:SHOWN], numeric=numeric) + more
+    return (
+        f"<h3>{esc(title)} ({len(rows)})</h3>"
+        + table(headers, rows[:SHOWN], numeric=numeric)
+        + more
+    )
 
 
 def render(result) -> str:
-    chains = ", ".join(f"{c.id} ({c.residues} residues, {c.first} to {c.last})" for c in result.chains)
+    chains = ", ".join(
+        f"{c.id} ({c.residues} residues, {c.first} to {c.last})" for c in result.chains
+    )
     parts = [
         f"<p>Model {result.model_index} of {result.model_count}: {result.atoms} atoms, "
         f"{len(result.chains)} chain(s) of amino acids: {esc(chains) or 'none'}. "
@@ -33,7 +41,13 @@ def render(result) -> str:
             "Chain breaks",
             ["Chain", "From", "To", "C–N distance (Å)", "Residue numbers skipped"],
             [
-                [b.chain, f"{b.from_name}{b.from_number}", f"{b.to_name}{b.to_number}", b.c_n_distance_angstrom, b.numbering_gap]
+                [
+                    b.chain,
+                    f"{b.from_name}{b.from_number}",
+                    f"{b.to_name}{b.to_number}",
+                    b.c_n_distance_angstrom,
+                    b.numbering_gap,
+                ]
                 for b in result.breaks
             ],
             numeric={3, 4},
@@ -41,22 +55,34 @@ def render(result) -> str:
         _section(
             "Missing heavy atoms",
             ["Residue", "Atoms"],
-            [[_residue(r.chain, r.number, r.name, r.insertion), r.detail] for r in result.missing_atoms],
+            [
+                [_residue(r.chain, r.number, r.name, r.insertion), r.detail]
+                for r in result.missing_atoms
+            ],
         ),
         _section(
             "Alternate locations",
             ["Residue", "Locations"],
-            [[_residue(r.chain, r.number, r.name, r.insertion), r.detail] for r in result.alternate_locations],
+            [
+                [_residue(r.chain, r.number, r.name, r.insertion), r.detail]
+                for r in result.alternate_locations
+            ],
         ),
         _section(
             "Atoms of zero occupancy",
             ["Residue", "Atoms"],
-            [[_residue(r.chain, r.number, r.name, r.insertion), r.detail] for r in result.zero_occupancy],
+            [
+                [_residue(r.chain, r.number, r.name, r.insertion), r.detail]
+                for r in result.zero_occupancy
+            ],
         ),
         _section(
             "Nonstandard amino acids",
             ["Residue", "Note"],
-            [[_residue(r.chain, r.number, r.name, r.insertion), r.detail] for r in result.nonstandard_residues],
+            [
+                [_residue(r.chain, r.number, r.name, r.insertion), r.detail]
+                for r in result.nonstandard_residues
+            ],
         ),
         _section(
             "Cis or twisted peptide bonds",
@@ -78,7 +104,11 @@ def render(result) -> str:
             "Alpha carbons off the L arrangement",
             ["Residue", "Signed volume (Å³)", "Orientation"],
             [
-                [_residue(a.chain, a.number, a.name, a.insertion), a.signed_volume_angstrom3, a.orientation]
+                [
+                    _residue(a.chain, a.number, a.name, a.insertion),
+                    a.signed_volume_angstrom3,
+                    a.orientation,
+                ]
                 for a in result.alpha_centers
             ],
             numeric={1},
@@ -100,7 +130,11 @@ def render(result) -> str:
             "Ligands and metal ions",
             ["Residue", "Atoms", "Element"],
             [
-                [_residue(h.chain, h.number, h.name, h.insertion), h.atoms, h.element or ""]
+                [
+                    _residue(h.chain, h.number, h.name, h.insertion),
+                    h.atoms,
+                    h.element or "",
+                ]
                 for h in [*result.ligands, *result.metals]
             ],
             numeric={1},

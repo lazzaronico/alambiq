@@ -17,7 +17,9 @@ def check_request(*, structure: str, ph: float, timeout_seconds: int) -> None:
             f"The structure {structure!r} is not a PDB file; the extension must be .pdb or .ent"
         )
     if not PH_RANGE[0] <= ph <= PH_RANGE[1]:
-        raise ValueError(f"ph is {ph}; it must lie between {PH_RANGE[0]:g} and {PH_RANGE[1]:g}")
+        raise ValueError(
+            f"ph is {ph}; it must lie between {PH_RANGE[0]:g} and {PH_RANGE[1]:g}"
+        )
     if timeout_seconds < 10:
         raise ValueError(f"timeout_seconds is {timeout_seconds}; it must be 10 or more")
 
@@ -37,7 +39,9 @@ def describe_residue(chain: str, number: int, name: str) -> str:
     return f"{chain}:{name}{number}"
 
 
-VARIANT_NAMES = frozenset({"ASP", "ASH", "GLU", "GLH", "LYS", "LYN", "CYS", "CYX", "HID", "HIE", "HIP"})
+VARIANT_NAMES = frozenset(
+    {"ASP", "ASH", "GLU", "GLH", "LYS", "LYN", "CYS", "CYX", "HID", "HIE", "HIP"}
+)
 """The residue names in which a protonated structure states a protonation, as OpenMM reads them."""
 
 
@@ -63,5 +67,7 @@ def variants_from_structure(path: str | Path, chain_id: str) -> dict[int, str]:
         if name in VARIANT_NAMES:
             found[int(line[22:26])] = name
     if not chain_seen:
-        raise ValueError(f"The protonated structure {str(path)!r} has no chain {chain_id!r}")
+        raise ValueError(
+            f"The protonated structure {str(path)!r} has no chain {chain_id!r}"
+        )
     return found

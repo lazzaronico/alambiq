@@ -168,9 +168,7 @@ def compare_resources(request):
                     k: _ratio(subtotal[k], useful[v])
                     for k, v in (("low", "high"), ("base", "base"), ("high", "low"))
                 },
-                diagnostics=[
-                    "The range of the useful product includes 0."
-                ]
+                diagnostics=["The range of the useful product includes 0."]
                 if useful["low"] == 0
                 else [],
             )

@@ -33,10 +33,14 @@ def _java_version(java: str) -> tuple[str, int]:
     )
     output = (finished.stderr or finished.stdout).strip()
     if finished.returncode != 0:
-        raise RuntimeError(output[-4000:] or "The Java version probe failed without output")
+        raise RuntimeError(
+            output[-4000:] or "The Java version probe failed without output"
+        )
     found = re.search(r'version\s+"(\d+(?:\.\d+)*)', output)
     if found is None:
-        raise RuntimeError("The Java version probe returned a response that is not a version string")
+        raise RuntimeError(
+            "The Java version probe returned a response that is not a version string"
+        )
     version = found.group(1)
     major = int(version.split(".", 1)[0])
     if not 17 <= major <= 23:
@@ -103,7 +107,9 @@ def run(request: dict[str, Any]) -> dict[str, Any]:
         predictions = output / f"{structure.name}_predictions.csv"
         residues = output / f"{structure.name}_residues.csv"
         if not predictions.is_file() or not residues.is_file():
-            raise RuntimeError("P2Rank did not write the prediction table or the residue table")
+            raise RuntimeError(
+                "P2Rank did not write the prediction table or the residue table"
+            )
         return {
             "predictions_csv": predictions.read_text(encoding="utf-8"),
             "residues_csv": residues.read_text(encoding="utf-8"),

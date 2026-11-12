@@ -269,7 +269,9 @@ def check(request: CheckRequest, ctx: StepContext) -> CheckResult:
         ("clash_distance_angstrom", request.clash_distance_angstrom, 1.0, 4.0),
     ):
         if not low <= value <= high:
-            raise ValueError(f"{name} is {value}; a value from {low} to {high} is required")
+            raise ValueError(
+                f"{name} is {value}; a value from {low} to {high} is required"
+            )
     record = check_model(
         str(path),
         fmt,

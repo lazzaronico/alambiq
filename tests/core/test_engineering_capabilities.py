@@ -17,7 +17,7 @@ import pytest
 
 pytestmark = pytest.mark.skipif(
     not (find_spec("numpy") and find_spec("sklearn")),
-    reason="the quantitative extra is required"
+    reason="the quantitative extra is required",
 )
 
 SELECT = {"metric": "activity", "condition_id": "standard", "unit": "umol/min/mg"}
@@ -330,8 +330,7 @@ class TestCodingDesign:
         assert str(Seq(after).translate(table=11, cds=True)) == CODING_PROTEIN
         assert after[:3] == CODING_DNA[:3] and after[-3:] == CODING_DNA[-3:]
         assert all(
-            change["before"] != change["after"]
-            for change in record["changed_codons"]
+            change["before"] != change["after"] for change in record["changed_codons"]
         )
 
     def test_the_same_seed_gives_the_same_sequence(self, tmp_path):

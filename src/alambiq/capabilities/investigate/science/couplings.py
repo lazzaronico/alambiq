@@ -182,7 +182,9 @@ def read_segment(
                 raise ValueError("The trajectory holds a non-finite coordinate")
             here = boxes is not None
             if periodic is not None and here != periodic:
-                raise ValueError("Frames of a segment differ in whether they have a periodic cell")
+                raise ValueError(
+                    "Frames of a segment differ in whether they have a periodic cell"
+                )
             periodic = here
             if here and (
                 not np.isfinite(boxes).all() or np.any(np.linalg.det(boxes) <= 0)

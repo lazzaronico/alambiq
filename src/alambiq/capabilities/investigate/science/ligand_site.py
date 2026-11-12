@@ -260,7 +260,9 @@ def target_atoms(structure, target: dict, where: str) -> list[tuple[str, int, An
                 continue
             atom = residue.find_atom(target["atom"], "*")
             if atom is not None:
-                found.append((chain.name, residue.seqid.num, np.array(atom.pos.tolist())))
+                found.append(
+                    (chain.name, residue.seqid.num, np.array(atom.pos.tolist()))
+                )
     if not found:
         raise ValueError(
             f"The {where} has no atom {target['atom']} in a residue named "
@@ -337,7 +339,9 @@ def measure_site(
         raise ValueError("The labels of the targets are not distinct")
     own_targets = own_targets or []
     if len(own_targets) > MAX_TARGETS:
-        raise ValueError(f"own_targets lists at most {MAX_TARGETS} atoms of the mobile structure")
+        raise ValueError(
+            f"own_targets lists at most {MAX_TARGETS} atoms of the mobile structure"
+        )
     own_labels = [t["label"] for t in own_targets]
     if len(set(own_labels)) != len(own_labels):
         raise ValueError("The labels of the own targets are not distinct")
@@ -362,7 +366,9 @@ def measure_site(
             )
         instances = []
         for chain_id, number, point in found:
-            distances = {n: float(np.linalg.norm(v - point)) for n, v in positions.items()}
+            distances = {
+                n: float(np.linalg.norm(v - point)) for n, v in positions.items()
+            }
             name = named or min(distances, key=distances.get)
             instances.append(
                 {

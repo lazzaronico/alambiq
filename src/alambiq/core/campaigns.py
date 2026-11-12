@@ -41,13 +41,17 @@ def campaign_from_data(data: Any, *, base: Path | None = None) -> Campaign:
         )
     raw_steps = data.get("steps")
     if not isinstance(raw_steps, list) or not raw_steps:
-        raise RequestError("campaign.steps: found no steps; at least 1 step is required")
+        raise RequestError(
+            "campaign.steps: found no steps; at least 1 step is required"
+        )
 
     steps: list[Step] = []
     for index, raw in enumerate(raw_steps):
         where = f"campaign.steps[{index}]"
         if not isinstance(raw, dict):
-            raise RequestError(f"{where}: found {type(raw).__name__}; expected a mapping")
+            raise RequestError(
+                f"{where}: found {type(raw).__name__}; expected a mapping"
+            )
         extra = sorted(set(raw) - STEP_KEYS)
         if extra:
             raise RequestError(

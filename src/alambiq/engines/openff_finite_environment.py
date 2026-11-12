@@ -369,7 +369,9 @@ def run(cfg: dict[str, Any]) -> dict[str, Any]:
         imaged, groups, solute, center, values["solvent_radius_angstrom"]
     )
     if len(selected) > 100000:
-        raise ValueError("At most 100,000 atoms can be included in a finite environment")
+        raise ValueError(
+            "At most 100,000 atoms can be included in a finite environment"
+        )
     inverse = {old: new for new, old in enumerate(selected)}
     mask = np.zeros(len(atoms), dtype=bool)
     mask[selected] = True

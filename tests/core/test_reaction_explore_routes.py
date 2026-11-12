@@ -128,9 +128,7 @@ class TestHydrolysis:
         outcome = explore(params, tmp_path)
         assert out(outcome)["routes"] == [] and out(outcome)["reactions"] == []
         assert out(outcome)["target_status"] == "unreached"
-        assert "unreached by these operators" in " ".join(
-            outcome.steps["routes"].notes
-        )
+        assert "unreached by these operators" in " ".join(outcome.steps["routes"].notes)
 
     def test_asking_for_more_than_the_inventory_holds_is_reachable_but_has_no_route(
         self, tmp_path

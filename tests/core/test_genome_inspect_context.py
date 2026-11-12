@@ -15,17 +15,20 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-GFF = "\n".join(
-    [
-        "##gff-version 3",
-        "##sequence-region ctg1 1 20000",
-        "ctg1\ttest\tCDS\t1000\t1999\t.\t+\t0\tID=cdsA;protein_id=pA;locus_tag=LA",
-        "ctg1\ttest\tCDS\t3000\t3999\t.\t-\t0\tID=cdsB;protein_id=pB;locus_tag=LB",
-        "ctg1\ttest\ttRNA\t4500\t4575\t.\t+\t.\tID=trnaC",
-        "ctg1\ttest\tCDS\t9000\t9999\t.\t+\t0\tID=cdsD;protein_id=pD;locus_tag=LD",
-        "ctg1\ttest\tCDS\t19500\t19999\t.\t+\t0\tID=cdsE;protein_id=pE;locus_tag=LE",
-    ]
-) + "\n"
+GFF = (
+    "\n".join(
+        [
+            "##gff-version 3",
+            "##sequence-region ctg1 1 20000",
+            "ctg1\ttest\tCDS\t1000\t1999\t.\t+\t0\tID=cdsA;protein_id=pA;locus_tag=LA",
+            "ctg1\ttest\tCDS\t3000\t3999\t.\t-\t0\tID=cdsB;protein_id=pB;locus_tag=LB",
+            "ctg1\ttest\ttRNA\t4500\t4575\t.\t+\t.\tID=trnaC",
+            "ctg1\ttest\tCDS\t9000\t9999\t.\t+\t0\tID=cdsD;protein_id=pD;locus_tag=LD",
+            "ctg1\ttest\tCDS\t19500\t19999\t.\t+\t0\tID=cdsE;protein_id=pE;locus_tag=LE",
+        ]
+    )
+    + "\n"
+)
 SEQUENCES = {"pA": "MKVAAA", "pB": "MKVCCC", "pD": "MKVDDD", "pE": "MKVEEE"}
 
 
@@ -73,7 +76,9 @@ class TestWindows:
     def test_a_window_reaches_flank_bases_either_side_and_clips_at_the_contig(
         self, tmp_path
     ):
-        outcome = run_ok(step(tmp_path, anchor_ids=["pA", "pE"], flank_bp=1100), tmp_path)
+        outcome = run_ok(
+            step(tmp_path, anchor_ids=["pA", "pE"], flank_bp=1100), tmp_path
+        )
         w = windows(outcome)
         # pA spans 1000-1999: 1000 - 1100 falls off the start, 1999 + 1100 = 3099.
         assert (w["pA"]["start"], w["pA"]["end"]) == (1, 3099)
@@ -105,16 +110,25 @@ class TestWindows:
 
     def test_a_flank_beyond_the_supported_range_is_refused(self, tmp_path):
         outcome = run(step(tmp_path, anchor_ids=["pA"], flank_bp=100_001), tmp_path)
-        assert "flank_bp must be an integer from 0 to 100000" in outcome.steps["ctx"].error
+        assert (
+            "flank_bp must be an integer from 0 to 100000" in outcome.steps["ctx"].error
+        )
 
 
 class TestAnchors:
-    def test_an_identifier_no_cds_carries_is_unmapped_and_gets_no_window(self, tmp_path):
-        outcome = run_ok(step(tmp_path, anchor_ids=["pA", "pZ"], flank_bp=100), tmp_path)
+    def test_an_identifier_no_cds_carries_is_unmapped_and_gets_no_window(
+        self, tmp_path
+    ):
+        outcome = run_ok(
+            step(tmp_path, anchor_ids=["pA", "pZ"], flank_bp=100), tmp_path
+        )
         status = {a["id"]: a["status"] for a in outcome.outputs("ctx")["anchors"]}
         assert status == {"pA": "mapped", "pZ": "unmapped"}
         assert set(windows(outcome)) == {"pA"}
-        assert any("pZ" in n and "match no CDS feature" in n for n in outcome.steps["ctx"].notes)
+        assert any(
+            "pZ" in n and "match no CDS feature" in n
+            for n in outcome.steps["ctx"].notes
+        )
 
     def test_an_identifier_on_two_features_is_ambiguous_and_gets_a_window_for_each(
         self, tmp_path
@@ -127,17 +141,29 @@ class TestAnchors:
 
     def test_the_chosen_attribute_decides_what_an_identifier_means(self, tmp_path):
         by_id = run_ok(
-            step(tmp_path, anchor_ids=["cdsA"], protein_id_attribute="ID", flank_bp=0), tmp_path, "id"
+            step(tmp_path, anchor_ids=["cdsA"], protein_id_attribute="ID", flank_bp=0),
+            tmp_path,
+            "id",
         )
         assert by_id.outputs("ctx")["anchors"][0]["status"] == "mapped"
         wrong = run_ok(
-            step(tmp_path, anchor_ids=["cdsA"], protein_id_attribute="protein_id", flank_bp=0),
+            step(
+                tmp_path,
+                anchor_ids=["cdsA"],
+                protein_id_attribute="protein_id",
+                flank_bp=0,
+            ),
             tmp_path,
             "wrong",
         )
         assert wrong.outputs("ctx")["anchors"][0]["status"] == "unmapped"
         by_locus = run_ok(
-            step(tmp_path, anchor_ids=["LD"], protein_id_attribute="locus_tag", flank_bp=0),
+            step(
+                tmp_path,
+                anchor_ids=["LD"],
+                protein_id_attribute="locus_tag",
+                flank_bp=0,
+            ),
             tmp_path,
             "locus",
         )
@@ -155,7 +181,9 @@ class TestAnchors:
 
     def test_anchors_and_candidates_together_are_refused(self, tmp_path):
         candidates = write(tmp_path, "cand.faa", fasta({"pA": SEQUENCES["pA"]}))
-        outcome = run(step(tmp_path, anchor_ids=["pA"], candidates=candidates), tmp_path)
+        outcome = run(
+            step(tmp_path, anchor_ids=["pA"], candidates=candidates), tmp_path
+        )
         assert "not both" in outcome.steps["ctx"].error
 
     def test_no_anchors_at_all_is_refused(self, tmp_path):
@@ -173,7 +201,9 @@ class TestProteinExport:
         out = outcome.outputs("ctx")
         # The window holds cdsA and cdsB: their two proteins, in panel order.
         assert out["neighbourhood_proteins"] == 2
-        assert Path(out["neighbourhood_fasta"]).read_text() == ">pA\nMKVAAA\n>pB\nMKVCCC\n"
+        assert (
+            Path(out["neighbourhood_fasta"]).read_text() == ">pA\nMKVAAA\n>pB\nMKVCCC\n"
+        )
 
     def test_nothing_is_exported_when_no_anchor_was_found(self, tmp_path):
         outcome = run_ok(step(tmp_path, anchor_ids=["pZ"]), tmp_path)
@@ -195,12 +225,18 @@ class TestProteinExport:
         outcome = execute(
             {
                 "id": "chain",
-                "steps": [step(tmp_path, anchor_ids=["pA"], flank_bp=1100), alignment_step],
+                "steps": [
+                    step(tmp_path, anchor_ids=["pA"], flank_bp=1100),
+                    alignment_step,
+                ],
             },
             run_dir=tmp_path / "chain",
         )
         assert outcome.ok, [x.error for x in outcome.steps.values() if x.error]
-        assert (outcome.outputs("msa")["rows"], outcome.outputs("msa")["columns"]) == (2, 6)
+        assert (outcome.outputs("msa")["rows"], outcome.outputs("msa")["columns"]) == (
+            2,
+            6,
+        )
 
 
 class TestInputsAndPresentation:

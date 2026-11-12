@@ -33,6 +33,8 @@ pytestmark = pytest.mark.skipif(
 )
 
 EXAMPLES = Path(__file__).resolve().parents[2] / "examples"
+
+
 def _modules(*names):
     return lambda: all(find_spec(n) for n in names)
 
@@ -155,7 +157,9 @@ class Page(HTMLParser):
             self._in[tag] = False
         if tag in {"h1", "h2", "h3"} and self._heading is not None:
             # The step's timing badge (or "reused") is part of its heading; leave it out.
-            heading = re.sub(r"(\d+\.\d+s|reused)$", "", " ".join(self._heading[1].split()))
+            heading = re.sub(
+                r"(\d+\.\d+s|reused)$", "", " ".join(self._heading[1].split())
+            )
             self.outline.append(f"{tag}: {heading}")
             self._heading = None
         if tag == "div" and self._note is not None:

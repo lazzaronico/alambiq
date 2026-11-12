@@ -167,11 +167,13 @@ def inspect(request: InspectRequest, ctx: StepContext) -> InspectResult:
             f"{'is' if censored == 1 else 'are'} censored at a stated limit."
         )
     if failed or missing:
-        failed_text = f"{failed} reading failed" if failed == 1 else f"{failed} readings failed"
-        missing_text = f"{missing} is missing" if missing == 1 else f"{missing} are missing"
-        ctx.note(
-            f"{failed_text} and {missing_text}."
+        failed_text = (
+            f"{failed} reading failed" if failed == 1 else f"{failed} readings failed"
         )
+        missing_text = (
+            f"{missing} is missing" if missing == 1 else f"{missing} are missing"
+        )
+        ctx.note(f"{failed_text} and {missing_text}.")
 
     zeros = [
         row["measurement_id"]

@@ -169,7 +169,9 @@ def _verdict(name: str, subject: str, value, limit, *, minimum: bool) -> Verdict
         status = "unassessed"
     else:
         status = "pass" if (value >= limit if minimum else value <= limit) else "fail"
-    return Verdict(diagnostic=name, subject=subject, value=value, limit=limit, status=status)
+    return Verdict(
+        diagnostic=name, subject=subject, value=value, limit=limit, status=status
+    )
 
 
 @capability(
@@ -179,25 +181,37 @@ def _verdict(name: str, subject: str, value, limit, *, minimum: bool) -> Verdict
     summary="Combine two legs of a substitution into the change in folding free energy",
     render=render,
 )
-def analyze_stability_change(request: StabilityRequest, ctx: StepContext) -> StabilityResult:
+def analyze_stability_change(
+    request: StabilityRequest, ctx: StepContext
+) -> StabilityResult:
     """Check that the legs belong together, combine them, and apply the checks."""
     from alambiq.capabilities.investigate.science.mutation import combine_preparations
 
-    records = {"folded": [ctx.read_json(p) for p in request.folded], "reference": [ctx.read_json(p) for p in request.reference]}
+    records = {
+        "folded": [ctx.read_json(p) for p in request.folded],
+        "reference": [ctx.read_json(p) for p in request.reference],
+    }
     for expected, group in records.items():
         if not 1 <= len(group) <= 50:
-            raise ValueError(f"The {expected} list holds {len(group)} records; 1 to 50 are required")
+            raise ValueError(
+                f"The {expected} list holds {len(group)} records; 1 to 50 are required"
+            )
         for record in group:
             if record.get("leg") != expected:
                 raise ValueError(
                     f"A {expected} record names the leg {record.get('leg')!r}; the {expected} leg is required there"
                 )
             if not record.get("replicas"):
-                raise ValueError(f"A {expected} record has no replicas; at least 1 is required")
+                raise ValueError(
+                    f"A {expected} record has no replicas; at least 1 is required"
+                )
     everything = [*records["folded"], *records["reference"]]
     first = everything[0]
     for record in everything:
-        if (record["wild_type_residue"], record["mutant_residue"]) != (first["wild_type_residue"], first["mutant_residue"]):
+        if (record["wild_type_residue"], record["mutant_residue"]) != (
+            first["wild_type_residue"],
+            first["mutant_residue"],
+        ):
             raise ValueError(
                 f"The legs describe different substitutions ({first['wild_type_residue']}>{first['mutant_residue']} and "
                 f"{record['wild_type_residue']}>{record['mutant_residue']}); records of one substitution are required"
@@ -207,13 +221,17 @@ def analyze_stability_change(request: StabilityRequest, ctx: StepContext) -> Sta
                 f"The legs differ in temperature ({first['temperature_kelvin']} K and {record['temperature_kelvin']} K); "
                 "one temperature is required"
             )
-    sf, sr = combine_preparations(records["folded"]), combine_preparations(records["reference"])
+    sf, sr = (
+        combine_preparations(records["folded"]),
+        combine_preparations(records["reference"]),
+    )
     ddg = sf["mean"] - sr["mean"]
     mbar = math.sqrt(sf["mbar_error"] ** 2 + sr["mbar_error"] ** 2)
     standard_error = None
     if sf["preparation_sd"] is not None and sr["preparation_sd"] is not None:
         standard_error = math.sqrt(
-            sf["preparation_sd"] ** 2 / sf["preparations"] + sr["preparation_sd"] ** 2 / sr["preparations"]
+            sf["preparation_sd"] ** 2 / sf["preparations"]
+            + sr["preparation_sd"] ** 2 / sr["preparations"]
         )
     verdicts: list[Verdict] = []
     checks = request.checks
@@ -221,21 +239,42 @@ def analyze_stability_change(request: StabilityRequest, ctx: StepContext) -> Sta
         for name, s in (("folded", sf), ("reference", sr)):
             if checks.minimum_adjacent_overlap is not None:
                 verdicts.append(
-                    _verdict("minimum_adjacent_overlap", name, s["minimum_overlap"], checks.minimum_adjacent_overlap, minimum=True)
+                    _verdict(
+                        "minimum_adjacent_overlap",
+                        name,
+                        s["minimum_overlap"],
+                        checks.minimum_adjacent_overlap,
+                        minimum=True,
+                    )
                 )
             if checks.maximum_replica_sd_kcal_mol is not None:
                 verdicts.append(
-                    _verdict("replica_sd_kcal_mol", name, s["replica_sd"], checks.maximum_replica_sd_kcal_mol, minimum=False)
+                    _verdict(
+                        "replica_sd_kcal_mol",
+                        name,
+                        s["replica_sd"],
+                        checks.maximum_replica_sd_kcal_mol,
+                        minimum=False,
+                    )
                 )
             if checks.maximum_forward_reverse_gap_kcal_mol is not None:
                 verdicts.append(
-                    _verdict("forward_reverse_gap_kcal_mol", name, s["forward_reverse_gap"], checks.maximum_forward_reverse_gap_kcal_mol, minimum=False)
+                    _verdict(
+                        "forward_reverse_gap_kcal_mol",
+                        name,
+                        s["forward_reverse_gap"],
+                        checks.maximum_forward_reverse_gap_kcal_mol,
+                        minimum=False,
+                    )
                 )
         if checks.maximum_preparation_standard_error_kcal_mol is not None:
             verdicts.append(
                 _verdict(
-                    "preparation_standard_error_kcal_mol", "cycle", standard_error,
-                    checks.maximum_preparation_standard_error_kcal_mol, minimum=False,
+                    "preparation_standard_error_kcal_mol",
+                    "cycle",
+                    standard_error,
+                    checks.maximum_preparation_standard_error_kcal_mol,
+                    minimum=False,
                 )
             )
     if any(v.status == "fail" for v in verdicts):

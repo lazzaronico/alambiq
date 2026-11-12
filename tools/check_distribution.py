@@ -30,7 +30,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 LIMIT = 2_000_000
 ALLOWED_LARGE = {"alambiq/report/assets/3Dmol-min.js"}
-FORBIDDEN_IN_WHEEL = ("tests/", "examples/", "docs/", "planning/", ".alambiq/", "tools/")
+FORBIDDEN_IN_WHEEL = (
+    "tests/",
+    "examples/",
+    "docs/",
+    "planning/",
+    ".alambiq/",
+    "tools/",
+)
 SUSPECT = ("run.json", ".env", "id_rsa", ".pem", "credentials", ".DS_Store", ".pyc")
 REQUIRED_IN_WHEEL = (
     "alambiq/resources/THIRD_PARTY_NOTICES.md",
@@ -73,7 +80,9 @@ def sdist_files(sdist: Path) -> dict[str, int]:
     with tarfile.open(sdist) as t:
         root = t.getnames()[0].split("/")[0]
         return {
-            m.name.removeprefix(root + "/"): m.size for m in t.getmembers() if m.isfile()
+            m.name.removeprefix(root + "/"): m.size
+            for m in t.getmembers()
+            if m.isfile()
         }
 
 

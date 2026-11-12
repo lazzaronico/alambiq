@@ -84,7 +84,9 @@ def render(result) -> str:
         )
     if result.image_check is not None:
         c = result.image_check
-        verdict = "was beyond the cutoff from" if c.passed else "came within the cutoff of"
+        verdict = (
+            "was beyond the cutoff from" if c.passed else "came within the cutoff of"
+        )
         parts.append(
             f"<p>The protein {verdict} its periodic image (cutoff {c.cutoff_nm} nm) in "
             f"{c.checked_frames} of {c.total_frames} frames checked; closest approach "

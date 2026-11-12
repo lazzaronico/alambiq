@@ -12,7 +12,9 @@ def cell_diagnostics(state, unit, cutoff_nm=None):
 
     box = np.asarray(state.getPeriodicBoxVectors().value_in_unit(unit.nanometer))
     if box.shape != (3, 3) or not np.isfinite(box).all() or np.linalg.det(box) <= 0:
-        raise ValueError("The periodic cell must have finite box vectors and a positive volume")
+        raise ValueError(
+            "The periodic cell must have finite box vectors and a positive volume"
+        )
     # OpenMM's reduced triclinic representation uses these widths for its cutoff check.
     width = float(np.diag(box).min())
     return {

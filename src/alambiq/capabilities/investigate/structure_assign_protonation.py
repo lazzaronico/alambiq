@@ -133,7 +133,9 @@ class ProtonationResult:
     render=render,
     environment="protonation",
 )
-def assign_protonation(request: ProtonationRequest, ctx: StepContext) -> ProtonationResult:
+def assign_protonation(
+    request: ProtonationRequest, ctx: StepContext
+) -> ProtonationResult:
     """Check the request, run PROPKA and PDB2PQR, and keep the protonated structure."""
     from alambiq.capabilities.investigate.science.protonation import (
         check_request,
@@ -165,12 +167,17 @@ def assign_protonation(request: ProtonationRequest, ctx: StepContext) -> Protona
             "from templates; the result lists them."
         )
     if not request.optimize_hydrogen_network:
-        ctx.note("The hydrogen-bond network was not optimized; no side chain was turned.")
+        ctx.note(
+            "The hydrogen-bond network was not optimized; no side chain was turned."
+        )
     dropped = found["dropped"]
     if dropped["heteroatoms"]:
         ctx.note(
             "Heteroatom groups left out: "
-            + ", ".join(f"{name} ({count} atoms)" for name, count in sorted(dropped["heteroatoms"].items()))
+            + ", ".join(
+                f"{name} ({count} atoms)"
+                for name, count in sorted(dropped["heteroatoms"].items())
+            )
             + ". The residues around them were protonated as if they were absent."
         )
     return ProtonationResult(
@@ -197,7 +204,9 @@ def assign_protonation(request: ProtonationRequest, ctx: StepContext) -> Protona
             for t in found["turned"]
         ],
         added_heavy_atoms=[
-            AddedAtoms(chain=a["chain"], number=a["number"], name=a["name"], atoms=a["atoms"])
+            AddedAtoms(
+                chain=a["chain"], number=a["number"], name=a["name"], atoms=a["atoms"]
+            )
             for a in found["added_heavy_atoms"]
         ],
         dropped_heteroatoms=dropped["heteroatoms"],

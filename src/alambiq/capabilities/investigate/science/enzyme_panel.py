@@ -277,7 +277,9 @@ def validate_parameters(parameters, enzymes, observations, groups):
         or len(selected) != len(set(selected))
         or set(selected) - enzymes.keys()
     ):
-        raise ValueError("candidate_ids must list 1 to 500 distinct enzymes of the panel")
+        raise ValueError(
+            "candidate_ids must list 1 to 500 distinct enzymes of the panel"
+        )
     splits = keyed(parameters["splits"], "splits", 10)
     resolved = []
     for split in splits.values():

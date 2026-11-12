@@ -123,7 +123,9 @@ def _receipt_path(name: str) -> Path:
     """Where the receipt of a full check is kept: beside the resources unless
     `ALAMBIQ_RESOURCE_RECEIPTS` names another directory (for a read-only store)."""
     configured = os.environ.get("ALAMBIQ_RESOURCE_RECEIPTS")
-    base = Path(configured).expanduser().resolve() if configured else home() / "verified"
+    base = (
+        Path(configured).expanduser().resolve() if configured else home() / "verified"
+    )
     return base / f"{content_address(name)}.json"
 
 
@@ -142,7 +144,9 @@ def _verify_tree(
     records, listed = [], set()
     for path in sorted(base.rglob("*")):
         if path.is_symlink():
-            raise ResourceMissing(f"Resource {name}: {path} is a link; links are not accepted")
+            raise ResourceMissing(
+                f"Resource {name}: {path} is a link; links are not accepted"
+            )
         if path.is_dir():
             continue
         if not path.is_file():

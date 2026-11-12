@@ -252,7 +252,9 @@ def run(request: dict[str, Any]) -> dict[str, Any]:
         positions.shape != (system.getNumParticles(), 3)
         or not np.isfinite(positions).all()
     ):
-        raise ValueError("The state positions are missing, have the wrong shape or are not finite")
+        raise ValueError(
+            "The state positions are missing, have the wrong shape or are not finite"
+        )
 
     temperature = float(cfg["temperature_kelvin"]) * unit.kelvin
     dt = float(cfg["timestep_fs"]) * unit.femtosecond

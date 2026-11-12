@@ -39,7 +39,9 @@ STRUCTURE = Path(__file__).resolve().parents[1] / "fixtures/structures/1L2Y.cif"
 
 
 def load_engine():
-    spec = importlib.util.spec_from_file_location("openmm_mutation", ENGINES / "openmm_mutation.py")
+    spec = importlib.util.spec_from_file_location(
+        "openmm_mutation", ENGINES / "openmm_mutation.py"
+    )
     module = importlib.util.module_from_spec(spec)
     sys.modules["openmm_mutation"] = module
     spec.loader.exec_module(module)
@@ -54,10 +56,15 @@ class TestRequestChecks:
         ("value", "name"),
         [("V", "VAL"), ("val", "VAL"), (" Ile ", "ILE"), ("W", "TRP"), ("c", "CYS")],
     )
-    def test_codes_of_substitutable_residues_become_three_letter_names(self, value, name):
+    def test_codes_of_substitutable_residues_become_three_letter_names(
+        self, value, name
+    ):
         assert mutation.residue_name(value) == name
 
-    @pytest.mark.parametrize("value", ["G", "P", "D", "E", "K", "R", "H", "GLY", "PRO", "ASP", "HIS", "X", ""])
+    @pytest.mark.parametrize(
+        "value",
+        ["G", "P", "D", "E", "K", "R", "H", "GLY", "PRO", "ASP", "HIS", "X", ""],
+    )
     def test_glycine_proline_charged_residues_and_histidine_are_refused(self, value):
         with pytest.raises(ValueError, match="to is"):
             mutation.residue_name(value)
@@ -84,7 +91,9 @@ class TestRequestChecks:
             ({"ph": float("nan")}, "ph requires"),
         ],
     )
-    def test_preparation_settings_that_cannot_run_are_refused_by_name(self, changes, message):
+    def test_preparation_settings_that_cannot_run_are_refused_by_name(
+        self, changes, message
+    ):
         with pytest.raises(ValueError, match=message):
             mutation.check_preparation(**{**self.PREPARE, **changes})
 
@@ -115,7 +124,9 @@ class TestRequestChecks:
             ({"equilibration_ps": 50.5}, "whole number of iterations"),
         ],
     )
-    def test_sampling_settings_that_cannot_run_are_refused_by_name(self, changes, message):
+    def test_sampling_settings_that_cannot_run_are_refused_by_name(
+        self, changes, message
+    ):
         with pytest.raises(ValueError, match=message):
             mutation.check_sampling(**{**self.SAMPLING, **changes})
 
@@ -123,7 +134,9 @@ class TestRequestChecks:
 # ------------------------------------------------------------------------------ the analysis
 
 
-def replica(number, delta_g, error, overlap=0.1, effective=50.0, forward=None, reverse=None):
+def replica(
+    number, delta_g, error, overlap=0.1, effective=50.0, forward=None, reverse=None
+):
     matrix = [[0.0] * 3 for _ in range(3)]
     for i in range(3):
         matrix[i][i] = 1 - 2 * overlap
@@ -166,11 +179,23 @@ def analyze(tmp_path, folded, reference, checks=None):
             out.append(str(path))
         return out
 
-    params = {"folded": paths("folded", folded), "reference": paths("reference", reference)}
+    params = {
+        "folded": paths("folded", folded),
+        "reference": paths("reference", reference),
+    }
     if checks is not None:
         params["checks"] = checks
     return execute(
-        {"id": "a", "steps": [{"id": "stab", "capability": "simulation.analyze_stability_change", "params": params}]},
+        {
+            "id": "a",
+            "steps": [
+                {
+                    "id": "stab",
+                    "capability": "simulation.analyze_stability_change",
+                    "params": params,
+                }
+            ],
+        },
         run_dir=tmp_path / "run",
     )
 
@@ -186,15 +211,21 @@ class TestStabilityAnalysis:
     FOLDED = [leg("folded", [v]) for v in (-9.0, -9.5, -10.0)]
     REFERENCE = [leg("reference", [v]) for v in (-9.8, -10.0, -10.2)]
 
-    def test_the_change_in_folding_free_energy_is_the_difference_of_the_leg_means(self, tmp_path):
+    def test_the_change_in_folding_free_energy_is_the_difference_of_the_leg_means(
+        self, tmp_path
+    ):
         out, _ = analysis(tmp_path, self.FOLDED, self.REFERENCE)
         assert out["ddg_fold_kcal_mol"] == pytest.approx(-9.5 - (-10.0))
         assert out["mutation"] == "ILE>VAL" and out["temperature_kelvin"] == 300.0
 
-    def test_the_standard_error_combines_the_spread_across_the_preparations_of_both_legs(self, tmp_path):
+    def test_the_standard_error_combines_the_spread_across_the_preparations_of_both_legs(
+        self, tmp_path
+    ):
         out, _ = analysis(tmp_path, self.FOLDED, self.REFERENCE)
         # Sample standard deviations 0.5 and 0.2 of the preparation means, 3 preparations each.
-        assert out["preparation_standard_error_kcal_mol"] == pytest.approx(math.sqrt(0.5**2 / 3 + 0.2**2 / 3))
+        assert out["preparation_standard_error_kcal_mol"] == pytest.approx(
+            math.sqrt(0.5**2 / 3 + 0.2**2 / 3)
+        )
 
     def test_the_mean_of_a_leg_weights_its_preparations_equally(self, tmp_path):
         two_replicas = leg("folded", [-9.0, -11.0])  # preparation mean -10
@@ -204,35 +235,63 @@ class TestStabilityAnalysis:
         assert out["legs"][0]["preparations"] == 2 and out["legs"][0]["replicas"] == 3
         assert out["legs"][0]["preparation_sd_kcal_mol"] == pytest.approx(math.sqrt(2))
 
-    def test_the_mbar_error_combines_the_replica_errors_of_the_preparation_means(self, tmp_path):
-        folded = [leg("folded", [-9.0, -9.2], errors=[0.1, 0.3]), leg("folded", [-9.4], errors=[0.2])]
+    def test_the_mbar_error_combines_the_replica_errors_of_the_preparation_means(
+        self, tmp_path
+    ):
+        folded = [
+            leg("folded", [-9.0, -9.2], errors=[0.1, 0.3]),
+            leg("folded", [-9.4], errors=[0.2]),
+        ]
         out, _ = analysis(tmp_path, folded, self.REFERENCE)
         # Error of the mean of a preparation: sqrt(sum of squared errors) / replicas; of the leg: sqrt(sum of squares) / preparations.
         first = math.sqrt(0.1**2 + 0.3**2) / 2
         leg_error = math.sqrt(first**2 + 0.2**2) / 2
         reference_error = math.sqrt(3 * 0.1**2) / 3
-        assert out["mbar_error_kcal_mol"] == pytest.approx(math.sqrt(leg_error**2 + reference_error**2))
+        assert out["mbar_error_kcal_mol"] == pytest.approx(
+            math.sqrt(leg_error**2 + reference_error**2)
+        )
 
-    def test_a_single_preparation_has_no_preparation_standard_error_and_the_notes_say_why(self, tmp_path):
-        folded, reference = leg("folded", [-9.0, -9.4, -9.2]), leg("reference", [-10.0, -10.2, -9.8])
+    def test_a_single_preparation_has_no_preparation_standard_error_and_the_notes_say_why(
+        self, tmp_path
+    ):
+        folded, reference = (
+            leg("folded", [-9.0, -9.4, -9.2]),
+            leg("reference", [-10.0, -10.2, -9.8]),
+        )
         out, outcome = analysis(tmp_path, folded, reference)
         assert out["preparation_standard_error_kcal_mol"] is None
         assert out["ddg_fold_kcal_mol"] == pytest.approx(-9.2 - (-10.0))
         assert out["legs"][0]["replica_sd_kcal_mol"] == pytest.approx(0.2)
-        assert "share their starting coordinates" in " ".join(outcome.steps["stab"].notes)
+        assert "share their starting coordinates" in " ".join(
+            outcome.steps["stab"].notes
+        )
 
     def test_each_leg_reports_its_diagnostics(self, tmp_path):
-        folded = [leg("folded", [-9.0, -9.5], overlap=0.05, effective=20.0, forward=-9.2, reverse=-9.9)]
+        folded = [
+            leg(
+                "folded",
+                [-9.0, -9.5],
+                overlap=0.05,
+                effective=20.0,
+                forward=-9.2,
+                reverse=-9.9,
+            )
+        ]
         out, _ = analysis(tmp_path, folded, self.REFERENCE)
         summary = {x["leg"]: x for x in out["legs"]}
         assert summary["folded"]["minimum_adjacent_overlap"] == pytest.approx(0.05)
         assert summary["folded"]["minimum_effective_samples"] == 20.0
         assert summary["folded"]["forward_reverse_gap_kcal_mol"] == pytest.approx(0.7)
         assert summary["reference"]["forward_reverse_gap_kcal_mol"] is None
-        assert summary["folded"]["replica_sd_kcal_mol"] == pytest.approx(math.sqrt(0.5**2 / 2))
+        assert summary["folded"]["replica_sd_kcal_mol"] == pytest.approx(
+            math.sqrt(0.5**2 / 2)
+        )
 
     def test_checks_become_verdicts_and_the_overall_status(self, tmp_path):
-        folded = [leg("folded", [-9.0, -10.0], overlap=0.05, forward=-9.2, reverse=-9.9) for _ in range(2)]
+        folded = [
+            leg("folded", [-9.0, -10.0], overlap=0.05, forward=-9.2, reverse=-9.9)
+            for _ in range(2)
+        ]
         checks = {
             "minimum_adjacent_overlap": 0.03,
             "maximum_replica_sd_kcal_mol": 0.4,
@@ -255,21 +314,42 @@ class TestStabilityAnalysis:
         assert out["verdicts"] == [] and out["status"] == "unassessed"
 
     def test_all_passing_checks_give_pass(self, tmp_path):
-        both = {"minimum_adjacent_overlap": 0.03, "maximum_preparation_standard_error_kcal_mol": 1.0}
+        both = {
+            "minimum_adjacent_overlap": 0.03,
+            "maximum_preparation_standard_error_kcal_mol": 1.0,
+        }
         out, _ = analysis(tmp_path, self.FOLDED, self.REFERENCE, both)
         assert out["status"] == "pass"
 
     @pytest.mark.parametrize(
         ("folded", "reference", "message"),
         [
-            (leg("reference", [-9.0]), leg("reference", [-10.0]), "names the leg 'reference'"),
+            (
+                leg("reference", [-9.0]),
+                leg("reference", [-10.0]),
+                "names the leg 'reference'",
+            ),
             (leg("folded", [-9.0]), leg("folded", [-10.0]), "names the leg 'folded'"),
-            (leg("folded", [-9.0], mutant="ALA"), leg("reference", [-10.0]), "different substitutions"),
-            ([leg("folded", [-9.0]), leg("folded", [-9.5], mutant="ALA")], leg("reference", [-10.0]), "different substitutions"),
-            (leg("folded", [-9.0], temperature=310.0), leg("reference", [-10.0]), "differ in temperature"),
+            (
+                leg("folded", [-9.0], mutant="ALA"),
+                leg("reference", [-10.0]),
+                "different substitutions",
+            ),
+            (
+                [leg("folded", [-9.0]), leg("folded", [-9.5], mutant="ALA")],
+                leg("reference", [-10.0]),
+                "different substitutions",
+            ),
+            (
+                leg("folded", [-9.0], temperature=310.0),
+                leg("reference", [-10.0]),
+                "differ in temperature",
+            ),
         ],
     )
-    def test_legs_that_do_not_belong_together_are_refused(self, tmp_path, folded, reference, message):
+    def test_legs_that_do_not_belong_together_are_refused(
+        self, tmp_path, folded, reference, message
+    ):
         outcome = analyze(tmp_path, folded, reference)
         assert not outcome.ok
         assert message in outcome.steps["stab"].error
@@ -293,7 +373,13 @@ def residue(spec: str):
     atoms = []
     for line in spec.strip().splitlines():
         name, element, *rest = line.split()
-        atoms.append({"name": name, "element": element, "bonds": rest[0].split(",") if rest else []})
+        atoms.append(
+            {
+                "name": name,
+                "element": element,
+                "bonds": rest[0].split(",") if rest else [],
+            }
+        )
     table = {a["name"]: a for a in atoms}
     for a in atoms:
         for b in a["bonds"]:
@@ -310,7 +396,10 @@ HA H
 C C O
 O O
 """
-ALA = residue(BACKBONE + "CB C HB1,HB2,HB3\nHB1 H\nHB2 H\nHB3 H\n".replace("CB C HB1", "CB C CA,HB1"))
+ALA = residue(
+    BACKBONE
+    + "CB C HB1,HB2,HB3\nHB1 H\nHB2 H\nHB3 H\n".replace("CB C HB1", "CB C CA,HB1")
+)
 VAL = residue(
     BACKBONE
     + "CB C CA,HB,CG1,CG2\nHB H\nCG1 C CB,HG11,HG12,HG13\nHG11 H\nHG12 H\nHG13 H\n"
@@ -333,8 +422,12 @@ THR = residue(
     + "CB C CA,HB,OG1,CG2\nHB H\nOG1 O HG1\nHG1 H\nCG2 C HG21,HG22,HG23\nHG21 H\nHG22 H\nHG23 H\n"
 )
 RING = "CG C CB,CD1,CD2\nCD1 C HD1,CE1\nHD1 H\nCD2 C HD2,CE2\nHD2 H\nCE1 C HE1,CZ\nHE1 H\nCE2 C HE2,CZ\nHE2 H\n"
-PHE = residue(BACKBONE + "CB C CA,HB2,HB3,CG\nHB2 H\nHB3 H\n" + RING + "CZ C HZ\nHZ H\n")
-TYR = residue(BACKBONE + "CB C CA,HB2,HB3,CG\nHB2 H\nHB3 H\n" + RING + "CZ C OH\nOH O HH\nHH H\n")
+PHE = residue(
+    BACKBONE + "CB C CA,HB2,HB3,CG\nHB2 H\nHB3 H\n" + RING + "CZ C HZ\nHZ H\n"
+)
+TYR = residue(
+    BACKBONE + "CB C CA,HB2,HB3,CG\nHB2 H\nHB3 H\n" + RING + "CZ C OH\nOH O HH\nHH H\n"
+)
 
 
 @pytest.fixture(scope="module")
@@ -343,7 +436,9 @@ def engine():
 
 
 class TestAtomMapping:
-    def test_isoleucine_to_valine_maps_the_backbone_cb_and_both_gamma_carbons(self, engine):
+    def test_isoleucine_to_valine_maps_the_backbone_cb_and_both_gamma_carbons(
+        self, engine
+    ):
         plan = engine.plan_mapping(ILE, VAL)
         assert len(plan["core"]) == 15
         assert {"N", "CA", "C", "O", "CB", "CG1", "CG2"} <= set(plan["core"])
@@ -356,7 +451,9 @@ class TestAtomMapping:
         assert plan["old_unique"] == ["HG13"]
         assert sorted(plan["new_unique"]) == ["CD1", "HD11", "HD12", "HD13"]
 
-    def test_leucine_to_alanine_keeps_the_backbone_cb_and_two_of_its_hydrogens(self, engine):
+    def test_leucine_to_alanine_keeps_the_backbone_cb_and_two_of_its_hydrogens(
+        self, engine
+    ):
         plan = engine.plan_mapping(LEU, ALA)
         assert len(plan["core"]) == 9
         assert set(plan["core"]) == {"N", "H", "CA", "HA", "C", "O", "CB", "HB2", "HB3"}
@@ -369,13 +466,17 @@ class TestAtomMapping:
         assert sorted(plan["old_unique"]) == ["HB3", "HG", "OG"]
         assert len(plan["new_unique"]) == 6 and "OG1" in plan["new_unique"]
 
-    def test_phenylalanine_to_tyrosine_maps_the_ring_and_leaves_the_hydroxyl_new(self, engine):
+    def test_phenylalanine_to_tyrosine_maps_the_ring_and_leaves_the_hydroxyl_new(
+        self, engine
+    ):
         plan = engine.plan_mapping(PHE, TYR)
         assert len(plan["core"]) == 19
         assert plan["old_unique"] == ["HZ"]
         assert sorted(plan["new_unique"]) == ["HH", "OH"]
 
-    def test_an_atom_is_mapped_only_when_bonded_to_the_atom_it_was_reached_from_in_both_residues(self, engine):
+    def test_an_atom_is_mapped_only_when_bonded_to_the_atom_it_was_reached_from_in_both_residues(
+        self, engine
+    ):
         # CG sits on CB in the first residue and on CA in the second: not the same atom position.
         first = residue(BACKBONE + "CB C CA,CG\nCG C\n")
         second = residue(BACKBONE + "CB C CA\nCG C CA\n")
@@ -394,7 +495,9 @@ class TestAtomMapping:
 # ------------------------------------------------------------------------------ real engine
 
 
-needs_engine = pytest.mark.skipif(not ENV, reason="needs ALAMBIQ_ENV_OPENFE (the OpenFE environment)")
+needs_engine = pytest.mark.skipif(
+    not ENV, reason="needs ALAMBIQ_ENV_OPENFE (the OpenFE environment)"
+)
 
 
 def write_pdb(tmp_path_factory):
@@ -417,7 +520,13 @@ def prepare_step(structure, **params):
     return {
         "id": "prep",
         "capability": "structure.prepare_mutation_inputs",
-        "params": {"structure": str(structure), "chain_id": "A", "residue_number": 4, "to": "V", **params},
+        "params": {
+            "structure": str(structure),
+            "chain_id": "A",
+            "residue_number": 4,
+            "to": "V",
+            **params,
+        },
     }
 
 
@@ -441,29 +550,49 @@ class TestPreparation:
 
     def test_the_legs_map_fifteen_atoms_and_decouple_the_rest(self, outcome):
         out = outcome.outputs("prep")
-        assert out["mutation"] == "ILE4VAL" and out["wild_type"] == "ILE" and out["mutant"] == "VAL"
+        assert (
+            out["mutation"] == "ILE4VAL"
+            and out["wild_type"] == "ILE"
+            and out["mutant"] == "VAL"
+        )
         for leg in (out["folded"], out["reference"]):
             assert leg["core_atoms"] == 15
-            assert sorted(leg["wild_type_unique_atoms"]) == ["CD1", "HD11", "HD12", "HD13"]
+            assert sorted(leg["wild_type_unique_atoms"]) == [
+                "CD1",
+                "HD11",
+                "HD12",
+                "HD13",
+            ]
             assert leg["mutant_unique_atoms"] == ["HG13"]
             assert leg["net_charge"] == pytest.approx(0.0, abs=1e-6)
 
     def test_the_reference_leg_is_smaller_than_the_folded_leg(self, outcome):
         out = outcome.outputs("prep")
         assert out["reference"]["atoms"] < out["folded"]["atoms"]
-        assert out["folded"]["padding_nm"] == 1.0 and out["reference"]["padding_nm"] == 1.2
+        assert (
+            out["folded"]["padding_nm"] == 1.0 and out["reference"]["padding_nm"] == 1.2
+        )
 
     def test_each_leg_is_one_archive_of_its_three_files(self, outcome):
         out = outcome.outputs("prep")
         for key in ("folded_inputs", "reference_inputs"):
-            assert archive_names(out[key]) == ["leg.json", "mutant.pdb", "wild_type.pdb"]
+            assert archive_names(out[key]) == [
+                "leg.json",
+                "mutant.pdb",
+                "wild_type.pdb",
+            ]
 
     def test_the_input_file_is_identified_by_its_digest(self, outcome, pdb_file):
         import hashlib
 
-        assert outcome.outputs("prep")["structure_sha256"] == hashlib.sha256(pdb_file.read_bytes()).hexdigest()
+        assert (
+            outcome.outputs("prep")["structure_sha256"]
+            == hashlib.sha256(pdb_file.read_bytes()).hexdigest()
+        )
 
-    def test_the_same_seed_gives_the_same_atoms_in_the_same_order(self, pdb_file, tmp_path):
+    def test_the_same_seed_gives_the_same_atoms_in_the_same_order(
+        self, pdb_file, tmp_path
+    ):
         def atoms(name):
             outcome = execute([prepare_step(pdb_file, seed=5)], tmp_path, name)
             assert outcome.ok
@@ -477,7 +606,10 @@ class TestPreparation:
 
         one, two = atoms("one"), atoms("two")
         assert [name for name, _ in one] == [name for name, _ in two]
-        moved = [max(abs(a - b) for a, b in zip(p, q, strict=True)) for (_, p), (_, q) in zip(one, two, strict=True)]
+        moved = [
+            max(abs(a - b) for a, b in zip(p, q, strict=True))
+            for (_, p), (_, q) in zip(one, two, strict=True)
+        ]
         # The relaxation sums forces on several threads, so the coordinates of the solvent
         # differ between runs; the seed fixes the atoms, their order and the box.
         assert sorted(moved)[len(moved) // 2] < 0.5
@@ -489,7 +621,11 @@ class TestPreparation:
         for seed in (5, 6):
             outcome = execute([prepare_step(pdb_file, seed=seed)], tmp_path, f"s{seed}")
             with tarfile.open(outcome.outputs("prep")["folded_inputs"]) as bundle:
-                digests.append(hashlib.sha256(bundle.extractfile("wild_type.pdb").read()).hexdigest())
+                digests.append(
+                    hashlib.sha256(
+                        bundle.extractfile("wild_type.pdb").read()
+                    ).hexdigest()
+                )
         assert digests[0] != digests[1]
 
     @pytest.mark.parametrize(
@@ -504,7 +640,9 @@ class TestPreparation:
             ({"chain_id": "Z"}, "the file has the chains"),
         ],
     )
-    def test_requests_that_cannot_be_prepared_are_refused_with_the_reason(self, pdb_file, tmp_path, params, message):
+    def test_requests_that_cannot_be_prepared_are_refused_with_the_reason(
+        self, pdb_file, tmp_path, params, message
+    ):
         outcome = execute([prepare_step(pdb_file, **params)], tmp_path)
         assert not outcome.ok
         assert message in outcome.steps["prep"].error
@@ -518,10 +656,18 @@ def engine_call(function: str, cfg: dict) -> dict:
         "import openmm_mutation as m\n"
         f"print('RESULT' + json.dumps(m.{function}(json.loads(sys.stdin.read()))))\n"
     )
-    done = subprocess.run([ENV, "-c", script], input=json.dumps(cfg), capture_output=True, text=True, timeout=900)
+    done = subprocess.run(
+        [ENV, "-c", script],
+        input=json.dumps(cfg),
+        capture_output=True,
+        text=True,
+        timeout=900,
+    )
     if done.returncode:
         raise ValueError(done.stderr.strip().splitlines()[-1])
-    return json.loads(next(line for line in done.stdout.splitlines() if line.startswith("RESULT"))[6:])
+    return json.loads(
+        next(line for line in done.stdout.splitlines() if line.startswith("RESULT"))[6:]
+    )
 
 
 @needs_engine
@@ -549,9 +695,15 @@ class TestRelaxation:
     )
 
     def test_two_overlapping_waters_are_pulled_apart_before_the_sampler_starts(self):
-        done = subprocess.run([ENV, "-c", self.SCRIPT], capture_output=True, text=True, timeout=900)
+        done = subprocess.run(
+            [ENV, "-c", self.SCRIPT], capture_output=True, text=True, timeout=900
+        )
         assert done.returncode == 0, done.stderr[-500:]
-        before, after = json.loads(next(line for line in done.stdout.splitlines() if line.startswith("RESULT"))[6:])
+        before, after = json.loads(
+            next(
+                line for line in done.stdout.splitlines() if line.startswith("RESULT")
+            )[6:]
+        )
         assert before > 1e5
         assert after < 1e4
 
@@ -570,10 +722,21 @@ class TestBoxWidth:
         "print('RESULT' + json.dumps([padding, min(m.box_widths(solvated.topology.getPeriodicBoxVectors())), m.MIN_BOX_WIDTH_NM]))\n"
     )
 
-    def test_a_padding_that_gives_a_narrow_box_is_widened_until_the_cutoff_fits(self, pdb_file):
-        done = subprocess.run([ENV, "-c", self.SCRIPT, str(pdb_file)], capture_output=True, text=True, timeout=900)
+    def test_a_padding_that_gives_a_narrow_box_is_widened_until_the_cutoff_fits(
+        self, pdb_file
+    ):
+        done = subprocess.run(
+            [ENV, "-c", self.SCRIPT, str(pdb_file)],
+            capture_output=True,
+            text=True,
+            timeout=900,
+        )
         assert done.returncode == 0, done.stderr[-500:]
-        padding, width, minimum = json.loads(next(line for line in done.stdout.splitlines() if line.startswith("RESULT"))[6:])
+        padding, width, minimum = json.loads(
+            next(
+                line for line in done.stdout.splitlines() if line.startswith("RESULT")
+            )[6:]
+        )
         assert padding > 0.3
         assert width >= minimum
 
@@ -594,7 +757,11 @@ class TestBoxWidth:
             timeout=300,
         )
         assert done.returncode == 0, done.stderr[-500:]
-        widths = json.loads(next(line for line in done.stdout.splitlines() if line.startswith("RESULT"))[6:])
+        widths = json.loads(
+            next(
+                line for line in done.stdout.splitlines() if line.startswith("RESULT")
+            )[6:]
+        )
         assert widths == pytest.approx([2.0, 3.0, 4.0])
 
 
@@ -607,12 +774,24 @@ class TestEngineChecks:
             "identity_check": False, "output": str(tmp_path / "out"), **changes,
         }  # fmt: skip
 
-    def test_a_substitution_that_changes_the_net_charge_is_refused(self, pdb_file, tmp_path):
+    def test_a_substitution_that_changes_the_net_charge_is_refused(
+        self, pdb_file, tmp_path
+    ):
         with pytest.raises(ValueError, match="changes the net charge"):
             engine_call("prepare", self.cfg(pdb_file, tmp_path, to="ASP"))
 
-    def test_a_chain_missing_heavy_atoms_is_refused_with_the_residues(self, pdb_file, tmp_path):
-        lines = [ln for ln in pdb_file.read_text().splitlines() if not (ln.startswith("ATOM") and ln[12:16].strip() == "CG" and ln[22:26].strip() == "6")]
+    def test_a_chain_missing_heavy_atoms_is_refused_with_the_residues(
+        self, pdb_file, tmp_path
+    ):
+        lines = [
+            ln
+            for ln in pdb_file.read_text().splitlines()
+            if not (
+                ln.startswith("ATOM")
+                and ln[12:16].strip() == "CG"
+                and ln[22:26].strip() == "6"
+            )
+        ]
         broken = tmp_path / "broken.pdb"
         broken.write_text("\n".join(lines) + "\n")
         with pytest.raises(ValueError, match="lacks heavy atoms of TRP6"):
@@ -645,7 +824,10 @@ class TestNullSubstitution:
             {
                 "id": "stab",
                 "capability": "simulation.analyze_stability_change",
-                "bind": {"folded.0": "folded.leg_record", "reference.0": "reference.leg_record"},
+                "bind": {
+                    "folded.0": "folded.leg_record",
+                    "reference.0": "reference.leg_record",
+                },
                 "params": {"checks": {"minimum_adjacent_overlap": 0.1}},
             },
         ]
@@ -672,7 +854,9 @@ class TestNullSubstitution:
         digests = {r["trajectory_sha256"] for r in record["replicas"]}
         assert len(digests) == 2
 
-    def test_the_change_in_folding_free_energy_of_the_null_substitution_is_zero(self, outcome):
+    def test_the_change_in_folding_free_energy_of_the_null_substitution_is_zero(
+        self, outcome
+    ):
         out = outcome.outputs("stab")
         assert out["ddg_fold_kcal_mol"] == pytest.approx(0.0, abs=1e-4)
         assert out["mutation"] == "ILE>ILE"
@@ -687,11 +871,16 @@ class TestNullSubstitution:
 
     def test_a_short_run_says_so_and_cites_the_convergence_record(self, outcome):
         note = " ".join(outcome.steps["folded"].notes)
-        assert "below 2500 ps" in note and "1.3 kcal/mol across independent preparations" in note
+        assert (
+            "below 2500 ps" in note
+            and "1.3 kcal/mol across independent preparations" in note
+        )
 
     def test_native_records_are_kept_when_asked_for(self, outcome):
         path = outcome.outputs("folded")["native_records"]
-        assert path is not None and any(name.endswith(".nc") for name in archive_names(path))
+        assert path is not None and any(
+            name.endswith(".nc") for name in archive_names(path)
+        )
 
 
 @needs_engine
@@ -700,7 +889,13 @@ class TestRunOptions:
     def outcome(self, pdb_file, tmp_path_factory):
         steps = [
             prepare_step(pdb_file, identity_check=True),
-            run_step("leg", "prep.reference_inputs", replicas=1, precision="double", keep_native_records=False),
+            run_step(
+                "leg",
+                "prep.reference_inputs",
+                replicas=1,
+                precision="double",
+                keep_native_records=False,
+            ),
         ]
         outcome = execute(steps, tmp_path_factory.mktemp("options"))
         assert outcome.ok, [s.error for s in outcome.steps.values() if s.error]
@@ -709,7 +904,9 @@ class TestRunOptions:
     def test_without_native_records_none_are_kept(self, outcome):
         assert outcome.outputs("leg")["native_records"] is None
 
-    def test_the_precision_applies_to_cuda_only_and_the_cpu_reports_native(self, outcome):
+    def test_the_precision_applies_to_cuda_only_and_the_cpu_reports_native(
+        self, outcome
+    ):
         out = outcome.outputs("leg")
         assert out["platform"] == "CPU" and out["precision"] == "native"
 
@@ -727,14 +924,31 @@ class TestRunRefusals:
             note.write_text("x")
             bundle.add(note, arcname="note.txt")
         outcome = execute(
-            [{"id": "r", "capability": "simulation.run_mutation_free_energy", "params": {"inputs": str(bogus)}}], tmp_path
+            [
+                {
+                    "id": "r",
+                    "capability": "simulation.run_mutation_free_energy",
+                    "params": {"inputs": str(bogus)},
+                }
+            ],
+            tmp_path,
         )
-        assert not outcome.ok and "leg.json, mutant.pdb and wild_type.pdb" in outcome.steps["r"].error
+        assert (
+            not outcome.ok
+            and "leg.json, mutant.pdb and wild_type.pdb" in outcome.steps["r"].error
+        )
 
     def test_a_file_that_is_not_an_archive_is_refused(self, tmp_path):
         text = tmp_path / "leg.txt"
         text.write_text("not an archive")
         outcome = execute(
-            [{"id": "r", "capability": "simulation.run_mutation_free_energy", "params": {"inputs": str(text)}}], tmp_path
+            [
+                {
+                    "id": "r",
+                    "capability": "simulation.run_mutation_free_energy",
+                    "params": {"inputs": str(text)},
+                }
+            ],
+            tmp_path,
         )
         assert not outcome.ok and "not a leg archive" in outcome.steps["r"].error

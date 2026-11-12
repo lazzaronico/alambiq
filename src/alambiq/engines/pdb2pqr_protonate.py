@@ -183,7 +183,9 @@ def residue_names(lines: list[str]) -> dict[tuple, str]:
     return names
 
 
-def titration_states(rows: list[dict], names_in: dict, names_out: dict, ph: float) -> list[dict]:
+def titration_states(
+    rows: list[dict], names_in: dict, names_out: dict, ph: float
+) -> list[dict]:
     """Each titratable group with its pKa and the residue name it was given."""
     states = []
     for row in rows:
@@ -258,7 +260,11 @@ def run(cfg: dict) -> dict:
             "input_hydrogens": source["hydrogens"],
             "alternate_location_atoms": source["alternates"],
         },
-        "files": {"protonated": "protonated.pdb", "pqr": "protonated.pqr", "log": "pdb2pqr.log"},
+        "files": {
+            "protonated": "protonated.pdb",
+            "pqr": "protonated.pqr",
+            "log": "pdb2pqr.log",
+        },
         "versions": versions(),
     }
 

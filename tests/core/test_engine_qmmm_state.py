@@ -56,8 +56,9 @@ class InitialDensityTests(unittest.TestCase):
                     np.save(path, values)
                 else:
                     np.savez(path, density=values)
-                with self.subTest(format=suffix), self.assertRaisesRegex(
-                    ValueError, "allow_pickle=False"
+                with (
+                    self.subTest(format=suffix),
+                    self.assertRaisesRegex(ValueError, "allow_pickle=False"),
                 ):
                     runner._load_initial_density(path)
 
@@ -255,7 +256,9 @@ class CompleteCompositionTests(unittest.TestCase):
                 return prepared
 
             with patch.object(runner, "prepare", side_effect=change_source):
-                with self.assertRaisesRegex(ValueError, "source must be unchanged throughout native preparation"):
+                with self.assertRaisesRegex(
+                    ValueError, "source must be unchanged throughout native preparation"
+                ):
                     runner.evaluate(request, directory / "changed")
             self.assertTrue((directory / "changed/failure.json").is_file())
             self.assertFalse((directory / "changed/electronic").exists())

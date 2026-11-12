@@ -370,7 +370,9 @@ def prepare(config, output):
     for residue in supplied.topology.residues():
         residue.insertionCode = residue.insertionCode.strip()
     if config["model_index"] >= supplied.getNumFrames():
-        raise ValueError(f"model_index {config['model_index']} (0-based) is unavailable in the input structure")
+        raise ValueError(
+            f"model_index {config['model_index']} (0-based) is unavailable in the input structure"
+        )
     positions = supplied.getPositions(frame=config["model_index"])
     xyz = np.asarray(positions.value_in_unit(unit.nanometer))
     if not np.isfinite(xyz).all():
@@ -393,9 +395,7 @@ def prepare(config, output):
             <= np.linalg.norm(xyz[carbon[0].index] - xyz[nitrogen[0].index])
             <= 0.18
         ):
-            raise ValueError(
-                "Backbone is incomplete or discontinuous"
-            )
+            raise ValueError("Backbone is incomplete or discontinuous")
     residue_set = set(residues)
     retained = [
         a
@@ -526,7 +526,9 @@ def prepare(config, output):
             neutralize=True,
         )
         if modeller.topology.getNumAtoms() > 250000:
-            raise ValueError("The prepared system exceeds the limit of 250,000 atoms of this profile")
+            raise ValueError(
+                "The prepared system exceeds the limit of 250,000 atoms of this profile"
+            )
         system = forcefield.createSystem(
             modeller.topology,
             nonbondedMethod=app.PME,
@@ -559,7 +561,9 @@ def prepare(config, output):
             state.getPositions(asNumpy=True).value_in_unit(unit.nanometer)
         ).all()
     ):
-        raise ValueError("The prepared positions or the potential energy are not finite")
+        raise ValueError(
+            "The prepared positions or the potential energy are not finite"
+        )
     (output / "system.xml").write_text(openmm.XmlSerializer.serialize(system))
     (output / "state.xml").write_text(openmm.XmlSerializer.serialize(state))
     with (output / "topology.pdb").open("w") as stream:

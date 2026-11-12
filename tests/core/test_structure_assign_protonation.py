@@ -31,7 +31,19 @@ def engine():
     return module
 
 
-def atom(serial, name, residue, number, xyz, *, record="ATOM  ", chain="A", altloc=" ", element=None, insertion=" "):
+def atom(
+    serial,
+    name,
+    residue,
+    number,
+    xyz,
+    *,
+    record="ATOM  ",
+    chain="A",
+    altloc=" ",
+    element=None,
+    insertion=" ",
+):
     element = element or name[0]
     padded = f" {name:<3}" if len(name) < 4 and len(element) == 1 else f"{name:<4}"
     x, y, z = xyz
@@ -101,7 +113,10 @@ class TestComparingHeavyAtoms:
 
     def test_atoms_present_only_in_the_output_are_the_added_ones(self):
         before = {("A", 3, "C"): ((0.0, 0.0, 0.0), "LYS")}
-        after = {("A", 3, "C"): ((0.0, 0.0, 0.0), "LYS"), ("A", 3, "OXT"): ((1.0, 0.0, 0.0), "LYS")}
+        after = {
+            ("A", 3, "C"): ((0.0, 0.0, 0.0), "LYS"),
+            ("A", 3, "OXT"): ((1.0, 0.0, 0.0), "LYS"),
+        }
         assert engine().added_heavy_atoms(before, after) == [
             {"chain": "A", "number": 3, "name": "LYS", "atoms": ["OXT"]}
         ]
@@ -125,7 +140,10 @@ SUMMARY OF THIS PREDICTION
 class TestTitrationTable:
     def test_rows_of_the_summary_are_read_up_to_the_blank_line(self):
         rows = engine().parse_titration(SUMMARY)
-        assert [(r["group"], r["chain"], r["number"], r["pka"], r["model_pka"]) for r in rows] == [
+        assert [
+            (r["group"], r["chain"], r["number"], r["pka"], r["model_pka"])
+            for r in rows
+        ] == [
             ("ASP", "A", 21, 3.36, 3.8),
             ("HIS", "B", 68, 6.0, 6.5),
             ("CYS", "A", 6, 99.99, 9.0),
@@ -138,7 +156,9 @@ class TestTitrationTable:
 
     def test_a_group_is_protonated_when_its_pka_is_above_the_ph(self):
         rows = engine().parse_titration(SUMMARY)
-        states = engine().titration_states(rows, {("B", 68): "HIS"}, {("B", 68): "HIP"}, 6.5)
+        states = engine().titration_states(
+            rows, {("B", 68): "HIS"}, {("B", 68): "HIP"}, 6.5
+        )
         by_group = {s["group"]: s for s in states}
         assert by_group["HIS"]["protonated_at_ph"] is False
         assert by_group["HIS"]["name_out"] == "HIP"
@@ -197,7 +217,11 @@ def pdb_of(name: str, tmp_path: Path) -> Path:
 
 def protein_only(name: str, tmp_path: Path) -> Path:
     """The amino acid atoms of a fixture as one chain, as the preparation capabilities read it."""
-    lines = [line for line in pdb_of(name, tmp_path).read_text().splitlines() if line.startswith("ATOM")]
+    lines = [
+        line
+        for line in pdb_of(name, tmp_path).read_text().splitlines()
+        if line.startswith("ATOM")
+    ]
     path = tmp_path / f"{name}-protein.pdb"
     path.write_text("\n".join(lines) + "\nEND\n")
     return path
@@ -239,11 +263,17 @@ class TestProtonation:
         assert his["pka"] > 7.0 and his["protonated"] and his["name_out"] == "HIP"
 
     def test_a_higher_ph_makes_the_histidine_neutral(self, tmp_path):
-        his = next(g for g in protonate(tmp_path, "181L", ph=9.0)["groups"] if g["group"] == "HIS")
+        his = next(
+            g
+            for g in protonate(tmp_path, "181L", ph=9.0)["groups"]
+            if g["group"] == "HIS"
+        )
         assert not his["protonated"] and his["name_out"] in ("HID", "HIE")
 
     def test_the_missing_terminal_oxygen_is_reported_as_added(self, lysozyme):
-        added = {(a["chain"], a["number"]): a["atoms"] for a in lysozyme["added_heavy_atoms"]}
+        added = {
+            (a["chain"], a["number"]): a["atoms"] for a in lysozyme["added_heavy_atoms"]
+        }
         assert added == {("A", 162): ["OXT"]}
 
     def test_water_ligands_and_ions_are_counted_as_left_out(self, lysozyme):
@@ -253,14 +283,21 @@ class TestProtonation:
     def test_the_protonated_file_has_hydrogens_and_no_heteroatoms(self, lysozyme):
         lines = Path(lysozyme["protonated_structure"]).read_text().splitlines()
         assert not any(line.startswith("HETATM") for line in lines)
-        hydrogens = [line for line in lines if line.startswith("ATOM") and line[76:78].strip() == "H"]
+        hydrogens = [
+            line
+            for line in lines
+            if line.startswith("ATOM") and line[76:78].strip() == "H"
+        ]
         assert len(hydrogens) == lysozyme["hydrogens"] > 1000
 
     def test_the_hash_names_the_file_that_was_read(self, lysozyme, tmp_path):
         import hashlib
 
         path = pdb_of("181L", tmp_path)
-        assert lysozyme["structure_sha256"] == hashlib.sha256(path.read_bytes()).hexdigest()
+        assert (
+            lysozyme["structure_sha256"]
+            == hashlib.sha256(path.read_bytes()).hexdigest()
+        )
 
     def test_a_cysteine_in_a_disulfide_is_named_cyx_and_listed_apart(self, tmp_path):
         out = protonate(tmp_path, "1A3N")
@@ -275,15 +312,24 @@ class TestHydrogenNetwork:
         return protonate(tmp_path_factory.mktemp("hb"), "1A3N")
 
     def test_an_asparagine_amide_turns(self, hemoglobin):
-        assert any(t["name"] == "ASN" and t["chain"] == "C" and t["number"] == 78 for t in hemoglobin["turned"])
+        assert any(
+            t["name"] == "ASN" and t["chain"] == "C" and t["number"] == 78
+            for t in hemoglobin["turned"]
+        )
 
-    def test_a_turned_residue_has_its_two_amide_atoms_exchanged(self, hemoglobin, tmp_path):
+    def test_a_turned_residue_has_its_two_amide_atoms_exchanged(
+        self, hemoglobin, tmp_path
+    ):
         """The flag agrees with the coordinates: the oxygen sits where the nitrogen was."""
         import math
 
         engine_module = engine()
-        before = engine_module.heavy_atoms(pdb_of("1A3N", tmp_path).read_text().splitlines())
-        after = engine_module.heavy_atoms(Path(hemoglobin["protonated_structure"]).read_text().splitlines())
+        before = engine_module.heavy_atoms(
+            pdb_of("1A3N", tmp_path).read_text().splitlines()
+        )
+        after = engine_module.heavy_atoms(
+            Path(hemoglobin["protonated_structure"]).read_text().splitlines()
+        )
         o, n = ("C", 78, "OD1"), ("C", 78, "ND2")
         assert math.dist(before[o][0], after[n][0]) < 0.6
         assert math.dist(before[n][0], after[o][0]) < 0.6
@@ -320,7 +366,9 @@ class TestUseInOpenMM:
             "print(system.getNumParticles())"
         )
         done = subprocess.run(
-            [OPENMM, "-c", script, out["protonated_structure"]], capture_output=True, text=True
+            [OPENMM, "-c", script, out["protonated_structure"]],
+            capture_output=True,
+            text=True,
         )
         assert done.returncode == 0, done.stderr[-500:]
         assert int(done.stdout.split()[-1]) == out["atoms"]
@@ -328,16 +376,25 @@ class TestUseInOpenMM:
 
 class TestVariantsFromAProtonatedStructure:
     def text(self, rows):
-        lines = [atom(i, "CA", name, number, (float(i), 0, 0), chain=chain) for i, (chain, number, name) in enumerate(rows, 1)]
+        lines = [
+            atom(i, "CA", name, number, (float(i), 0, 0), chain=chain)
+            for i, (chain, number, name) in enumerate(rows, 1)
+        ]
         return "\n".join(lines) + "\nEND\n"
 
-    def test_titratable_residues_of_the_chain_give_their_variant_by_number(self, tmp_path):
+    def test_titratable_residues_of_the_chain_give_their_variant_by_number(
+        self, tmp_path
+    ):
         from alambiq.capabilities.investigate.science.protonation import (
             variants_from_structure,
         )
 
         path = tmp_path / "p.pdb"
-        path.write_text(self.text([("A", 3, "HIP"), ("A", 4, "LEU"), ("A", 5, "ASH"), ("B", 3, "HID")]))
+        path.write_text(
+            self.text(
+                [("A", 3, "HIP"), ("A", 4, "LEU"), ("A", 5, "ASH"), ("B", 3, "HID")]
+            )
+        )
         assert variants_from_structure(path, "A") == {3: "HIP", 5: "ASH"}
 
     def test_a_chain_that_is_absent_is_refused(self, tmp_path):
@@ -433,7 +490,10 @@ class TestProteinSystemUsesTheProtonation:
 OPENFE_ENV = os.environ.get("ALAMBIQ_ENV_OPENFE", "")
 
 
-@pytest.mark.skipif(not (ENV and OPENFE_ENV), reason="needs ALAMBIQ_ENV_PROTONATION and ALAMBIQ_ENV_OPENFE")
+@pytest.mark.skipif(
+    not (ENV and OPENFE_ENV),
+    reason="needs ALAMBIQ_ENV_PROTONATION and ALAMBIQ_ENV_OPENFE",
+)
 class TestMutationInputsUseTheProtonation:
     def legs(self, tmp_path, **params):
         import json
@@ -475,7 +535,9 @@ class TestMutationInputsUseTheProtonation:
         return {
             line[12:16].strip()
             for line in pdb_text.splitlines()
-            if line.startswith("ATOM") and int(line[22:26]) == number and line[12:16].strip() in ("HD1", "HE2")
+            if line.startswith("ATOM")
+            and int(line[22:26]) == number
+            and line[12:16].strip() in ("HD1", "HE2")
         }
 
     def test_a_histidine_takes_the_state_of_the_protonated_structure(self, tmp_path):

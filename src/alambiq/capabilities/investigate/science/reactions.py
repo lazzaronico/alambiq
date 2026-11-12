@@ -141,7 +141,9 @@ def validate_request(request):
         "rule-generated",
         "model-predicted",
     }:
-        raise ValueError("source.kind must be a supported kind, such as researcher-specified or publication")
+        raise ValueError(
+            "source.kind must be a supported kind, such as researcher-specified or publication"
+        )
     for k, v in source.items():
         label(v, f"source.{k}", 3000)
     if "sha256" in source and not re.fullmatch(r"[0-9a-f]{64}", source["sha256"]):

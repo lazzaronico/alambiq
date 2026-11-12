@@ -95,7 +95,9 @@ def ligand_graph(elements: list[str], xyz_angstrom, smiles: str, where: str):
     lines = [
         f"HETATM{i:5d} {element:<2s}{i % 100:02d} LIG A   1    "
         f"{x:8.3f}{y:8.3f}{z:8.3f}  1.00  0.00          {element:>2s}"
-        for i, (element, (x, y, z)) in enumerate(zip(elements, xyz_angstrom, strict=True), 1)
+        for i, (element, (x, y, z)) in enumerate(
+            zip(elements, xyz_angstrom, strict=True), 1
+        )
     ]
     pose = Chem.MolFromPDBBlock(
         "\n".join(lines) + "\nEND\n", removeHs=False, proximityBonding=True
@@ -278,7 +280,9 @@ def measure_pose(
     fit_ref = pocket
     ref_fit_xyz = reference_frame.xyz[0, fit_ref]
     if np.linalg.matrix_rank(ref_fit_xyz - ref_fit_xyz.mean(axis=0), tol=1e-6) < 2:
-        raise ValueError("The alpha carbons of the pocket are collinear in the reference")
+        raise ValueError(
+            "The alpha carbons of the pocket are collinear in the reference"
+        )
 
     # The graphs come from the reference and from the first frame of the trajectory.
     with md.formats.DCDTrajectoryFile(str(trajectory)) as handle:
@@ -286,9 +290,7 @@ def measure_pose(
     elements = [top.atom(i).element.symbol for i in lig_atoms]
     ref_elements = [ref_top.atom(i).element.symbol for i in ref_atoms]
     top_graph = ligand_graph(elements, first.xyz[0, lig_atoms] * 10.0, smiles, "ligand")
-    ref_graph = ligand_graph(
-        ref_elements, ligand_xyz_ref, smiles, "reference_ligand"
-    )
+    ref_graph = ligand_graph(ref_elements, ligand_xyz_ref, smiles, "reference_ligand")
     pairings = symmetric_pairings(top_graph, ref_graph)
     reference_pairs = ref_xyz[ref_atoms][pairings]
     reference_centroid = ligand_xyz_ref.mean(axis=0)
@@ -332,9 +334,7 @@ def measure_pose(
                 )
                 xyz[:, lig_atoms] += shift[:, None, :]
                 chunk.xyz = xyz
-            chunk.superpose(
-                reference_frame, atom_indices=fit, ref_atom_indices=fit_ref
-            )
+            chunk.superpose(reference_frame, atom_indices=fit, ref_atom_indices=fit_ref)
             moved = chunk.xyz[:, lig_atoms] * 10.0
             rmsd[offset:end] = smallest_rmsd(moved, reference_pairs)
             centroid[offset:end] = np.linalg.norm(

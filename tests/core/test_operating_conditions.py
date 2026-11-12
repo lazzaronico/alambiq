@@ -815,7 +815,10 @@ class TestEquilibriumLimit:
     ):
         outcome = define_reversible(tmp_path)
         page = outcome.report(tmp_path / "r.html").read_text()
-        assert "Equilibrium constant of the rate law" in page and "Reverse capacity" in page
+        assert (
+            "Equilibrium constant of the rate law" in page
+            and "Reverse capacity" in page
+        )
 
 
 class TestFromThermodynamicsToEquilibrium:

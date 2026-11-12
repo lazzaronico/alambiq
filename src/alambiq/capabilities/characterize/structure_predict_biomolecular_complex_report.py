@@ -51,10 +51,14 @@ def render(result) -> str:
         f"(charge {result.ligand.formal_charge:+d}).</p>"
     )
     if result.cofactors:
-        ligand += "<p>Cofactors: " + "; ".join(
-            f"{esc(c.ccd)} in chain {', '.join(esc(i) for i in c.chain_ids)}"
-            for c in result.cofactors
-        ) + ".</p>"
+        ligand += (
+            "<p>Cofactors: "
+            + "; ".join(
+                f"{esc(c.ccd)} in chain {', '.join(esc(i) for i in c.chain_ids)}"
+                for c in result.cofactors
+            )
+            + ".</p>"
+        )
     affinity = ""
     if result.affinity is not None:
         estimates = [("Ensemble", result.affinity)] + [
@@ -66,7 +70,7 @@ def render(result) -> str:
                 [
                     name,
                     round(e.log10_ic50_um, 3),
-                    float(f"{10 ** e.log10_ic50_um:.3g}"),
+                    float(f"{10**e.log10_ic50_um:.3g}"),
                     round(e.pic50, 3),
                     round(e.binder_probability, 3),
                 ]

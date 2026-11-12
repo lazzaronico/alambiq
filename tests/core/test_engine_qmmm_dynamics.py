@@ -10,8 +10,7 @@ from unittest.mock import patch
 
 spec = importlib.util.spec_from_file_location(
     "qmmm_dynamics_runner",
-    Path(__file__).resolve().parents[2]
-    / "src/alambiq/engines/qmmm_dynamics_runner.py",
+    Path(__file__).resolve().parents[2] / "src/alambiq/engines/qmmm_dynamics_runner.py",
 )
 dynamics = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(dynamics)
@@ -182,7 +181,9 @@ class NativeSamplingTests(unittest.TestCase):
                     "evaluate_molecular",
                     side_effect=changed,
                 ),
-                self.assertRaisesRegex(ValueError, "source must be unchanged throughout sampling"),
+                self.assertRaisesRegex(
+                    ValueError, "source must be unchanged throughout sampling"
+                ),
             ):
                 dynamics.sample(request, root / "changed")
             self.assertTrue((root / "changed/state.csv").is_file())

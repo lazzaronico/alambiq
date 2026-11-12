@@ -361,7 +361,10 @@ class TestOwnTargets:
             tmp_path,
         )
         assert not outcome.ok
-        assert "mobile structure has no atom ZN" in next(iter(outcome.steps.values())).error
+        assert (
+            "mobile structure has no atom ZN"
+            in next(iter(outcome.steps.values())).error
+        )
 
     def test_two_own_targets_with_one_label_are_refused(self, tmp_path):
         reference, mobile = self.pair(tmp_path)

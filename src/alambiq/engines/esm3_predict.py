@@ -107,7 +107,9 @@ def embed(request: dict[str, Any]) -> dict[str, Any]:
             )
             vectors = prediction.embeddings[0, 1:-1].float().cpu().numpy()
             if vectors.shape != (len(sequence), 1536) or not np.isfinite(vectors).all():
-                raise ValueError("The ESM3 residue embeddings have an unexpected shape or non-finite values")
+                raise ValueError(
+                    "The ESM3 residue embeddings have an unexpected shape or non-finite values"
+                )
             matrices[f"protein_{index}"] = vectors
             pooled[name] = vectors.mean(axis=0).tolist()
     np.savez_compressed(request["residues_output"], **matrices)
@@ -137,7 +139,9 @@ def annotate(request: dict[str, Any]) -> dict[str, Any]:
         )
         vectors = prediction.embeddings[0, 1:-1].float().cpu().numpy()
         if vectors.shape != (len(sequence), 1536) or not np.isfinite(vectors).all():
-            raise ValueError("The ESM3 residue embeddings have an unexpected shape or non-finite values")
+            raise ValueError(
+                "The ESM3 residue embeddings have an unexpected shape or non-finite values"
+            )
         function_logits = prediction.logits.function
         ss_logits = prediction.logits.secondary_structure
         if (
@@ -196,11 +200,15 @@ def annotate(request: dict[str, Any]) -> dict[str, Any]:
             or not np.isfinite(probabilities).all()
             or not np.allclose(probabilities.sum(axis=1), 1, atol=1e-5)
         ):
-            raise ValueError("The secondary-structure probabilities have an unexpected shape, non-finite values or rows that do not sum to 1")
+            raise ValueError(
+                "The secondary-structure probabilities have an unexpected shape, non-finite values or rows that do not sum to 1"
+            )
         interpro = torch.sigmoid(decoded["interpro_logits"])[1:-1].cpu().numpy()
         keyword = torch.sigmoid(decoded["keyword_logits"])[1:-1].cpu().numpy()
         if not np.isfinite(interpro).all() or not np.isfinite(keyword).all():
-            raise ValueError("The function-decoder probabilities contain non-finite values")
+            raise ValueError(
+                "The function-decoder probabilities contain non-finite values"
+            )
         np.savez_compressed(
             request["arrays_output"],
             interpro_probability=interpro,
@@ -259,7 +267,9 @@ def complete(request: dict[str, Any]) -> dict[str, Any]:
                 + [tokenizer.eos_token_id]
             )
             if encoded.sequence.tolist() != expected:
-                raise ValueError("The tokenizer changed the residue identities of the masked prompt")
+                raise ValueError(
+                    "The tokenizer changed the residue identities of the masked prompt"
+                )
             generated = model.generate(encoded, GenerationConfig(**generation))
             if isinstance(generated, ESMProteinError):
                 generated_sequences.append(

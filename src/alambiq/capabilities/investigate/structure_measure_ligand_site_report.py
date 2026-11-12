@@ -91,7 +91,9 @@ def render(result) -> str:
             numeric={3},
         )
     )
-    parts.append("<p>The nearest heavy atom of the mobile structure outside the ligand:</p>")
+    parts.append(
+        "<p>The nearest heavy atom of the mobile structure outside the ligand:</p>"
+    )
     parts.append(
         table(
             ["Ligand atom", "Atom", "Residue", "Distance (Å)"],

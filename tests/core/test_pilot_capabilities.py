@@ -50,8 +50,7 @@ def measurements(tmp_path: Path) -> Path:
         {f"c{i}": f"Substrate {x} mM" for i, x in enumerate(XS)},
         None,
         condition_values={
-            f"c{i}": {"substrate": {"value": x, "unit": "mM"}}
-            for i, x in enumerate(XS)
+            f"c{i}": {"substrate": {"value": x, "unit": "mM"}} for i, x in enumerate(XS)
         },
     )
     path = tmp_path / "rates.json"
@@ -60,7 +59,9 @@ def measurements(tmp_path: Path) -> Path:
 
 
 class TestAssayFit:
-    def test_a_known_curve_comes_back_through_the_new_core(self, measurements, tmp_path):
+    def test_a_known_curve_comes_back_through_the_new_core(
+        self, measurements, tmp_path
+    ):
         from alambiq.api import run
 
         campaign = {
@@ -107,8 +108,9 @@ class TestAssayFit:
 
         from_yaml = run(path, run_dir=tmp_path / "a")
         from_python = run(document, run_dir=tmp_path / "b")
-        assert from_yaml.outputs("fit")["parameters"] == (
-            from_python.outputs("fit")["parameters"]
+        assert (
+            from_yaml.outputs("fit")["parameters"]
+            == (from_python.outputs("fit")["parameters"])
         )
 
     def test_a_second_run_reuses_the_fit(self, measurements, tmp_path):
@@ -206,11 +208,16 @@ class TestCapabilityIntrospection:
         from alambiq.api import describe
 
         for capability, phrase in [
-            ("assay.fit", "conditional on the recorded experiment and the chosen model"),
+            (
+                "assay.fit",
+                "conditional on the recorded experiment and the chosen model",
+            ),
             ("operation.simulate", "no declared dependence"),
             ("protein.search", "homologous proteins can differ in function"),
         ]:
-            assert phrase in " ".join(describe(capability)["documentation"].lower().split())
+            assert phrase in " ".join(
+                describe(capability)["documentation"].lower().split()
+            )
 
 
 class TestMeasurementChain:

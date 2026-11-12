@@ -18,7 +18,17 @@ pytest.importorskip("gemmi")
 
 
 def atom(
-    serial, name, residue, chain, number, xyz, element, *, altloc=" ", het=False, occupancy=1.0
+    serial,
+    name,
+    residue,
+    chain,
+    number,
+    xyz,
+    element,
+    *,
+    altloc=" ",
+    het=False,
+    occupancy=1.0,
 ) -> str:
     padded = f" {name:<3}" if len(name) < 4 and len(element) == 1 else f"{name:<4}"
     x, y, z = xyz
@@ -40,7 +50,11 @@ def pdb(rows: list[tuple]) -> str:
 
 def dipeptide(theta: float) -> str:
     """Alanine then glycine with the CA-C-N-CA dihedral at theta degrees (180 is trans)."""
-    ca2 = (1.33 + 0.6, 1.4 * math.cos(math.radians(theta)), 1.4 * math.sin(math.radians(theta)))
+    ca2 = (
+        1.33 + 0.6,
+        1.4 * math.cos(math.radians(theta)),
+        1.4 * math.sin(math.radians(theta)),
+    )
     return pdb(
         [
             ("N", "ALA", "A", 1, (-1.5, 1.4, 1.0), "N"),
@@ -65,7 +79,11 @@ def check(tmp_path: Path, text: str, name: str = "model.pdb", **params) -> dict:
         {
             "id": "c",
             "steps": [
-                {"id": "check", "capability": "structure.check", "params": {"structure": str(path), **params}}
+                {
+                    "id": "check",
+                    "capability": "structure.check",
+                    "params": {"structure": str(path), **params},
+                }
             ],
         },
         run_dir=tmp_path / "run",
@@ -83,7 +101,11 @@ def failure(tmp_path: Path, text: str, name: str = "model.pdb", **params) -> str
         {
             "id": "c",
             "steps": [
-                {"id": "check", "capability": "structure.check", "params": {"structure": str(path), **params}}
+                {
+                    "id": "check",
+                    "capability": "structure.check",
+                    "params": {"structure": str(path), **params},
+                }
             ],
         },
         run_dir=tmp_path / "run",
@@ -102,15 +124,21 @@ class TestPeptideBonds:
         assert bond["cis"] and not bond["twisted"]
         assert abs(bond["omega_degrees"]) < 1e-6
 
-    def test_a_bond_twisted_by_60_degrees_is_reported_with_that_deviation(self, tmp_path):
+    def test_a_bond_twisted_by_60_degrees_is_reported_with_that_deviation(
+        self, tmp_path
+    ):
         bond = check(tmp_path, dipeptide(120))["peptide_bonds"][0]
         assert bond["twisted"] and not bond["cis"]
         assert bond["deviation_degrees"] == pytest.approx(60.0, abs=0.1)
 
     def test_the_deviation_limit_decides_what_is_twisted(self, tmp_path):
         text = dipeptide(150)  # 30 degrees from trans
-        assert check(tmp_path, text, peptide_deviation_degrees=45.0)["peptide_bonds"] == []
-        twisted = check(tmp_path, text, "again.pdb", peptide_deviation_degrees=20.0)["peptide_bonds"]
+        assert (
+            check(tmp_path, text, peptide_deviation_degrees=45.0)["peptide_bonds"] == []
+        )
+        twisted = check(tmp_path, text, "again.pdb", peptide_deviation_degrees=20.0)[
+            "peptide_bonds"
+        ]
         assert len(twisted) == 1 and twisted[0]["twisted"]
 
 
@@ -143,7 +171,10 @@ class TestBreaks:
     def test_the_break_distance_is_applied(self, tmp_path):
         text = self.two_residues(3.0)
         assert len(check(tmp_path, text)["breaks"]) == 1
-        assert check(tmp_path, text, "wide.pdb", break_distance_angstrom=3.5)["breaks"] == []
+        assert (
+            check(tmp_path, text, "wide.pdb", break_distance_angstrom=3.5)["breaks"]
+            == []
+        )
 
 
 class TestAlphaCarbons:
@@ -161,7 +192,9 @@ class TestAlphaCarbons:
     def test_n_c_cb_along_x_y_z_has_the_L_arrangement(self, tmp_path):
         assert check(tmp_path, self.alanine(1.5))["alpha_centers"] == []
 
-    def test_reflecting_cb_inverts_the_alpha_carbon_with_the_volume_of_the_triple_product(self, tmp_path):
+    def test_reflecting_cb_inverts_the_alpha_carbon_with_the_volume_of_the_triple_product(
+        self, tmp_path
+    ):
         (center,) = check(tmp_path, self.alanine(-1.5))["alpha_centers"]
         assert center["orientation"] == "inverted"
         assert center["signed_volume_angstrom3"] == pytest.approx(-1.5 * 1.5 * 1.5)
@@ -215,8 +248,24 @@ class TestResidueFindings:
                 ("C", "SER", "A", 1, (2.0, 1.3, 0.0), "C"),
                 ("O", "SER", "A", 1, (2.0, 2.5, 0.0), "O"),
                 ("CB", "SER", "A", 1, (1.4, -1.5, 0.0), "C"),
-                ("OG", "SER", "A", 1, (1.4, -2.5, 0.5), "O", {"altloc": "A", "occupancy": 0.6}),
-                ("OG", "SER", "A", 1, (0.4, -2.5, 0.5), "O", {"altloc": "B", "occupancy": 0.0}),
+                (
+                    "OG",
+                    "SER",
+                    "A",
+                    1,
+                    (1.4, -2.5, 0.5),
+                    "O",
+                    {"altloc": "A", "occupancy": 0.6},
+                ),
+                (
+                    "OG",
+                    "SER",
+                    "A",
+                    1,
+                    (0.4, -2.5, 0.5),
+                    "O",
+                    {"altloc": "B", "occupancy": 0.0},
+                ),
             ]
         )
         out = check(tmp_path, text)
@@ -224,7 +273,9 @@ class TestResidueFindings:
         assert out["zero_occupancy"][0]["detail"] == "atoms OG"
         assert out["missing_atoms"] == []
 
-    def test_an_amino_acid_outside_the_20_is_listed_and_not_tested_for_completeness(self, tmp_path):
+    def test_an_amino_acid_outside_the_20_is_listed_and_not_tested_for_completeness(
+        self, tmp_path
+    ):
         text = pdb(
             [
                 ("N", "MSE", "A", 1, (0.0, 0.0, 0.0), "N", {"het": True}),
@@ -275,10 +326,14 @@ class TestCloseContacts:
         assert contact["first"]["atom"] == contact["second"]["atom"] == "OG"
         assert {contact["first"]["number"], contact["second"]["number"]} == {3, 40}
 
-    def test_a_distance_above_the_clash_distance_is_not_reported_and_the_distance_is_applied(self, tmp_path):
+    def test_a_distance_above_the_clash_distance_is_not_reported_and_the_distance_is_applied(
+        self, tmp_path
+    ):
         text = self.two_serines(3.0)
         assert check(tmp_path, text)["close_contacts"] == []
-        wide = check(tmp_path, text, "wide.pdb", clash_distance_angstrom=3.5)["close_contacts"]
+        wide = check(tmp_path, text, "wide.pdb", clash_distance_angstrom=3.5)[
+            "close_contacts"
+        ]
         assert len(wide) == 1 and wide[0]["distance_angstrom"] == pytest.approx(3.0)
 
     def test_residues_with_consecutive_numbers_are_not_contacts(self, tmp_path):
@@ -290,7 +345,9 @@ class TestCloseContacts:
         )
         assert check(tmp_path, text)["close_contacts"] == []
 
-    def test_bonded_neighbors_and_the_atoms_inside_a_residue_are_not_contacts(self, tmp_path):
+    def test_bonded_neighbors_and_the_atoms_inside_a_residue_are_not_contacts(
+        self, tmp_path
+    ):
         assert check(tmp_path, dipeptide(180))["close_contacts"] == []
 
     def test_the_sulfur_pair_of_a_disulfide_bond_is_not_a_contact(self, tmp_path):
@@ -329,13 +386,17 @@ class TestFileHandling:
 
     def test_chains_report_the_observed_sequence(self, tmp_path):
         chain = check(tmp_path, dipeptide(180))["chains"][0]
-        assert chain["id"] == "A" and chain["sequence"] == "AG" and chain["residues"] == 2
+        assert (
+            chain["id"] == "A" and chain["sequence"] == "AG" and chain["residues"] == 2
+        )
         assert chain["first"] == "1" and chain["last"] == "2"
 
     def test_the_model_index_selects_the_model(self, tmp_path):
         first = dipeptide(180).replace("END\n", "")
         second = dipeptide(0).replace("END\n", "")
-        text = f"MODEL        1\n{first}\nENDMDL\nMODEL        2\n{second}\nENDMDL\nEND\n"
+        text = (
+            f"MODEL        1\n{first}\nENDMDL\nMODEL        2\n{second}\nENDMDL\nEND\n"
+        )
         out = check(tmp_path, text)
         assert out["model_count"] == 2 and out["peptide_bonds"] == []
         again = check(tmp_path, text, "again.pdb", model_index=1)
@@ -348,7 +409,12 @@ class TestFileHandling:
     def test_an_extension_that_names_no_format_needs_structure_format(self, tmp_path):
         message = failure(tmp_path, dipeptide(180), "model.txt")
         assert "set structure_format" in message
-        assert check(tmp_path, dipeptide(180), "model.txt", structure_format="pdb")["atoms"] == 9
+        assert (
+            check(tmp_path, dipeptide(180), "model.txt", structure_format="pdb")[
+                "atoms"
+            ]
+            == 9
+        )
 
     def test_an_mmcif_file_is_read(self, tmp_path):
         import gemmi

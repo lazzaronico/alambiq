@@ -276,7 +276,9 @@ class TestRefusals:
 
     def test_one_replica_is_refused(self, runs, tmp_path):
         self.fails(
-            request(runs[1][:1]), tmp_path, "2–20 independently sampled replicas are required"
+            request(runs[1][:1]),
+            tmp_path,
+            "2–20 independently sampled replicas are required",
         )
 
     def test_replicas_with_different_windows_are_refused(self, runs, tmp_path):

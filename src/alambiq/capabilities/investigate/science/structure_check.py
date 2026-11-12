@@ -73,7 +73,9 @@ def first_atom(residue: gemmi.Residue, name: str) -> gemmi.Atom | None:
     return found
 
 
-def load_model(path: str, fmt: str, model_index: int) -> tuple[gemmi.Structure, gemmi.Model]:
+def load_model(
+    path: str, fmt: str, model_index: int
+) -> tuple[gemmi.Structure, gemmi.Model]:
     if fmt == "pdb":
         structure = gemmi.read_pdb(path)
     else:
@@ -95,7 +97,11 @@ def chain_summaries(model: gemmi.Model) -> list[dict[str, Any]]:
         letters = []
         for r in residues:
             info = gemmi.find_tabulated_residue(standard_name(r) or r.name)
-            letters.append(info.one_letter_code.upper() if info and info.one_letter_code != " " else "X")
+            letters.append(
+                info.one_letter_code.upper()
+                if info and info.one_letter_code != " "
+                else "X"
+            )
         chains.append(
             {
                 "id": chain.name,
@@ -118,25 +124,46 @@ def residue_issues(model: gemmi.Model) -> dict[str, list[dict[str, Any]]]:
             what = kind(residue)
             identity = residue_id(chain, residue)
             if what == "nonstandard":
-                found["nonstandard_residues"].append({**identity, "detail": "amino acid outside the 20 standard residues"})
+                found["nonstandard_residues"].append(
+                    {
+                        **identity,
+                        "detail": "amino acid outside the 20 standard residues",
+                    }
+                )
             if what not in ("standard", "nonstandard"):
                 continue
             altlocs = sorted({a.altloc for a in residue if a.altloc != "\0"})
             if altlocs:
-                found["alternate_locations"].append({**identity, "detail": "locations " + ", ".join(altlocs)})
-            zero = sorted({a.name for a in residue if a.occ == 0 and a.element.name not in HYDROGENS})
+                found["alternate_locations"].append(
+                    {**identity, "detail": "locations " + ", ".join(altlocs)}
+                )
+            zero = sorted(
+                {
+                    a.name
+                    for a in residue
+                    if a.occ == 0 and a.element.name not in HYDROGENS
+                }
+            )
             if zero:
-                found["zero_occupancy"].append({**identity, "detail": "atoms " + ", ".join(zero)})
+                found["zero_occupancy"].append(
+                    {**identity, "detail": "atoms " + ", ".join(zero)}
+                )
             standard = standard_name(residue)
             if standard:
                 present = {a.name for a in residue}
-                missing = [a for a in EXPECTED_ATOMS[standard].split() if a not in present]
+                missing = [
+                    a for a in EXPECTED_ATOMS[standard].split() if a not in present
+                ]
                 if missing:
-                    found["missing_atoms"].append({**identity, "detail": "atoms " + ", ".join(missing)})
+                    found["missing_atoms"].append(
+                        {**identity, "detail": "atoms " + ", ".join(missing)}
+                    )
     return found
 
 
-def links(model: gemmi.Model, break_distance: float, deviation_limit: float) -> dict[str, Any]:
+def links(
+    model: gemmi.Model, break_distance: float, deviation_limit: float
+) -> dict[str, Any]:
     """Chain breaks and the geometry of each peptide bond between consecutive amino acids."""
     breaks, peptides, unassessed = [], [], []
     for chain in model:
@@ -145,7 +172,11 @@ def links(model: gemmi.Model, break_distance: float, deviation_limit: float) -> 
             c, n = first_atom(a, "C"), first_atom(b, "N")
             if c is None or n is None:
                 unassessed.append(
-                    {"from": residue_id(chain, a), "to": residue_id(chain, b), "detail": "C or N is absent"}
+                    {
+                        "from": residue_id(chain, a),
+                        "to": residue_id(chain, b),
+                        "detail": "C or N is absent",
+                    }
                 )
                 continue
             distance = c.pos.dist(n.pos)
@@ -162,7 +193,11 @@ def links(model: gemmi.Model, break_distance: float, deviation_limit: float) -> 
             omega = gemmi.calculate_omega(a, b)
             if math.isnan(omega):
                 unassessed.append(
-                    {"from": residue_id(chain, a), "to": residue_id(chain, b), "detail": "CA is absent"}
+                    {
+                        "from": residue_id(chain, a),
+                        "to": residue_id(chain, b),
+                        "detail": "CA is absent",
+                    }
                 )
                 continue
             degrees = math.degrees(omega)
@@ -214,10 +249,18 @@ def hetero(model: gemmi.Model) -> dict[str, Any]:
             if what == "water":
                 waters += 1
             elif what == "metal":
-                metals.append({**residue_id(chain, residue), "element": residue[0].element.name})
+                metals.append(
+                    {**residue_id(chain, residue), "element": residue[0].element.name}
+                )
             elif what == "ligand":
                 ligands.append({**residue_id(chain, residue), "atoms": len(residue)})
-    return {"ligands": ligands, "metals": metals, "waters": waters, "hydrogens": hydrogens, "atoms": atoms}
+    return {
+        "ligands": ligands,
+        "metals": metals,
+        "waters": waters,
+        "hydrogens": hydrogens,
+        "atoms": atoms,
+    }
 
 
 def close_contacts(
@@ -239,17 +282,38 @@ def close_contacts(
         if result.image_idx != 0:
             continue
         one, two = result.partner1, result.partner2
-        if any(p.atom.element.name in HYDROGENS or p.atom.element.is_metal for p in (one, two)):
+        if any(
+            p.atom.element.name in HYDROGENS or p.atom.element.is_metal
+            for p in (one, two)
+        ):
             continue
         if any(kind(p.residue) not in ("standard", "nonstandard") for p in (one, two)):
             continue
-        if one.chain.name == two.chain.name and abs(one.residue.seqid.num - two.residue.seqid.num) <= 1:
+        if (
+            one.chain.name == two.chain.name
+            and abs(one.residue.seqid.num - two.residue.seqid.num) <= 1
+        ):
             continue
         if one.atom.name == "SG" and two.atom.name == "SG":
             continue
-        if one.atom.altloc != "\0" and two.atom.altloc != "\0" and one.atom.altloc != two.atom.altloc:
+        if (
+            one.atom.altloc != "\0"
+            and two.atom.altloc != "\0"
+            and one.atom.altloc != two.atom.altloc
+        ):
             continue
-        key = tuple(sorted((p.chain.name, p.residue.seqid.num, p.residue.seqid.icode, p.atom.name, p.atom.altloc) for p in (one, two)))
+        key = tuple(
+            sorted(
+                (
+                    p.chain.name,
+                    p.residue.seqid.num,
+                    p.residue.seqid.icode,
+                    p.atom.name,
+                    p.atom.altloc,
+                )
+                for p in (one, two)
+            )
+        )
         if key in seen:
             continue
         seen.add(key)

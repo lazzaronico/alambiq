@@ -90,6 +90,7 @@ class Campaign:
                     progressed = True
             if not progressed:
                 raise ValueError(
-                    "Steps form a cycle or depend on one: " + ", ".join(sorted(remaining))
+                    "Steps form a cycle or depend on one: "
+                    + ", ".join(sorted(remaining))
                 )
         return tuple(done)

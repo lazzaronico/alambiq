@@ -567,7 +567,9 @@ def predict_biomolecular_complex(
         samples=samples,
         ligand_chemistry=ctx.keep_json(chemistry) if chemistry else None,
         affinity=affinity,
-        cofactors=[CofactorSummary(ccd=c["ccd"], chain_ids=c["ids"]) for c in cofactors],
+        cofactors=[
+            CofactorSummary(ccd=c["ccd"], chain_ids=c["ids"]) for c in cofactors
+        ],
         input_yaml=keep(found["input_yaml"], "application/yaml"),
         log=keep(found["log"], "text/plain"),
         accelerator=found["accelerator"],

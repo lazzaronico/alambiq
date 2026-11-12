@@ -148,7 +148,9 @@ class MutationLegResult:
     render=render,
     environment="openfe",
 )
-def run_mutation_free_energy(request: MutationLegRequest, ctx: StepContext) -> MutationLegResult:
+def run_mutation_free_energy(
+    request: MutationLegRequest, ctx: StepContext
+) -> MutationLegResult:
     """Unpack the leg, sample every replica, and assemble the leg record."""
     from alambiq.capabilities.investigate.science.mutation import (
         check_sampling,
@@ -180,7 +182,9 @@ def run_mutation_free_energy(request: MutationLegRequest, ctx: StepContext) -> M
                 )
             bundle.extractall(leg_directory, filter="data")
     except tarfile.TarError as exc:
-        raise ValueError(f"inputs is {request.inputs!r}, which is not a leg archive: {exc}") from exc
+        raise ValueError(
+            f"inputs is {request.inputs!r}, which is not a leg archive: {exc}"
+        ) from exc
     if request.production_ps < 2500:
         ctx.note(
             f"{request.production_ps:g} ps of production per window is below 2500 ps. For one substitution, the "

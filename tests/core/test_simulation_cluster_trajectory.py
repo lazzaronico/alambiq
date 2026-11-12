@@ -39,7 +39,16 @@ def run_step(tmp_path: Path, name: str = "run", **params):
     from alambiq.api import run as execute
 
     return execute(
-        {"id": "c", "steps": [{"id": "cluster", "capability": "simulation.cluster_trajectory", "params": params}]},
+        {
+            "id": "c",
+            "steps": [
+                {
+                    "id": "cluster",
+                    "capability": "simulation.cluster_trajectory",
+                    "params": params,
+                }
+            ],
+        },
         run_dir=tmp_path / name,
     )
 
@@ -60,7 +69,9 @@ def rotation(rng) -> np.ndarray:
     axis = rng.normal(size=3)
     axis /= np.linalg.norm(axis)
     a = rng.uniform(0, 2 * np.pi)
-    k = np.array([[0, -axis[2], axis[1]], [axis[2], 0, -axis[0]], [-axis[1], axis[0], 0]])
+    k = np.array(
+        [[0, -axis[2], axis[1]], [axis[2], 0, -axis[0]], [-axis[1], axis[0], 0]]
+    )
     return np.eye(3) + np.sin(a) * k + (1 - np.cos(a)) * (k @ k)
 
 
@@ -92,7 +103,12 @@ def trpcage(tmp_path_factory):
     structure.write_pdb(str(bare))
     protein = md.load_pdb(str(bare))
     protein.save_pdb(str(directory / "topology.pdb"))
-    return {"directory": directory, "topology": directory / "topology.pdb", "xyz": protein.xyz[0] * 10, "mdtop": protein.topology}
+    return {
+        "directory": directory,
+        "topology": directory / "topology.pdb",
+        "xyz": protein.xyz[0] * 10,
+        "mdtop": protein.topology,
+    }
 
 
 @pytest.fixture(scope="module")
@@ -115,7 +131,11 @@ def states(trpcage):
 
 
 def request(states, **params) -> dict:
-    return {"topology": str(states["topology"]), "trajectory": str(states["dcd"]), **params}
+    return {
+        "topology": str(states["topology"]),
+        "trajectory": str(states["dcd"]),
+        **params,
+    }
 
 
 def first_frame_of(scales, scale, start=0, stride=1) -> int:
@@ -125,26 +145,38 @@ def first_frame_of(scales, scale, start=0, stride=1) -> int:
 class TestOneClusterPerState:
     @pytest.fixture(scope="class")
     def out(self, states, tmp_path_factory):
-        return cluster(tmp_path_factory.mktemp("separate"), **request(states, rmsd_cutoff_angstrom=1.0))
+        return cluster(
+            tmp_path_factory.mktemp("separate"),
+            **request(states, rmsd_cutoff_angstrom=1.0),
+        )
 
     def test_there_is_one_cluster_per_state_ordered_by_size(self, out):
         assert [c["size"] for c in out["clusters"]] == [30, 10, 5]
         assert out["cluster_count"] == 3 and out["singleton_count"] == 0
         assert out["frames_read"] == out["frames_in_file"] == 45
         assert [c["index"] for c in out["clusters"]] == [1, 2, 3]
-        assert [c["fraction"] for c in out["clusters"]] == pytest.approx([30 / 45, 10 / 45, 5 / 45])
+        assert [c["fraction"] for c in out["clusters"]] == pytest.approx(
+            [30 / 45, 10 / 45, 5 / 45]
+        )
 
-    def test_the_center_of_each_cluster_is_the_lowest_index_frame_of_its_state(self, out, states):
+    def test_the_center_of_each_cluster_is_the_lowest_index_frame_of_its_state(
+        self, out, states
+    ):
         expected = [first_frame_of(states["scales"], s) for s in (1.0, 1.5, 2.0)]
         assert [c["center_frame"] for c in out["clusters"]] == expected
 
-    def test_members_are_at_zero_rmsd_from_the_center_whatever_the_rigid_motion(self, out):
+    def test_members_are_at_zero_rmsd_from_the_center_whatever_the_rigid_motion(
+        self, out
+    ):
         for c in out["clusters"]:
             assert c["mean_rmsd_to_center_angstrom"] < 0.01
             assert c["max_rmsd_to_center_angstrom"] < 0.01
 
     def test_the_assignments_give_every_frame_the_rank_of_its_state(self, out, states):
-        rows = [line.split(",") for line in Path(out["assignments"]).read_text().splitlines()]
+        rows = [
+            line.split(",")
+            for line in Path(out["assignments"]).read_text().splitlines()
+        ]
         assert rows[0] == ["frame", "cluster"]
         rank = {1.0: 1, 1.5: 2, 2.0: 3}
         assert [(int(f), int(c)) for f, c in rows[1:]] == [
@@ -159,8 +191,16 @@ class TestDistancesAreExact:
     ):
         selected = states["mdtop"].select(SELECTIONS[atoms])
         rg = radius_of_gyration(states["frames"][0], selected) / states["scales"][0]
-        below = cluster(tmp_path, "below", **request(states, atoms=atoms, rmsd_cutoff_angstrom=0.45 * rg))
-        above = cluster(tmp_path, "above", **request(states, atoms=atoms, rmsd_cutoff_angstrom=0.55 * rg))
+        below = cluster(
+            tmp_path,
+            "below",
+            **request(states, atoms=atoms, rmsd_cutoff_angstrom=0.45 * rg),
+        )
+        above = cluster(
+            tmp_path,
+            "above",
+            **request(states, atoms=atoms, rmsd_cutoff_angstrom=0.55 * rg),
+        )
         assert below["atoms_compared"] == len(selected)
         assert [c["size"] for c in below["clusters"]] == [30, 10, 5]
         assert [c["size"] for c in above["clusters"]] == [45]
@@ -175,12 +215,19 @@ class TestDistancesAreExact:
         assert only["size"] == 45
         assert only["center_frame"] == first_frame_of(states["scales"], 1.5)
         assert only["max_rmsd_to_center_angstrom"] == pytest.approx(0.5 * rg, abs=0.01)
-        assert only["mean_rmsd_to_center_angstrom"] == pytest.approx(35 / 45 * 0.5 * rg, abs=0.01)
+        assert only["mean_rmsd_to_center_angstrom"] == pytest.approx(
+            35 / 45 * 0.5 * rg, abs=0.01
+        )
 
 
 class TestFramesRead:
-    def test_first_frame_and_stride_select_the_frames_and_their_indices(self, states, tmp_path):
-        out = cluster(tmp_path, **request(states, rmsd_cutoff_angstrom=1.0, first_frame=5, stride=3))
+    def test_first_frame_and_stride_select_the_frames_and_their_indices(
+        self, states, tmp_path
+    ):
+        out = cluster(
+            tmp_path,
+            **request(states, rmsd_cutoff_angstrom=1.0, first_frame=5, stride=3),
+        )
         read = list(range(5, 45, 3))
         assert out["frames_read"] == len(read) and out["frames_in_file"] == 45
         for c in out["clusters"]:
@@ -192,12 +239,18 @@ class TestFramesRead:
         rows = Path(out["assignments"]).read_text().splitlines()[1:]
         assert [int(r.split(",")[0]) for r in rows] == read
 
-    def test_a_trajectory_of_more_than_5000_frames_asks_for_a_larger_stride(self, states, tmp_path):
+    def test_a_trajectory_of_more_than_5000_frames_asks_for_a_larger_stride(
+        self, states, tmp_path
+    ):
         many = states["directory"] / "many.dcd"
         write_dcd(many, [states["frames"][0]] * 5001)
         message = error_of(tmp_path, **{**request(states), "trajectory": str(many)})
         assert "5001 frames" in message and "raise stride to at least 2" in message
-        out = cluster(tmp_path, "strided", **{**request(states), "trajectory": str(many), "stride": 2})
+        out = cluster(
+            tmp_path,
+            "strided",
+            **{**request(states), "trajectory": str(many), "stride": 2},
+        )
         assert out["frames_read"] == 2501 and out["cluster_count"] == 1
 
     def test_fewer_than_2_frames_are_refused(self, states, tmp_path):
@@ -205,19 +258,33 @@ class TestFramesRead:
 
 
 class TestRepresentatives:
-    def test_the_largest_clusters_get_a_center_structure_and_the_others_none(self, states, tmp_path):
-        out = cluster(tmp_path, **request(states, rmsd_cutoff_angstrom=1.0, representatives=2))
-        assert [c["structure"] is not None for c in out["clusters"]] == [True, True, False]
+    def test_the_largest_clusters_get_a_center_structure_and_the_others_none(
+        self, states, tmp_path
+    ):
+        out = cluster(
+            tmp_path, **request(states, rmsd_cutoff_angstrom=1.0, representatives=2)
+        )
+        assert [c["structure"] is not None for c in out["clusters"]] == [
+            True,
+            True,
+            False,
+        ]
 
-    def test_a_center_structure_holds_the_coordinates_of_its_frame(self, states, tmp_path):
-        out = cluster(tmp_path, **request(states, rmsd_cutoff_angstrom=1.0, representatives=1))
+    def test_a_center_structure_holds_the_coordinates_of_its_frame(
+        self, states, tmp_path
+    ):
+        out = cluster(
+            tmp_path, **request(states, rmsd_cutoff_angstrom=1.0, representatives=1)
+        )
         center = out["clusters"][0]["center_frame"]
         written = md.load_pdb(out["clusters"][0]["structure"])
         assert written.n_atoms == states["mdtop"].n_atoms
         assert np.abs(written.xyz[0] * 10 - states["frames"][center]).max() < 0.005
 
     def test_no_representatives_writes_no_structure(self, states, tmp_path):
-        out = cluster(tmp_path, **request(states, rmsd_cutoff_angstrom=1.0, representatives=0))
+        out = cluster(
+            tmp_path, **request(states, rmsd_cutoff_angstrom=1.0, representatives=0)
+        )
         assert all(c["structure"] is None for c in out["clusters"])
 
 
@@ -236,16 +303,24 @@ class TestImaging:
         write_dcd(path, frames, cell=BOX)
         return {"trajectory": str(path), "topology": str(trpcage["topology"])}
 
-    def test_a_structure_torn_across_the_box_forms_its_own_cluster_as_stored(self, wrapped, tmp_path):
+    def test_a_structure_torn_across_the_box_forms_its_own_cluster_as_stored(
+        self, wrapped, tmp_path
+    ):
         out = cluster(tmp_path, **wrapped, rmsd_cutoff_angstrom=1.0)
         assert [c["size"] for c in out["clusters"]] == [4, 2]
 
-    def test_whole_molecule_imaging_puts_it_back_in_one_cluster(self, wrapped, tmp_path):
-        out = cluster(tmp_path, **wrapped, rmsd_cutoff_angstrom=1.0, imaging="whole-molecules")
+    def test_whole_molecule_imaging_puts_it_back_in_one_cluster(
+        self, wrapped, tmp_path
+    ):
+        out = cluster(
+            tmp_path, **wrapped, rmsd_cutoff_angstrom=1.0, imaging="whole-molecules"
+        )
         assert [c["size"] for c in out["clusters"]] == [6]
 
     def test_whole_molecule_imaging_needs_a_periodic_cell(self, states, tmp_path):
-        assert "no periodic cell" in error_of(tmp_path, **request(states, imaging="whole-molecules"))
+        assert "no periodic cell" in error_of(
+            tmp_path, **request(states, imaging="whole-molecules")
+        )
 
 
 class TestRefusals:
@@ -257,7 +332,9 @@ class TestRefusals:
         small = protein.atom_slice(keep)
         small.save_pdb(str(two / "small.pdb"))
         write_dcd(two / "small.dcd", [small.xyz[0] * 10] * 3)
-        message = error_of(tmp_path, topology=str(two / "small.pdb"), trajectory=str(two / "small.dcd"))
+        message = error_of(
+            tmp_path, topology=str(two / "small.pdb"), trajectory=str(two / "small.dcd")
+        )
         assert "matches 2 atom(s)" in message
 
     @pytest.mark.parametrize(
@@ -269,5 +346,7 @@ class TestRefusals:
             ("representatives", 51),
         ],
     )
-    def test_a_value_outside_its_range_is_refused_by_name(self, states, tmp_path, name, value):
+    def test_a_value_outside_its_range_is_refused_by_name(
+        self, states, tmp_path, name, value
+    ):
         assert name in error_of(tmp_path, **request(states, **{name: value}))

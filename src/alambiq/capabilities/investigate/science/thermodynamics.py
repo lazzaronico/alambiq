@@ -96,9 +96,7 @@ def validate_request(request):
     for key, (low, high) in bounds.items():
         value = conditions[key]
         if type(value) not in (float, int) or not low <= value <= high:
-            raise ValueError(
-                f"{key} must be a number from {low} to {high}"
-            )
+            raise ValueError(f"{key} must be a number from {low} to {high}")
     compounds = request["compounds"]
     if not isinstance(compounds, list) or not 2 <= len(compounds) <= 200:
         raise ValueError("Supply 2–200 compound records")
@@ -382,9 +380,7 @@ def assess_thermodynamics(request, model=None, model_identity=None):
         if unknown or np.linalg.norm(infinite) > 1e-8:
             row.update(
                 status="unresolved-model",
-                notes=[
-                    "The model leaves a direction of this equation unconstrained."
-                ],
+                notes=["The model leaves a direction of this equation unconstrained."],
             )
             continue
         row["ln_q"] = sum(
@@ -402,9 +398,7 @@ def assess_thermodynamics(request, model=None, model_identity=None):
         means = np.asarray(means.m_as("kJ/mol"))
         cov = np.asarray(cov.m_as("(kJ/mol)**2"))
         if not np.isfinite(means).all() or not np.isfinite(cov).all():
-            raise ValueError(
-                "The model returned a nonfinite energy or covariance"
-            )
+            raise ValueError("The model returned a nonfinite energy or covariance")
         covariance[np.ix_(estimate_indices, estimate_indices)] = cov
         for i, index in enumerate(estimate_indices):
             row = rows[index]

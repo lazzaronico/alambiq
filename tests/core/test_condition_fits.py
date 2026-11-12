@@ -245,7 +245,10 @@ class TestArrhenius:
             model="linear",
             reference_x=2.0,
         )
-        assert "reference_x is accepted only with the model arrhenius" in outcome.steps["fit"].error
+        assert (
+            "reference_x is accepted only with the model arrhenius"
+            in outcome.steps["fit"].error
+        )
 
 
 class TestThermalInactivation:

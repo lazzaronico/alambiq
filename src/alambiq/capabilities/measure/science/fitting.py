@@ -859,13 +859,13 @@ def fit_assay(data, profile, parameters):
     if varying:
         diagnostics.append(
             "Quantities listed in pool_over that differ between conditions or are "
-            "partly missing: " + ", ".join(varying) + ". The measurements are pooled across them with one set of "
+            "partly missing: "
+            + ", ".join(varying)
+            + ". The measurements are pooled across them with one set of "
             "coefficients."
         )
     if fixed:
-        diagnostics.append(
-            "The uncertainty is conditional on the fixed coefficients."
-        )
+        diagnostics.append("The uncertainty is conditional on the fixed coefficients.")
     if bootstrap:
         diagnostics.append(
             f"The bootstrap resamples {uncertainty['units']} named independent units."
@@ -895,17 +895,11 @@ def fit_assay(data, profile, parameters):
     if profile == MICHAELIS_MENTEN and not float(np.min(x)) < values[0] < float(
         np.max(x)
     ):
-        diagnostics.append(
-            "The fitted Km is outside the measured concentration range."
-        )
+        diagnostics.append("The fitted Km is outside the measured concentration range.")
     if profile == MICHAELIS_MENTEN and np.any(y < 0):
-        diagnostics.append(
-            "Negative recorded rates are included in the fit."
-        )
+        diagnostics.append("Negative recorded rates are included in the fit.")
     if variance_scaled < 1e-20:
-        diagnostics.append(
-            "The scaled residual variance is below 1e-20."
-        )
+        diagnostics.append("The scaled residual variance is below 1e-20.")
     if excluded:
         diagnostics.append(
             f"{len(excluded)} measurement records are not used in this fit."
@@ -913,9 +907,7 @@ def fit_assay(data, profile, parameters):
     if len({p["independent_id"] for p in points if p["independent_id"]}) < sum(
         p["independent_id"] is not None for p in points
     ):
-        diagnostics.append(
-            "An independent unit appears under more than one condition."
-        )
+        diagnostics.append("An independent unit appears under more than one condition.")
     requested_x = parameters.get(
         "prediction_x", np.linspace(float(np.min(x)), float(np.max(x)), 51).tolist()
     )

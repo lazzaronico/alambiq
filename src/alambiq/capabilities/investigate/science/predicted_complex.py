@@ -178,9 +178,7 @@ def read_prediction(structure_path: Path, sequences: list[str] | None):
             "alternate locations are accepted"
         )
     if any(not finite_position(atom) for atom in ligand_atoms):
-        raise ValueError(
-            "The LIG1 residue has non-finite coordinates"
-        )
+        raise ValueError("The LIG1 residue has non-finite coordinates")
     names = [atom.name.strip() for atom in ligand_atoms]
     if len(names) != len(set(names)):
         raise ValueError(
@@ -304,7 +302,9 @@ def ligand_residue(topology_pdb: Path, residue_name: str = "LIG") -> dict[str, A
         if not residues or residues[-1] != key:
             residues.append(key)
             if name == residue_name:
-                found.append((len(residues) - 1, chain.strip() or str(chain_index), number))
+                found.append(
+                    (len(residues) - 1, chain.strip() or str(chain_index), number)
+                )
     if len(found) != 1:
         raise ValueError(
             f"The topology has {len(found)} residues named {residue_name}; exactly one is required"

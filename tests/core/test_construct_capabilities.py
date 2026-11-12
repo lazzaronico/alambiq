@@ -178,7 +178,9 @@ class TestComposeCoding:
         assert "Part protein has coding_dna" in error
         assert "together with codon_choices" in error
 
-    def test_remove_terminal_stop_is_not_read_when_a_codon_table_is_given(self, tmp_path):
+    def test_remove_terminal_stop_is_not_read_when_a_codon_table_is_given(
+        self, tmp_path
+    ):
         choices = tmp_path / "codons.json"
         choices.write_text(json.dumps(CODONS))
         outcomes = {}

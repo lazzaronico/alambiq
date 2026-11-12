@@ -50,21 +50,37 @@ def variant(seed: int) -> str:
 
 
 def family(accession: str, name: str, members: list[str], extra: str = "") -> str:
-    lines = ["# STOCKHOLM 1.0", f"#=GF ID {name}", f"#=GF AC {accession}", f"#=GF DE {name} family"]
+    lines = [
+        "# STOCKHOLM 1.0",
+        f"#=GF ID {name}",
+        f"#=GF AC {accession}",
+        f"#=GF DE {name} family",
+    ]
     lines += [f"#=GF {e}" for e in extra.split(";") if e]
     lines += [f"m{i} {m}" for i, m in enumerate(members)]
     return "\n".join(lines) + "\n//\n"
 
 
-FAMILY_A = family("PF00001.1", "Motif", [MOTIF] + [variant(s) for s in range(1, 8)], "CL CL0001;TP Domain")
-FAMILY_B = family("PF00002.1", "Other", [residues(99, 60)] + [residues(99, 60)[:30] + residues(s, 30) for s in range(5)])
+FAMILY_A = family(
+    "PF00001.1",
+    "Motif",
+    [MOTIF] + [variant(s) for s in range(1, 8)],
+    "CL CL0001;TP Domain",
+)
+FAMILY_B = family(
+    "PF00002.1",
+    "Other",
+    [residues(99, 60)] + [residues(99, 60)[:30] + residues(s, 30) for s in range(5)],
+)
 FLANK_LEFT, FLANK_RIGHT = residues(21, 3), residues(22, 20)
 CARRIER = FLANK_LEFT + variant(40) + FLANK_RIGHT
 
 
 @pytest.fixture(autouse=True)
 def engine(monkeypatch):
-    monkeypatch.setenv("ALAMBIQ_ENV_MMSEQS", os.environ.get("ALAMBIQ_ENV_MMSEQS") or sys.executable)
+    monkeypatch.setenv(
+        "ALAMBIQ_ENV_MMSEQS", os.environ.get("ALAMBIQ_ENV_MMSEQS") or sys.executable
+    )
 
 
 def files(tmp_path: Path, protein: str, stockholm: str | None = None) -> dict:
@@ -94,10 +110,15 @@ needs_mmseqs = pytest.mark.skipif(
     reason="set ALAMBIQ_ENV_MMSEQS or put mmseqs on PATH to run the search",
 )
 
+
 class TestStockholm:
     def test_the_identity_and_shape_of_a_profile(self):
         row = parse_stockholm(STO)[0]
-        assert (row["accession"], row["name"], row["description"]) == ("PF99999.1", "Example", "Example profile")
+        assert (row["accession"], row["name"], row["description"]) == (
+            "PF99999.1",
+            "Example",
+            "Example profile",
+        )
         assert (row["sequence_count"], row["alignment_columns"]) == (2, 10)
         assert (row["clan_accession"], row["entry_type"]) == (None, None)
 
@@ -148,23 +169,46 @@ class TestStockholm:
 
 
 CATALOGUE = {
-    "PF99999.1": {"accession": "PF99999.1", "name": "Example", "description": "Example", "clan_accession": None, "entry_type": None},
+    "PF99999.1": {
+        "accession": "PF99999.1",
+        "name": "Example",
+        "description": "Example",
+        "clan_accession": None,
+        "entry_type": None,
+    },
 }
 ONE = ["q0", "PF99999.1", "1e-9", "40", "2", "9", "1", "8", "12", "10"]
 
 
 def hits(rows, sequence="M" * 12, **overrides):
-    settings = {"evalue": 0.001, "min_profile_coverage": 0.5, "alternatives": 0, **overrides}
+    settings = {
+        "evalue": 0.001,
+        "min_profile_coverage": 0.5,
+        "alternatives": 0,
+        **overrides,
+    }
     return parse_hits(rows, sequence, CATALOGUE, **settings)
 
 
 class TestHits:
     def test_coordinates_scores_and_coverage_come_through(self):
         row = hits([ONE])[0]
-        assert (row["query_start"], row["query_end"], row["profile_start"], row["profile_end"]) == (2, 9, 1, 8)
-        assert (row["evalue"], row["bits"], row["profile_coverage"], row["status"]) == (1e-9, 40.0, 0.8, "selected")
+        assert (
+            row["query_start"],
+            row["query_end"],
+            row["profile_start"],
+            row["profile_end"],
+        ) == (2, 9, 1, 8)
+        assert (row["evalue"], row["bits"], row["profile_coverage"], row["status"]) == (
+            1e-9,
+            40.0,
+            0.8,
+            "selected",
+        )
 
-    def test_a_match_covering_too_little_of_the_profile_is_filtered_for_that_reason(self):
+    def test_a_match_covering_too_little_of_the_profile_is_filtered_for_that_reason(
+        self,
+    ):
         row = hits([ONE], min_profile_coverage=0.81)[0]
         assert (row["status"], row["reasons"]) == ("filtered", ["profile_coverage"])
 
@@ -177,7 +221,9 @@ class TestHits:
 
     def test_a_repeated_family_keeps_each_span_in_protein_order(self):
         second = ["q0", "PF99999.1", "1e-5", "25", "20", "23", "1", "4", "30", "10"]
-        rows = hits([second, ["q0", *ONE[1:8], "30", "10"]], sequence="M" * 30, alternatives=1)
+        rows = hits(
+            [second, ["q0", *ONE[1:8], "30", "10"]], sequence="M" * 30, alternatives=1
+        )
         assert [r["query_start"] for r in rows] == [2, 20]
         assert [r["status"] for r in rows] == ["selected", "filtered"]
 
@@ -204,7 +250,9 @@ class TestSearch:
     def outcome(self, tmp_path):
         return run_ok({**files(tmp_path, CARRIER, FAMILY_A + FAMILY_B)}, tmp_path)
 
-    def test_a_protein_carrying_the_motif_matches_its_family_inside_the_motif(self, outcome):
+    def test_a_protein_carrying_the_motif_matches_its_family_inside_the_motif(
+        self, outcome
+    ):
         out = outcome.outputs("match")
         assert out["library"] == "supplied Stockholm alignments"
         assert out["profiles_searched"] == 2
@@ -218,7 +266,9 @@ class TestSearch:
         assert match["evalue"] < 1e-5
 
     def test_the_family_that_is_not_carried_is_not_returned(self, outcome):
-        assert [m["accession"] for m in outcome.outputs("match")["matches"]] == ["PF00001.1"]
+        assert [m["accession"] for m in outcome.outputs("match")["matches"]] == [
+            "PF00001.1"
+        ]
         assert outcome.outputs("match")["families_returned"] == 1
 
     def test_the_source_clan_and_type_travel_with_the_match(self, outcome):
@@ -226,49 +276,103 @@ class TestSearch:
         assert (match["clan_accession"], match["entry_type"]) == ("CL0001", "Domain")
 
     def test_a_protein_without_the_motif_matches_nothing_and_says_so(self, tmp_path):
-        outcome = run_ok(files(tmp_path, residues(77, 90), FAMILY_A + FAMILY_B), tmp_path)
+        outcome = run_ok(
+            files(tmp_path, residues(77, 90), FAMILY_A + FAMILY_B), tmp_path
+        )
         assert outcome.outputs("match")["matches"] == []
-        assert "matched at an expectation value" in " ".join(outcome.steps["match"].notes)
+        assert "matched at an expectation value" in " ".join(
+            outcome.steps["match"].notes
+        )
 
-    def test_a_fragment_of_the_motif_is_filtered_when_coverage_is_demanded(self, tmp_path):
+    def test_a_fragment_of_the_motif_is_filtered_when_coverage_is_demanded(
+        self, tmp_path
+    ):
         fragment = residues(23, 5) + variant(41)[:36] + residues(24, 30)
-        lenient = run_ok({**files(tmp_path, fragment, FAMILY_A), "min_profile_coverage": 0.5}, tmp_path, "lenient")
-        strict = run_ok({**files(tmp_path, fragment, FAMILY_A), "min_profile_coverage": 0.9}, tmp_path, "strict")
+        lenient = run_ok(
+            {**files(tmp_path, fragment, FAMILY_A), "min_profile_coverage": 0.5},
+            tmp_path,
+            "lenient",
+        )
+        strict = run_ok(
+            {**files(tmp_path, fragment, FAMILY_A), "min_profile_coverage": 0.9},
+            tmp_path,
+            "strict",
+        )
         [kept] = lenient.outputs("match")["matches"]
         [dropped] = strict.outputs("match")["matches"]
         # Only 36 of the 60 motif positions are present, so coverage stays well under
         # 0.9 (a little of the flank may align too) and over 0.5.
         assert kept["status"] == "selected" and 0.5 <= kept["profile_coverage"] <= 0.8
-        assert (dropped["status"], dropped["reasons"]) == ("filtered", ["profile_coverage"])
-        assert strict.outputs("match")["selected"] == 0 and strict.outputs("match")["filtered"] == 1
-        assert "filtered by the expectation or coverage" in " ".join(strict.steps["match"].notes)
+        assert (dropped["status"], dropped["reasons"]) == (
+            "filtered",
+            ["profile_coverage"],
+        )
+        assert (
+            strict.outputs("match")["selected"] == 0
+            and strict.outputs("match")["filtered"] == 1
+        )
+        assert "filtered by the expectation or coverage" in " ".join(
+            strict.steps["match"].notes
+        )
 
-    def test_a_repeated_motif_gives_one_alignment_unless_more_are_asked_for(self, tmp_path):
-        repeat = residues(25, 4) + variant(42) + residues(26, 25) + variant(43) + residues(27, 4)
+    def test_a_repeated_motif_gives_one_alignment_unless_more_are_asked_for(
+        self, tmp_path
+    ):
+        repeat = (
+            residues(25, 4)
+            + variant(42)
+            + residues(26, 25)
+            + variant(43)
+            + residues(27, 4)
+        )
         one = run_ok({**files(tmp_path, repeat, FAMILY_A)}, tmp_path, "one")
-        two = run_ok({**files(tmp_path, repeat, FAMILY_A), "alternative_alignments": 1}, tmp_path, "two")
+        two = run_ok(
+            {**files(tmp_path, repeat, FAMILY_A), "alternative_alignments": 1},
+            tmp_path,
+            "two",
+        )
         assert len(one.outputs("match")["matches"]) == 1
-        spans = sorted((m["query_start"], m["query_end"]) for m in two.outputs("match")["matches"])
+        spans = sorted(
+            (m["query_start"], m["query_end"]) for m in two.outputs("match")["matches"]
+        )
         assert len(spans) == 2
         # One copy in each half of the protein; neither span reaches into the other copy.
         assert spans[0][1] < spans[1][0]
         assert spans[0][0] >= 3 and spans[1][1] <= 4 + 60 + 25 + 60
 
-    def test_the_stored_record_names_the_source_construction_and_settings(self, outcome):
+    def test_the_stored_record_names_the_source_construction_and_settings(
+        self, outcome
+    ):
         record = json.loads(Path(outcome.outputs("match")["record"]).read_text())
         assert record["profile_source"]["kind"] == "stockholm"
-        assert record["construction"] == {"match_mode": 1, "match_ratio": 0.5, "filter_msa": 0, "msa_type": 2}
+        assert record["construction"] == {
+            "match_mode": 1,
+            "match_ratio": 0.5,
+            "filter_msa": 0,
+            "msa_type": 2,
+        }
         assert record["settings"]["evalue"] == 0.001
         assert record["engine_versions"]["mmseqs"]
         assert "one-based inclusive" in record["coordinate_convention"].lower()
 
     def test_changing_a_supplied_alignment_makes_the_step_run_again(self, tmp_path):
         first = run_ok(files(tmp_path, CARRIER, FAMILY_A), tmp_path, "same")
-        (tmp_path / "p.sto").write_text(FAMILY_A.replace("m1 ", "m1 ", 1).replace("Motif family", "Motif family changed"))
-        second = run_ok({"protein": str(tmp_path / "q.faa"), "profiles": str(tmp_path / "p.sto")}, tmp_path, "same")
+        (tmp_path / "p.sto").write_text(
+            FAMILY_A.replace("m1 ", "m1 ", 1).replace(
+                "Motif family", "Motif family changed"
+            )
+        )
+        second = run_ok(
+            {"protein": str(tmp_path / "q.faa"), "profiles": str(tmp_path / "p.sto")},
+            tmp_path,
+            "same",
+        )
         assert first.steps["match"].status == "completed"
         assert second.steps["match"].status == "completed"
-        assert second.outputs("match")["matches"][0]["description"] == "Motif family changed"
+        assert (
+            second.outputs("match")["matches"][0]["description"]
+            == "Motif family changed"
+        )
 
     def test_the_report_names_the_library(self, outcome, tmp_path):
         page = outcome.report(tmp_path / "report.html").read_text()
@@ -288,7 +392,9 @@ class TestRefusals:
             ({"alternative_alignments": -1}, "between 0 and 20"),
         ],
     )
-    def test_a_request_outside_the_supported_range_is_refused(self, tmp_path, changes, message):
+    def test_a_request_outside_the_supported_range_is_refused(
+        self, tmp_path, changes, message
+    ):
         outcome = run({**files(tmp_path, CARRIER, FAMILY_A), **changes}, tmp_path)
         assert outcome.steps["match"].status == "failed"
         assert message in outcome.steps["match"].error
@@ -307,12 +413,8 @@ class TestRefusals:
 
 
 PFAM = os.environ.get("ALAMBIQ_RESOURCE_PFAM_38_2_PROFILES")
-LYSOZYME = (
-    "KVFGRCELAAAMKRHGLDNYRGYSLGNWVCAAKFESNFNTQATNRNTDGSTDYGILQINSRWWCNDGRTPGSRNLCNIPCSALLSSDITASVNCAKKIVSDGNGMNAWVAWRNRCKGTDVQAWIRGCRL"
-)
-GFP = (
-    "MSKGEELFTGVVPILVELDGDVNGHKFSVSGEGEGDATYGKLTLKFICTTGKLPVPWPTLVTTFSYGVQCFSRYPDHMKQHDFFKSAMPEGYVQERTIFFKDDGNYKTRAEVKFEGDTLVNRIELKGIDFKEDGNILGHKLEYNYNSHNVYIMADKQKNGIKVNFKIRHNIEDGSVQLADHYQQNTPIGDGPVLLPDNHYLSTQSALSKDPNEKRDHMVLLEFVTAAGITHGMDELYK"
-)
+LYSOZYME = "KVFGRCELAAAMKRHGLDNYRGYSLGNWVCAAKFESNFNTQATNRNTDGSTDYGILQINSRWWCNDGRTPGSRNLCNIPCSALLSSDITASVNCAKKIVSDGNGMNAWVAWRNRCKGTDVQAWIRGCRL"
+GFP = "MSKGEELFTGVVPILVELDGDVNGHKFSVSGEGEGDATYGKLTLKFICTTGKLPVPWPTLVTTFSYGVQCFSRYPDHMKQHDFFKSAMPEGYVQERTIFFKDDGNYKTRAEVKFEGDTLVNRIELKGIDFKEDGNILGHKLEYNYNSHNVYIMADKQKNGIKVNFKIRHNIEDGSVQLADHYQQNTPIGDGPVLLPDNHYLSTQSALSKDPNEKRDHMVLLEFVTAAGITHGMDELYK"
 
 
 def pfam_installed() -> bool:
@@ -321,7 +423,9 @@ def pfam_installed() -> bool:
     return resources.location("pfam-38.2-profiles").is_dir()
 
 
-@pytest.mark.skipif(not pfam_installed(), reason="the pinned Pfam 38.2 profile library is not installed")
+@pytest.mark.skipif(
+    not pfam_installed(), reason="the pinned Pfam 38.2 profile library is not installed"
+)
 @needs_mmseqs
 class TestPfamLibrary:
     @pytest.mark.parametrize(
@@ -329,13 +433,17 @@ class TestPfamLibrary:
         [(LYSOZYME, "PF00062"), (GFP, "PF01353")],
         ids=["hen-lysozyme", "avGFP"],
     )
-    def test_a_textbook_protein_matches_its_textbook_family(self, tmp_path, protein, accession):
+    def test_a_textbook_protein_matches_its_textbook_family(
+        self, tmp_path, protein, accession
+    ):
         outcome = run_ok({**files(tmp_path, protein), "library": "pfam-38.2"}, tmp_path)
         out = outcome.outputs("match")
         assert out["profiles_searched"] == 30134
         assert out["library"].startswith("Pfam 38.2")
         selected = [m for m in out["matches"] if m["status"] == "selected"]
-        assert any(m["accession"].startswith(accession) for m in selected), [m["accession"] for m in out["matches"]]
+        assert any(m["accession"].startswith(accession) for m in selected), [
+            m["accession"] for m in out["matches"]
+        ]
 
     def test_the_record_names_the_library_version_and_identity(self, tmp_path):
         outcome = run_ok({**files(tmp_path, GFP), "library": "pfam-38.2"}, tmp_path)

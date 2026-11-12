@@ -216,7 +216,9 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--run-dir", type=Path, default=None)
     run.add_argument("--report", type=Path, default=None)
     run.add_argument(
-        "--fresh", action="store_true", help="recompute every step and ignore the step cache"
+        "--fresh",
+        action="store_true",
+        help="recompute every step and ignore the step cache",
     )
     run.set_defaults(handler=_run)
 
@@ -234,7 +236,12 @@ def build_parser() -> argparse.ArgumentParser:
     )
     replay.add_argument("run_dir", type=Path)
     replay.add_argument("step")
-    replay.add_argument("--out", type=Path, required=True, help="directory to write the campaign and its input files to")
+    replay.add_argument(
+        "--out",
+        type=Path,
+        required=True,
+        help="directory to write the campaign and its input files to",
+    )
     replay.set_defaults(handler=_replay)
 
     cap = sub.add_parser("capability", help="list capabilities or show one")

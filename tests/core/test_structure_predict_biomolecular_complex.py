@@ -79,7 +79,10 @@ class TestDefaultNames:
         assert boltz.assign_ids([None, None], None, True) == (["A", "B"], "C")
 
     def test_names_in_the_request_are_kept_and_not_reused(self):
-        assert boltz.assign_ids(["A", None, "heavy"], "B", True) == (["A", "C", "heavy"], "B")
+        assert boltz.assign_ids(["A", None, "heavy"], "B", True) == (
+            ["A", "C", "heavy"],
+            "B",
+        )
         assert boltz.assign_ids([None, "A"], None, True) == (["B", "A"], "C")
 
     def test_no_ligand_gives_no_name(self):
@@ -335,7 +338,9 @@ class TestAffinityInputsAndOutputs:
         assert "--sampling_steps_affinity 50" in joined
         assert "--diffusion_samples_affinity 2" in joined
         assert "--affinity_mw_correction" in command
-        plain = boltz_predict._command(self.cfg(affinity=False), Path("in.yaml"), Path("out"))
+        plain = boltz_predict._command(
+            self.cfg(affinity=False), Path("in.yaml"), Path("out")
+        )
         assert not any("affinity" in part for part in plain)
 
     def test_the_affinity_file_is_read_with_both_models(self, tmp_path):
@@ -544,7 +549,9 @@ class TestLigandChemistryOnSyntheticPoses:
             "atoms": [{**a, "name": "Z" + a["name"]} for a in chemistry["atoms"]]
         }
         model = self.write_model(directory, heavy, native, "names.cif")
-        with pytest.raises(ValueError, match="atom names of the predicted ligand differ"):
+        with pytest.raises(
+            ValueError, match="atom names of the predicted ligand differ"
+        ):
             boltz_predict._positioned(renamed, model, directory / "names.sdf")
 
     def test_processed_chemistry_that_differs_from_the_smiles_is_refused(
@@ -630,10 +637,10 @@ class TestCofactorsRun:
         assert {"id": ["B", "C"], "ccd": "ZN"} in ligands
         assert {"id": "D", "ccd": "NAP"} in ligands
 
-    def test_a_cofactor_code_is_refused_by_the_capability_before_the_run(self, tmp_path):
-        out = run(
-            request(cofactors=[{"ccd": "not a code"}], ligand=None), tmp_path
-        )
+    def test_a_cofactor_code_is_refused_by_the_capability_before_the_run(
+        self, tmp_path
+    ):
+        out = run(request(cofactors=[{"ccd": "not a code"}], ligand=None), tmp_path)
         assert not out.ok
         assert "component code" in next(iter(out.steps.values())).error
 
@@ -858,7 +865,9 @@ class TestSeedsAndAlignments:
             assert estimate["pic50"] == pytest.approx(6.0 - estimate["log10_ic50_um"])
         assert affinity["ligand_atoms"] == 6 and affinity["samples"] == 1
         written = json.loads(Path(affinity["file"]).read_text())
-        assert written["affinity_pred_value"] == pytest.approx(affinity["log10_ic50_um"])
+        assert written["affinity_pred_value"] == pytest.approx(
+            affinity["log10_ic50_um"]
+        )
         import yaml
 
         given = yaml.safe_load(Path(out["input_yaml"]).read_text())
@@ -899,7 +908,9 @@ class TestSeedsAndAlignments:
         ]
         assert given["sequence"] == SEQUENCE
         assert given["msa"].endswith("chain-00.a3m")
-        assert "ran from its sequence alone" not in " ".join(outcome.steps["fold"].notes)
+        assert "ran from its sequence alone" not in " ".join(
+            outcome.steps["fold"].notes
+        )
 
 
 @pytest.mark.skipif(

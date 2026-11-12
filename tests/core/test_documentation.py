@@ -83,8 +83,14 @@ def test_shell_blocks_name_files_that_exist_and_commands_that_do_exist():
                         )
                         + 1 :
                     ]
-                    if after and not after[0].startswith("-") and after[0] not in commands:
-                        problems.append(f"{path.name}: unknown command in: {line.strip()}")
+                    if (
+                        after
+                        and not after[0].startswith("-")
+                        and after[0] not in commands
+                    ):
+                        problems.append(
+                            f"{path.name}: unknown command in: {line.strip()}"
+                        )
                 for token in tokens:
                     if token.startswith(("examples/", "docs/", "tests/", "tools/")):
                         if not (ROOT / token).exists():

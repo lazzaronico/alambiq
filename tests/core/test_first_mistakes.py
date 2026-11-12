@@ -287,7 +287,9 @@ def test_an_environment_without_the_tool_names_the_tool_and_the_variable(
 # ----------------------------------------------------------------- validate before running
 
 
-def test_validate_finds_the_mistakes_in_a_request_before_anything_runs(tmp_path, capsys):
+def test_validate_finds_the_mistakes_in_a_request_before_anything_runs(
+    tmp_path, capsys
+):
     campaign, table = start(tmp_path)
     fit = step(campaign, "fit")
     fit["params"]["modle"] = "linear"

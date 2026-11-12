@@ -18,12 +18,22 @@ def render(result) -> str:
         ]
         for leg in (result.folded, result.reference)
     ]
-    left_out = ", ".join([*result.dropped_chains, *result.dropped_heteroatoms]) or "nothing"
+    left_out = (
+        ", ".join([*result.dropped_chains, *result.dropped_heteroatoms]) or "nothing"
+    )
     return (
         f"<p>{esc(result.wild_type)}{result.residue_number} to {esc(result.mutant)} in chain "
         f"{esc(result.chain_id)} ({esc(result.mutation)}). Left out of the system: {esc(left_out)}.</p>"
         + table(
-            ["Leg", "Atoms", "Core atoms", "Wild-type only", "Mutant only", "Net charge", "Padding (nm)"],
+            [
+                "Leg",
+                "Atoms",
+                "Core atoms",
+                "Wild-type only",
+                "Mutant only",
+                "Net charge",
+                "Padding (nm)",
+            ],
             rows,
             numeric={1, 2, 5, 6},
         )

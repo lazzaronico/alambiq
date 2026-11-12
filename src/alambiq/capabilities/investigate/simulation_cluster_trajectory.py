@@ -172,7 +172,10 @@ def cluster_trajectory(request: ClusterRequest, ctx: StepContext) -> ClusterResu
             frame = mdtraj.load_frame(str(trajectory), row["center_frame"], top=top)
             if request.imaging == "whole-molecules":
                 frame.make_molecules_whole(inplace=True)
-            path = ctx.workdir / f"cluster-{row['index']:03d}-frame-{row['center_frame']}.pdb"
+            path = (
+                ctx.workdir
+                / f"cluster-{row['index']:03d}-frame-{row['center_frame']}.pdb"
+            )
             frame.save_pdb(str(path))
             structure = str(ctx.keep(path, "chemical/x-pdb").path)
         listed.append(

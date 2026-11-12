@@ -183,7 +183,9 @@ def assemble_samples(title: str, replicas: list[dict[str, Any]]) -> dict[str, An
         windows = definitions
         out_replicas.append({"id": replica["id"], "windows": traces})
     if common is None:
-        raise ValueError("The replicas list no windows; at least one window is required")
+        raise ValueError(
+            "The replicas list no windows; at least one window is required"
+        )
     first, second = common[2]
     return {
         "schema_version": "0.1",

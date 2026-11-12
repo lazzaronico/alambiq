@@ -14,15 +14,19 @@ from pathlib import Path
 
 import pytest
 
-pytestmark = pytest.mark.skipif(not find_spec("gemmi"), reason="the dossier extra is required")
+pytestmark = pytest.mark.skipif(
+    not find_spec("gemmi"), reason="the dossier extra is required"
+)
 
 FIXTURE = Path(__file__).resolve().parents[1] / "fixtures" / "structures" / "1L2Y.cif"
 SEQUENCE = "NLYIQWLKDGGPSSGRPPPS"
-THREE = dict(zip(
-    "ACDEFGHIKLMNPQRSTVWY",
-    "ALA CYS ASP GLU PHE GLY HIS ILE LYS LEU MET ASN PRO GLN ARG SER THR VAL TRP TYR".split(),
-    strict=True,
-))
+THREE = dict(
+    zip(
+        "ACDEFGHIKLMNPQRSTVWY",
+        "ALA CYS ASP GLU PHE GLY HIS ILE LYS LEU MET ASN PRO GLN ARG SER THR VAL TRP TYR".split(),
+        strict=True,
+    )
+)
 
 
 def write(tmp_path: Path, name: str, text: str) -> str:
@@ -75,15 +79,26 @@ class TestSequenceOnly:
 
 def reference(sequence: str) -> dict:
     def location(a, b, end="EXACT"):
-        return {"start": {"value": a, "modifier": "EXACT"}, "end": {"value": b, "modifier": end}}
+        return {
+            "start": {"value": a, "modifier": "EXACT"},
+            "end": {"value": b, "modifier": end},
+        }
 
     return {
         "primaryAccession": "P99999",
         "sequence": {"value": sequence},
         "features": [
             {"type": "Domain", "description": "inside", "location": location(5, 10)},
-            {"type": "Region", "description": "before the query", "location": location(1, 2)},
-            {"type": "Site", "description": "uncertain end", "location": location(6, 8, "UNKNOWN")},
+            {
+                "type": "Region",
+                "description": "before the query",
+                "location": location(1, 2),
+            },
+            {
+                "type": "Site",
+                "description": "uncertain end",
+                "location": location(6, 8, "UNKNOWN"),
+            },
         ],
     }
 
@@ -112,7 +127,9 @@ class TestReferenceFeatures:
 
     def test_the_reference_alone_defines_the_query(self, tmp_path):
         outcome = run_ok(
-            inspect_step(uniprot=write(tmp_path, "ref.json", json.dumps(reference(self.REF)))),
+            inspect_step(
+                uniprot=write(tmp_path, "ref.json", json.dumps(reference(self.REF)))
+            ),
             tmp_path,
         )
         assert outcome.outputs("look")["identifier"] == "P99999"
@@ -140,7 +157,9 @@ class TestReferenceFeatures:
 
     def test_a_note_for_an_input_that_does_not_exist_is_refused(self, tmp_path):
         outcome = run(
-            inspect_step(fasta=fasta(tmp_path), source_notes={"structur": {"license": "x"}}),
+            inspect_step(
+                fasta=fasta(tmp_path), source_notes={"structur": {"license": "x"}}
+            ),
             tmp_path,
         )
         assert outcome.steps["look"].status == "failed"
@@ -169,23 +188,31 @@ class TestStructureMapping:
     def test_one_substitution_withholds_the_chain_and_says_so(self, tmp_path):
         mutated = SEQUENCE[:4] + "A" + SEQUENCE[5:]  # Q5A
         outcome = run_ok(
-            inspect_step(fasta=fasta(tmp_path, mutated), structure=str(FIXTURE)), tmp_path
+            inspect_step(fasta=fasta(tmp_path, mutated), structure=str(FIXTURE)),
+            tmp_path,
         )
         out = outcome.outputs("look")
         assert out["mapped_chains"] == 0 and out["mapped_residues"] == 0
         assert out["chain_mappings"][0]["mapping"] == "withheld"
-        assert any("No chain of the structure maps onto the query" in n for n in outcome.steps["look"].notes)
+        assert any(
+            "No chain of the structure maps onto the query" in n
+            for n in outcome.steps["look"].notes
+        )
 
     def test_a_model_the_file_does_not_have_is_refused(self, tmp_path):
         outcome = run(
-            inspect_step(fasta=fasta(tmp_path), structure=str(FIXTURE), model_number=99),
+            inspect_step(
+                fasta=fasta(tmp_path), structure=str(FIXTURE), model_number=99
+            ),
             tmp_path,
         )
         assert outcome.steps["look"].status == "failed"
         assert "model number is absent" in outcome.steps["look"].error
 
     def test_a_later_model_of_an_nmr_ensemble_can_be_chosen(self, tmp_path):
-        first = run_ok(inspect_step(fasta=fasta(tmp_path), structure=str(FIXTURE)), tmp_path, "m1")
+        first = run_ok(
+            inspect_step(fasta=fasta(tmp_path), structure=str(FIXTURE)), tmp_path, "m1"
+        )
         fifth = run_ok(
             inspect_step(fasta=fasta(tmp_path), structure=str(FIXTURE), model_number=5),
             tmp_path,
@@ -199,7 +226,9 @@ class TestStructureMapping:
     def test_a_structure_is_not_needed_for_annotations_to_be_refused_without_one(
         self, tmp_path
     ):
-        outcome = run(inspect_step(fasta=fasta(tmp_path), coordinate_annotations=True), tmp_path)
+        outcome = run(
+            inspect_step(fasta=fasta(tmp_path), coordinate_annotations=True), tmp_path
+        )
         assert outcome.steps["look"].status == "failed"
         assert "need a structure" in outcome.steps["look"].error
 
@@ -213,21 +242,31 @@ class TestCoordinateAnnotations:
         block = gemmi.cif.read_string(FIXTURE.read_text()).sole_block()
         table = block.get_mmcif_category("_struct_conf.")
         return [
-            (table["pdbx_PDB_helix_class"][i], int(table["beg_label_seq_id"][i]), int(table["end_label_seq_id"][i]))
+            (
+                table["pdbx_PDB_helix_class"][i],
+                int(table["beg_label_seq_id"][i]),
+                int(table["end_label_seq_id"][i]),
+            )
             for i in range(len(table["id"]))
         ]
 
     def test_dssp_recovers_the_helices_the_file_declares(self, tmp_path):
         outcome = run_ok(
             inspect_step(
-                fasta=fasta(tmp_path), structure=str(FIXTURE), coordinate_annotations=True
+                fasta=fasta(tmp_path),
+                structure=str(FIXTURE),
+                coordinate_annotations=True,
             ),
             tmp_path,
         )
-        rows = json.loads(Path(outcome.outputs("look")["annotation_record"]).read_text())["residues"]
+        rows = json.loads(
+            Path(outcome.outputs("look")["annotation_record"]).read_text()
+        )["residues"]
         assigned = {r["label_seq_id"]: r["secondary_structure"] for r in rows}
 
-        (alpha_class, a_start, a_end), (tenth_class, t_start, t_end) = self.declared_helices()
+        (alpha_class, a_start, a_end), (tenth_class, t_start, t_end) = (
+            self.declared_helices()
+        )
         # Class 1 is a right-handed alpha helix; class 5 is a 3-10 helix.
         assert (alpha_class, tenth_class) == ("1", "5")
         alpha = [assigned[i] for i in range(a_start, a_end + 1)]
@@ -239,7 +278,9 @@ class TestCoordinateAnnotations:
     def test_the_composition_and_surface_are_summarised(self, tmp_path):
         out = run_ok(
             inspect_step(
-                fasta=fasta(tmp_path), structure=str(FIXTURE), coordinate_annotations=True
+                fasta=fasta(tmp_path),
+                structure=str(FIXTURE),
+                coordinate_annotations=True,
             ),
             tmp_path,
         ).outputs("look")
@@ -253,11 +294,15 @@ class TestCoordinateAnnotations:
 
         outcome = run_ok(
             inspect_step(
-                fasta=fasta(tmp_path), structure=str(FIXTURE), coordinate_annotations=True
+                fasta=fasta(tmp_path),
+                structure=str(FIXTURE),
+                coordinate_annotations=True,
             ),
             tmp_path,
         )
-        record = json.loads(Path(outcome.outputs("look")["annotation_record"]).read_text())
+        record = json.loads(
+            Path(outcome.outputs("look")["annotation_record"]).read_text()
+        )
         assert record["mdtraj_version"] == mdtraj.__version__
 
 
@@ -265,7 +310,8 @@ class TestDeclaredConfidence:
     def modelcif(self, tmp_path: Path) -> str:
         """1L2Y with a declared per-residue pLDDT of 50 + 2 x position."""
         rows = "".join(
-            f"{i} 1 A {i} {THREE[aa]} 1 {50 + 2 * i}\n" for i, aa in enumerate(SEQUENCE, 1)
+            f"{i} 1 A {i} {THREE[aa]} 1 {50 + 2 * i}\n"
+            for i, aa in enumerate(SEQUENCE, 1)
         )
         metrics = (
             "\nloop_\n_ma_qa_metric.id\n_ma_qa_metric.name\n_ma_qa_metric.type\n"
@@ -275,11 +321,14 @@ class TestDeclaredConfidence:
             "_ma_qa_metric_local.label_comp_id\n_ma_qa_metric_local.metric_id\n"
             "_ma_qa_metric_local.metric_value\n" + rows
         )
-        return write(tmp_path, "model.cif", FIXTURE.read_text().rstrip("\n") + "\n" + metrics)
+        return write(
+            tmp_path, "model.cif", FIXTURE.read_text().rstrip("\n") + "\n" + metrics
+        )
 
     def test_the_declared_values_are_summarised_exactly(self, tmp_path):
         out = run_ok(
-            inspect_step(fasta=fasta(tmp_path), structure=self.modelcif(tmp_path)), tmp_path
+            inspect_step(fasta=fasta(tmp_path), structure=self.modelcif(tmp_path)),
+            tmp_path,
         ).outputs("look")
         c = out["confidence"]
         # Values 52, 54, ..., 90 over positions 1 to 20.
@@ -287,7 +336,9 @@ class TestDeclaredConfidence:
         assert (c["lowest"], c["highest"]) == (52.0, 90.0)
         assert c["mean"] == pytest.approx(71.0)
 
-    def test_an_experimental_structure_declares_none_and_none_is_invented(self, tmp_path):
+    def test_an_experimental_structure_declares_none_and_none_is_invented(
+        self, tmp_path
+    ):
         out = run_ok(
             inspect_step(fasta=fasta(tmp_path), structure=str(FIXTURE)), tmp_path
         ).outputs("look")
@@ -297,7 +348,9 @@ class TestDeclaredConfidence:
 
 class TestPresentation:
     def test_the_report_says_what_mapped(self, tmp_path):
-        outcome = run_ok(inspect_step(fasta=fasta(tmp_path), structure=str(FIXTURE)), tmp_path)
+        outcome = run_ok(
+            inspect_step(fasta=fasta(tmp_path), structure=str(FIXTURE)), tmp_path
+        )
         page = outcome.report(tmp_path / "report.html").read_text()
         assert "unique exact subsequence" in page
         assert "20 of 20 observed polymer residues" in page
@@ -307,4 +360,7 @@ class TestPresentation:
         run_ok(step, tmp_path)
         again = run_ok(step, tmp_path)
         assert again.steps["look"].reused
-        assert "20 of 20 observed polymer residues" in again.report(tmp_path / "r.html").read_text()
+        assert (
+            "20 of 20 observed polymer residues"
+            in again.report(tmp_path / "r.html").read_text()
+        )

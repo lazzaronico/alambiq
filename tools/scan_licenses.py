@@ -84,8 +84,10 @@ def closure(root: str = "alambiq") -> dict[str, metadata.Distribution]:
         for line in dist.requires or []:
             requirement = Requirement(line)
             if requirement.marker is not None:
-                extras = [""] if key != root else [""] + list(
-                    dist.metadata.get_all("Provides-Extra") or []
+                extras = (
+                    [""]
+                    if key != root
+                    else [""] + list(dist.metadata.get_all("Provides-Extra") or [])
                 )
                 if not any(requirement.marker.evaluate({"extra": e}) for e in extras):
                     continue
@@ -123,7 +125,10 @@ def main() -> int:
     for name, version, text, state in rows:
         if show_all or state != "allowed":
             print(f"{state:8s} {name} {version}: {text or '(none declared)'}")
-    counts = {s: sum(1 for r in rows if r[3] == s) for s in ("allowed", "weak", "unknown", "refused")}
+    counts = {
+        s: sum(1 for r in rows if r[3] == s)
+        for s in ("allowed", "weak", "unknown", "refused")
+    }
     print(f"\n{len(rows)} packages: {counts}")
     return 1 if counts["unknown"] or counts["refused"] else 0
 

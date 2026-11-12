@@ -347,4 +347,6 @@ class TestRefusals:
 
     def test_a_record_that_is_not_a_score_table_is_refused(self, tmp_path):
         outcome = propose(tmp_path, scores={"rows": []})
-        assert "must be a protein.score_substitutions record" in outcome.steps["p"].error
+        assert (
+            "must be a protein.score_substitutions record" in outcome.steps["p"].error
+        )

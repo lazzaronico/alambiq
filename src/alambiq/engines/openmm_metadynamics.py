@@ -93,7 +93,9 @@ def _histogram(angles, weights, bins, dims):
 def _free_energy(counts, kt):
     total = counts.sum()
     if total <= 0:
-        raise ValueError("No production samples are available to build a free-energy surface")
+        raise ValueError(
+            "No production samples are available to build a free-energy surface"
+        )
     with np.errstate(divide="ignore"):
         f = -kt * np.log(counts / total)
     finite = np.isfinite(f)
