@@ -143,6 +143,9 @@ preparations.
 - Wang L, et al. Developing and benchmarking Sage 2.3.0 with the AshGC neural network charge
   model. J Chem Theory Comput 22, 4507-4531 (2026).
   [doi:10.1021/acs.jctc.6c00169](https://doi.org/10.1021/acs.jctc.6c00169)
+- Wang L, et al. openforcefield/openff-forcefields, version 2026.01.0 (the release that adds
+  Sage 2.3.0). Zenodo (2026).
+  [doi:10.5281/zenodo.18228115](https://doi.org/10.5281/zenodo.18228115)
 - Mobley DL, et al. Escaping atom types in force fields using direct chemical perception. J
   Chem Theory Comput 14, 6076-6092 (2018).
   [doi:10.1021/acs.jctc.8b00640](https://doi.org/10.1021/acs.jctc.8b00640)

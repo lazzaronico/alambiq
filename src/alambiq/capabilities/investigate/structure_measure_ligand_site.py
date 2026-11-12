@@ -12,7 +12,8 @@ The method:
   author chain ids (`auth_asym_id` of an mmCIF).
 - Residues correspond when they have the same author residue number and residue name in paired
   chains. Alpha carbons of the paired residues enter the fit with equal weights. The fit is the
-  least-squares rotation of Kabsch (1976, 1978), computed by singular value decomposition.
+  least-squares rotation of Kabsch (1976), computed by singular value decomposition with the
+  determinant sign correction of Kabsch (1978).
 - Chains are paired by the assignment of mobile protein chains to reference protein chains with
   the smallest alpha-carbon RMSD, which is searched over all assignments (at most 6 chains), or
   taken from `chain_map`. A prediction of a homo-oligomer names its chains in no relation to

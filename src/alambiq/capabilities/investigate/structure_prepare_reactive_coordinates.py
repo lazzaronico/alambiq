@@ -18,7 +18,7 @@ The anchor residues of a terminus are the observed residues next to the gap
 
 - The missing terminal residues of each target chain are copied from the donor chain with the
   lowest RMSD after superposition on the anchor residues of the target. The superposition is
-  the QCP method of gemmi (Theobald, 2005; Liu et al., 2010; Wojdyr, 2022).
+  the QCP method of gemmi (Theobald, 2005; Liu et al., 2010).
 - A donor chain qualifies when the RMSD of the fit is below the declared maximum, the new
   peptide bond length is in the declared range, and no modeled atom is closer than the
   declared clash distance to another protein atom. The request is refused if no donor chain
@@ -52,8 +52,6 @@ References.
   https://doi.org/10.1002/jcc.21439
 - Theobald DL. Rapid calculation of RMSDs using a quaternion-based characteristic polynomial.
   Acta Crystallogr A 61, 478-480 (2005). https://doi.org/10.1107/S0108767305015266
-- Wojdyr M. GEMMI: A library for structural biology. J Open Source Softw 7, 4200 (2022).
-  https://doi.org/10.21105/joss.04200
 """
 
 from __future__ import annotations

@@ -6,8 +6,8 @@ with its spread over independent repeats and the sampling diagnostics of each le
 The method applies the OpenFE (Alibay et al., 2026) absolute solvation protocol (version
 1.12.0):
 
-- RDKit embeds the molecule from its SMILES and relaxes it with MMFF94. A molecule with
-  explicit stereochemistry keeps it.
+- RDKit embeds the molecule from its SMILES with ETKDG (Riniker and Landrum, 2015) and
+  relaxes it with MMFF94 (Halgren, 1996). A molecule with explicit stereochemistry keeps it.
 - The molecule has AshGC partial charges (the graph-network model of the OpenFF project that
   reproduces AM1-BCC charges) and Sage 2.3.0 parameters (Wang et al., 2026). TIP3P water
   (Jorgensen et al., 1983) fills a dodecahedral box

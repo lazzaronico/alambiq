@@ -18,8 +18,9 @@ The mapping:
   the position lies inside the query span. Otherwise the reason is
   `outside-query-span`.
 - The per-residue pLDDT declared in a ModelCIF structure is always reported.
-- With `coordinate_annotations`, secondary structure (DSSP, 8 states) and
-  solvent accessible surface area are computed per residue.
+- With `coordinate_annotations`, secondary structure (DSSP, 8 states; Kabsch and
+  Sander, 1983) and solvent accessible surface area (Shrake-Rupley; Shrake and Rupley, 1973)
+  are computed per residue.
 
 Limits.
 
@@ -36,14 +37,17 @@ Limits.
   ModelCIF.
 - The result records the version of MDTraj that computed the annotations. The
   version is not enforced.
-- Any use of `structure` requires the `dossier` extra (gemmi 0.7.5; Wojdyr, 2022).
+- Any use of `structure` requires the `dossier` extra (gemmi 0.7.5).
 
 References.
 
 - The UniProt Consortium. UniProt: the Universal Protein Knowledgebase in 2025. Nucleic Acids
   Res 53, D609-D617 (2025). https://doi.org/10.1093/nar/gkae1010
-- Wojdyr M. GEMMI: A library for structural biology. J Open Source Softw 7, 4200 (2022).
-  https://doi.org/10.21105/joss.04200
+- Kabsch W, Sander C. Dictionary of protein secondary structure: pattern recognition of
+  hydrogen-bonded and geometrical features. Biopolymers 22, 2577-2637 (1983).
+  https://doi.org/10.1002/bip.360221211
+- Shrake A, Rupley JA. Environment and exposure to solvent of protein atoms. Lysozyme and
+  insulin. J Mol Biol 79, 351-371 (1973). https://doi.org/10.1016/0022-2836(73)90011-9
 """
 
 from __future__ import annotations

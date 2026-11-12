@@ -9,8 +9,9 @@ state above the singlet, and in water.
 
 The method:
 
-- RDKit embeds 10 conformers (ETKDG, from the request's `seed`), relaxes each with the MMFF94
-  force field, and keeps the one of lowest force-field energy.
+- RDKit embeds 10 conformers with ETKDG (Riniker and Landrum, 2015) from the request's
+  `seed`, relaxes each with the MMFF94 force field (Halgren, 1996), and keeps the one of
+  lowest force-field energy.
 - PySCF (Sun et al., 2026) optimizes that geometry with the request's functional and basis,
   with PyBerny, on a numerical grid of level 4. The functionals come from Libxc (Lehtola et
   al., 2018). The optimization must converge; a geometry that has not converged
@@ -24,8 +25,8 @@ The method:
 - A molecule with `multiplicity` 1 uses restricted Kohn-Sham theory. A higher multiplicity uses
   unrestricted theory, and the result gives the expectation value of S squared against the value
   S(S+1) of a pure spin state; a difference of more than 10 % of S(S+1) carries a note.
-- With `solvent` `water`, the optimization and every property use the IEF-PCM polarizable
-  continuum with a relative permittivity of 78.3553. The result also gives the polarization
+- With `solvent` `water`, the optimization and every property use the IEF-PCM (Cancès et al., 1997)
+  polarizable continuum with a relative permittivity of 78.3553. The result also gives the polarization
   energy of the continuum: the energy in water minus the gas-phase energy at the same geometry.
 - The dipole moment is taken about the center of mass, and the charges are Mulliken charges. For
   an open-shell molecule the result adds the Mulliken spin population of each atom.

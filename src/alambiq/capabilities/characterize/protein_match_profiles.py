@@ -9,8 +9,8 @@ named database at a named version.
 The method:
 
 - MMseqs2 (Steinegger and Söding, 2017) searches the protein against sequence
-  profiles. The profiles are the pinned Pfam 38.2 library (Mistry et al., 2021), or profiles built at search time from supplied
-  Stockholm alignments.
+  profiles. The profiles are the pinned Pfam 38.2 library (Blum et al., 2025), or profiles
+  built at search time from supplied Stockholm alignments.
 - A match is `selected` when it meets the expectation and coverage thresholds
   and `filtered` when it does not.
 - Overlapping families are all reported. No best family is chosen.

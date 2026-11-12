@@ -15,8 +15,8 @@ in a spin state above the singlet, and in water.
 
 ### Method
 
-RDKit embeds 10 conformers from the request's `seed` and keeps the one of lowest MMFF94
-energy. PySCF (Sun et al., 2026) optimizes it with PyBerny at the functional and basis of the
+RDKit embeds 10 conformers with ETKDG (Riniker and Landrum, 2015) from the request's `seed`
+and keeps the one of lowest MMFF94 (Halgren, 1996) energy. PySCF (Sun et al., 2026) optimizes it with PyBerny at the functional and basis of the
 request, on an integration grid of level 4, and the optimization must converge: a geometry
 that has not converged returns no properties. The basis functions are Cartesian, the
 convention of Gaussian for the Pople bases. The functionals are B3LYP, PBE0, PBE and CAM-B3LYP; the bases
@@ -43,8 +43,8 @@ have is refused.
 ### Water
 
 With `solvent` set to `water`, the optimization and every property use the IEF-PCM
-polarizable continuum with a relative permittivity of 78.3553. The result adds the
-polarization energy: the energy in the continuum minus the gas-phase energy at the same
+(Cancès et al., 1997) polarizable continuum with a relative permittivity of 78.3553. The
+result adds the polarization energy: the energy in the continuum minus the gas-phase energy at the same
 geometry.
 
 That energy is the electrostatic part of solvation only. It has no cavity or dispersion term,
@@ -167,7 +167,8 @@ descriptors of aspirin and that every classification output lies between 0 and 1
 molecule with the OpenFE absolute solvation protocol. A negative value means that the molecule
 prefers water. The free energy is from the gas phase to water at the same concentration.
 
-RDKit embeds the molecule from its SMILES and relaxes it with MMFF94. The molecule has AshGC
+RDKit embeds the molecule from its SMILES with ETKDG (Riniker and Landrum, 2015) and relaxes
+it with MMFF94 (Halgren, 1996). The molecule has AshGC
 partial charges, the graph-network model of the OpenFF project that reproduces AM1-BCC charges,
 and Sage 2.3.0 parameters; the water is TIP3P in a dodecahedral box with 1.5 nm of padding. In
 water and in vacuum, 14 lambda windows decouple the molecule from its surroundings, with the

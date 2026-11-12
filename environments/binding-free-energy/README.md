@@ -165,9 +165,8 @@ verification files in this directory record the Sage 2.3.0/AshGC force-field set
 
 ## References
 
-- Alibay I, et al. The Open Free Energy library, version 1.12.0. Zenodo (2026).
-  [doi:10.5281/zenodo.21047548](https://doi.org/10.5281/zenodo.21047548) (all versions:
-  [doi:10.5281/zenodo.8344247](https://doi.org/10.5281/zenodo.8344247)).
+- Alibay I, et al. The Open Free Energy library. Zenodo (2026), the record of all versions.
+  [doi:10.5281/zenodo.8344247](https://doi.org/10.5281/zenodo.8344247)
 - Shirts MR, Chodera JD. Statistically optimal analysis of samples from multiple equilibrium
   states. J Chem Phys 129, 124105 (2008).
   [doi:10.1063/1.2978177](https://doi.org/10.1063/1.2978177)
@@ -186,6 +185,15 @@ verification files in this directory record the Sage 2.3.0/AshGC force-field set
 - Wang L, et al. Developing and benchmarking Sage 2.3.0 with the AshGC neural network charge
   model. J Chem Theory Comput 22, 4507-4531 (2026).
   [doi:10.1021/acs.jctc.6c00169](https://doi.org/10.1021/acs.jctc.6c00169)
+- Wang L, et al. openforcefield/openff-forcefields, version 2026.01.0 (the release that adds
+  Sage 2.3.0). Zenodo (2026).
+  [doi:10.5281/zenodo.18228115](https://doi.org/10.5281/zenodo.18228115)
+- Riniker S, Landrum GA. Better informed distance geometry: using what we know to improve
+  conformation generation. J Chem Inf Model 55, 2562-2574 (2015).
+  [doi:10.1021/acs.jcim.5b00654](https://doi.org/10.1021/acs.jcim.5b00654)
+- Halgren TA. Merck molecular force field. I. Basis, form, scope, parameterization, and
+  performance of MMFF94. J Comput Chem 17, 490-519 (1996).
+  [doi:10.1002/(SICI)1096-987X(199604)17:5/6<490::AID-JCC1>3.0.CO;2-P](https://doi.org/10.1002/(SICI)1096-987X(199604)17:5/6%3C490::AID-JCC1%3E3.0.CO;2-P)
 - Mobley DL, et al. Escaping atom types in force fields using direct chemical perception. J
   Chem Theory Comput 14, 6076-6092 (2018).
   [doi:10.1021/acs.jctc.8b00640](https://doi.org/10.1021/acs.jctc.8b00640)

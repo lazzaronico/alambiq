@@ -27,12 +27,12 @@ scale.
 The optional per-residue annotations are computed from the supplied coordinates. A residue
 with no observed coordinates has null values.
 
-Secondary structure is eight-state DSSP: H, G and I are helices, E and B are strands and
+Secondary structure is eight-state DSSP (Kabsch and Sander, 1983): H, G and I are helices, E and B are strands and
 bridges, T is a turn, S is a bend and a blank is a loop. It is assigned over runs of
 consecutive polymer positions with complete backbones. A break is a distance above 2 Å
 between the carbon of one residue and the nitrogen of the next.
 
-Accessible area is computed by Shrake-Rupley with a 1.4 Å probe and 960 points per atom
+Accessible area is computed by Shrake-Rupley (Shrake and Rupley, 1973) with a 1.4 Å probe and 960 points per atom
 over the observed heavy atoms, in square ångström. Hydrogens and water are excluded. The
 other chains, ligands and ions in the structure occlude the surface, so two values are
 comparable only when the models were prepared the same way.
@@ -40,8 +40,9 @@ comparable only when the models were prepared the same way.
 ## Family membership
 
 `protein.match_profiles` searches a protein against sequence profiles: the pinned Pfam 38.2
-library or Stockholm alignments supplied in the request. It reports every alignment with its
-protein span, profile span, bits, expectation value and the share of the profile covered.
+library (Blum et al., 2025) or Stockholm alignments supplied in the request. It reports
+every alignment with its protein span, profile span, bits, expectation value and the share
+of the profile covered.
 The matches have three properties:
 
 - They are MMseqs2 profile matches. The profiles are built from seed alignments, without
@@ -93,8 +94,16 @@ a FASTA file, which `protein.search` and `sequence.generate_msa` accept as input
 
 ## References
 
-- Mistry J, et al. Pfam: the protein families database in 2021. Nucleic Acids Res 49,
-  D412-D419 (2021). [doi:10.1093/nar/gkaa913](https://doi.org/10.1093/nar/gkaa913)
+- Kabsch W, Sander C. Dictionary of protein secondary structure: pattern recognition of
+  hydrogen-bonded and geometrical features. Biopolymers 22, 2577-2637 (1983).
+  [doi:10.1002/bip.360221211](https://doi.org/10.1002/bip.360221211)
+- Shrake A, Rupley JA. Environment and exposure to solvent of protein atoms. Lysozyme and
+  insulin. J Mol Biol 79, 351-371 (1973).
+  [doi:10.1016/0022-2836(73)90011-9](https://doi.org/10.1016/0022-2836(73)90011-9)
+- Blum M, et al. InterPro: the protein sequence classification resource in 2025. Nucleic
+  Acids Res 53, D444-D456 (2025).
+  [doi:10.1093/nar/gkae1082](https://doi.org/10.1093/nar/gkae1082) (the publication that
+  InterPro asks to cite for Pfam).
 - Steinegger M, Söding J. MMseqs2 enables sensitive protein sequence searching for the
   analysis of massive data sets. Nat Biotechnol 35, 1026-1028 (2017).
   [doi:10.1038/nbt.3988](https://doi.org/10.1038/nbt.3988)

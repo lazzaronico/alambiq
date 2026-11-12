@@ -7,7 +7,7 @@ chain in the reference frame as an mmCIF file.
 Two stored `protein.inspect` records each supply a structure (deposited or predicted); the
 request selects one chain of each. The fit superposes the alpha carbons of corresponding
 residues with equal weights, by the QCP method (Theobald, 2005; Liu et al., 2010) as
-implemented in gemmi (Wojdyr, 2022). Every pair with both alpha carbons observed enters the fit.
+implemented in gemmi. Every pair with both alpha carbons observed enters the fit.
 
 The correspondence between residues comes from one of these:
 
@@ -41,8 +41,6 @@ References.
   https://doi.org/10.1002/jcc.21439
 - Theobald DL. Rapid calculation of RMSDs using a quaternion-based characteristic polynomial.
   Acta Crystallogr A 61, 478-480 (2005). https://doi.org/10.1107/S0108767305015266
-- Wojdyr M. GEMMI: A library for structural biology. J Open Source Softw 7, 4200 (2022).
-  https://doi.org/10.21105/joss.04200
 """
 
 from __future__ import annotations
