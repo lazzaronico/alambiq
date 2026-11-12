@@ -11,7 +11,7 @@
     "https://model-gateway.boltz.bio/boltz2_aff.ckpt",
     "https://model-gateway.boltz.bio/boltz2_conf.ckpt"
   ],
-  "build": "Fetched by Boltz's own downloader from the sources listed, which also unpacks mols.tar into the directory mols/ beside it. `alambiq resource provision` runs it in the Boltz environment and verifies the result against this record. Not redistributed. The directory is named by the content address of an earlier lock of the same files, stated here.",
+  "build": "Fetched by Boltz's own downloader from the sources listed, which also unpacks mols.tar into the directory mols/ beside it. `alambiq resource provision` runs it in the Boltz environment and verifies the result against this record. The downloader reads the main branch of the Hugging Face repository and the Boltz gateway, which can serve other files later, and the check then fails. The same three files at the recorded source revision are at https://huggingface.co/boltz-community/boltz-2/resolve/6fdef46d763fee7fbb83ca5501ccceff43b85607/ (boltz2_aff.ckpt, boltz2_conf.ckpt, mols.tar); their sizes and SHA-256 digests there are those of this record. Not redistributed. The directory is named by the content address of an earlier lock of the same files, stated here.",
   "fetch": {"environment": "boltz", "entry": "boltz_download:run"},
   "files": [
     {
