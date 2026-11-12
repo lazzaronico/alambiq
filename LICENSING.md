@@ -18,6 +18,14 @@ it under the Artistic License, which the Open Source Initiative has approved.
 `tools/scan_licenses.py` lists each installed dependency whose license is not classed as
 allowed; `--all` lists every dependency.
 
+Three extras install packages that the scan sees only where the extra is installed. The
+`routes` extra installs doranet 0.5.7a1 under Apache-2.0 (copyright William Sprague, 2024).
+The `construct` extra installs pydna 5.5.16 under the BSD 3-Clause license (copyright Björn
+Johansson, CBMA and University of Minho, 2013 to 2015). The `coding-design` extra installs DNA
+Chisel 3.2.16 under the MIT license (copyright Edinburgh Genome Foundry, University of
+Edinburgh, 2017). Each statement is read from the license file in the package's distribution
+metadata and from its metadata fields; all three are within the accepted set.
+
 The protonation environment installs PDB2PQR (BSD 3-Clause) and PROPKA (LGPL 2.1), which run
 as a separate process; its [README](environments/protonation/README.md) lists the licenses.
 
