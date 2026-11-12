@@ -4,7 +4,7 @@
   "provider": "UniProt Consortium",
   "license": "CC-BY-4.0",
   "description": "UniRef50 release 2026_02 as an MMseqs2 sequence database with a precomputed index.",
-  "build": "Built locally from https://ftp.uniprot.org/pub/databases/uniprot/current_release/uniref/uniref50/uniref50.fasta.gz (release 2026_02) with MMseqs2 18-8cc5c: createdb, createindex.",
+  "build": "Built locally from uniref50.fasta.gz of UniRef release 2026_02, which UniProt served at current_release/uniref/uniref50/ until the next release; the release now stays in the versioned directory https://ftp.uniprot.org/pub/databases/uniprot/previous_releases/release-2026_02/uniref/ as the archive uniref2026_02.tar.gz (136 GB). The database was built with MMseqs2 18-8cc5c: createdb, createindex.",
   "files": [
     {
       "path": "uniref50-db",
