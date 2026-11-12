@@ -56,7 +56,7 @@ the extras and the capabilities that import their packages.
 | `chemistry` | RDKit | `reaction.*` (including molecular drawings), `simulation.measure_ligand_pose` (with `trajectory`), `simulation.run_relative_free_energy`, `structure.prepare_reactive_coordinates` |
 | `routes` | DORAnet, RDKit | `reaction.explore_routes` |
 | `thermodynamics` | eQuilibrator and its cache, RDKit | `reaction.estimate_thermodynamics` |
-| `dossier` | Gemmi | reading structure files, for example in `protein.inspect`, `structure.check`, `structure.compare` and `structure.detect_binding_pockets` |
+| `dossier` | Gemmi | reading structure files, for example in `protein.inspect`, `structure.check`, `structure.compare`, `structure.measure_ligand_site` (with `quantitative`) and `structure.detect_binding_pockets` |
 | `construct` | Pydna, Biopython | `construct.*` |
 | `coding-design` | DNA Chisel, Biopython | `dna.optimize_coding` |
 | `trajectory` | MDTraj | `simulation.cluster_trajectory`, `simulation.inspect_trajectory`, `simulation.measure_ligand_pose` (with `chemistry`), `simulation.compare_scalar_couplings`, `protein.inspect` (coordinate annotations) |

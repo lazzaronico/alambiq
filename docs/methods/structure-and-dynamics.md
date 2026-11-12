@@ -3,8 +3,8 @@
 These capabilities compare and predict structures, prepare a system, run molecular dynamics
 and inspect trajectories.
 
-`structure.compare` (which reads stored `protein.inspect` records), `structure.fetch`,
-`structure.check`, `structure.assign_protonation`,
+`structure.compare` (which reads stored `protein.inspect` records),
+`structure.measure_ligand_site`, `structure.fetch`, `structure.check`, `structure.assign_protonation`,
 `structure.detect_binding_pockets` and `structure.predict_biomolecular_complex` are
 independent of the others. `structure.prepare_protein_system` and
 `structure.prepare_predicted_complex_for_dynamics` write a system that
@@ -73,6 +73,18 @@ structure it was made from.
 (a list, an alignment, or the same query). It reports the RMSD before and after, the
 distance of every pair and the fraction of each protein that was paired. The RMSD depends on
 the paired residues and is reported with the coverage.
+
+`structure.measure_ligand_site` superposes a structure that holds a ligand (a predicted
+complex) on a reference (a deposited structure) over all protein chains, and measures the
+distance from the ligand to chosen atoms of the reference, for example from the carbonyl
+oxygen of a substrate to the catalytic zinc or to the hydride-accepting carbon of the
+cofactor. Residues correspond by author number and name. The chains are paired by the
+assignment with the smallest alpha-carbon RMSD, which matters for an oligomer, whose
+predicted chains carry names unrelated to those of the crystal. When several assignments fit
+within a tolerance (a nearly symmetric oligomer), the ligand lies in a different subunit
+site in each, and the result gives the range of every nearest distance over them. The
+distances place the ligand relative to atoms that the prediction does not contain; they do
+not show that the pose is the productive binding mode.
 
 `structure.detect_binding_pockets` runs P2Rank on a structure and ranks surface pockets by
 the P2Rank score, the output of a model trained on known ligand-binding sites. A pocket is a

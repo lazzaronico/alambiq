@@ -313,15 +313,6 @@ def test_t4_lysozyme_campaign_is_valid_and_its_chain_binds_the_dossier(tmp_path)
     assert outcome.outputs("dossier")["sequence"] == fasta
 
 
-def load_script(path: Path):
-    from importlib.util import module_from_spec, spec_from_file_location
-
-    spec = spec_from_file_location(path.stem, path)
-    module = module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module
-
-
 @needs("gemmi", "numpy")
 def test_tbsadh_campaign_is_valid_and_one_enzyme_runs_through_both_branches(tmp_path):
     import yaml
@@ -334,7 +325,7 @@ def test_tbsadh_campaign_is_valid_and_one_enzyme_runs_through_both_branches(tmp_
     campaign = yaml.safe_load(path.read_text())
     steps = {s["id"]: s for s in campaign["steps"]}
     assert list(steps) == [
-        "dossier", "pockets", "complex", "predicted", "agreement",
+        "dossier", "pockets", "complex", "predicted", "agreement", "site",
         "free-first-order", "free-saturation", "hydrogel-first-order",
         "hydrogel-saturation", "reactor",
     ]
@@ -347,7 +338,13 @@ def test_tbsadh_campaign_is_valid_and_one_enzyme_runs_through_both_branches(tmp_
     assert steps["agreement"]["bind"] == {
         "reference": "dossier.record", "mobile": "predicted.record"
     }
-    for name in ("P14941.fasta", "P14941.a3m", "1YKF.cif", "measure_site.py"):
+    # The site measurement reads the predicted structure and names its ligand from the prediction.
+    assert steps["site"]["bind"] == {
+        "mobile": "complex.samples.0.structure",
+        "ligand.chain_id": "complex.ligand.id",
+    }
+    assert steps["site"]["params"]["reference"] == "1YKF.cif"
+    for name in ("P14941.fasta", "P14941.a3m", "1YKF.cif"):
         assert (folder / name).is_file(), name
     # The sequence of the deposited structure is the one of UniProt P14941.
     fasta = (folder / "P14941.fasta").read_text().split("\n", 1)[1].replace("\n", "")
@@ -384,15 +381,16 @@ def test_tbsadh_laboratory_branch_gives_the_published_fits(tmp_path):
 
 
 @needs("gemmi", "numpy")
-def test_the_site_measurement_finds_the_chain_assignment_that_fits(tmp_path):
-    script = load_script(EXAMPLES / "tbsadh-sequence-to-reactor" / "measure_site.py")
-    deposited = EXAMPLES / "tbsadh-sequence-to-reactor" / "1YKF.cif"
-    reference = script.read(deposited)
-    renamed = script.read(deposited)
+def test_the_site_measurement_finds_the_chain_assignment_that_fits():
+    from alambiq.capabilities.investigate.science import ligand_site
+
+    text = (EXAMPLES / "tbsadh-sequence-to-reactor" / "1YKF.cif").read_text()
+    reference = ligand_site.read_structure(text, "reference")
+    renamed = ligand_site.read_structure(text, "renamed")
     new = {"A": "C", "B": "D", "C": "B", "D": "A"}
     for chain in renamed[0]:
         chain.name = new.get(chain.name, chain.name)
-    fit = script.fit_chains(renamed, reference)
+    fit = ligand_site.fit_chains(renamed, reference)
     assert fit["rmsd_angstrom"] < 1e-3
-    assert fit["residues"] == 1408
-    assert fit["assignment"] == {renamed_name: kept for kept, renamed_name in new.items()}
+    assert fit["fitted_residues"] == 1408
+    assert fit["chain_assignment"] == {renamed_name: kept for kept, renamed_name in new.items()}

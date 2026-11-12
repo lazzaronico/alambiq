@@ -39,6 +39,7 @@ MODULES = (
     "alambiq.capabilities.investigate.reaction_explore_routes",
     "alambiq.capabilities.investigate.reaction_analyze_enzyme_panel",
     "alambiq.capabilities.investigate.structure_compare",
+    "alambiq.capabilities.investigate.structure_measure_ligand_site",
     "alambiq.capabilities.investigate.structure_assign_protonation",
     "alambiq.capabilities.investigate.structure_check",
     "alambiq.capabilities.investigate.structure_prepare_protein_system",

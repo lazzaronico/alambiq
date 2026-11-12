@@ -6,7 +6,7 @@ and what does the measured progress of the same reaction predict for a reactor?
 
 One campaign follows one enzyme, the secondary alcohol dehydrogenase of *Thermoanaerobacter
 brockii* (UniProt P14941, 352 residues, a homotetramer with a catalytic zinc and one NADP in
-each subunit), and one substrate, acetophenone. The campaign has 10 steps in two branches.
+each subunit), and one substrate, acetophenone. The campaign has 11 steps in two branches.
 
 | Step | Capability | Role |
 | --- | --- | --- |
@@ -15,6 +15,7 @@ each subunit), and one substrate, acetophenone. The campaign has 10 steps in two
 | `complex` | `structure.predict_biomolecular_complex` | predicts the tetramer with acetophenone (Boltz-2, seed 1), each chain with the alignment `P14941.a3m` |
 | `predicted` | `protein.inspect` | reads the predicted structure against the same sequence |
 | `agreement` | `structure.compare` | superposes chain A of the prediction on chain A of 1YKF |
+| `site` | `structure.measure_ligand_site` | superposes the predicted tetramer on the deposited tetramer and measures the substrate against the catalytic zinc and the NADP of 1YKF |
 | `free-first-order`, `free-saturation`, `hydrogel-first-order`, `hydrogel-saturation` | `operation.fit` | fit an effective first-order law and a saturation law to the progress of acetophenone reduction by free and hydrogel-assembled TbSADH |
 | `reactor` | `operation.simulate` | simulates the fitted hydrogel operation |
 
@@ -23,15 +24,13 @@ passes between them: the fits of the progress curves do not read the structure.
 
 ```bash
 alambiq run examples/tbsadh-sequence-to-reactor/campaign.yaml --report report.html
-python examples/tbsadh-sequence-to-reactor/measure_site.py --run-dir <run directory>
 ```
 
-**Needs.** The `dossier` and `quantitative` extras. The molecular branch needs the P2Rank and
+**Needs.** The `dossier` and `quantitative` extras (the `site` step reads structures with Gemmi and fits them with NumPy). The molecular branch needs the P2Rank and
 Boltz-2 environments and their resources (`ALAMBIQ_ENV_P2RANK`, `ALAMBIQ_ENV_BOLTZ`; see
 [install](../../docs/install.md)) and a CUDA GPU for the prediction of the tetramer (1,408
-residues). The laboratory branch needs no engine. `measure_site.py` needs `gemmi` and `numpy`.
-The test suite runs the dossier, the laboratory branch and `measure_site.py`, and does not run
-the prediction.
+residues). The laboratory branch needs no engine. The test suite runs the dossier, the laboratory branch and the chain assignment of the
+superposition on 1YKF, and does not run the prediction.
 
 **The alignment.** `P14941.a3m` is the result of `sequence.generate_msa` for `P14941.fasta`
 (`msa.yaml`; UniRef50 release 2026_02, three iterations, 4,158 rows, of which 4,055 are diverse
@@ -41,7 +40,7 @@ database. Without an alignment, Boltz-2 predicted the tetramer with an ipTM of 0
 complex pLDDT of 0.45.
 
 **Run on one NVIDIA GB10 (the DGX Spark).** Wall time per step: `dossier` 0.1 s, `pockets` 3 s,
-`complex` 1,072 s, `predicted` 0.1 s, `agreement` 0.3 s, the four fits 5.5, 20.5, 8.5 and 28.2 s,
+`complex` 1,072 s, `predicted` 0.1 s, `agreement` 0.3 s, `site` 0.2 s, the four fits 5.5, 20.5, 8.5 and 28.2 s,
 `reactor` 0.01 s; 1,104 s for the campaign.
 
 **What to look at.**
@@ -54,14 +53,20 @@ complex pLDDT of 0.45.
   in the tetramer.
 - **`agreement`**: chain A of the prediction superposes on chain A of 1YKF with an alpha-carbon
   RMSD of 0.45 Å over 352 residues.
-- **`measure_site.py`**: the predicted tetramer superposes on the deposited tetramer with an
-  alpha-carbon RMSD of 0.67 Å over 1,408 residues (the predicted chains A, B, C and D
-  correspond to the deposited chains C, D, B and A). The carbonyl oxygen of the substrate lies
-  1.89 Å from the catalytic zinc of that subunit and 44 to 47 Å from the others, and its
-  carbonyl carbon lies 3.58 Å from C4 of the nicotinamide of the NADP of that subunit, the carbon
-  that receives the hydride, and 40 to 45 Å from the others. The prediction contains neither the
-  zinc nor the NADP. The centroid of the substrate lies 7.6 Å from the centre of the P2Rank
-  pocket of that subunit and more than 30 Å from the others.
+- **`site`**: the predicted tetramer superposes on the deposited tetramer with an
+  alpha-carbon RMSD of 0.67 Å over 1,408 residues; the predicted chains A, B, C and D
+  correspond to the deposited chains C, D, B and A. The substrate is `LIG1` of chain ACP;
+  Boltz-2 names its atoms by canonical rank, and the result lists each atom with the atoms it
+  is bonded to, which identifies O9 as the carbonyl oxygen and C10 as the carbonyl carbon.
+  - O9 lies 1.89 Å from the catalytic zinc of the subunit it is in and 44 to 47 Å from the
+    others.
+  - C10 lies 3.58 Å from C4 of the nicotinamide of the NADP of that subunit, the carbon that
+    receives the hydride, and 40 to 45 Å from the others.
+  - The tetramer is nearly symmetric, and 4 of the 24 assignments of predicted chains to
+    deposited chains fit within 0.1 Å of the smallest RMSD (0.666 to 0.674 Å). They place the
+    substrate in different subunit sites, and the nearest distance of O9 to a zinc ranges from
+    1.89 to 2.89 Å over them and that of C10 to C4 from 3.58 to 3.69 Å.
+  - The prediction contains neither the zinc nor the NADP.
 - **Laboratory branch**: the numbers of
   [operation-from-progress-curves](../operation-from-progress-curves/README.md): the standardized
   RMSE of the hydrogel saturation fit is 1.00 on the fitted points and 1.85 on the evaluation
@@ -70,7 +75,7 @@ complex pLDDT of 0.45.
 
 **Rerun.** A second campaign in a separate run directory wrote the same predicted structure
 (byte for byte), the same confidences, the same fits and reactor simulation and the same
-distances in `measure_site.py`, with the same step keys.
+distances and chain assignments of `site`, with the same step keys.
 
 **Limits.**
 
@@ -80,6 +85,9 @@ distances in `measure_site.py`, with the same step keys.
   checks the chain on a known answer.
 - 1YKF holds NADP and zinc and no substrate. The distances state where the predicted substrate
   lies relative to them, and not that this is the productive binding mode.
+- The distances of `site` depend on which of the equivalent chain assignments is used, as
+  stated above; the campaign reports the one with the smallest RMSD and the range over all of
+  them.
 - The prediction is one sample (seed 1) with one alignment. The campaign runs the prediction
   once, and the number of rows of the alignment depends on the database release.
 - The fits describe one assay at fixed conditions (5 mM substrate, 1 mg/mL enzyme, pH 7.4,

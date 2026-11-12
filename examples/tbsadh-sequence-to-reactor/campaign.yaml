@@ -52,6 +52,21 @@ steps:
       reference_chain: A
       mobile_chain: A
 
+  # The predicted tetramer is moved onto the deposited one by its alpha carbons, and the
+  # substrate is measured against the catalytic zinc and the nicotinamide of the NADP of 1YKF.
+  # Boltz-2 names the atoms of the substrate by canonical rank: O9 is the carbonyl oxygen and
+  # C10 the carbonyl carbon (the result lists every atom with the atoms it is bonded to).
+  - id: site
+    capability: structure.measure_ligand_site
+    bind:
+      mobile: complex.samples.0.structure
+      ligand.chain_id: complex.ligand.id
+    params:
+      reference: 1YKF.cif
+      targets:
+        - {label: catalytic-zinc, residue_name: ZN, atom: ZN, ligand_atom: O9}
+        - {label: hydride-acceptor, residue_name: NAP, atom: C4N, ligand_atom: C10}
+
   # Laboratory branch: the progress of acetophenone reduction by the same enzyme, free and
   # assembled in a hydrogel (Chen et al., 2023), and the fitted operation.
   - id: free-first-order
