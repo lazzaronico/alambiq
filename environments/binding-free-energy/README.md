@@ -188,7 +188,7 @@ verification files in this directory record the Sage 2.3.0/AshGC force-field set
 - Wang L, et al. openforcefield/openff-forcefields, version 2026.01.0 (the release that adds
   Sage 2.3.0). Zenodo (2026).
   [doi:10.5281/zenodo.18228115](https://doi.org/10.5281/zenodo.18228115)
-- Riniker S, Landrum GA. Better informed distance geometry: using what we know to improve
+- Riniker S, Landrum GA. Better informed distance geometry: using what "we" know to improve
   conformation generation. J Chem Inf Model 55, 2562-2574 (2015).
   [doi:10.1021/acs.jcim.5b00654](https://doi.org/10.1021/acs.jcim.5b00654)
 - Halgren TA. Merck molecular force field. I. Basis, form, scope, parameterization, and

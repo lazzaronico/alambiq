@@ -44,10 +44,10 @@ capacity at constant volume of 5.997 cal/(mol K) at 298.15 K and a harmonic zero
 - Sun Q, et al. The Python simulations of chemistry framework: 10 years of an open-source
   quantum chemistry project. J Chem Phys 165, 102502 (2026).
   [doi:10.1063/5.0337441](https://doi.org/10.1063/5.0337441)
-- Lehtola S, Steigemann C, Oliveira MJT, Marques MAL. Recent developments in libxc — A
+- Lehtola S, Steigemann C, Oliveira MJT, Marques MAL. Recent developments in libxc "—" A
   comprehensive library of functionals for density functional theory. SoftwareX 7, 1-5
   (2018). [doi:10.1016/j.softx.2017.11.002](https://doi.org/10.1016/j.softx.2017.11.002)
-- Riniker S, Landrum GA. Better informed distance geometry: using what we know to improve
+- Riniker S, Landrum GA. Better informed distance geometry: using what "we" know to improve
   conformation generation. J Chem Inf Model 55, 2562-2574 (2015).
   [doi:10.1021/acs.jcim.5b00654](https://doi.org/10.1021/acs.jcim.5b00654)
 - Halgren TA. Merck molecular force field. I. Basis, form, scope, parameterization, and
