@@ -198,8 +198,7 @@
       "property": "specific activity",
       "higher_is_better": true,
       "source": {
-        "git_commit": "39f0515",
-        "path": "campaigns/examples/applications/27-transaminase-engineering/recombination/measurements.csv",
+        "file": "tests/fixtures/variant-benchmark/atta-transaminase/measurements.csv",
         "sha256": "13c94a20c40727ea5a0d162fe446fa0b6d67fab56730970fcd06571e830b025d"
       },
       "scoring": "sum of single-substitution scores",

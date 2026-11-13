@@ -37,10 +37,8 @@ those of `check_installed_package.py` and `benchmark_variant_proposal.py`.
   holds the glucokinase data and the lipase sequence manifest), `--out` (the JSON file to
   write; the file in the repository is `docs/methods/variant-proposal-benchmark.json`) and
   the environment variable `ALAMBIQ_ENV_ESM` (the Python of the `esm` engine environment).
-  The lipase measurements are read from `tests/fixtures/variant-benchmark/`. The
-  transaminase data are read from the Git history of this repository at the commit given
-  by `--transaminase-commit` (default `39f0515`). `--only` restricts the run to the listed
-  dataset ids.
+  The lipase measurements and the transaminase panel and measurements are read from
+  `tests/fixtures/variant-benchmark/`. `--only` restricts the run to the listed dataset ids.
 - `validate_substitution_calls.py`: reproduces the test in
   [Planted edits in Swiss-Prot proteins](../docs/methods/search-and-alignment.md#planted-edits-in-swiss-prot-proteins).
   It requires `--fasta`, `--out` (the file in the repository is

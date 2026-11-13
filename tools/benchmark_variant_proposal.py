@@ -13,7 +13,7 @@ The datasets are three published sets of measured variants:
 * Human glucokinase, an activity score (190 single substitutions) and an abundance
   score (186 single substitutions) (Gersing et al. 2023, 2024), from the studies repository.
 * An amine transaminase lineage (Wu et al. 2022), the specific activity of 27 variants of
-  one to five substitutions, from the repository history at the stated commit. Its variants
+  one to five substitutions (Source Data of the article, CC BY 4.0), shipped with the tests. Its variants
   are scored by adding the single-substitution scores of their substitutions.
 
 Each variant is scored with the same capability a user would run, and the ranking it
@@ -38,7 +38,6 @@ import json
 import math
 import random
 import re
-import subprocess
 import sys
 import tempfile
 from pathlib import Path
@@ -157,23 +156,14 @@ def glucokinase(studies: Path) -> list[dict]:
     return out
 
 
-def transaminase(commit: str) -> dict:
-    prefix = "campaigns/examples/applications/27-transaminase-engineering/recombination"
-
-    def show(name: str) -> str:
-        return subprocess.run(
-            ["git", "show", f"{commit}:{prefix}/{name}"],
-            cwd=ROOT,
-            capture_output=True,
-            text=True,
-            check=True,
-        ).stdout
-
-    panel = json.loads(show("panel.json"))
+def transaminase() -> dict:
+    folder = ROOT / "tests/fixtures/variant-benchmark/atta-transaminase"
+    measurements = folder / "measurements.csv"
+    panel = json.loads((folder / "panel.json").read_text())
     sequences = {c["sample_id"]: c["sequence"] for c in panel["candidates"]}
     wild = sequences["wt"]
     readings: dict[str, list[float]] = {}
-    for row in csv.DictReader(show("measurements.csv").splitlines()):
+    for row in csv.DictReader(measurements.open()):
         if row["metric"] == "specific_activity" and row["value"]:
             readings.setdefault(row["sample_id"], []).append(float(row["value"]))
     variants = []
@@ -200,9 +190,8 @@ def transaminase(commit: str) -> dict:
         "sequence": wild,
         "variants": variants,
         "source": {
-            "git_commit": commit,
-            "path": f"{prefix}/measurements.csv",
-            "sha256": hashlib.sha256((show("measurements.csv")).encode()).hexdigest(),
+            "file": str(measurements.relative_to(ROOT)),
+            "sha256": sha(measurements),
         },
         "scoring": "sum of single-substitution scores",
     }
@@ -343,18 +332,13 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--studies", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
-    parser.add_argument(
-        "--transaminase-commit",
-        default="39f0515",
-        help="repository commit that still holds the transaminase example",
-    )
     parser.add_argument("--only", nargs="*", help="dataset ids to run")
     args = parser.parse_args()
 
     datasets = [
         lipase(args.studies),
         *glucokinase(args.studies),
-        transaminase(args.transaminase_commit),
+        transaminase(),
     ]
     if args.only:
         datasets = [d for d in datasets if d["id"] in args.only]

@@ -13,4 +13,5 @@ Small inputs the tests read. Nothing here is generated at test time.
 | `enzyme-reaction-panel/` | a sequence-selected projection of the SrIRED lrDMS v2.0.0 dataset with its accounting | Gantz and colleagues, CC BY 4.0; see `source-accounting.json` |
 | `reactions/chorismate/` | chorismate reaction with its ChEBI species | Rhea reaction 13897, CC BY 4.0; see `manifest.json` |
 | `variant-benchmark/bslipa-t50-observations.csv` | Lipase A T50 measurements of 2,172 variants, read by the variant benchmark | ProteinGym 1.3, ESTA_BACSU_Nutschel_2020, MIT dataset declaration; Nutschel and colleagues, doi:10.1021/acs.jcim.9b00954 |
+| `variant-benchmark/atta-transaminase/` | the sequences and the specific-activity measurements of 28 forms of an amine transaminase lineage, read by the variant benchmark | Wu and colleagues 2022, Source Data of the article, CC BY 4.0, doi:10.1038/s41467-022-35228-y |
 | `operation/` | small operating-model records written for the tests | synthetic |
