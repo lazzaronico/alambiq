@@ -14,11 +14,14 @@ is equivalent to `alambiq run`.
 
 ## Verification
 
-Every image was built on 2026-10-25 on the Spark host: Linux ARM64 with an NVIDIA GB10 GPU,
+The images of the table below, except the four named after it, were built on 2026-10-25 on the Spark host: Linux ARM64 with an NVIDIA GB10 GPU,
 driver 580.159.03 and Docker 29.2.1. For each image, `alambiq env check` returned ready, and
 the repository tests that use that engine environment were run in the image. The
 verification file with the image sizes, the test counts and the skipped tests is
-[verification.linux-arm64-spark-20261025.json](verification.linux-arm64-spark-20261025.json).
+[verification.linux-arm64-spark-20261025.json](verification.linux-arm64-spark-20261025.json). The images of
+molecular properties, ADMET-AI, protonation and thermostability were built on 2026-11-13 on the same host,
+from release 1.0.0, with their environment checks and tests (CPU only):
+[verification.linux-arm64-spark-20261113.json](verification.linux-arm64-spark-20261113.json).
 
 | Layer | Dockerfile | Environment variable | Checks run in the image |
 | --- | --- | --- | --- |
@@ -28,10 +31,10 @@ verification file with the image sizes, the test counts and the skipped tests is
 | ThermoMPNN | `Dockerfile.thermompnn` | `ALAMBIQ_ENV_THERMOMPNN` | 47 passed |
 | pymbar | `Dockerfile.reaction-free-energy` | `ALAMBIQ_ENV_PYMBAR` | 32 passed, 2 skipped |
 | QM/MM | `Dockerfile.qmmm` | `ALAMBIQ_ENV_QMMM` | 65 passed, 20 skipped |
-| Molecular properties | `Dockerfile.molecular-properties` | `ALAMBIQ_ENV_MOLECULAR_PROPERTIES` | not built yet; the recipe is the native one |
-| ADMET-AI | `Dockerfile.admet` | `ALAMBIQ_ENV_ADMET` | not built yet; the recipe is the native one |
-| PDB2PQR and PROPKA | `Dockerfile.protonation` | `ALAMBIQ_ENV_PROTONATION` | not built yet; the recipe is the native one |
-| TemBERTure | `Dockerfile.thermostability` | `ALAMBIQ_ENV_THERMOSTABILITY` | not built yet; the recipe is the native one |
+| Molecular properties | `Dockerfile.molecular-properties` | `ALAMBIQ_ENV_MOLECULAR_PROPERTIES` | 61 passed (built 2026-11-13) |
+| ADMET-AI | `Dockerfile.admet` | `ALAMBIQ_ENV_ADMET` | 17 passed (built 2026-11-13; 8 GB, with the NVIDIA packages of the PyPI torch wheel) |
+| PDB2PQR and PROPKA | `Dockerfile.protonation` | `ALAMBIQ_ENV_PROTONATION` | 29 passed, 5 skipped (built 2026-11-13) |
+| TemBERTure | `Dockerfile.thermostability` | `ALAMBIQ_ENV_THERMOSTABILITY` | 21 passed with the `temberture-tm` resource mounted read-only (built 2026-11-13) |
 | OpenMM (CUDA 13) | `Dockerfile.openmm` | `ALAMBIQ_ENV_OPENMM` | 165 passed; the GB3 ensemble example (protein GB3, PDB 1P7E) with 3 replicas of 20 ps on the GPU |
 | OpenFF complex preparation | `Dockerfile.complex` | `ALAMBIQ_ENV_OPENFF` | 72 passed, 2 skipped |
 | ESM C and ESM3 | `Dockerfile.models` | `ALAMBIQ_ENV_ESM` | 93 passed |
