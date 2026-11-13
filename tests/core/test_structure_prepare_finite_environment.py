@@ -268,9 +268,18 @@ class TestTheDroplet:
         )
 
 
+def qmmm_ready() -> bool:
+    """The QM/MM engine environment exists and holds the packages its specification requires."""
+    if not (ENV_QMMM and Path(ENV_QMMM).is_file()):
+        return False
+    from alambiq.core import envs
+
+    return bool(envs.spec("qmmm").check().get("ready"))
+
+
 @pytest.mark.skipif(
-    not (ENV_QMMM and Path(ENV_QMMM).is_file()),
-    reason="set ALAMBIQ_ENV_QMMM to evaluate the ligand quantum mechanically",
+    not qmmm_ready(),
+    reason="set ALAMBIQ_ENV_QMMM to a QM/MM environment with PySCF to evaluate the ligand quantum mechanically",
 )
 class TestTheDropletInQuantumMechanics:
     def test_the_ligand_in_its_droplet_has_a_finite_converged_energy_and_the_boundary_adds_none(

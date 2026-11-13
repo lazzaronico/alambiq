@@ -25,11 +25,12 @@ from tests.core.test_simulation_evaluate_qmmm_state import (  # noqa: E402
     ENV,
     POSITIONS,
     build,
+    qmmm_ready,
 )
 
 pytestmark = pytest.mark.skipif(
-    not (ENV and Path(ENV).is_file()),
-    reason="set ALAMBIQ_ENV_QMMM to run QM/MM dynamics",
+    not qmmm_ready(),
+    reason="set ALAMBIQ_ENV_QMMM to a QM/MM environment with PySCF to run QM/MM dynamics",
 )
 
 

@@ -22,6 +22,9 @@ CASES = {
     "ALAMBIQ_ENV_OPENFF": "test_engine_openff_*.py",
     "ALAMBIQ_ENV_PYMBAR": "test_engine_umbrella_*.py",
 }
+# An environment variable that names an interpreter without the engine's packages is not an
+# installed environment: its tests skip, as they do when the variable is unset.
+READINESS = {"ALAMBIQ_ENV_QMMM": "qmmm"}
 
 
 @pytest.mark.parametrize(("variable", "pattern"), sorted(CASES.items()))
@@ -29,6 +32,13 @@ def test_the_engine_unit_tests_pass_in_their_own_environment(variable, pattern):
     python = os.environ.get(variable, "")
     if not (python and Path(python).is_file()):
         pytest.skip(f"set {variable} to run these engine tests")
+    if variable in READINESS:
+        from alambiq.core import envs
+
+        if not envs.spec(READINESS[variable]).check().get("ready"):
+            pytest.skip(
+                f"the environment named by {variable} lacks the packages its specification requires"
+            )
     if not list(TESTS.glob(pattern)):
         pytest.skip(f"no {pattern} yet")
     finished = subprocess.run(

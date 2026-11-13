@@ -47,9 +47,19 @@ POSITIONS = np.array(
     ]
 )
 
+
+def qmmm_ready() -> bool:
+    """The QM/MM engine environment exists and holds the packages its specification requires."""
+    if not (ENV and Path(ENV).is_file()):
+        return False
+    from alambiq.core import envs
+
+    return bool(envs.spec("qmmm").check().get("ready"))
+
+
 pytestmark = pytest.mark.skipif(
-    not (ENV and Path(ENV).is_file()),
-    reason="set ALAMBIQ_ENV_QMMM to run the QM/MM evaluation",
+    not qmmm_ready(),
+    reason="set ALAMBIQ_ENV_QMMM to a QM/MM environment with PySCF to run the QM/MM evaluation",
 )
 
 BUILD = textwrap.dedent(
