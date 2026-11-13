@@ -573,9 +573,19 @@ class TestLigandChemistryOnSyntheticPoses:
             boltz_predict._chemistry(other, {"id": "L", "smiles": ALANINATE})
 
 
+def engine_installed() -> bool:
+    from alambiq.core import resources
+
+    return (
+        bool(ENV)
+        and Path(ENV).is_file()
+        and resources.location("boltz2-2.2.1").is_dir()
+    )
+
+
 pytestmark_engine = pytest.mark.skipif(
-    not (ENV and Path(ENV).is_file()),
-    reason="set ALAMBIQ_ENV_BOLTZ to run Boltz-2 on a tiny case",
+    not engine_installed(),
+    reason="set ALAMBIQ_ENV_BOLTZ and install the boltz2-2.2.1 resource to run Boltz-2 on a tiny case",
 )
 
 
