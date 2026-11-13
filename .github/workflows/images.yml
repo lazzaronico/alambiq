@@ -163,6 +163,7 @@ jobs:
       - name: Run the tests in the image
         if: matrix.layer != 'core'
         run: |
+          set -o pipefail
           docker build -f environments/docker/Dockerfile.tests \
             --build-arg BASE_IMAGE=alambiq:${{ matrix.layer }} \
             -t alambiq:${{ matrix.layer }}-tests .
