@@ -1,0 +1,36 @@
+name: Force probe on linux/amd64
+
+# A diagnostic: are the CPU forces of a prepared system reproducible on an x86_64 runner?
+# Runs three times, because the runners can differ in CPU model.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        repeat: [1, 2, 3]
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build the core, the complex layer and the test runner
+        run: |
+          docker build -f environments/docker/Dockerfile \
+            --build-arg "ALAMBIQ_EXTRAS=quantitative dossier trajectory chemistry routes thermodynamics construct coding-design embedding-analysis" \
+            -t alambiq:core .
+          docker build -f environments/docker/Dockerfile.complex --build-arg BASE_IMAGE=alambiq:core -t alambiq:complex .
+          docker build -f environments/docker/Dockerfile.tests --build-arg BASE_IMAGE=alambiq:complex -t alambiq:complex-tests .
+      - name: Run the probe
+        run: |
+          set -o pipefail
+          docker run --rm -e PYTHONPATH=/work/tests \
+            -v "$PWD:/work:ro" -v "$PWD/.github/probe:/probe:ro" \
+            --tmpfs /tmp:rw,exec,nosuid,nodev,mode=1777,size=4g \
+            alambiq:complex-tests /probe/test_probe_forces.py -s -q --rootdir /work/tests | tee probe.log
+          grep -E "^(MACHINE|SIMD|PROBE)" probe.log >> "$GITHUB_STEP_SUMMARY"
