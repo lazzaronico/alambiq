@@ -1,0 +1,180 @@
+name: Docker images on linux/amd64
+
+# Builds every image of environments/docker for linux/amd64 on an x86_64 runner, checks its
+# engine environment and runs the repository tests against it on the CPU. Nothing is pushed
+# to a registry. Models and databases are not mounted, so the tests that need a resource skip.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  image:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - layer: core
+            dockerfile: Dockerfile
+            env: ""
+            python_image: python:3.11-slim-bookworm
+            extras: "quantitative dossier trajectory chemistry routes thermodynamics construct coding-design embedding-analysis"
+            tests: ""
+            exec_tmp: false
+          - layer: mmseqs
+            dockerfile: Dockerfile.mmseqs
+            env: "mmseqs"
+            python_image: python:3.11-slim-bookworm
+            extras: "quantitative dossier trajectory chemistry routes thermodynamics construct coding-design embedding-analysis"
+            tests: "tests/core/test_enzyme_capabilities.py tests/core/test_protein_match_profiles.py tests/core/test_sequence_generate_msa.py tests/core/test_engine_launcher.py"
+            exec_tmp: true
+          - layer: p2rank
+            dockerfile: Dockerfile.p2rank
+            env: "p2rank"
+            python_image: python:3.11-slim-bookworm
+            extras: "quantitative dossier trajectory chemistry routes thermodynamics construct coding-design embedding-analysis"
+            tests: "tests/core/test_structure_detect_binding_pockets.py"
+            exec_tmp: true
+          - layer: thermompnn
+            dockerfile: Dockerfile.thermompnn
+            env: "thermompnn"
+            python_image: python:3.11-slim-bookworm
+            extras: "quantitative dossier trajectory chemistry routes thermodynamics construct coding-design embedding-analysis"
+            tests: "tests/core/test_protein_predict_stability_change.py"
+            exec_tmp: false
+          - layer: reaction-free-energy
+            dockerfile: Dockerfile.reaction-free-energy
+            env: "pymbar"
+            python_image: python:3.11-slim-bookworm
+            extras: "quantitative dossier trajectory chemistry routes thermodynamics construct coding-design embedding-analysis"
+            tests: "tests/core/test_simulation_analyze_reaction_free_energy.py tests/core/test_engine_suites.py"
+            exec_tmp: false
+          - layer: qmmm
+            dockerfile: Dockerfile.qmmm
+            env: "qmmm"
+            python_image: python:3.11-slim-bookworm
+            extras: "quantitative dossier trajectory chemistry routes thermodynamics construct coding-design embedding-analysis"
+            tests: "tests/core/test_simulation_run_qmmm_dynamics.py tests/core/test_simulation_evaluate_qmmm_state.py tests/core/test_engine_qmmm_coupling.py tests/core/test_engine_qmmm_dynamics.py tests/core/test_engine_qmmm_native.py tests/core/test_engine_qmmm_pyscf.py tests/core/test_engine_qmmm_state.py"
+            exec_tmp: false
+          - layer: openmm
+            dockerfile: Dockerfile.openmm
+            env: "openmm"
+            python_image: python:3.11-slim-bookworm
+            extras: "quantitative dossier trajectory chemistry routes thermodynamics construct coding-design embedding-analysis"
+            tests: "tests/core/test_structure_prepare_protein_system.py tests/core/test_simulation_inspect_trajectory.py"
+            exec_tmp: false
+          - layer: complex
+            dockerfile: Dockerfile.complex
+            env: "openff"
+            python_image: python:3.11-slim-bookworm
+            extras: "quantitative dossier trajectory chemistry routes thermodynamics construct coding-design embedding-analysis"
+            tests: "tests/core/test_structure_prepare_protein_ligand_system.py tests/core/test_structure_prepare_predicted_complex_for_dynamics.py tests/core/test_structure_prepare_finite_environment.py"
+            exec_tmp: false
+          - layer: openfe
+            dockerfile: Dockerfile.openfe
+            env: "openfe"
+            python_image: python:3.11-slim-bookworm
+            extras: "quantitative dossier trajectory chemistry routes thermodynamics construct coding-design embedding-analysis"
+            tests: "tests/core/test_structure_prepare_relative_binding_inputs.py tests/core/test_simulation_analyze_binding_free_energy.py"
+            exec_tmp: false
+          - layer: models
+            dockerfile: Dockerfile.models
+            env: "esm"
+            python_image: python:3.12-slim-bookworm
+            extras: "quantitative dossier chemistry embedding-analysis"
+            tests: "tests/core/test_protein_embed.py tests/core/test_esm3_capabilities.py tests/core/test_protein_score_substitutions.py"
+            exec_tmp: false
+          - layer: boltz
+            dockerfile: Dockerfile.boltz
+            env: "boltz"
+            python_image: python:3.12-slim-bookworm
+            extras: "quantitative dossier chemistry embedding-analysis"
+            tests: "tests/core/test_structure_predict_biomolecular_complex.py"
+            exec_tmp: false
+          - layer: molecular-properties
+            dockerfile: Dockerfile.molecular-properties
+            env: "molecular_properties"
+            python_image: python:3.11-slim-bookworm
+            extras: "quantitative dossier trajectory chemistry routes thermodynamics construct coding-design embedding-analysis"
+            tests: "tests/core/test_molecule_compute_quantum_properties.py"
+            exec_tmp: false
+          - layer: admet
+            dockerfile: Dockerfile.admet
+            env: "admet"
+            python_image: python:3.11-slim-bookworm
+            extras: "quantitative dossier trajectory chemistry routes thermodynamics construct coding-design embedding-analysis"
+            tests: "tests/core/test_molecule_predict_admet.py"
+            exec_tmp: false
+          - layer: protonation
+            dockerfile: Dockerfile.protonation
+            env: "protonation"
+            python_image: python:3.11-slim-bookworm
+            extras: "quantitative dossier trajectory chemistry routes thermodynamics construct coding-design embedding-analysis"
+            tests: "tests/core/test_structure_assign_protonation.py"
+            exec_tmp: false
+          - layer: thermostability
+            dockerfile: Dockerfile.thermostability
+            env: "thermostability"
+            python_image: python:3.11-slim-bookworm
+            extras: "quantitative dossier trajectory chemistry routes thermodynamics construct coding-design embedding-analysis"
+            tests: "tests/core/test_protein_predict_melting_temperature.py"
+            exec_tmp: false
+    steps:
+      - uses: actions/checkout@v7
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          df -h /
+      - name: Build the core image
+        run: |
+          docker build -f environments/docker/Dockerfile \
+            --build-arg "PYTHON_IMAGE=${{ matrix.python_image }}" \
+            --build-arg "ALAMBIQ_EXTRAS=${{ matrix.extras }}" \
+            -t alambiq:core .
+      - name: Run the examples of the core image
+        if: matrix.layer == 'core'
+        run: |
+          mkdir -p results
+          docker run --rm --network none --read-only \
+            --tmpfs /tmp:rw,nosuid,nodev,mode=1777,size=2g \
+            --user "$(id -u):$(id -g)" \
+            -v "$PWD:/work:ro" -v "$PWD/results:/results" \
+            alambiq:core run examples/kinetics-from-measurements/campaign.yaml \
+            --run-dir /results/kinetics --report /results/kinetics.html
+      - name: Build the OpenMM image that the OpenFE layer carries
+        if: matrix.layer == 'openfe'
+        run: |
+          docker build -f environments/docker/Dockerfile.openmm \
+            --build-arg BASE_IMAGE=alambiq:core -t alambiq:openmm .
+      - name: Build the engine layer
+        if: matrix.layer != 'core'
+        run: |
+          docker build -f environments/docker/${{ matrix.dockerfile }} \
+            --build-arg BASE_IMAGE=alambiq:core \
+            --build-arg OPENMM_IMAGE=alambiq:openmm \
+            -t alambiq:${{ matrix.layer }} .
+      - name: Check the engine environment
+        if: matrix.layer != 'core'
+        run: docker run --rm alambiq:${{ matrix.layer }} env check ${{ matrix.env }}
+      - name: Run the tests in the image
+        if: matrix.layer != 'core'
+        run: |
+          docker build -f environments/docker/Dockerfile.tests \
+            --build-arg BASE_IMAGE=alambiq:${{ matrix.layer }} \
+            -t alambiq:${{ matrix.layer }}-tests .
+          TMP="rw,nosuid,nodev,mode=1777,size=4g"
+          if [ "${{ matrix.exec_tmp }}" = "true" ]; then TMP="rw,exec,nosuid,nodev,mode=1777,size=4g"; fi
+          docker run --rm --tmpfs "/tmp:$TMP" -v "$PWD:/work:ro" \
+            alambiq:${{ matrix.layer }}-tests ${{ matrix.tests }} | tee tests.log
+      - name: Record the image
+        if: always()
+        run: |
+          {
+            echo "### ${{ matrix.layer }} (linux/amd64)"
+            docker image ls --format '{{.Repository}}:{{.Tag}} {{.Size}}' | grep '^alambiq:' || true
+            if [ -f tests.log ]; then tail -n 3 tests.log; fi
+          } >> "$GITHUB_STEP_SUMMARY"
