@@ -26,6 +26,91 @@ wheels = [
 ]
 
 [[package]]
+name = "alambiq"
+version = "1.0.0"
+source = { editable = "." }
+dependencies = [
+    { name = "prefect" },
+    { name = "pyyaml" },
+]
+
+[package.optional-dependencies]
+chemistry = [
+    { name = "rdkit" },
+]
+coding-design = [
+    { name = "biopython" },
+    { name = "dnachisel" },
+]
+construct = [
+    { name = "biopython" },
+    { name = "pydna" },
+]
+dossier = [
+    { name = "gemmi" },
+]
+embedding-analysis = [
+    { name = "scikit-learn" },
+    { name = "umap-learn" },
+]
+openmm = [
+    { name = "openmm" },
+]
+protein-repair = [
+    { name = "openmm" },
+    { name = "pdbfixer" },
+]
+quantitative = [
+    { name = "numpy" },
+    { name = "scikit-learn" },
+    { name = "scipy", version = "1.17.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
+    { name = "scipy", version = "1.18.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+]
+routes = [
+    { name = "doranet" },
+    { name = "rdkit" },
+]
+thermodynamics = [
+    { name = "component-contribution" },
+    { name = "equilibrator-api" },
+    { name = "equilibrator-cache" },
+    { name = "equilibrator-cache-data" },
+    { name = "rdkit" },
+]
+trajectory = [
+    { name = "mdtraj" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "biopython", marker = "extra == 'coding-design'", specifier = "==1.88" },
+    { name = "biopython", marker = "extra == 'construct'", specifier = "==1.88" },
+    { name = "component-contribution", marker = "extra == 'thermodynamics'", specifier = "==0.8.0" },
+    { name = "dnachisel", marker = "extra == 'coding-design'", specifier = "==3.2.16" },
+    { name = "doranet", marker = "extra == 'routes'", specifier = "==0.5.7a1" },
+    { name = "equilibrator-api", marker = "extra == 'thermodynamics'", specifier = "==0.8.0" },
+    { name = "equilibrator-cache", marker = "extra == 'thermodynamics'", specifier = "==0.8.1" },
+    { name = "equilibrator-cache-data", marker = "extra == 'thermodynamics'", specifier = "==0.1.0" },
+    { name = "gemmi", marker = "extra == 'dossier'", specifier = "==0.7.5" },
+    { name = "mdtraj", marker = "extra == 'trajectory'", specifier = "==1.11.1.post2" },
+    { name = "numpy", marker = "extra == 'quantitative'", specifier = ">=1.26,<3" },
+    { name = "openmm", marker = "extra == 'openmm'", specifier = "==8.6.0" },
+    { name = "openmm", marker = "extra == 'protein-repair'", specifier = "==8.6.0" },
+    { name = "pdbfixer", marker = "extra == 'protein-repair'", specifier = "==1.12.0" },
+    { name = "prefect", specifier = ">=3.8.4,<4" },
+    { name = "pydna", marker = "extra == 'construct'", specifier = "==5.5.16" },
+    { name = "pyyaml", specifier = ">=6.0,<7" },
+    { name = "rdkit", marker = "extra == 'chemistry'", specifier = "==2026.3.1" },
+    { name = "rdkit", marker = "extra == 'routes'", specifier = "==2026.3.1" },
+    { name = "rdkit", marker = "extra == 'thermodynamics'", specifier = "==2026.3.1" },
+    { name = "scikit-learn", marker = "extra == 'embedding-analysis'", specifier = ">=1.6,<2" },
+    { name = "scikit-learn", marker = "extra == 'quantitative'", specifier = ">=1.6,<2" },
+    { name = "scipy", marker = "extra == 'quantitative'", specifier = ">=1.14,<2" },
+    { name = "umap-learn", marker = "extra == 'embedding-analysis'", specifier = "==0.5.12" },
+]
+provides-extras = ["chemistry", "routes", "thermodynamics", "quantitative", "dossier", "construct", "coding-design", "trajectory", "openmm", "protein-repair", "embedding-analysis"]
+
+[[package]]
 name = "alembic"
 version = "1.19.1"
 source = { registry = "https://pypi.org/simple" }
@@ -201,91 +286,6 @@ sdist = { url = "https://files.pythonhosted.org/packages/c7/94/1009e248bbfbab113
 wheels = [
     { url = "https://files.pythonhosted.org/packages/71/cc/18245721fa7747065ab478316c7fea7c74777d07f37ae60db2e84f8172e8/beartype-0.22.9-py3-none-any.whl", hash = "sha256:d16c9bbc61ea14637596c5f6fbff2ee99cbe3573e46a716401734ef50c3060c2", size = 1333658, upload-time = "2025-12-13T06:50:28.266Z" },
 ]
-
-[[package]]
-name = "alambiq"
-version = "1.0.0"
-source = { editable = "." }
-dependencies = [
-    { name = "prefect" },
-    { name = "pyyaml" },
-]
-
-[package.optional-dependencies]
-chemistry = [
-    { name = "rdkit" },
-]
-coding-design = [
-    { name = "biopython" },
-    { name = "dnachisel" },
-]
-construct = [
-    { name = "biopython" },
-    { name = "pydna" },
-]
-dossier = [
-    { name = "gemmi" },
-]
-embedding-analysis = [
-    { name = "scikit-learn" },
-    { name = "umap-learn" },
-]
-openmm = [
-    { name = "openmm" },
-]
-protein-repair = [
-    { name = "openmm" },
-    { name = "pdbfixer" },
-]
-quantitative = [
-    { name = "numpy" },
-    { name = "scikit-learn" },
-    { name = "scipy", version = "1.17.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
-    { name = "scipy", version = "1.18.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
-]
-routes = [
-    { name = "doranet" },
-    { name = "rdkit" },
-]
-thermodynamics = [
-    { name = "component-contribution" },
-    { name = "equilibrator-api" },
-    { name = "equilibrator-cache" },
-    { name = "equilibrator-cache-data" },
-    { name = "rdkit" },
-]
-trajectory = [
-    { name = "mdtraj" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "biopython", marker = "extra == 'coding-design'", specifier = "==1.88" },
-    { name = "biopython", marker = "extra == 'construct'", specifier = "==1.88" },
-    { name = "component-contribution", marker = "extra == 'thermodynamics'", specifier = "==0.8.0" },
-    { name = "dnachisel", marker = "extra == 'coding-design'", specifier = "==3.2.16" },
-    { name = "doranet", marker = "extra == 'routes'", specifier = "==0.5.7a1" },
-    { name = "equilibrator-api", marker = "extra == 'thermodynamics'", specifier = "==0.8.0" },
-    { name = "equilibrator-cache", marker = "extra == 'thermodynamics'", specifier = "==0.8.1" },
-    { name = "equilibrator-cache-data", marker = "extra == 'thermodynamics'", specifier = "==0.1.0" },
-    { name = "gemmi", marker = "extra == 'dossier'", specifier = "==0.7.5" },
-    { name = "mdtraj", marker = "extra == 'trajectory'", specifier = "==1.11.1.post2" },
-    { name = "numpy", marker = "extra == 'quantitative'", specifier = ">=1.26,<3" },
-    { name = "openmm", marker = "extra == 'openmm'", specifier = "==8.6.0" },
-    { name = "openmm", marker = "extra == 'protein-repair'", specifier = "==8.6.0" },
-    { name = "pdbfixer", marker = "extra == 'protein-repair'", specifier = "==1.12.0" },
-    { name = "prefect", specifier = ">=3.8.4,<4" },
-    { name = "pydna", marker = "extra == 'construct'", specifier = "==5.5.16" },
-    { name = "pyyaml", specifier = ">=6.0,<7" },
-    { name = "rdkit", marker = "extra == 'chemistry'", specifier = "==2026.3.1" },
-    { name = "rdkit", marker = "extra == 'routes'", specifier = "==2026.3.1" },
-    { name = "rdkit", marker = "extra == 'thermodynamics'", specifier = "==2026.3.1" },
-    { name = "scikit-learn", marker = "extra == 'embedding-analysis'", specifier = ">=1.6,<2" },
-    { name = "scikit-learn", marker = "extra == 'quantitative'", specifier = ">=1.6,<2" },
-    { name = "scipy", marker = "extra == 'quantitative'", specifier = ">=1.14,<2" },
-    { name = "umap-learn", marker = "extra == 'embedding-analysis'", specifier = "==0.5.12" },
-]
-provides-extras = ["chemistry", "routes", "thermodynamics", "quantitative", "dossier", "construct", "coding-design", "trajectory", "openmm", "protein-repair", "embedding-analysis"]
 
 [[package]]
 name = "biopython"
@@ -2165,14 +2165,14 @@ wheels = [
 
 [[package]]
 name = "opentelemetry-api"
-version = "1.45.1"
+version = "1.45.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/2e/02/6e0ae9cc61bd3169d401077b507b3ebc344745171e1051ab430be012dcd9/opentelemetry_api-1.45.1.tar.gz", hash = "sha256:aa38ed19bcc084ba42782a73255b3582283eced7ad6dddbd6695189e69adfb75", size = 72804, upload-time = "2026-10-06T17:32:58.133Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/19/14/cf3a6b6448849656e1e5f4e2101f3988dc6789724050096aba1bc5ccf592/opentelemetry_api-1.45.2.tar.gz", hash = "sha256:d7b0008e21e5fd61cbe7a7f34ca3b6905a78ab677d9bc395e299359c75cda6b4", size = 73277, upload-time = "2026-10-29T17:29:37.888Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1e/41/f7dcf80b81ee8e71c1a2b59f14208bc723edbd89ed027a73b175abf6348e/opentelemetry_api-1.45.1-py3-none-any.whl", hash = "sha256:b31553efa588ae44bc306f863c785c5333a9ecc091248c6ee68b4b6c87fdedfb", size = 60256, upload-time = "2026-10-06T17:32:33.506Z" },
+    { url = "https://files.pythonhosted.org/packages/a9/2d/610db864d7513158cebb8f36cc88e67e73bd6c7aa1905ef18d89e1281c81/opentelemetry_api-1.45.2-py3-none-any.whl", hash = "sha256:2cbd737377e710ee740d261c94e93fa0f08e6d037c18f17513cc0a2d94479a34", size = 60335, upload-time = "2026-10-29T17:29:06.955Z" },
 ]
 
 [[package]]
